@@ -1,5 +1,5 @@
 <?php
-/* $Id: css.inc,v 1.5 2009/03/26 20:25:36 merlinofchaos Exp $ */
+/* $Id: css.inc,v 1.7 2009/05/06 00:10:01 merlinofchaos Exp $ */
 
 /*
  * @file
@@ -147,14 +147,19 @@ function ctools_css_cache($css, $filter = TRUE) {
 
   // Create the css/ within the files folder.
   $path = file_create_path('ctools/css');
-  if (!$path) {
+  if (!file_check_directory($path)) {
     $path = file_directory_path() . '/ctools';
     file_check_directory($path, FILE_CREATE_DIRECTORY);
     $path .= '/css';
     file_check_directory($path, FILE_CREATE_DIRECTORY);
   }
 
-  // @todo Is this slow? DOes it matter if it is?
+  if (!file_check_directory($path)) {
+    drupal_set_message(t('Unable to create CTools CSS cache directory. Check the permissions on your files directory.'), 'error');
+    return;
+  }
+
+  // @todo Is this slow? Does it matter if it is?
   $filename = $path . '/' . md5($css) . '.css';
 
   // This will do renames if the file already exists, ensuring we don't
@@ -528,3 +533,10 @@ function ctools_css_filter_default_allowed_values() {
   );
 }
 
+/**
+ * Delegated implementation of hook_flush_caches()
+ */
+function ctools_css_flush_caches() {
+  file_scan_directory(file_create_path('ctools/css'), '.*', array('.', '..', 'CVS'), 'file_delete', TRUE);
+  db_query("TRUNCATE {ctools_css_cache}");
+}

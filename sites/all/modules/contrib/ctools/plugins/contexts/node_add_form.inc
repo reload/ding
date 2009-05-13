@@ -1,5 +1,5 @@
 <?php
-// $Id: node_add_form.inc,v 1.5 2009/04/23 20:53:36 merlinofchaos Exp $
+// $Id: node_add_form.inc,v 1.7 2009/05/06 01:10:05 merlinofchaos Exp $
 
 /**
  * @file
@@ -41,7 +41,8 @@ function ctools_context_create_node_add_form($empty, $data = NULL, $conf = FALSE
   }
 
   if ($conf) {
-    $data = $data['type'];
+    // Holdover from typo'd config.
+    $data = isset($data['types']) ? $data['types'] : $data['type'];
   }
 
   if (!empty($data)) {
@@ -55,9 +56,16 @@ function ctools_context_create_node_add_form($empty, $data = NULL, $conf = FALSE
       $node = array('uid' => $user->uid, 'name' => $user->name, 'type' => $type);
 
       ctools_include('form');
-      $form_id = $node->type . '_node_form';
+      $form_id = $node['type'] . '_node_form';
 
       $form_state = array('want form' => TRUE, 'args' => array($node));
+
+      $file = drupal_get_path('module', 'node') . '/node.pages.inc';
+      include_once './' . $file;
+      // This piece of information can let other modules know that more files
+      // need to be included if this form is loaded from cache:
+      $form_state['form_load_files'] = array($file);
+
       $form = ctools_build_form($form_id, $form_state);
       // In a form, $data is the object being edited.
       $context->data     = $type;
@@ -85,7 +93,11 @@ function ctools_context_node_add_form_settings_form($conf, $external = FALSE) {
     $options[$type] = $info->name;
   }
 
-  $form['types'] = array(
+  if (isset($conf['types']) && !isset($conf['type'])) {
+    $conf['type'] = $conf['types'];
+  }
+
+  $form['type'] = array(
     '#title' => t('Node type'),
     '#type' => 'select',
     '#options' => $options,
@@ -94,7 +106,7 @@ function ctools_context_node_add_form_settings_form($conf, $external = FALSE) {
   );
 
   if ($external) {
-    $form['types']['#description'] .= ' ' . t('Select external to require this from an external source (such as a containing panel page).');
+    $form['type']['#description'] .= ' ' . t('Select external to require this from an external source (such as a containing panel page).');
   }
 
   return $form;

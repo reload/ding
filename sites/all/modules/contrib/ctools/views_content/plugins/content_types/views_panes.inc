@@ -1,5 +1,5 @@
 <?php
-// $Id: views_panes.inc,v 1.7 2009/05/01 00:18:27 merlinofchaos Exp $
+// $Id: views_panes.inc,v 1.8 2009/05/01 16:11:22 merlinofchaos Exp $
 
 /**
  * @file
@@ -40,6 +40,10 @@ function views_content_views_panes_content_type_content_types($plugin) {
     $views = views_get_all_views();
 
     foreach ($views as $view) {
+      if (!empty($view->disabled)) {
+        continue;
+      }
+
       $view->init_display();
 
       foreach ($view->display as $id => $display) {

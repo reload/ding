@@ -1,5 +1,5 @@
 <?php
-// $Id: term_view.inc,v 1.3 2009/04/30 17:15:30 merlinofchaos Exp $
+// $Id: term_view.inc,v 1.5 2009/05/07 17:10:43 merlinofchaos Exp $
 
 /**
  * @file
@@ -15,41 +15,46 @@
  * more information.
  */
 function delegator_term_view_delegator_tasks() {
-  return array(
-    // This is a 'page' task and will fall under the page admin UI
-    'task type' => 'page',
+  if (module_exists('taxonomy')) {
+    return array(
+      // This is a 'page' task and will fall under the page admin UI
+      'task type' => 'page',
 
-    'title' => t('Taxonomy term view'),
-    'description' => t('Control what handles the job of displaying a term at taxonomy/term/%term.'),
-    'admin title' => 'Taxonomy term view', // translated by menu system
-    'admin description' => 'Overrides for the built in taxonomy term handler at <em>taxonomy/term/%term</em>.',
-    'admin path' => 'taxonomy/term/%term',
+      'title' => t('Taxonomy term view'),
+      'description' => t('Control what handles the job of displaying a term at taxonomy/term/%term.'),
+      'admin title' => 'Taxonomy term view', // translated by menu system
+      'admin description' => 'Overrides for the built in taxonomy term handler at <em>taxonomy/term/%term</em>.',
+      'admin path' => 'taxonomy/term/%term',
 
-    // Menu hooks so that we can alter the term/%term menu entry to point to us.
-    'hook menu' => 'delegator_term_view_menu',
-    'hook menu alter' => 'delegator_term_view_menu_alter',
+      // Menu hooks so that we can alter the term/%term menu entry to point to us.
+      'hook menu' => 'delegator_term_view_menu',
+      'hook menu alter' => 'delegator_term_view_menu_alter',
 
-    // Provide a setting to the primary settings UI for Panels
-    'admin settings' => 'delegator_term_view_admin_settings',
+      // Provide a setting to the primary settings UI for Panels
+      'admin settings' => 'delegator_term_view_admin_settings',
 
-    // This is task uses 'context' handlers and must implement these to give the
-    // handler data it needs.
-    'handler type' => 'context',
-    'get arguments' => 'delegator_term_view_get_arguments',
-    'get context placeholders' => 'delegator_term_view_get_contexts',
+      // Callback to add items to the delegator task administration form:
+      'task admin' => 'delegator_term_view_task_admin',
 
-    // Allow additional operations
-    'operations' => array(
-      array(
-        'title' => t('Task handlers'),
-        'href' => "admin/build/delegator/term_view",
+      // This is task uses 'context' handlers and must implement these to give the
+      // handler data it needs.
+      'handler type' => 'context',
+      'get arguments' => 'delegator_term_view_get_arguments',
+      'get context placeholders' => 'delegator_term_view_get_contexts',
+
+      // Allow additional operations
+      'operations' => array(
+        array(
+          'title' => t('Task handlers'),
+          'href' => "admin/build/delegator/term_view",
+        ),
+        array(
+          'title' => t('Settings'),
+          'href' => "admin/build/delegator/term_view/settings",
+        ),
       ),
-      array(
-        'title' => t('Settings'),
-        'href' => "admin/build/delegator/term_view/settings",
-      ),
-    ),
-  );
+    );
+  }
 }
 
 /**
@@ -73,10 +78,23 @@ function delegator_term_view_menu(&$items, $task) {
  * normal term view process.
  */
 function delegator_term_view_menu_alter(&$items, $task) {
-  // Override the term view handler for our purpose.
-  $items['taxonomy/term/%']['page callback'] = 'delegator_term_view';
-  $items['taxonomy/term/%']['file path'] = $task['path'];
-  $items['taxonomy/term/%']['file'] = $task['file'];
+  // Override the term view handler for our purpose, but only if someone else
+  // has not already done so.
+  if ($items['taxonomy/term/%']['page callback'] == 'taxonomy_term_page' || variable_get('delegator_override_anyway', FALSE)) {
+    $items['taxonomy/term/%']['page callback'] = 'delegator_term_view';
+    $items['taxonomy/term/%']['file path'] = $task['path'];
+    $items['taxonomy/term/%']['file'] = $task['file'];
+  }
+}
+
+/**
+ * Warn if we are unable to override the taxonomy term page.
+ */
+function delegator_term_view_task_admin(&$form, &$form_state) {
+  $callback = db_result(db_query("SELECT page_callback FROM {menu_router} WHERE path = 'taxonomy/term/%'"));
+  if ($callback != 'delegator_term_view') {
+    drupal_set_message(t('Delegator module is unable to override taxonomy/term/% because some other module already has overridden with %callback. Delegator will not be able to handle this page.', array('%callback' => $callback)), 'warning');
+  }
 }
 
 /**
@@ -179,3 +197,4 @@ function delegator_term_view_admin_settings(&$form) {
     '#default_value' => variable_get('delegator_term_view_type', 'multiple'),
   );
 }
+

@@ -1,5 +1,5 @@
 <?php
-// $Id: content.inc,v 1.9 2009/04/20 23:51:44 merlinofchaos Exp $
+// $Id: content.inc,v 1.10 2009/05/02 00:56:08 merlinofchaos Exp $
 
 /**
  * @file
@@ -282,7 +282,7 @@ function ctools_content_render($type, $subtype, $conf, $keywords = array(), $arg
 
     if (!empty($content->title)) {
       // Perform substitutions
-      if (!empty($keywords) || !empty($contexts)) {
+      if (!empty($keywords) || !empty($context)) {
         $content->title = ctools_context_keyword_substitute($content->title, $keywords, $context);
       }
 

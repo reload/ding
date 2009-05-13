@@ -1,5 +1,5 @@
 <?php
-// $Id: node_edit_form.inc,v 1.6 2009/04/23 20:53:36 merlinofchaos Exp $
+// $Id: node_edit_form.inc,v 1.7 2009/05/06 01:10:05 merlinofchaos Exp $
 
 /**
  * @file
@@ -45,11 +45,17 @@ function ctools_context_create_node_edit_form($empty, $node = NULL, $conf = FALS
   }
 
   if (!empty($node)) {
-    module_load_include('inc', 'node', 'node.pages');
     ctools_include('form');
     $form_id = $node->type . '_node_form';
 
     $form_state = array('want form' => TRUE, 'args' => array($node));
+
+    $file = drupal_get_path('module', 'node') . '/node.pages.inc';
+    include_once './' . $file;
+    // This piece of information can let other modules know that more files
+    // need to be included if this form is loaded from cache:
+    $form_state['form_load_files'] = array($file);
+
     $form = ctools_build_form($form_id, $form_state);
 
     // Fill in the 'node' portion of the context

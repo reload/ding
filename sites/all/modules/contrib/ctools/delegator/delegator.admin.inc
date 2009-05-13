@@ -1,5 +1,5 @@
 <?php
-// $Id: delegator.admin.inc,v 1.29 2009/04/30 21:51:41 merlinofchaos Exp $
+// $Id: delegator.admin.inc,v 1.30 2009/05/06 00:48:52 merlinofchaos Exp $
 
 /**
  * @file
@@ -496,6 +496,10 @@ function delegator_admin_list_form(&$form_state) {
     'clone' => 'delegator_admin_list_form_action_clone',
     'export' => 'delegator_admin_list_form_action_export',
   );
+
+  if ($function = ctools_plugin_get_function($task, 'task admin')) {
+    $function($form, $form_state);
+  }
 
   return $form;
 }
