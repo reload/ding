@@ -237,6 +237,15 @@ function ding_library_view($node, $teaser = FALSE, $page = FALSE) {
 }
 
 /**
+ * Implementation of hook_views_api().
+ */
+function ding_library_views_api() {
+  return array(
+    'api' => 2.0,
+  );
+}
+
+/**
  * Create or update a library portal page menu.
  *
  * @param object $node
