@@ -60,3 +60,22 @@ function theme_ding_panels_library_portal_title($node) {
   return '<h1>' . check_plain($node->title) . '</h1>';
 }
 
+/**
+ * Preprocess function for the staff title.
+ */
+function ding_panels_content_preprocess_library_user_staff_title(&$variables) {
+  // Generate list of links to the libraries the user is related to.
+  $libs = array();
+  if (isset($variables['user']->userreference['library'])) {
+    foreach ($variables['user']->userreference['library'] as $nid => $title) {
+      $libs[] = l($title, 'node/' . $nid);
+    }
+  }
+  if (!empty($libs)) {
+    $variables['related_libraries'] = theme('item_list', $libs);
+  }
+  else {
+    $variables['related_libraries'] = '';
+  }
+}
+
