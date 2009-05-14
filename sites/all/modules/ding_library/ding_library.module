@@ -30,7 +30,8 @@ function ding_library_menu() {
 
   $items['admin/settings/ding_library/order'] = array(
     'title' => 'Ordering',
-    'page callback' => 'ding_library_admin_ordering_page',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_library_admin_ordering_form'),
     'access arguments' => array('configure libraries'),
     'type' => MENU_LOCAL_TASK,
     'file' => 'ding_library.admin.inc',
@@ -269,6 +270,18 @@ function ding_library_view($node, $teaser = FALSE, $page = FALSE) {
   }
   $node = node_prepare($node, $teaser);
   return $node;
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function ding_library_theme() {
+  $items = array();
+  $items['ding_library_admin_ordering_form'] = array(
+    'arguments' => array('form' => array()),
+    'file' => 'ding_library.admin.inc',
+  );
+  return $items;
 }
 
 /**
