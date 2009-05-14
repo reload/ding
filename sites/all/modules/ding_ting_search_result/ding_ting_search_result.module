@@ -3,8 +3,7 @@
 
 /**
  * @file ding_ting_search_result.module
- * Handles the generation and loading of nodes from "slugs", 
- * small bits of text, suitable for use in URLs.
+ * Displays facet browser and search results from the Ting database.
  */
 
 /**
@@ -12,6 +11,44 @@
  */
 function ding_ting_search_result_theme() {
   return array(
+    'ding_ting_search_result' => array(
+      'arguments' => array('result' => NULL),
+      'template' => 'ding_ting_search_result.tpl.php'
+    ),
+    'ding_ting_search_record' => array(
+      'arguments' => array('record' => NULL),
+      'template' => 'ding_ting_search_record.tpl.php'
+    ),
+    'ding_ting_facet_browser' => array(
+      'arguments' => array('result' => NULL),
+      'function' => 'ding_ting_facet_browser'
+    ),
   );
 }
 
+function ding_ting_search_result_menu() {
+	return array(
+		'ding_ting_search_result' => array(
+	    'title' => 'DING! Ting search results',
+	    'description' => 'Lists facets and search results from the Ting database.',
+	    'access arguments' => array('search content'),
+			'page callback' => 'ding_ting_search_result_page',
+	    'file' => 'ding_ting_search_result.pages.inc',
+		),
+		'ding_ting_ajax_search_result' => array(
+	    'title' => 'DING! Ting AJAX search results',
+	    'description' => 'Returns facets and search results from the Ting database for use through AJAX.',
+	    'access arguments' => array('search content'),
+			'page callback' => 'ding_ting_ajax_search_result_page',
+	    'file' => 'ding_ting_search_result.pages.inc',
+		),
+	);
+}
+
+function ding_ting_facet_browser($result)
+{
+	drupal_add_js(drupal_get_path('module', 'ding_ting_search_result') .'/js/ding_ting_search_result.js', 'module');
+	return '<script type="text/javascript">
+						Drupal.DingSearchResult.init('.json_encode($result).');
+					</script>';
+}

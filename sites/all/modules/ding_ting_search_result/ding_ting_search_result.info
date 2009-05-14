@@ -4,4 +4,3 @@ description = Displays search results from the Ting database
 package = Ding!
 core = 6.x
 dependencies[] = transliteration
-
