@@ -1,5 +1,5 @@
 <?php
-// $Id: node_edit.inc,v 1.9 2009/04/30 20:08:32 merlinofchaos Exp $
+// $Id: node_edit.inc,v 1.10 2009/05/06 00:48:52 merlinofchaos Exp $
 
 /**
  * Specialized implementation of hook_delegator_tasks(). See api-task.html for
@@ -15,6 +15,9 @@ function delegator_node_edit_delegator_tasks() {
     'admin title' => 'Node edit', // translated by menu system
     'admin description' => 'Overrides for the built in node edit handler at <em>node/%node/edit</em>.',
     'admin path' => 'node/%node/edit',
+
+    // Callback to add items to the delegator task administration form:
+    'task admin' => 'delegator_node_edit_task_admin',
 
     // Menu hooks so that we can alter the node/%node menu entry to point to us.
     'hook menu' => 'delegator_node_edit_menu',
@@ -36,9 +39,11 @@ function delegator_node_edit_delegator_tasks() {
  */
 function delegator_node_edit_menu_alter(&$items, $task) {
   // Override the node edit handler for our purpose.
-  $items['node/%node/edit']['page callback'] = 'delegator_node_edit';
-  $items['node/%node/edit']['file path'] = $task['path'];
-  $items['node/%node/edit']['file'] = $task['file'];
+  if ($items['node/%node/edit']['page callback'] == 'node_page_edit' || variable_get('delegator_override_anyway', FALSE)) {
+    $items['node/%node/edit']['page callback'] = 'delegator_node_edit';
+    $items['node/%node/edit']['file path'] = $task['path'];
+    $items['node/%node/edit']['file'] = $task['file'];
+  }
 
   // Also catch node/add handling:
   foreach (node_get_types('types', NULL, TRUE) as $type) {
@@ -52,6 +57,16 @@ function delegator_node_edit_menu_alter(&$items, $task) {
     $items[$path]['file'] = $task['file'];
     // Why str_replace things back?
     $items[$path]['page arguments'] = array($type->type);
+  }
+}
+
+/**
+ * Warn if we are unable to override the taxonomy term page.
+ */
+function delegator_node_edit_task_admin(&$form, &$form_state) {
+  $callback = db_result(db_query("SELECT page_callback FROM {menu_router} WHERE path = 'node/%/edit'"));
+  if ($callback != 'delegator_node_edit') {
+    drupal_set_message(t('Delegator module is unable to override node/%node/edit because some other module already has overridden with %callback. Delegator will not be able to handle this page.', array('%callback' => $callback)), 'warning');
   }
 }
 

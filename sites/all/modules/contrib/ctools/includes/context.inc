@@ -1,5 +1,5 @@
 <?php
-// $Id: context.inc,v 1.22 2009/04/30 23:41:27 merlinofchaos Exp $
+// $Id: context.inc,v 1.24 2009/05/06 06:53:41 merlinofchaos Exp $
 
 /**
  * @file
@@ -1309,14 +1309,18 @@ function ctools_access($settings, $contexts = array()) {
     }
 
     if ($pass && $settings['logic'] == 'or') {
+      // Pass if 'or' and this rule passed.
       return TRUE;
     }
     else if (!$pass && $settings['logic'] == 'and') {
+      // Fail if 'and' and htis rule failed.
       return FALSE;
     }
   }
 
-  return TRUE;
+  // Return TRUE if logic was and, meaning all rules passed.
+  // Return FALSE if logic was or, meaning no rule passed.
+  return $settings['logic'] == 'and';
 }
 
 /**

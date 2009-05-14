@@ -1,5 +1,5 @@
 <?php
-// $Id: views.inc,v 1.8 2009/05/01 00:18:27 merlinofchaos Exp $
+// $Id: views.inc,v 1.10 2009/05/02 00:56:09 merlinofchaos Exp $
 
 /**
  * @file
@@ -59,7 +59,9 @@ function views_content_views_content_type_content_types($plugin) {
     $views = views_get_all_views();
 
     foreach ($views as $view) {
-      $types[$view->name] = _views_content_views_content_type($view);
+      if (empty($view->disabled)) {
+        $types[$view->name] = _views_content_views_content_type($view);
+      }
     }
 
     views_cache_set('views_content_all', $types, TRUE);

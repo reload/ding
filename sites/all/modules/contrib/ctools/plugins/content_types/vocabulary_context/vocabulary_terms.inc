@@ -1,5 +1,5 @@
 <?php
-// $Id: vocabulary_terms.inc,v 1.2 2009/04/20 19:48:35 merlinofchaos Exp $
+// $Id: vocabulary_terms.inc,v 1.3 2009/05/05 23:31:10 merlinofchaos Exp $
 
 /**
  * Callback function to supply a list of content types.
@@ -41,7 +41,7 @@ function ctools_vocabulary_terms_content_type_render($subtype, $conf, $panel_arg
   $block->module  = 'node_type';
   $block->title = check_plain($vocab->name);
   $block->content = $output;
-  $block->delta   = $vocab->tid;
+  $block->delta   = $vocab->vid;
 
   return $block;
 }

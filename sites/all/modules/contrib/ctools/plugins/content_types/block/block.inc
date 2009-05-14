@@ -1,5 +1,5 @@
 <?php
-// $Id: block.inc,v 1.5 2009/04/29 16:58:34 merlinofchaos Exp $
+// $Id: block.inc,v 1.6 2009/05/02 00:56:08 merlinofchaos Exp $
 
 /**
  * @file
@@ -66,9 +66,13 @@ function ctools_block_content_type_content_types() {
 function ctools_block_content_type_render($subtype, $conf) {
   list($module, $delta) = _ctools_block_get_module_delta($subtype, $conf);
   $block = (object) module_invoke($module, 'block', 'view', $delta);
+
   if (empty($block)) {
     return;
   }
+
+  $block->module = $module;
+  $block->delta = $delta;
 
   if (isset($block->subject)) {
     $block->title = $block->subject;

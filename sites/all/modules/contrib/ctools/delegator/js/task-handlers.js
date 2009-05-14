@@ -1,4 +1,4 @@
-// $Id: task-handlers.js,v 1.8 2009/01/09 20:06:41 merlinofchaos Exp $
+// $Id: task-handlers.js,v 1.9 2009/05/05 23:19:25 merlinofchaos Exp $
 
 Drupal.behaviors.zzGoLastDelegatorTaskList = function(context) {
   var id = 'delegator-task-list-arrange';
@@ -28,7 +28,7 @@ Drupal.behaviors.zzGoLastDelegatorTaskList = function(context) {
     $dropdown = $(this).parent().siblings('.ctools-dropdown');
    
     $('.ctools-dropdown-container a', $dropdown).click(function() {
-      var val = $(this).attr('href').replace(/^.*[\/\\]/g, '');
+      var val = $(this).attr('href').replace(/^.*[\/\\](\?q=)?/g, '');
 
       // ignore empty
       if (!val) {

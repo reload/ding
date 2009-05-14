@@ -26,6 +26,12 @@ function ding_panels_theme($existing, $type, $theme, $path) {
       'arguments' => array('node' => NULL),
       'file' => 'ding_panels.theme.inc',
     ),
+    'ding_panels_library_user_staff_title' => array(
+      'arguments' => array('user' => NULL),
+      'file' => 'ding_panels.theme.inc',
+      'template' => 'ding_panels_library_user_staff_title',
+      'preprocess functions' => array('ding_panels_content_preprocess_library_user_staff_title'),
+    ),
   );
 }
 
