@@ -1,4 +1,3 @@
-<?php dsm($display_header_image) ?>
 <?php if($display_header_image){  ?>
 <div class="picture">
   <div class="picture-inner">
