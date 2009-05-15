@@ -6,7 +6,7 @@
 /*--------------------------------------*/
 
 /*article lists*/
-.view-article-list li{background:transparent url(../images/bg-divider-small.png) no-repeat left top; padding:10px 20px 10px 20px; margin:0; color:#999999;}
+.view-article-list li{background:transparent url(../images/bg-divider-small.png) no-repeat left top; padding:10px 20px 10px 20px; margin:0;}
 .view-article-list li.first{background:none; padding:0 20px ;}
 .view-article-list li li{background:none; padding:0px 10px 0px 0px; margin:0;}
 
@@ -86,3 +86,5 @@ Cowboy
 .pane-article_list h3{
 	display:none;
 }
+
+.pane-library_portal_navigation{margin:0 0 0 20px;}

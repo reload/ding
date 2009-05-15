@@ -8,33 +8,23 @@
   </div>
   <div class="info">
     
-
     <div class="libary-openstatus <?php print $node->field_opening_hours_processed['status'];?>">
         <?php print t($node->field_opening_hours_processed['status']);?>
-      </div>
-
+    </div>
 
   	<?php if($node->title){	?>	
-    <?php
-      if($node->ding_slug){
-        $biblo_url = $node->ding_slug;
-      }else{
-        $biblo_url = $node->nid;
-      }
-    ?>
-    <h3><?php print l($node->title, 'biblioteker/'.$biblo_url); ?></h3>
+      <h3><?php print l($node->title, 'node/'.$node->nid); ?></h3>
   	<?php } ?>
-    
-      <?php print $node->locations['0']['street'];?><br/> 
-      <?php print $node->locations['0']['city'];?>  <?php print $node->locations['0']['postal_code'];?>
-      <br/><br/>
-      tlf:<?php print $node->locations['0']['phone'];?><br/>        
-      fax: <?php print $node->locations['0']['fax'];?><br/>
-      E-mail: <?php print $node->field_email['0']['view'];?><br/>
+
+    <?php print $node->locations['0']['street'];?><br/> 
+    <?php print $node->locations['0']['city'];?>  <?php print $node->locations['0']['postal_code'];?>
+    <br/><br/>
+    tlf:<?php print $node->locations['0']['phone'];?><br/>        
+    fax: <?php print $node->locations['0']['fax'];?><br/>
+    E-mail: <?php print $node->field_email['0']['view'];?><br/>
 
   </div>
-
-    <?php print $node->field_opening_hours['0']['view'];?>
+  <?php print $node->field_opening_hours['0']['view'];?>
 </div>
 
 <?php }else{ 

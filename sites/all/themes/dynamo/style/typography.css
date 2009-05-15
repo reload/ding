@@ -75,7 +75,7 @@ account
 a, a:link, a:visited, a:active {text-decoration: none; color:#006a87;}
 a:hover, a:focus { text-decoration: underline; color:#006a87;}
 
-li a.active{color:#006a87;}
+li a.active{font-weight:bold;}
 tr.odd{}
 tr.odd td{padding:5px;}
 tr.odd a{color:#000;}

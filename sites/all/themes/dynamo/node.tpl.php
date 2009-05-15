@@ -5,7 +5,7 @@
 <div class="<?php print $classes ?>">
 
   	<?php if($node->title){	?>	
-      <h2><?php print l($node->title, 'node/'.$node->nid); ?></h2>
+      <h3><?php print l($node->title, 'node/'.$node->nid); ?></h3>
   	<?php } ?>
 
     <?php print $content ?>
