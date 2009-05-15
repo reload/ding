@@ -121,6 +121,7 @@ h4 a, h4 a:link,h4 a:visited,h4 a:active{font-size:12px; line-height:15px; color
 	font-size:10px; line-height:17px;
 }
 
+.pane-comment-0,
 .office-hours-week{
 	font-size:11px; line-height:20px;
 }
@@ -129,7 +130,8 @@ h4 a, h4 a:link,h4 a:visited,h4 a:active{font-size:12px; line-height:15px; color
 }
 
 .pane-library_feature_list h3,
-.pane-library_hours h3
+.pane-library_hours h3,
+.pane-comment-0 h3
 {
 	font-size:11px; line-height:20px; font-weight:bold;
 }

@@ -103,3 +103,19 @@ bibloteks oversigtsiden
 .week-info a.next{color:#757575;}
 .office-hours-week .odd{background:#f3f5f5;}
 .office-hours-week .even{background:#fff;}
+
+/*blog comments*/
+.pane-tagadelic-2,
+.pane-comment-0,
+.pane-comment-0 h3,
+.pane-comment-0 .item-list
+{
+	background:transparent url(../images/sprite-box.png) no-repeat 0px 0; width:228px; overflow:hidden;
+}
+.pane-comment-0{background-repeat: repeat-y; }
+.pane-comment-0 h3{background-position:-230px -30px; padding:10px 0 0 20px; height:18px; }
+.pane-comment-0 .item-list{background-position:-700px bottom; padding:0px 0px 10px 0px; min-height:30px;}
+.pane-comment-0 ul li{}
+
+/*tagadelic*/
+.pane-tagadelic-2{background-repeat: repeat-y;}

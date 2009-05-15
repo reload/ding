@@ -76,6 +76,8 @@ test
 .test{background:#f0f url(../images/bg-trans-50.png) repeat 0 0;}
 *.test{opacity: 0.5; -moz-opacity: 0.5; filter:alpha(opacity=50);}
 
+ul.item-list h3{margin:0 0 0 20px;}
+ul.item-list li{margin:0 0 0 20px;}
 
 /* =====================================
 Cowboy
@@ -83,8 +85,5 @@ Cowboy
 #block-ding_library_map-0 {width:690px; margin:0 0 0 20px;}
 
 
-.pane-article_list h3{
-	display:none;
-}
-
-.pane-library_portal_navigation{margin:0 0 0 20px;}
+.pane-article_list h3{	display:none;}
+.admin-links {	display:none;}
