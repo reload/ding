@@ -26,6 +26,9 @@ function ding_panels_library_content_type_content_types() {
     'library_title' => array(
       'title' => t('Library title and navigation'),
       'description' => t('The title and navigation for a library page.'),
+      'defaults' => array(
+        'display_header_image' => FALSE,
+      ),
     ),
     'library_location' => array(
       'title' => t('Library location'),
@@ -63,7 +66,7 @@ function ding_panels_library_content_type_render($subtype, $conf, $panel_args, $
   $node = isset($context->data) ? drupal_clone($context->data) : NULL;
   switch($subtype) {
     case 'library_title':
-      $block->content = theme('ding_panels_content_library_title', $node);
+      $block->content = theme('ding_panels_content_library_title', $node, $conf['display_header_image']);
       break;
     case 'library_location':
       $block->content = theme('ding_panels_content_library_location', $node);
@@ -88,14 +91,15 @@ function ding_panels_library_content_type_render($subtype, $conf, $panel_args, $
 function ding_panels_library_content_type_admin_title($subtype, $conf, $context) {
   switch($subtype) {
     case 'library_title':
-      return t('Library title and navigation');
+      return t('"@s":  Library title and navigation', array('@s' => $context->identifier));
     case 'library_location':
+      return t('"@s":  Library location', array('@s' => $context->identifier));
       return t('Library location');
     case 'library_hours':
-      return t('Library opening hours');
+      return t('"@s":  Library opening hours', array('@s' => $context->identifier));
     case 'library_feature_list':
     case 'library_feature_detail_list':
-      return t('Services and facilities');
+      return t('"@s":  Library features', array('@s' => $context->identifier));
   }
 }
 
@@ -106,7 +110,29 @@ function ding_panels_library_content_type_admin_title($subtype, $conf, $context)
  * for this content type to work.
  */
 function ding_panels_library_content_type_edit_form(&$form, &$form_state) {
+  $conf = $form_state['conf'];
+  switch ($form_state['subtype_name']) {
+    case 'library_title':
+      $form['display_header_image'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Display header image'),
+        '#description' => t('Whether a the library title should show the (quite large) picture of the library'),
+        '#default_value' => $conf['display_header_image'],
+      );
+      break;
+  }
   return $form;
+}
+
+/**
+ * Submit handler for the content type editing form.
+ */
+function ding_panels_library_content_type_edit_form_submit(&$form, &$form_state) {
+  switch ($form_state['subtype_name']) {
+    case 'library_title':
+      $form_state['conf']['display_header_image'] = (bool) $form_state['values']['display_header_image'];
+      break;
+  }
 }
 
 /**
