@@ -20,17 +20,13 @@
 }
 #twocol-left-top ul.item-list li, 
 #threecol-left-top ul.item-list li {
-	float:left; margin:0 30px 0 0;
+	display:inline; margin:0 30px 0 0;
 }
 #twocol-left-top, 
 #threecol-left-top {
 	background:transparent url(../images/bg-divider.png) no-repeat left bottom; 
-/*	min-height:275px; height:auto !important; height:275px; */
-	min-height:75px; height:auto !important; height:75px; 
-	padding:0 0 0 20px;
+	padding:0 0 20px 20px;
 }
-
-
 
 
 /* =====================================
@@ -61,9 +57,6 @@ bibloteks oversigtsiden
 } 
 
 .view-event-list .libary-tag div{display:inline;margin:0 5px 0 0;}
-
-
-
 
 /*BOX sprite*/
 .box, 
@@ -120,3 +113,5 @@ bibloteks oversigtsiden
 
 /*tagadelic*/
 .pane-tagadelic-2{background-repeat: repeat-y;}
+
+.pane-library_title{display:block;}
