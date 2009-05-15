@@ -40,14 +40,17 @@ function ding_library_map_block_view($delta = 0) {
            FROM location location 
            LEFT JOIN location_instance location_instance ON location.lid = location_instance.lid
            LEFT JOIN node node ON location_instance.vid = node.vid
-           WHERE (node.status <> 0) AND (node.type in ('library'))");
+           LEFT JOIN ding_library ding_library ON node.vid = ding_library.vid
+           WHERE (node.status <> 0) AND 
+           			 (node.type in ('library')) AND
+           			 (ding_library.library_show_on_map = 1)");
   
 	$libraries = array();
 	while ($node = db_fetch_object($nodes))
 	{
 		$libraries[] = node_load($node->nid);
 	}
-
+	
   $block = array();
   $block['subject'] = 'Library map';
   $block['content'] = theme('ding_library_map', $libraries);
