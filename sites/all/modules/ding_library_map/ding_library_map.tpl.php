@@ -12,7 +12,7 @@ drupal_add_js(drupal_get_path('module', 'ding_library_map') .'/js/ding_library_m
 
 //setup map
 $mapId = 'library_map';
-$map = array('id' => $mapId, 'type' => 'map', 'zoom' => 12, 'minzoom' => 9, 'maxzoom' => 14, 'height' => '200px', 'width' => '100%', 'controltype' => 'Small', 'longitude' => '12.573448', 'latitude' => '55.680908', 'behavior' => array('extramarkerevents' => 1));
+$map = array('id' => $mapId, 'type' => 'map', 'zoom' => 12, 'minzoom' => 9, 'maxzoom' => 14, 'height' => '200px', 'width' => '100%', 'controltype' => 'Small', 'longitude' => '12.573448', 'latitude' => '55.680908', 'behavior' => array('extramarkerevents' => 1, 'nomousezoom' => 1));
 
 //add markers for libraries
 foreach ($nodes as $node)
