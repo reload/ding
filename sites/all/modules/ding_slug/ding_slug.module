@@ -8,55 +8,6 @@
  */
 
 /**
- * Implementation of hook_nodeapi().
- */
-function ding_slug_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
-  if ($node->type == 'library') {
-    switch ($op) {
-      case 'update':
-        // Check if node has slug already.
-        $slug = db_result(db_query("SELECT slug FROM {ding_slug} WHERE nid=%d", $node->nid));
-        if ($slug) {
-          break;
-        }
-        // Tricky: No break here, will continue to add slug.
-      case 'insert':
-        // Add a new slug.
-        if (isset($node->ding_slug) && strlen($node->ding_slug) > 2) {
-          db_query("INSERT INTO {ding_slug} (slug, nid) VALUES ('%s', %d);", ding_slug_slugify($node->ding_slug), $node->nid);
-        }
-        break;
-      case 'load':
-        $node->ding_slug = db_result(db_query("SELECT slug FROM {ding_slug} WHERE nid=%d", $node->nid));
-
-    }
-  }
-}
-
-/**
- * Implementation of hook_form_alter().
- */
-function ding_slug_form_alter(&$form, $form_state, $form_id) {
-  if ($form['#id'] == 'node-form') {
-    $item = array(
-      '#type' => 'textfield',
-      '#title' => t('Slug'),
-      '#description' => t('A short name for this node, used in URLs.'),
-      '#attributes' => array(),
-      '#weight' => -4,
-    );
-    if ($form['#node']->ding_slug) {
-      $item['#value'] = $form['#node']->ding_slug;
-      $item['#attributes']['readonly'] = 'readonly';
-      $item['#attributes']['disabled'] = 'disabled';
-    }
-    if ($form['#node']->type == 'library') {
-      $form['library_settings']['ding_slug'] = $item;
-    }
-  }
-}
-
-/**
  * Implementation of hook_ctools_arguments().
  */
 function ding_slug_ctools_arguments() {
