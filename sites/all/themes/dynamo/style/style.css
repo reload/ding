@@ -32,8 +32,7 @@
 .pane-node_comment_form{
 	margin:0 20px 0 20px;
 }
-
-span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px;}
+.view-event-list span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px;}
 
 /* =======================================
 	comment
@@ -81,8 +80,8 @@ ul.item-list h3{margin:0 0 0 20px;}
 ul.item-list li{margin:0 0 0 20px;}
 
 
-.meta ul{float:left;}
-
+.meta ul{display:inline;}
+.meta li{display:inline}
 /* =====================================
 Cowboy
 /*--------------------------------------*/
