@@ -26,6 +26,7 @@
 #threecol-left-top {
 	background:transparent url(../images/bg-divider.png) no-repeat left bottom; 
 /*	min-height:275px; height:auto !important; height:275px; */
+	min-height:75px; height:auto !important; height:75px; 
 	padding:0 0 0 20px;
 }
 
