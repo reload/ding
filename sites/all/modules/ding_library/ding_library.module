@@ -37,6 +37,15 @@ function ding_library_menu() {
     'file' => 'ding_library.admin.inc',
   );
 
+  $items['admin/settings/ding_library/slugs'] = array(
+    'title' => 'Slugs',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_library_admin_slugs_form'),
+    'access arguments' => array('configure libraries'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'ding_library.admin.inc',
+  );
+
   return $items;
 }
 
