@@ -48,8 +48,6 @@ div.comment .meta {position:relative; margin:-1px 0 0 10px; padding:10px 0 0 30p
 div.comment .meta .author{color:#999;}
 div.comment .meta .date{color:#999;}
 
-
-
 /*calender*/
 .pane-event_list .panel-pane{margin:0 5px;}
 .pane-event_list h3{background:#d1d9d7; padding:3px 10px; margin:0 10px 0 14px;}
@@ -78,6 +76,9 @@ test
 
 ul.item-list h3{margin:0 0 0 20px;}
 ul.item-list li{margin:0 0 0 20px;}
+
+
+.meta ul{float:left;}
 
 /* =====================================
 Cowboy
