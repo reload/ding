@@ -12,7 +12,7 @@ drupal_rebuild_theme_registry(); /*TODO: add a theme setting for this*/
 function dynamo_theme($existing, $type, $theme, $path) {
  return array(
    'ding_panels_content_library_title' => array(
-     'template' => 'ding_panels_content_libary_title',
+     'template' => 'ding_panels_content_libary_title',     
    ),
    'ding_panels_content_library_location' => array(
      'template' => 'ding_panels_content_libary_location',
