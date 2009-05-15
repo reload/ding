@@ -1,0 +1,36 @@
+#facet-browser * { font-size: 11px; font-weight: normal; }
+#facet-browser ol { background: url(../img/facetbrowser-facets-background.png) top left repeat-x; }
+#facet-browser h3,
+#facet-browser ol li { height: 20px; line-height: 20px; padding: 0 20px; }
+#facet-browser h3 { background: url(../img/facetbrowser-header-background.png) top left repeat-x; }
+
+#facet-browser .resize { position: absolute; left: 49%; bottom: -13px; display: block; width: 21px; height: 24px; background: url(../img/facetbrowser-resize-button.png) no-repeat top left; text-indent: -9999px; }
+#facet-browser .resize.expand { background-position: left top; }
+#facet-browser .resize.contract { background-position: left -24px; }
+#facet-browser .resize,
+#facet-browser .resize:active { outline: 0 none; }
+
+/* =====================================
+ Facetbrowser jcarousel theme
+/*--------------------------------------*/
+.jcarousel-skin-ding-facetbrowser { margin: 0 0 0 -17px; width: 653px; background: transparent url(../images/bg-carousel.png) repeat-x left top;}
+.jcarousel-skin-ding-facetbrowser .jcarousel-container {width: 653px; height: 100px; margin: 0 auto; }
+.jcarousel-skin-ding-facetbrowser .jcarousel-item { width: 163px; height: 100px; }
+
+.jcarousel-skin-ding-facetbrowser .jcarousel-container-horizontal {}
+.jcarousel-skin-ding-facetbrowser .jcarousel-clip-horizontal {width: 653px; height:100px;}
+
+.jcarousel-skin-ding-facetbrowser .jcarousel-next-horizontal { position: absolute; top: 75px; right: -17px; width: 35px; height: 35px; cursor: pointer; background: transparent url(../images/knapper.png) no-repeat 0 -35px;}
+	.jcarousel-skin-ding-facetbrowser .jcarousel-next-horizontal:hover { background-position: -35px -35px;}
+	.jcarousel-skin-ding-facetbrowser .jcarousel-next-horizontal:active { background-position: -70px -35px;}
+	.jcarousel-skin-ding-facetbrowser .jcarousel-next-disabled-horizontal,
+	.jcarousel-skin-ding-facetbrowser .jcarousel-next-disabled-horizontal:hover,
+	.jcarousel-skin-ding-facetbrowser .jcarousel-next-disabled-horizontal:active { cursor: default; background-position: -105px -35px; }
+
+.jcarousel-skin-ding-facetbrowser .jcarousel-prev-horizontal { position: absolute; top: 75px; left: -17px; width: 35px; height: 35px; cursor: pointer; background: transparent url(../images/knapper.png) no-repeat 0 0; }
+	.jcarousel-skin-ding-facetbrowser .jcarousel-prev-horizontal:hover { background-position: -35px 0; }
+	.jcarousel-skin-ding-facetbrowser .jcarousel-prev-horizontal:active { background-position: -70px 0; }
+	.jcarousel-skin-ding-facetbrowser .jcarousel-prev-disabled-horizontal,
+	.jcarousel-skin-ding-facetbrowser .jcarousel-prev-disabled-horizontal:hover,
+	.jcarousel-skin-ding-facetbrowser .jcarousel-prev-disabled-horizontal:active { cursor: default; background-position: -105px 0; }
+
