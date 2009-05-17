@@ -3,6 +3,7 @@
 #ding-facet-browser li li { float: none; height: auto; width: auto; color: #006a87; }
 #ding-facet-browser li h4, 
 #ding-facet-browser li li { padding: 0 20px; line-height: 20px; background-repeat: repeat-x; background-position: top left; border-width: 0 1px; border-style: none solid; }
+#ding-facet-browser li li:hover { text-decoration: underline; cursor: pointer; }
 #ding-facet-browser li h4 { background-image: url(../img/facetbrowser-header-background.png); background-color: #c8d2cf; border-color: transparent #c6cecc transparent #ebefee; }
 #ding-facet-browser li li.odd {  border-color: transparent #eee transparent transparent; }
 #ding-facet-browser li li.even { background-image: url(../img/facetbrowser-alternate-background.png); background-color: #f3f5f5; border-color: transparent #e4e5e5 transparent #f9fafa; }
