@@ -47,8 +47,15 @@ function ding_ting_search_result_menu() {
 
 function ding_ting_facet_browser($result)
 {
-	drupal_add_js(drupal_get_path('module', 'ding_ting_search_result') .'/js/ding_ting_search_result.js', 'module');
-	return '<script type="text/javascript">
-						//Drupal.DingSearchResult.init('.json_encode($result).');
+	//drupal_add_js(drupal_get_path('module', 'ding_ting_search_result') .'/js/pure/js/pure.js', 'module');
+	drupal_add_js(drupal_get_path('module', 'ding_ting_search_result') .'/js/pure/js/purePacked.js', 'module');
+	drupal_add_js(drupal_get_path('module', 'ding_ting_search_result') .'/js/prototype/object.js', 'module');
+	drupal_add_js(drupal_get_path('module', 'ding_ting_search_result') .'/js/prototype/array.js', 'module');
+	drupal_add_js(drupal_get_path('module', 'ding_ting_search_result') .'/js/ding_ting_facet_browser.js', 'module');
+	drupal_add_css(drupal_get_path('module', 'ding_ting_search_result') .'/css/ding_ting_facet_browser.css', 'module');
+	return '<div id="ding-facet-browser">
+					</div>	
+					<script type="text/javascript">
+						Drupal.dingTingFacetBrowser("#ding-facet-browser",'.json_encode($result).');
 					</script>';
 }

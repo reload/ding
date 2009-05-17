@@ -31,10 +31,18 @@ class DingTingClientFactory
 		return self::$instance;
 	}
 	
+	/**
+	 * @param string $query
+	 * @return TingClientSearchRequest
+	 */
 	public static function getSearchRequest($query)
 	{
 		$searchRequest = new TingClientSearchRequest($query);
 		$searchRequest->setOutput('json'); //use json format per default
+		$searchRequest->setStart(1);
+		$searchRequest->setNumResults(10);
+		$searchRequest->setFacets(array('dc.subject', 'dc.date', 'dc.type', 'dc.creator', 'dc.language'));
+		$searchRequest->setNumFacets(10);
 		return $searchRequest;
 	}
 		
