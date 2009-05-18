@@ -15,9 +15,10 @@ Drupal.dingTingFacetBrowser = function(element, result)
 		
 		facetGroups = jQuery(template).mapDirective({
 			'.facet-group': 'facet <- facets',
-			'.facet-group[class]': function(arg) {
-				firstLast = (Object.keys(arg.items).first() == arg.item.name) ? 'first' : 
-       							((Object.keys(arg.items).last() == arg.item.name) ? 'last' : '');
+			'.facet-group[facet-group]': 'facet.name',
+			'.facet-group[class]+': function(arg) {
+				firstLast = (Object.keys(arg.items).first() == arg.item.name) ? ' first' : 
+       							((Object.keys(arg.items).last() == arg.item.name) ? ' last' : '');
        	return firstLast;
 			},
 			'h4': 'facet.name',
@@ -26,16 +27,35 @@ Drupal.dingTingFacetBrowser = function(element, result)
 		
 		facetTerms = jQuery('.facets', facetGroups).mapDirective({
 			'li': 'term <- facet.terms',
-			'li[class]': function(arg) {
-				return 'facet-'+arg.pos + ' ' + (((Object.keys(arg.items).indexOf(arg.pos.toString()) % 2) == 0) ? ' odd' : ' even' ); 
+			'li[class]+': function(arg) {
+				return (((Object.keys(arg.items).indexOf(arg.pos.toString()) % 2) == 0) ? ' odd' : ' even' ); 
 			},
+			'li[facet]': function(arg) { return arg.pos },
+			'li[facet-group]': 'facet.name',
 			'.name': function(arg) { return arg.pos; },
 			'.count': function(arg) { return arg.item; }
-			
 		});
 		$('.facets', facetGroups).html(jQuery('li', facetTerms));
 		$p.compile(facetGroups, 'facet-groups');
 		jQuery(element).html($p.render('facet-groups', result));
+	}
+	
+	this.updateFacetBrowser = function(element, result)
+	{
+		 for (f in result.facets)
+		 {
+		 		var facetElements = jQuery('.facet-group[facet-group='+f+']', element);
+		 		var selectedElements = jQuery('.selected', facetElements);
+		 		
+		 		Object.keys(result.facets[f].terms).each(function (t, i)
+		 		{
+		 			facetElement = jQuery(facetElements[i]);
+		 			(jQuery.inArray(facetElement, selectedElements) != -1) ? facetElement.addClass('selected') : facetElement.removeClass('selected');
+		 			facetElement.attr('facet', t); 
+		 			facetElement.find('.name').text = t;
+		 			facetElement.find('.count').text = result.facets[f].terms[t];
+		 		});
+		 }
 	}
 	
 	this.initCarousel = function(element)
@@ -76,6 +96,30 @@ Drupal.dingTingFacetBrowser = function(element, result)
 		});
 	}
 	
+	this.bindSelectEvent = function(element)
+	{
+		jQuery('.facets li', element).click(function()
+		{
+			clicked = $(this);
+			clicked.toggleClass('selected');
+			Drupal.doSelectedSearch(element);			
+		});
+	}
+	
+	this.doSelectedSearch = function(element)
+	{
+			var path = jQuery.url.attr('path')+'?';
+			jQuery('li.selected', element).each(function()
+			{
+				path += $(this).attr('facet-group')+'[]='+$(this).attr('facet')+'&';
+			});
+			
+			jQuery.getJSON(path, function(data)
+			{
+				Drupal.updateFacetBrowser(element, data);
+			});
+	}
+	
 	this.getFacetHeight = function(element)
 	{
 		var maxHeight = 0;
@@ -85,10 +129,10 @@ Drupal.dingTingFacetBrowser = function(element, result)
 		});
 		return maxHeight;
 	}
-	
 		
 	this.renderFacetBrowser(element, result);
 	this.initCarousel(element);
 	this.renderResizeButton(element);
 	this.bindResizeEvent(element);
+	this.bindSelectEvent(element);
 }

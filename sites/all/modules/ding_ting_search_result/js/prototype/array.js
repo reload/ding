@@ -330,8 +330,7 @@ Array.from = $A;
     return array;
   }
   
-  //Removed as we do not include entire Prototype library
-  //Object.extend(arrayProto, Enumerable);
+  Object.extend(arrayProto, Enumerable);
   
   if (!arrayProto._reverse)
     arrayProto._reverse = arrayProto.reverse;

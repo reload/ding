@@ -5,12 +5,15 @@
 #ding-facet-browser li li { padding: 0 20px; line-height: 20px; background-repeat: repeat-x; background-position: top left; border-width: 0 1px; border-style: none solid; }
 #ding-facet-browser li li:hover { text-decoration: underline; cursor: pointer; }
 #ding-facet-browser li h4 { background-image: url(../img/facetbrowser-header-background.png); background-color: #c8d2cf; border-color: transparent #c6cecc transparent #ebefee; }
-#ding-facet-browser li li.odd {  border-color: transparent #eee transparent transparent; }
-#ding-facet-browser li li.even { background-image: url(../img/facetbrowser-alternate-background.png); background-color: #f3f5f5; border-color: transparent #e4e5e5 transparent #f9fafa; }
 #ding-facet-browser li.first h4, 
 #ding-facet-browser li.first li { border-left-width: 0; }
 #ding-facet-browser li.last h4, 
 #ding-facet-browser li.last li { border-right-width: 0; }
+#ding-facet-browser li.selected { background: #282327 !important; border-color: #282327 !important; }
+#ding-facet-browser li.selected,
+#ding-facet-browser li.selected * { color: #fff !important; }
+#ding-facet-browser li li.odd {  border-color: transparent #eee transparent transparent; }
+#ding-facet-browser li li.even { background-image: url(../img/facetbrowser-alternate-background.png); background-color: #f3f5f5; border-color: transparent #e4e5e5 transparent #f9fafa; }
 #ding-facet-browser .facets .name { padding-right: 0.2em; }
 
 #ding-facet-browser .resize { position: absolute; left: 314px; bottom: -13px; display: block; width: 24px; height: 24px; background: url(../img/buttons-small.png) no-repeat; text-indent: -9999px; z-index: 9999; }

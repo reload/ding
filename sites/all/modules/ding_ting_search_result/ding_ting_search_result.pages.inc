@@ -9,11 +9,18 @@ function ding_ting_search_result_page()
 	
 	$client = DingTingClientFactory::getClient();
 	$result = $client->search($request);
-	return theme('ding_ting_search_result', $result);
+	
+	if (ding_ting_search_result_is_ajax())
+	{
+		header('Content-type: application/json');
+		echo json_encode($result);
+		exit;
+	} else {
+		return theme('ding_ting_search_result', $result);
+	}
 }
 
-function ding_ting_ajax_search_result_page()
-{
-	$output = '';
-	return $output;
+function ding_ting_search_result_is_ajax() {
+	return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
+					($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'));
 }
