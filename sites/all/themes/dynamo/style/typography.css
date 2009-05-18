@@ -75,12 +75,15 @@ account
 a, a:link, a:visited, a:active {text-decoration: none; color:#006a87;}
 a:hover, a:focus { text-decoration: underline; color:#006a87;}
 
-li a.active{font-weight:bold;}
+li a.active{}
 tr.odd{}
 tr.odd td{padding:5px;}
 tr.odd a{color:#000;}
 tr.even{}
 
+.meta{color:#999999;}
+.meta a,.meta a:link,.meta a:visited,.meta a:active {text-decoration: none; color:#999999;}
+.author a,.author a:link,.author a:visited,.author a:active {text-decoration: none; color:#006a87;}
 /*headers*/
 h1,
 h2 a, h2 a:link,h2 a:visited,h2 a:active,

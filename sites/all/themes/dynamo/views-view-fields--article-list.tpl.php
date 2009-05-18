@@ -9,13 +9,18 @@
     <li><?php print $fields['field_library_ref_nid']->content; ?></li>
   </ul>
   
-  <span class="time"><?php print $fields['created']->content; ?></span>
-  af <?php print $fields['name']->content; ?>  
-  <?php 
-    if($fields['comment_count']->raw >= "1"){
-      print "(". $fields['comment_count']->content .")";
-    }  
-  ?>
+<?php print $fields['created']->content; ?>
+  <i>af</i> 
+  <span class="author">
+    <?php print $fields['name']->content; ?>  
+  </span>
+
+    <?php 
+      if($fields['comment_count']->raw >= "1"){
+        print "(". $fields['comment_count']->content .")";
+      }  
+    ?>
+
 
   <?php print $fields['edit_node']->content; ?>
 </div>
@@ -23,6 +28,6 @@
   <?php print $fields['field_teaser_value']->content; ?>  
   
   <?php print $fields['body']->content; ?>    
-  
+
   <span class="more-link"><?php print $fields['view_node']->content; ?></span>
 </p>
