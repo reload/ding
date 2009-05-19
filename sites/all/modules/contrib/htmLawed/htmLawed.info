@@ -1,0 +1,12 @@
+; $Id: htmLawed.info,v 1.2 2008/05/06 05:20:14 patnaik Exp $
+name = "htmLawed (X)HTML filter/purifier"
+description = Restrict HTML markup as well as make content more secure, and standards- and admin-compliant.
+core = 6.x
+php = 4.3
+
+; Information added by drupal.org packaging script on 2009-01-29
+version = "6.x-2.6"
+core = "6.x"
+project = "htmLawed"
+datestamp = "1233203718"
+
