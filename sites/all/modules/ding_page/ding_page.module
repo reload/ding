@@ -1,0 +1,107 @@
+<?php // $Id$
+
+/**
+ * @file ding_page.module
+ * Provides the page node type for the Ding! project.
+ */
+
+/**
+ * Implementation of hook_perm().
+ *
+ * Since we are limiting the ability to create new nodes to certain users,
+ * we need to define what those permissions are here. We also define a permission
+ * to allow users to edit the nodes they created.
+ */
+function ding_page_perm() {
+  return array(
+    'create page',
+    'edit page',
+    'delete page',
+  );
+}
+
+/**
+ * Implementation of hook_node_info().
+ */
+function ding_page_node_info() {
+  return array(
+    'page' => array(
+      'name' => t('Page'),
+      'module' => 'ding_page',
+      'description' => t('A static CMS page. Used for hierarcihal content that seldom changes. Does not allow comments and is not by default displayed on the front page.'),
+      'title_label' => t('Title'),
+      'body_label' => t('Body'),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_access().
+ */
+function ding_page_access($op, $node, $account) {
+  switch ($op) {
+    case 'create':
+      return user_access('create page', $account);
+    case 'update':
+      return user_access('edit page', $account);
+    case 'delete':
+      return user_access('delete page', $account);
+  }
+}
+
+/**
+ * Implementation of hook_form().
+ *
+ * Provides the node editing form.
+ */
+function ding_page_form(&$node) {
+  // The site admin can decide if this node type has a title and body, and how
+  // the fields should be labeled. We need to load these settings so we can
+  // build the node form correctly.
+  $type = node_get_types('type', $node);
+  $form = array();
+
+  if ($type->has_title) {
+    $form['title'] = array(
+      '#type' => 'textfield',
+      '#title' => check_plain($type->title_label),
+      '#required' => TRUE,
+      '#default_value' => $node->title,
+      '#weight' => -5
+    );
+  }
+
+  if ($type->has_body) {
+    // In Drupal 6, we can use node_body_field() to get the body and filter
+    // elements. This replaces the old textarea + filter_form() method of
+    // setting this up. It will also ensure the teaser splitter gets set up
+    // properly.
+    $form['body_field'] = node_body_field($node, $type->body_label, $type->min_word_count);
+  }
+  return $form;
+}
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function ding_page_form_alter(&$form, $form_state, $form_id) {
+  if ($form_id == 'page_node_form') {
+    // Hide the comment settings form and disable comments.
+    unset($form['comment_settings']);
+    $form['comment'] = array(
+      '#type' => 'value',
+      '#value' => 0,
+    );
+  }
+}
+
+/**
+ * Implementation of hook_view().
+ *
+ * This is a typical implementation that simply runs the node text through
+ * the output filters.
+ */
+function ding_page_view($node, $teaser = FALSE, $page = FALSE) {
+  $node = node_prepare($node, $teaser);
+  return $node;
+}
