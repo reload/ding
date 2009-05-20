@@ -66,15 +66,6 @@ function ding_library_schema() {
 }
 
 /**
- * First update, take over the content type from CCK.
- */
-function ding_library_update_6001() {
-  $ret = array();
-  $ret[] = update_sql("UPDATE {node_type} SET module = 'ding_library', locked = 1, orig_type = 'library' WHERE type = 'library'");
-  return $ret;
-}
-
-/**
  * Second update, add two new fields and their indexes.
  */
 function ding_library_update_6002() {
