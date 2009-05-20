@@ -61,6 +61,9 @@ function ding_page_form(&$node) {
   $type = node_get_types('type', $node);
   $form = array();
 
+  // Add JavaScript tweaks to the form page.
+  drupal_add_js(drupal_get_path('module', 'ding_page') . '/ding_page.js');
+
   if ($type->has_title) {
     $form['title'] = array(
       '#type' => 'textfield',
