@@ -18,9 +18,12 @@ function ding_panels_content_preprocess_library_title(&$variables) {
     $base_path = 'biblioteker/' . $node->nid;
   }
 
-  $variables['library_links'] = _ding_panels_content_theme_library_title_navigation($node, $base_path);
-  $variables['library_navigation'] = theme('item_list', $variables['library_links']);
-  $variables['library_title'] = l($node->title, $base_path);
+  $variables['library_title'] = l($node->title, 'node/' . $node->nid);
+
+  if (!isset($node->library_page_type) || $node->library_page_type == 'normal') {
+    $variables['library_links'] = _ding_panels_content_theme_library_title_navigation($node, $base_path);
+    $variables['library_navigation'] = theme('item_list', $variables['library_links']);
+  }
 }
 
 function _ding_panels_content_theme_library_title_navigation($node, $base_path) {

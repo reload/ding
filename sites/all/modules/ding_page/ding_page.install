@@ -1,0 +1,7 @@
+<?php // $Id$
+
+/**
+ * @file ding_page.install
+ * Installation and upgrade hooks for the ding_page module.
+ */
+

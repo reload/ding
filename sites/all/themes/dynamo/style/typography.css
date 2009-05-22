@@ -75,12 +75,15 @@ account
 a, a:link, a:visited, a:active {text-decoration: none; color:#006a87;}
 a:hover, a:focus { text-decoration: underline; color:#006a87;}
 
-li a.active{color:#006a87;}
+li a.active{}
 tr.odd{}
 tr.odd td{padding:5px;}
 tr.odd a{color:#000;}
 tr.even{}
 
+.meta{color:#999999;}
+.meta a,.meta a:link,.meta a:visited,.meta a:active {text-decoration: none; color:#999999;}
+.author a,.author a:link,.author a:visited,.author a:active {text-decoration: none; color:#006a87;}
 /*headers*/
 h1,
 h2 a, h2 a:link,h2 a:visited,h2 a:active,
@@ -121,6 +124,7 @@ h4 a, h4 a:link,h4 a:visited,h4 a:active{font-size:12px; line-height:15px; color
 	font-size:10px; line-height:17px;
 }
 
+.pane-comment-0,
 .office-hours-week{
 	font-size:11px; line-height:20px;
 }
@@ -129,7 +133,8 @@ h4 a, h4 a:link,h4 a:visited,h4 a:active{font-size:12px; line-height:15px; color
 }
 
 .pane-library_feature_list h3,
-.pane-library_hours h3
+.pane-library_hours h3,
+.pane-comment-0 h3
 {
 	font-size:11px; line-height:20px; font-weight:bold;
 }

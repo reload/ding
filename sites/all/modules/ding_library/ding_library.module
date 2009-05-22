@@ -274,9 +274,6 @@ function ding_library_load($node) {
  * the output filters.
  */
 function ding_library_view($node, $teaser = FALSE, $page = FALSE) {
-  if (!$teaser) {
-    // TODO: Go to the library Panels view.
-  }
   $node = node_prepare($node, $teaser);
   return $node;
 }

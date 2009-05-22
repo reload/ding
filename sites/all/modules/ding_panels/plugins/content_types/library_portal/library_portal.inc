@@ -23,10 +23,6 @@ function ding_panels_library_portal_ctools_content_types() {
  */
 function ding_panels_library_portal_content_type_content_types() {
   $types = array(
-    'library_portal_title' => array(
-      'title' => t('Library portal title'),
-      'description' => t('The title and navigation for a library page.'),
-    ),
     'library_portal_navigation' => array(
       'title' => t('Library portal navigation.'),
       'description' => t('Shows the address, map and other locative information for the library.'),
@@ -50,9 +46,6 @@ function ding_panels_library_portal_content_type_render($subtype, $conf, $panel_
   $block = new stdClass();
   $node = isset($context->data) ? drupal_clone($context->data) : NULL;
   switch($subtype) {
-    case 'library_portal_title':
-      $block->content = theme('ding_panels_library_portal_title', $node);
-      break;
     case 'library_portal_navigation':
       $block->content = _ding_panels_library_portal_navigation_render($node);
       break;
@@ -65,10 +58,8 @@ function ding_panels_library_portal_content_type_render($subtype, $conf, $panel_
  */
 function ding_panels_library_portal_content_type_admin_title($subtype, $conf, $context) {
   switch($subtype) {
-    case 'library_portal_title':
-      return t('Library portal title');
-    case 'library_portal_navigation':
-      return t('Library portal navigation');
+  case 'library_portal_navigation':
+    return t('"@s":  Library portal navigation', array('@s' => $context->identifier));
   }
 }
 
@@ -93,7 +84,6 @@ function ding_panels_library_portal_content_type_edit_form(&$form, &$form_state)
 function _ding_panels_library_portal_navigation_render($node) {
   $tree = menu_tree_all_data('ding_library_' . $node->nid);
 
-  //dpm($tree);
   return menu_tree_output($tree);
 }
 

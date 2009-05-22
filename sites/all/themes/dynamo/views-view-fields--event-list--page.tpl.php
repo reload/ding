@@ -15,8 +15,7 @@
     <span class="libary-tag"><?php print $fields['field_library_ref_nid']->content; ?></span>
     
     <p><?php print $fields['body']->content; ?></p>
-    
 
     <?php print $fields['edit_node']->content; ?>  
   </div>
-</div>  
+</div>

@@ -20,16 +20,13 @@
 }
 #twocol-left-top ul.item-list li, 
 #threecol-left-top ul.item-list li {
-	float:left; margin:0 30px 0 0;
+	display:inline; margin:0 30px 0 0;
 }
 #twocol-left-top, 
 #threecol-left-top {
 	background:transparent url(../images/bg-divider.png) no-repeat left bottom; 
-	min-height:275px; height:auto !important; height:275px;
-	padding:0 0 0 20px;
+	padding:0 0 20px 20px;
 }
-
-
 
 
 /* =====================================
@@ -60,9 +57,6 @@ bibloteks oversigtsiden
 } 
 
 .view-event-list .libary-tag div{display:inline;margin:0 5px 0 0;}
-
-
-
 
 /*BOX sprite*/
 .box, 
@@ -103,3 +97,21 @@ bibloteks oversigtsiden
 .week-info a.next{color:#757575;}
 .office-hours-week .odd{background:#f3f5f5;}
 .office-hours-week .even{background:#fff;}
+
+/*blog comments*/
+.pane-tagadelic-2,
+.pane-comment-0,
+.pane-comment-0 h3,
+.pane-comment-0 .item-list
+{
+	background:transparent url(../images/sprite-box.png) no-repeat 0px 0; width:228px; overflow:hidden;
+}
+.pane-comment-0{background-repeat: repeat-y; }
+.pane-comment-0 h3{background-position:-230px -30px; padding:10px 0 0 20px; height:18px; }
+.pane-comment-0 .item-list{background-position:-700px bottom; padding:0px 0px 10px 0px; min-height:30px;}
+.pane-comment-0 ul li{}
+
+/*tagadelic*/
+.pane-tagadelic-2{background-repeat: repeat-y;}
+
+.pane-library_title{display:block;}
