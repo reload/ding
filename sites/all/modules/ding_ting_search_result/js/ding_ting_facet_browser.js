@@ -42,20 +42,35 @@ Drupal.dingTingFacetBrowser = function(element, result)
 	
 	this.updateFacetBrowser = function(element, result)
 	{
-		 for (f in result.facets)
-		 {
-		 		var facetElements = jQuery('.facet-group[facet-group='+f+']', element);
-		 		var selectedElements = jQuery('.selected', facetElements);
-		 		
-		 		Object.keys(result.facets[f].terms).each(function (t, i)
+		for (f in result.facets)
+		{
+			var facetElements = jQuery('.facet-group[facet-group='+f+']', element);
+		 	var selectedTerms = jQuery('.selected', facetElements).map(function(i, e)
+		 	{
+		 		return jQuery(e).attr('facet');
+		 	});
+		 	
+		 	Object.keys(result.facets[f].terms).each(function (t, i)
+		 	{
+		 		facetElement = jQuery('li:eq('+i+')', facetElements);
+		 		facetElement.attr('facet', t); 
+		 		facetElement.find('.name').text(t);
+		 		facetElement.find('.count').text(result.facets[f].terms[t]);
+					
+				if ((facetElement.size() > 0) && 
+		 				jQuery.inArray(t, selectedTerms) > -1)
 		 		{
-		 			facetElement = jQuery(facetElements[i]);
-		 			(jQuery.inArray(facetElement, selectedElements) != -1) ? facetElement.addClass('selected') : facetElement.removeClass('selected');
-		 			facetElement.attr('facet', t); 
-		 			facetElement.find('.name').text = t;
-		 			facetElement.find('.count').text = result.facets[f].terms[t];
-		 		});
-		 }
+		 			facetElement.addClass('selected')
+		 		}
+		 		else
+		 		{
+		 			facetElement.removeClass('selected');
+		 		}
+		 	});
+
+			//TODO: Remove obsolete facets if result has fewer than the current list
+			//or add extra if result has more
+		}
 	}
 	
 	this.initCarousel = function(element)
@@ -102,22 +117,36 @@ Drupal.dingTingFacetBrowser = function(element, result)
 		{
 			clicked = $(this);
 			clicked.toggleClass('selected');
-			Drupal.doSelectedSearch(element);			
+			Drupal.doSelectedSearch(element);
+			Drupal.updateSelectedUrl(element);			
 		});
 	}
 	
 	this.doSelectedSearch = function(element)
 	{
-			var path = jQuery.url.attr('path')+'?';
+			facetString = 'facets=';
 			jQuery('li.selected', element).each(function()
 			{
-				path += $(this).attr('facet-group')+'[]='+$(this).attr('facet')+'&';
+				facetString += $(this).attr('facet-group')+':'+$(this).attr('facet')+';';
 			});
 			
+			path = jQuery.url.attr('path')+'?'+facetString; 
 			jQuery.getJSON(path, function(data)
 			{
 				Drupal.updateFacetBrowser(element, data);
 			});
+	}
+	
+	this.updateSelectedUrl = function(element)
+	{
+		anchor = 'facets=';
+		jQuery('.selected', element).each(function(i, e)
+		{
+			anchor += jQuery(e).attr('facet-group')+':'+jQuery(e).attr('facet')+';';
+		});
+		
+		url = window.location.href;
+		window.location.href = url.substring(0, url.lastIndexOf('#'))+'#'+anchor+'&';
 	}
 	
 	this.getFacetHeight = function(element)
@@ -129,7 +158,7 @@ Drupal.dingTingFacetBrowser = function(element, result)
 		});
 		return maxHeight;
 	}
-		
+	
 	this.renderFacetBrowser(element, result);
 	this.initCarousel(element);
 	this.renderResizeButton(element);
