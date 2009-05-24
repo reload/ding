@@ -77,6 +77,11 @@ function ding_panels_library_content_type_render($subtype, $conf, $panel_args, $
       $block->content = content_format('field_opening_hours', $node->field_opening_hours, 'default', $node);
       break;
     case 'library_feature_list':
+      // This is a bit of a hack, but currently I haven't been able to
+      // find a proper way to set the breadcrumbs on the library front
+      // page, so we're calling this function from a content type that's
+      // only shown on that page.
+      ding_breadcrumbs_set_library($node);
     case 'library_feature_detail_list':
       $block->title = t('Services and facilities');
       $block->content = theme_item_list(_ding_panels_library_features_by_library($node));
