@@ -1,0 +1,1 @@
+["Adrian Meador","Bryan O'Connor","Michèle Noïjû","تصبح عالميا مع يونيكود","Γέφυρα γρύλων","Chloé Ellemême","глобальных масштабах","יוצא לשוק העולמי","La \"volante\"","Todd Swift","Valerie Paige","Walter Hagelstein","Wendy Leatherbury"]
