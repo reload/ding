@@ -17,8 +17,9 @@ Drupal.dingTingFacetBrowser = function(element, result)
 			'.facet-group': 'facet <- facets',
 			'.facet-group[facet-group]': 'facet.name',
 			'.facet-group[class]+': function(arg) {
-				firstLast = (Object.keys(arg.items).first() == arg.item.name) ? ' first' : 
-       							((Object.keys(arg.items).last() == arg.item.name) ? ' last' : '');
+				facets = Object.keys(arg.items);
+				firstLast = (facets[0] == arg.item.name) ? ' first' : 
+       							((facets[facets-length-1] == arg.item.name) ? ' last' : '');
        	return firstLast;
 			},
 			'h4': 'facet.name',
@@ -28,13 +29,14 @@ Drupal.dingTingFacetBrowser = function(element, result)
 		facetTerms = jQuery('.facets', facetGroups).mapDirective({
 			'li': 'term <- facet.terms',
 			'li[class]+': function(arg) {
-				return (((Object.keys(arg.items).indexOf(arg.pos.toString()) % 2) == 0) ? ' odd' : ' even' ); 
+				return (((jQuery.inArray(arg.pos.toString(), Object.keys(arg.items)) % 2) == 0) ? ' odd' : ' even' ); 
 			},
 			'li[facet]': function(arg) { return arg.pos },
 			'li[facet-group]': 'facet.name',
 			'.name': function(arg) { return arg.pos; },
 			'.count': function(arg) { return arg.item; }
 		});
+		
 		$('.facets', facetGroups).html(jQuery('li', facetTerms));
 		$p.compile(facetGroups, 'facet-groups');
 		jQuery(element).html($p.render('facet-groups', result));
@@ -50,7 +52,7 @@ Drupal.dingTingFacetBrowser = function(element, result)
 		 		return jQuery(e).attr('facet');
 		 	});
 		 	
-		 	Object.keys(result.facets[f].terms).each(function (t, i)
+		 	jQuery.each(Object.keys(result.facets[f].terms), function (i, t)
 		 	{
 		 		facetElement = jQuery('li:eq('+i+')', facetElements);
 		 		facetElement.attr('facet', t); 
@@ -73,6 +75,34 @@ Drupal.dingTingFacetBrowser = function(element, result)
 		}
 	}
 	
+	this.updateSearchResults = function(result)
+	{
+		records = jQuery('<ol><li>'+Drupal.settings.dingTingSearchResult.recordTemplate+'</li></ol>').mapDirective({
+			'li': 'record <- records',
+			'.title': function(arg) { return (arg.item.data.title) ? arg.item.data.title.join(', ') : ''; },
+			'.creator em': function(arg) { return (arg.item.data.creator) ? arg.item.data.creator.join(', ') : ''; },
+			'.publication_date em': function(arg) { return (arg.item.data.date) ? arg.item.data.date.join(', ') : ''; },
+			'.description p': function(arg) { return (arg.item.data.description) ? arg.item.data.description.join('</p><p>') : ''; },
+		});
+		
+		types = jQuery('.types', records).mapDirective({
+			'li': ['type <- record.data.type',
+						 'type' ],
+		});
+
+		subjects = jQuery('.subjects', records).mapDirective({
+			'li': [	'subject <- record.data.subject',
+							'subject'],
+		});
+		
+		$('.types', records).replaceWith(jQuery(types));
+		$('.subjects', records).replaceWith(jQuery(subjects));
+		$p.compile(records, 'search-result');
+
+		//TODO remove CSS specification from JS 
+		jQuery('.search-results ol').replaceWith($p.render('search-result', result));
+	}
+	
 	this.initCarousel = function(element)
 	{
 		jQuery(element).children().addClass('jcarousel-skin-ding-facet-browser').jcarousel();	
@@ -80,10 +110,8 @@ Drupal.dingTingFacetBrowser = function(element, result)
 	
 	this.renderResizeButton = function(element)
 	{
-		button = jQuery('<a class="resize" href="">Resize</a>');
+		button = jQuery('<a class="resize" href="">'+Drupal.settings.dingTingSearchResult.resizeButtonText+'</a>');
 		element = jQuery(element);
-		
-		
 		(element.height() < Drupal.getFacetHeight(element)) ? button.addClass('expand') : button.addClass('disabled');
 		
 		jQuery(element).append(button);
@@ -133,6 +161,7 @@ Drupal.dingTingFacetBrowser = function(element, result)
 			path = jQuery.url.attr('path')+'?'+facetString; 
 			jQuery.getJSON(path, function(data)
 			{
+				Drupal.updateSearchResults(data);
 				Drupal.updateFacetBrowser(element, data);
 			});
 	}

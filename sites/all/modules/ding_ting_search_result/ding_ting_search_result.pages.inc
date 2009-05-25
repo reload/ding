@@ -8,9 +8,10 @@ function ding_ting_search_result_page()
 	$query = (isset($_REQUEST['query'])) ? $_REQUEST['query'] : 'dc.title:danmark';
 
 	//Extend query with selected facets
-	$facetArray = array();
-	if (isset($_GET['facets']))
+	if (isset($_GET['facets']) && $_GET['facets'])
 	{
+		$facetArray = array();
+		
 		$facets = explode(';', $_GET['facets']);
 		foreach ($facets as $facet)
 		{
@@ -19,9 +20,10 @@ function ding_ting_search_result_page()
 			{
 				$facetArray[] = $facet[0].':'.$facet[1];
 			}
-		}	
+		}
+			
+		$query .= ' AND '.implode(' AND ', $facetArray);
 	}
-	$query .= ' and '.implode(' and ', $facetArray);
 	
 	$request = DingTingClientFactory::getSearchRequest($query);
 	
