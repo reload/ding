@@ -178,6 +178,27 @@ Drupal.dingTingFacetBrowser = function(element, result)
 		window.location.href = url.substring(0, url.lastIndexOf('#'))+'#'+anchor+'&';
 	}
 	
+	this.updateSelectedFacetsFromUrl = function(element)
+	{
+		if (jQuery.url.attr('anchor'))
+		{
+			match = jQuery.url.attr('anchor').match('facets=(([^:]*:[^;]*;)+)');
+			if (match.length > 1)
+			{
+				facets = match[1].split(';');
+				for (f in facets)
+				{
+					f = facets[f].split(':');
+					if (f.length > 1)
+					{
+						jQuery('[facet-group='+f[0]+'][facet='+f[1]+']', element).addClass('selected');
+					}
+				}
+			}
+		}
+		return jQuery('.selected', element).size() > 0;
+	}
+	
 	this.getFacetHeight = function(element)
 	{
 		var maxHeight = 0;
@@ -188,7 +209,13 @@ Drupal.dingTingFacetBrowser = function(element, result)
 		return maxHeight;
 	}
 	
+	//initialization
 	this.renderFacetBrowser(element, result);
+	if (this.updateSelectedFacetsFromUrl(element))
+	{
+		this.doSelectedSearch();
+	}
+
 	this.initCarousel(element);
 	this.renderResizeButton(element);
 	this.bindResizeEvent(element);
