@@ -158,7 +158,7 @@ Drupal.dingTingFacetBrowser = function(element, result)
 				facetString += $(this).attr('facet-group')+':'+$(this).attr('facet')+';';
 			});
 			
-			path = jQuery.url.attr('path')+'?'+facetString; 
+			path = jQuery.url.attr('path')+'?'+jQuery.url.attr('query')+'&'+facetString; 
 			jQuery.getJSON(path, function(data)
 			{
 				Drupal.updateSearchResults(data);
