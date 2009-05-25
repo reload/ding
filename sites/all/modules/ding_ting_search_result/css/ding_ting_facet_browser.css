@@ -14,6 +14,8 @@
 #ding-facet-browser li.selected * { color: #fff !important; }
 #ding-facet-browser li li.odd {  border-color: transparent #eee transparent transparent; }
 #ding-facet-browser li li.even { background-image: url(../img/facetbrowser-alternate-background.png); background-color: #f3f5f5; border-color: transparent #e4e5e5 transparent #f9fafa; }
+#ding-facet-browser li li.hidden { text-indent: -9999px; }
+#ding-facet-browser li li.hidden:hover { cursor: default; }
 #ding-facet-browser .facets .name { padding-right: 0.2em; }
 
 #ding-facet-browser .resize { position: absolute; left: 314px; bottom: -13px; display: block; width: 24px; height: 24px; background: url(../img/buttons-small.png) no-repeat; text-indent: -9999px; z-index: 9999; }

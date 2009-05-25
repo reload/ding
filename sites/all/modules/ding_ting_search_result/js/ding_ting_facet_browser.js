@@ -58,7 +58,8 @@ Drupal.dingTingFacetBrowser = function(element, result)
 		 		facetElement.attr('facet', t); 
 		 		facetElement.find('.name').text(t);
 		 		facetElement.find('.count').text(result.facets[f].terms[t]);
-					
+				
+				facetElement.removeClass('hidden');
 				if ((facetElement.size() > 0) && 
 		 				jQuery.inArray(t, selectedTerms) > -1)
 		 		{
@@ -70,8 +71,7 @@ Drupal.dingTingFacetBrowser = function(element, result)
 		 		}
 		 	});
 
-			//TODO: Remove obsolete facets if result has fewer than the current list
-			//or add extra if result has more
+			jQuery('li:gt('+Object.keys(result.facets[f].terms).length+')', facetElements).removeClass('selected').addClass('hidden');;
 		}
 	}
 	
@@ -141,12 +141,13 @@ Drupal.dingTingFacetBrowser = function(element, result)
 	
 	this.bindSelectEvent = function(element)
 	{
-		jQuery('.facets li', element).click(function()
+		jQuery('.facets li', element).unbind('click');
+		jQuery('.facets li:not(.hidden)', element).click(function()
 		{
 			clicked = $(this);
 			clicked.toggleClass('selected');
-			Drupal.doSelectedSearch(element);
 			Drupal.updateSelectedUrl(element);			
+			Drupal.doSelectedSearch(element);
 		});
 	}
 	
@@ -163,6 +164,7 @@ Drupal.dingTingFacetBrowser = function(element, result)
 			{
 				Drupal.updateSearchResults(data);
 				Drupal.updateFacetBrowser(element, data);
+				Drupal.bindSelectEvent(element);
 			});
 	}
 	
@@ -175,7 +177,7 @@ Drupal.dingTingFacetBrowser = function(element, result)
 		});
 		
 		url = window.location.href;
-		window.location.href = url.substring(0, url.lastIndexOf('#'))+'#'+anchor+'&';
+		window.location.href = url.substring(0, url.lastIndexOf('#'))+'#'+anchor;
 	}
 	
 	this.updateSelectedFacetsFromUrl = function(element)
@@ -183,7 +185,7 @@ Drupal.dingTingFacetBrowser = function(element, result)
 		if (jQuery.url.attr('anchor'))
 		{
 			match = jQuery.url.attr('anchor').match('facets=(([^:]*:[^;]*;)+)');
-			if (match.length > 1)
+			if (match && match.length > 1)
 			{
 				facets = match[1].split(';');
 				for (f in facets)
