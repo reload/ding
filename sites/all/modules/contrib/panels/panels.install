@@ -1,5 +1,36 @@
 <?php
-// $Id: panels.install,v 1.4.2.8 2009/04/29 21:13:27 merlinofchaos Exp $
+// $Id: panels.install,v 1.4.2.16 2009/05/20 22:50:35 merlinofchaos Exp $
+
+/**
+ * Test requirements for installation and running.
+ */
+function panels_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+  if ($phase == 'install') {
+    // apparently the install process doesn't include .module files,
+    // so we need to force the issue in order for our versioning
+    // check to work.
+    if (!defined('PANELS_REQUIRED_CTOOLS_API')) {
+      include_once drupal_get_path('module', 'panels') . '/panels.module';
+    }
+
+    // In theory we should check module_exists, but Drupal's gating should
+    // actually prevent us from getting here otherwise.
+    if (!defined('CTOOLS_API_VERSION')) {
+      include_once drupal_get_path('module', 'ctools') . '/ctools.module';
+    }
+    if (!module_invoke('ctools', 'api_version', PANELS_REQUIRED_CTOOLS_API)) {
+       $requirements['panels_ctools'] = array(
+         'title' => $t('CTools API Version'),
+         'value' => CTOOLS_API_VERSION,
+         'severity' => REQUIREMENT_ERROR,
+         'description' => t('The CTools API version is too old for Panels. Panels needs at least %version.', array('%version' => PANELS_REQUIRED_CTOOLS_API))
+       );
+    }
+  }
+  return $requirements;
+}
 
 /**
  * Implementation of hook_schema().
@@ -176,10 +207,107 @@ function panels_uninstall() {
   drupal_uninstall_schema('panels');
 }
 
+function panels_update_1000() {
+  // Panels D6 2 had *no* update functions in it, so the schema version is
+  // completely wrong. If we run this update with no schema version, we
+  // were actually that version and we must therefore skip to the proper
+  // update.
+  if (db_table_exists('panels_pane')) {
+    $GLOBALS['SKIP_PANELS_UPDATES'] = TRUE;
+    return array();
+  }
+  $ret   = array();
+
+  $ret[] = update_sql("ALTER TABLE {panels_info} RENAME {panels_page}");
+  $ret[] = update_sql("ALTER TABLE {panels_page} CHANGE COLUMN did pid int(10) NOT NULL DEFAULT 0;");
+  $ret[] = update_sql("ALTER TABLE {panels_page} ADD COLUMN did int(10) NOT NULL DEFAULT 0 AFTER pid");
+  $ret[] = update_sql("UPDATE {panels_page} SET did = pid");
+
+  $max_pid = db_result(db_query("SELECT MAX(pid) FROM {panels_page}"));
+  if ($max_pid) {
+    $ret[] = update_sql("INSERT INTO {sequences} (name, id) VALUES ('{panels_page}_pid', $max_pid)");
+  }
+
+  $ret[]  = update_sql("ALTER TABLE {panels_area} RENAME {panels_pane}");
+  $ret[]  = update_sql("ALTER TABLE {panels_pane} ADD COLUMN pid int(10) NOT NULL DEFAULT 0 FIRST");
+  $ret[]  = update_sql("ALTER TABLE {panels_pane} CHANGE area panel varchar(32)");
+  $result = db_query("SELECT * FROM {panels_pane}");
+  while ($pane = db_fetch_object($result)) {
+    $count++;
+    $ret[] = update_sql("UPDATE {panels_pane} SET pid = $count WHERE did = $pane->did AND panel = '$pane->panel' AND position = $pane->position");
+  }
+  if ($count) {
+    $ret[] = update_sql("INSERT INTO {sequences} (name, id) VALUES ('{panels_pane}_pid', $count)");
+  }
+
+  $ret[] = update_sql(<<<EOT
+    CREATE TABLE {panels_display} (
+      did INT(10) NOT NULL DEFAULT 0 PRIMARY KEY,
+      layout VARCHAR(32)
+    ) /*!40100 DEFAULT CHARACTER SET utf8 */
+EOT
+  );
+  $result = db_query("SELECT did, layout FROM {panels_page}");
+  $max_did = 0;
+  while ($display = db_fetch_object($result)) {
+    $ret[] = update_sql("INSERT INTO {panels_display} VALUES ($display->did, '$display->layout')");
+    if ($display->did > $max_did) {
+      $max_did = $display->did;
+    }
+  }
+  $ret[] = update_sql("ALTER TABLE {panels_page} DROP COLUMN layout");
+  if ($max_did) {
+    $ret[] = update_sql("INSERT INTO {sequences} (name, id) VALUES ('{panels_display}_did', $max_did)");
+  }
+  return $ret;
+}
+
+function panels_update_1001() {
+  if (!empty($GLOBALS['SKIP_PANELS_UPDATES'])) {
+    return array();
+  }
+  $ret   = array();
+  $ret[] = update_sql("ALTER TABLE {panels_page} ADD COLUMN no_blocks int(1)");
+  $ret[] = update_sql("ALTER TABLE {panels_page} ADD COLUMN menu int(1) DEFAULT 0");
+  $ret[] = update_sql("ALTER TABLE {panels_page} ADD COLUMN menu_tab int(1)");
+  $ret[] = update_sql("ALTER TABLE {panels_page} ADD COLUMN menu_tab_weight int(4)");
+  $ret[] = update_sql("ALTER TABLE {panels_page} ADD COLUMN menu_title varchar(255)");
+  $ret[] = update_sql("ALTER TABLE {panels_page} ADD COLUMN menu_tab_default int(1)");
+  $ret[] = update_sql("ALTER TABLE {panels_page} ADD COLUMN menu_tab_default_parent_type varchar(10)");
+  $ret[] = update_sql("ALTER TABLE {panels_page} ADD COLUMN menu_parent_title varchar(255)");
+  $ret[] = update_sql("ALTER TABLE {panels_page} ADD COLUMN menu_parent_tab_weight int(4)");
+  return $ret;
+}
+
+// Create a field for the layout settings
+function panels_update_1002() {
+  if (!empty($GLOBALS['SKIP_PANELS_UPDATES'])) {
+    return array();
+  }
+  $ret   = array();
+  $ret[] = update_sql("ALTER TABLE {panels_display} ADD COLUMN layout_settings longtext");
+  $ret[] = update_sql("ALTER TABLE {panels_pane} ADD COLUMN access varchar(128) AFTER type");
+  $ret[] = update_sql("ALTER TABLE {panels_page} ADD COLUMN css longtext AFTER css_id");
+  return $ret;
+}
+
+// Create a field for the panel settings.
+function panels_update_1003() {
+  if (!empty($GLOBALS['SKIP_PANELS_UPDATES'])) {
+    return array();
+  }
+  $ret = array();
+  $ret[] = update_sql("ALTER TABLE {panels_display} ADD COLUMN panel_settings longtext");
+  return $ret;
+}
+
 // Kept up updates from older versions of Panels 2 for D5 to smooth updates.
 // Create a field for the panel settings.
 // Renumbering to proper numbering scheme.
 function panels_update_5204() {
+  if (!empty($GLOBALS['SKIP_PANELS_UPDATES'])) {
+    return array();
+  }
   $ret   = array();
   $ret[] = update_sql("ALTER TABLE {panels_page} ADD COLUMN name varchar(255) UNIQUE");
   $ret[] = update_sql("ALTER TABLE {panels_display} ADD COLUMN name varchar(255) UNIQUE");
@@ -191,6 +319,9 @@ function panels_update_5204() {
 
 // Add the arguments field
 function panels_update_5205() {
+  if (!empty($GLOBALS['SKIP_PANELS_UPDATES'])) {
+    return array();
+  }
   $ret = array();
   $ret[] = update_sql("ALTER TABLE {panels_page} ADD COLUMN arguments longtext");
   return $ret;
@@ -199,6 +330,9 @@ function panels_update_5205() {
 // Add a field so that panes can remember their subtype so we can retrieve
 // context information about it.
 function panels_update_5206() {
+  if (!empty($GLOBALS['SKIP_PANELS_UPDATES'])) {
+    return array();
+  }
   $ret = array();
   $ret[] = update_sql("ALTER TABLE {panels_pane} ADD COLUMN subtype varchar(64)");
   return $ret;
@@ -206,6 +340,9 @@ function panels_update_5206() {
 
 // Add fields for displays and extra contexts
 function panels_update_5207() {
+  if (!empty($GLOBALS['SKIP_PANELS_UPDATES'])) {
+    return array();
+  }
   $ret   = array();
   $ret[] = update_sql("ALTER TABLE {panels_page} ADD COLUMN displays longtext");
   $ret[] = update_sql("ALTER TABLE {panels_page} ADD COLUMN contexts longtext");
@@ -214,6 +351,9 @@ function panels_update_5207() {
 
 // Correct the mistaken {panels_display}_id when it should be {panels_display}_did
 function panels_update_5208() {
+  if (!empty($GLOBALS['SKIP_PANELS_UPDATES'])) {
+    return array();
+  }
   $ret   = array();
   $count = db_result(db_query("SELECT MAX(did) FROM {panels_display}"));
   $ret[] = update_sql("DELETE FROM {sequences} WHERE name = '{panels_display}_did'");
@@ -228,9 +368,16 @@ function panels_update_5208() {
 
 // Update argument, relationship and context code to be more correct.
 function panels_update_5209() {
+  if (!empty($GLOBALS['SKIP_PANELS_UPDATES'])) {
+    return array();
+  }
   $ret    = array();
   $ret[]  = update_sql("ALTER TABLE {panels_page} ADD COLUMN relationships longtext");
   $result = db_query("SELECT * FROM {panels_page}");
+
+  // This code removed due to call to panels_get_argument(). People with
+  // older versions will just have to suffer.
+  return $ret;
   panels_load_include('plugins');
 
   while ($page = db_fetch_object($result)) {
@@ -329,6 +476,9 @@ function panels_update_5209() {
 }
 
 function panels_update_5210() {
+  if (!empty($GLOBALS['SKIP_PANELS_UPDATES'])) {
+    return array();
+  }
   $ret = array();
   $ret[] = update_sql("UPDATE {system} SET weight = 10 WHERE name = 'panels'");
   return $ret;
@@ -338,7 +488,7 @@ function panels_update_5210() {
  * Force a menu update
  */
 function panels_update_5211() {
-  menu_rebuild();
+//  menu_rebuild();
   return array();
 }
 
@@ -346,6 +496,9 @@ function panels_update_5211() {
  * Add a field to store pane caching information.
  */
 function panels_update_5213() {
+  if (!empty($GLOBALS['SKIP_PANELS_UPDATES'])) {
+    return array();
+  }
   $ret = array();
   switch ($GLOBALS['db_type']) {
     case 'mysql':
@@ -366,7 +519,11 @@ function panels_update_5213() {
  * system.
  */
 function panels_update_5214() {
+  if (!empty($GLOBALS['SKIP_PANELS_UPDATES'])) {
+    return array();
+  }
   $ret = array();
+  return $ret;
   switch ($GLOBALS['db_type']) {
     case 'mysql':
     case 'mysqli':
@@ -395,6 +552,9 @@ EOT
  * in the install() of schema 5214
  */
 function panels_update_5215() {
+  if (!empty($GLOBALS['SKIP_PANELS_UPDATES'])) {
+    return array();
+  }
   $ret = array();
   switch ($GLOBALS['db_type']) {
     case 'mysql':
@@ -413,6 +573,9 @@ function panels_update_5215() {
  * the new show/hide panes feature.
  */
 function panels_update_5216() {
+  if (!empty($GLOBALS['SKIP_PANELS_UPDATES'])) {
+    return array();
+  }
   $ret = array();
   switch ($GLOBALS['db_type']) {
     case 'mysql':
@@ -438,6 +601,9 @@ function panels_update_5216() {
  * Add the switcher fields to the database
  */
 function panels_update_5217() {
+  if (!empty($GLOBALS['SKIP_PANELS_UPDATES'])) {
+    return array();
+  }
   $ret = array();
   switch ($GLOBALS['db_type']) {
     case 'mysql':
@@ -461,6 +627,9 @@ function panels_update_5217() {
  * was 'smallint.'
  */
 function panels_update_5218() {
+  if (!empty($GLOBALS['SKIP_PANELS_UPDATES'])) {
+    return array();
+  }
   $ret = array();
   switch ($GLOBALS['db_type']) {
     case 'mysql':
@@ -477,20 +646,12 @@ function panels_update_5218() {
 }
 
 /**
- * Update is purely an informational message encouraging site admins to
- * re-export any panels they have previously exported, as they will all be
- * missing data.
- */
-function panels_update_5219() {
-  $ret = array();
-  $ret[] = array('success' => TRUE, 'query' => t('You are strongly encouraged to re-export any panels generated with a version of Panels prior to Release Candidate 2, as several fields were (incorrectly) being ommitted from all exports, and this updater is unable to update any panels already exported with missing fields.'));
-  return $ret;
-}
-
-/**
  * Update from 5.x v2
  */
 function panels_update_5299() {
+  if (!empty($GLOBALS['SKIP_PANELS_UPDATES'])) {
+    return array();
+  }
   $ret = array();
   // Fetch schema version 1.
   $schema = panels_schema_1();
@@ -514,9 +675,6 @@ function panels_update_5299() {
  * Update from 6.x v2.
  */
 function panels_update_6290() {
-  // This is currently commented out because we failed to establish proper
-  // baselines in previous versions and we want to re-establish this in alpha3.
-  // It will return.
 
   $ret = array();
 
@@ -821,13 +979,14 @@ function panels_update_6302() {
     $page->conf = array();
     $displays = unserialize($p->displays);
     $arguments = unserialize($p->arguments);
+
     foreach ($arguments as $id => $argument) {
       $page->arguments[$argument['keyword']] = array(
         'name' => $argument['name'],
         'identifier' => $argument['identifier'],
         'title' => $argument['title'],
         'id' => $argument['id'],
-        'settings' => $argument['argument_settings'],
+        'settings' => isset($argument['argument_settings']) ? $argument['argument_settings'] : array(),
       );
 
       $match = FALSE;
@@ -952,7 +1111,15 @@ function panels_update_6302() {
   $ret[] = update_sql("DROP TABLE {panels_page}");
 
   // Update a couple of pane types that changed and are easily moved:
-  $ret[] = update_sql("UPDATE {panels_pane} SET type = CONCAT(type, '_', subtype) WHERE type = 'node_form'");
+  switch ($GLOBALS['db_type']) {
+    case 'mysql':
+    case 'mysqli':
+      $ret[] = update_sql("UPDATE {panels_pane} SET type = CONCAT(type, '_', subtype) WHERE type = 'node_form'");
+      break;
+
+    case 'pgsql':
+      $ret[] = update_sql("UPDATE {panels_pane} SET type = type || '_' || subtype WHERE type = 'node_form'");
+  }
   $ret[] = update_sql("UPDATE {panels_pane} SET type = 'node_form_path' WHERE type = 'node_form_url_path'");
 
   if (module_exists('ctools') && !module_exists('views_content') && db_result(db_query("SELECT pid FROM {panels_pane} WHERE type = 'views'"))) {
@@ -979,11 +1146,11 @@ function _panels_update_create_handler($page, $p, $origin, $info, $arguments, $w
     $handler->conf['did'] = 'new';
     $handler->conf['display'] = $display;
   }
-  $handler->conf['title'] = $info['title'];
+  $handler->conf['title'] = !empty($info['title']) ? $info['title'] : '';
   $handler->conf['contexts'] = unserialize($p->contexts);
   $handler->conf['relationships'] = unserialize($p->relationships);
 
-  if ($origin) {
+  if ($origin && strpos($origin, '-')) {
     $handler->conf['access'] = array(
       'logic' => 'and',
       'plugins' => array(),
@@ -1021,4 +1188,17 @@ function _panels_update_create_handler($page, $p, $origin, $info, $arguments, $w
   $cache->handlers[$handler->name] = $handler;
 
   return $handler;
+}
+
+/**
+ * Ensure the panels_simple_cache module does not exist.
+ */
+function panels_update_6303() {
+  $ret = array();
+  if (module_exists('panels_simple_cache')) {
+    drupal_set_message(t('Your installation contains a module that no longer exists. When updating modules, you should always remove the module directory first, then replace it with the new code. The "Panels Simple Cache" module is being automatically disabled for you. Please do not re-enable it as it will cause your system to crash.'));
+    $ret[] = update_sql("DELETE FROM {system} WHERE name = 'panels_simple_cache'");
+  }
+
+  return $ret;
 }

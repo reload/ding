@@ -1,5 +1,5 @@
 <?php
-// $Id: panel_page.inc,v 1.1.2.7 2009/04/29 03:19:17 merlinofchaos Exp $
+// $Id: panel_page.inc,v 1.1.2.10 2009/05/12 01:02:24 merlinofchaos Exp $
 
 /**
  * @file
@@ -185,6 +185,13 @@ function panels_panel_page_edit_form_info() {
 function panels_panel_page_execute($page, $contexts, $args) {
   // Delegate to the panel context handler.
   if ($function = ctools_plugin_load_function('delegator', 'task_handlers', 'panel_context', 'render')) {
+    // Provide a tab to edit this context:
+    ctools_include('menu');
+    ctools_menu_add_tab(array(
+      'title' => t('Edit panel'),
+      'href' => "admin/build/pages/edit-panel-page/" . $page->name,
+    ));
+
     $info = $function($page, $contexts, $args, FALSE);
     if (isset($info['title'])) {
       drupal_set_title($info['title']);
@@ -341,20 +348,9 @@ function panels_page_save_page(&$page, $update) {
     unset($page->conf['display']);
   }
 
-  // Re-cache the CSS.
-  // Delete any previous cache file.
-  if (!empty($page->conf['css_cache'])) {
-    file_delete($page->conf['css_cache']);
-  }
-
-  if (!empty($page->conf['css'])) {
-    // And generate a new one.
-    ctools_include('css');
-    $page->conf['css_cache'] = ctools_css_cache($page->conf['css']);
-  }
-  else {
-    $page->conf['css_cache'] = '';
-  }
+  // Delete any previous CSS cache file.
+  ctools_include('css');
+  ctools_css_clear('panel_context:' . $page->name);
 
   if (isset($page->conf['temp_layout'])) {
     unset($page->conf['temp_layout']);

@@ -1,5 +1,5 @@
 <?php
-// $Id: display-edit.inc,v 1.7.2.13 2009/04/30 20:09:57 merlinofchaos Exp $
+// $Id: display-edit.inc,v 1.7.2.15 2009/05/19 23:52:08 merlinofchaos Exp $
 
 /*
  * @file display-edit.inc
@@ -142,7 +142,7 @@ function panels_edit_display_form(&$form_state) {
             if (file_exists($file)) {
               $js[$file] = TRUE;
             }
-            else if (file(exists($subtype['path'] . '/' . $file))) {
+            else if (file_exists($subtype['path'] . '/' . $file)) {
               $js[$subtype['path'] . '/' . $file] = TRUE;
             }
           }
@@ -152,7 +152,7 @@ function panels_edit_display_form(&$form_state) {
             if (file_exists($file)) {
               $css[$file] = TRUE;
             }
-            else if (file(exists($subtype['path'] . '/' . $file))) {
+            else if (file_exists($subtype['path'] . '/' . $file)) {
               $css[$subtype['path'] . '/' . $file] = TRUE;
             }
           }
@@ -409,12 +409,14 @@ function panels_show_pane($display, $pane, $skin = TRUE) {
     );
   }
 
-  $links[] = array(
-    'title' => t('Settings'),
-    'href' => "panels/ajax/configure/$display->did/$pane->pid",
-    'attributes' => array('class' => 'ctools-use-modal'),
-  );
-
+  if (isset($content_type['edit form'])) {
+    $links[] = array(
+      'title' => t('Settings'),
+      'href' => "panels/ajax/configure/$display->did/$pane->pid",
+      'attributes' => array('class' => 'ctools-use-modal'),
+    );
+  }
+  
   $style = panels_get_style((!empty($pane->style['style'])) ? $pane->style['style'] : 'default');
 
   $links[] = array(

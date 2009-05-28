@@ -1,5 +1,5 @@
 <?php
-// $Id: panel_context.inc,v 1.1.2.20 2009/04/30 23:59:55 merlinofchaos Exp $
+// $Id: panel_context.inc,v 1.1.2.22 2009/05/12 00:48:38 merlinofchaos Exp $
 
 /**
  * @file
@@ -81,7 +81,6 @@ function panels_panel_context_delegator_task_handlers() {
       'no_blocks' => FALSE,
       'css_id' => '',
       'css' => '',
-      'css_cache_file' => '',
       'contexts' => array(),
       'relationships' => array(),
     ),
@@ -141,6 +140,10 @@ function panels_panel_context_render($handler, $base_contexts, $args, $test = TR
     return;
   }
 
+  if (isset($handler->handler)) {
+    ctools_context_handler_pre_render($handler, $contexts, $args);
+  }
+  
   // Load the display
   $display = panels_panel_context_get_display($handler);
 
@@ -149,12 +152,14 @@ function panels_panel_context_render($handler, $base_contexts, $args, $test = TR
   $display->css_id = $handler->conf['css_id'];
 
   // Check to see if there is any CSS.
-  if ($handler->conf['css_cache']) {
-    if (!file_exists($handler->conf['css_cache'])) {
-      // This will force the task handler to re-cache the CSS and save the filename:
-      delegator_save_task_handler($handler);
+  if (!empty($handler->conf['css'])) {
+    ctools_include('css');
+    $css_id = 'panel_context:' . $handler->name;
+    $filename = ctools_css_retrieve($css_id);
+    if (!$filename) {
+      $filename = ctools_css_store($css_id, $handler->conf['css']);
     }
-    drupal_add_css($handler->conf['css_cache']);
+    drupal_add_css($filename);
   }
 
   // With an argument, this actually sets the display.
@@ -206,20 +211,9 @@ function panels_panel_context_save(&$handler, $update) {
     unset($handler->conf['display']);
   }
 
-  // Re-cache the CSS.
-  // Delete any previous cache file.
-  if (!empty($handler->conf['css_cache'])) {
-    file_delete($handler->conf['css_cache']);
-  }
-
-  if (!empty($handler->conf['css'])) {
-    // And generate a new one.
-    ctools_include('css');
-    $handler->conf['css_cache'] = ctools_css_cache($handler->conf['css']);
-  }
-  else {
-    $handler->conf['css_cache'] = '';
-  }
+  // Delete any previous CSS cache file.
+  ctools_include('css');
+  ctools_css_clear('panel_context:' . $handler->name);
 
   if (isset($page->conf['temp_layout'])) {
     unset($page->conf['temp_layout']);
