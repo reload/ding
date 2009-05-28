@@ -1,0 +1,56 @@
+<?php // $Id$
+
+/**
+ * @file ting.module
+ * Module to integrate the Ting search engine in our Drupal site.
+ */
+
+/**
+ * Implementation of hook_block().
+ */
+function ting_block($op = 'list', $delta = 0, $edit = array()) {
+  switch ($op) {
+    case 'list':
+      return array(
+        'searchbox' => array(
+          'info' => t('Ting search box'),
+          'cache' => BLOCK_CACHE_GLOBAL,
+        ),
+      );
+    case 'view':
+      return array(
+        'subject' => t('Search'),
+        'content' => drupal_get_form('search_form', '', '', 'ting', 'Skriv dit søgeord her'),
+      );
+  }
+}
+
+/**
+ * Implementation of hook_search().
+ */
+function ting_search($op = 'search', $keys = null) {
+  switch ($op) {
+    case 'name':
+      return t('Ting');
+
+    case 'status':
+    case 'admin':
+      // We're not providing any sort of admin interface or status.
+      return array();
+
+    case 'search':
+      // Load the search page Kasper created.
+      module_load_include('pages.inc', 'ding_ting_search_result');
+      // Loads the JavaScript we need.
+      ding_ting_facet_browser();
+
+      drupal_add_js(drupal_get_path('module', 'ting') . '/js/ting_search_result_page.js');
+      drupal_add_js(array('tingSearch' => array(
+        'result' => array(),
+        'keys' => $keys,
+        'url' => url('ding_ting_search_result'),
+      )), 'setting', 'footer');
+      return array();
+  }
+}
+
