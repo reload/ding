@@ -1,16 +1,16 @@
-$Id: readme.txt,v 1.5.2.3 2008/05/18 01:06:43 patnaik Exp $
+$Id: readme.txt,v 1.5.2.3.2.1 2009/05/20 03:13:14 patnaik Exp $
 
 htmLawed Drupal 6.x module
 ==========================
 
     GPL v3 license
     Copyright Santosh Patnaik, MD, PhD
-
+    Initiated May 2008
 
 About the module
 ----------------
 
-    The htmLawed Drupal module enables the use of the htmLawed (X)HTML filter/purifier in Drupal. Unlike Drupal's HTML filter, htmLawed allows fine control on the HTML markup (e.g., restricting URLs by protocols and limiting element attributes), balances tags, etc. Unlike filters like HTMLPurifier, the single-file htmLawed is much faster, more customizable, uses 10-20x less memory, is 10-20x smaller, works with PHP 4, covers all HTML markup, etc.
+    The htmLawed Drupal module enables the use of the htmLawed (X)HTML filter/purifier in Drupal. Unlike Drupal's HTML filter, htmLawed allows fine control on the HTML markup (e.g., restricting URLs by protocols and limiting element attributes), balances tags, beautifies HTML code, etc. Unlike filters like HTMLPurifier or HTML Tidy, the single-file htmLawed is much faster, more customizable, uses 10-20x less memory, is 10-20x smaller, works with PHP 4, covers all HTML markup, and does not require an external library or PHP extension.
 
     The module:
 
@@ -26,19 +26,19 @@ About the module
 
     The module does not install or modify (structures of) existing Drupal database tables; all information is stored in the 'variable' table in items named 'htmLawed_format_x' where 'x' refers to numbers identifying various input formats.
 
-    If you enable htmLawed, it is important that you understand the security implications of the settings you use and the limitations of htmLawed. It is also recommended that htmLawed be tried using various 'Config' and 'Spec' values using the demo page on the htmLawed website.
+    If you enable htmLawed, it is important that you understand the security implications of the settings you use and the limitations of htmLawed.
 
-    The version of htmLawed used by the module would be indicated on the help section of the module. Keeping the module up-to-date with the latest htmLawed version is as simple as replacing the htmLawed/htmLawed.php and htmLawed/htmLawed_README.htm files in the htmLawed module folder.
+    The version of htmLawed used by the module would be indicated on the web-page for the 'help' section of the module. Keeping the module up-to-date with the latest htmLawed version is as simple as replacing the htmLawed/htmLawed.php and htmLawed/htmLawed_README.htm files in the htmLawed module folder.
 
 
 About htmLawed
 --------------
 
-    htmLawed is a single-file PHP software that makes input text more secure and standard-compliant, and suitable in general from the viewpoint of a web-page administrator, for use in the body of HTML 4, or XHTML 1 or 1.1 documents. It thus is a customizable HTML/XHTML filter, processor, purifier, sanitizer, etc., like the Kses, HTMLPurifier, etc., PHP scripts.
+    htmLawed is a single-file PHP software that makes input text more secure, and standard- and admin. policy-compliant for use in the body of HTML 4, or XHTML 1 or 1.1 documents. It thus is a customizable HTML/XHTML filter, processor, purifier, sanitizer, beautifier, etc., like HTML Tidy or the Kses, HTMLPurifier, etc., PHP scripts.
 
     The lawing-in of input text is needed to ensure that HTML code in the text is standard-compliant, does not introduce security vulnerabilities, and does not break a web-page's design/layout. htmLawed tries to do this by, for example, making HTML well-formed with balanced and properly nested tags, neutralizing code that may be used for cross-site scripting (XSS) attacks, and allowing only specified HTML elements/tags and attributes.
 
-    For htmLawed download and forum-based support, visit the htmLawed home page at http://www.bioinformatics.org/phplabware/internal_utilities/htmlawed/index.php.
+    For htmLawed download and forum-based support, visit the htmLawed home page at http://www.bioinformatics.org/phplabware/internal_utilities/htmlawed.
 
 
 Module installation
@@ -74,7 +74,7 @@ Module installation
 
 5.   For restricting user access to the administration of htmLawed settings, go to the 'Administer' > 'User management' section of your site. Ideally, only the main administrator of the site should have the access.
 
-6.   A Drupal handbook may be available for htmLawed. Check http://drupal.org/search/node/htmLawed+type%3Abook
+6.   A Drupal handbook may be available for htmLawed. Check http://drupal.org/search/apachesolr_search/htmLawed?filters=type%3Abook
 
 
 Notes
