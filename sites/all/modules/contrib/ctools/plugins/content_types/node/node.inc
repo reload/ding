@@ -1,5 +1,5 @@
 <?php
-// $Id: node.inc,v 1.2 2009/04/29 16:58:34 merlinofchaos Exp $
+// $Id: node.inc,v 1.3 2009/05/09 07:44:55 merlinofchaos Exp $
 
 /**
  * @file
@@ -8,7 +8,7 @@
  */
 
 /**
- * Implementation of hook_panels_content_types()
+ * Implementation of hook_ctools_content_types()
  */
 function ctools_node_ctools_content_types() {
   return array(

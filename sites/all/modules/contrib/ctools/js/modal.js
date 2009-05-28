@@ -1,4 +1,4 @@
-// $Id: modal.js,v 1.9 2009/04/24 00:08:51 merlinofchaos Exp $
+// $Id: modal.js,v 1.11 2009/05/19 21:59:48 merlinofchaos Exp $
 /**
  * @file 
  *
@@ -40,7 +40,7 @@ Drupal.CTools.Modal.show = function() {
   $('span.modal-title', Drupal.CTools.Modal.modal).html(Drupal.t('Loading...'));
   Drupal.CTools.Modal.modal.modalContent({
     // @todo this should be elsewhere.
-    opacity: '.40', 
+    opacity: '.55', 
     background: '#fff'
   });
   $('#modalContent .modal-content').html(Drupal.theme('CToolsModalThrobber'));
@@ -136,8 +136,9 @@ Drupal.CTools.Modal.submitAjaxForm = function() {
   var object = $(this);
   try {
     url.replace('/nojs/', '/ajax/');
-    $(this).ajaxSubmit({
-      type: "POST",
+
+    var ajaxOptions = {
+      type: 'POST',
       url: url,
       data: '',
       global: true,
@@ -150,15 +151,35 @@ Drupal.CTools.Modal.submitAjaxForm = function() {
         $('.ctools-ajaxing', object).removeClass('ctools-ajaxing');
       },
       dataType: 'json'
-    });
+    };
+
+    // If the form requires uploads, use an iframe instead and add data to
+    // the submit to support this and use the proper response.
+    if ($(this).attr('enctype') == 'multipart/form-data') {
+      ajaxOptions = {
+        success: Drupal.CTools.AJAX.iFrameJsonRespond,
+        iframe: true,
+        data: {'ctools_multipart': '1'}
+      } + ajaxOptions;
+    }
+
+    $(this).ajaxSubmit(ajaxOptions);
   }
   catch (err) {
     alert("An error occurred while attempting to process " + url); 
     $(this).removeClass('ctools-ajaxing');
-    $('.ctools-ajaxing', this).removeClass('ctools-ajaxing');
+    $('div.ctools-ajaxing', this).remove();
     return false;
   }
   return false;
+}
+
+/**
+ * Wrapper for handling JSON responses from an iframe submission
+ */
+Drupal.CTools.AJAX.iFrameJsonRespond = function(data) {
+  var myJson = eval(data);
+  Drupal.CTools.AJAX.respond(myJson);
 }
 
 /**
@@ -187,8 +208,10 @@ Drupal.behaviors.CToolsModal = function(context) {
       .addClass('ctools-use-modal-processed')
       .click(function() {
         // Make sure it knows our button.
-        this.form.clk = this;
-        $(this).after('<div class="ctools-ajaxing"> &nbsp; </div>');
+        if (!$(this.form).hasClass('ctools-ajaxing')) {
+          this.form.clk = this;
+          $(this).after('<div class="ctools-ajaxing"> &nbsp; </div>');
+        }
       });
 
   }

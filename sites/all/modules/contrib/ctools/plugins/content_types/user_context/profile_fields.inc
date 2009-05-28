@@ -1,11 +1,11 @@
 <?php
-// $Id: profile_fields.inc,v 1.2 2009/04/20 19:48:35 merlinofchaos Exp $
+// $Id: profile_fields.inc,v 1.3 2009/05/09 07:44:55 merlinofchaos Exp $
 
 
 /**
  * Callback function to supply a list of content types.
  */
-function panels_profile_fields_panels_content_types() {
+function ctools_profile_fields_ctools_content_types() {
   if (module_exists('profile') && !is_null(profile_categories())) {
     return array(
       'single' => TRUE,

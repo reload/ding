@@ -1,5 +1,5 @@
 <?php
-// $Id: ajax.inc,v 1.6 2009/04/20 21:29:46 merlinofchaos Exp $
+// $Id: ajax.inc,v 1.7 2009/05/11 22:09:53 merlinofchaos Exp $
 
 /**
  * @file
@@ -315,7 +315,15 @@ function ctools_ajax_command_restripe($selector) {
  * to the AJAX requester.
  */
 function ctools_ajax_render($commands = array()) {
-  drupal_json($commands);
+  if (!empty($_REQUEST['ctools_multipart'])) {
+    // We don't use drupal_json here because the header is not true. We're not really
+    // returning JSON, strictly-speaking, but rather JSON content wrapped in a <textarea>
+    // as per the "file uploads" example here: http://malsup.com/jquery/form/#code-samples
+    echo '<textarea>' . drupal_to_js($commands) . '</textarea>';
+  }
+  else {
+    drupal_json($commands);
+  }
   exit;
 }
 

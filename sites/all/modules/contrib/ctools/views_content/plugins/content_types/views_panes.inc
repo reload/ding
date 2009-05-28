@@ -1,5 +1,5 @@
 <?php
-// $Id: views_panes.inc,v 1.8 2009/05/01 16:11:22 merlinofchaos Exp $
+// $Id: views_panes.inc,v 1.11 2009/05/19 19:30:22 merlinofchaos Exp $
 
 /**
  * @file
@@ -151,7 +151,7 @@ function views_content_views_panes_content_type_render($subtype, $conf, $panel_a
     switch ($argument['type']) {
       case 'context':
         $key = array_shift($context_keys);
-        if ($key) {
+        if (isset($context[$key])) {
           if (strpos($argument['context'], '.')) {
             list($context, $converter) = explode('.', $argument['context'], 2);
             $args[] = ctools_context_convert_context($contexts[$key], $converter);
@@ -197,7 +197,7 @@ function views_content_views_panes_content_type_render($subtype, $conf, $panel_a
   $allow = $view->display_handler->get_option('allow');
 
   if ($allow['path_override'] && !empty($conf['path'])) {
-    $view->display_handler->set_option('path', $conf['path']);
+    $view->override_path = $conf['path'];
   }
 
   $block = new stdClass();
@@ -292,6 +292,8 @@ function views_content_views_panes_content_type_edit_form(&$form, &$form_state) 
     $conf['path'] = $view->get_path();
   }
 
+  $form['arguments']['#tree'] = TRUE;
+
   foreach ($view->display_handler->get_argument_input() as $id => $argument) {
     if ($argument['type'] == 'user') {
       $form['arguments'][$id] = array(
@@ -385,7 +387,7 @@ function views_content_views_panes_content_type_edit_form(&$form, &$form_state) 
 function views_content_views_panes_content_type_edit_form_submit(&$form, &$form_state) {
   // Copy everything from our defaults.
   $keys = array('link_to_view', 'more_link', 'feed_icons', 'use_pager',
-    'pager_id', 'items_per_page', 'offset', 'path_override', 'path');
+    'pager_id', 'items_per_page', 'offset', 'path_override', 'path', 'arguments');
 
   foreach ($keys as $key) {
     if (isset($form_state['values'][$key])) {

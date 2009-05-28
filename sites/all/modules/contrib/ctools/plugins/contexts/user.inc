@@ -1,5 +1,5 @@
 <?php
-// $Id: user.inc,v 1.3 2009/04/20 23:51:44 merlinofchaos Exp $
+// $Id: user.inc,v 1.4 2009/05/11 23:02:55 merlinofchaos Exp $
 
 /**
  * @file
@@ -53,7 +53,7 @@ function ctools_context_create_user($empty, $data = NULL, $conf = FALSE) {
   }
 }
 
-function ctools_context_user_settings_form($conf, $external = FALSE) {
+function ctools_context_user_settings_form($conf) {
   $form = array();
   return $form;
 }

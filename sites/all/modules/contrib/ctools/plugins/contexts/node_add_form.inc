@@ -1,5 +1,5 @@
 <?php
-// $Id: node_add_form.inc,v 1.7 2009/05/06 01:10:05 merlinofchaos Exp $
+// $Id: node_add_form.inc,v 1.8 2009/05/11 23:02:55 merlinofchaos Exp $
 
 /**
  * @file
@@ -84,11 +84,7 @@ function ctools_context_create_node_add_form($empty, $data = NULL, $conf = FALSE
   }
 }
 
-function ctools_context_node_add_form_settings_form($conf, $external = FALSE) {
-  if ($external) {
-    $options[0] = t('External source');
-  }
-
+function ctools_context_node_add_form_settings_form($conf) {
   foreach (node_get_types() as $type => $info) {
     $options[$type] = $info->name;
   }
@@ -104,10 +100,6 @@ function ctools_context_node_add_form_settings_form($conf, $external = FALSE) {
     '#default_value' => $conf['types'],
     '#description' => t('Select the node type for this form.'),
   );
-
-  if ($external) {
-    $form['type']['#description'] .= ' ' . t('Select external to require this from an external source (such as a containing panel page).');
-  }
 
   return $form;
 }

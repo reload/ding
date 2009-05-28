@@ -1,5 +1,5 @@
 <?php
-// $Id: page.inc,v 1.23 2009/05/02 00:56:08 merlinofchaos Exp $
+// $Id: page.inc,v 1.24 2009/05/08 22:36:29 merlinofchaos Exp $
 
 /**
  * @file
@@ -318,6 +318,18 @@ function delegator_page_execute($subtask_id) {
       $count++;
     }
   }
+
+  // Add a fake tab for 'View' so that edit tabs can be added.
+  if (user_access('administer delegator') && !in_array($page->menu['type'], array('tab', 'default tab'))) {
+    ctools_include('menu');
+    ctools_menu_add_tab(array(
+      'title' => t('View'),
+      'href' => $_GET['q'],
+      'type' => MENU_DEFAULT_LOCAL_TASK,
+      'weight' => -10,
+    ));
+  }
+
 
   if ($function = ctools_plugin_get_function($task, 'page callback')) {
     return call_user_func_array($function, array($page, $contexts, $args));

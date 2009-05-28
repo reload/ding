@@ -1,5 +1,5 @@
 <?php
-// $Id: views.inc,v 1.10 2009/05/02 00:56:09 merlinofchaos Exp $
+// $Id: views.inc,v 1.11 2009/05/12 00:17:27 merlinofchaos Exp $
 
 /**
  * @file
@@ -169,13 +169,7 @@ function views_content_views_content_type_render($subtype, $conf, $panel_args, $
   $view->set_arguments($args);
 
   if ($conf['url']) {
-    $display_id = $view->display_handler->get_link_display();
-    if ($display_id) {
-      $view->display[$display_id]->handler->set_option('path', $conf['url']);
-    }
-    else {
-      $view->display_handler->set_option('path', $conf['url']);
-    }
+    $view->override_path = $conf['url'];
   }
 
   $block = new stdClass();

@@ -1,5 +1,5 @@
 <?php
-// $Id: term_view.inc,v 1.5 2009/05/07 17:10:43 merlinofchaos Exp $
+// $Id: term_view.inc,v 1.6 2009/05/12 00:53:04 merlinofchaos Exp $
 
 /**
  * @file
@@ -117,6 +117,17 @@ function delegator_term_view($terms, $depth = 0, $op = 'page') {
     $contexts = ctools_context_handler_get_task_contexts($task, '', array($terms, $depth));
     if (empty($contexts)) {
       return drupal_not_found();
+    }
+
+    // Add a fake tab for 'View' so that edit tabs can be added.
+    if (user_access('administer delegator')) {
+      ctools_include('menu');
+      ctools_menu_add_tab(array(
+        'title' => t('View'),
+        'href' => $_GET['q'],
+        'type' => MENU_DEFAULT_LOCAL_TASK,
+        'weight' => -10,
+      ));
     }
 
     $output = ctools_context_handler_render($task, '', $contexts, array($terms, $depth, $op));

@@ -1,5 +1,5 @@
 <?php
-// $Id: content.theme.inc,v 1.2 2009/04/18 02:00:34 merlinofchaos Exp $
+// $Id: content.theme.inc,v 1.3 2009/05/11 22:01:42 merlinofchaos Exp $
 
 /**
  * @file
@@ -15,7 +15,7 @@ function ctools_content_theme(&$theme) {
 
   $plugins = ctools_get_content_types();
   foreach ($plugins as $plugin) {
-    if (ctools_plugin_get_function($plugin, 'hook theme')) {
+    if ($function = ctools_plugin_get_function($plugin, 'hook theme')) {
       $function($theme, $plugin);
     }
   }
