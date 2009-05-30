@@ -1,8 +1,4 @@
 h1. Copenhagen public libraries on Drupal
 
-We're working on creating a new web site for "Københavns Biblioteker":http://bibliotek.kk.dk/ using Drupal and other open source components. Stay tuned. 
-
-We have a couple of websites related to this project:
-* "Blog":http://ding.gnit.dk/
-* "Bugtracker":http://kkb.lighthouseapp.com/
+We're working on creating a new web site for the public libraries of the two largest Danish cities, Copenhagen and Århus, using Drupal and other open source components. For more information, we have a "project site":http://ding.ooh.dk/ as well as a  "bugtracker":https://libraryding.lighthouseapp.com/.
 
