@@ -110,9 +110,6 @@ function ding_panels_library_content_type_admin_title($subtype, $conf, $context)
 
 /**
  * Returns an edit form for the content type.
- *
- * We're not actually doing anything here, but we need to have this hook 
- * for this content type to work.
  */
 function ding_panels_library_content_type_edit_form(&$form, &$form_state) {
   $conf = $form_state['conf'];
