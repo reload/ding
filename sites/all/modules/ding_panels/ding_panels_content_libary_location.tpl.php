@@ -26,4 +26,5 @@
     <span class="type"><?php print t('Fax'); ?></span> <?php print $node->location['fax']; ?>
   </div>
 </div>
+<?php print $library_links; ?>
 <?php print $library_map; ?>

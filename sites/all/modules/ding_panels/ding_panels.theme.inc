@@ -54,6 +54,37 @@ function ding_panels_content_preprocess_library_location(&$variables) {
     )));
     $variables['library_map'] = theme('image', $map_url, '', '', NULL, FALSE);
   }
+
+  // Add links to the location, based on the ones defined on a node,
+  // plus a few special ones.
+  $links = array();
+  foreach ($node->field_links as $delta => $link) {
+    $links[$delta] = $link;
+
+    // Extract the domain name from the link, and add it as a class.
+    // This will not work for sites which has a two-part ccTLD like
+    // co.uk, but most web 2.0 services should work.
+    $match = array();
+    if (preg_match('/^\w+:\/\/[\w._-]+\.([\w-_]+)\.\w+\//', $link['url'], $match)) {
+      $links[$delta]['attributes'] = array(
+        'class' => $match[1],
+      );
+    }
+
+    // theme_links expects the URL to be labelled 'href'
+    $links[$delta]['href'] = $link['url'];
+  }
+
+  // Load the Danish location helpers.
+  module_load_include('inc', 'location', 'supported/location.dk');
+  // And add a link to Rejseplanen.
+  $links[] = array(
+    'title' => 'Rejseplanen',
+    'href' => location_map_link_dk_rejseplanen($node->location),
+    'attributes' => array('class' => 'rejseplanen'),
+  );
+
+  $variables['library_links'] = theme('links', $links);
 }
 
 /**

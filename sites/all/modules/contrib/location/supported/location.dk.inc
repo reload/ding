@@ -10,6 +10,8 @@
 /**
  * Generate findvej.dk map link.
  *
+ * @param array $location
+ *    The location array we're trying to generate a link for.
  * @return string or null
  *    Map link if generation successful, otherwise null.
  */
@@ -34,6 +36,42 @@ function location_map_link_dk_findvej($location = array()) {
 }
 
 /**
+ * Generate a link to Rejseplanen.
+ *
+ * Rejseplanen is a route planner for Danish public transportation.
+ *
+ * @param array $location
+ *    The location array we're trying to generate a link for.
+ * @return string or null
+ *    Map link if generation successful, otherwise null.
+ */
+function location_map_link_dk_rejseplanen($location = array()) {
+  $keys = array();
+
+  // Iterate over all the possible details, and if set, add them to an array.
+  foreach (array('street', 'postal_code', 'city') as $name) {
+    if (isset($location[$name]) && !empty($location[$name])) {
+      $keys[$name] = $location[$name];
+    }
+  }
+
+  // Merge postal code and city if both are available, since they 
+  // shouldn't be comma separated in Danish addresses.
+  if (isset($keys['postal_code']) && isset($keys['city'])) {
+    $keys['postal_code'] = $keys['postal_code'] . ' ' . $keys['city'];
+    unset($keys['city']);
+  }
+
+  // If any of the key values were available, generate a URL.
+  if (!empty($keys)) {
+    return url('http://www.rejseplanen.dk/bin/query.exe/mn?Z=' . implode(', ', $keys) . '&ZADR=1');
+  }
+  else {
+    return NULL;
+  }
+}
+
+/**
  * @return
  *   An array where
  *     -> the key is the word that helps identify the name of function that builds the link.  For example, a key of 'yahoo' means the name of the
@@ -45,9 +83,14 @@ function location_map_link_dk_findvej($location = array()) {
  *                   'http://help.yahoo.com/help/us/maps/maps-24.html'
  */
 function location_map_link_dk_providers() {
-  return array('findvej' => array(
-    'name' => 'findvej.dk',
-    'url' => 'http://findvej.dk'
+  return array(
+    'findvej' => array(
+      'name' => 'findvej.dk',
+      'url' => 'http://findvej.dk',
+    ),
+    'rejseplanen' => array(
+      'name' => 'Rejseplanen',
+      'url' => 'http://www.rejseplanen.dk/',
     ),
   );
 }
@@ -64,7 +107,7 @@ function location_map_link_dk_providers() {
  *
  */
 function location_map_link_dk_default_providers() {
-  return array('findvej');
+  return array('findvej', 'rejseplanen');
 }
 
 /**
@@ -75,22 +118,25 @@ function location_map_link_dk_default_providers() {
  * important in most cases.
  */
 function location_province_list_dk() {
-  return array('CC' => "Copenhagen (municipality)",
-    'FC' => "Frederiksberg (municipality)",
-    'CO' => "Copenhagen",
-    'FR' => "Frederiksborg",
-    'RO' => "Roskilde",
-    'WZ' => "West Zealand",
-    'ST' => "Storstrom",
-    'FU' => "Funen",
-    'SJ' => "South Jutland",
-    'RB' => "Ribe",
-    'VK' => "Vejle",
-    'RK' => "Ringkjobing",
-    'VB' => "Viborg",
-    'NJ' => "North Jutland",
-    'AR' => "Arhus",
-    'BH' => "Bornholm",
-    'GL' => "Greenland",
-    'FO' => "Faroe Islands");
+  return array(
+    'CC' => 'Copenhagen (municipality)',
+    'FC' => 'Frederiksberg (municipality)',
+    'CO' => 'Copenhagen',
+    'FR' => 'Frederiksborg',
+    'RO' => 'Roskilde',
+    'WZ' => 'West Zealand',
+    'ST' => 'Storstrom',
+    'FU' => 'Funen',
+    'SJ' => 'South Jutland',
+    'RB' => 'Ribe',
+    'VK' => 'Vejle',
+    'RK' => 'Ringkjobing',
+    'VB' => 'Viborg',
+    'NJ' => 'North Jutland',
+    'AR' => 'Arhus',
+    'BH' => 'Bornholm',
+    'GL' => 'Greenland',
+    'FO' => 'Faroe Islands'
+  );
 }
+
