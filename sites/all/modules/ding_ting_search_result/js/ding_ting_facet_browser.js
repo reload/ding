@@ -120,13 +120,18 @@ Drupal.dingTingFacetBrowser = function(element, result)
 	{
 		var element = jQuery(element);
 		var baseHeight = element.height();
+		var headerHeight = jQuery('H4', element).height();
+		var resizeButton = jQuery('.resize', element);
+		
 		jQuery('.expand', jQuery(element)).toggle(function()
 		{						
-			jQuery('.jcarousel-clip-horizontal', element).animate({ 'height': (Drupal.getFacetHeight()+20)+'px' }, 1000, 'swing', function()
+			resizeButton.css('top', resizeButton.position().top+'px');
+			jQuery('.jcarousel-clip-horizontal', element).animate({ 'height': (Drupal.getFacetHeight()+headerHeight)+'px' }, 1000, 'swing', function()
 			{
 				jQuery('.resize', element).toggleClass('expand').toggleClass('contract');
 			});
-			jQuery('.jcarousel-prev, .jcarousel-next', element).animate({ 'top': ((Drupal.getFacetHeight()+20)/2)+'px' }, 1000, 'swing');
+			jQuery('.resize', element).animate({ 'top': (Drupal.getFacetHeight()+headerHeight-13)+'px' }, 1000, 'swing');
+			jQuery('.jcarousel-prev, .jcarousel-next', element).animate({ 'top': ((Drupal.getFacetHeight()+headerHeight)/2)+'px' }, 1000, 'swing');
 			
 		}, function()
 		{
@@ -134,6 +139,7 @@ Drupal.dingTingFacetBrowser = function(element, result)
 			{
 				jQuery('.resize', element).toggleClass('expand').toggleClass('contract');
 			});
+			jQuery('.resize', element).animate({ 'top': (baseHeight-10)+'px' }, 1000, 'swing' );
 			jQuery('.jcarousel-prev, .jcarousel-next', element).animate({ 'top': (baseHeight/2)+'px' }, 1000, 'swing');
 		});
 	}
