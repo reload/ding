@@ -36,7 +36,7 @@ function office_hours_preprocess_office_hours_formatter_default(&$vars) {
   $vars['day_names'] = date_week_days_ordered(date_week_days(TRUE));
   $vars['week_num_text'] = t('Week @week_num', array('@week_num' => $vars['week_data']['number']));
 
-  drupal_add_js(array('officeHours' => array($vars['node']->nid => array(
+  drupal_add_js(array('officeHours' => array('n' . $vars['node']->nid => array(
     'year' => $vars['week_data']['year'],
     'week' => $vars['week_data']['number'],
     'nid' => $vars['node']->nid,
