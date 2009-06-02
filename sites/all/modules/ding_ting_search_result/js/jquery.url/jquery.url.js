@@ -157,7 +157,19 @@ jQuery.url = function()
 	{
 		var p = parsed.path;
 		segments = []; // clear out segments array
-		segments = parsed.path.length == 1 ? {} : ( p.charAt( p.length - 1 ) == "/" ? p.substring( 1, p.length - 1 ) : path = p.substring( 1 ) ).split("/");
+		//kasperg: Replaced as this causes an error in IE7
+		//segments = parsed.path.length == 1 ? {} : ( p.charAt( p.length - 1 ) == "/" ? p.substring( 1, p.length - 1 ) : path = p.substring( 1 ) ).split("/");
+		if (parsed.path.length != 1) 
+		{
+			var path = '';
+		  if (p.charAt( p.length - 1 ) == "/")
+		  {
+		  	path = p.substring( 1, p.length - 1 );
+		  } else { 
+		    path = p.substring( 1 );
+		  }
+		  segments = path.split("/");
+		}
 	};
 	
 	return {

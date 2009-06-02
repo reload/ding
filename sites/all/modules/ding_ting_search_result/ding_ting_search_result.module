@@ -63,7 +63,7 @@ function ding_ting_facet_browser($result)
 	return '<div id="ding-facet-browser">
 					</div>	
 					<script type="text/javascript">
-						Drupal.dingTingFacetBrowser("#ding-facet-browser",'.json_encode($result).');
+						jQuery(function() { Drupal.dingTingFacetBrowser("#ding-facet-browser",'.json_encode($result).'); });
 					</script>';
 }
 

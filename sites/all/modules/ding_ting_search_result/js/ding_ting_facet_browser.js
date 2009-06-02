@@ -22,8 +22,7 @@ Drupal.dingTingFacetBrowser = function(element, result)
        							((facets[facets-length-1] == arg.item.name) ? ' last' : '');
        	return firstLast;
 			},
-			'h4': 'facet.name',
-			
+			'h4': 'facet.name'
 		});
 		
 		facetTerms = jQuery('.facets', facetGroups).mapDirective({
@@ -82,17 +81,17 @@ Drupal.dingTingFacetBrowser = function(element, result)
 			'.title': function(arg) { return (arg.item.data.title) ? arg.item.data.title.join(', ') : ''; },
 			'.creator em': function(arg) { return (arg.item.data.creator) ? arg.item.data.creator.join(', ') : ''; },
 			'.publication_date em': function(arg) { return (arg.item.data.date) ? arg.item.data.date.join(', ') : ''; },
-			'.description p': function(arg) { return (arg.item.data.description) ? arg.item.data.description.join('</p><p>') : ''; },
+			'.description p': function(arg) { return (arg.item.data.description) ? arg.item.data.description.join('</p><p>') : ''; }
 		});
 		
 		types = jQuery('.types', records).mapDirective({
 			'li': ['type <- record.data.type',
-						 'type' ],
+						 'type' ]
 		});
 
 		subjects = jQuery('.subjects', records).mapDirective({
 			'li': [	'subject <- record.data.subject',
-							'subject'],
+							'subject']
 		});
 		
 		$('.types', records).replaceWith(jQuery(types));
