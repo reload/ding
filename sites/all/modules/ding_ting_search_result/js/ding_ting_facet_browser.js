@@ -39,6 +39,8 @@ Drupal.dingTingFacetBrowser = function(element, result)
 		$('.facets', facetGroups).html(jQuery('li', facetTerms));
 		$p.compile(facetGroups, 'facet-groups');
 		jQuery(element).html($p.render('facet-groups', result));
+		
+		this.resizeFacets(element);
 	}
 	
 	this.updateFacetBrowser = function(element, result)
@@ -54,24 +56,40 @@ Drupal.dingTingFacetBrowser = function(element, result)
 		 	jQuery.each(Object.keys(result.facets[f].terms), function (i, t)
 		 	{
 		 		facetElement = jQuery('li:eq('+i+')', facetElements);
+		 		//update facet values
 		 		facetElement.attr('facet', t); 
 		 		facetElement.find('.name').text(t);
 		 		facetElement.find('.count').text(result.facets[f].terms[t]);
 				
+				//display facet and determine whether it is selected
 				facetElement.removeClass('hidden');
-				if ((facetElement.size() > 0) && 
-		 				jQuery.inArray(t, selectedTerms) > -1)
-		 		{
-		 			facetElement.addClass('selected')
-		 		}
-		 		else
-		 		{
-		 			facetElement.removeClass('selected');
-		 		}
+				((facetElement.size() > 0) && jQuery.inArray(t, selectedTerms) > -1) ? 	facetElement.addClass('selected') : facetElement.removeClass('selected');
 		 	});
 
-			jQuery('li:gt('+Object.keys(result.facets[f].terms).length+')', facetElements).removeClass('selected').addClass('hidden');;
+			//hide and unselect all superflous facets
+			jQuery('li:gt('+Object.keys(result.facets[f].terms).length+')', facetElements).removeClass('selected').addClass('hidden');
 		}
+		
+		this.resizeFacets(element);
+	}
+	
+	this.resizeFacets = function(element)
+	{
+		setTimeout(function() { 
+			jQuery('.facets:first li', element).each(function(i, e)
+			{
+				facets = jQuery('.facets li:nth-child('+(i+1)+')');
+				heights = facets.map(function(i, e) { jQuery(e).attr('height', jQuery(e).innerHeight()); return jQuery(e).height(); });
+				var maxHeight = Math.max.apply(Math, jQuery.makeArray(heights));
+				facets.each(function(i, e)
+				{
+					if (jQuery(e).height() < maxHeight)
+					{
+						jQuery(e).css('line-height', maxHeight+'px');
+					}
+				})
+			});
+		}, 0);
 	}
 	
 	this.updateSearchResults = function(result)
