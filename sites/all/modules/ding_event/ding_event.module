@@ -108,6 +108,11 @@ function ding_event_cron() {
 
 /**
  * Similar events data.
+ *
+ * @param boolean $reset
+ *    If TRUE, regenerate the cached similar events data.
+ * @return array
+ *    Array of event-related data.
  */
 function ding_event_similar_data($reset = FALSE) {
   static $data;
@@ -125,5 +130,63 @@ function ding_event_similar_data($reset = FALSE) {
     }
   }
   return $data;
+}
+
+/**
+ * Find similar events for a node.
+ *
+ * @param object $node
+ *    The event node to find similar events for.
+ * @param integer $count
+ *    The number of similar events to find. Default 5, 0 for unlimited.
+ * @return array
+ *    Array of node IDs for similar events.
+ */
+function ding_event_get_similar($node, $count = 5) {
+  if ($node->type != 'event') {
+    return array();
+  }
+
+  $data = ding_event_similar_data();
+  $events = array();
+
+  // Take all the available events and assign them a score.
+  // The first 10 in the list get a slight boost, since they happen soonest.
+  $boost = 10;
+  foreach ($data['events'] as $nid) {
+    if ($boost > 0) {
+      $events[$nid] = $boost / 3;
+      $boost--;
+    }
+    else {
+      $events[$nid] = 0;
+    }
+  }
+
+  // Boost all events with the same taxonomy terms.
+  foreach ($node->taxonomy as $term) {
+    foreach ($data['terms'][$term->tid] as $nid) {
+      $events[$nid] += 2;
+    }
+  }
+
+  // Boost events that happen on the same library.
+  foreach ($node->field_library_ref as $ref) {
+    foreach ($data['libraries'][$ref['nid']] as $nid) {
+      $events[$nid] += 4;
+    }
+  }
+
+  // Sort the events by score
+  arsort($events, SORT_NUMERIC);
+
+  // Remove the current node from the list
+  unset($events[$node->nid]);
+
+  // If there is a count set, return the top $count events.
+  if ($count > 0) {
+    return array_keys(array_slice($events, 0, $count, TRUE));
+  }
+  return array_keys($events);
 }
 
