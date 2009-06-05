@@ -107,6 +107,31 @@ function ding_event_cron() {
 }
 
 /**
+ * Implementation of hook_theme().
+ */
+function ding_event_theme() {
+  return array(
+    'ding_event_similar_events' => array(
+      'arguments' => array('event_nids' => NULL),
+      'file' => 'ding_event.theme.inc',
+      'template' => 'ding_event_similar_events',
+      'preprocess functions' => array('ding_event_similar_events_preprocess'),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_ctools_plugin_directory().
+ *
+ * Tells CTools (and thus Panels) where to look for plugin code.
+ */
+function ding_event_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
  * Similar events data.
  *
  * @param boolean $reset
