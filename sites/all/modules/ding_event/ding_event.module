@@ -93,3 +93,37 @@ function ding_event_view($node, $teaser = FALSE, $page = FALSE) {
   return $node;
 }
 
+/**
+ * Implementation of hook_cron().
+ */
+function ding_event_cron() {
+  $timestamp = variable_get('ding_event_similar_data_generated', 0);
+  // If the data was not generated today, regenerate it.
+  // This approach helps avoid race conditions when using a cache expiry
+  // time, since the cache will be refilled only by the cron job.
+  if (date('Ymd', $timestamp) != date('Ymd', $_SERVER['REQUEST_TIME'])) {
+    ding_event_similar_data(TRUE);
+  }
+}
+
+/**
+ * Similar events data.
+ */
+function ding_event_similar_data($reset = FALSE) {
+  static $data;
+  if (!isset($data) || $reset) {
+    if (!$reset && ($cache = cache_get('ding_event_similar_data')) && !empty($cache->data)) {
+      $data = unserialize($cache->data);
+    }
+    else {
+      module_load_include('similar_data.inc', 'ding_event');
+      $data = ding_event_similar_data_generate();
+      cache_set('ding_event_similar_data', serialize($data));
+      // Store the timestamp for when this data was generated.
+      // Used to trigger cron regenerating the data.
+      variable_set('ding_event_similar_data_generated', $_SERVER['REQUEST_TIME']);
+    }
+  }
+  return $data;
+}
+
