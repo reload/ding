@@ -10,7 +10,12 @@
 .view-article-list li.first{background:none; padding:0 20px ;}
 .view-article-list li li{background:none; padding:0px 10px 0px 0px; margin:0;}
 
-/*node og list*/
+/**/
+.view-blog-category-list ul li div{display:inline;}
+.view-blog-category-list ul li div.node-count{font-size:10px;}
+
+
+/*node + list*/
 .node .meta ul{margin:0 0 0 10px;}
 .meta div.taxonomy{display:inline;}
 .meta li {padding:0 10px 0 0;}
@@ -23,6 +28,9 @@
 }
 
 .more-link a{background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0; }
+
+
+
 
 /*panels node*/
 .page-comment .comment,
@@ -38,11 +46,13 @@
 	comment
 /* ------------------------------------- */
 div.indented{margin:0 0 0 20px;}
-div.comment {width: auto; margin:0 0 10px 0;}
-div.comment blockquote {border: 1px solid #dedede; background:#fff; font-size:10px;}
-div.comment blockquote h4{margin: 10px 10px 5px 10px;}
+div.comment {width: auto; margin:0 0 10px 0; padding:5px;}
+div.comment blockquote {border: 1px solid #dedede; background:#fff; font-size:10px; padding:0 10px 10px 10px;}
+div.comment blockquote h4{margin: 10px 10px 5px 0px;}
 div.comment blockquote h4.new a{color:#000;}
 div.comment blockquote p {margin: 0 10px;}
+div.comment blockquote ul li {list-style-position: inside; margin:0 0 0 10px; list-style-type: disc;}
+div.comment blockquote ol li {list-style-position: inside; margin:0 0 0 10px;}
 div.comment ul.links{text-align:right; margin: 5px 10px}
 div.comment ul.links li{display:inline;}
 div.comment .meta {position:relative; margin:-1px 0 0 10px; padding:10px 0 0 30px ;background: transparent  url(../images/tip.gif) no-repeat 35px 0; font-style:normal;}
@@ -72,10 +82,6 @@ teaser
 /* =====================================
 test
 /*--------------------------------------*/
-#page.pagetest{background:transparent url(../images/test.png) no-repeat 0 0; border: 1px solid #f0f;}
-.test{background:#f0f url(../images/bg-trans-50.png) repeat 0 0;}
-*.test{opacity: 0.5; -moz-opacity: 0.5; filter:alpha(opacity=50);}
-
 ul.item-list h3{margin:0 0 0 20px;}
 ul.item-list li{margin:0 0 0 20px;}
 
@@ -92,4 +98,3 @@ Cowboy
 .admin-links {	display:none;}
 
 #pane-library_title{display:block;}
-.tagadelic{margin:0 20px;}

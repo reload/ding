@@ -98,6 +98,7 @@ h4 a, h4 a:link,h4 a:visited,h4 a:active{font-size:12px; line-height:15px; color
 	font-size:11px; line-height:15px; font-weight:bold;
 }
 
+.comment,
 .meta,
 .view-empty,
 .view-event-list .libary-tag,
