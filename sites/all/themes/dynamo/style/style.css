@@ -30,15 +30,13 @@
 .more-link a{background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0; }
 
 
-
-
 /*panels node*/
 .page-comment .comment,
 .page-comment #comment-form,
 .pane-node_content, 
 .pane-node_comments,
 .pane-node_comment_form{
-	margin:0 20px 0 20px;
+	margin:0 20px 20px 20px;
 }
 .view-event-list span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px;}
 
@@ -82,8 +80,6 @@ teaser
 /* =====================================
 test
 /*--------------------------------------*/
-ul.item-list h3{margin:0 0 0 20px;}
-ul.item-list li{margin:0 0 0 20px;}
 
 
 .meta ul{display:inline;}
@@ -94,7 +90,7 @@ Cowboy
 #block-ding_library_map-0 {width:690px; margin:0 0 0 20px;}
 .pane-library_feature_detail_list{width:690px; margin:0 0 0 20px;}
 .page-taxonomy .node-teaser{width:690px; margin:0 0 0 20px;}
-.pane-article_list h3{	display:none;}
+
 .admin-links {	display:none;}
 
 #pane-library_title{display:block;}

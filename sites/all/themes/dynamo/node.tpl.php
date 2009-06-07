@@ -14,8 +14,9 @@
 //Content
 ?>
 <div class="<?php print $classes ?>">
-
-	<h1><?php print $title;?></h1>
+	<?php if($node->title){	?>	
+	  <h1><?php print $title;?></h1>
+	<?php } ?>
 		
 	<div class="meta">
 		<span class="time">

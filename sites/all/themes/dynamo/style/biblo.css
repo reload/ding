@@ -99,19 +99,41 @@ bibloteks oversigtsiden
 .office-hours-week .even{background:#fff;}
 
 /*blog comments*/
-.pane-tagadelic-2,
-.pane-comment-0,
-.pane-comment-0 h3,
-.pane-comment-0 .item-list
-{
+ul.item-list h3{margin:0 0 0 20px;}
+ul.item-list li{margin:0 0 0 20px;}
+
+
+/* =====================================
+#twocol-right
+/*--------------------------------------*/
+
+/*blog catagorier*/
+.pane-blog_category_list,.pane-blog_category_list h3,.pane-blog_category_list ul{background:transparent url(../images/sprite-box.png) no-repeat 0px 0; width:228px; overflow:hidden;}
+.pane-blog_category_list{background-repeat: repeat-y; }
+.pane-blog_category_list h3{	background-position:-230px -30px; padding:6px 0 4px 20px; height:18px; }
+.pane-blog_category_list ul {background-position:-700px bottom; padding:8px 0px; min-height:30px;}
+.pane-blog_category_list li{margin:0 0 0 20px;}
+
+/*artikel list*/
+#twocol-right .pane-article_list,
+#twocol-right .pane-article_list h3,
+#twocol-right .pane-article_list ul{
 	background:transparent url(../images/sprite-box.png) no-repeat 0px 0; width:228px; overflow:hidden;
 }
+#twocol-right .pane-article_list{background-repeat: repeat-y; }
+#twocol-right .pane-article_list h3{background-position:-230px -30px; padding:6px 0 4px 20px; height:18px; }
+#twocol-right .pane-article_list ul {background-position:-700px bottom; padding:8px 0px; min-height:30px;}
+#twocol-right .view-article-list li{background:none; padding:0; margin:0 0 0 20px;}
+#twocol-right .view-article-list li li{background:none; padding:0; margin:0;}
+
+/*sidste kommantere*/
+.pane-comment-0,.pane-comment-0 h3,.pane-comment-0 ul{background:transparent url(../images/sprite-box.png) no-repeat 0px 0; width:228px; overflow:hidden;}
 .pane-comment-0{background-repeat: repeat-y; }
-.pane-comment-0 h3{background-position:-230px -30px; padding:10px 0 0 20px; height:18px; }
-.pane-comment-0 .item-list{background-position:-700px bottom; padding:0px 0px 10px 0px; min-height:30px;}
-.pane-comment-0 ul li{}
+.pane-comment-0 h3{background-position:-230px -30px; padding:6px 0 4px 20px; height:18px; }
+.pane-comment-0 ul{background-position:-700px bottom; padding:8px 0px; min-height:30px;}
 
 /*tagadelic*/
-.pane-tagadelic-2{background-repeat: repeat-y;}
+.pane-tagadelic-2{width:200px; overflow:hidden; padding:20px 0 0 20px;}
+
 
 .pane-library_title{display:block;}

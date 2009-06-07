@@ -20,46 +20,19 @@ h1, h2, h3, h4, h5, h6{
   font-weight: normal;
   color: #050505;
 }
-h1{ 
-  font-size: 21px;
-  line-height: 25px;
-  color: #050505;
-}
-h2 {
-  font-size: 17px;
-}
-h3 {
-  font-size: 17px;
-}
-h4 {
-  font-size: 14px;
-  font-weight: bold;
-}
-h5 { 
-  font-size: 14px;
-  font-weight: bold;
-  color: #333;
-}
-h6 { 
-  font-size: 14px;
-  font-weight: bold;
-  color: #333;
-}
-p {
-	margin-bottom: 0.5em;
-}
+h1{font-size: 21px; line-height: 25px; color: #050505;}
+h2 {font-size: 17px;}
+h3 {font-size: 17px;}
+h4 {font-size: 14px; font-weight: bold;}
+h5 {font-size: 14px; font-weight: bold; color: #333;}
+h6 {font-size: 14px; font-weight: bold; color: #333;}
+p {margin-bottom: 0.5em;}
+
 /*-- form --*/
-textarea{
-  font-size: 12px;
-}
+textarea{font-size: 11px;}
 
 /*-- code --*/
-code, tt, pre {
-  padding: 1px;
-  background-color: #efefef;
-  font-family: "Bitstream Vera Sans Mono", Monaco, "Lucida Console", monospace;
-  font-size: 10px;
-}
+code, tt, pre { padding: 1px; background-color: #efefef;  font-family: "Bitstream Vera Sans Mono", Monaco, "Lucida Console", monospace;  font-size: 10px;}
 
 /* ===================================== 
 account
@@ -84,6 +57,7 @@ tr.even{}
 .meta{color:#999999;}
 .meta a,.meta a:link,.meta a:visited,.meta a:active {text-decoration: none; color:#999999;}
 .author a,.author a:link,.author a:visited,.author a:active {text-decoration: none; color:#006a87;}
+
 /*headers*/
 h1,
 h2 a, h2 a:link,h2 a:visited,h2 a:active,
@@ -92,11 +66,6 @@ h3 a, h3 a:link,h3 a:visited,h3 a:active{
 }
 h4 a, h4 a:link,h4 a:visited,h4 a:active{font-size:12px; line-height:15px; color:#050505;}
 
-.view-event-list li div.title,
-.view-event-list .time,
-.view-event-list li div.title a{
-	font-size:11px; line-height:15px; font-weight:bold;
-}
 
 .comment,
 .meta,
@@ -107,12 +76,6 @@ h4 a, h4 a:link,h4 a:visited,h4 a:active{font-size:12px; line-height:15px; color
 .view .name{
 	font-size:10px; line-height:15px;
 }
-
-#frontpagecarousel-controller li{color:#fff; 	font-size:11px; line-height:15px;}
-#frontpagecarousel-controller li a{
-	font-size:11px; line-height:15px; color:#050505;
-}
-
 
 #path,
 .subject a,
@@ -125,14 +88,31 @@ h4 a, h4 a:link,h4 a:visited,h4 a:active{font-size:12px; line-height:15px; color
 	font-size:10px; line-height:17px;
 }
 
-.pane-comment-0,
-.office-hours-week{
-	font-size:11px; line-height:20px;
+
+.view-event-list li div.title,
+.view-event-list .time,
+.view-event-list li div.title a{
+	font-size:11px; line-height:15px; font-weight:bold;
 }
+
+
+#frontpagecarousel-controller li{color:#fff; 	font-size:11px; line-height:15px;}
+#frontpagecarousel-controller li a{
+	font-size:11px; line-height:15px; color:#050505;
+}
+
 .vcard{
 	font-size:11px; line-height:17px;
 }
 
+#twocol-right .pane-article_list,
+.pane-comment-0,
+.office-hours-week{
+	font-size:11px; line-height:20px;
+}
+
+.pane-article_list h3,
+.pane-blog_category_list h3,
 .pane-library_feature_list h3,
 .pane-library_hours h3,
 .pane-comment-0 h3
@@ -166,5 +146,4 @@ h4 a, h4 a:link,h4 a:visited,h4 a:active{font-size:12px; line-height:15px; color
   font-family: "Gills sans light", Verdana, Arial, sans-serif; text-transform: uppercase;
 	font-weight: normal;
 }
-
 
