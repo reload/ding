@@ -3,10 +3,18 @@
 * ------------------------------------- */
 /*messages*/
 #drupal-messages .messages{padding:9px; margin:10px; color:#036; background:#bdf; border:1px solid #ace;}
-#drupal-messages .warning{color:#840; background:#fe6;border-color:#ed5;}
-#drupal-messages .error {color:#DD2629; background:#e63; border-color:#d52;}
-#drupal-messages .status{color:#360; background:#cf8; border-color:#be7;}
+#drupal-messages .messages a,#drupal-messages .messages a:link,#drupal-messages .messages a:visited, #drupal-messages .messages a:active {text-decoration: none; color:#006a87;}
 
+#drupal-messages .warning{color:#840; background:#fe6;border-color:#ed5;}
+#drupal-messages .warning a,#drupal-messages .warning a:link,#drupal-messages .warning a:visited, #drupal-messages .warning a:active {text-decoration: none; color:#006a87;}
+
+#drupal-messages .error {color:#DD2629; background:#e63; border-color:#d52;}
+#drupal-messages .error a,#drupal-messages .error a:link,#drupal-messages .error a:visited, #drupal-messages .error a:active {text-decoration: none; color:#006a87;}
+
+#drupal-messages .status{color:#360; background:#cf8; border-color:#be7;}
+#drupal-messages .status a,#drupal-messages .status a:link,#drupal-messages .status a:visited, #drupal-messages .status a:active {text-decoration: none; color:#006a87;}
+
+#drupal-messages .messages a:hover,#drupal-messages .messages a:focus { text-decoration: underline;}
 /*tabs*/
 .tabs ul li {display:inline;;}
 .tabs ul li a{background-color: #ddd; color:#999; }
