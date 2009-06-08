@@ -12,36 +12,16 @@ function ting_menu() {
   $path = drupal_get_path('module', 'ting') . '/includes';
   $items = array();
 
-  $items['ting/search/content/js'] = array(
-    'title' => 'Content search AJAX page callback',
-    'page callback' => 'ting_pages_search_content',
-    'access arguments' => array('search content'),
-    'type' => MENU_CALLBACK,
-    'file' => 'ting.pages.inc',
+  $items['admin/settings/ting'] = array(
+    'title' => 'Ting search',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting.admin.inc',
     'file path' => $path,
   );
 
   return $items;
-}
-
-/**
- * Implementation of hook_block().
- */
-function ting_block($op = 'list', $delta = 0, $edit = array()) {
-  switch ($op) {
-    case 'list':
-      return array(
-        'searchbox' => array(
-          'info' => t('Ting search box'),
-          'cache' => BLOCK_CACHE_GLOBAL,
-        ),
-      );
-    case 'view':
-      return array(
-        'subject' => t('Search'),
-        'content' => drupal_get_form('search_form', '', '', 'ting', 'Skriv dit søgeord her'),
-      );
-  }
 }
 
 /**
@@ -58,16 +38,16 @@ function ting_search($op = 'search', $keys = null) {
       return array();
 
     case 'search':
-      // Load the search page Kasper created.
-      module_load_include('pages.inc', 'ding_ting_search_result');
-      // Loads the JavaScript we need.
-      ding_ting_facet_browser();
+      if (function_exists('ting_search_add_js')) {
+        // Loads the JavaScript we need from the Ting Search module.
+        ting_search_add_js();
+      }
 
-      drupal_add_js(drupal_get_path('module', 'ting') . '/js/ting_search_result_page.js');
+      drupal_add_js(drupal_get_path('module', 'ting_search') . '/js/ting_search_result_page.js');
       drupal_add_js(array('tingSearch' => array(
         'result' => array(),
         'keys' => $keys,
-        'ting_url' => url('ding_ting_search_result'),
+        'ting_url' => url('ting/search/js'),
         'content_url' => url('ting/search/content/js'),
       )), 'setting', 'footer');
       return array();

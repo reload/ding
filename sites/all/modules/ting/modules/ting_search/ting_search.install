@@ -2,19 +2,19 @@
 // $Id$
 
 /**
- * @file ting_result.install
+ * @file ting_search.install
  * Install and uninstall code for the Ting database search results.
  */
 
 /**
  * Implementation of hook_install().
  */
-function ting_result_install() {
+function ting_search_install() {
 }
 
 /**
  * Implementation of hook_uninstall().
  */
-function ting_result_uninstall() {
+function ting_search_uninstall() {
 }
 
