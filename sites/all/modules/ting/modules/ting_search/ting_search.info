@@ -1,6 +1,9 @@
 ; $Id$
-name = Ting search result
-description = Displays search results from the Ting database
+name = Ting search
+description = Displays search results from the Ting database.
 package = Ding!
 core = 6.x
+dependencies[] = search
+dependencies[] = ting
 dependencies[] = transliteration
+
