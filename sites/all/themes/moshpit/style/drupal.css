@@ -1,14 +1,19 @@
 /* =====================================
 	Style: drupal
-	block configuration page
-	overwrites to get drupal to behave like a normal html page
 * ------------------------------------- */
+/*messages*/
+#drupal-messages .messages{padding:9px; margin:10px; color:#036; background:#bdf; border:1px solid #ace;}
+#drupal-messages .warning{color:#840; background:#fe6;border-color:#ed5;}
+#drupal-messages .error {color:#DD2629; background:#e63; border-color:#d52;}
+#drupal-messages .status{color:#360; background:#cf8; border-color:#be7;}
+
 /*tabs*/
 .tabs ul li {display:inline;;}
 .tabs ul li a{background-color: #ddd; color:#999; }
 .tabs ul li.active a{background-color: #fff; color:#000;}
 
 /*blocks edit*/
+/*TODO get this stuff outta the theme if ADMIN module can fix it ;)*/
 div.block.with-block-editing{position: relative;}
 div.block.with-block-editing div.edit{background-color: #eee; border: 1px solid #ddd; display: none; position: absolute; right: 0; top: 0; z-index: 40; padding: 0 2px; font-size: 9px;}
 div.block.with-block-editing:hover div.edit{display: block; background: #ccc;}

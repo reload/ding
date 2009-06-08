@@ -29,6 +29,10 @@
     </div>
   </div>
 
+  <?php print $library_links; ?>
+
+
+
   <div class="library-map">
     <div class="library-map-inner">
     <?php print $library_map; ?>  

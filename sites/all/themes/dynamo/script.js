@@ -1,6 +1,7 @@
 $(document).ready(function() {
-    $("#search-block-form label").overlabel();
     $("#user-login-form label").overlabel();
+   	$("#search-form label").overlabel();
+
 
     $('#frontpagecarousel').jcarousel({
        vertical: false, //
