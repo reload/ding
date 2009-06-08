@@ -21,17 +21,17 @@
 .grid12-11{width: 860px;}
 .grid12-12{width: 940px;}
 /*post*/
-.grid12-post-1 {padding-left: 80px;}
-.grid12-post-2 {padding-left: 160px;}
-.grid12-post-3 {padding-left: 240px;}
-.grid12-post-4 {padding-left: 320px;}
-.grid12-post-5 {padding-left: 400px;}
-.grid12-post-6 {padding-left: 480px;}
-.grid12-post-7 {padding-left: 560px;}
-.grid12-post-8 {padding-left: 640px;}
-.grid12-post-8 {padding-left: 720px;}
-.grid12-post-10 {padding-left: 800px;}
-.grid12-post-11 {padding-left: 880px;}
+.grid12-pre-1 {padding-left: 80px;}
+.grid12-pre-2 {padding-left: 160px;}
+.grid12-pre-3 {padding-left: 240px;}
+.grid12-pre-4 {padding-left: 320px;}
+.grid12-pre-5 {padding-left: 400px;}
+.grid12-pre-6 {padding-left: 480px;}
+.grid12-pre-7 {padding-left: 560px;}
+.grid12-pre-8 {padding-left: 640px;}
+.grid12-pre-8 {padding-left: 720px;}
+.grid12-pre-10 {padding-left: 800px;}
+.grid12-pre-11 {padding-left: 880px;}
 
 /*16 grid - 10px on each side*/
 .grid16-1 {width: 40px;}
@@ -52,21 +52,21 @@
 .grid16-16{width: 940px;}
 
 /*post settings*/
-.grid16-post-1 {padding-left: 60px;}
-.grid16-post-2 {padding-left: 120px;}
-.grid16-post-3 {padding-left: 180px;}
-.grid16-post-4 {padding-left: 240px;}
-.grid16-post-5 {padding-left: 300px;}
-.grid16-post-6 {padding-left: 360px;}
-.grid16-post-7 {padding-left: 420px;}
-.grid16-post-7 {padding-left: 480px;}
-.grid16-post-9 {padding-left: 540px;}
-.grid16-post-10 {padding-left: 600px;}
-.grid16-post-11 {padding-left: 660px;}
-.grid16-post-11 {padding-left: 720px;}
-.grid16-post-13 {padding-left: 780px;}
-.grid16-post-14 {padding-left: 840px;}
-.grid16-post-15 {padding-left: 900px;}
+.grid16-pre-1 {padding-left: 60px;}
+.grid16-pre-2 {padding-left: 120px;}
+.grid16-pre-3 {padding-left: 180px;}
+.grid16-pre-4 {padding-left: 240px;}
+.grid16-pre-5 {padding-left: 300px;}
+.grid16-pre-6 {padding-left: 360px;}
+.grid16-pre-7 {padding-left: 420px;}
+.grid16-pre-7 {padding-left: 480px;}
+.grid16-pre-9 {padding-left: 540px;}
+.grid16-pre-10 {padding-left: 600px;}
+.grid16-pre-11 {padding-left: 660px;}
+.grid16-pre-11 {padding-left: 720px;}
+.grid16-pre-13 {padding-left: 780px;}
+.grid16-pre-14 {padding-left: 840px;}
+.grid16-pre-15 {padding-left: 900px;}
 
 .grid-full{width: 960px; display: inline; float:left;}
 

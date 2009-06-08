@@ -103,7 +103,7 @@ foreach ($user->og_groups as $key => $value) {
   <?php print $styles; ?>
 </head>
 <body class="<?php print $body_classes; ?>">
-
+<?php if (!empty($admin)) print $admin; ?>
 <div id="container" class="clearfix">
   <div id="container-inner">
 
@@ -161,12 +161,10 @@ foreach ($user->og_groups as $key => $value) {
           	<div id="content" class="grid12-8">
               <div id="content-inner">
 
-            		<?php if ($help OR $messages OR $tabs) { ?>
+            		<?php if ($help OR $messages) { ?>
             			<div id="drupal-messages">
-            			  <div id="drupal-messages-inner">
                   	  <?php print $help ?>
                   	  <?php print $messages ?>
-                    </div>
             			</div>
             		<?php } ?>
 

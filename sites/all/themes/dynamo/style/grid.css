@@ -92,13 +92,14 @@ Account
 
 /* search */
 #search h3{text-indent: -9999em; height:55px; margin:0; padding:0; background:transparent url(../images/search.png) no-repeat 0 0; }
-	#edit-search-block-form-1-wrapper input{height:20px; width:465px; background:#fff url(../images/magnifier.png) no-repeat 9px 5px; border: 1px solid #999; margin:0; padding:4px 0 0 25px; font-size:1.2em; color:#929292;}
+	#edit-keys-wrapper{float:left; display:inline;}
+	#search-form input{height:20px; width:450px; background:#fff url(../images/magnifier.png) no-repeat 9px 5px; border: 1px solid #999; margin:0 20px 0 0; padding:4px 0 0 25px; font-size:1.2em; color:#929292; float:left;}
 	/*overlabel*/
-	#edit-search-block-form-1-wrapper{position:relative; width:506px; float:left;}
-	#edit-search-block-form-1-wrapper label.overlabel-apply {position:absolute; top:3px;	left:30px;	z-index:1; color:#929292;;}
-	#edit-search-block-form-1-wrapper input.submit{width:80px; height:25px;}
-	#search span.button{float:left; display:block; height:29px; width:94px; background:transparent url(../images/searchbutton.png) no-repeat 0 0;;}
-	#search span.button input{ border:0; background:transparent; margin:5px 10px; color:transparent; font-weight:bold; text-indent: -9999em; }
+	#search-form{position:relative; width:600px; float:left;}
+	#search-form label.overlabel-apply {position:absolute; top:3px;	left:30px;	z-index:1; color:#929292;}
+	#search-form input.submit{width:80px; height:25px;}
+	#search-form span.button{float:left; display:block; height:29px; width:94px; background:transparent url(../images/searchbutton.png) no-repeat 0 0;;}
+	#search-form span.button input{ border:0; background:transparent; margin:5px 10px; color:transparent; font-weight:bold; text-indent: -9999em; }
 
 
 /* =====================================

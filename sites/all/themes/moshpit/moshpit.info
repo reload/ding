@@ -32,8 +32,11 @@ stylesheets[all][]    = style/drupal.css
 stylesheets[all][]    = style/grid.css
 stylesheets[all][]    = style/typography.css
 stylesheets[all][]    = style/interface.css
-stylesheets[all][]    = style/style.css 
 
+stylesheets[all][]    = style/nice_menus_default.css 
+
+
+stylesheets[all][]    = style/style.css 
 ;stylesheets[print][]  = style/print.css 
 
 ;------------------ conditional styles---------------------
@@ -44,9 +47,9 @@ stylesheets[all][]    = style/style.css
 ;scripts[] = script.js
 
 ;--------------------- drupal.org packaging  ----------------------------
-; Information added by drupal.org packaging script on 2009-04-23
-version = "6.x-1.2-beta1"
+; Information added by drupal.org packaging script on 2009-06-07
+version = "6.x-1.2"
 core = "6.x"
 project = "moshpit"
-datestamp = "1240502191"
+datestamp = "1244385332"
 
