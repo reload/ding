@@ -14,12 +14,10 @@
 .view-blog-category-list ul li div{display:inline;}
 .view-blog-category-list ul li div.node-count{font-size:10px;}
 
-
 /*node + list*/
 .node .meta ul{margin:0 0 0 10px;}
 .meta div.taxonomy{display:inline;}
 .meta li {padding:0 10px 0 0;}
-
 
 .view-empty,
 .feed, 
@@ -28,7 +26,6 @@
 }
 
 .more-link a{background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0; }
-
 
 /*panels node*/
 .page-comment .comment,
@@ -74,7 +71,6 @@ div.comment .meta .date{color:#999;}
 /* =====================================
 teaser
 /*--------------------------------------*/
-
 
 
 /* =====================================
