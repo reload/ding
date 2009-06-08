@@ -1,30 +1,30 @@
-#ding-facet-browser { width: 653px; position: relative; }
-#ding-facet-browser li * { font-size: 10px; font-weight: normal; }
-#ding-facet-browser li li { float: none; height: auto; width: auto; color: #006a87; }
-#ding-facet-browser li h4, 
-#ding-facet-browser li li { padding: 0 20px; line-height: 20px; background-repeat: repeat-x; background-position: top left; border-width: 0 1px; border-style: none solid; }
-#ding-facet-browser li li:hover { text-decoration: underline; cursor: pointer; }
-#ding-facet-browser li h4 { background-image: url(../img/facetbrowser-header-background.png); background-color: #c8d2cf; border-color: transparent #c6cecc transparent #ebefee; }
-#ding-facet-browser li.first h4, 
-#ding-facet-browser li.first li { border-left-width: 0; }
-#ding-facet-browser li.last h4, 
-#ding-facet-browser li.last li { border-right-width: 0; }
-#ding-facet-browser li.selected { background: #282327 !important; border-color: #282327 !important; }
-#ding-facet-browser li.selected,
-#ding-facet-browser li.selected * { color: #fff !important; }
-#ding-facet-browser li li.odd {  border-color: transparent #eee transparent transparent; }
-#ding-facet-browser li li.even { background-image: url(../img/facetbrowser-alternate-background.png); background-color: #f3f5f5; border-color: transparent #e4e5e5 transparent #f9fafa; }
-#ding-facet-browser li li.hidden { text-indent: -9999px; }
-#ding-facet-browser li li.hidden:hover { cursor: default; }
-#ding-facet-browser .facets .name { padding-right: 0.2em; }
+#ting-facet-browser { width: 653px; position: relative; }
+#ting-facet-browser li * { font-size: 10px; font-weight: normal; }
+#ting-facet-browser li li { float: none; height: auto; width: auto; color: #006a87; }
+#ting-facet-browser li h4, 
+#ting-facet-browser li li { padding: 0 20px; line-height: 20px; background-repeat: repeat-x; background-position: top left; border-width: 0 1px; border-style: none solid; }
+#ting-facet-browser li li:hover { text-decoration: underline; cursor: pointer; }
+#ting-facet-browser li h4 { background-image: url(../img/facetbrowser-header-background.png); background-color: #c8d2cf; border-color: transparent #c6cecc transparent #ebefee; }
+#ting-facet-browser li.first h4, 
+#ting-facet-browser li.first li { border-left-width: 0; }
+#ting-facet-browser li.last h4, 
+#ting-facet-browser li.last li { border-right-width: 0; }
+#ting-facet-browser li.selected { background: #282327 !important; border-color: #282327 !important; }
+#ting-facet-browser li.selected,
+#ting-facet-browser li.selected * { color: #fff !important; }
+#ting-facet-browser li li.odd {  border-color: transparent #eee transparent transparent; }
+#ting-facet-browser li li.even { background-image: url(../img/facetbrowser-alternate-background.png); background-color: #f3f5f5; border-color: transparent #e4e5e5 transparent #f9fafa; }
+#ting-facet-browser li li.hidden { text-indent: -9999px; }
+#ting-facet-browser li li.hidden:hover { cursor: default; }
+#ting-facet-browser .facets .name { padding-right: 0.2em; }
 
-#ding-facet-browser .resize { position: absolute; left: 314px; bottom: -13px; display: block; width: 24px; height: 24px; background: url(../img/buttons-small.png) no-repeat; text-indent: -9999px; z-index: 9999; }
-#ding-facet-browser .resize.expand { background-position: 0 -72px; }
-#ding-facet-browser .resize.contract { background-position: 0 -48px; }
-#ding-facet-browser .resize.disabled { background-position: -72px -72px; }
+#ting-facet-browser .resize { position: absolute; left: 314px; bottom: -13px; display: block; width: 24px; height: 24px; background: url(../img/buttons-small.png) no-repeat; text-indent: -9999px; z-index: 9999; }
+#ting-facet-browser .resize.expand { background-position: 0 -72px; }
+#ting-facet-browser .resize.contract { background-position: 0 -48px; }
+#ting-facet-browser .resize.disabled { background-position: -72px -72px; }
 
-#ding-facet-browser .resize,
-#ding-facet-browser .resize:active { outline: 0 none; }
+#ting-facet-browser .resize,
+#ting-facet-browser .resize:active { outline: 0 none; }
 
 
 /* =====================================
