@@ -1,5 +1,6 @@
 /* =====================================
-	Grid /N site the measurements goes here
+	style: grid
+	basic grid & site layout goes here
 /*--------------------------------------*/
 body{background:#e5e5e5 url(../images/bg.png) repeat-x 0 0;}
 	body.admin-menu{background:#e5e5e5 url(../images/bg.png) repeat-x 0 21px;}
@@ -48,7 +49,7 @@ body{background:#e5e5e5 url(../images/bg.png) repeat-x 0 0;}
 .minheight{min-height:500px; height:auto !important; height:500px;}
 
 /* =====================================
-Menu top
+Menu 
 /*--------------------------------------*/
 #navigation{margin:0; overflow:hidden; height:30px; font-family: "Gill Sans",  sans-serif; text-transform: uppercase;}
 	#navigation li {padding:0 0px 0 10px; margin:0 20px; height:30px; list-style: none; float:left; position: relative;}
@@ -106,19 +107,19 @@ Account
 Panels
 /*--------------------------------------*/
 #front-top{width:960px; clear:both; height:240px;}
-#front-left{width:470px;float:left; background:transparent url(../images/bg-divider-horizontalt.png) no-repeat right top; min-height:300px}
-#front-middle {width:240px; float:left;}
-#front-right{width:250px; float:left;}
-#front-bottom{width:960px; clear:both;}
-
-#front-top{}
 #front-content{clear:both}
+	#front-left{width:470px;float:left; background:transparent url(../images/bg-divider-horizontalt.png) no-repeat right top; min-height:300px}
+	#front-middle {width:240px; float:left;}
+	#front-right{width:250px; float:left;}
+	#front-bottom{width:960px; clear:both;}
 
+/*2 cols*/
 #twocol-left{width:710px; float:left;}
 #twocol-left-left{width:690px; float:left; background:transparent url(../images/bg-divider-horizontalt.png) no-repeat right top;} /* min-height:300px*/
 #twocol-right{width:250px; float:left;}
 #twocol-bottom{width:690px; clear:both; margin:0 0 0 20px; background:transparent url(../images/bg-divider-horizontalt.png) no-repeat right top;}
 
+/*3 cols*/
 #threecol-left{width:710px; float:left;}
 	#threecol-left-left{width:470px; float:left; background:transparent url(../images/bg-divider-horizontalt.png) no-repeat right top;}
 #threecol-left-middle {width:240px; float:left;}

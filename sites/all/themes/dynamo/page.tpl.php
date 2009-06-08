@@ -69,14 +69,10 @@
           	<div id="content">
               <div id="content-inner">
 
-            		<?php if ($help OR $messages OR $tabs) { ?>
-            			<div id="drupal-messages">
-            			  <div id="drupal-messages-inner">
-                  	  <?php print $help ?>
-                  	  <?php print $messages ?>
-                    </div>
-            			</div>
-            		<?php } ?>
+          			<div id="drupal-messages">
+                	  <?php print $help ?>
+                	  <?php print $messages ?>
+          			</div>
 
                 <?php if ($content_top) { ?>
                   <?php print $content_top; ?>

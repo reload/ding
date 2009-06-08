@@ -34,15 +34,20 @@ bibloteks oversigtsiden
 /*--------------------------------------*/
 .node-teaser.node-library{background:transparent url(../images/bg-divider.png) no-repeat left top; padding:10px 0 0 0;}
 
+/*lib status*/
 .libary-openstatus{padding:0 5px; display:inline; color:#fff;}
 .libary-openstatus.open{background:#71bf44;}
 .info .libary-openstatus.closed{background:#6b0046;}
 
 .view-event-list  li,
-.view-library-list li{background:transparent url(../images/bg-divider.png) no-repeat left top;  clear:both; padding:10px 0 10px 20px;}
+.view-library-list li{
+	background:transparent url(../images/bg-divider.png) no-repeat left top;  clear:both; padding:10px 0 10px 20px;
+}
 
-.view-event-list li.first
-.view-library-list li.first{background:none;}
+.view-event-list li.first,
+.view-library-list li.first{
+	background:none;
+}
 
 .view-event-list .picture,
 .view-library-list .picture{
@@ -98,36 +103,35 @@ bibloteks oversigtsiden
 .office-hours-week .odd{background:#f3f5f5;}
 .office-hours-week .even{background:#fff;}
 
-/*links*/
-.pane-library_location .links li{display:block;}
-.pane-library_location .links li a{background:transparent url(../images/icons/arrow.png) no-repeat left center; padding:0 0 5px 20px; font-size:10px;}
-/*icons*/
-.pane-library_location .links li a.rejseplanen{background:transparent url(../images/icons/rejseplanen.gif) no-repeat}
-.pane-library_location .links li a.findvej{background:transparent url(../images/icons/findvej.png) no-repeat}
-.pane-library_location .links li a.blogger{background:transparent url(../images/icons/blogger.png) no-repeat}
-.pane-library_location .links li a.delicious{background:transparent url(../images/icons/delicious.png) no-repeat}
-.pane-library_location .links li a.facebook{background:transparent url(../images/icons/facebook.png) no-repeat}
-.pane-library_location .links li a.feed{background:transparent url(../images/icons/feed.png) no-repeat}
-.pane-library_location .links li a.flickr{background:transparent url(../images/icons/flickr.png) no-repeat}
-.pane-library_location .links li a.friendfeed{background:transparent url(../images/icons/friendfeed.png) no-repeat}
-.pane-library_location .links li a.linkedin{background:transparent url(../images/icons/linkedin.png) no-repeat}
-.pane-library_location .links li a.livejournal{background:transparent url(../images/icons/livejournal.png) no-repeat}
-.pane-library_location .links li a.myspace{background:transparent url(../images/icons/myspace.png) no-repeat}
-.pane-library_location .links li a.netvibes{background:transparent url(../images/icons/netvibes.png) no-repeat}
-.pane-library_location .links li a.newsvine{background:transparent url(../images/icons/newsvine.png) no-repeat}
-.pane-library_location .links li a.picasa{background:transparent url(../images/icons/picasa.png) no-repeat}
-.pane-library_location .links li a.stumbleupon{background:transparent url(../images/icons/stumbleupon.png) no-repeat}
-.pane-library_location .links li a.twitter{background:transparent url(../images/icons/twitter.png) no-repeat}
-.pane-library_location .links li a.vimeo{background:transparent url(../images/icons/vimeo.png) no-repeat}
-.pane-library_location .links li a.wordpress{background:transparent url(../images/icons/wordpress.png) no-repeat}
-.pane-library_location .links li a.youtube{background:transparent url(../images/icons/youtube.png) no-repeat}
-
+/*external links*/
+.pane-library_location ul.links {margin:0 0 0 10px;}
+.pane-library_location ul.links li{display:block;}
+.pane-library_location ul.links li a{background:transparent url(../images/icons/arrow.png) no-repeat left center; padding:2px 0 5px 20px; font-size:10px;}
+	/*icons for the links*/
+	.pane-library_location ul.links li a.rejseplanen{background:transparent url(../images/icons/rejseplanen.gif) no-repeat}
+	.pane-library_location ul.links li a.findvej{background:transparent url(../images/icons/findvej.png) no-repeat}
+	.pane-library_location ul.links li a.blogger{background:transparent url(../images/icons/blogger.png) no-repeat}
+	.pane-library_location ul.links li a.delicious{background:transparent url(../images/icons/delicious.png) no-repeat}
+	.pane-library_location ul.links li a.facebook{background:transparent url(../images/icons/facebook.png) no-repeat}
+	.pane-library_location ul.links li a.feed{background:transparent url(../images/icons/feed.png) no-repeat}
+	.pane-library_location ul.links li a.flickr{background:transparent url(../images/icons/flickr.png) no-repeat}
+	.pane-library_location ul.links li a.friendfeed{background:transparent url(../images/icons/friendfeed.png) no-repeat}
+	.pane-library_location ul.links li a.linkedin{background:transparent url(../images/icons/linkedin.png) no-repeat}
+	.pane-library_location ul.links li a.livejournal{background:transparent url(../images/icons/livejournal.png) no-repeat}
+	.pane-library_location ul.links li a.myspace{background:transparent url(../images/icons/myspace.png) no-repeat}
+	.pane-library_location ul.links li a.netvibes{background:transparent url(../images/icons/netvibes.png) no-repeat}
+	.pane-library_location ul.links li a.newsvine{background:transparent url(../images/icons/newsvine.png) no-repeat}
+	.pane-library_location ul.links li a.picasa{background:transparent url(../images/icons/picasa.png) no-repeat}
+	.pane-library_location ul.links li a.stumbleupon{background:transparent url(../images/icons/stumbleupon.png) no-repeat}
+	.pane-library_location ul.links li a.twitter{background:transparent url(../images/icons/twitter.png) no-repeat}
+	.pane-library_location ul.links li a.vimeo{background:transparent url(../images/icons/vimeo.png) no-repeat}
+	.pane-library_location ul.links li a.wordpress{background:transparent url(../images/icons/wordpress.png) no-repeat}
+	.pane-library_location ul.links li a.youtube{background:transparent url(../images/icons/youtube.png) no-repeat}
 
 
 /*blog comments*/
 ul.item-list h3{margin:0 0 0 20px;}
 ul.item-list li{margin:0 0 0 20px;}
-
 
 /* =====================================
 #twocol-right
@@ -160,6 +164,5 @@ ul.item-list li{margin:0 0 0 20px;}
 
 /*tagadelic*/
 .pane-tagadelic-2{width:200px; overflow:hidden; padding:20px 0 0 20px;}
-
 
 .pane-library_title{display:block;}
