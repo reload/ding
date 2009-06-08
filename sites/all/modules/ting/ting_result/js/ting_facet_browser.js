@@ -94,7 +94,7 @@ Drupal.tingFacetBrowser = function(element, result)
 	
 	this.updateSearchResults = function(result)
 	{
-		records = jQuery('<ol><li>'+Drupal.settings.dingTingSearchResult.recordTemplate+'</li></ol>').mapDirective({
+		records = jQuery('<ol><li>'+Drupal.settings.tingResult.recordTemplate+'</li></ol>').mapDirective({
 			'li': 'record <- records',
 			'.title': function(arg) { return (arg.item.data.title) ? arg.item.data.title.join(', ') : ''; },
 			'.creator em': function(arg) { return (arg.item.data.creator) ? arg.item.data.creator.join(', ') : ''; },
