@@ -38,7 +38,27 @@ Drupal.tingFacetBrowser = function(element, result)
 		
 		$('.facets', facetGroups).html(jQuery('li', facetTerms));
 		$p.compile(facetGroups, 'facet-groups');
-		jQuery(element).html($p.render('facet-groups', result));
+		
+		facetBrowser = jQuery($p.render('facet-groups', result));
+
+		//Add additional empty list items to make evenly sized lists
+		facets = jQuery('.facets', facetBrowser);
+		numFacets = facets.map(function(i, e)
+		{
+			return jQuery('li', e).size();
+		});
+		var maxFacets = Math.max.apply(Math, jQuery.makeArray(numFacets));
+
+		facets.each(function(i, e)
+		{
+			facetElement = jQuery('li:first', e);
+			for(i = jQuery('li', e).size(); i < maxFacets; i++)
+			{
+				jQuery(e).append(facetElement.clone().removeClass().addClass((((i % 2) == 0) ? 'odd' : 'even')).addClass('hidden'));
+			}
+		});
+		
+		jQuery(element).html(facetBrowser);
 		
 		this.resizeFacets(element);
 	}
