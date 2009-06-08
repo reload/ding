@@ -12,12 +12,18 @@ $(document).ready(function() {
 
   // Remove the original output from the search module, and make room
   // for our search results and the facet browser.
-  $("#content-inner").html('<ul id="ting-search-tabs"><li class="ting">Ting</li><li class="content">Content</li></ul><div id="ding-facet-browser"></div><div id="ting-search-result">Søger…</div>').end();
+  $("#content-inner").html(
+  	'<ul id="ting-search-tabs">'+
+  		'<li class="ting">Ting</li>'+
+  		'<li class="content">Content</li>'+
+  	'</ul>'+
+  	'<div id="ting-facet-browser"></div>'+
+  	'<div id="ting-search-result">Søger...</div>');
 
   // Search Ting via Kaspers methods.
   $.getJSON(Drupal.settings.tingSearch.ting_url, {'query': 'dc.title:' + Drupal.settings.tingSearch.keys}, function (data) {
     Drupal.tingSearch.tingData = data;
-    Drupal.dingTingFacetBrowser("#ding-facet-browser", data);
+    Drupal.tingFacetBrowser("#ting-facet-browser", data);
   });
 
   // Search Drupals content.
@@ -28,7 +34,7 @@ $(document).ready(function() {
     if (data.count) {
       tab.html('<a href="#">' + tab.html() + '</a>');
       tab.click(function (eventObject) {
-        $("#ding-facet-browser").hide();
+        $("#ting-facet-browser").hide();
         $("#ting-search-result").html(Drupal.tingSearch.contentData.result_html);
         return false;
       });
