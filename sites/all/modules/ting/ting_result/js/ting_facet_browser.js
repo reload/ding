@@ -1,4 +1,4 @@
-Drupal.dingTingFacetBrowser = function(element, result)
+Drupal.tingFacetBrowser = function(element, result)
 {
 
 	this.renderFacetBrowser = function(element, result)
@@ -127,7 +127,7 @@ Drupal.dingTingFacetBrowser = function(element, result)
 	
 	this.renderResizeButton = function(element)
 	{
-		button = jQuery('<a class="resize" href="">'+Drupal.settings.dingTingSearchResult.resizeButtonText+'</a>');
+		button = jQuery('<a class="resize" href="">'+Drupal.settings.tingResult.resizeButtonText+'</a>');
 		element = jQuery(element);
 		(element.height() < Drupal.getFacetHeight(element)) ? button.addClass('expand') : button.addClass('disabled');
 		

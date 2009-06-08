@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname(__FILE__).'/lib/DingTingClientFactory.php';
+require_once dirname(__FILE__).'/lib/TingClientFactory.php';
 
-function ding_ting_search_result_page()
+function ting_result_page()
 {
 	//Get users base query
 	$query = (isset($_REQUEST['query'])) ? $_REQUEST['query'] : 'dc.title:danmark';
@@ -11,7 +11,7 @@ function ding_ting_search_result_page()
 	if (isset($_GET['facets']) && $_GET['facets'])
 	{
 		$facetArray = array();
-		
+
 		$facets = explode(';', $_GET['facets']);
 		foreach ($facets as $facet)
 		{
@@ -24,23 +24,23 @@ function ding_ting_search_result_page()
 			
 		$query .= ' AND '.implode(' AND ', $facetArray);
 	}
-	
-	$request = DingTingClientFactory::getSearchRequest($query);
-	
-	$client = DingTingClientFactory::getClient();
+
+	$request = TingClientFactory::getSearchRequest($query);
+
+	$client = TingClientFactory::getClient();
 	$result = $client->search($request);
-	
-	if (ding_ting_search_result_is_ajax())
+
+	if (ting_result_is_ajax())
 	{
 		header('Content-type: application/json');
 		echo json_encode($result);
 		exit;
 	} else {
-		return theme('ding_ting_search_result', $result);
+		return theme('ting_result', $result);
 	}
 }
 
-function ding_ting_search_result_is_ajax() {
-	return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
-					($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'));
+function ting_result_is_ajax() {
+	return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+	($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'));
 }

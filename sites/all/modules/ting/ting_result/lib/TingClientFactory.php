@@ -1,13 +1,13 @@
 <?php
 
-require_once(dirname(__FILE__).'/ting-dbc-php5-client/lib/TingClient.php');
-require_once(dirname(__FILE__).'/ting-dbc-php5-client/lib/search/TingClientSearchRequest.php');
-require_once(dirname(__FILE__).'/ting-dbc-php5-client/lib/adapter/request/http/TingClientDrupal6HttpRequestAdapter.php');
-require_once(dirname(__FILE__).'/ting-dbc-php5-client/lib/adapter/request/http/TingClientHttpRequestFactory.php');
-require_once(dirname(__FILE__).'/ting-dbc-php5-client/lib/adapter/response/json/TingClientJsonResponseAdapter.php');
-require_once(dirname(__FILE__).'/ting-dbc-php5-client/lib/log/TingClientDrupalWatchDogLogger.php');
+require_once(dirname(__FILE__).'/../../lib/ting-dbc-php5-client/lib/TingClient.php');
+require_once(dirname(__FILE__).'/../../lib/ting-dbc-php5-client/lib/search/TingClientSearchRequest.php');
+require_once(dirname(__FILE__).'/../../lib/ting-dbc-php5-client/lib/adapter/request/http/TingClientDrupal6HttpRequestAdapter.php');
+require_once(dirname(__FILE__).'/../../lib/ting-dbc-php5-client/lib/adapter/request/http/TingClientHttpRequestFactory.php');
+require_once(dirname(__FILE__).'/../../lib/ting-dbc-php5-client/lib/adapter/response/json/TingClientJsonResponseAdapter.php');
+require_once(dirname(__FILE__).'/../../lib/ting-dbc-php5-client/lib/log/TingClientDrupalWatchDogLogger.php');
 
-class DingTingClientFactory
+class TingClientFactory
 {
 	const BASE_URL = 'http://didicas.dbc.dk/opensearch/'; //TODO move this to configuration
 	
