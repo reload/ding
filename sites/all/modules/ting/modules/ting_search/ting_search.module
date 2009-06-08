@@ -26,20 +26,56 @@ function ting_search_theme() {
   );
 }
 
+/**
+ * Implementation of hook_menu().
+ */
 function ting_search_menu() {
-	return array(
-		'ting_search' => array(
-	    'title' => 'Ting search results',
-	    'description' => 'Lists facets and search results from the Ting database as HTML or JSON.',
-	    'access arguments' => array('search content'),
-			'page callback' => 'ting_search_page',
-	    'file' => 'ting_search.pages.inc',
-		),
+  $items = array();
+
+	$items['ting/search/js'] = array(
+    'title' => 'Ting search results',
+    'description' => 'Lists facets and search results from the Ting database as HTML or JSON.',
+    'access arguments' => array('search content'),
+    'page callback' => 'ting_search_pages_ting',
+    'type' => MENU_CALLBACK,
+    'file' => 'ting_search.pages.inc',
 	);
+  $items['ting/search/content/js'] = array(
+    'title' => 'Content search AJAX page callback',
+    'page callback' => 'ting_search_pages_content',
+    'access arguments' => array('search content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'ting_search.pages.inc',
+  );
+
+  return $items;
 }
 
-function ting_search_facet_browser($result)
-{
+/**
+ * Implementation of hook_block().
+ */
+function ting_search_block($op = 'list', $delta = 0, $edit = array()) {
+  switch ($op) {
+    case 'list':
+      return array(
+        'searchbox' => array(
+          'info' => t('Ting search box'),
+          'cache' => BLOCK_CACHE_GLOBAL,
+        ),
+      );
+    case 'view':
+      return array(
+        'subject' => t('Search'),
+        'content' => drupal_get_form('search_form', '', '', 'ting', 'Skriv dit søgeord her'),
+      );
+  }
+}
+
+
+/**
+ * Load Ting search interface JavaScript dependencies.
+ */
+function ting_search_add_js() {
 	//Add base Prototype files for enhanced OOP
 	drupal_add_js(drupal_get_path('module', 'ting_search') .'/js/prototype/object.js', 'module');
 	drupal_add_js(drupal_get_path('module', 'ting_search') .'/js/prototype/enumerable.js', 'module');
@@ -59,16 +95,11 @@ function ting_search_facet_browser($result)
 												'recordTemplate' => ting_search_render_record_template(),
 												'resizeButtonText' => t('Show more facet terms'))), 
 								'setting');
-	
-	return '<div id="ting-facet-browser">
-					</div>	
-					<script type="text/javascript">
-						jQuery(function() { Drupal.tingFacetBrowser("#ting-facet-browser",'.json_encode($result).'); });
-					</script>';
 }
 
-function ting_search_render_record_template()
-{
+
+function ting_search_render_record_template() {
+  module_load_include('php', 'ting', 'lib/ting-dbc-php5-client/lib/TingClient');
 	$record = new TingClientRecord();
 	$record->id = 'id';
 	

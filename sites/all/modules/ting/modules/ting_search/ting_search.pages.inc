@@ -1,23 +1,19 @@
 <?php
 
-require_once dirname(__FILE__).'/lib/TingClientFactory.php';
 
-function ting_result_page()
-{
+function ting_search_pages_ting() {
+  module_load_include('php', 'ting', 'lib/ting-dbc-php5-client/lib/TingClient');
 	//Get users base query
 	$query = (isset($_REQUEST['query'])) ? $_REQUEST['query'] : 'dc.title:danmark';
 
 	//Extend query with selected facets
-	if (isset($_GET['facets']) && $_GET['facets'])
-	{
+	if (isset($_GET['facets']) && $_GET['facets']) {
 		$facetArray = array();
 
 		$facets = explode(';', $_GET['facets']);
-		foreach ($facets as $facet)
-		{
+		foreach ($facets as $facet) {
 			$facet = explode(':', $facet, 2);
-			if ($facet[0])
-			{
+			if ($facet[0]) {
 				$facetArray[] = $facet[0].':'.$facet[1];
 			}
 		}
@@ -30,17 +26,35 @@ function ting_result_page()
 	$client = TingClientFactory::getClient();
 	$result = $client->search($request);
 
-	if (ting_result_is_ajax())
-	{
-		header('Content-type: application/json');
-		echo json_encode($result);
-		exit;
-	} else {
-		return theme('ting_result', $result);
-	}
+  header('Content-type: application/json');
+  echo json_encode($result);
+  exit;
 }
 
-function ting_result_is_ajax() {
-	return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
-	($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'));
+/**
+ * Content search AJAX page callback.
+ */
+function ting_search_pages_content() {
+  if (isset($_REQUEST['query'])) {
+    $query = trim($_REQUEST['query']);
+    $result = array('results' => do_search($query, 'node'));
+    $result['count'] = count($result['results']);
+    $result['result_html'] = 'Bøf.';
+    foreach ($result['results'] as $item) {
+      if ($item->type == 'node') {
+        $node = node_load($item->sid);
+        $result['result_html'] .= node_view($node, TRUE);
+      }
+    }
+  }
+  else {
+    $result = array(
+      'results' => array(),
+      'count' => 0,
+      'result_html' => '',
+    );
+  }
+  header('Content-type: application/json');
+  print json_encode($result);
+  exit;
 }
