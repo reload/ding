@@ -12,12 +12,21 @@ function ting_menu() {
   $path = drupal_get_path('module', 'ting') . '/includes';
   $items = array();
 
-  $items['ting/search/content/js'] = array(
+  $items['ting/content/js'] = array(
     'title' => 'Content search AJAX page callback',
     'page callback' => 'ting_pages_search_content',
     'access arguments' => array('search content'),
     'type' => MENU_CALLBACK,
     'file' => 'ting.pages.inc',
+    'file path' => $path,
+  );
+
+  $items['admin/settings/ting'] = array(
+    'title' => 'Ting search',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting.admin.inc',
     'file path' => $path,
   );
 
@@ -68,7 +77,7 @@ function ting_search($op = 'search', $keys = null) {
         'result' => array(),
         'keys' => $keys,
         'ting_url' => url('ding_ting_search_result'),
-        'content_url' => url('ting/search/content/js'),
+        'content_url' => url('ting/content/js'),
       )), 'setting', 'footer');
       return array();
   }
