@@ -49,6 +49,7 @@ function ting_search($op = 'search', $keys = null) {
         'keys' => $keys,
         'ting_url' => url('ting/search/js'),
         'content_url' => url('ting/search/content/js'),
+      	'result_template' => theme('ting_result')
       )), 'setting', 'footer');
       return array();
   }
