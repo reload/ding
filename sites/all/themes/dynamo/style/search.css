@@ -6,3 +6,5 @@
 #ting-result{padding:0px 0 0 20px;}
 #ting-search-result ol li{background:transparent url(../images/bg-divider.png) no-repeat left top; padding:10px 0 0 20px;
 list-style-position: outside; margin:0 0 0 20px;}
+
+#content-result .node-teaser{padding:0 0 0 20px; width:690px; background:transparent url(../images/bg-divider.png) no-repeat left top;}
