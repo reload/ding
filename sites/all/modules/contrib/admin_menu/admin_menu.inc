@@ -1,5 +1,5 @@
 <?php
-// $Id: admin_menu.inc,v 1.11.2.20.2.8 2009/04/04 15:23:18 sun Exp $
+// $Id: admin_menu.inc,v 1.11.2.20.2.11 2009/06/09 18:21:22 sun Exp $
 
 /**
  * @file
@@ -414,9 +414,14 @@ function admin_menu_theme_settings() {
  * Wipe the menu so it can be rebuilt from scratch.
  */
 function admin_menu_wipe() {
+  // Flush cached menu tree.
   db_query("DELETE FROM {menu_links} WHERE menu_name = 'admin_menu'");
   menu_cache_clear('admin_menu');
   variable_set('admin_menu_rebuild_links', TRUE);
+  // Flush cached output of admin_menu.
+  cache_clear_all('admin_menu:', 'cache_menu', TRUE);
+  // Flush client-side cache hashes.
+  cache_clear_all('*', 'cache_admin_menu', TRUE);
 }
 
 /**
@@ -540,8 +545,8 @@ function admin_menu_flush_cache($name = NULL) {
     default:
       // Flush all caches; no need to re-implement this.
       module_load_include('inc', 'system', 'system.admin');
-      $form_state = array();
-      system_clear_cache_submit($form_state, NULL);
+      $form = $form_state = array();
+      system_clear_cache_submit($form, $form_state);
       break;
   }
   drupal_goto();

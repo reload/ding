@@ -1,6 +1,8 @@
-/* $Id: admin_menu.js,v 1.7.2.7.2.8 2009/04/04 15:23:18 sun Exp $ */
+/* $Id: admin_menu.js,v 1.7.2.7.2.11 2009/06/08 01:05:38 sun Exp $ */
 
-Drupal.admin = Drupal.admin || { behaviors: {}, hashes: {} };
+Drupal.admin = Drupal.admin || {};
+Drupal.admin.behaviors = Drupal.admin.behaviors || {};
+Drupal.admin.hashes = Drupal.admin.hashes || {};
 
 /**
  * Core behavior for Administration menu.
@@ -64,7 +66,7 @@ Drupal.behaviors.adminMenuCollapseModules = function (context) {
  * Drupal behavior.
  */
 Drupal.behaviors.adminMenuMarginTop = function (context) {
-  if (Drupal.settings.admin_menu.margin_top) {
+  if (!Drupal.settings.admin_menu.suppress && Drupal.settings.admin_menu.margin_top) {
     $('body:not(.admin-menu)', context).addClass('admin-menu');
   }
 };
@@ -86,7 +88,7 @@ Drupal.admin.getCache = function (hash, onSuccess) {
     type: 'GET',
     dataType: 'text', // Prevent auto-evaluation of response.
     global: false, // Do not trigger global AJAX events.
-    url: Drupal.settings.admin_menu.basePath + 'js/admin_menu/cache/' + hash,
+    url: Drupal.settings.admin_menu.basePath.replace(/admin_menu/, 'js/admin_menu/cache/' + hash),
     success: onSuccess,
     complete: function (XMLHttpRequest, status) {
       Drupal.admin.hashes.hash = status;
