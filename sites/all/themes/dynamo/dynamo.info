@@ -35,6 +35,7 @@ stylesheets[all][]  = style/typography.css
 stylesheets[all][]  = style/biblo.css
 stylesheets[all][]  = style/style.css
 stylesheets[all][]  = style/jcarousel.css
+stylesheets[all][]  = style/search.css
 stylesheets[all][]  = style.css
 ;stylesheets[print][]  = style/print.css 
 

@@ -1,5 +1,5 @@
 /* ===================================== 
 	Style: search
 * ------------------------------------- */
-.facet-browser{padding:20px 0 0 20px;}
-.search-results{padding:20px 0 0 20px;}
+#ting-search-tabs{padding:0px 0 0 20px;}
+#content-result{padding:20px 0 0 0px; }

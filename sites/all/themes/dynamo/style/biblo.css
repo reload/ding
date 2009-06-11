@@ -32,36 +32,36 @@
 /* =====================================
 bibloteks oversigtsiden
 /*--------------------------------------*/
-.node-teaser.node-library{background:transparent url(../images/bg-divider.png) no-repeat left top; padding:10px 0 0 0;}
+
+.node-library-teaser{
+	background:transparent url(../images/bg-divider.png) no-repeat left top; padding:10px 0 0 20px;
+}
 
 /*lib status*/
 .libary-openstatus{padding:0 5px; display:inline; color:#fff;}
 .libary-openstatus.open{background:#71bf44;}
 .info .libary-openstatus.closed{background:#6b0046;}
 
-.view-event-list  li,
-.view-library-list li{
-	background:transparent url(../images/bg-divider.png) no-repeat left top;  clear:both; padding:10px 0 10px 20px;
+
+.node-library-teaser .picture,
+.view-event-list .picture{
+	width:120px; height:120px; margin:0 20px 0 0; float:left; background:#eee;
 }
 
-.view-event-list li.first,
-.view-library-list li.first{
-	background:none;
-}
+.node-library-teaser .info{width:355px; ; margin:0 20px 0 0; float:left;}
 
-.view-event-list .picture,
-.view-library-list .picture{
-	width:120px; height:120px; margin:0 20px 0 0; float:left;
-}
-.view-library-list .info{width:355px; ; margin:0 20px 0 0; float:left; }
-.view-library-list .office-hours-week{width:175px; float:left;}
-.view-library-list .office-hours-week .week-info{background:#d1d9d7}
-.view-library-list .office-hours-week .odd, 
-.view-library-list .office-hours-week .even{
+.node-library-teaser .office-hours-week{width:175px; float:left;}
+.node-library-teaser .office-hours-week .week-info{background:#d1d9d7}
+.node-library-teaser .office-hours-week .odd, 
+.node-library-teaser .office-hours-week .even{
 	padding:0 5px;
 } 
 
 .view-event-list .libary-tag div{display:inline;margin:0 5px 0 0;}
+.view-event-list  li{background:transparent url(../images/bg-divider.png) no-repeat left top;  clear:both; padding:10px 0 10px 20px;}
+.view-event-list li.first{background:none;}
+
+#content-result .node-teaser{padding:0 0 0 20px; width:690px; }
 
 /*BOX sprite*/
 .box, 

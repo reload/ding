@@ -1,8 +1,8 @@
 <?php  //dsm(get_defined_vars());  ?> 
 <?php //print $FIELD_NAME_rendered ?>
 <?php if ($page == 0){ ?>
-
-<div class="clearfix">
+<!--node-lib-->
+<div class="clearfix node-library-teaser">
   <div class="picture">
     <?php print $field_image_rendered; ?>
   </div>
