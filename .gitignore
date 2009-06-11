@@ -28,7 +28,7 @@ UPGRADE.txt
 /themes/pushbutton
 
 # Copies of the GPL license.
-*/LICENSE.txt
+LICENSE.txt
 
 # Drush backups
 /backup
