@@ -7,9 +7,9 @@ project = "typogrify"
 core = 6.x
 
 
-; Information added by drupal.org packaging script on 2009-04-28
-version = "6.x-1.0-rc1"
+; Information added by drupal.org packaging script on 2009-05-29
+version = "6.x-1.0"
 core = "6.x"
 project = "typogrify"
-datestamp = "1240935418"
+datestamp = "1243608988"
 
