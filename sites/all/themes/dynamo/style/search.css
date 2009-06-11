@@ -3,3 +3,5 @@
 * ------------------------------------- */
 #ting-search-tabs{padding:0px 0 0 20px;}
 #content-result{padding:20px 0 0 0px; }
+
+#ting-search-result li{background:transparent url(../images/bg-divider.png) no-repeat left top; padding:10px 0 0 20px;}
