@@ -12,24 +12,38 @@ $(document).ready(function() {
 
   // Remove the original output from the search module, and make room
   // for our search results and the facet browser.
-  $("#content-inner").html('<ul id="ting-search-tabs"><li class="ting">Ting</li><li class="content">Content</li></ul><div id="ding-facet-browser"></div><div id="ting-search-result">Søger…</div>').end();
+  $("#content-inner").html(Drupal.settings.tingSearch.result_template).find('#content-result, .count').hide();
 
-  // Search Ting via Kaspers methods.
+  // Search Ting
   $.getJSON(Drupal.settings.tingSearch.ting_url, {'query': 'dc.title:' + Drupal.settings.tingSearch.keys}, function (data) {
-    Drupal.tingSearch.tingData = data;
-    Drupal.dingTingFacetBrowser("#ding-facet-browser", data);
+    Drupal.tingResult("#ting-search-result", data);
+    Drupal.tingFacetBrowser("#ting-facet-browser", "#ting-search-result", data);
+    var tab = $("#ting-search-tabs li.ting");
+    if (data.numTotalRecords) {
+    	tab.find('.count-value').text(data.numTotalRecords);
+			tab.find('.count').show();
+			
+      tab.html('<a href="#">' + tab.html() + '</a>');
+      tab.click(function (eventObject) {
+        $("#content-result").hide();
+        $("#ting-result").show();
+        return false;
+      });
+    }
   });
 
   // Search Drupals content.
   $.getJSON(Drupal.settings.tingSearch.content_url, {'query': Drupal.settings.tingSearch.keys}, function (data) {
     Drupal.tingSearch.contentData = data;
     var tab = $("#ting-search-tabs li.content");
-    tab.append(' <span>(' + data.count + ')</span>');
     if (data.count) {
-      tab.html('<a href="#">' + tab.html() + '</a>');
-      tab.click(function (eventObject) {
-        $("#ding-facet-browser").hide();
-        $("#ting-search-result").html(Drupal.tingSearch.contentData.result_html);
+    	tab.find('.count-value').text(data.count);
+			tab.find('.count').show();
+
+      $("#content-result").html(Drupal.tingSearch.contentData.result_html);
+      tab.click(function () {
+        $("#ting-result").hide();
+        $("#content-result").show();
         return false;
       });
     }

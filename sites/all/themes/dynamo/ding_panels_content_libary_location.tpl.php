@@ -13,6 +13,8 @@
 ?>
 <div class="box">
 
+<div class="box-darktone">
+
   <div class="vcard">
     <span class="fn org"><?php print $node->title; ?></span>
     <div class="adr">
@@ -29,8 +31,8 @@
     </div>
   </div>
 
-  <?php print $library_links; ?>
-
+  <?php print $library_links; ?>  
+</div>
 
 
   <div class="library-map">

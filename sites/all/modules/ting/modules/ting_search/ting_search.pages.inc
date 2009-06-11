@@ -2,7 +2,8 @@
 
 
 function ting_search_pages_ting() {
-  module_load_include('php', 'ting', 'lib/ting-dbc-php5-client/lib/TingClient');
+  module_load_include('php', 'ting', 'lib/TingClientFactory');
+  
 	//Get users base query
 	$query = (isset($_REQUEST['query'])) ? $_REQUEST['query'] : 'dc.title:danmark';
 

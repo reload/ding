@@ -1,4 +1,4 @@
-Drupal.tingFacetBrowser = function(element, result)
+Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, result)
 {
 
 	this.renderFacetBrowser = function(element, result)
@@ -38,7 +38,27 @@ Drupal.tingFacetBrowser = function(element, result)
 		
 		$('.facets', facetGroups).html(jQuery('li', facetTerms));
 		$p.compile(facetGroups, 'facet-groups');
-		jQuery(element).html($p.render('facet-groups', result));
+		
+		facetBrowser = jQuery($p.render('facet-groups', result));
+
+		//Add additional empty list items to make evenly sized lists
+		facets = jQuery('.facets', facetBrowser);
+		numFacets = facets.map(function(i, e)
+		{
+			return jQuery('li', e).size();
+		});
+		var maxFacets = Math.max.apply(Math, jQuery.makeArray(numFacets));
+
+		facets.each(function(i, e)
+		{
+			facetElement = jQuery('li:first', e);
+			for(i = jQuery('li', e).size(); i < maxFacets; i++)
+			{
+				jQuery(e).append(facetElement.clone().removeClass().addClass((((i % 2) == 0) ? 'odd' : 'even')).addClass('hidden'));
+			}
+		});
+		
+		jQuery(element).html(facetBrowser);
 		
 		this.resizeFacets(element);
 	}
@@ -92,34 +112,6 @@ Drupal.tingFacetBrowser = function(element, result)
 		}, 0);
 	}
 	
-	this.updateSearchResults = function(result)
-	{
-		records = jQuery('<ol><li>'+Drupal.settings.tingResult.recordTemplate+'</li></ol>').mapDirective({
-			'li': 'record <- records',
-			'.title': function(arg) { return (arg.item.data.title) ? arg.item.data.title.join(', ') : ''; },
-			'.creator em': function(arg) { return (arg.item.data.creator) ? arg.item.data.creator.join(', ') : ''; },
-			'.publication_date em': function(arg) { return (arg.item.data.date) ? arg.item.data.date.join(', ') : ''; },
-			'.description p': function(arg) { return (arg.item.data.description) ? arg.item.data.description.join('</p><p>') : ''; }
-		});
-		
-		types = jQuery('.types', records).mapDirective({
-			'li': ['type <- record.data.type',
-						 'type' ]
-		});
-
-		subjects = jQuery('.subjects', records).mapDirective({
-			'li': [	'subject <- record.data.subject',
-							'subject']
-		});
-		
-		$('.types', records).replaceWith(jQuery(types));
-		$('.subjects', records).replaceWith(jQuery(subjects));
-		$p.compile(records, 'search-result');
-
-		//TODO remove CSS specification from JS 
-		jQuery('.search-results ol').replaceWith($p.render('search-result', result));
-	}
-	
 	this.initCarousel = function(element)
 	{
 		jQuery(element).children().addClass('jcarousel-skin-ding-facet-browser').jcarousel();	
@@ -162,32 +154,32 @@ Drupal.tingFacetBrowser = function(element, result)
 		});
 	}
 	
-	this.bindSelectEvent = function(element)
+	this.bindSelectEvent = function(facetBrowserElement, searchResultElement)
 	{
-		jQuery('.facets li', element).unbind('click');
-		jQuery('.facets li:not(.hidden)', element).click(function()
+		jQuery('.facets li', facetBrowserElement).unbind('click');
+		jQuery('.facets li:not(.hidden)', facetBrowserElement).click(function()
 		{
 			clicked = $(this);
 			clicked.toggleClass('selected');
-			Drupal.updateSelectedUrl(element);			
-			Drupal.doSelectedSearch(element);
+			Drupal.updateSelectedUrl(facetBrowserElement);			
+			Drupal.doSelectedSearch(facetBrowserElement, searchResultElement);
 		});
 	}
 	
-	this.doSelectedSearch = function(element)
+	this.doSelectedSearch = function(facetBrowserElement, searchResultElement)
 	{
 			facetString = 'facets=';
-			jQuery('li.selected', element).each(function()
+			jQuery('li.selected', facetBrowserElement).each(function()
 			{
 				facetString += $(this).attr('facet-group')+':'+$(this).attr('facet')+';';
 			});
 			
-			var path = jQuery.url.attr('path')+'?'+jQuery.url.attr('query')+'&'+facetString; 
+			var path = Drupal.settings.tingSearch.ting_url+'?query=dc.title:'+Drupal.settings.tingSearch.keys+'&'+facetString; 
 			jQuery.getJSON(path, function(data)
 			{
-				Drupal.updateSearchResults(data);
-				Drupal.updateFacetBrowser(element, data);
-				Drupal.bindSelectEvent(element);
+				Drupal.renderTingSearchResults(searchResultElement, data);
+				Drupal.updateFacetBrowser(facetBrowserElement, data);
+				Drupal.bindSelectEvent(facetBrowserElement);
 			});
 	}
 	
@@ -235,14 +227,14 @@ Drupal.tingFacetBrowser = function(element, result)
 	}
 	
 	//initialization
-	this.renderFacetBrowser(element, result);
-	if (this.updateSelectedFacetsFromUrl(element))
+	this.renderFacetBrowser(facetBrowserElement, result);
+	if (this.updateSelectedFacetsFromUrl(facetBrowserElement))
 	{
-		this.doSelectedSearch();
+		this.doSelectedSearch(facetBrowserElement, searchResultElement);
 	}
 
-	this.initCarousel(element);
-	this.renderResizeButton(element);
-	this.bindResizeEvent(element);
-	this.bindSelectEvent(element);
+	this.initCarousel(facetBrowserElement);
+	this.renderResizeButton(facetBrowserElement);
+	this.bindResizeEvent(facetBrowserElement);
+	this.bindSelectEvent(facetBrowserElement, searchResultElement);
 }

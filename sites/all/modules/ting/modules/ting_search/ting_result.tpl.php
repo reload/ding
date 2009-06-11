@@ -1,12 +1,14 @@
-<div class="facet-browser">
-	<?php echo theme('ting_facet_browser', $result); ?>
+<ul id="ting-search-tabs">
+	<li class="ting">
+		<a href="#"><?php echo t('Ting results') ?> <span class="count">(<span class="count-value"></span>)</span></a>
+	</li>
+	<li class="content">
+		<a href="#"><?php echo t('Website results') ?> <span class="count">(<span class="count-value"></span>)</span></a>
+	</li>
+</ul>
+<div id="ting-result">
+	<div id="ting-facet-browser"></div>
+	<div id="ting-search-result"></div>
 </div>
-<div class="search-results">
-	<ol>
-		<?php foreach ($result->records as $record) : ?>
-			<li>
-				<?php echo theme('ting_record', $record); ?>
-			</li>
-		<?php endforeach; ?>
-	</ol>
+<div id="content-result">
 </div>
