@@ -1,5 +1,21 @@
 /* ===================================== 
 	Style: search
 * ------------------------------------- */
-.facet-browser{padding:20px 0 0 20px;}
-.search-results{padding:20px 0 0 20px;}
+#ting-search-tabs{padding:0px 0 0 20px;}
+#content-result{padding:20px 0 0 0px; }
+#ting-result{padding:0px 0 0 20px;}
+#ting-search-result{padding:20px 0 0 0;}
+#ting-search-result ol li{background:transparent url(../images/bg-divider.png) no-repeat left top; margin:0 0 20px 20px;  padding:10px 0 10px 0;
+list-style-position: outside; clear:both; }
+#ting-search-result div{clear:both;}
+#ting-search-result h4{display:inline;}
+#ting-search-result ul{}
+#ting-search-result ul li{display:inline; float:left; margin:0 10px 0 0; padding:0; background:none;}
+
+#ting-search-result .types li{display:inline; clear:none;}
+#ting-search-result .types li{display:inline; clear:none}
+#ting-search-result .subjects li{display:inline;clear:none}
+
+
+
+#content-result .node-teaser{padding:10px 0 0 20px; width:690px; background:transparent url(../images/bg-divider.png) no-repeat left top;}
