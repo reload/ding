@@ -179,7 +179,8 @@ Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, res
 			{
 				Drupal.renderTingSearchResults(searchResultElement, data);
 				Drupal.updateFacetBrowser(facetBrowserElement, data);
-				Drupal.bindSelectEvent(facetBrowserElement);
+				Drupal.bindSelectEvent(facetBrowserElement, searchResultElement);
+				Drupal.updateSelectedFacetsFromUrl(facetBrowserElement);
 			});
 	}
 	
