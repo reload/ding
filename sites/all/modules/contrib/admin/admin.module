@@ -24,6 +24,9 @@ function admin_init() {
   else if (arg(0) == 'admin' && ($item['page_callback'] != 'block_admin_display') && variable_get('admin_theme', 'slate') == 'slate') {
     _admin_init_theme();
   }
+  else if (function_exists('admin_theme_init') && $GLOBALS['custom_theme'] == 'slate') {
+    _admin_init_theme();
+  }
 }
 
 /**
