@@ -8,6 +8,9 @@
 	</ul>
 </div>
 
+<h3 class="title">
+	<?php echo implode(', ', $record->data->title) ?>
+</h3>
 
 <div class="meta">
 	<?php if ($record->data->creator) : ?>
