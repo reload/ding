@@ -1,21 +1,56 @@
+/* @override http://biblo.local:8888/sites/all/themes/dynamo/style/search.css?L */
+
 /* ===================================== 
 	Style: search
 * ------------------------------------- */
 #ting-search-tabs{padding:0px 0 0 20px;}
+	#ting-search-tabs li{
+	 margin-left:3px; 
+	padding:1px 3px 5px; display:inline; 
+	border-top: 1px solid #ccc; 
+	border-left: 1px solid #ccc;  
+	border-right: 1px solid #ccc; 
+	background: #f3f5f4;font-size:11px; text-transform: uppercase;
+}
+	#ting-search-tabs li a{color: #000;}
+	#ting-search-tabs li .count-value{color: #900;}
+
+#ting-result{background:transparent url(../images/bg-search.jpg) no-repeat left top; margin:0px 0 0 20px; padding: 10px 0 0 5px;}
+
+#ting-facet-browser{width: 680px; padding: 7px 0 0 7px ; background:transparent url(../images/bg-facetbrowser.png) no-repeat left top;}
+	.jcarousel-skin-ding-facet-browser .jcarousel-clip-horizontal {width:651px}
+
+	#ting-facet-browser li li.odd {background: #fff;  border-color: transparent #eee transparent transparent; }
+	#ting-facet-browser li li.even { background:none #f3f5f5; border-color: transparent #e4e5e5 transparent #f9fafa; }
+
+	/*footer*/
+	#ting-facet-browser .resize { position: absolute; left: 4px; bottom: -13px; display: block; width: 660px; height: 24px; text-indent: -9999px; z-index: 9999;}
+	#ting-facet-browser .resize.expand {background: #f0f; background-position: 0 -72px;}
+	#ting-facet-browser .resize.contract {background: #ff0; background-position: 0 -48px;}
+
+
+
+#ting-search-result{ padding:20px 0 0 10px; width: 650px;}
+	#ting-search-result ol li{background:transparent url(../images/bg-divider.png) no-repeat left top; margin:0 0 20px 20px;  padding:10px 0 10px 0; list-style-position: outside; clear:both; }
+	#ting-search-result div{clear:both;}
+	#ting-search-result h4{display:inline;}
+	#ting-search-result ul{}
+	#ting-search-result ul li{display:inline; float:left; margin:0 10px 0 0; padding:0; background:none;}
+
+	#ting-search-result .types li{display:inline; clear:none;}
+	#ting-search-result .types li{display:inline; clear:none}
+	#ting-search-result .subjects li{display:inline;clear:none}
+
+
 #content-result{padding:20px 0 0 0px; }
-#ting-result{padding:0px 0 0 20px;}
-#ting-search-result{padding:20px 0 0 0;}
-#ting-search-result ol li{background:transparent url(../images/bg-divider.png) no-repeat left top; margin:0 0 20px 20px;  padding:10px 0 10px 0;
-list-style-position: outside; clear:both; }
-#ting-search-result div{clear:both;}
-#ting-search-result h4{display:inline;}
-#ting-search-result ul{}
-#ting-search-result ul li{display:inline; float:left; margin:0 10px 0 0; padding:0; background:none;}
-
-#ting-search-result .types li{display:inline; clear:none;}
-#ting-search-result .types li{display:inline; clear:none}
-#ting-search-result .subjects li{display:inline;clear:none}
-
-
-
 #content-result .node-teaser{padding:10px 0 0 20px; width:690px; background:transparent url(../images/bg-divider.png) no-repeat left top;}
+#content form #search-form{padding:0 0 0 20px;}
+
+#ting-search-result .types{float: right;}
+	#ting-search-result .types li{font-size: 10px; padding:1px 3px; color: #fff; margin: 1px}
+	#ting-search-result .types li.available{background-color:#71bf44;}
+	#ting-search-result .types li.out{ background-color: #f85f26;}
+	#ting-search-result .types li.reserved{ background-color: #bc0028;}	
+		
+	#ting-search-result .subjects h4{float: left; margin: 0 10px 0 0; font-size: 10px; color:#bbb;}
+	#ting-search-result .subjects li{display:inline; font-size: 10px; color:#bbb;}
