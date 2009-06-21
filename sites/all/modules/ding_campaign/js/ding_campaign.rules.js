@@ -4,7 +4,6 @@ Drupal.behaviors.dingCampaignRules = function () {
   $('#campaign-rules')
     .find('.campaign-rule-wrap')
       .each(function (i) {
-          console.log(this);
           var type = $(this).find('select').val();
 
           $(this).find('.form-text')
