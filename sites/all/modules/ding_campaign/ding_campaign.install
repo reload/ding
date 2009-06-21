@@ -36,19 +36,21 @@ function ding_campaign_schema() {
       ),
       'nid' => array(
         'type' => 'int', 
-        'unsigned' => true, 
-        'not null' => true, 
+        'unsigned' => TRUE,
+        'not null' => TRUE,
         'description' => '{node}.nid for node',
       ),
       'campaign_type' => array(
         'type' => 'varchar',
         'length' => 50,
         'default' => 'normal',
+        'description' => 'The campaign type, image-only, text-only, etc.',
       ),
       'campaign_theme' => array(
         'type' => 'varchar',
         'length' => 50,
         'default' => 'normal',
+        'description' => 'The campaign colour scheme.',
       ),
       'campaign_weight' => array(
         'type' => 'int',
@@ -68,29 +70,39 @@ function ding_campaign_schema() {
     'fields' => array(
       'nid' => array(
         'type' => 'int', 
-        'unsigned' => true, 
-        'not null' => true, 
+        'unsigned' => TRUE,
+        'not null' => TRUE,
         'description' => '{node}.nid for node',
       ),
       'delta' => array(
         'type' => 'int', 
-        'unsigned' => true, 
-        'not null' => true, 
+        'unsigned' => TRUE,
+        'not null' => TRUE,
         'description' => 'Rule number - unique per node.',
       ),
       'type' => array(
         'type' => 'varchar',
         'length' => 50,
+        'description' => 'Rule type - one of library, page, taxonomy and search_term',
       ),
       'value' => array(
         'type' => 'varchar',
         'length' => 255,
+        'description' => 'Rule value, text-version. Canonical for search term only',
+      ),
+      'value_id' => array(
+        'type' => 'int',
+        'unsigned' => true,
+        'not null' => FALSE,
+        'description' => 'Rule value ID. For the applicable types it serves as a foreign key to nodes, terms, etc.',
       ),
     ),
     'primary key' => array('nid', 'delta'),
     'indexes' => array(
       'nid' => array('nid'),
       'type' => array('type'),
+      'value' => array('value'),
+      'value_id' => array('value_id'),
     ), 
   );
   return $schema;

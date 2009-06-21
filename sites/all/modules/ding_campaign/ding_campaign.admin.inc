@@ -2,10 +2,29 @@
 // $Id$
 
 /**
+ * Rules editing page callback.
+ *
+ * Simple wrapper for the form, only required to add the JavaScript.
+ */
+function ding_campaign_admin_rule_page($node) {
+  drupal_add_js(drupal_get_path('module', 'ding_campaign') . '/js/ding_campaign.rules.js');
+  drupal_add_js(array('dingCampaignRules' => array(
+    'autocompleteUrl' => url('campaign_rules/autocomplete/'),
+  )), 'setting'); 
+
+  return drupal_get_form('ding_campaign_admin_rule_form', $node);
+}
+
+/**
  * Admin interface for campaign display rules.
  */
 function ding_campaign_admin_rule_form($form_state, $node) {
   $form = array();
+
+  $form['nid'] = array(
+    '#type' => 'value',
+    '#value' => $node->nid,
+  );
 
   $form['rules'] = array(
     '#type' => 'fieldset',
@@ -17,7 +36,6 @@ function ding_campaign_admin_rule_form($form_state, $node) {
   if (isset($node->campaign_rules) && !empty($node->campaign_rules)) {
     foreach ($node->campaign_rules as $delta => $rule) {
       $form['rules'][$delta] = array(
-        '#title' => 'test',
         '#type' => 'ding_campaign_rule',
         '#value' => $rule,
         '#nid' => $node->nid,
@@ -26,7 +44,6 @@ function ding_campaign_admin_rule_form($form_state, $node) {
   }
   else {
     $form['rules'][0] = array(
-      '#title' => 'test',
       '#type' => 'ding_campaign_rule',
       '#nid' => $node->nid,
     );
@@ -55,6 +72,24 @@ function ding_campaign_admin_rule_form($form_state, $node) {
  * Validation for campaign display rules form.
  */
 function ding_campaign_admin_rule_form_validate($form, &$form_state) {
+  foreach ($form_state['values']['rules'] as $delta => $rule) {
+    $value = trim($rule['value']);
+    if (empty($value)) {
+      // Remove the empty rules, so they won't get saved to the database.
+      unset($form_state['values']['rules'][$delta]);
+    }
+    elseif ($rule['type'] == 'page' || $rule['type'] == 'library' || $rule['type'] == 'taxonomy') {
+      $matches = array();
+      // Match [nid:54], [tid:4], etc. from the text string.
+      if (preg_match('/\[[tn]id:(\d+)\]/', $value, $matches)) {
+        // Store the matched ID.
+        $form_state['values']['rules'][$delta]['value_id'] = $matches[1];
+      }
+      elseif (!is_numeric($value) || $value < 0) {
+        form_error($form['rules'][$delta], t('%value is not a valid value for the selected type (%type).', array('%value' => $rule['value'], '%type' => $rule['type'])));
+      }
+    }
+  }
 }
 
 /**
@@ -62,10 +97,13 @@ function ding_campaign_admin_rule_form_validate($form, &$form_state) {
  */
 function ding_campaign_admin_rule_form_submit($form, &$form_state) {
   // First, remove the existing rules
-  db_query("DELETE FROM {ding_campaign_rule} WHERE nid = %d", $node->nid);
+  db_query("DELETE FROM {ding_campaign_rule} WHERE nid = %d", $form_state['values']['nid']);
 
   // Then write the new set of rules
-  foreach ($form_state['values']['rules'] as $rule) {
+  // Use array_values to make sure that we have no missing numbers in the 
+  // delta, and use the new key to overwrite the delta setting on the rule.
+  foreach (array_values($form_state['values']['rules']) as $delta => $rule) {
+    $rule['delta'] = $delta;
     drupal_write_record('ding_campaign_rule', $rule);
   } 
 }
@@ -100,8 +138,50 @@ function ding_campaign_admin_rule_form_ahah($form_state, $node) {
   // Rebuild the form.
   $form = form_builder($_POST['form_id'], $form, $form_state);
   // Render and return the new field.
-  print drupal_to_js(array('data' => drupal_render($form['rules'][$delta]), 'status' => TRUE));
+  drupal_json(array('data' => drupal_render($form['rules'][$delta]), 'status' => TRUE));
   exit();
 }
 
+/**
+ * Autocomplete callback for rule values.
+ *
+ * @param string $type
+ *    The type of thing we're searching for.
+ * @param string $term
+ *    The search term.
+ */
+function ding_campaign_admin_autocomplete($type, $term) {
+  $matches = array();
+
+  if ($type == 'page') {
+    $query = db_query("SELECT nid, title FROM node WHERE title LIKE('%%%s%%') LIMIT 5;", $term);
+    while ($row = db_fetch_array($query)) {
+      $value = _ding_campaign_strip_title($row['title']) . ' [nid:' . $row['nid'] . ']';
+      $matches[$value] = $value;
+    }
+  }
+  elseif ($type == 'library') {
+    $query = db_query("SELECT nid, title FROM node WHERE type = 'library' AND title LIKE('%%%s%%') LIMIT 5;", $term);
+    while ($row = db_fetch_array($query)) {
+      $value = _ding_campaign_strip_title($row['title']) . ' [nid:' . $row['nid'] . ']';
+      $matches[$value] = $value;
+    }
+  }
+  elseif ($type == 'taxonomy') {
+    $query = db_query("SELECT tid, name FROM term_data WHERE name LIKE('%%%s%%') LIMIT 5;", $term);
+    while ($row = db_fetch_array($query)) {
+      $value = _ding_campaign_strip_title($row['name']) . ' [tid:' . $row['tid'] . ']';
+      $matches[$value] = $value;
+    }
+  }
+  drupal_json($matches);
+  exit();
+}
+
+/**
+ * Helper function to strip unhealthy characters form titles.
+ */
+function _ding_campaign_strip_title($title) {
+  return str_replace(array('"', "'", ',', '[', ']', '&', '<', '>'), '', check_plain($title));
+}
 

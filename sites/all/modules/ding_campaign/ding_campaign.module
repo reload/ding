@@ -14,8 +14,8 @@ function ding_campaign_menu() {
 
   $items['node/%node/campaign_rules'] = array(
     'title' => t('Display rules'),
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_campaign_admin_rule_form', 1),
+    'page callback' => 'ding_campaign_admin_rule_page',
+    'page arguments' => array(1),
     'access callback' => 'ding_campaign_access',
     'access arguments' => array('update', 1),
     'file' => 'ding_campaign.admin.inc',
@@ -29,6 +29,15 @@ function ding_campaign_menu() {
     'page arguments' => array('ding_campaign_admin_rule_form_ahah', 1),
     'access callback' => 'ding_campaign_access',
     'access arguments' => array('update', 1),
+    'file' => 'ding_campaign.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['campaign_rules/autocomplete/%/%'] = array(
+    'title' => t('Campaign rules autocomplete callback'),
+    'page callback' => 'ding_campaign_admin_autocomplete',
+    'page arguments' => array(2, 3),
+    'access arguments' => array('edit campaign'),
     'file' => 'ding_campaign.admin.inc',
     'type' => MENU_CALLBACK,
   );
@@ -347,6 +356,7 @@ function ding_campaign_rule_element_process($element, $form_state) {
     '#type' => 'textfield',
     '#title' => t('Value'),
     '#default_value' => $element['#value']['value'],
+    '#autocomplete_path' => 'campaign_rules/autocomplete/dummy/empty',
   );
 
   return $element;
@@ -366,7 +376,7 @@ function ding_campaign_rule_element_validate($element, &$form_state) {
  * are placed next to each other, rather than on separate lines.
  */
 function theme_ding_campaign_rule($element) {
-  return theme('form_element', $element, '<div class="container-inline">'. $element['#children'] .'</div>');
+  return theme('form_element', $element, '<div class="campaign-rule-wrap container-inline">'. $element['#children'] .'</div>');
 }
 
 
