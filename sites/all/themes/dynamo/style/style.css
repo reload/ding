@@ -77,9 +77,19 @@ teaser
 test
 /*--------------------------------------*/
 
-
 .meta ul{display:inline;}
 .meta li{display:inline}
+
+
+/* =====================================
+Campaigns
+/*--------------------------------------*/
+.campaign{}
+	.campaign-type-text-only{}
+	.campaign-type-image-only{}
+/*themes*/
+.campaign-theme-red{}
+
 /* =====================================
 Cowboy
 /*--------------------------------------*/
