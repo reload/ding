@@ -1,11 +1,9 @@
 <?php
-// $Id$
 
-/**
- * Ting search AJAX page callback.
- */
+
 function ting_search_pages_ting() {
   module_load_include('php', 'ting', 'lib/TingClientFactory');
+  module_load_include('php', 'ting', 'lib/services/AdditionalInformationService');
   
 	//Get users base query
 	$query = (isset($_REQUEST['query'])) ? $_REQUEST['query'] : 'dc.title:danmark';
@@ -30,7 +28,49 @@ function ting_search_pages_ting() {
 	$client = TingClientFactory::getClient();
 	$result = $client->search($request);
 
-  drupal_json($result);
+	//Add additional information info for cover images
+	$isbns = array();
+	foreach ($result->records as $record)
+	{
+		if (isset($record->data->identifier))
+		{
+			foreach ($record->data->identifier as $identifier)
+			{
+				if ($identifier->type == TingClientRecordIdentifier::ISBN)
+				{
+					$isbns[] = $identifier->id;
+				}
+			}
+		}
+	}
+
+	if (sizeof($isbns) > 0)
+	{
+		//TODO: Move account information to admin settings page
+		$additionalInformationService = new AdditionalInformationService('netpunkt', '710100', 'Juni1706');
+		$additionalInformations = $additionalInformationService->getByIsbn($isbns);
+		
+		foreach ($additionalInformations as $id => $ai)
+		{
+			foreach ($result->records as &$record)
+			{
+				if (isset($record->data->identifier))
+				{
+					foreach ($record->data->identifier as $identifier)
+					{
+						if ($identifier->type == TingClientRecordIdentifier::ISBN &&
+								$identifier->id = $id)
+						{
+							$record->additionalInformation = $ai;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+  header('Content-type: application/json');
+  echo json_encode($result);
   exit;
 }
 
@@ -42,7 +82,7 @@ function ting_search_pages_content() {
     $query = trim($_REQUEST['query']);
     $result = array('results' => do_search($query, 'node'));
     $result['count'] = count($result['results']);
-    $result['result_html'] = '';
+    $result['result_html'] = 'Bøf.';
     foreach ($result['results'] as $item) {
       if ($item->type == 'node') {
         $node = node_load($item->sid);
@@ -57,7 +97,7 @@ function ting_search_pages_content() {
       'result_html' => '',
     );
   }
-  drupal_json($result);
+  header('Content-type: application/json');
+  print json_encode($result);
   exit;
 }
-
