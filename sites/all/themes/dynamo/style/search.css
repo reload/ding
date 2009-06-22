@@ -43,6 +43,8 @@
 #content-result .node-teaser{padding:10px 0 0 20px; width:690px; background:transparent url(../images/bg-divider.png) no-repeat left top;}
 #content form #search-form{padding:0 0 0 20px;}
 
+#content-result .meta div{ display:inline;}
+
 #ting-search-result .types{float: right;}
 	#ting-search-result .types li{font-size: 10px; padding:1px 3px; color: #fff; margin: 1px}
 	#ting-search-result .types li.available{background-color:#71bf44;}

@@ -16,18 +16,16 @@
   	<?php } ?>
 
   	<div class="meta">
-  		<span class="time">
-  			<?php print format_date($node->created, 'custom', "j F Y") ?> 
-  		</span>	
-  		<span class="author">
-  			af <?php print theme('username', $node); ?>
-  		</span>	
-
+          <?php print $field_datetime_rendered ?>
+          <?php print $field_library_ref_rendered ?>          
+        
   		<?php if (count($taxonomy)){ ?>
   		  <div class="taxonomy">
   	   	  <?php print $terms ?> 
   		  </div>  
   		<?php } ?>
+
+      <?php print $field_entry_price_rendered ?>
   	</div>
 
     <?php print $node->content['body']['#value'];?>
