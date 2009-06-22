@@ -10,7 +10,7 @@ function ding_campaign_admin_rule_page($node) {
   drupal_add_js(drupal_get_path('module', 'ding_campaign') . '/js/ding_campaign.rules.js');
   drupal_add_js(array('dingCampaignRules' => array(
     'autocompleteUrl' => url('campaign_rules/autocomplete/'),
-  )), 'setting'); 
+  )), 'setting');
 
   return drupal_get_form('ding_campaign_admin_rule_form', $node);
 }
@@ -100,7 +100,7 @@ function ding_campaign_admin_rule_form_submit($form, &$form_state) {
   db_query("DELETE FROM {ding_campaign_rule} WHERE nid = %d", $form_state['values']['nid']);
 
   // Then write the new set of rules
-  // Use array_values to make sure that we have no missing numbers in the 
+  // Use array_values to make sure that we have no missing numbers in the
   // delta, and use the new key to overwrite the delta setting on the rule.
   foreach (array_values($form_state['values']['rules']) as $delta => $rule) {
     $rule['delta'] = $delta;
