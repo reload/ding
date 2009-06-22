@@ -2,12 +2,14 @@
 <?php  //dsm(get_defined_vars());  ?> 
 <?php //print $FIELD_NAME_rendered ?>
 <?php if ($page == 0){ ?>
+<!-- node.tpl-->
 <div class="<?php print $classes ?> clearfix">
+
   <div class="picture">
     <?php print $field_image_rendered; ?>
   </div>
 
-  <div>
+  <div class="content">
 
   	<?php if($node->title){	?>	
       <h3><?php print l($node->title, 'node/'.$node->nid); ?></h3>
@@ -28,8 +30,11 @@
   		<?php } ?>
   	</div>
 
-    <?php print //$content ?>
+    <?php print $node->content['body']['#value'];?>
+
+    
   </div>
+
 </div>
 <?php }else{ 
 //Content

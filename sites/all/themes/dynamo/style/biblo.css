@@ -40,15 +40,17 @@ bibloteks oversigtsiden
 /*lib status*/
 .libary-openstatus{padding:0 5px; display:inline; color:#fff;}
 .libary-openstatus.open{background:#71bf44;}
-.info .libary-openstatus.closed{background:#6b0046;}
+.libary-openstatus.closed{background:#6b0046;}
 
-
+.node-teaser .picture, 
 .node-library-teaser .picture,
 .view-event-list .picture{
 	width:120px; height:120px; margin:0 20px 0 0; float:left; background:#eee;
 }
 
-.node-library-teaser .info{width:355px; ; margin:0 20px 0 0; float:left;}
+.node-teaser .content{width:530px; margin:0 20px 0 0; float:left;}
+.node-library-teaser .content{width:355px; margin:0 20px 0 0; float:left;}
+
 
 .node-library-teaser .office-hours-week{width:175px; float:left;}
 .node-library-teaser .office-hours-week .week-info{background:#d1d9d7}

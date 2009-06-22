@@ -1,13 +1,21 @@
 <?php  //dsm(get_defined_vars());  ?> 
 <?php //print $FIELD_NAME_rendered ?>
+<?php 
+//  if($node->nid=="1"){
+ //   dsm(get_defined_vars());
+//  dsm($node);
+//  }
+
+?>
 <?php if ($page == 0){ ?>
 <!--node-lib-->
-<div class="clearfix node-library-teaser">
+<div class="clearfix node-library-teaser node-teaser">
+
   <div class="picture">
     <?php print $field_image_rendered; ?>
   </div>
 
-  <div class="info">
+  <div class="content">
   
     <div class="libary-openstatus <?php print $node->field_opening_hours_processed['status'];?>">
         <?php print t($node->field_opening_hours_processed['status']);?>
