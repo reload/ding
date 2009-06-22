@@ -17,7 +17,7 @@
   	<?php } ?>
 
     <?php print $node->locations['0']['street'];?><br/> 
-    <?php print $node->locations['0']['city'];?>  <?php print $node->locations['0']['postal_code'];?>
+    <?php print $node->locations['0']['city'];?> <?php print $node->locations['0']['postal_code'];?>
     <br/><br/>
     tlf:<?php print $node->locations['0']['phone'];?><br/>        
     fax: <?php print $node->locations['0']['fax'];?><br/>
