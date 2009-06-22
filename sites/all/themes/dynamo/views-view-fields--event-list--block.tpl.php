@@ -17,5 +17,13 @@
 <div class="info">
   <?php print $fields['field_library_ref_nid']->content; ?>
   <h4><?php print $fields['title']->content; ?></h4>
-  <span class="time"><?php print date("h:i", $date); ?>  -   <?php print $fields['field_entry_price_value']->content; ?></span>
+  <span class="time"><?php print date("h:i", $date); ?>  
+
+    <?php if($fields['field_entry_price_value']->content){ ?>
+      <?php print $fields['field_entry_price_value']->content; ?>
+    <?php }else{ ?>
+      Gratis
+    <?php }  ?>
+    
+  </span>
 </div>  
