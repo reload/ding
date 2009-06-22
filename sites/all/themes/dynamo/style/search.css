@@ -3,15 +3,15 @@
 /* ===================================== 
 	Style: search
 * ------------------------------------- */
-#ting-search-tabs{padding:0px 0 0 20px;}
+#ting-search-tabs{padding:0px 0 0 17px;}
 	#ting-search-tabs li{
-	 margin-left:3px; 
-	padding:1px 3px 5px; display:inline; 
-	border-top: 1px solid #ccc; 
-	border-left: 1px solid #ccc;  
-	border-right: 1px solid #ccc; 
-	background: #f3f5f4;font-size:11px; text-transform: uppercase;
-}
+		margin-left:3px; 
+		padding:1px 3px 5px; display:inline; 
+		border-top: 1px solid #ccc; 
+		border-left: 1px solid #ccc;  
+		border-right: 1px solid #ccc; 
+		background: #f3f5f4;font-size:11px; text-transform: uppercase;
+	}
 	#ting-search-tabs li a{color: #000;}
 	#ting-search-tabs li .count-value{color: #900;}
 
@@ -33,7 +33,7 @@
 #ting-search-result{ padding:20px 0 0 0px; width: 650px;}
 	#ting-search-result ul li{background:transparent url(../images/bg-divider.png) no-repeat left top; margin:0 0 20px 0px;  padding:10px 0 10px 10px; list-style-position: outside; clear:both; }
 	#ting-search-result div.picture{float:left; background:#ddd; width:100px; margin:0 12px 0 0; line-height:0;}
-	#ting-search-result div.record{margin-left:112px; width:500px;}
+	#ting-search-result div.record{margin-left:112px; width:525px;}
 	#ting-search-result h4{display:inline;}
 	#ting-search-result .types li{clear:none; display:inline; float:left; margin:0 10px 0 0; padding:0; background:none;}
 	#ting-search-result .subjects li{clear:none; display:inline; float:left; margin:0 10px 0 0; padding:0; background:none; }
