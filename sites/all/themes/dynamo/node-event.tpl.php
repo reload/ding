@@ -16,8 +16,8 @@
   	<?php } ?>
 
   	<div class="meta">
-          <?php print $field_datetime_rendered ?>
-          <?php print $field_library_ref_rendered ?>          
+        <?php print $field_datetime_rendered ?>
+        <?php print $field_library_ref_rendered ?>          
         
   		<?php if (count($taxonomy)){ ?>
   		  <div class="taxonomy">
