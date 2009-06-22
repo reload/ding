@@ -55,12 +55,12 @@ function ting_search_pages_ting() {
 			foreach ($result->records as &$record)
 			{
 				if (isset($record->data->identifier))
-				{
+				{						
 					foreach ($record->data->identifier as $identifier)
 					{
 						if ($identifier->type == TingClientRecordIdentifier::ISBN &&
-								$identifier->id = $id)
-						{
+								$identifier->id == $id)
+						{	
 							$record->additionalInformation = $ai;
 						}
 					}

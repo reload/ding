@@ -8,7 +8,8 @@ Drupal.tingResult = function(element, result)
 			'.title': function(arg) { return (arg.item.data.title) ? arg.item.data.title.join(', ') : ''; },
 			'.creator em': function(arg) { return (arg.item.data.creator) ? arg.item.data.creator.join(', ') : ''; },
 			'.publication_date em': function(arg) { return (arg.item.data.date) ? arg.item.data.date.join(', ') : ''; },
-			'.description p': function(arg) { return (arg.item.data.description) ? arg.item.data.description.join('</p><p>') : ''; }
+			'.description p': function(arg) { return (arg.item.data.description) ? arg.item.data.description.join('</p><p>') : ''; },
+			'.picture': function(arg) { return (arg.item.additionalInformation) ? '<img src="'+arg.item.additionalInformation.thumbnailUrl+'"/>' : ''; }
 		});
 		
 		types = jQuery('.types', records).mapDirective({
