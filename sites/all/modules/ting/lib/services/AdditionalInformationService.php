@@ -33,7 +33,7 @@ class AdditionalInformationService {
 		}
 		foreach ($isbn as $i)
 		{
-			$isbnIdentifiers = array('isbn' => $i);
+			$isbnIdentifiers[] = array('isbn' => $i);
 		}
 		
 		$client = new SoapClient('http://forside.addi.dk/addi.wsdl');
