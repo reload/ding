@@ -20,11 +20,13 @@ $(document).ready(function() {
     Drupal.tingFacetBrowser("#ting-facet-browser", "#ting-search-result", data);
     var tab = $("#ting-search-tabs li.ting");
     if (data.numTotalRecords) {
+    	tab.addClass('active');
     	tab.find('.count-value').text(data.numTotalRecords);
 			tab.find('.count').show();
 			
       tab.html('<a href="#">' + tab.html() + '</a>');
       tab.click(function (eventObject) {
+      	$(this).addClass('active').siblings().removeClass('active');
         $("#content-result").hide();
         $("#ting-result").show();
         return false;
@@ -42,6 +44,7 @@ $(document).ready(function() {
 
       $("#content-result").html(Drupal.tingSearch.contentData.result_html);
       tab.click(function () {
+      	$(this).addClass('active').siblings().removeClass('active');
         $("#ting-result").hide();
         $("#content-result").show();
         return false;
