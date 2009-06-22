@@ -288,11 +288,22 @@ function ding_campaign_elements() {
 function ding_campaign_theme() {
   return array(
     'ding_campaign_rule' => array(
-      'arguments' => array('element'),
+      'arguments' => array('element' => NULL),
+    ),
+    'ding_campaign_relevant_campaigns' => array(
+      'context' => array('context' => NULL),
     ),
   );
 }
 
+/**
+ * Implementation of hook_ctools_plugin_dierctory().
+ */
+function ding_campaign_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && $plugin == 'content_types') {
+    return 'plugins/' . $plugin;
+  }
+}
 
 /**
  * Implementation of hook_admin_theme().
@@ -356,6 +367,8 @@ function ding_campaign_rule_element_process($element, $form_state) {
     '#type' => 'textfield',
     '#title' => t('Value'),
     '#default_value' => $element['#value']['value'],
+    // Set up autocomplete pointing to a dummy path that just returns an
+    // empty array. We set the correct path via JavaScript.
     '#autocomplete_path' => 'campaign_rules/autocomplete/dummy/empty',
   );
 
@@ -370,6 +383,62 @@ function ding_campaign_rule_element_validate($element, &$form_state) {
 }
 
 /**
+ * Get relevant campaigns.
+ *
+ * @param array $context
+ *    Array of context items – search_term, library, page and taxonomy.
+ * @return array
+ *    Array of node ids of relevant campaigns, sorted by relevancy.
+ */
+function ding_campaign_get_relevant($context) {
+  $campaigns = array();
+  if (isset($context['page']) && !empty($context['page'])) {
+    if ($context['page'] instanceof stdClass) {
+      $nid = $context['page']->nid;
+    }
+    else {
+      $nid = (int) $context['page'];
+    }
+    $query = db_query("SELECT nid FROM {ding_campaign_rule} WHERE type = 'page' AND value_id = %d;", $nid);
+    while ($camp_nid = db_result($query)) {
+      $campaigns[$camp_nid] += 9;
+    }
+  }
+  if (isset($context['search_term']) && !empty($context['search_term'])) {
+    $query = db_query("SELECT nid FROM {ding_campaign_rule} WHERE type = 'search_term' AND value = '%s';", $context['search_term']);
+    while ($camp_nid = db_result($query)) {
+      $campaigns[$camp_nid] += 7;
+    }
+  }
+  if (isset($context['library']) && !empty($context['library'])) {
+    if ($context['library'] instanceof stdClass) {
+      $nid = $context['library']->nid;
+    }
+    else {
+      $nid = (int) $context['library'];
+    }
+    $query = db_query("SELECT nid FROM {ding_campaign_rule} WHERE type = 'library' AND value_id = %d;", $nid);
+    while ($camp_nid = db_result($query)) {
+      $campaigns[$camp_nid] += 5;
+    }
+  }
+  if (isset($context['taxonomy']) && !empty($context['taxonomy'])) {
+    if ($context['taxonomy'] instanceof stdClass) {
+      $tid = $context['taxonomy']->tid;
+    }
+    else {
+      $tid = (int) $context['taxonomy'];
+    }
+    $query = db_query("SELECT nid FROM {ding_campaign_rule} WHERE type = 'taxonomy' AND value_id = %d;", $tid);
+    while ($camp_nid = db_result($query)) {
+      $campaigns[$camp_nid] += 3;
+    }
+  }
+  arsort($campaigns);
+  return array_keys($campaigns);
+}
+
+/**
  * Theme function to format the our custom form element.
  *
  * We use the container-inline class so that all three of the HTML elements 
@@ -379,4 +448,27 @@ function theme_ding_campaign_rule($element) {
   return theme('form_element', $element, '<div class="campaign-rule-wrap container-inline">'. $element['#children'] .'</div>');
 }
 
+/**
+ * Theme function to get and render relevant campaigns based on context.
+ *
+ * @param array $context
+ *    The context array passed to ding_campaign_get_relevant()
+ * @return string
+ *    Rendered campaign nodes, or NULL if no match was found.
+ * @see ding_campaign_get_relevant().
+ */
+function theme_ding_campaign_relevant_campaigns($context) {
+  $campaigns = ding_campaign_get_relevant($context);
+  $output = '';
+
+  foreach ($campaigns as $campaign) {
+    $node = node_load($campaign);
+    $output .= node_view($node, TRUE, FALSE, FALSE);
+  }
+
+  if (!empty($output)) {
+    return $output;
+  }
+  return FALSE;
+}
 
