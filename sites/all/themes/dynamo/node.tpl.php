@@ -1,29 +1,35 @@
-<?php // dsm($node->content);	?>	
+<?php // dsm($node);	?>	
 <?php  //dsm(get_defined_vars());  ?> 
 <?php //print $FIELD_NAME_rendered ?>
 <?php if ($page == 0){ ?>
-<div class="<?php print $classes ?>">
+<div class="<?php print $classes ?> clearfix">
+  <div class="picture">
+    <?php print $field_image_rendered; ?>
+  </div>
 
-	<?php if($node->title){	?>	
-    <h3><?php print l($node->title, 'node/'.$node->nid); ?></h3>
-	<?php } ?>
+  <div>
 
-	<div class="meta">
-		<span class="time">
-			<?php print format_date($node->created, 'custom', "j F Y") ?> 
-		</span>	
-		<span class="author">
-			af <?php print theme('username', $node); ?>
-		</span>	
+  	<?php if($node->title){	?>	
+      <h3><?php print l($node->title, 'node/'.$node->nid); ?></h3>
+  	<?php } ?>
 
-		<?php if (count($taxonomy)){ ?>
-		  <div class="taxonomy">
-	   	  <?php print $terms ?> 
-		  </div>  
-		<?php } ?>
-	</div>
+  	<div class="meta">
+  		<span class="time">
+  			<?php print format_date($node->created, 'custom', "j F Y") ?> 
+  		</span>	
+  		<span class="author">
+  			af <?php print theme('username', $node); ?>
+  		</span>	
 
-  <?php print $content ?>
+  		<?php if (count($taxonomy)){ ?>
+  		  <div class="taxonomy">
+  	   	  <?php print $terms ?> 
+  		  </div>  
+  		<?php } ?>
+  	</div>
+
+    <?php print //$content ?>
+  </div>
 </div>
 <?php }else{ 
 //Content

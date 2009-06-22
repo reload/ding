@@ -6,8 +6,9 @@
   <div class="picture">
     <?php print $field_image_rendered; ?>
   </div>
+
   <div class="info">
-    
+  
     <div class="libary-openstatus <?php print $node->field_opening_hours_processed['status'];?>">
         <?php print t($node->field_opening_hours_processed['status']);?>
     </div>
