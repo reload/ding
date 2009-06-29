@@ -1,4 +1,8 @@
 h1. Copenhagen public libraries on Drupal
 
-We're working on creating a new web site for the public libraries of the two largest Danish cities, Copenhagen and Århus, using Drupal and other open source components. For more information, we have a "project site":http://ding.ooh.dk/ as well as a  "bugtracker":https://libraryding.lighthouseapp.com/.
+We're working on creating a new web site for the public libraries of the two largest Danish cities, Copenhagen and Århus, using Drupal and other open source components. 
+For more information, we have a "project site":http://ding.ooh.dk/ as well as a  "bugtracker":https://libraryding.lighthouseapp.com/.
 
+h2. How to get started
+
+We still haven't written a guide to install the system, but for the die-hards we have a "danish mini-guide here":https://libraryding.lighthouseapp.com/projects/27862/setup  
