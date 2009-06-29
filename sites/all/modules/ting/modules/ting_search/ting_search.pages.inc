@@ -68,9 +68,7 @@ function ting_search_pages_ting() {
 			}
 		}
 	}
-	
-  header('Content-type: application/json');
-  echo json_encode($result);
+  drupal_json($result);
   exit;
 }
 
@@ -82,7 +80,7 @@ function ting_search_pages_content() {
     $query = trim($_REQUEST['query']);
     $result = array('results' => do_search($query, 'node'));
     $result['count'] = count($result['results']);
-    $result['result_html'] = 'Bøf.';
+    $result['result_html'] = '';
     foreach ($result['results'] as $item) {
       if ($item->type == 'node') {
         $node = node_load($item->sid);
@@ -97,7 +95,6 @@ function ting_search_pages_content() {
       'result_html' => '',
     );
   }
-  header('Content-type: application/json');
-  print json_encode($result);
+  drupal_json($result);
   exit;
 }

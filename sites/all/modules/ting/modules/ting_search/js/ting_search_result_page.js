@@ -8,7 +8,7 @@ $(document).ready(function() {
   Drupal.tingSearch = {};
 
   // Put the search keys into the main searchbox.
-  $("#block-ting-searchbox :text").val(Drupal.settings.tingSearch.keys);
+  $("#block-ting_search-searchbox :text").val(Drupal.settings.tingSearch.keys);
 
   // Remove the original output from the search module, and make room
   // for our search results and the facet browser.
