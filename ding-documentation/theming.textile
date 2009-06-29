@@ -1,1 +1,60 @@
-h1. Theming FTW
+h1. Ding Theming
+Documentation links:
+* http://drupal.org/theme-guide/6
+
+h2. Dynamo & Subthemes
+* subtheme documentation http://drupal.org/node/225125
+* mothership: http://drupal.org/project/mothership
+* moshpit: http://drupal.org/project/moshpit
+
+
+h2. Dynamos Filer
+Dynamo themet har følgende filer 
+  
+h3. Template filer
+* block-account.tpl.php
+* block-seach.tpl.php
+* block.tpl.php
+* comment.tpl.php
+* ding_panels_content_libary_location.tpl.php
+* ding_panels_content_libary_title.tpl.php
+* location.tpl.php
+* node-campaign.tpl.php
+* node-event.tpl.php
+* node-library.tpl.php
+* node.tpl.php
+* page.tpl.php
+* panels-threecol-33-34-33-stacked.tpl.php
+* panels-threecol-left-stacked-right.tpl.php
+* panels-threecol-left-stacked.tpl.php
+* panels-twocol-left-stacked.tpl.php
+* ting_record.tpl.php
+* ting_result.tpl.php
+* views-view-fields--article-list--block-4.tpl.php
+* views-view-fields--article-list.tpl.php
+* views-view-fields--event-list--block.tpl.php
+* views-view-fields--event-list--page.tpl.php
+* views-view-fields--library-list--page.tpl.php
+* views-view-list--event-list--block.tpl.php
+
+h3. javasctipt
+  script/jquery.jcarousel.js
+  script/jquery.jcarousel.pack.js
+  script/jquery.overlabel.js
+  script.js
+
+h3. css
+  style/biblo.css
+  style/grid.css
+  style/jcarousel.css
+  style/search.css
+  style/style.css
+  style/typography.css
+
+images/
+
+h3. drupal theme filer
+* dynamo.info
+* template.php
+
+
