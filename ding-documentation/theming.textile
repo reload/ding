@@ -1,24 +1,47 @@
 h1. Ding Theming
 
-Documentation links:
+Drupal Documentation
 * http://drupal.org/theme-guide/6
 
 h2. Dynamo & Subthemes
 
+Themet er bygget op med subtheming
+mothership -> _moshpit *_ -> Dynamo -> "Lokalt theme"
+_ * moshpit bliver merged med dynamo senere_
+
+*Mothership* "
+pre load" theme der rytter op og fjerner / tilføjer css classer og markup til og fra drupals standard installation
+
+*moshpit* 
+et starter theme der bliver merged sammen med dynamo, når vi er kommet længere i processen ...
+
+*Dynamo* 
+bibliotekernes grund theme hvor alle elementer er defineret 
+
+*Lokalt theme* 
+Det er her de lokale biblioteker kan ændre i sites udformning
+
+
+Documentation 
 * subtheme documentation http://drupal.org/node/225125
 * mothership: http://drupal.org/project/mothership
 * moshpit: http://drupal.org/project/moshpit
 
 
 h2. Dynamos Filer
+Dynamo themet kommer med en del filer, som det lokale theme kan overskrive, hvis man har behov for dette
 
-Dynamo themet har følgende filer 
   
 h3. Template filer
 
-* block-account.tpl.php
-* block-seach.tpl.php
-* block.tpl.php
+h5. Blocks
+block.tpl.php
+
+block-account.tpl.php
+
+block-seach.tpl.php
+
+
 * comment.tpl.php
 * ding_panels_content_libary_location.tpl.php
 * ding_panels_content_libary_title.tpl.php
@@ -41,7 +64,7 @@ h3. Template filer
 * views-view-fields--library-list--page.tpl.php
 * views-view-list--event-list--block.tpl.php
 
-h3. javasctipt
+h3. javascript
 
   script/jquery.jcarousel.js
   script/jquery.jcarousel.pack.js
@@ -64,4 +87,22 @@ h3. drupal theme filer
 * dynamo.info
 * template.php
 
+
+h2. lokalbiblioteks version
+
+kopier folderen "lokalbibliotek" og giv den et nyt navn - navnet skal være uden mellemrum æøå osv.
+den kopierede folder plaseres i sites/all/themes/
+
+lokalbibliotek folderen har følgende filer:
+* lokalbiblotek.info 
+her defineres alle de grunlæggende ting i themet, såsom regioner, theme features, CSS og Javascript filer
+
+* style.css
+basic stylesheet til overskrivning af de mest gængse elementer
+
+* theme-settings.php
+defineringer af settings til themet
+
+* template.php
+overskrivninger af elementer fra drupal.
 

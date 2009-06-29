@@ -51,6 +51,11 @@ bibloteks oversigtsiden
 .node-teaser .content{width:530px; margin:0 20px 0 0; float:left;}
 .node-library-teaser .content{width:355px; margin:0 20px 0 0; float:left;}
 
+/*adresse*/
+.node-library-teaser .address span{width:300px; margin:0 10px 0 0; border: 1px solid #999;}
+
+
+
 
 .node-library-teaser .office-hours-week{width:175px; float:left;}
 .node-library-teaser .office-hours-week .week-info{background:#d1d9d7}

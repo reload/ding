@@ -101,9 +101,10 @@ h4 a, h4 a:link,h4 a:visited,h4 a:active{font-size:12px; line-height:15px; color
 	font-size:11px; line-height:15px; color:#050505;
 }
 
-.vcard{
-	font-size:11px; line-height:17px;
-}
+
+.vcard{font-size:11px; line-height:17px;}
+
+
 
 #twocol-right .pane-article_list,
 .pane-comment-0,

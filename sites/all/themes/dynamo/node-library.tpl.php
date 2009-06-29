@@ -21,16 +21,42 @@
         <?php print t($node->field_opening_hours_processed['status']);?>
     </div>
 
-  	<?php if($node->title){	?>	
-      <h3><?php print l($node->title, 'node/'.$node->nid); ?></h3>
-  	<?php } ?>
+    <div class="vcard">
 
-    <?php print $node->locations['0']['street'];?><br/> 
-    <?php print $node->locations['0']['city'];?> <?php print $node->locations['0']['postal_code'];?>
-    <br/><br/>
-    tlf:<?php print $node->locations['0']['phone'];?><br/>        
-    fax: <?php print $node->locations['0']['fax'];?><br/>
-    E-mail: <?php print $node->field_email['0']['view'];?><br/>
+      <h3 class="fn org"><?php print l($node->title, 'node/'.$node->nid); ?></h3>
+      <div class="adr">
+        <div class="street-address"><?php print $node->location['street']; ?></div>
+        <span class="postal-code"><?php print $node->location['postal_code']; ?></span>
+        <span class="locality"><?php print $node->location['city']; ?></span>
+
+      </div>
+
+      <div>
+          <a href="" id="biblo-<?php print $node->nid ?>"> se på kort</a>
+      </div>
+      
+      <div class="tel">
+        <span class="type"><?php print t('Phone'); ?>:</span> <span><?php print $node->location['phone']; ?></span>
+      </div>
+      <div class="tel">
+        <span class="type"><?php print t('Fax'); ?>:</span> <span><?php print $node->location['fax']; ?></span>
+      </div>
+      <div class="email">
+        <span class="type"><?php print t('Fax'); ?>:</span> <span><?php print $node->field_email['0']['view']; ?></span>
+      </div>
+
+    </div>
+
+
+
+    
+
+
+
+
+
+
+
 
   </div>
   <?php print $node->field_opening_hours['0']['view'];?>
