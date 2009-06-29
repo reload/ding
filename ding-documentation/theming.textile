@@ -1,17 +1,21 @@
 h1. Ding Theming
+
 Documentation links:
 * http://drupal.org/theme-guide/6
 
 h2. Dynamo & Subthemes
+
 * subtheme documentation http://drupal.org/node/225125
 * mothership: http://drupal.org/project/mothership
 * moshpit: http://drupal.org/project/moshpit
 
 
 h2. Dynamos Filer
+
 Dynamo themet har følgende filer 
   
 h3. Template filer
+
 * block-account.tpl.php
 * block-seach.tpl.php
 * block.tpl.php
@@ -38,12 +42,14 @@ h3. Template filer
 * views-view-list--event-list--block.tpl.php
 
 h3. javasctipt
+
   script/jquery.jcarousel.js
   script/jquery.jcarousel.pack.js
   script/jquery.overlabel.js
   script.js
 
 h3. css
+
   style/biblo.css
   style/grid.css
   style/jcarousel.css
@@ -54,6 +60,7 @@ h3. css
 images/
 
 h3. drupal theme filer
+
 * dynamo.info
 * template.php
 
