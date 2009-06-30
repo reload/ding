@@ -1,7 +1,3 @@
-<?php
-  dsm($fields);
-?>
-
 <div class="subject"><?php print $fields['tid']->content; ?> </div>
 <h2><?php print $fields['title']->content; ?></h2>
 <div class="meta">
