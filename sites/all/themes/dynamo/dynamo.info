@@ -17,7 +17,10 @@ regions[content_bottom] = content bottom
 regions[node_region_one] = node region one
 regions[node_region_two] = node region two
 regions[footer]         = footer
-   
+regions[footer_one]     = footer one
+regions[footer_two]     = footer two
+regions[footer_three]   = footer three
+regions[footer_four]    = footer four
 ;--------------------- features ----------------------------
 ;features[] = logo
 ;features[] = name

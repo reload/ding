@@ -38,9 +38,9 @@ bibloteks oversigtsiden
 }
 
 /*lib status*/
-.libary-openstatus{padding:0 5px; display:inline; color:#fff;}
-.libary-openstatus.open{background:#71bf44;}
-.libary-openstatus.closed{background:#6b0046;}
+.node-library-teaser .libary-openstatus{padding:0 5px; display:inline; color:#fff;}
+.node-library-teaser .content .open{background:#71bf44;}
+.node-library-teaser .content .closed{background:#6b0046;}
 
 .node-teaser .picture, 
 .node-library-teaser .picture,
@@ -94,8 +94,10 @@ bibloteks oversigtsiden
 /*features*/
 .pane-library_feature_list{background-repeat: repeat-y; margin:0 0 0 10px;}
 .pane-library_feature_list h3{background-position:-230px -30px; padding:10px 0 0 10px; height:18px; }
-.pane-library_feature_list .item-list{background-position:-700px bottom; padding:0px 0px 10px 20px; min-height:30px;}
-.pane-library_feature_list ul li{background:transparent url(../images/ok.png) no-repeat left center; padding:0 0 0 15px;}
+.pane-library_feature_list .item-list{background-position:-700px bottom; padding:10px 0px 10px 15px; min-height:30px;}
+.pane-library_feature_list .item-list li{width:65px; float:left; margin:0 10px 0 0; padding:0 0 0 15px; background:transparent url(../images/ok.png) no-repeat left center; }
+
+
 
 /*åbningstider*/
 .pane-feature_list-block_1{background-repeat: repeat-y;}

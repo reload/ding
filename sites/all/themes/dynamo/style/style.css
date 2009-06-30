@@ -35,6 +35,7 @@
 .pane-node_comment_form{
 	margin:0 20px 20px 20px;
 }
+
 .view-event-list span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px;}
 
 /* =======================================
@@ -84,9 +85,22 @@ test
 /* =====================================
 Campaigns
 /*--------------------------------------*/
-.campaign{}
-	.campaign-type-text-only{}
-	.campaign-type-image-only{}
+.campaign{margin:10px 0;}
+.campaign-type-image-only{width:214px; height:334px; background:#ccf; margin:0 7px;}
+.campaign-type-text-only{
+	width:218px; height:60px; padding:10px 0px 10px 10px; overflow:hidden;
+	background:transparent url(../images/sprite-box.png) no-repeat -230px -60px; 
+}
+
+.campaign-type-text-only a{
+	width:210px; height:60px; display:block; overflow:hidden; 
+	font: normal normal normal 16px/18px "Gill sans", sans-serif;
+	text-transform: uppercase;  color:#ccc;
+}
+
+
+
+.campaign-type-image-only{}
 /*themes*/
 .campaign-theme-red{}
 

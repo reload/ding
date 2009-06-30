@@ -117,7 +117,7 @@ Panels
 #twocol-left{width:710px; float:left;}
 #twocol-left-left{width:690px; float:left; background:transparent url(../images/bg-divider-horizontalt.png) no-repeat right top;} /* min-height:300px*/
 #twocol-right{width:250px; float:left;}
-#twocol-bottom{width:690px; clear:both; margin:0 0 0 20px; background:transparent url(../images/bg-divider-horizontalt.png) no-repeat right top;}
+#twocol-bottom{width:690px; clear:both; background:transparent url(../images/bg-divider-horizontalt.png) no-repeat right top;} /*margin:0 0 0 20px; */
 
 /*3 cols*/
 #threecol-left{width:710px; float:left;}
