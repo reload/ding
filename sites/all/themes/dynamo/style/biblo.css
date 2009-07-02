@@ -33,10 +33,9 @@
 bibloteks oversigtsiden
 /*--------------------------------------*/
 
-.node-library-teaser{
-	background:transparent url(../images/bg-divider.png) no-repeat left top; padding:10px 0 0 20px;
-}
-
+.node-library-teaser{background:transparent url(../images/bg-divider.png) no-repeat left top; padding:10px 0 10px 20px;}
+.node-library-teaser h3{padding:0 0 5px 0;}
+.node-library-teaser .link-card{padding:0 0 3px 0;}
 /*lib status*/
 .node-library-teaser .libary-openstatus{padding:0 5px; display:inline; color:#fff;}
 .node-library-teaser .content .open{background:#71bf44;}
@@ -52,9 +51,9 @@ bibloteks oversigtsiden
 .node-library-teaser .content{width:355px; margin:0 20px 0 0; float:left;}
 
 /*adresse*/
-.node-library-teaser .address span{width:300px; margin:0 10px 0 0; border: 1px solid #999;}
 
-
+.node-library-teaser .vcard div{clear:both;}
+.node-library-teaser .vcard  span.type{width:60px; display:block; float:left;}
 
 
 .node-library-teaser .office-hours-week{width:175px; float:left;}

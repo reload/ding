@@ -1,8 +1,8 @@
 <?php // dsm($node);	?>	
 <?php  //dsm(get_defined_vars());  ?> 
 <?php //print $FIELD_NAME_rendered ?>
-<?php if ($page == 0){ ?>
 <!-- node.tpl-->
+<?php if ($page == 0){ ?>
 <div class="<?php print $classes ?> clearfix">
 
   <div class="picture">
@@ -44,23 +44,21 @@
 	<?php } ?>
 		
 	<div class="meta">
-		<span class="time">
-			<?php print format_date($node->created, 'custom', "j F Y") ?> 
-		</span>	
-		<span class="author">
-			af <?php print theme('username', $node); ?>
-		</span>	
-
-		<?php if (count($taxonomy)){ ?>
-		  <div class="taxonomy">
-	   	  <?php print $terms ?> 
-		  </div>  
-		<?php } ?>
+	  
+		<?php print format_date($node->created, 'custom', "j F Y - H:i") ?> 
+    <i><?php print t('by'); ?></i> 
+		<span class="author"><?php print theme('username', $node); ?></span>	
 	</div>
 
 	<div class="content">
 		<?php print $content ?>
 	</div>
+
+	<?php if (count($taxonomy)){ ?>
+	  <div class="taxonomy">
+   	  <?php print $terms ?> 
+	  </div>  
+	<?php } ?>
 		
 	<?php if ($links){ ?>
     <?php  print $links; ?>

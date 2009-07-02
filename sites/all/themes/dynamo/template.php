@@ -39,7 +39,6 @@ function dynamo_preprocess_views_view_list(&$vars){
     $vars['classes'][$id] .= ' last';
   }
 
-
 /*
 * panels
 */
@@ -54,9 +53,6 @@ function dynamo_panels_pane($content, $pane, $display) {
     } 
     //  $output = "<div class=\"panel-pane $classstr\"$idstr>\n";
     $output = "<div class=\"pane-$pane->subtype\">\n";
-    if (user_access('view pane admin links') && !empty($content->admin_links)) {
-      $output .= "<div class=\"admin-links panel-hide\">" . theme('links', $content->admin_links) . "</div>\n";
-    }
     if (!empty($content->title)) {
       $output .= "<h3>$content->title</h3>\n";
     }
@@ -78,6 +74,10 @@ function dynamo_panels_pane($content, $pane, $display) {
       }
       $output .= "<div class=\"panels more-link\">" . l($content->more['title'], $content->more['href']) . "</div>\n";
     }
+    if (user_access('view pane admin links') && !empty($content->admin_links)) {
+      $output .= "<div class=\"admin-links panel-hide\">" . theme('links', $content->admin_links) . "</div>\n";
+    }
+
 
     $output .= "</div>\n";
     return $output;
@@ -103,3 +103,5 @@ function dynamo_panels_default_style_render_panel($display, $panel_id, $panes, $
 
   return $output;
 }
+
+

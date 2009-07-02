@@ -42,7 +42,7 @@ body{background:#e5e5e5 url(../images/bg.png) repeat-x 0 0;}
 /* footer */	
 #pagefooter{background:transparent url(../images/bg-footer.png) no-repeat 0 bottom; padding:0 0 20px 0;}
 	#pagefooter-inner{padding:0px 32px 0 17px; background:transparent url(../images/bg-footer.png) no-repeat 0 top;}	
-		#pagefooter-inner div{width:196px; min-height:200px; padding:10px 20px 0 20px; background:transparent url(../images/bg-footer-divider.png) no-repeat left 0;}
+		#pagefooter-inner div.left{width:196px; min-height:200px; padding:10px 20px 0 20px; background:transparent url(../images/bg-footer-divider.png) no-repeat left 0;}
 		#pagefooter-inner div.first{background-image:none;}
 		#pagefooter ul li a{background:transparent url(../images/pil.png) no-repeat left center; padding:0 0 0 10px;}		
 
@@ -72,6 +72,7 @@ Account
 	#user-login-form input{ height:17px; margin:0; padding:0; background-color: #fff; border-top: 1px solid #ddd; border-left: 1px solid #ddd; }
 
 /*overlabel*/
+/*
 #edit-name-wrapper,
 #edit-pass-wrapper{
 	position:relative;margin:0 0 5px 0;
@@ -80,10 +81,12 @@ Account
 #edit-pass-wrapper label.overlabel-apply {
 	position:absolute; top:2px;	left:5px;	z-index:1; color:#888;
 }
+*/	
 #edit-name-wrapper{width:220px;}
 #edit-name-wrapper input{width:220px;}
 #edit-pass-wrapper{width:160px; float:left;}
 	#edit-pass-wrapper input{width:160px;}
+
 #user-login-form span.button{width:60px;height:20px; display:block; float:left;overflow:hidden; padding:0; margin:1px 0 0 3px; background:transparent url(../images/accountlogin.png) no-repeat right center;}
 	#user-login-form span.button span {background:transparent url(../images/accountlogin.png) no-repeat left center;}
 	#user-login-form span.button span input{background:transparent; border: 0px solid #999; color:#fff;}
@@ -96,11 +99,19 @@ Account
 	#edit-keys-wrapper{float:left; display:inline;}
 	#search-form input{height:20px; width:450px; background:#fff url(../images/magnifier.png) no-repeat 9px 5px; border: 1px solid #999; margin:0 20px 0 0; padding:4px 0 0 25px; font-size:1.2em; color:#929292; float:left;}
 	/*overlabel*/
+/*
 	#search-form{position:relative; width:600px; float:left;}
 	#search-form label.overlabel-apply {position:absolute; top:3px;	left:30px;	z-index:1; color:#929292;}
 	#search-form input.submit{width:80px; height:25px;}
 	#search-form span.button{float:left; display:block; height:29px; width:94px; background:transparent url(../images/searchbutton.png) no-repeat 0 0;;}
 	#search-form span.button input{ border:0; background:transparent; margin:5px 10px; color:transparent; font-weight:bold; text-indent: -9999em; }
+*/
+
+form{clear: both;}
+form label.overlabel-apply{position:absolute; z-index:1; color:#666; margin:3px 0 0 5px; font-size:10px;} 
+form label.overlabel-apply .form-required{color:#900;}
+form div.description{font-size:10px; line-height:12px; color:#999; padding:5px; width:400px;}
+form div.overlabel-wrapper{margin:10px;}
 
 
 /* =====================================

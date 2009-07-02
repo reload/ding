@@ -68,6 +68,7 @@ h4 a, h4 a:link,h4 a:visited,h4 a:active{font-size:12px; line-height:15px; color
 
 
 .comment,
+.taxonomy,
 .meta,
 .view-empty,
 .view-event-list .libary-tag,
@@ -100,10 +101,9 @@ h4 a, h4 a:link,h4 a:visited,h4 a:active{font-size:12px; line-height:15px; color
 #frontpagecarousel-controller li a{
 	font-size:11px; line-height:15px; color:#050505;
 }
-
-
-.vcard{font-size:11px; line-height:17px;}
-
+/*TODO kun i hæjre baren*/
+.pane-library_location .vcard{font-size:11px; line-height:17px;}
+.pane-library_location .vcard .fn{font-weight:bold;}
 
 
 #twocol-right .pane-article_list,
@@ -121,7 +121,10 @@ h4 a, h4 a:link,h4 a:visited,h4 a:active{font-size:12px; line-height:15px; color
 	font-size:11px; line-height:20px; font-weight:bold;
 }
 
-.subject a{color:#fff; background-color: #b41630; padding:2px;}
+.subject a{color:#fff; background-color: #b41630; padding:2px; text-transform: uppercase; font-size:8px}
+
+.view-article-list p{padding:10px 0 0 0;}
+.node-article .content {padding:10px 0 0 0;}
 
 /*calender block*/
 .pane-event_list .title{color:#000; font-weight:bold;}
@@ -133,7 +136,7 @@ h4 a, h4 a:link,h4 a:visited,h4 a:active{font-size:12px; line-height:15px; color
 	.pane-event_list .view-event-list li div h4 a{color:#050505;line-height:8px;}
 	.pane-event_list .view-event-list li div h4{line-height:8px;}
 
-.vcard .fn{font-weight:bold;}
+
 
 .libary-openstatus{	font-size:10px; line-height:17px; text-transform: uppercase; color:#fff;}
 
@@ -148,3 +151,8 @@ h4 a, h4 a:link,h4 a:visited,h4 a:active{font-size:12px; line-height:15px; color
 	font-weight: normal;
 }
 
+
+.pane-node_comment_form h3, 
+.pane-node_comments h3{
+font-size:14px;
+}

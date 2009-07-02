@@ -31,8 +31,8 @@
 
       </div>
 
-      <div>
-          <a href="" id="biblo-<?php print $node->nid ?>"> se på kort</a>
+      <div class="link-card">
+          <a href="" id="biblo-<?php print $node->nid ?>">Se på kort</a>
       </div>
       
       <div class="tel">

@@ -41,8 +41,9 @@
 /* =======================================
 	comment
 /* ------------------------------------- */
+
 div.indented{margin:0 0 0 20px;}
-div.comment {width: auto; margin:0 0 10px 0; padding:5px;}
+div.comment {width: auto; margin:0 0 10px 0; padding:5px 5px 5px 0;}
 div.comment blockquote {border: 1px solid #dedede; background:#fff; font-size:10px; padding:0 10px 10px 10px;}
 div.comment blockquote h4{margin: 10px 10px 5px 0px;}
 div.comment blockquote h4.new a{color:#000;}
@@ -59,12 +60,13 @@ div.comment .meta .date{color:#999;}
 .pane-event_list .panel-pane{margin:0 5px;}
 .pane-event_list h3{background:#d1d9d7; padding:3px 10px; margin:0 10px 0 14px;}
 .pane-event_list .view-event-list{margin:10px 0 0 0;}
+.pane-event_list .view-event-list .view-header{background:#d1d9d7; padding:3px 10px; margin:0 10px 0 14px;}
 .pane-event_list .view-event-list li{background:transparent url(../images/bg-divider-verysmall.png) no-repeat left top; padding:5px 0 5px 20px; clear:both;} 
 .pane-event_list .view-event-list li.first{background:none; padding-top:0px; clear:both;} 
 .pane-event_list .view-event-list li div.leaf{height:65px; width:55px; float:left; padding:2px 0 0 0; background:transparent url(../images/bg-calender.png) no-repeat 0 0; overflow:hidden;}
-.pane-event_list .view-event-list li div.leaf.today{background:transparent url(../images/bg-calender.png) no-repeat 0 -64px; }
-.pane-event_list .view-event-list li div.info{float:left; overflow:hidden; width:154px;}
-
+.pane-event_list .view-event-list li div.leaf.today{background:transparent url(../images/bg-calender.png) no-repeat 0 -64px; ;}
+.pane-event_list .view-event-list li div.info{float:left; overflow:hidden; width:150px; padding:0 0 0 4px}
+.pane-event_list .view-event-list li div h4{padding:0 0 5px 0;}
 .view-filters{width:690px;}
 .views-exposed-form .views-exposed-widget{float:right;}
 .view-empty{margin:0 0 0 20px;}
@@ -81,7 +83,9 @@ test
 .meta ul{display:inline;}
 .meta li{display:inline}
 
-
+.node .taxonomy{padding:10px 0 0 0;}
+.node .taxonomy ul{margin:0;}
+.node .taxonomy ul li{padding:0 5px 0 0;}
 /* =====================================
 Campaigns
 /*--------------------------------------*/
@@ -98,8 +102,6 @@ Campaigns
 	text-transform: uppercase;  color:#ccc;
 }
 
-
-
 .campaign-type-image-only{}
 /*themes*/
 .campaign-theme-red{}
@@ -111,3 +113,4 @@ Cowboy
 .pane-library_feature_detail_list{width:690px; margin:0 0 0 20px;}
 .page-taxonomy .node-teaser{width:690px; margin:0 0 0 20px;}
 #pane-library_title{display:block;}
+.comment_filter{display:none;}
