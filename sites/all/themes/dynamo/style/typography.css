@@ -55,7 +55,7 @@ tr.odd a{color:#000;}
 tr.even{}
 
 .meta{color:#999999;}
-.meta a,.meta a:link,.meta a:visited,.meta a:active {text-decoration: none; color:#999999;}
+.meta a,.meta a:link,.meta a:visited,.meta a:active {text-decoration: none; color:#006a87;} /*999*/
 .author a,.author a:link,.author a:visited,.author a:active {text-decoration: none; color:#006a87;}
 
 /*headers*/
@@ -101,6 +101,7 @@ h4 a, h4 a:link,h4 a:visited,h4 a:active{font-size:12px; line-height:15px; color
 #frontpagecarousel-controller li a{
 	font-size:11px; line-height:15px; color:#050505;
 }
+
 /*TODO kun i hæjre baren*/
 .pane-library_location .vcard{font-size:11px; line-height:17px;}
 .pane-library_location .vcard .fn{font-weight:bold;}

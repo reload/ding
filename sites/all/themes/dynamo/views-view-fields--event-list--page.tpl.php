@@ -1,3 +1,4 @@
+<!-- views-view-fields  event-list  page.tpl.php-->
 <?php 
   //converts the date value to time
   $date = strtotime($fields['field_datetime_value']->raw);
@@ -10,9 +11,11 @@
   <div class="info">
     <h2><?php print $fields['title']->content; ?></h2>
 
-    <span class="time"><?php print date("l j M h:i", $date); ?> </span>
-    <span class="price"><?php print $fields['field_entry_price_value']->content; ?></span>
-    <span class="libary-tag"><?php print $fields['field_library_ref_nid']->content; ?></span>
+<div class="meta">
+  <?php print date("l j M h:i", $date); ?>
+  <span class="libary-tag"><?php print $fields['field_library_ref_nid']->content; ?></span>, 
+  <span class="price"><?php print $fields['field_entry_price_value']->content; ?></span>
+</div>    
     
     <p><?php print $fields['body']->content; ?></p>
 

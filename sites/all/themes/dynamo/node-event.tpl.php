@@ -1,8 +1,8 @@
 <?php // dsm($node);	?>	
 <?php  //dsm(get_defined_vars());  ?> 
 <?php //print $FIELD_NAME_rendered ?>
+<!-- node-event.tpl-->
 <?php if ($page == 0){ ?>
-<!-- node.tpl-->
 <div class="<?php print $classes ?> clearfix">
 
   <div class="picture">
@@ -16,8 +16,8 @@
   	<?php } ?>
 
   	<div class="meta">
-          <?php print $field_datetime_rendered ?>
-          <?php print $field_library_ref_rendered ?>          
+      <?php print $field_datetime_rendered ?>
+      <?php print $field_library_ref_rendered ?>          
         
   		<?php if (count($taxonomy)){ ?>
   		  <div class="taxonomy">
