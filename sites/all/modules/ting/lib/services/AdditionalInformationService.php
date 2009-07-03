@@ -58,6 +58,11 @@ class AdditionalInformationService {
 			if (isset($info->identifierKnown) &&
 					$info->identifierKnown)
 			{
+				if (!is_array($info->image))
+				{
+					$info->image = array($info->image);
+				}
+				
 				foreach ($info->image as $image)
 				{
 					switch ($image->imageSize) {
