@@ -52,6 +52,8 @@ bibloteks oversigtsiden
 /*adresse*/
 .node-library-teaser .vcard div{clear:both;}
 .node-library-teaser .vcard  span.type{width:60px; display:block; float:left;}
+.node-library-teaser .vcard .geo{display:none;}
+
 
 .node-library-teaser .office-hours-week{width:175px; float:left;}
 .node-library-teaser .office-hours-week .week-info{background:#d1d9d7}

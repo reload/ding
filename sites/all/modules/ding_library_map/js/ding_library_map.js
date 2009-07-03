@@ -176,16 +176,12 @@ Drupal.dingLibraryMap = function(mapId, options)
 		this.init = function()
 		{
 			var map = this.getMap();
-			$('.link-card a').each(function(i, e)
+			$('.link-card a').click(function()
 			{
-				var point = $(e).attr('rel').split('-');
-				point = new GLatLng(point[0], point[1]);
-				$(e).click(function()
-				{
-					map.map.setCenter(point, 14);
-					$.scrollTo(map.map.getContainer(), '500', { offset: -20 });
-					return false; 					
-				})
+				geo = $(this).parents('.content:first').find('.geo');
+				map.map.setCenter(new GLatLng(geo.find('.latitude').text(), geo.find('.longitude').text()), 14);
+				$.scrollTo(map.map.getContainer(), '500', { offset: -20 });
+				return false; 					
 			});
 		};
 		

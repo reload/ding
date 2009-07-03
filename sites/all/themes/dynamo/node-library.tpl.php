@@ -32,7 +32,7 @@
       </div>
 
       <div class="link-card">
-          <a href="" id="biblo-<?php print $node->nid ?>" rel="<?php echo $node->location['latitude'] ?>-<?php echo $node->location['longitude'] ?>">Se på kort</a>
+          <a href="" id="biblo-<?php print $node->nid ?>">Se på kort</a>
       </div>
       
       <div class="tel">
@@ -43,6 +43,11 @@
       </div>
       <div class="email">
         <span class="type"><?php print t('Fax'); ?>:</span> <span><?php print $node->field_email['0']['view']; ?></span>
+      </div>
+      <div class="geo">
+      	<?php print t('Position'); ?>:
+      	<span class="latitude"><?php echo $node->location['latitude'] ?></span>, 
+ 				<span class="longitude"><?php echo $node->location['longitude'] ?></span>
       </div>
 
     </div>
