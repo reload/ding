@@ -19,7 +19,7 @@ class TingClientFactory {
 	public static function getClient() {
 		if (!isset(self::$instance))
 		{
-			$baseUrl = variable_get('ting_server');
+			$baseUrl = variable_get('ting_server', false);
 			if (!$baseUrl) {
 				throw new TingClientException('No Ting server defined');
 			}
