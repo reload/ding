@@ -170,7 +170,29 @@ Drupal.dingLibraryMap = function(mapId, options)
 		this.init();
 	};
 	
+	this.goTo = function(mapId, options)
+	{	
+			
+		this.init = function()
+		{
+			var map = this.getMap();
+			$('.link-card a').each(function(i, e)
+			{
+				var point = $(e).attr('rel').split('-');
+				point = new GLatLng(point[0], point[1]);
+				$(e).click(function()
+				{
+					map.map.setCenter(point, 14);
+					$.scrollTo(map.map.getContainer(), '500', { offset: -20 });
+					return false; 					
+				})
+			});
+		};
+		
+		this.init();
+	};
+	
 	this.info(mapId, options);
 	this.resize(mapId, options);
-			
+	this.goTo(mapId, options);		
 }

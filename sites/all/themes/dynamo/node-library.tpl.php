@@ -9,7 +9,7 @@
 ?>
 <?php if ($page == 0){ ?>
 <!--node-lib-->
-<div class="clearfix node-library-teaser node-teaser">
+<div class="clearfix node-library-teaser">
 
   <div class="picture">
     <?php print $field_image_rendered; ?>
@@ -32,7 +32,7 @@
       </div>
 
       <div class="link-card">
-          <a href="" id="biblo-<?php print $node->nid ?>">Se på kort</a>
+          <a href="" id="biblo-<?php print $node->nid ?>" rel="<?php echo $node->location['latitude'] ?>-<?php echo $node->location['longitude'] ?>">Se på kort</a>
       </div>
       
       <div class="tel">
