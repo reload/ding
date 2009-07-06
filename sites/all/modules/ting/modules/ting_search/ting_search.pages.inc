@@ -24,7 +24,11 @@ function ting_search_pages_ting() {
 	}
 
 	$request = TingClientFactory::getSearchRequest($query);
-
+	
+	$resultsPerPage = 10;
+	$page = $_REQUEST['page'];
+	$request->setStart($resultsPerPage * ($page - 1));	
+	
 	$client = TingClientFactory::getClient();
 	$result = $client->search($request);
 

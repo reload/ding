@@ -16,7 +16,7 @@ $(document).ready(function() {
 
   // Search Ting
   $.getJSON(Drupal.settings.tingSearch.ting_url, {'query': 'dc.title:' + Drupal.settings.tingSearch.keys}, function (data) {
-    Drupal.tingResult("#ting-search-result", data);
+    Drupal.tingResult("#ting-search-result", "#ting-facet-browser", data);
     Drupal.tingFacetBrowser("#ting-facet-browser", "#ting-search-result", data);
     var tab = $("#ting-search-tabs li.ting");
     if (data.numTotalRecords) {

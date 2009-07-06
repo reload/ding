@@ -1,5 +1,7 @@
 Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, result)
 {
+	this.searchResultElement = searchResultElement;
+	this.facetBrowserElement = facetBrowserElement;
 
 	this.renderFacetBrowser = function(element, result)
 	{
@@ -162,38 +164,22 @@ Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, res
 			clicked = $(this);
 			clicked.toggleClass('selected');
 			Drupal.updateSelectedUrl(facetBrowserElement);			
-			Drupal.doSelectedSearch(facetBrowserElement, searchResultElement);
+			Drupal.doUrlSearch(facetBrowserElement, searchResultElement);
 		});
-	}
-	
-	this.doSelectedSearch = function(facetBrowserElement, searchResultElement)
-	{
-			facetString = 'facets=';
-			jQuery('li.selected', facetBrowserElement).each(function()
-			{
-				facetString += $(this).attr('facet-group')+':'+$(this).attr('facet')+';';
-			});
-			
-			var path = Drupal.settings.tingSearch.ting_url+'?query=dc.title:'+Drupal.settings.tingSearch.keys+'&'+facetString; 
-			jQuery.getJSON(path, function(data)
-			{
-				Drupal.renderTingSearchResults(searchResultElement, data);
-				Drupal.updateFacetBrowser(facetBrowserElement, data);
-				Drupal.bindSelectEvent(facetBrowserElement, searchResultElement);
-				Drupal.updateSelectedFacetsFromUrl(facetBrowserElement);
-			});
 	}
 	
 	this.updateSelectedUrl = function(element)
 	{
-		anchor = 'facets=';
+		facets = '';
 		jQuery('.selected', element).each(function(i, e)
 		{
-			anchor += jQuery(e).attr('facet-group')+':'+jQuery(e).attr('facet')+';';
+			facets += jQuery(e).attr('facet-group')+':'+jQuery(e).attr('facet')+';';
 		});
+		if (facets.length > 0)
+		{
+			Drupal.setAnchorVars({ 'facets': facets });
+		}
 		
-		url = window.location.href;
-		window.location.href = url.substring(0, url.lastIndexOf('#'))+'#'+anchor;
 	}
 	
 	this.updateSelectedFacetsFromUrl = function(element)
@@ -231,7 +217,7 @@ Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, res
 	this.renderFacetBrowser(facetBrowserElement, result);
 	if (this.updateSelectedFacetsFromUrl(facetBrowserElement))
 	{
-		this.doSelectedSearch(facetBrowserElement, searchResultElement);
+		this.doUrlSearch(facetBrowserElement, searchResultElement);
 	}
 
 	this.initCarousel(facetBrowserElement);
