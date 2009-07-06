@@ -105,3 +105,27 @@ function dynamo_panels_default_style_render_panel($display, $panel_id, $panes, $
 }
 
 
+//Taxonomy
+//returns the terms from a given  vocab
+function return_terms_from_vocabulary($node, $vid){
+  $terms = taxonomy_node_get_terms_by_vocabulary($node, $vid, $key = 'tid');
+
+//	$vocabolary = taxonomy_get_vocabulary($vid);
+  $vocabolary = taxonomy_vocabulary_load($vid);
+
+//	$content ='<div class="vocabolary_terms">';
+//	$content .='<div class="vocabolary">'.$vocabolary->name.'</div>';
+		$termslist = '';
+		if ($terms) {
+			$content .= '<div class="terms">';
+			foreach ($terms as $term) {
+				$termslist = $termslist.l($term->name, 'taxonomy/term/'.$term->tid) . ' | ';
+			//	$termslist = $termslist .$term->name  .' | ';			
+			}
+			$content.= trim ($termslist," |").'</div>';
+		}
+//	$content.='</div>';
+
+	return $content;
+}
+

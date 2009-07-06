@@ -60,7 +60,8 @@
 
 /*libary & teasers */
 #content-result .node-teaser, #content-result .node-library-teaser {padding:10px 0 10px 10px; width:670px; background:transparent url(../images/bg-divider.png) no-repeat left top;}
-#content-result .node-teaser .picture, #content-result .node-library-teaser .picture{margin:0 10px 0 0;}
+#content-result .node-library-teaser .picture{margin:0 10px 0 0;}
+#content-result .node-teaser .picture{margin:10px 10px 0 0;}
 #content-result .node-teaser .content,#content-result .node-library-teaser .content{width:335px;}
 
 

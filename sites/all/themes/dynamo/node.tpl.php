@@ -1,4 +1,4 @@
-<?php // dsm($node);	?>	
+<?php //dsm($node);	?>	
 <?php  //dsm(get_defined_vars());  ?> 
 <?php //print $FIELD_NAME_rendered ?>
 <!-- node.tpl-->
@@ -10,6 +10,11 @@
   </div>
 
   <div class="content">
+
+    <div class="subject">
+      <?php print return_terms_from_vocabulary($node, "1"); ?> 
+    </div>
+
 
   	<?php if($node->title){	?>	
       <h3><?php print l($node->title, 'node/'.$node->nid); ?></h3>
@@ -39,6 +44,11 @@
 //Content
 ?>
 <div class="<?php print $classes ?>">
+
+  <div class="subject">
+    <?php print return_terms_from_vocabulary($node, "1"); ?> 
+  </div>
+
 	<?php if($node->title){	?>	
 	  <h1><?php print $title;?></h1>
 	<?php } ?>
