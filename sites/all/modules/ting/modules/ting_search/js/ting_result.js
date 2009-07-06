@@ -86,7 +86,6 @@ Drupal.tingResult = function(searchResultElement, facetBrowserElement, result)
 									current: currentPage,
 									last: totalPages,
 									pages: pages }
-			console.log(paging);
 						
 			pager = jQuery(Drupal.settings.tingResult.pagerTemplate).mapDirective({
 				'.prev[class]+' : function(arg) { return (arg.context.current == arg.context.first) ? 'hidden' : '' },
@@ -123,7 +122,7 @@ Drupal.tingResult = function(searchResultElement, facetBrowserElement, result)
 			{
 				Drupal.updatePageUrl(jQuery(this).text());
 				Drupal.doUrlSearch(facetBrowserElement, searchResultElement);
-				return false;	
+				return false;
 			});
 			
 			element = jQuery(element);
@@ -153,5 +152,4 @@ Drupal.tingResult = function(searchResultElement, facetBrowserElement, result)
 	
 	this.renderTingSearchResults(searchResultElement, result);
 	this.renderTingSearchResultPager(searchResultElement, result);
-	
 }
