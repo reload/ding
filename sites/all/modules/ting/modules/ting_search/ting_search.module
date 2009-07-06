@@ -19,6 +19,10 @@ function ting_search_theme() {
       'arguments' => array('record' => NULL),
       'template' => 'ting_result'
     ),
+    'ting_result_pager' => array(
+      'arguments' => array('record' => NULL),
+      'template' => 'ting_result_pager'
+    ),
     'ting_record' => array(
       'arguments' => array('record' => NULL),
       'template' => 'ting_record'
@@ -98,10 +102,12 @@ function ting_search_add_js() {
 
 	drupal_add_js(array('tingResult' => array(
 												'recordTemplate' => ting_search_render_record_template(),
+												'pagerTemplate' => ting_search_render_pager_template(),
+												'resultsPerPage' => 10,
+												'pagesInPager' => 5,
 												'resizeButtonText' => t('Show more facet terms'))), 
 								'setting');
 }
-
 
 function ting_search_render_record_template() {
   module_load_include('php', 'ting', 'lib/ting-dbc-php5-client/lib/TingClient');
@@ -116,4 +122,8 @@ function ting_search_render_record_template() {
 	$record->data = $data;
 	
 	return theme('ting_record', $record);	
+}
+
+function ting_search_render_pager_template() {
+	return theme('ting_result_pager');	
 }

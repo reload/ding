@@ -5,9 +5,9 @@
     Licensed under the MIT licenses.
     More information at: http://www.opensource.org
 
-    Copyright (c) 2008 Michael Cvilic - BeeBole.com
+    Copyright (c) 2009 Michael Cvilic - BeeBole.com
 
-    revision: 1.29
+    revision: 1.33
 
 * * * * * * * * * * * * * * * * * * * * * * * * * */
 var $p, pure;
@@ -79,6 +79,7 @@ $p = pure = {
 	compiledFunctions:{},
 
 	$outAtt:function(content){
+			(/\"/).test(content[1]) && (content[1] = content[1].replace(/\\\"|\"/g, '&quot;'));
 			var att = content.join('');
 			return (/\=\"\"/.test(att)) ? '' : att;},
  	utils:{
@@ -106,7 +107,7 @@ $p = pure = {
 						if(openArray.length > 0) {
 							for (k = openArray.length-1; k>=0; k--) {
 								prop = openArray[k] == 'context' ? $p.$c(context[0], att[0], true) : $p.$c(context[openArray[k]][0], att[0], true);
-								if (prop || prop == 0) {//found a repetition field, break, specific case when 0 is returned as a value
+								if ((prop || prop == 0) && att[0] !== 'context') {//found a repetition field, break, specific case when 0 is returned as a value
 									repeatPrefix = openArray[k];
 									break;}}}
 
@@ -118,7 +119,7 @@ $p = pure = {
 								openArray.push(att[0]);
 								n.setAttribute(this.REPEAT, att[0] + '<-' + att[0]);}
 							else {
-								if(repeatPrefix !== ''){ 
+								if(repeatPrefix !== ''){
 									att[0] = repeatPrefix + '[\'' + att[0].replace(/\./g, '\'][\'') + '\']';}
 								if(!att[1]){ //not an attribute
 									att.push('nodeValue');}
@@ -243,7 +244,8 @@ $p = pure = {
 			{what:/\>\s+</g, by:'> <'}, //remove multiple spaces between >..< (IE 6) 
 			{what:/\r|\n/g, by:''},//may be too strong check with pre, textarea,...
 			{what:/\\\'|\'/g, by:'\\\''}, //escape apostrophe
-			{what:/\s+[^\=]+\=\"\"(?=[^\>]|\>)/ig, by:''}, //IE does not remove some attr, ticket #20
+			//KASPERG: Removed as this stripped too much in pager list
+			//{what:/\s+[^\=]+\=\"\"(?=[^\>]|\>)/ig, by:''}, //IE does not remove some attr, ticket #20
 			{what:/^\s+/, by:''}],//clean leading white spaces in the html
 		outerHTML:function(elm){
 			return elm.outerHTML || (function(elm){
@@ -496,8 +498,8 @@ $p = pure = {
 
 		compile:function(elm, fName, directives, context){
 			var html = elm;
-			if(directives) {html = $p.map( directives, elm);}
 			if(context) {html.setAttribute($p.utils.AUTO, 'true');}
+			if(directives) {html = $p.map( directives, elm);}
 			return $p.compile(html, fName, context||false, false);},//return the compiled JS
 
 		render:function(elm, context, directives, html, auto){
@@ -524,7 +526,7 @@ $p = pure = {
 			parent.removeChild(div);
 			return newThis.length > 1 ? newThis:newThis[0];}}};
 
-if(typeof jQuery !== 'undefined' && $ == jQuery){ 
+if(typeof jQuery !== 'undefined'){ 
 	//patch jQuery to read namespaced attributes see Ticket #3023
 	if(jQuery.parse) {jQuery.parse[0] = /^(\[) *@?([\w:\-]+) *([!*$\^~=]*) *('?"?)(.*?)\4 *\]/;}
 	$p.utils.domCleaningRules.push({ what: /\s?jQuery[^\s]+\=\"null\"/gi, by: ''});
