@@ -9,7 +9,7 @@
 ?>
 <?php if ($page == 0){ ?>
 <!--node-lib-->
-<div class="clearfix node-library-teaser">
+<div class="clearfix <?php print $classes ?> node-library-teaser">
 
   <div class="picture">
     <?php print $field_image_rendered; ?>

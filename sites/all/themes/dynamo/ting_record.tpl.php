@@ -2,7 +2,7 @@
 	<li>
 
     <div class="picture">
-      image...
+      
     </div>
     <div class="record">
 
@@ -10,8 +10,8 @@
   			<?php foreach ($record->data->type as $type) ?>
   			<ul>
   				<li class="available"><?php echo $type; ?></li>
-  				<li class="out">CD</li>
-  				<li class="reserved">Lydbog</li>
+  				<li class="out">out</li>
+  				<li class="reserved">reserved</li>
   			</ul>
   		</div>
 

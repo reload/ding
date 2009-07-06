@@ -56,31 +56,7 @@ div.comment .meta {position:relative; margin:-1px 0 0 10px; padding:10px 0 0 30p
 div.comment .meta .author{color:#999;}
 div.comment .meta .date{color:#999;}
 
-/*calender*/
 
-.pane-event_list .panel-pane{margin:0 5px;}
-.pane-event_list h3{background:#d1d9d7; padding:3px 10px; margin:0 10px 0 0px;}
-.pane-event_list .view-event-list{margin:10px 0 0 0;}
-.pane-event_list .view-event-list .view-header{background:#d1d9d7; padding:3px 10px; margin:0 10px 0 14px;}
-.pane-event_list .view-event-list li {background:transparent url(../images/bg-divider-verysmall.png) no-repeat left top; padding:5px 0 5px 20px; clear:both;} 
-.pane-event_list .view-event-list li.first {background:none; padding-top:0px; clear:both;} 
-	.pane-event_list .view-event-list li .calendar-leafs .leaf{height:65px; width:55px; float:left; padding:2px 0 0 0; background:transparent url(../images/bg-calender.png) no-repeat 0 0; overflow:hidden;}
-	.pane-event_list .view-event-list li .calendar-leafs .leaf.today{background:transparent url(../images/bg-calender.png) no-repeat 0 -64px; ;}
-	.pane-event_list .view-event-list li .calendar-leafs .info{ width:150px; float:left; overflow:hidden;padding:0 0 0 4px}
-	.pane-event_list .view-event-list li .calendar-leafs  h4{padding:0 0 5px 0;}
-
-/*
-.pane-event_list .panel-pane{margin:0 5px;}
-.pane-event_list h3{background:#d1d9d7; padding:3px 10px; margin:0 10px 0 0px;}
-.pane-event_list .view-event-list{margin:10px 0 0 0;}
-.pane-event_list .view-event-list .view-header{background:#d1d9d7; padding:3px 10px; margin:0 10px 0 14px;}
-.calendar-leafs li{background:transparent url(../images/bg-divider-verysmall.png) no-repeat left top; padding:5px 0 5px 20px; clear:both;} 
-.calendar-leafs li.first{background:none; padding-top:0px; clear:both;} 
-.calendar-leafs li div.leaf{height:65px; width:55px; float:left; padding:2px 0 0 0; background:transparent url(../images/bg-calender.png) no-repeat 0 0; overflow:hidden;}
-.calendar-leafs li div.leaf.today{background:transparent url(../images/bg-calender.png) no-repeat 0 -64px; ;}
-.calendar-leafs li div.info{ width:150px; float:left; overflow:hidden;padding:0 0 0 4px}
-.calendar-leafs li div h4{padding:0 0 5px 0;}
-*/
 .view-filters{width:690px;}
 .views-exposed-form .views-exposed-widget{float:right;}
 .view-empty{margin:0 0 0 20px;}

@@ -2,18 +2,30 @@
 	Style: search
 * ------------------------------------- */
 #ting-search-tabs{padding:0px 0 0 17px;}
+
 	#ting-search-tabs li{
 		margin-left:3px; 
-		padding:1px 3px 5px; display:inline; 
+		padding:1px 3px 3px 5px;  display:inline; 
 		border-top: 1px solid #ccc; 
 		border-left: 1px solid #ccc;  
 		border-right: 1px solid #ccc; 
-		background: #f3f5f4;font-size:11px; text-transform: uppercase;
+		border-bottom: 1px solid #ccc; 
+		background: #fff;font-size:11px; text-transform: uppercase;
 	}
+
+	#ting-search-tabs li.active{
+		border-top: 1px solid #ccc; 
+		border-left: 1px solid #ccc;  
+		border-right: 1px solid #ccc; 
+			border-bottom: 1px solid #f3f5f4; 
+		background: #f3f5f4;
+	}
+
+
 	#ting-search-tabs li a{color: #000;}
 	#ting-search-tabs li .count-value{color: #900;}
 
-#ting-result{background:transparent url(../images/bg-search.jpg) no-repeat left top; margin:0px 0 0 20px; padding: 10px 0 0 5px;}
+#ting-result, #content-result{background:transparent url(../images/bg-search.jpg) no-repeat left top; margin:0px 0 0 20px; padding: 10px 0 0 5px;}
 
 #ting-facet-browser{width: 680px; padding: 7px 0 0 7px ; background:transparent url(../images/bg-facetbrowser.png) no-repeat left top;}
 	.jcarousel-skin-ding-facet-browser .jcarousel-clip-horizontal {width:651px}
@@ -44,7 +56,15 @@
 
 
 #content-result{padding:20px 0 0 0px; }
-#content-result .node-teaser{padding:10px 0 0 20px; width:690px; background:transparent url(../images/bg-divider.png) no-repeat left top;}
+
+
+/*libary & teasers */
+#content-result .node-teaser, #content-result .node-library-teaser {padding:10px 0 10px 10px; width:670px; background:transparent url(../images/bg-divider.png) no-repeat left top;}
+#content-result .node-library-teaser .picture{margin:0 10px 0 0;}
+#content-result .node-teaser .picture{margin:10px 10px 0 0;}
+#content-result .node-teaser .content,#content-result .node-library-teaser .content{width:335px;}
+
+
 #content form #search-form{padding:0 0 0 20px;}
 
 #content-result .meta div{ display:inline;}
