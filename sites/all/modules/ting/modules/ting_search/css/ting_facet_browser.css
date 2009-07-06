@@ -12,8 +12,10 @@
 #ting-facet-browser li.selected { background: #282327 !important; border-color: #282327 !important; }
 #ting-facet-browser li.selected,
 #ting-facet-browser li.selected * { color: #fff !important; }
-#ting-facet-browser li li.odd {  border-color: transparent #eee transparent transparent; }
+#ting-facet-browser li li.odd { border-color: transparent #eee transparent transparent; background: none transparent; }
+#ting-facet-browser li li.odd.hidden { border-color: transparent #eee transparent transparent !important; background: none transparent !important; }
 #ting-facet-browser li li.even { background-image: url(../img/facetbrowser-alternate-background.png); background-color: #f3f5f5; border-color: transparent #e4e5e5 transparent #f9fafa; }
+#ting-facet-browser li li.even.hidden { background-image: url(../img/facetbrowser-alternate-background.png) !important; background-color: #f3f5f5; border-color: transparent #e4e5e5 transparent #f9fafa !important; }
 #ting-facet-browser li li.hidden { text-indent: -9999px; }
 #ting-facet-browser li li.hidden:hover { cursor: default; }
 #ting-facet-browser .facets .name { padding-right: 0.2em; }
