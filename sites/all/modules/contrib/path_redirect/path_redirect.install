@@ -1,5 +1,5 @@
 <?php
-// $Id: path_redirect.install,v 1.2.2.6.2.18 2009/02/28 00:16:08 davereid Exp $
+// $Id: path_redirect.install,v 1.2.2.6.2.19 2009/03/17 20:51:28 davereid Exp $
 
 /**
  * @file
@@ -168,7 +168,7 @@ function path_redirect_update_5100() {
 function path_redirect_update_6100() {
   $ret = array();
   db_add_field($ret, 'path_redirect', 'last_used', array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0));
-  $ret[] = update_sql("UPDATE {path_redirect} SET last_used = ". time());
+  $ret[] = update_sql("UPDATE {path_redirect} SET last_used = ". REQUEST_TIME);
   return $ret;
 }
 
