@@ -193,5 +193,13 @@ ul.item-list li{margin:0 0 0 20px;}
 
 /*tagadelic*/
 .pane-tagadelic-2{width:200px; overflow:hidden; padding:20px 0 0 20px;}
-
 .pane-library_title{display:block;}
+
+
+/*alt biblo*/
+.pane-library_portal_navigation ul.menu{list-style-position:inside;}
+.pane-library_portal_navigation ul.menu li{list-style: disc inside}
+	.pane-library_portal_navigation ul.menu li ul{margin:0 0 0 10px;}	
+		.pane-library_portal_navigation ul.menu li ul li{list-style-type: square;}
+		
+.node-page .content{margin:10px 0 0 0;}		
