@@ -15,7 +15,7 @@ function mothership_form_element($element, $value) {
   //  removed $output = '<div class="form-item"';
   //so we dont know its a div hmm? form>div ....
   //TODO ie6 screw up kinda forgot ;)... 
-  $output = '<div ';
+  $output = '<div class="form-item ';
   // removed the ID wrapper?
    if (!empty($element['#id'])) {
     $output .= ' id="'. $element['#id'] .'-wrapper"';
