@@ -62,13 +62,15 @@ bibloteks oversigtsiden
 	padding:0 5px;
 } 
 
+
 .view-event-list .libary-tag div{display:inline;margin:0 5px 0 0;}
 .view-event-list  li{background:transparent url(../images/bg-divider.png) no-repeat left top;  clear:both; padding:10px 0 10px 20px;}
 .view-event-list li.first{background:none;}
 
 
-
-
+/*TODO hide show thingie*/
+.pane-library_location{}
+.pane-library_hours{}
 
 /*BOX sprite*/
 .box, 
@@ -96,9 +98,6 @@ bibloteks oversigtsiden
 .pane-library_feature_list h3{background-position:-230px -30px; padding:10px 0 0 10px; height:18px; }
 .pane-library_feature_list .item-list{background-position:-700px bottom; padding:10px 0px 10px 15px; min-height:30px;}
 .pane-library_feature_list .item-list li{width:65px; float:left; margin:0 10px 0 0; padding:0 0 0 15px; background:transparent url(../images/ok.png) no-repeat left center; }
-
-
-
 
 
 /*åbningstider*/
@@ -146,7 +145,6 @@ bibloteks oversigtsiden
 
 
 	/*calender*/
-
 	.pane-event_list .panel-pane{margin:0 5px;}
 	.pane-event_list h3{background:#d1d9d7; padding:3px 10px; margin:0 10px 0 0px;}
 	.pane-event_list .view-event-list{margin:10px 0 0 0;}
@@ -161,6 +159,8 @@ bibloteks oversigtsiden
 /*blog comments*/
 ul.item-list h3{margin:0 0 0 20px;}
 ul.item-list li{margin:0 0 0 20px;}
+
+
 
 /* =====================================
 #twocol-right
@@ -194,6 +194,8 @@ ul.item-list li{margin:0 0 0 20px;}
 /*tagadelic*/
 .pane-tagadelic-2{width:200px; overflow:hidden; padding:20px 0 0 20px;}
 .pane-library_title{display:block;}
+
+
 
 
 /*alt biblo*/
