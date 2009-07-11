@@ -12,6 +12,11 @@
 </head>
 <body class="<?php print $body_classes; ?>">
 
+<?php 
+/*adds support for for the admin module*/
+ if (!empty($admin)) print $admin; 
+?>
+
 <div id="container" class="clearfix">
 
 

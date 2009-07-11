@@ -6,7 +6,15 @@
 <div class="<?php print $classes ?> clearfix">
 
   <div class="picture">
-    <?php print $field_image_rendered; ?>
+    <?php
+ 		if($field_image_rendered){
+			print $field_image_rendered; 	
+		}else{
+			
+		}
+
+
+	?>
   </div>
 
   <div class="content">
