@@ -33,3 +33,9 @@ LICENSE.txt
 # Drush backups
 /backup
 
+# CVS folders
+CVS
+
+# Patch files
+*.patch
+
