@@ -291,6 +291,16 @@ function ding_library_theme() {
 }
 
 /**
+ * A theme preprocess function to inject the library name onto node objects.
+ */
+function ding_library_preprocess_node(&$vars) {
+  if ($vars['node']->type != 'library' && isset($vars['node']->field_library_ref[0]['nid']) && $vars['node']->field_library_ref[0]['nid'] > 0) {
+    // Fetch the library name, since it's needed for theming.
+    $vars['node']->library_name = check_plain(db_result(db_query("SELECT title FROM {node} WHERE nid = %d", $vars['node']->field_library_ref[0]['nid'])));
+  }
+}
+
+/**
  * Implementation of hook_views_api().
  */
 function ding_library_views_api() {
