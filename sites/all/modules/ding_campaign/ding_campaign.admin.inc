@@ -79,7 +79,11 @@ function ding_campaign_admin_rule_form($form_state, $node) {
 function ding_campaign_admin_rule_form_validate($form, &$form_state) {
   foreach ($form_state['values']['rules'] as $delta => $rule) {
     $value = trim($rule['value']);
-    if (empty($value)) {
+    if ($rule['type'] == 'generic') {
+      // Generic fields have no value, only their type.
+      $form_state['values']['rules'][$delta]['value'] = NULL;
+    }
+    elseif (empty($value)) {
       // Remove the empty rules, so they won't get saved to the database.
       unset($form_state['values']['rules'][$delta]);
     }
