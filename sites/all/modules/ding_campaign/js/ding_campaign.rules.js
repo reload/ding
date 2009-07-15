@@ -12,6 +12,9 @@ Drupal.behaviors.dingCampaignRules = function () {
             // And remove the autocomplete class
             .removeClass('form-autocomplete')
           .end()
+          // For those type selectors not processed yet, set up the
+          // change event to trigger this behavior, and add the
+          // processed indicator class.
           .find('select:not(.dingcampaignrules-processed)')
             .addClass('dingcampaignrules-processed')
             .change(Drupal.behaviors.dingCampaignRules)
@@ -25,6 +28,13 @@ Drupal.behaviors.dingCampaignRules = function () {
             .find('.form-text')
               .addClass('form-autocomplete');
             Drupal.behaviors.autocomplete(this);
+          }
+
+          if (type == 'generic') {
+            $(this).find("div:has(input.form-text)").hide();
+          }
+          else {
+            $(this).find("div:has(input.form-text)").show();
           }
       });
 };

@@ -7,6 +7,10 @@
  * Simple wrapper for the form, only required to add the JavaScript.
  */
 function ding_campaign_admin_rule_page($node) {
+  // Use the admin module's theme if available.
+  if (function_exists('_admin_init_theme')) {
+    _admin_init_theme();
+  }
   drupal_add_js(drupal_get_path('module', 'ding_campaign') . '/js/ding_campaign.rules.js');
   drupal_add_js(array('dingCampaignRules' => array(
     'autocompleteUrl' => url('campaign_rules/autocomplete/'),
@@ -29,6 +33,7 @@ function ding_campaign_admin_rule_form($form_state, $node) {
   $form['rules'] = array(
     '#type' => 'fieldset',
     '#title' => t('Rules'),
+    '#description' => t('The more rules that match on a page, the higher rank the campaign will have. The "generic" rule will give a small bit of rank on all pages, so that the campaign will show up if there is not enough relevant campaigns.'),
     '#attributes' => array('id' => 'campaign-rules'),
     '#tree' => TRUE,
   );
@@ -114,6 +119,10 @@ function ding_campaign_admin_rule_form_submit($form, &$form_state) {
   $name is the form fields array key... e.g. the name for $form['title'] is "title"
 */ 
 function ding_campaign_admin_rule_form_ahah($form_state, $node) {
+  // Use the admin module's theme if available.
+  if (function_exists('_admin_init_theme')) {
+    _admin_init_theme();
+  }
   $form_state = array('submitted' => FALSE);
   $form_build_id = $_POST['form_build_id'];
   // Add the new element to the stored form. Without adding the element to the

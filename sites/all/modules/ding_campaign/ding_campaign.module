@@ -6,6 +6,9 @@
  * Provides the campaign node type for the Ding! project.
  */
 
+// Default number of campaigns to display.
+define('DING_CAMPAIGN_DEFAULT_COUNT', 3);
+
 /**
  * Implementation of hook_menu().
  */
@@ -20,6 +23,7 @@ function ding_campaign_menu() {
     'access arguments' => array('update', 1),
     'file' => 'ding_campaign.admin.inc',
     'type' => MENU_LOCAL_TASK,
+    'options' => array('admin' => TRUE),
     'weight' => 2,
   );
 
@@ -59,6 +63,43 @@ function ding_campaign_perm() {
     'edit campaign',
     'delete campaign',
   );
+}
+
+/**
+ * Implementation of hook_block().
+ */
+function ding_campaign_block($op = 'list', $delta = 0, $edit = array()) {
+  if ($op == 'list') {
+    return array(0 => array(
+      'info' => t('Relevant campaigns'),
+      'region' => 'right',
+      'status' => 1,
+      'visibility' => 1, // Show only on specified pages
+      'pages' => "arrangementer\nbiblioteker",
+      'cache' => BLOCK_CACHE_PER_PAGE,
+    ));
+  }
+  elseif ($op == 'configure' && $delta == 0) {
+    $form = array(
+      'ding_campaign_block_count' => array(
+        '#type' => 'select',
+        '#title' => t('Maximum number of campaigns to display'),
+        '#default_value' => variable_get('ding_campaign_block_count', DING_CAMPAIGN_DEFAULT_COUNT),
+        '#options' => range(0, 10),
+      ),
+    );
+    // Our range is zero-based to get key==value, but we don't want to
+    // show a zero-option, so it is removed subsequently.
+    unset($form['ding_campaign_block_count']['#options'][0]);
+
+    return $form;
+  }
+  elseif ($op == 'save' && $delta == 0) {
+    variable_set('ding_campaign_block_count', $edit['ding_campaign_block_count']);
+  }
+  elseif ($op == 'view' && $delta == 0) {
+    return array('content' => theme('ding_campaign_relevant_campaigns', array(), variable_get('ding_campaign_block_count', DING_CAMPAIGN_DEFAULT_COUNT)));
+  }
 }
 
 /**
@@ -291,7 +332,7 @@ function ding_campaign_theme() {
       'arguments' => array('element' => NULL),
     ),
     'ding_campaign_relevant_campaigns' => array(
-      'context' => array('context' => NULL),
+      'context' => array('context' => NULL, 'max_count' => NULL),
     ),
   );
 }
@@ -359,6 +400,7 @@ function ding_campaign_rule_element_process($element, $form_state) {
       'search_term' => t('Search term'),
       'library' => t('Library'),
       'taxonomy' => t('Taxonomy term'),
+      'generic' => t('Generic'),
     ),
     '#default_value' => $element['#value']['type'],
   );
@@ -387,10 +429,12 @@ function ding_campaign_rule_element_validate($element, &$form_state) {
  *
  * @param array $context
  *    Array of context items – search_term, library, page and taxonomy.
+ * @param integer $max_count
+ *    The maximum number of campaigns to return.
  * @return array
  *    Array of node ids of relevant campaigns, sorted by relevancy.
  */
-function ding_campaign_get_relevant($context) {
+function ding_campaign_get_relevant($context, $max_count = DING_CAMPAIGN_DEFAULT_COUNT) {
   $campaigns = array();
   if (isset($context['page']) && !empty($context['page'])) {
     if ($context['page'] instanceof stdClass) {
@@ -434,8 +478,18 @@ function ding_campaign_get_relevant($context) {
       $campaigns[$camp_nid] += 3;
     }
   }
+
+  // Give a small (and random) amount of relevancy to generic campaigns
+  // that have not scored in any of the other categories.
+  $query = db_query("SELECT nid FROM {ding_campaign_rule} WHERE type = 'generic'");
+  while ($camp_nid = db_result($query)) {
+    if (!isset($campaigns[$camp_nid]) || $campaigns[$camp_nid] == 0) {
+      $campaigns[$camp_nid] += (mt_rand(1, 10) / 10);
+    }
+  }
+
   arsort($campaigns);
-  return array_keys($campaigns);
+  return array_slice(array_keys($campaigns), 0, $max_count);
 }
 
 /**
@@ -457,8 +511,8 @@ function theme_ding_campaign_rule($element) {
  *    Rendered campaign nodes, or NULL if no match was found.
  * @see ding_campaign_get_relevant().
  */
-function theme_ding_campaign_relevant_campaigns($context) {
-  $campaigns = ding_campaign_get_relevant($context);
+function theme_ding_campaign_relevant_campaigns($context, $max_count = DING_CAMPAIGN_DEFAULT_COUNT) {
+  $campaigns = ding_campaign_get_relevant($context, $max_count);
   $output = '';
 
   foreach ($campaigns as $campaign) {
