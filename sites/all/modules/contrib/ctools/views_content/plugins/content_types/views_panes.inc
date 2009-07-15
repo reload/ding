@@ -1,5 +1,5 @@
 <?php
-// $Id: views_panes.inc,v 1.11 2009/05/19 19:30:22 merlinofchaos Exp $
+// $Id: views_panes.inc,v 1.12 2009/05/22 17:48:06 merlinofchaos Exp $
 
 /**
  * @file
@@ -151,7 +151,7 @@ function views_content_views_panes_content_type_render($subtype, $conf, $panel_a
     switch ($argument['type']) {
       case 'context':
         $key = array_shift($context_keys);
-        if (isset($context[$key])) {
+        if (isset($contexts [$key])) {
           if (strpos($argument['context'], '.')) {
             list($context, $converter) = explode('.', $argument['context'], 2);
             $args[] = ctools_context_convert_context($contexts[$key], $converter);

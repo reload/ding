@@ -1,5 +1,5 @@
 <?php
-// $Id: context.inc,v 1.25 2009/05/19 23:53:54 merlinofchaos Exp $
+// $Id: context.inc,v 1.27 2009/07/10 17:40:09 merlinofchaos Exp $
 
 /**
  * @file
@@ -293,15 +293,7 @@ function _ctools_context_selector($contexts, $required, $default, $num = 0) {
 
   $form = array();
 
-  if ($count == 1) {
-    $keys = array_keys($filtered);
-    return array(
-      '#type' => 'value',
-      '#value' => $keys[0],
-    );
-  }
-
-  if ($count > 1) {
+  if ($count >= 1) {
     // If there's more than one to choose from, create a select widget.
     foreach ($filtered as $cid => $context) {
       $options[$cid] = $context->get_identifier();
@@ -317,7 +309,6 @@ function _ctools_context_selector($contexts, $required, $default, $num = 0) {
       '#type' => 'select',
       '#options' => $options,
       '#title' => $title,
-      '#description' => t('Multiple contexts are valid for this; one must be chosen.'),
       '#default_value' => $default,
     );
   }
@@ -1239,8 +1230,11 @@ function ctools_get_relevant_access_plugins($contexts) {
   $all_plugins = ctools_get_access_plugins();
   $plugins = array();
   foreach ($all_plugins as $id => $plugin) {
-    if (!empty($plugin['required context']) && !ctools_context_filter($contexts, $plugin['required context'])) {
-      continue;
+    if (!empty($plugin['required context'])) {
+      $count = is_array($plugin['required context']) ? count($plugin['required context']) : 1;
+      if (count(ctools_context_filter($contexts, $plugin['required context'])) < $count) {
+        continue;
+      }
     }
     $plugins[$id] = $plugin;
   }
@@ -1276,6 +1270,24 @@ function ctools_access_summary($plugin, $contexts, $test) {
     $description      = $function($test['settings'], ctools_context_select($contexts, $required_context, $context));
   }
   return $description;
+}
+
+/**
+ * Get a summary of a group of access plugin's settings.
+ */
+function ctools_access_group_summary($access, $contexts) {
+  if (empty($access['plugins'])) {
+    return;
+  }
+
+  $descriptions = array();
+  foreach ($access['plugins'] as $id => $test) {
+    $plugin = ctools_get_access_plugin($test['name']);
+    $descriptions[] = ctools_access_summary($plugin, $contexts, $test);
+  }
+
+  $separator = $access['logic'] == 'AND' ? t(', and ') : t(', or ');
+  return implode($separator, $descriptions);
 }
 
 /**

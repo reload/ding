@@ -1,5 +1,5 @@
 <?php
-// $Id: user_profile.inc,v 1.3 2009/04/29 16:58:34 merlinofchaos Exp $
+// $Id: user_profile.inc,v 1.4 2009/06/12 23:40:57 merlinofchaos Exp $
 
 /**
  * Callback function to supply a list of content types.
@@ -28,9 +28,11 @@ function ctools_user_profile_content_type_render($subtype, $conf, $panel_args, $
   foreach (module_list() as $module) {
     if ($data = module_invoke($module, 'user', 'view', '', $account)) {
       foreach ($data as $category => $items) {
-        foreach ($items as $key => $item) {
-          $item['class'] = "$module-". $item['class'];
-          $fields[$category][$key] = $item;
+        if (is_array($items)) {
+          foreach ($items as $key => $item) {
+            $item['class'] = "$module-". $item['class'];
+            $fields[$category][$key] = $item;
+          }
         }
       }
     }

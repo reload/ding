@@ -1,4 +1,4 @@
-// $Id: ajax-responder.js,v 1.7 2009/04/22 22:31:28 merlinofchaos Exp $
+// $Id: ajax-responder.js,v 1.10 2009/07/11 18:11:36 merlinofchaos Exp $
 /**
  * @file
  *
@@ -37,7 +37,7 @@ Drupal.CTools.AJAX.clickAJAXLink = function() {
   var object = $(this);
   $(this).addClass('ctools-ajaxing');
   try {
-    url.replace('/nojs/', '/ajax/');
+    url = url.replace('/nojs/', '/ajax/');
     $.ajax({
       type: "POST",
       url: url,
@@ -79,7 +79,7 @@ Drupal.CTools.AJAX.clickAJAXButton = function() {
   var object = $(this);
   try {
     if (url) {
-      url.replace('/nojs/', '/ajax/');
+      url = url.replace('/nojs/', '/ajax/');
       $.ajax({
         type: "POST",
         url: url,
@@ -96,9 +96,9 @@ Drupal.CTools.AJAX.clickAJAXButton = function() {
       });
     }
     else {
-      var form = $(this).parents('form');
+      var form = this.form;
       url = $(form).attr('action');
-      url.replace('/nojs/', '/ajax/');
+      url = url.replace('/nojs/', '/ajax/');
       $(form).ajaxSubmit({
         type: "POST",
         url: url,
@@ -116,7 +116,7 @@ Drupal.CTools.AJAX.clickAJAXButton = function() {
     }
   }
   catch (err) {
-    alert("An error occurred while attempting to process " + url); 
+    alert("An error occurred while attempting to process " + url);
     $(this).removeClass('ctools-ajaxing');
     return false;
   }
@@ -210,6 +210,10 @@ Drupal.CTools.AJAX.commands = {
     $.extend(Drupal.settings, data.argument);
   },
 
+  data: function(data) {
+    $(data.selector).data(data.name, data.value);
+  },
+  
   restripe: function(data) {
     // :even and :odd are reversed because jquery counts from 0 and
     // we count from 1, so we're out of sync.
