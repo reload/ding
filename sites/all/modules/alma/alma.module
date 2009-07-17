@@ -1,0 +1,46 @@
+<?php
+// $Id$
+
+/**
+ * @file alma.module
+ * Drupal module implementing Axiell ABs Alma API.
+ */
+
+/**
+ * Implementation of hook_menu().
+ */
+function alma_menu() {
+  $items = array();
+
+  $items['admin/settings/alma'] = array(
+    'title' => 'Axiell Alma',
+    'description' => 'Settings for the Alma module',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('alma_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'alma.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_requirements().
+ */
+function alma_requirements($phase) {
+  $requirements = array();
+  // Ensure translations don't break at install time.
+  $t = get_t();
+
+  $requirements['simplexml'] = array(
+    'title' => 'SimpleXML',
+  );
+  if (!function_exists('simplexml_load_string')) {
+    $requirements['simplexml']['description'] = $t('The Alma module requires SimpleXML to function. Please install and/or enable SimpleXML in your PHP configuration.');
+    $requirements['simplexml']['severity'] = REQUIREMENT_ERROR;
+  }
+
+  return $requirements;
+}
+
+
