@@ -11,6 +11,10 @@
  */
 function ting_search_theme() {
   return array(
+    'ting_search_result_page' => array(
+      'arguments' => array(),
+      'template' => 'ting_search_result_page'
+    ),
     'ting_search' => array(
       'arguments' => array('result' => NULL),
       'template' => 'ting_search'
@@ -40,17 +44,17 @@ function ting_search_theme() {
 function ting_search_menu() {
   $items = array();
 
-	$items['ting/search/js'] = array(
+  $items['ting/search/js'] = array(
     'title' => 'Ting search results',
     'description' => 'Lists facets and search results from the Ting database as HTML or JSON.',
     'access arguments' => array('search content'),
-    'page callback' => 'ting_search_pages_ting',
+    'page callback' => 'ting_search_pages_ting_js',
     'type' => MENU_CALLBACK,
     'file' => 'ting_search.pages.inc',
-	);
+  );
   $items['ting/search/content/js'] = array(
     'title' => 'Content search AJAX page callback',
-    'page callback' => 'ting_search_pages_content',
+    'page callback' => 'ting_search_pages_content_js',
     'access arguments' => array('search content'),
     'type' => MENU_CALLBACK,
     'file' => 'ting_search.pages.inc',
@@ -79,26 +83,38 @@ function ting_search_block($op = 'list', $delta = 0, $edit = array()) {
   }
 }
 
+/**
+ * Implementation of hook_menu_alter().
+ */
+function ting_search_menu_alter(&$items) {
+  // Override the page callback for the Ting search results.
+  $items['search/ting/%menu_tail']['page callback'] = 'ting_search_pages_result';
+  $items['search/ting/%menu_tail']['file'] = 'ting_search.pages.inc';
+  $items['search/ting/%menu_tail']['file path'] = drupal_get_path('module', 'ting_search');
+}
 
 /**
  * Load Ting search interface JavaScript dependencies.
  */
 function ting_search_add_js() {
+  $path = drupal_get_path('module', 'ting_search');
   //Add base Prototype files for enhanced OOP
-  drupal_add_js(drupal_get_path('module', 'ting_search') .'/js/prototype/object.js', 'module', 'footer', TRUE);
-  drupal_add_js(drupal_get_path('module', 'ting_search') .'/js/prototype/enumerable.js', 'module', 'footer', TRUE);
+  drupal_add_js($path . '/js/prototype/object.js', 'module', 'footer', TRUE);
+  drupal_add_js($path . '/js/prototype/enumerable.js', 'module', 'footer', TRUE);
 
   //Add Pure JS templating engine
-  drupal_add_js(drupal_get_path('module', 'ting_search') .'/js/pure/js/pure.js', 'module', 'footer', TRUE);
-  //drupal_add_js(drupal_get_path('module', 'ding_ting_search_result') .'/js/pure/js/purePacked.js', 'module', 'footer', TRUE);
+  drupal_add_js($path . '/js/pure/js/pure.js', 'module', 'footer', TRUE);
+  //drupal_add_js($path . '/js/pure/js/purePacked.js', 'module', 'footer', TRUE);
 
   //Add jQuery Url plugin
-  drupal_add_js(drupal_get_path('module', 'ting_search') .'/js/jquery.url/jquery.url.js', 'module', 'footer', TRUE);
-  //drupal_add_js(drupal_get_path('module', 'ding_ting_search_result') .'/js/jquery.url/jquery.url.packed.js', 'module', 'footer', TRUE);
+  drupal_add_js($path . '/js/jquery.url/jquery.url.js', 'module', 'footer', TRUE);
+  //drupal_add_js($path . '/js/jquery.url/jquery.url.packed.js', 'module', 'footer', TRUE);
 
-  drupal_add_js(drupal_get_path('module', 'ting_search') .'/js/ting_result.js', 'module', 'footer', TRUE);
-  drupal_add_js(drupal_get_path('module', 'ting_search') .'/js/ting_facet_browser.js', 'module', 'footer', TRUE);
-  drupal_add_css(drupal_get_path('module', 'ting_search') .'/css/ting_facet_browser.css', 'module');
+  drupal_add_js($path . '/js/ting_search.js', 'module', 'footer', TRUE);
+  drupal_add_js($path . '/js/ting_search_result_page.js', 'module', 'footer', TRUE);
+  drupal_add_js($path . '/js/ting_result.js', 'module', 'footer', TRUE);
+  drupal_add_js($path . '/js/ting_facet_browser.js', 'module', 'footer', TRUE);
+  drupal_add_css($path . '/css/ting_facet_browser.css', 'module');
 
   drupal_add_js(array('tingResult' => array(
                       'recordTemplate' => ting_search_render_record_template(),
@@ -111,19 +127,18 @@ function ting_search_add_js() {
 
 function ting_search_render_record_template() {
   module_load_include('php', 'ting', 'lib/ting-dbc-php5-client/lib/TingClient');
-	$record = new TingClientRecord();
-	$record->id = 'id';
-	
-	$data = new TingClientDublinCoreData();
-	foreach ($data as $attribute => $value)
-	{
-		$data->$attribute = array($attribute);
-	}
-	$record->data = $data;
-	
-	return theme('ting_record', $record);	
+  $record = new TingClientRecord();
+  $record->id = 'id';
+
+  $data = new TingClientDublinCoreData();
+  foreach ($data as $attribute => $value) {
+    $data->$attribute = array($attribute);
+  }
+  $record->data = $data;
+
+  return theme('ting_record', $record);
 }
 
 function ting_search_render_pager_template() {
-	return theme('ting_result_pager');	
+  return theme('ting_result_pager');
 }

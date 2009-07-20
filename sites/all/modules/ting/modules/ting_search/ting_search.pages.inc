@@ -1,7 +1,28 @@
 <?php
+// $Id$
 
+/**
+ * Search result page.
+ */
+function ting_search_pages_result() {
+  $keys = search_get_keys();
+  // Loads the JavaScript files.
+  ting_search_add_js();
 
-function ting_search_pages_ting() {
+  drupal_add_js(array('tingSearch' => array(
+    'result' => array(),
+    'keys' => $keys,
+    'ting_url' => url('ting/search/js'),
+    'content_url' => url('ting/search/content/js'),
+    'result_template' => theme('ting_result')
+  )), 'setting', 'footer');
+  return theme('ting_search_result_page');
+}
+
+/**
+ * JSON callback to search Ting.
+ */
+function ting_search_pages_ting_js() {
   module_load_include('php', 'ting', 'lib/TingClientFactory');
   module_load_include('php', 'ting', 'lib/services/AdditionalInformationService');
   
@@ -77,9 +98,9 @@ function ting_search_pages_ting() {
 }
 
 /**
- * Content search AJAX page callback.
+ * JSON callback to Drupal's content search.
  */
-function ting_search_pages_content() {
+function ting_search_pages_content_js() {
   if (isset($_REQUEST['query'])) {
     $query = trim($_REQUEST['query']);
     $result = array('results' => do_search($query, 'node'));
@@ -90,6 +111,9 @@ function ting_search_pages_content() {
         $node = node_load($item->sid);
         $result['result_html'] .= node_view($node, TRUE);
       }
+    }
+    if (!empty($result['result_html'])) {
+      $result['result_html'] .= theme('pager', NULL, 10, 0);
     }
   }
   else {
