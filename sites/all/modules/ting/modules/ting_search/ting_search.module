@@ -84,29 +84,29 @@ function ting_search_block($op = 'list', $delta = 0, $edit = array()) {
  * Load Ting search interface JavaScript dependencies.
  */
 function ting_search_add_js() {
-	//Add base Prototype files for enhanced OOP
-	drupal_add_js(drupal_get_path('module', 'ting_search') .'/js/prototype/object.js', 'module');
-	drupal_add_js(drupal_get_path('module', 'ting_search') .'/js/prototype/enumerable.js', 'module');
-	
-	//Add Pure JS templating engine
-	drupal_add_js(drupal_get_path('module', 'ting_search') .'/js/pure/js/pure.js', 'module');
-	//drupal_add_js(drupal_get_path('module', 'ding_ting_search_result') .'/js/pure/js/purePacked.js', 'module');
+  //Add base Prototype files for enhanced OOP
+  drupal_add_js(drupal_get_path('module', 'ting_search') .'/js/prototype/object.js', 'module', 'footer', TRUE);
+  drupal_add_js(drupal_get_path('module', 'ting_search') .'/js/prototype/enumerable.js', 'module', 'footer', TRUE);
 
-	//Add jQuery Url plugin
-	drupal_add_js(drupal_get_path('module', 'ting_search') .'/js/jquery.url/jquery.url.js', 'module');
-	//drupal_add_js(drupal_get_path('module', 'ding_ting_search_result') .'/js/jquery.url/jquery.url.packed.js', 'module');
-	
-	drupal_add_js(drupal_get_path('module', 'ting_search') .'/js/ting_result.js', 'module');
-	drupal_add_js(drupal_get_path('module', 'ting_search') .'/js/ting_facet_browser.js', 'module');
-	drupal_add_css(drupal_get_path('module', 'ting_search') .'/css/ting_facet_browser.css', 'module');
+  //Add Pure JS templating engine
+  drupal_add_js(drupal_get_path('module', 'ting_search') .'/js/pure/js/pure.js', 'module', 'footer', TRUE);
+  //drupal_add_js(drupal_get_path('module', 'ding_ting_search_result') .'/js/pure/js/purePacked.js', 'module', 'footer', TRUE);
 
-	drupal_add_js(array('tingResult' => array(
-												'recordTemplate' => ting_search_render_record_template(),
-												'pagerTemplate' => ting_search_render_pager_template(),
-												'resultsPerPage' => 10,
-												'pagesInPager' => 5,
-												'resizeButtonText' => t('Show more facet terms'))), 
-								'setting');
+  //Add jQuery Url plugin
+  drupal_add_js(drupal_get_path('module', 'ting_search') .'/js/jquery.url/jquery.url.js', 'module', 'footer', TRUE);
+  //drupal_add_js(drupal_get_path('module', 'ding_ting_search_result') .'/js/jquery.url/jquery.url.packed.js', 'module', 'footer', TRUE);
+
+  drupal_add_js(drupal_get_path('module', 'ting_search') .'/js/ting_result.js', 'module', 'footer', TRUE);
+  drupal_add_js(drupal_get_path('module', 'ting_search') .'/js/ting_facet_browser.js', 'module', 'footer', TRUE);
+  drupal_add_css(drupal_get_path('module', 'ting_search') .'/css/ting_facet_browser.css', 'module');
+
+  drupal_add_js(array('tingResult' => array(
+                      'recordTemplate' => ting_search_render_record_template(),
+                      'pagerTemplate' => ting_search_render_pager_template(),
+                      'resultsPerPage' => 10,
+                      'pagesInPager' => 5,
+                      'resizeButtonText' => t('Show more facet terms'))),
+                'setting');
 }
 
 function ting_search_render_record_template() {
