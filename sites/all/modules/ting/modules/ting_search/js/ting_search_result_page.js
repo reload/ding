@@ -4,13 +4,11 @@
  * JavaScript helper for the Ting search result page.
  */
 
-
-
 // Failsafe document.ready().
 jQuery(function($) {$(function(){
 
   // Put the search keys into the main searchbox.
-  $("#block-ting_search-searchbox :text").val(Drupal.settings.tingSearch.keys);
+  $("#search :text").val(Drupal.settings.tingSearch.keys);
 
   // Remove the original output from the search module, and make room
   // for our search results and the facet browser.
@@ -18,6 +16,7 @@ jQuery(function($) {$(function(){
   // Hide the result count until the search results are loadad via JSON
   // callbacks to Drupal.
   $('#ting-search-tabs .count').hide();
+  $("#content-result").hide();
 
   Drupal.tingSearch.getTingData(Drupal.settings.tingSearch.ting_url,
                                 Drupal.settings.tingSearch.keys)
