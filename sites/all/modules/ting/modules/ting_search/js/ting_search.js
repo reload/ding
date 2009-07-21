@@ -24,7 +24,7 @@ Drupal.tingSearch.getTingData = function(url, keys) {
 			tab.find('.count').show();
 			
       tab.html('<a href="#">' + tab.html() + '</a>');
-      $("#ting-search-spinner").remove();
+      $("#ting-search-spinner").hide("normal");
       tab.click(function (eventObject) {
       	$(this).addClass('active').siblings().removeClass('active');
         $("#content-result").hide();
@@ -36,7 +36,7 @@ Drupal.tingSearch.getTingData = function(url, keys) {
 }
 
 // Get search data from Drupal's content search
-Drupal.tingSearch.getContentData = function(url, keys) {
+Drupal.tingSearch.getContentData = function(url, keys, show) {
   var params = {};
   if (keys) {
     params.query = keys
@@ -44,11 +44,14 @@ Drupal.tingSearch.getContentData = function(url, keys) {
   $.getJSON(url, params, function (data) {
     Drupal.tingSearch.resultCount.content = data.count;
     Drupal.tingSearch.contentData = data;
-    var tab = $("#ting-search-tabs li.content");
+
     if (data.count) {
-      $("#ting-search-spinner").remove();
       $("#content-result").html(Drupal.tingSearch.contentData.result_html);
       Drupal.tingSearch.contentPager();
+      if (show) {
+        $("#content-result").show("fast");
+      }
+      $("#ting-search-spinner").hide("normal");
 
       // Update and show the result count on the tab and make it clickable.
       $("#ting-search-tabs li.content")
@@ -67,7 +70,9 @@ Drupal.tingSearch.getContentData = function(url, keys) {
 // Redirect clicks on the pager to reload the content search.
 Drupal.tingSearch.contentPager = function() {
   $("#content-result .pager a").click(function (eventObject) {
-    Drupal.tingSearch.getContentData(eventObject.srcElement.href);
+    $("#content-result").hide("fast");
+    $("#ting-search-spinner").show("normal");
+    Drupal.tingSearch.getContentData(eventObject.srcElement.href, false, true);
     return false;
   });
 }
