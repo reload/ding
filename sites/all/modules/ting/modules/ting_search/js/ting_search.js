@@ -15,48 +15,66 @@ Drupal.tingSearch = {
 Drupal.tingSearch.getTingData = function(url, keys) {
   $.getJSON(url, {'query': 'dc.title:' + keys}, function (data) {
     Drupal.tingSearch.resultCount.ting = data.numTotalRecords;
-    var tab = $("#ting-search-tabs li.ting");
     if (data.numTotalRecords > 0) {
+      // Pass the data on to the result and facet browser handlers.
       Drupal.tingResult("#ting-search-result", "#ting-facet-browser", data);
       Drupal.tingFacetBrowser("#ting-facet-browser", "#ting-search-result", data);
-    	tab.addClass('active');
-    	tab.find('.count-value').text(data.numTotalRecords);
-			tab.find('.count').show();
-			
-      tab.html('<a href="#">' + tab.html() + '</a>');
+      // Hide the spinner, since we're finished loading.
       $("#ting-search-spinner").hide("normal");
-      tab.click(function (eventObject) {
-      	$(this).addClass('active').siblings().removeClass('active');
-        $("#content-result").hide();
-        $("#ting-result").show();
-        return false;
-      });
+
+      // Update and show the result count on the tab and make it clickable.
+      $("#ting-search-tabs li.ting")
+        .addClass('active')
+        .find('.count-value').text(data.numTotalRecords).end()
+        .find('.count').show().end()
+        .append('<a href="#">')
+        .prepend('</a>')
+        .click(function (eventObject) {
+          $(this).addClass('active').siblings().removeClass('active');
+          $("#content-result").hide();
+          $("#ting-result").show();
+          return false;
+        });
     }
   });
 }
 
 // Get search data from Drupal's content search
 Drupal.tingSearch.getContentData = function(url, keys, show) {
+  // Set up a params object to send along to getJSON.
   var params = {};
+  // If we get new search keys via the keys parameter, they'll get
+  // attached to the object here
   if (keys) {
     params.query = keys
   }
+
   $.getJSON(url, params, function (data) {
+    // Store some of the data returned on the tingSearch object in case
+    // we should need it later.
     Drupal.tingSearch.resultCount.content = data.count;
     Drupal.tingSearch.contentData = data;
 
     if (data.count) {
       $("#content-result").html(Drupal.tingSearch.contentData.result_html);
+      // Redo the click event bindings for the contentPager, since we'll
+      // have a new pager from the result HTML.
       Drupal.tingSearch.contentPager();
+
+      // If the show parameter is specified, show our results.
       if (show) {
         $("#content-result").show("fast");
       }
+
+      // Hide the spinner, since we're finished loading.
       $("#ting-search-spinner").hide("normal");
 
       // Update and show the result count on the tab and make it clickable.
       $("#ting-search-tabs li.content")
         .find(".count-value").text(data.count).end()
         .find(".count").show().end()
+        .append('<a href="#">')
+        .prepend('</a>')
         .click(function () {
           $(this).addClass('active').siblings().removeClass('active');
           $("#ting-result").hide();
