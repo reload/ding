@@ -1,5 +1,5 @@
 <?php
-// $Id: page_manager.admin.inc,v 1.14 2009/07/12 05:52:35 merlinofchaos Exp $
+// $Id: page_manager.admin.inc,v 1.21 2009/07/22 22:49:32 merlinofchaos Exp $
 
 /**
  * @file
@@ -23,7 +23,7 @@ function page_manager_list_page($js = NULL) {
   $js = $js == 'ajax';
 
   $tasks = page_manager_get_tasks_by_type('page');
-  $pages = array();
+  $pages = array('operations' => array());
 
   page_manager_get_pages($tasks, $pages);
 
@@ -77,10 +77,12 @@ function page_manager_list_page($js = NULL) {
   $header[] = array('data' => t('Operations'), 'class' => 'page-manager-page-operations');
   $table = theme('table', $header, $pages['rows'], array('id' => 'page-manager-list-pages'));
 
+  $operations = '<div id="page-manager-links" class="links">' . theme('links', $pages['operations']) . '</div>';
+
   drupal_add_css(drupal_get_path('module', 'page_manager') . '/css/page-manager.css');
   
   if (!$js) {
-    return $form . $table;
+    return $form . $table . $operations;
   }
   
   ctools_include('ajax');
@@ -97,6 +99,10 @@ function page_manager_list_page($js = NULL) {
  */
 function page_manager_get_pages($tasks, &$pages, $task_id = NULL) {
   foreach ($tasks as $id => $task) {
+    if (empty($task_id) && !empty($task['page operations'])) {
+      $pages['operations'] = array_merge($pages['operations'], $task['page operations']);
+    }
+
     // If a type has subtasks, add its subtasks in its own table.
     if (!empty($task['subtasks'])) {
       page_manager_get_pages(page_manager_get_task_subtasks($task), $pages, $task['name']);
@@ -515,7 +521,7 @@ function page_manager_get_operations($page, $operations = NULL) {
     'ajax' => FALSE,
     'silent' => TRUE, // prevents a message about updating and prevents this item from showing as changed.
     'form info' => array(
-      'finish text' => t('Add variant'),
+      'finish text' => t('Create variant'),
     ),
   );
 
@@ -548,7 +554,7 @@ function page_manager_get_operations($page, $operations = NULL) {
         'cancel callback' => 'page_manager_handler_add_cancel',
         'show trail' => TRUE,
         'show back' => TRUE,
-        'finish text' => t('Add variant'),
+        'finish text' => t('Create variant'),
       ),
       'form' => array(
         'forms' => $plugin['forms'],
@@ -885,11 +891,9 @@ function _page_manager_get_operation_content($js, &$page, $active, $operation, $
     }
   }
   else {
-    $output = '<pre>' . check_plain(var_export($active, 1)) . '</pre>';
-    $output .= '<pre>' . check_plain(var_export($operation, 1)) . '</pre>';
     $return = array(
-      'title' => t('Test data'),
-      'content' => t('If this were finished, you would see useful output here. It is not, so you do not.') . $output
+      'title' => t('Error'),
+      'content' => t('This operation trail does not exist.'),
     );
   }
 
@@ -950,7 +954,7 @@ function page_manager_edit_page_next(&$form_state) {
  * All we do here is clear the cache.
  */
 function page_manager_edit_page_cancel(&$form_state) {
-  return;
+  $page = $form_state['page'];
 }
 
 /**
@@ -1134,7 +1138,7 @@ function page_manager_save_page_form(&$form_state) {
       '#value' => '<div class="changed-notification">' . t('You have unsaved changes to this page. You must select Save to write them to the database, or Cancel to discard these changes. Please note that if you have changed any form, you must submit that form before saving.') . '</div>',
     );
 
-    // Always make sure we submit back to the proper age.
+    // Always make sure we submit back to the proper page.
     $form['#action'] = url('admin/build/pages/edit/' . $form_state['page']->task_name);
     $form['save'] = array(
       '#type' => 'submit',
@@ -1164,6 +1168,10 @@ function page_manager_save_page_form_submit(&$form, &$form_state) {
 function page_manager_save_page_form_cancel(&$form, &$form_state) {
   drupal_set_message(t('All pending changes have been discarded, and the page is now unlocked.'));
   page_manager_clear_page_cache($form_state['page']->task_name);
+
+  if (!empty($form_state['page']->new)) {
+    $form_state['redirect'] = 'admin/build/pages';
+  }
 }
 
 // --------------------------------------------------------------------------
@@ -1209,13 +1217,12 @@ function page_manager_handler_add_submit(&$form, &$form_state) {
   $form_state['no_rerender'] = TRUE;
   if (!empty($cache->forms)) {
     // Tell the form to go to the config page.
-    drupal_set_message(t('Before this variant can be added, it must be configured. When you are finished, click "Add variant" to add this to your page.'));
+    drupal_set_message(t('Before this variant can be added, it must be configured. When you are finished, click "Create variant" to add this to your page.'));
     $form_state['new trail'] = array('actions', 'configure');
   }
   else {
     // It has no forms at all. Add the variant and go to its first operation.
-    $keys = array_keys($plugin['operations']);
-    $form_state['new trail'] = array('handlers', $name, reset($keys));
+    page_manager_handler_add_finish($form_state);
   }
 }
 
@@ -1233,8 +1240,15 @@ function page_manager_handler_add_finish(&$form_state) {
 
   // Set the new destination
   $plugin = page_manager_get_task_handler($handler->handler);
-  $keys = array_keys($plugin['operations']);
-  $form_state['new trail'] = array('handlers', $handler->name, reset($keys));
+  if (!empty($plugin['add finish'])) {
+    $location = $plugin['add finish'];
+  }
+  else {
+    $keys = array_keys($plugin['operations']);
+    $location = reset($keys);
+  }
+
+  $form_state['new trail'] = array('handlers', $handler->name, $location);
 
   // Pass through.
   page_manager_edit_page_finish($form_state);
@@ -1282,7 +1296,7 @@ function page_manager_handler_add_form(&$form, $form_state, $features = array())
   $form['features'] = array(
     '#type' => 'checkboxes',
     '#validated' => TRUE,
-    '#title' => t('Features'),
+    '#title' => t('Optional features'),
     '#options' => array(),
     '#description' => t('Check any optional features you need to be presented with forms for configuring them. If you do not check them here you will still be able to utilize these features once the new page is created. If you are not sure, leave these unchecked.'),
     '#tree' => TRUE,
@@ -1477,13 +1491,17 @@ function page_manager_handler_clone(&$form, &$form_state) {
  * Clone an existing task handler into a new handler.
  */
 function page_manager_handler_clone_submit($form, &$form_state) {
-  $handler = $form_state['handler'];
+  $export = page_manager_export_task_handler($form_state['handler']);
+  ob_start();
+  eval($export);
+  ob_end_clean();
+
   page_manager_handler_add_to_page($form_state['page'], $handler, $form_state['values']['title']);
 
   $plugin = page_manager_get_task_handler($handler->handler);
   // It has no forms at all. Add the variant and go to its first operation.
   $keys = array_keys($plugin['operations']);
-  $form_state['new trail'] = array('handlers', $name, reset($keys));
+  $form_state['new trail'] = array('handlers', $handler->name, reset($keys));
 }
 
 /**
@@ -1554,7 +1572,6 @@ function page_manager_break_lock_submit(&$form, &$form_state) {
   $form_state['page']->locked = FALSE;
   ctools_object_cache_clear_all('page_manager_page', $page->task_name);
   $form_state['do not cache'] = TRUE;
-  $form_state['new trail'] = array('summary');
   drupal_set_message(t('The lock has been cleared and all changes discarded. You may now make changes to this page.'));
 }
 
@@ -1649,6 +1666,15 @@ function page_manager_page_summary(&$form, &$form_state) {
     $output .= '<p>' . t('This page has no variants and thus no output of its own.') . '</p>';
   }
 
+  $links = array(
+    array(
+      'title' => ' &raquo; ' . t('Add a new variant'),
+      'href' => page_manager_edit_url($page->task_name, array('actions', 'add')),
+      'html' => TRUE,
+    ),
+  );
+
+  $output .= '<div class="links">' . theme('links', $links) . '</div>';
   $form['markup'] = array(
     '#value' => $output,
   );

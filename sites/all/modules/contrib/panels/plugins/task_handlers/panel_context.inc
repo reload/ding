@@ -1,5 +1,5 @@
 <?php
-// $Id: panel_context.inc,v 1.1.2.29 2009/07/11 20:22:25 merlinofchaos Exp $
+// $Id: panel_context.inc,v 1.1.2.35 2009/07/22 19:40:13 merlinofchaos Exp $
 
 /**
  * @file
@@ -132,6 +132,8 @@ function panels_panel_context_page_manager_task_handlers() {
       'criteria' => t('Selection rules'),
       'context' => t('Contexts'),
     ),
+    // Where to go when finished.
+    'add finish' => 'content',
 
     'required forms' => array(
       'choose' => t('Choose layout'),
@@ -406,6 +408,28 @@ function panels_panel_context_admin_summary($handler, $task, $subtask) {
 
   $rows = array();
 
+  $type = $handler->type == t('Default') ? t('In code') : $handler->type;
+  $rows[] = array(
+    array('class' => t('page-summary-label'), 'data' => t('Storage')),
+    array('class' => t('page-summary-data'), 'data' => $type),
+    array('class' => t('page-summary-operation'), 'data' => ''),
+  );
+
+  if (!empty($handler->disabled)) {
+    $link = l(t('Enable'), page_manager_edit_url($task_name, array('handlers', $handler->name, 'actions', 'enable')));
+    $text = t('Disabled');
+  }
+  else {
+    $link = l(t('Disable'), page_manager_edit_url($task_name, array('handlers', $handler->name, 'actions', 'disable')));
+    $text = t('Enabled');
+  }
+
+  $rows[] = array(
+    array('class' => t('page-summary-label'), 'data' => t('Status')),
+    array('class' => t('page-summary-data'), 'data' => $text),
+    array('class' => t('page-summary-operation'), 'data' => $link),
+  );
+
   $link = l(t('Edit'), page_manager_edit_url($task_name, array('handlers', $handler->name, 'criteria')));
   $rows[] = array(
     array('class' => t('page-summary-label'), 'data' => t('Selection rule')),
@@ -413,7 +437,9 @@ function panels_panel_context_admin_summary($handler, $task, $subtask) {
     array('class' => t('page-summary-operation'), 'data' => $link),
   );
 
-  $link = l(t('Edit'), page_manager_edit_url($task_name, array('handlers', $handler->name, 'layout')));
+  $link = l(t('Change layout'), page_manager_edit_url($task_name, array('handlers', $handler->name, 'layout')));
+  $link .= '<br />' . l(t('Edit content'), page_manager_edit_url($task_name, array('handlers', $handler->name, 'content')));
+  $link .= '<br />' . l(t('Preview'), page_manager_edit_url($task_name, array('handlers', $handler->name, 'preview')));
   $rows[] = array(
     array('class' => t('page-summary-label'), 'data' => t('Layout')),
     array('class' => t('page-summary-data'), 'data' => check_plain($layout['title'])),
@@ -439,7 +465,7 @@ function panels_panel_context_admin_summary($handler, $task, $subtask) {
   if ($title != t('Panel')) {
     $title = t('Panel: @title', array('@title' => $title));
   }
-  
+
   $output .= '<div class="clear-block">';
   $output .= '<h3 class="handler-title">' . $title . '</h3>';
   $output .= $info;
@@ -516,6 +542,9 @@ function panels_panel_context_edit_choose_validate(&$form, &$form_state) {
 function panels_panel_context_edit_choose_submit(&$form, &$form_state) {
   $form_state['display']->layout = $form_state['values']['layout'];
   $form_state['handler']->conf['display'] = $form_state['display'];
+  if (isset($form_state['page']->display_cache[$form_state['handler_id']])) {
+    $form_state['page']->display_cache[$form_state['handler_id']]->display = $form_state['display'];
+  }
 }
 
 /**
@@ -548,8 +577,13 @@ function panels_panel_context_edit_layout(&$form, &$form_state) {
  * Validate that a layout was chosen.
  */
 function panels_panel_context_edit_layout_validate(&$form, &$form_state) {
+  $display = &panels_panel_context_get_display($form_state['handler']);
+
   if (empty($form_state['values']['layout'])) {
     form_error($form['layout'], t('You must select a layout.'));
+  }
+  if ($form_state['values']['layout'] == $display->layout) {
+    form_error($form['layout'], t('You must select a different layout if you wish to change layouts.'));
   }
 }
 
@@ -557,13 +591,10 @@ function panels_panel_context_edit_layout_validate(&$form, &$form_state) {
  * A layout has been selected, set it up.
  */
 function panels_panel_context_edit_layout_submit(&$form, &$form_state) {
-  // By default, 'next' takes us to whatever is next, but if they changed
-  // the layout we need to interject a form.
   $display = &panels_panel_context_get_display($form_state['handler']);
 
   if ($form_state['values']['layout'] != $display->layout) {
     $form_state['handler']->conf['temp_layout'] = $form_state['values']['layout'];
-    $form_state['clicked_button']['#next'] = 'move';
   }
 }
 
@@ -594,7 +625,7 @@ function panels_panel_context_edit_move(&$form, &$form_state) {
   $form['buttons']['previous']['#next'] = 'layout';
   $form['buttons']['next']['#next'] = 'content';
 
-  $form_state['form_info']['return path'] = page_manager_edit_url($page->task_name, array('handlers', $form_state['handler_id'], 'content'));
+  $form_state['form_info']['return path'] = page_manager_edit_url($form_state['page']->task_name, array('handlers', $form_state['handler_id'], 'content'));
 }
 
 /**
@@ -608,36 +639,21 @@ function panels_panel_context_edit_content(&$form, &$form_state) {
   ctools_include('context');
   ctools_include('context-task-handler');
 
-  $display = &panels_panel_context_get_display($form_state['handler']);
+  $cache = panels_edit_cache_get('panel_context:' . $form_state['task_name'] . ':' . $form_state['handler_id']);
 
-  $display->context = ctools_context_handler_get_all_contexts($form_state['task'], $form_state['subtask'], $form_state['handler']);
-  $content_types = panels_common_get_allowed_types('panels_page', $display->context);
-
-// Load the display being edited from cache, if possible.
-  if (!empty($_POST) && is_object($cache = panels_cache_get('display', $display->did))) {
-    $display = $cache->display;
-  }
-  else {
-    panels_cache_clear('display', $display->did);
-    $cache = new stdClass();
-    $cache->display = $display;
-    $cache->content_types = $content_types;
-    $cache->display_title = TRUE;
-    panels_cache_set('display', $display->did, $cache);
-  }
-
-  $form_state['display'] = &$display;
-  $form_state['content_types'] = $content_types;
+  $form_state['display'] = &$cache->display;
+  $form_state['content_types'] = $cache->content_types;
   // Tell the Panels form not to display buttons.
   $form_state['no buttons'] = TRUE;
   $form_state['display_title'] = !empty($cache->display_title);
   $form_state['no preview'] = TRUE;
+  $form_state['page']->display_cache[$form_state['handler_id']] = $cache;
 
   $form = array_merge($form, panels_edit_display_form($form_state));
   // Make sure the theme will work since our form id is different.
   $form['#theme'] = 'panels_edit_display_form';
 
-  if (!isset($form_state['type']) || $form_state['type'] != 'add') {
+  if (!isset($form_state['type']) || $form_state['type'] != 'add' && !empty($form_state['handler_id']) && !empty($form['buttons'])) {
     $form['buttons']['preview'] = $form['buttons']['return'];
     $form['buttons']['preview']['#value'] = t('Update and preview');
   }
@@ -645,6 +661,13 @@ function panels_panel_context_edit_content(&$form, &$form_state) {
 
 function panels_panel_context_edit_content_submit(&$form, &$form_state) {
   panels_edit_display_form_submit($form, $form_state);
+  $handler = &$form_state['handler'];
+
+  // update the cached display:
+  $display = $form_state['page']->display_cache[$form_state['handler_id']]->display;
+  $handler->conf['display'] = $display;
+  unset($form_state['page']->display_cache[$form_state['handler_id']]);
+
   if ($form_state['clicked_button']['#value'] == t('Update and preview')) {
     $form_state['new trail'] = array('handlers', $form_state['handler_id'], 'preview');
   }
@@ -711,7 +734,9 @@ function panels_panel_context_edit_preview(&$form, &$form_state) {
     $display = panels_panel_context_get_display($form_state['handler']);
     $display->context = $contexts;
     $output = panels_render_display($display);
-    unset($form['buttons']);
+    if (isset($form['buttons'])) {
+      unset($form['buttons']);
+    }
   }
   else {
     $form['preview']['#tree'] = TRUE;

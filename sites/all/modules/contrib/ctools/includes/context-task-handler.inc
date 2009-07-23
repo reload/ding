@@ -1,5 +1,5 @@
 <?php
-// $Id: context-task-handler.inc,v 1.16 2009/07/12 05:28:31 merlinofchaos Exp $
+// $Id: context-task-handler.inc,v 1.19 2009/07/17 22:45:30 merlinofchaos Exp $
 
 /**
  * @file
@@ -44,6 +44,7 @@ function ctools_context_handler_render($task, $subtask, $contexts, $args, $page 
   foreach ($handlers as $handler) {
     if ($function = page_manager_get_renderer($handler)) {
       if ($info = $function($handler, $contexts, $args)) {
+        drupal_alter('ctools_render', $info, $page, $args, $contexts, $task, $subtask);
         // If we don't own the page, let the caller deal with rendering.
         if (!$page) {
           return $info;
@@ -225,7 +226,7 @@ function ctools_context_handler_get_handler_object($handler) {
  */
 function ctools_context_handler_get_task_object($task, $subtask, $handler) {
   $object = new stdClass;
-  $object->name = $handler->name;
+  $object->name = !empty($handler->name) ? $handler->name : NULL;
   $object->arguments = ctools_context_handler_get_task_arguments($task, $subtask);
   $object->contexts = isset($handler->conf['contexts']) ? $handler->conf['contexts'] : array();
   $object->relationships = isset($handler->conf['relationships']) ? $handler->conf['relationships'] : array();
@@ -299,15 +300,6 @@ function ctools_context_handler_edit_criteria(&$form, &$form_state) {
  */
 function ctools_context_handler_edit_criteria_submit(&$form, &$form_state) {
   $form_state['handler']->conf['access']['logic'] = $form_state['values']['logic'];
-  if (!empty($form_state['handler']->conf['autogenerate_title'])) {
-    $strings = ctools_context_handler_summary($form_state['task'], $form_state['subtask'], $form_state['handler']);
-    if (!$strings) {
-      $form_state['handler']->conf['title'] = t('Panel');
-    }
-    else {
-      $form_state['handler']->conf['title'] = t('Panel: !criteria', array('!criteria' => implode(', ', $strings)));
-    }
-  }
 }
 
 /**

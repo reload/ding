@@ -1,5 +1,5 @@
 <?php
-// $Id: form.inc,v 1.8 2009/07/11 19:34:30 merlinofchaos Exp $
+// $Id: form.inc,v 1.9 2009/07/17 20:47:33 merlinofchaos Exp $
 
 /**
  * @file
@@ -161,6 +161,10 @@ function ctools_rebuild_form($form_id, &$form_state, $args, $form_build_id = NUL
     $form_build_id = 'form-' . md5(mt_rand());
   }
   $form['#build_id'] = $form_build_id;
+  // Flush form ID element cache because we may be rebuilding
+  // a form in a way that Drupal's FAPI isn't used to which 
+  // causes unnecessary form ID changes. 
+  form_clean_id(NULL, TRUE);
   drupal_prepare_form($form_id, $form, $form_state);
 
   if (empty($form['#no_cache'])) {

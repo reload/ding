@@ -1,5 +1,5 @@
 <?php
-// $Id: export.inc,v 1.16 2009/07/12 18:11:58 merlinofchaos Exp $
+// $Id: export.inc,v 1.17 2009/07/17 17:04:36 merlinofchaos Exp $
 
 /**
  * @file
@@ -142,15 +142,15 @@ function ctools_export_load_object($table, $type = 'all', $args = array()) {
       }
 
       // Determine if default object is enabled or disabled.
-      if (isset($status[$object->name])) {
-        $object->disabled = $status[$object->name];
+      if (isset($status[$object->{$export['key']}])) {
+        $object->disabled = $status[$object->{$export['key']}];
       }
 
-      if (!empty($cache[$table][$object->name])) {
-        $cache[$table][$object->name]->type = t('Overridden');
-        $cache[$table][$object->name]->export_type |= EXPORT_IN_CODE;
+      if (!empty($cache[$table][$object->{$export['key']}])) {
+        $cache[$table][$object->{$export['key']}]->type = t('Overridden');
+        $cache[$table][$object->{$export['key']}]->export_type |= EXPORT_IN_CODE;
         if ($type == 'conditions') {
-          $return[$object->name] = $cache[$table][$object->name];
+          $return[$object->{$export['key']}] = $cache[$table][$object->{$export['key']}];
         }
       }
       else {
@@ -159,9 +159,9 @@ function ctools_export_load_object($table, $type = 'all', $args = array()) {
         $object->in_code_only = TRUE;
         $object->table = $table;
 
-        $cache[$table][$object->name] = $object;
+        $cache[$table][$object->{$export['key']}] = $object;
         if ($type == 'conditions') {
-          $return[$object->name] = $object;
+          $return[$object->{$export['key']}] = $object;
         }
       }
     }

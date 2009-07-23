@@ -1,5 +1,5 @@
 <?php
-// $Id: page.admin.inc,v 1.10 2009/07/12 18:11:58 merlinofchaos Exp $
+// $Id: page.admin.inc,v 1.14 2009/07/20 16:01:19 merlinofchaos Exp $
 
 /**
  * @file
@@ -182,7 +182,6 @@ function page_manager_page_add_subtask($task_name = NULL, $step = NULL) {
       'argument' => t('Argument settings'),
       'access' => t('Access control'),
       'menu' => t('Menu settings'),
-      'multiple' => t('Task handlers'),
     ),
     'forms' => array(
       'basic' => array(
@@ -196,9 +195,6 @@ function page_manager_page_add_subtask($task_name = NULL, $step = NULL) {
       ),
       'argument' => array(
         'form id' => 'page_manager_page_form_argument',
-      ),
-      'multiple' => array(
-        'form id' => 'page_manager_page_argument_form_multiple',
       ),
     ),
   );
@@ -280,6 +276,7 @@ function page_manager_page_add_subtask($task_name = NULL, $step = NULL) {
     $keys = array_keys($page->handlers);
     $key = array_shift($keys);
     $form_state['handler'] = &$page->handlers[$key];
+    $form_state['handler_id'] = $key;
   }
 
   $output = ctools_wizard_multistep_form($form_info, $step, $form_state);
@@ -298,10 +295,18 @@ function page_manager_page_add_subtask($task_name = NULL, $step = NULL) {
 function page_manager_page_add_subtask_finish(&$form_state) {
   $page = &$form_state['page'];
   // Update the cache with changes.
-  page_manager_set_page_cache($form_state['page']);
+  page_manager_set_page_cache($page);
+
+  $handler = $form_state['handler'];
+  $handler_plugin = page_manager_get_task_handler($handler->handler);
 
   // Redirect to the new page's task handler editor.
-  $form_state['redirect'] = page_manager_edit_url($page->task_name);
+  if (isset($handler_plugin['add finish'])) {
+    $form_state['redirect'] = page_manager_edit_url($page->task_name, array('handlers', $handler->name, $handler_plugin['add finish']));
+  }
+  else {
+    $form_state['redirect'] = page_manager_edit_url($page->task_name);
+  }
   return;
 }
 
@@ -342,9 +347,16 @@ function page_manager_page_form_basic(&$form, &$form_state) {
   $page = &$form_state['page']->subtask['subtask'];
   $task = $form_state['task'];
 
+  $form['admin_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Administrative title'),
+    '#description' => t('The name of this page. This will appear in the administrative interface to easily identify it.'),
+    '#default_value' => $page->admin_title,
+  );
+
   $form['name'] = array(
     '#type' => 'textfield',
-    '#title' => t('Name'),
+    '#title' => t('Machine name'),
     '#description' => t('The machine readable name of this page. It must be unique, and it must contain only alphanumeric characters and underscores. Once created, you will not be able to change this value!'),
     '#default_value' => $page->name,
   );
@@ -353,13 +365,6 @@ function page_manager_page_form_basic(&$form, &$form_state) {
     $form['name']['#disabled'] = TRUE;
     $form['name']['#value'] = $page->name;
   }
-
-  $form['admin_title'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Administrative title'),
-    '#description' => t('The name of this page. This will appear in the administrative interface to easily identify it.'),
-    '#default_value' => $page->admin_title,
-  );
 
   $form['admin_description'] = array(
     '#type' => 'textarea',
@@ -575,6 +580,7 @@ function page_manager_page_form_basic_submit(&$form, &$form_state) {
 
   if ($page->path != $form_state['values']['path']) {
     $page->path = $form_state['values']['path'];
+    page_manager_page_recalculate_arguments($page);
     $cache->path_changed = TRUE;
   }
 

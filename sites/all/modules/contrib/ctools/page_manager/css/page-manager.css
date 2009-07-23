@@ -1,4 +1,4 @@
-/* $Id: page-manager.css,v 1.6 2009/07/10 19:07:45 merlinofchaos Exp $ */
+/* $Id: page-manager.css,v 1.8 2009/07/22 04:01:31 merlinofchaos Exp $ */
 body form#page-manager-list-pages-form {
   margin: 0 0 20px 0;
 }
@@ -26,6 +26,14 @@ body form#page-manager-list-pages-form {
 
 #page-manager-edit {
   margin-top: 1em;
+}
+
+#page-manager-edit table {
+  width: 100%;
+}
+
+#page-manager-edit table tr.even {
+  background-color: #fafafa;
 }
 
 #page-manager-list-pages tr.page-manager-disabled {
@@ -60,6 +68,7 @@ body form#page-manager-list-pages-form {
   margin-top: 0;
   margin-bottom: 0;
   padding: 0;
+  margin-left: 0;
 }
 
 #page-manager-edit .page-manager-edit-operations li {
@@ -118,6 +127,13 @@ body form#page-manager-list-pages-form {
 #page-manager-edit .page-manager-edit-operations li a:hover {
   background-color: #eee;
   text-decoration: none;
+}
+
+#page-manager-edit .ctools-collapsible-container { 
+  display: inline-block;  
+  position: relative;  
+  *float: left;  
+  width: 100%; 
 }
 
 #page-manager-edit .page-manager-edit-operations li .ctools-collapsible-handle:hover {

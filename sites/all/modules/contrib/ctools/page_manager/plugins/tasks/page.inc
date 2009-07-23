@@ -1,5 +1,5 @@
 <?php
-// $Id: page.inc,v 1.10 2009/07/12 18:11:58 merlinofchaos Exp $
+// $Id: page.inc,v 1.13 2009/07/17 23:19:10 merlinofchaos Exp $
 
 /**
  * @file
@@ -34,14 +34,11 @@ function page_manager_page_page_manager_tasks() {
     'hook theme' => 'page_manager_page_theme',
     // page only items
     'task type' => 'page',
-    'operations' => array(
+    'page operations' => array(
       array(
-        'title' => t('Import'),
-        'href' => 'admin/build/pages/import',
-      ),
-      array(
-        'title' => t('Add custom page'),
+        'title' => ' &raquo; ' . t('Create a new page'),
         'href' => 'admin/build/pages/add',
+        'html' => TRUE,
       ),
     ),
     'columns' => array(
@@ -114,7 +111,7 @@ function page_manager_page_save_subtask($subtask) {
       );
     }
   }
-  $page->arguments = $args;
+  page_manager_page_recalculate_arguments($page);
   // Create a real object from the cache
   page_manager_page_save($page);
 
@@ -552,6 +549,29 @@ function page_manager_page_admin_summary($task, $subtask) {
   $output = '';
 
   $rows = array();
+
+  $rows[] = array(
+    array('class' => t('page-summary-label'), 'data' => t('Storage')),
+    array('class' => t('page-summary-data'), 'data' => $subtask['storage']),
+    array('class' => t('page-summary-operation'), 'data' => ''),
+  );
+
+  if (!empty($page->disabled)) {
+    $link = l(t('Enable'), page_manager_edit_url($task_name, array('handlers', $page->name, 'actions', 'enable')));
+    $text = t('Disabled');
+  }
+  else {
+    $link = l(t('Disable'), page_manager_edit_url($task_name, array('handlers', $page->name, 'actions', 'disable')));
+    $text = t('Enabled');
+  }
+
+  $rows[] = array(
+    array('class' => t('page-summary-label'), 'data' => t('Status')),
+    array('class' => t('page-summary-data'), 'data' => $text),
+    array('class' => t('page-summary-operation'), 'data' => $link),
+  );
+
+
   $path = array();
   foreach (explode('/', $page->path) as $bit) {
     if ($bit[0] != '!') {
@@ -657,4 +677,27 @@ function page_manager_page_enable(&$cache, $status) {
   ctools_export_set_object_status($page, $status);
 
   $page->disabled = FALSE;
+}
+
+/**
+ * Recalculate the arguments when something like the path changes.
+ */
+function page_manager_page_recalculate_arguments(&$page) {
+  // Ensure $page->arguments contains only real arguments:
+  $arguments = page_manager_page_get_named_arguments($page->path);
+  $args = array();
+  foreach ($arguments as $keyword => $position) {
+    if (isset($page->arguments[$keyword])) {
+      $args[$keyword] = $page->arguments[$keyword];
+    }
+    else {
+      $args[$keyword] = array(
+        'id' => '',
+        'identifier' => '',
+        'argument' => '',
+        'settings' => array(),
+      );
+    }
+  }
+  $page->arguments = $args;
 }

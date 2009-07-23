@@ -1,5 +1,5 @@
 <?php
-// $Id: page_manager.module,v 1.9 2009/07/12 18:11:58 merlinofchaos Exp $
+// $Id: page_manager.module,v 1.12 2009/07/18 22:42:37 merlinofchaos Exp $
 
 /**
  * @file
@@ -322,6 +322,8 @@ function page_manager_save_page_cache($cache) {
  * Menu callback to load a page manager cache object for menu callbacks.
  */
 function page_manager_cache_load($task_name) {
+  // load context plugin as there may be contexts cached here.
+  ctools_include('context');
   return page_manager_get_page_cache($task_name);
 }
 
@@ -354,7 +356,7 @@ function page_manager_handler_get_name($task_name, $handlers, $handler) {
  * This is used by both import and clone, since clone just exports the
  * handler and immediately imports it.
  */
-function page_manager_handler_add_to_page(&$page, $handler, $title = NULL) {
+function page_manager_handler_add_to_page(&$page, &$handler, $title = NULL) {
   $last = end($page->handler_info);
   $handler->weight = $last ? $last['weight'] + 1 : 0;
   $handler->task = $page->task_id;
@@ -928,6 +930,8 @@ function page_manager_edit_url($task_name, $trail = array()) {
  * Watch menu links during the menu rebuild, and re-parent things if we need to.
  */
 function page_manager_menu_link_alter(&$item, $menu) {
+  return;
+/** -- disabled, concept code --
   static $mlids = array();
   // Keep an array of mlids as links are saved that we can use later.
   if (isset($item['mlid'])) {
@@ -946,6 +950,7 @@ function page_manager_menu_link_alter(&$item, $menu) {
       }
     }
   }
+ */
 }
 
 /**

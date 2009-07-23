@@ -1,5 +1,5 @@
 <?php
-// $Id: context.inc,v 1.27 2009/07/10 17:40:09 merlinofchaos Exp $
+// $Id: context.inc,v 1.31 2009/07/21 20:42:56 merlinofchaos Exp $
 
 /**
  * @file
@@ -102,6 +102,11 @@ class ctools_context_required {
   var $title = NULL;
 
   /**
+   * Test to see if this context is required.
+   */
+  var $required = TRUE;
+
+  /**
    *
    * @param $title
    *   The first parameter should be the 'title' of the context for use
@@ -176,6 +181,7 @@ class ctools_context_required {
  * can produce empty contexts to use as placeholders.
  */
 class ctools_context_optional extends ctools_context_required {
+  var $required = FALSE;
   function ctools_context_optional() {
     $args = func_get_args();
     call_user_func_array(array($this, 'ctools_context_required'), $args);
@@ -312,6 +318,41 @@ function _ctools_context_selector($contexts, $required, $default, $num = 0) {
       '#default_value' => $default,
     );
   }
+}
+
+/**
+ * Are there enough contexts for a plugin?
+ *
+ * Some plugins can have a 'required contexts' item which can either
+ * be a context requirement object or an array of them. When contexts
+ * are required, items that do not have enough contexts should not
+ * appear. This tests an item to see if it has enough contexts
+ * to actually appear. 
+ *
+ * @param $contexts
+ *   A keyed array of all available contexts.
+ * @param $required
+ *   The required context object or array of objects.
+ *
+ * @return
+ *   TRUE if there are enough contexts, FALSE if there are not.
+ */
+function ctools_context_match_requirements($contexts, $required) {
+  if (!is_array($required)) {
+    $required = array($required);
+  }
+
+  // Get the keys to avoid bugs in PHP 5.0.8 with keys and loops.
+  // And use it to remove optional contexts.
+  $keys = array_keys($required);
+  foreach ($keys as $key) {
+    if (empty($required[$key]->required)) {
+      unset($required[$key]);
+    }
+  }
+
+  $count = count($required);
+  return (count(ctools_context_filter($contexts, $required)) >= $count);
 }
 
 /**
@@ -456,7 +497,7 @@ function ctools_context_convert_context($context, $converter) {
   }
 
   foreach (module_implements('ctools_context_converter_alter') as $module) {
-    $function = $module . '_ctools_context_convert_list';
+    $function = $module . '_ctools_context_converter_alter';
     $function($context, $converter, $value);
   }
 
@@ -478,7 +519,7 @@ function ctools_context_select($contexts, $required, $context) {
   if (is_array($required)) {
     $result = array();
     foreach ($required as $id => $r) {
-      if (($result[] = _ctools_context_select($contexts, $r, $context[$id])) == FALSE) {
+      if (($result[] = _ctools_context_select($contexts, $r, $context[$id])) === FALSE) {
         return FALSE;
       }
     }
@@ -560,7 +601,7 @@ function ctools_context_keyword_substitute($string, $keywords, $contexts) {
 
   // Look for context matches we we only have to convert known matches.
   $matches = array();
-  if (preg_match_all('/%([a-zA-Z%:]+)/us', $string, $matches)) {
+  if (preg_match_all('/%([a-zA-Z0-9%:]+)/us', $string, $matches)) {
     foreach ($matches[1] as $keyword) {
       // Ignore anything it finds with %%.
       if ($keyword[0] == '%') {
@@ -1230,11 +1271,8 @@ function ctools_get_relevant_access_plugins($contexts) {
   $all_plugins = ctools_get_access_plugins();
   $plugins = array();
   foreach ($all_plugins as $id => $plugin) {
-    if (!empty($plugin['required context'])) {
-      $count = is_array($plugin['required context']) ? count($plugin['required context']) : 1;
-      if (count(ctools_context_filter($contexts, $plugin['required context'])) < $count) {
-        continue;
-      }
+    if (!empty($plugin['required context']) && !ctools_context_match_requirements($contexts, $plugin['required context'])) {
+      continue;
     }
     $plugins[$id] = $plugin;
   }
@@ -1319,9 +1357,17 @@ function ctools_access($settings, $contexts = array()) {
     $pass = FALSE;
     $plugin = ctools_get_access_plugin($test['name']);
     if ($plugin && $function = ctools_plugin_get_function($plugin, 'callback')) {
-      $required_context = isset($plugin['required context']) ? $plugin['required context'] : array();
-      $context          = isset($test['context']) ? $test['context'] : array();
-      $pass             = $function($test['settings'], ctools_context_select($contexts, $required_context, $context));
+      // Do we need just some contexts or all of them?
+      if (!empty($plugin['all contexts'])) {
+        $test_contexts = $contexts;
+      }
+      else {
+        $required_context = isset($plugin['required context']) ? $plugin['required context'] : array();
+        $context = isset($test['context']) ? $test['context'] : array();
+        $test_contexts = ctools_context_select($contexts, $required_context, $context);
+      }
+
+      $pass = $function($test['settings'], $test_contexts);
     }
 
     if ($pass && $settings['logic'] == 'or') {
