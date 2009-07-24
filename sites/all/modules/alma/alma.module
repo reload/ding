@@ -43,4 +43,31 @@ function alma_requirements($phase) {
   return $requirements;
 }
 
+/**
+ * Get data from Alma.
+ *
+ * @param string $method
+ *    The method on to call om the Alma server, e.g. 'patron/status'
+ * @param array $params
+ *    Array of parameters for the request. borrCard and pinCode is required
+ *    for all request related to library patrons.
+ * @return mixed
+ *    FALSE on error, otherwise a SimpleXML object with the response.
+ */
+function alma_request($method, $params) {
+  $base_url = variable_get('alma_base_url', '');
+
+  if (empty($base_url)) {
+    trigger_error(t('alma_request() called, but "alma_base_url" is empty. Please set this on the Alma settings page.'), E_USER_ERROR);
+    return FALSE;
+  }
+
+  $request = drupal_http_request(url($base_url . $method, array('query' => $params)));
+
+  if ($request->code == 200) {
+    $sx = simplexml_load_string($request->data);
+    return $sx;
+  }
+  return FALSE;
+}
 

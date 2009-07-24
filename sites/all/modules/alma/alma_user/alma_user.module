@@ -1,0 +1,174 @@
+<?php
+// $Id$
+
+/**
+ * Implementation of hook_block().
+ */
+function alma_user_block($op = 'list', $delta = 0, $edit = array()) {
+  if ($op == 'list') {
+    return array(
+      'account' => array(
+        'info' => t('Library account/login'),
+        'cache' => BLOCK_CACHE_PER_USER,
+        'status' => 1,
+        'region' => 'account',
+      ),
+    );
+  }
+  elseif ($op == 'view' && $delta == 'account') {
+    global $user;
+    $block = array();
+
+    // If user is not logged in, display the login form.
+    if (!$user->uid) {
+      $block['content'] = drupal_get_form('alma_user_login_form');
+    }
+    else {
+      $block['content'] = t('Welcome, %name', array('%name' => $user->name));
+    }
+
+    return $block;
+  }
+}
+
+/**
+ * Library log in form with borr_card and pin_code.
+ */
+function alma_user_login_form($form_state) {
+  $form = array();
+
+  $form['borr_card'] = array(
+    '#type' => 'password',
+    '#title' => t('Borrower card'),
+    '#required' => TRUE,
+  );
+
+  $form['pin_code'] = array(
+    '#type' => 'password',
+    '#title' => t('Code'),
+    '#required' => TRUE,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Log in'),
+  );
+
+  return $form;
+}
+
+/**
+ * Validation for library log-in form.
+ */
+function alma_user_login_form_validate($form, &$form_state) {
+  if (empty($form_state['values']['borr_card']) || empty($form_state['values']['pin_code'])) {
+    // Empty borr_card or pin_code makes little sense to try and validate.
+    return;
+  }
+  $uid = alma_user_check_credentials($form_state['values']['borr_card'], $form_state['values']['pin_code']);
+
+  if ($uid) {
+    global $user;
+    $_user = user_load($uid);
+    // Just to be completely certain that the user is valid before we 
+    // try to log it in.
+    if ($_user) {
+      $user = $_user;
+    }
+
+    user_authenticate_finalize($form_state['values']);
+  }
+  else {
+    form_set_error('borr_card', t('Invalid borrower card or pin code'));
+  }
+}
+
+/**
+ * Get Alma user credentials by Drupal uid.
+ */
+function alma_user_get_credentials($uid) {
+  $query = db_query("SELECT borr_card, pin_code FROM {alma_user} WHERE uid=%d", $uid);
+  return db_fetch_array($query);
+}
+
+/**
+ * Validate credentials with Alma
+ *
+ * Creates a new user if we do not have one already.
+ *
+ * @param string $borr_card
+ *    User borrower card/ID
+ * @param string $pin_code
+ *    User pin code
+ * @return
+ *    User uid if credentials are valid, FALSE if not.
+ */
+function alma_user_check_credentials($borr_card, $pin_code) {
+  $data = alma_request('patron/information', array('borrCard' => $borr_card, 'pinCode' => $pin_code));
+
+  $status = (string) $data->getPatronInformationResponse->status['value'];
+  if ($status == 'ok') {
+    // Check if user exists.
+    $alma_user = db_fetch_array(db_query("SELECT uid, pin_code FROM {alma_user} WHERE borr_card='%s'", $borr_card));
+    if ($alma_user) {
+      if ($pin_code != $alma_user['pin_code']) {
+        // If the PIN-codstored in the database is different from the 
+        // correct one, update the database.
+        db_query("UPDATE {alma_user} SET pin_code = '%s' WHERE uid = %d'", $pin_code, $alma_user['uid']);
+      }
+      return $alma_user['uid'];
+    }
+    else {
+      // Patron did not exist in our database, let's create him.
+      $patron = $data->getPatronInformationResponse->patronInformation;
+
+      // User data to pass to user_save().
+      $user_data = array(
+        'name' => (string) $patron['patronName'],
+        'mail' => (string) $patron->emailAddresses[0]->emailAddress['address'],
+        // Login via Drupal's standard login should not be possible.
+        'pass' => $_SERVER['REQUEST_TIME'] . mt_rand(),
+      );
+
+      // If no e-mail was set in the XML, we need to generate a 
+      // random, invalid address,  since Drupal has a unique 
+      // constraint on the mail column in the users table.
+      if (empty($user_data['mail'])) {
+        $user_data['mail'] = $_SERVER['REQUEST_TIME'] . mt_rand() . '@mail.invalid';
+      }
+      // Set the initial e-mail to the same e-mail-address.
+      $user_data['init'] = $user_data['mail'];
+
+      // Saves the user and returns the user UID.
+      $user = user_save(NULL, $user_data);
+
+      // Store borr_card->uid reference in our own table.
+      db_query("INSERT INTO {alma_user} (uid, borr_card, pin_code) VALUES (%d, '%s', '%s');", $user->uid, $borr_card, $pin_code);
+
+      return($user->uid);
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * Get Alma's recorded information about a user.
+ */
+function alma_user_get_info($uid) {
+  $data = alma_request('patron/information', alma_user_get_credentials($uid));
+
+  //dvm($data);
+}
+
+/**
+ * Get the current loans for a patron.
+ */
+function alma_user_get_loans($uid) {
+  $data = alma_request('patron/loans', array('borr_card' => '0212611239', 'pin_code' => '0000'));
+
+  $loans = $data->getLoansResponse->loans;
+  dvm($loans);
+  $status = $data->getLoansResponse->status;
+  dvm($status);
+}
+

@@ -1,0 +1,62 @@
+<?php
+// $Id$
+
+/**
+ * @file alma_user.install
+ * Installation and upgrade hooks for the alma_user module.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function alma_user_install() {
+  drupal_install_schema('alma_user');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function alma_user_uninstall() {
+  drupal_uninstall_schema('alma_user');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function alma_user_schema() {
+  $schema = array();
+
+  $schema['alma_user'] = array(
+    'description' => t('Keep track of the information tying Drupal users to Alma patrons.'),
+    'fields' => array(
+      'uid' => array(
+        'description' => t('{users}.uid for node'),
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'borr_card' => array(
+        'description' => t('Alma borrower card for the user.'),
+        'type' => 'varchar',
+        'length' => '20',
+        'not null' => TRUE,
+      ),
+      'pin_code' => array(
+        'description' => t('Alma pin code for the user.'),
+        'type' => 'char',
+        'length' => '4',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('uid'),
+    'unique keys' => array(
+      'borr_card' => array('borr_card')
+    ),
+    'indexes' => array(
+      'borr_card_pin_code' => array('borr_card', 'pin_code'),
+    ),
+  );
+
+  return $schema;
+}
+    
