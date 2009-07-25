@@ -24,11 +24,28 @@ function alma_user_block($op = 'list', $delta = 0, $edit = array()) {
       $block['content'] = drupal_get_form('alma_user_login_form');
     }
     else {
-      $block['content'] = t('Welcome, %name', array('%name' => $user->name));
+      $block['content'] = theme('alma_user_status_block');
     }
 
     return $block;
   }
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function alma_user_theme($existing, $type, $theme, $path) {
+  return array(
+    'alma_user_status_block' => array(
+      'arguments' => array(
+        'cart_count' => 0,
+        'borrowed_count' => 0,
+        'reservation_count' => 0,
+      ),
+      'template' => 'alma_user_status_block',
+      'file' => 'alma_user.theme.inc',
+    ),
+  );
 }
 
 /**
