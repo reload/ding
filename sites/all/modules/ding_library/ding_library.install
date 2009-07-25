@@ -38,25 +38,36 @@ function ding_library_schema() {
         'not null' => TRUE, 
         'description' => '{node}.nid for node',
       ),
+      'branch_id' => array(
+        'type' => 'varchar',
+        'length' => 50,
+        'description' => 'Branch ID in Alma/DDELibra',
+      ),
       'library_page_type' => array(
         'type' => 'varchar',
         'length' => 50,
         'default' => 'normal',
+        'description' => 'Library page type',
       ),
       'library_weight' => array(
         'type' => 'int',
         'size' => 'tiny',
         'not null' => TRUE,
         'default' => 0,
+        'description' => 'Library weight. Determines ordering',
       ),
       'library_show_on_map' => array(
         'type' => 'int',
         'size' => 'tiny',
         'not null' => TRUE,
         'default' => 1,
+        'description' => 'Whether this library should be shown on the library map',
       ),
     ),
     'primary key' => array('vid', 'nid'),
+    'unique keys' => array(
+      'branch_id' => array('branch_id'),
+    ),
     'indexes' => array(
       'nid' => array('nid'),
       'library_weight' => array('library_weight'),
@@ -85,6 +96,21 @@ function ding_library_update_6002() {
       'not null' => TRUE,
       'default' => 1,
     ), array('indexes' => array('library_show_on_map' => array('library_show_on_map'))));
+  return $ret;
+}
+
+/**
+ * Third update, add branch_id field.
+ */
+function ding_library_update_6003() {
+  $ret = array();
+
+  db_add_field($ret, 'ding_library', 'branch_id', array(
+    'type' => 'varchar',
+    'length' => 50,
+    'description' => 'Branch ID in Alma/DDELibra',
+  ), array('unique keys' => array('branch_id' => array('branch_id'))));
+
   return $ret;
 }
 
