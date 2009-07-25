@@ -148,6 +148,15 @@ function ding_library_form(&$node) {
     '#default_value' => (isset($node->library_show_on_map)) ? $node->library_show_on_map : 1,
   );
 
+  if (function_exists('alma_get_branches')) {
+    $form['library_settings']['branch_id'] = array(
+      '#type' => 'select',
+      '#title' => t('DDELibra branch'),
+      '#default_value' => (isset($node->branch_id)) ? $node->branch_id : NULL,
+      '#options' => alma_get_branches(),
+    );
+  }
+
   return $form;
 }
 

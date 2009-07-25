@@ -54,7 +54,7 @@ function alma_requirements($phase) {
  * @return mixed
  *    FALSE on error, otherwise a SimpleXML object with the response.
  */
-function alma_request($method, $params) {
+function alma_request($method, $params=array()) {
   $base_url = variable_get('alma_base_url', '');
 
   if (empty($base_url)) {
@@ -69,5 +69,26 @@ function alma_request($method, $params) {
     return $sx;
   }
   return FALSE;
+}
+
+/**
+ * Get branch names from Alma.
+ *
+ * Formats the list of branches in an array usable for form API selects.
+ *
+ * @return array
+ *    List of branches, keyed by branch_id
+ */
+function alma_get_branches() {
+  $branches = array(
+    NULL => '- None -',
+  );
+  $data = alma_request('organisation/branches');
+
+  foreach ($data->getBranchesResponse->branches->branch as $elem) {
+    $branches[(string) $elem['id']] = (string) $elem->names[0]->name;
+  }
+
+  return $branches;
 }
 
