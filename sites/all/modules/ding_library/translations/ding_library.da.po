@@ -1,0 +1,171 @@
+# $Id$
+#
+# Danish translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  ding_library.admin.inc: n/a
+#  ding_library.views.inc: n/a
+#  ding_library.module: n/a
+#  ding_library.info: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-07-28 16:22+0200\n"
+"PO-Revision-Date: 2009-07-28 17:08+0200\n"
+"Last-Translator: Mikkel Høgh <mikkel@hoegh.org>\n"
+"Language-Team: Dansk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: ding_library.admin.inc:57;226
+msgid "Save changes"
+msgstr "Gem ændringer"
+
+#: ding_library.admin.inc:149
+msgid "No records have been added."
+msgstr "Oversigten er tom."
+
+#: ding_library.admin.inc:156
+msgid "Title"
+msgstr "Titel"
+
+#: ding_library.admin.inc:156 ding_library.views.inc:48
+msgid "Weight"
+msgstr "Vægt"
+
+#: ding_library.admin.inc:178
+msgid "Change slug for %library from !old to !new"
+msgstr "Skift slug for %library fra !old til !new"
+
+#: ding_library.admin.inc:185
+msgid "Please confirm these slug changes"
+msgstr "Bekræft venligst disse slug-ændringer"
+
+#: ding_library.admin.inc:185
+msgid "Confirm"
+msgstr "Bekræft"
+
+#: ding_library.admin.inc:185
+msgid "Cancel"
+msgstr "Annullér"
+
+#: ding_library.admin.inc:201
+msgid "Here you can edit the identifying part of a library's URL, called “slugs”. Be aware that changing the existing slugs will URLs to change, resulting in dead links."
+msgstr "Her kan du redigere bibliotekets identifikation der optræder i URL'en, kaldet “slugs”. Vær opmærksom på at ændres eksisterende slugs vil bibliotekernes URL'er skifte, resulterende i døde links for brugeren."
+
+#: ding_library.views.inc:17
+msgid "Ding library"
+msgstr "Ding bibliotek"
+
+#: ding_library.views.inc:28
+msgid "Library page type"
+msgstr "Bibliotekssidetype"
+
+#: ding_library.views.inc:29
+msgid "The page type selected for this library"
+msgstr "Den valgte sidetype for dette bibliotek"
+
+#: ding_library.views.inc:49
+msgid "The weight is used to determine the sorting order of the libraries."
+msgstr "Vægten bruges til at bestemme bibliotekernes rækkefølge i oversigten."
+
+#: ding_library.views.inc:63;71
+msgid "Show on map"
+msgstr "Vis på kort"
+
+#: ding_library.views.inc:64
+msgid "This setting controls whether libraries are shown on maps pages, etc."
+msgstr "Bestemmer om biblioteket bliver vist på oversigtskortet over biblioteker."
+
+#: ding_library.module:74
+msgid "library"
+msgstr "bibliotek"
+
+#: ding_library.module:77
+msgid "Name"
+msgstr "Navn"
+
+#: ding_library.module:78
+msgid "Description"
+msgstr "Beskrivelse"
+
+#: ding_library.module:129;15
+msgid "Library settings"
+msgstr "Biblioteksindstillinger"
+
+#: ding_library.module:136
+msgid "Library type"
+msgstr "Bibliotekstype"
+
+#: ding_library.module:138
+msgid "Normal library page"
+msgstr "Almindelig biblioteksside"
+
+#: ding_library.module:139
+msgid "Portal-style library page"
+msgstr "Portal-lignede biblioteksside"
+
+#: ding_library.module:141
+msgid "Normal library pages has a blog section, events, and similar, while portal-style library pages have only a hierarchial menu with content."
+msgstr "Almindelige bibliotekssider har en blog-sektion, events, faciliteter og lignende, mens portal-lignende sider har en mere CMS-agtig side med hierarkisk menustruktur og lign."
+
+#: ding_library.module:147
+msgid "Show library on map"
+msgstr "Vis bibliotek på kort"
+
+#: ding_library.module:154
+msgid "DDELibra branch"
+msgstr "DDELibra branch"
+
+#: ding_library.module:333
+msgid "Navigation menu for %library."
+msgstr "Navigationsmenu for %bibliotek"
+
+#: ding_library.module:61
+msgid "create library"
+msgstr "opret bibliotek"
+
+#: ding_library.module:62
+msgid "edit library"
+msgstr "redigere bibliotek"
+
+#: ding_library.module:63
+msgid "delete library"
+msgstr "slette bibliotek"
+
+#: ding_library.module:64
+msgid "configure libraries"
+msgstr "adgang til biblioteksindstillinger"
+
+#: ding_library.module:24
+msgid "Settings"
+msgstr "Indstillinger"
+
+#: ding_library.module:32
+msgid "Ordering"
+msgstr "Rækkefølge"
+
+#: ding_library.module:41
+msgid "Slugs"
+msgstr "Slugs"
+
+#: ding_library.module:0
+msgid "ding_library"
+msgstr "ding_library"
+
+#: ding_library.info:0
+msgid "Ding! library"
+msgstr "Ding! bibliotek"
+
+#: ding_library.info:0
+msgid "Controls the main library content type."
+msgstr "Styrer biblioteksindholdstypen."
+
+#: ding_library.info:0
+msgid "Ding!"
+msgstr "Ding!"
+
