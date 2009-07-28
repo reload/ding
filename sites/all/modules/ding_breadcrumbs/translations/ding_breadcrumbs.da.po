@@ -1,0 +1,53 @@
+# $Id$
+#
+# Danish translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  ding_breadcrumbs.module: n/a
+#  ding_breadcrumbs.info: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-07-28 15:22+0200\n"
+"PO-Revision-Date: 2009-07-28 15:37+0200\n"
+"Last-Translator: Mikkel Høgh <mikkel@hoegh.org>\n"
+"Language-Team: Dansk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: ding_breadcrumbs.module:17;53
+msgid "Home"
+msgstr "Hjem"
+
+#: ding_breadcrumbs.module:30
+msgid "Blog"
+msgstr "Blog"
+
+#: ding_breadcrumbs.module:33
+msgid "Events"
+msgstr "Events"
+
+#: ding_breadcrumbs.module:89
+msgid "Unknown"
+msgstr "Ukendt"
+
+#: ding_breadcrumbs.module:0
+msgid "ding_breadcrumbs"
+msgstr "ding_breadcrumbs"
+
+#: ding_breadcrumbs.info:0
+msgid "Ding! breadcrumbs"
+msgstr "Ding! brødkrummesti"
+
+#: ding_breadcrumbs.info:0
+msgid "Provides customised breadcrumb navigation for libraries, search, etc."
+msgstr "Giver en tilpasset brødkrummesti for nemmere navigation ifht. bibliotekter, søgning, osv."
+
+#: ding_breadcrumbs.info:0
+msgid "Ding!"
+msgstr "Ding!"
+
