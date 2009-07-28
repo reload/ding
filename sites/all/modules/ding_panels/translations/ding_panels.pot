@@ -1,0 +1,272 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  ding_panels_content_libary_location.tpl.php: n/a
+#  ding_panels.theme.inc: n/a
+#  ding_panels.module: n/a
+#  ding_panels.info: n/a
+#  plugins/access/library_page_type.inc: n/a
+#  plugins/content_types/library/library.inc: n/a
+#  plugins/content_types/library_portal/library_portal.inc: n/a
+#  plugins/content_types/node_body/node_body.inc: n/a
+#  plugins/relationships/related_library.inc: n/a
+#  plugins/content_types/library_user/library_user.inc: n/a
+#  plugins/layouts/threecol_left_stacked/threecol_left_stacked.inc: n/a
+#  plugins/layouts/threecol_left_stacked_right/threecol_left_stacked_right.inc: n/a
+#  plugins/layouts/twocol_left_stacked/twocol_left_stacked.inc: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-07-28 14:09+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: ding_panels_content_libary_location.tpl.php:23
+msgid "Phone"
+msgstr ""
+
+#: ding_panels_content_libary_location.tpl.php:26
+msgid "Fax"
+msgstr ""
+
+#: ding_panels.theme.inc:32
+msgid "Blog"
+msgstr ""
+
+#: ding_panels.theme.inc:33
+msgid "Events"
+msgstr ""
+
+#: ding_panels.theme.inc:34
+msgid "Facilities"
+msgstr ""
+
+#: ding_panels.theme.inc:35
+msgid "About"
+msgstr ""
+
+#: ding_panels.module:0
+msgid "ding_panels"
+msgstr ""
+
+#: ding_panels.info:0
+msgid "Ding! Panels"
+msgstr ""
+
+#: ding_panels.info:0
+msgid "Provides Panels plug-ins. Content types, layouts, etc."
+msgstr ""
+
+#: ding_panels.info:0
+msgid "Ding!"
+msgstr ""
+
+#: plugins/access/library_page_type.inc:15
+msgid "Library: Page type"
+msgstr ""
+
+#: plugins/access/library_page_type.inc:16
+msgid "Control access by library type."
+msgstr ""
+
+#: plugins/access/library_page_type.inc:21 plugins/content_types/library/library.inc:55 plugins/content_types/library_portal/library_portal.inc:36 plugins/content_types/node_body/node_body.inc:17;29;30 plugins/relationships/related_library.inc:17
+msgid "Node"
+msgstr ""
+
+#: plugins/access/library_page_type.inc:61
+msgid "Library type"
+msgstr ""
+
+#: plugins/access/library_page_type.inc:63
+msgid "Normal library page"
+msgstr ""
+
+#: plugins/access/library_page_type.inc:64
+msgid "Portal-style library page"
+msgstr ""
+
+#: plugins/access/library_page_type.inc:67
+msgid "Pick the allowed library type."
+msgstr ""
+
+#: plugins/access/library_page_type.inc:76
+msgid "@identifier must be a \"@type\" library"
+msgstr ""
+
+#: plugins/content_types/library/library.inc:17;54 plugins/content_types/library_portal/library_portal.inc:17;35
+msgid "Library page"
+msgstr ""
+
+#: plugins/content_types/library/library.inc:27
+msgid "Library title and navigation"
+msgstr ""
+
+#: plugins/content_types/library/library.inc:28
+msgid "The title and navigation for a library page."
+msgstr ""
+
+#: plugins/content_types/library/library.inc:34;102
+msgid "Library location"
+msgstr ""
+
+#: plugins/content_types/library/library.inc:35
+msgid "Shows the address, map and other locative information for the library."
+msgstr ""
+
+#: plugins/content_types/library/library.inc:38
+msgid "Library opening hours"
+msgstr ""
+
+#: plugins/content_types/library/library.inc:39
+msgid "Shows the library opening hours."
+msgstr ""
+
+#: plugins/content_types/library/library.inc:42
+msgid "Library feature list"
+msgstr ""
+
+#: plugins/content_types/library/library.inc:43
+msgid "Simple list of library features, containing only the title."
+msgstr ""
+
+#: plugins/content_types/library/library.inc:46
+msgid "Library detailed feature list"
+msgstr ""
+
+#: plugins/content_types/library/library.inc:47
+msgid "More detailed view of library features with pictures and description."
+msgstr ""
+
+#: plugins/content_types/library/library.inc:75
+msgid "Opening hours"
+msgstr ""
+
+#: plugins/content_types/library/library.inc:86
+msgid "Services and facilities"
+msgstr ""
+
+#: plugins/content_types/library/library.inc:99
+msgid "\"@s\":  Library title and navigation"
+msgstr ""
+
+#: plugins/content_types/library/library.inc:101
+msgid "\"@s\":  Library location"
+msgstr ""
+
+#: plugins/content_types/library/library.inc:104
+msgid "\"@s\":  Library opening hours"
+msgstr ""
+
+#: plugins/content_types/library/library.inc:107
+msgid "\"@s\":  Library features"
+msgstr ""
+
+#: plugins/content_types/library/library.inc:120
+msgid "Display header image"
+msgstr ""
+
+#: plugins/content_types/library/library.inc:121
+msgid "Whether a the library title should show the (quite large) picture of the library"
+msgstr ""
+
+#: plugins/content_types/library_portal/library_portal.inc:27
+msgid "Library portal navigation."
+msgstr ""
+
+#: plugins/content_types/library_portal/library_portal.inc:28
+msgid "Shows the CMS menu - if available, it will show the portal library specific menu."
+msgstr ""
+
+#: plugins/content_types/library_portal/library_portal.inc:62
+msgid "\"@s\":  Library portal navigation"
+msgstr ""
+
+#: plugins/content_types/library_portal/library_portal.inc:74
+msgid "Default menu"
+msgstr ""
+
+#: plugins/content_types/library_portal/library_portal.inc:75
+msgid "If a menu related to the library node can not be found, show this menu instead."
+msgstr ""
+
+#: plugins/content_types/library_portal/library_portal.inc:76;81
+msgid "- None -"
+msgstr ""
+
+#: plugins/content_types/library_user/library_user.inc:16;34
+msgid "Library user"
+msgstr ""
+
+#: plugins/content_types/library_user/library_user.inc:26
+msgid "Library staff title"
+msgstr ""
+
+#: plugins/content_types/library_user/library_user.inc:27
+msgid "The title bar for a library staff member."
+msgstr ""
+
+#: plugins/content_types/library_user/library_user.inc:35
+msgid "User"
+msgstr ""
+
+#: plugins/content_types/library_user/library_user.inc:61
+msgid "\"@s\" staff profile"
+msgstr ""
+
+#: plugins/content_types/node_body/node_body.inc:27;49
+msgid "Node body"
+msgstr ""
+
+#: plugins/content_types/node_body/node_body.inc:28
+msgid "The rendered node body."
+msgstr ""
+
+#: plugins/layouts/threecol_left_stacked/threecol_left_stacked.inc:10
+msgid "Three column left stacked wide left"
+msgstr ""
+
+#: plugins/layouts/threecol_left_stacked/threecol_left_stacked.inc:15 plugins/layouts/threecol_left_stacked_right/threecol_left_stacked_right.inc:19 plugins/layouts/twocol_left_stacked/twocol_left_stacked.inc:15
+msgid "Top"
+msgstr ""
+
+#: plugins/layouts/threecol_left_stacked/threecol_left_stacked.inc:16 plugins/layouts/threecol_left_stacked_right/threecol_left_stacked_right.inc:20 plugins/layouts/twocol_left_stacked/twocol_left_stacked.inc:16
+msgid "Left side"
+msgstr ""
+
+#: plugins/layouts/threecol_left_stacked/threecol_left_stacked.inc:17 plugins/layouts/threecol_left_stacked_right/threecol_left_stacked_right.inc:21
+msgid "Middle column"
+msgstr ""
+
+#: plugins/layouts/threecol_left_stacked/threecol_left_stacked.inc:18 plugins/layouts/threecol_left_stacked_right/threecol_left_stacked_right.inc:22 plugins/layouts/twocol_left_stacked/twocol_left_stacked.inc:17
+msgid "Right side"
+msgstr ""
+
+#: plugins/layouts/threecol_left_stacked/threecol_left_stacked.inc:19 plugins/layouts/threecol_left_stacked_right/threecol_left_stacked_right.inc:23 plugins/layouts/twocol_left_stacked/twocol_left_stacked.inc:18
+msgid "Bottom"
+msgstr ""
+
+#: plugins/layouts/threecol_left_stacked_right/threecol_left_stacked_right.inc:14
+msgid "Three column left stacked wide right"
+msgstr ""
+
+#: plugins/layouts/twocol_left_stacked/twocol_left_stacked.inc:10
+msgid "Two column left stacked wide left"
+msgstr ""
+
+#: plugins/relationships/related_library.inc:14
+msgid "Related library"
+msgstr ""
+
+#: plugins/relationships/related_library.inc:16
+msgid "Finds the related library from a node context."
+msgstr ""
+

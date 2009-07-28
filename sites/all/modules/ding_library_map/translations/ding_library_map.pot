@@ -1,0 +1,98 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  ding_library_map.tpl.php: n/a
+#  ding_library_map.module: n/a
+#  ding_library_map.info: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-07-28 14:09+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: ding_library_map.tpl.php:40
+msgid "Monday"
+msgstr ""
+
+#: ding_library_map.tpl.php:41
+msgid "Tuesday"
+msgstr ""
+
+#: ding_library_map.tpl.php:42
+msgid "Wednesday"
+msgstr ""
+
+#: ding_library_map.tpl.php:43
+msgid "Thursday"
+msgstr ""
+
+#: ding_library_map.tpl.php:44
+msgid "Friday"
+msgstr ""
+
+#: ding_library_map.tpl.php:45
+msgid "Saturday"
+msgstr ""
+
+#: ding_library_map.tpl.php:46
+msgid "Sunday"
+msgstr ""
+
+#: ding_library_map.tpl.php:47
+msgid "Mon"
+msgstr ""
+
+#: ding_library_map.tpl.php:48
+msgid "Tue"
+msgstr ""
+
+#: ding_library_map.tpl.php:49
+msgid "Wed"
+msgstr ""
+
+#: ding_library_map.tpl.php:50
+msgid "Thu"
+msgstr ""
+
+#: ding_library_map.tpl.php:51
+msgid "Fri"
+msgstr ""
+
+#: ding_library_map.tpl.php:52
+msgid "Sat"
+msgstr ""
+
+#: ding_library_map.tpl.php:53
+msgid "Sun"
+msgstr ""
+
+#: ding_library_map.module:17
+msgid "Ding library map"
+msgstr ""
+
+#: ding_library_map.module:0
+msgid "ding_library_map"
+msgstr ""
+
+#: ding_library_map.info:0
+msgid "Ding! library map"
+msgstr ""
+
+#: ding_library_map.info:0
+msgid "Map of libraries with additional info shown on on mouseover"
+msgstr ""
+
+#: ding_library_map.info:0
+msgid "Ding!"
+msgstr ""
+
