@@ -1,0 +1,41 @@
+# $Id$
+#
+# Danish translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  ding_feature_ref.module: n/a
+#  ding_feature_ref.info: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-07-28 16:22+0200\n"
+"PO-Revision-Date: 2009-07-28 16:39+0200\n"
+"Last-Translator: Mikkel Høgh <mikkel@hoegh.org>\n"
+"Language-Team: Dansk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: ding_feature_ref.module:26
+msgid "Feature selector for libraries"
+msgstr "Facilitetsvælger for biblioteker"
+
+#: ding_feature_ref.module:0
+msgid "ding_feature_ref"
+msgstr "ding_feature_ref"
+
+#: ding_feature_ref.info:0
+msgid "Ding! feature reference"
+msgstr "Ding! facilitetsreference"
+
+#: ding_feature_ref.info:0
+msgid "Handles library-feature relations, so only global features and features related to the actual library can be referenced. Also provides access control, so normal users can only add features for libraries they are related to."
+msgstr "Håndterer relationen mellem biblioteker og faciliteter, så kun globale faciliteter og faciliteter tilknyttet det pågældende bibliotek kan vælges, når brugeren vælger hvilke faciliteter et bibliotek har."
+
+#: ding_feature_ref.info:0
+msgid "Ding!"
+msgstr "Ding!"
+
