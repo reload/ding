@@ -16,7 +16,7 @@ function ding_campaign_menu() {
   $items = array();
 
   $items['node/%node/campaign_rules'] = array(
-    'title' => t('Display rules'),
+    'title' => 'Display rules',
     'page callback' => 'ding_campaign_admin_rule_page',
     'page arguments' => array(1),
     'access callback' => 'ding_campaign_access',
@@ -28,7 +28,7 @@ function ding_campaign_menu() {
   );
 
   $items['node/%node/campaign_rules/ahah'] = array(
-    'title' => t('Display rules'),
+    'title' => 'Display rules',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_campaign_admin_rule_form_ahah', 1),
     'access callback' => 'ding_campaign_access',
@@ -38,7 +38,7 @@ function ding_campaign_menu() {
   );
 
   $items['campaign_rules/autocomplete/%/%'] = array(
-    'title' => t('Campaign rules autocomplete callback'),
+    'title' => 'Campaign rules autocomplete callback',
     'page callback' => 'ding_campaign_admin_autocomplete',
     'page arguments' => array(2, 3),
     'access arguments' => array('edit campaign'),

@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2009-07-28 14:09+0200\n"
+"POT-Creation-Date: 2009-07-28 14:52+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -35,14 +35,6 @@ msgstr ""
 
 #: ding_campaign.admin.inc:98
 msgid "%value is not a valid value for the selected type (%type)."
-msgstr ""
-
-#: ding_campaign.module:19;31
-msgid "Display rules"
-msgstr ""
-
-#: ding_campaign.module:41
-msgid "Campaign rules autocomplete callback"
 msgstr ""
 
 #: ding_campaign.module:74 plugins/content_types/relevant.inc:26;54
@@ -151,6 +143,14 @@ msgstr ""
 
 #: ding_campaign.module:64
 msgid "delete campaign"
+msgstr ""
+
+#: ding_campaign.module:19;31
+msgid "Display rules"
+msgstr ""
+
+#: ding_campaign.module:41
+msgid "Campaign rules autocomplete callback"
 msgstr ""
 
 #: ding_campaign.module:0
