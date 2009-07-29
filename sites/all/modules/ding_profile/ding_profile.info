@@ -1,0 +1,8 @@
+; $Id$
+name = Ding! profile
+description = Handles staff profiles.
+package = Ding!
+core = 6.x
+dependencies[] = auto_nodetitle
+dependencies[] = content_profile
+
