@@ -159,8 +159,6 @@ function ding_content_form(&$node) {
     unset($form['body_field']['teaser_include']);
   }
 
-  dpm($form);
-  dpm($type);
   return $form;
 }
 
