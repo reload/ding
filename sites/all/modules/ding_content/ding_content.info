@@ -1,8 +1,7 @@
 ; $Id$
-name = Ding! profile
-description = Handles staff profiles.
+name = Ding! content
+description = Handles the Ding-related content types.
 package = Ding!
 core = 6.x
 dependencies[] = auto_nodetitle
 dependencies[] = content_profile
-
