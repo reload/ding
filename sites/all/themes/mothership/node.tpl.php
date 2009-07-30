@@ -1,10 +1,27 @@
-<?php // krumo($node);	?>	
-<?php // krumo($node->content);	?>	
-<?php // print_r(get_defined_vars());  ?> 
-<?php //print $FIELD_NAME_rendered ?>
-<?php if ($page == 0){ ?>
-<div id="node-<?php print $node->nid; ?>" class="<?php print $classes ?>">
+<?php
+/*
+	dsm($variables['template_files']);
+  dsm($node);
+  dsm($node->content);
+  print_r(get_defined_vars());
+  print $FIELD_NAME_rendered;
+*/
+/*
+ad a class="" if we have anything in the $classes var
+this is so we can have a cleaner output - no reason to have an empty <div class="" id=""> 
+*/
+if($classes){
+   $classes = ' class="' . $classes . '"';
+}
 
+if($id_node){
+  $id_node = ' id="' . $id_node . '"';  
+}
+?>
+
+<?php print $id_node . $classes; ?>
+<?php if ($page == 0){ ?>
+<div<?php print $id_node . $classes; ?>>
 	<?php if($node->title){	?>	
     <h2><a href="<?php print $node_url ?>" title="<?php print $title ?>"><?php print $title ?></a></h2>
 	<?php } ?>
@@ -18,7 +35,8 @@
 	<?php print format_date($node->created, 'custom', "j F Y") ?> 
 
 	<?php  print $content;?>	
-	<a href="<?php print $node_url ?>" title="<?php print $title ?>"><?php print t('read more') ?>
+
+	<a href="<?php print $node_url ?>" title="<?php print $title ?>"><?php print t('read more') ?></a>
 
   <?php if ($links){ ?>
     <?php print $links; ?>
@@ -29,9 +47,8 @@
 <?php }else{ 
 //Content
 ?>
-<div id="node-<?php print $node->nid; ?>" class="<?php print $classes ?> clearfix">
-	<h1><?php print $title;?></h1>
-		
+<div<?php print $id . $classes; ?>>
+	<h1><?php print $title;?></h1>		
   <?php if ($submitted){ ?>
   	<?php if ($picture) { ;?>
   		<?php print $picture; ?>  
@@ -45,9 +62,6 @@
 	<?php if (count($taxonomy)){ ?>
    	<?php print $terms ?> 
 	<?php } ?>
-
-
-
 
 	<?php print $content ?>
 

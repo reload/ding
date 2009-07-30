@@ -1,10 +1,10 @@
-name        = Dynamo
-description = Københanvs bibloteker FTW!
+name        = copenhagen
+description = copenhagen subtheme of dyname for copenhagen test
 screenshot  = screenshot.png
-version     = dev 1.1
+version     = dev 0.1
 core        = 6.x
 engine      = phptemplate
-base theme  = mothership
+base theme  = dynamo
 
 ;--------------------- regions -----------------------------
 regions[account]        = account
@@ -30,22 +30,4 @@ features[] = primary_links
 features[] = secondary_links
 
 ;--------------------- styles ------------------------------
-stylesheets[all][]  = style/reset.css
-stylesheets[all][]  = style/grid.css
-stylesheets[all][]  = style/jcarousel.css
-stylesheets[all][]  = style/typography.css
-stylesheets[all][]  = style/biblo.css
-stylesheets[all][]  = style/search.css
-stylesheets[all][]  = style/style.css
-
-
-;stylesheets[print][]  = style/print.css 
-
-;------------------ conditional styles---------------------
-;conditional-stylesheets[if lt IE 7][all][] = style_ie6.css
-;conditional-stylesheets[if IE 7][all][] = style_ie.css
-
-;--------------------- scripts ----------------------------
-scripts[] = script/jquery.overlabel.js
-scripts[] = script/jquery.jcarousel.pack.js
-scripts[] = script.js
+stylesheets[all][]  = copenhagen.css

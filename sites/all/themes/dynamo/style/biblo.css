@@ -53,8 +53,6 @@ bibloteks oversigtsiden
 .node-library-teaser .vcard div{clear:both;}
 .node-library-teaser .vcard  span.type{width:60px; display:block; float:left;}
 .node-library-teaser .vcard .geo{display:none;}
-
-
 .node-library-teaser .office-hours-week{width:175px; float:left;}
 .node-library-teaser .office-hours-week .week-info{background:#d1d9d7}
 .node-library-teaser .office-hours-week .odd, 
@@ -114,7 +112,6 @@ bibloteks oversigtsiden
 .week-info a.next{color:#757575;}
 .office-hours-week .odd{background:#f3f5f5;}
 .office-hours-week .even{background:#fff;}
-
 
 
 /*external links*/
@@ -197,7 +194,6 @@ ul.item-list li{margin:0 0 0 20px;}
 
 
 
-
 /*alt biblo*/
 .pane-library_portal_navigation ul.menu{list-style-position:inside;}
 .pane-library_portal_navigation ul.menu li{list-style: disc inside}
@@ -205,3 +201,101 @@ ul.item-list li{margin:0 0 0 20px;}
 		.pane-library_portal_navigation ul.menu li ul li{list-style-type: square;}
 		
 .node-page .content{margin:10px 0 0 0;}		
+
+
+/*article lists*/
+.view-article-list li{background:transparent url(../images/bg-divider-small.png) no-repeat left top; padding:10px 20px 10px 20px; margin:0;}
+.view-article-list li.first{background:none; padding:0 20px ;}
+.view-article-list li li{background:none; padding:0px 10px 0px 0px; margin:0;}
+
+/**/
+.view-blog-category-list ul li div{display:inline;}
+.view-blog-category-list ul li div.node-count{font-size:10px;}
+
+/*node + list*/
+.node .meta ul{margin:0 0 0 10px;}
+.meta div.taxonomy{display:inline;}
+.meta li {padding:0 10px 0 0;}
+
+.view-empty,
+.feed, 
+.more-link{
+	margin:20px 0 0 20px; 
+}
+
+.more-link a{background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0; }
+
+/*panels node*/
+.page-comment .comment,
+.page-comment #comment-form,
+.pane-node_content, 
+.pane-node_comments,
+.pane-node_comment_form{
+	margin:0 20px 20px 20px;
+}
+
+.view-event-list span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px;}
+
+/* =======================================
+	comment
+/* ------------------------------------- */
+
+div.indented{margin:0 0 0 20px;}
+div.comment {width: auto; margin:0 0 10px 0; padding:5px 5px 5px 0;}
+div.comment blockquote {border: 1px solid #dedede; background:#fff; font-size:10px; padding:0 10px 10px 10px;}
+div.comment blockquote h4{margin: 10px 10px 5px 0px;}
+div.comment blockquote h4.new a{color:#000;}
+div.comment blockquote p {margin: 0 10px;}
+div.comment blockquote ul li {list-style-position: inside; margin:0 0 0 10px; list-style-type: disc;}
+div.comment blockquote ol li {list-style-position: inside; margin:0 0 0 10px;}
+div.comment ul.links{text-align:right; margin: 5px 10px}
+div.comment ul.links li{display:inline;}
+div.comment .meta {position:relative; margin:-1px 0 0 10px; padding:10px 0 0 30px ;background: transparent  url(../images/tip.gif) no-repeat 35px 0; font-style:normal;}
+div.comment .meta .author{color:#999;}
+div.comment .meta .date{color:#999;}
+
+
+/* =======================================
+	pager
+/* ------------------------------------- */
+ul.pager{margin:10px auto 0 auto; width:300px;}
+ul.pager li{display:inline; margin:0 5px;}
+ul.pager li.pager-item,
+ul.pager li.pager-current{
+	border: 1px solid #ccc; padding:0 5px;
+}
+
+.view-filters{width:690px;}
+.views-exposed-form .views-exposed-widget{float:right;}
+.view-empty{margin:0 0 0 20px;}
+
+/* =====================================
+test
+/*--------------------------------------*/
+
+.meta ul{display:inline;}
+.meta li{display:inline}
+
+.node .taxonomy{padding:10px 0 0 0;}
+.node .taxonomy ul{margin:0;}
+.node .taxonomy ul li{padding:0 5px 0 0;}
+
+/* =====================================
+Campaigns
+/*--------------------------------------*/
+.campaign{margin:10px 0;}
+.campaign-type-image-only{width:214px; height:334px; background:#ccf; margin:0 7px;}
+.campaign-type-text-only{
+	width:218px; height:60px; padding:10px 0px 10px 10px; overflow:hidden;
+	background:transparent url(../images/sprite-box.png) no-repeat -230px -60px; 
+}
+
+.campaign-type-text-only a{
+	width:210px; height:60px; display:block; overflow:hidden; 
+	font: normal normal normal 16px/18px "Gill sans", sans-serif;
+	text-transform: uppercase;  color:#ccc;
+}
+
+.campaign-type-image-only{}
+/*themes*/
+.campaign-theme-red{}

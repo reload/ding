@@ -1,13 +1,9 @@
-/* ===================================== 
-	Style: Typography
-	basic font size's etc
+/* =====================================
+	Dynamo style.css
+	------------------------------------
+	fonts & sizes
 
-  Based at 12 / 18 px
-  http://www.alistapart.com/articles/howtosizetextincss
-
-	  orig_pix * em_value = wanted_pix
-	wanted_pix /  orig_pix = em_value
-* ------------------------------------- */
+/*--------------------------------------*/
 body{
   font-size: 13px;
 	line-height:17px;

@@ -1,0 +1,10 @@
+<?php
+include_once(drupal_get_path('module', 'devel')."/devel_themer.module");
+
+
+if(module_exists('devel_themer')){
+	drupal_set_message('<b>Theme developer conflict</b> Eather disable theme developer or uninstall the theme dev comments module - both can run at the same time: so for now theme developer won', 'warning', FALSE);
+}else{
+	include_once(drupal_get_path('module', 'devel_themer_comments')."/devel_themer_comments_themealter.php"); 
+}
+

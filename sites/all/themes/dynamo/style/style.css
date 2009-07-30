@@ -1,103 +1,50 @@
 /* =====================================
 	Dynamo style.css
+	for running development 
 	------------------------------------
-	site specific styles
-	sets all the local design elements 
 /*--------------------------------------*/
-
-/*article lists*/
-.view-article-list li{background:transparent url(../images/bg-divider-small.png) no-repeat left top; padding:10px 20px 10px 20px; margin:0;}
-.view-article-list li.first{background:none; padding:0 20px ;}
-.view-article-list li li{background:none; padding:0px 10px 0px 0px; margin:0;}
-
-/**/
-.view-blog-category-list ul li div{display:inline;}
-.view-blog-category-list ul li div.node-count{font-size:10px;}
-
-/*node + list*/
-.node .meta ul{margin:0 0 0 10px;}
-.meta div.taxonomy{display:inline;}
-.meta li {padding:0 10px 0 0;}
-
-.view-empty,
-.feed, 
-.more-link{
-	margin:20px 0 0 20px; 
-}
-
-.more-link a{background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0; }
-
-/*panels node*/
-.page-comment .comment,
-.page-comment #comment-form,
-.pane-node_content, 
-.pane-node_comments,
-.pane-node_comment_form{
-	margin:0 20px 20px 20px;
-}
-
-.view-event-list span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px;}
-
-/* =======================================
-	comment
-/* ------------------------------------- */
-
-div.indented{margin:0 0 0 20px;}
-div.comment {width: auto; margin:0 0 10px 0; padding:5px 5px 5px 0;}
-div.comment blockquote {border: 1px solid #dedede; background:#fff; font-size:10px; padding:0 10px 10px 10px;}
-div.comment blockquote h4{margin: 10px 10px 5px 0px;}
-div.comment blockquote h4.new a{color:#000;}
-div.comment blockquote p {margin: 0 10px;}
-div.comment blockquote ul li {list-style-position: inside; margin:0 0 0 10px; list-style-type: disc;}
-div.comment blockquote ol li {list-style-position: inside; margin:0 0 0 10px;}
-div.comment ul.links{text-align:right; margin: 5px 10px}
-div.comment ul.links li{display:inline;}
-div.comment .meta {position:relative; margin:-1px 0 0 10px; padding:10px 0 0 30px ;background: transparent  url(../images/tip.gif) no-repeat 35px 0; font-style:normal;}
-div.comment .meta .author{color:#999;}
-div.comment .meta .date{color:#999;}
-
-
-.view-filters{width:690px;}
-.views-exposed-form .views-exposed-widget{float:right;}
-.view-empty{margin:0 0 0 20px;}
+/*overlabel*/
+form{clear: both;}
+form label.overlabel-apply{position:absolute; z-index:1; color:#666; margin:3px 0 0 5px; font-size:10px;} 
+form label.overlabel-apply .form-required{color:#900;}
+form div.description{font-size:10px; line-height:12px; color:#999; padding:5px; width:400px;}
+form div.overlabel-wrapper{margin:10px;}
 
 /* =====================================
-teaser
+ting search block
 /*--------------------------------------*/
+#search h3{text-indent: -9999em; height:55px; margin:0; padding:0; background:transparent url(../images/search.png) no-repeat 0 0; }
+#search .form-item{margin:0;}
+#search #edit-keys-wrapper{float:left; display:inline;}
+	#search-form{position:relative; width:600px; float:left;}
+	#search-form .form-text{height:20px; width:450px; background:#fff url(../images/magnifier.png) no-repeat 9px 5px; border: 1px solid #999; margin:0 20px 0 0; padding:4px 0 0 25px; font-size:1.2em; color:#929292; float:left;}
+	#search-form .form-button{float:left; display:block; height:29px; width:94px; background:transparent url(../images/searchbutton.png) no-repeat 0 0;;}
+		#search-form .form-button input{ border:0; background:transparent; margin:5px 10px; color:transparent; font-weight:bold; text-indent: -9999em; }
 
 
 /* =====================================
-test
+Account block
 /*--------------------------------------*/
+/*login*/
+#account h3{text-indent: -9999em; height:21px; background:transparent url(../images/logind.png) no-repeat 0 0; margin:10px 0 0 0; padding:0;}
+	#user-login-form .form-item{margin:0 0 3px 0;}
+	#user-login-form .form-text{ height:17px; margin:0; padding:0; background-color: #fff; border-top: 1px solid #ddd; border-left: 1px solid #ddd; }
 
-.meta ul{display:inline;}
-.meta li{display:inline}
+	#edit-name-wrapper{width:220px;}
+		#edit-name-wrapper input{width:220px;}
+	#edit-pass-wrapper{width:160px; float:left;}
+		#edit-pass-wrapper input{width:160px;}
 
-.node .taxonomy{padding:10px 0 0 0;}
-.node .taxonomy ul{margin:0;}
-.node .taxonomy ul li{padding:0 5px 0 0;}
-/* =====================================
-Campaigns
-/*--------------------------------------*/
-.campaign{margin:10px 0;}
-.campaign-type-image-only{width:214px; height:334px; background:#ccf; margin:0 7px;}
-.campaign-type-text-only{
-	width:218px; height:60px; padding:10px 0px 10px 10px; overflow:hidden;
-	background:transparent url(../images/sprite-box.png) no-repeat -230px -60px; 
-}
+	#user-login-form .form-button{width:60px;height:20px; display:block; float:left;overflow:hidden; padding:0; margin:1px 0 0 3px; background:transparent url(../images/accountlogin.png) no-repeat right center;}
+		#user-login-form .form-button span {background:transparent url(../images/accountlogin.png) no-repeat left center;}
+			#user-login-form .form-button span input{background:transparent; border: 0px solid #999; color:#fff;}
 
-.campaign-type-text-only a{
-	width:210px; height:60px; display:block; overflow:hidden; 
-	font: normal normal normal 16px/18px "Gill sans", sans-serif;
-	text-transform: uppercase;  color:#ccc;
-}
+		#user-login-form ul{clear:both;}
+			#user-login-form ul li{float:left; margin:0 10px 0 0;}
 
-.campaign-type-image-only{}
-/*themes*/
-.campaign-theme-red{}
 
 /* =====================================
-Cowboy
+Cowboy small trix not "really" implementet yet
 /*--------------------------------------*/
 #block-ding_library_map-0 {width:690px; margin:0 0 0 20px;}
 .pane-library_feature_detail_list{width:690px; margin:0 0 0 20px;}

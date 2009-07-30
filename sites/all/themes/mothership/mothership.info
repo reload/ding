@@ -1,5 +1,5 @@
 name        = mothership
-description = Theme for cleaning up that drupal html, and provide as a super super clean "theme"
+description = Theme for cleaning up that drupal html, and provide as a super duper clean "theme"
 screenshot  = screenshot.png
 core        = 6.x
 engine      = phptemplate
@@ -25,10 +25,58 @@ features[] = slogan
 features[] = primary_links
 features[] = secondary_links
 
-;--------------------- drupal.org packaging  ----------------------------
-; Information added by drupal.org packaging script on 2009-06-07
-version = "6.x-1.0-beta2"
-core = "6.x"
-project = "mothership"
-datestamp = "1244364932"
+;--------------------- styles ------------------------------
+; stylesheets[all][]    = style-test.css
 
+
+;--------------------- settings ----------------------------
+settings[mothership_cleanup_body_path]    = 1
+settings[mothership_cleanup_body_actions] = 1
+
+settings[mothership_cleanup_node_node] = 1
+settings[mothership_cleanup_node_sticky]  = 0
+settings[mothership_cleanup_node_published] = 1
+settings[mothership_cleanup_node_promote]    = 1
+settings[mothership_cleanup_node_content_type]  = 1
+settings[mothership_cleanup_node_teaser] = 1
+settings[mothership_cleanup_node_regions]  = 1
+settings[mothership_cleanup_node_id] = 1
+
+settings[mothership_cleanup_block_id]  = 1
+settings[mothership_cleanup_block_block]  = 1
+settings[mothership_cleanup_block_module]  = 1
+settings[mothership_cleanup_block_zebra]  = 1
+settings[mothership_cleanup_block_block]  = 1
+settings[mothership_cleanup_block_module]  = 1
+settings[mothership_cleanup_block_region_zebra]  = 0
+settings[mothership_cleanup_block_region_count]  = 0
+settings[mothership_cleanup_block_front]  = 0
+settings[mothership_cleanup_block_loggedin]  = 0
+settings[mothership_cleanup_block_zebra]  = 0
+settings[mothership_cleanup_block_count]  = 0
+
+settings[mothership_cleanup_comment_comment]  = 1
+settings[mothership_cleanup_comment_status]  = 1
+settings[mothership_cleanup_comment_new]  = 1
+settings[mothership_cleanup_comment_first]  = 0
+settings[mothership_cleanup_comment_last]  = 0
+settings[mothership_cleanup_comment_zebra]  = 0
+settings[mothership_cleanup_comment_front]  = 0
+settings[mothership_cleanup_comment_loggedin]  = 0
+settings[mothership_cleanup_comment_user]  = 0
+
+settings[mothership_cleanup_views_format_header] = 0
+settings[mothership_cleanup_views_format_header_markup]  = h3
+settings[mothership_cleanup_views_first_last]  = 1
+settings[mothership_cleanup_views_zebra] = 0
+settings[mothership_cleanup_views_row_ident] = 1
+
+settings[mothership_item_list_first_last]  = 1
+
+settings[mothership_cleanup_menu_baseclass]  = 1
+settings[mothership_cleanup_menu_leafs]  = 1
+settings[mothership_cleanup_menu_classes_first_last]  = 1
+settings[mothership_cleanup_menu_classes_active]  = 1
+
+settings[mothership_cleanup_links_baseclass]  = 1
+;--------------------- drupal.org packaging  ----------------------------

@@ -74,26 +74,19 @@
           	<div id="content">
               <div id="content-inner">
 
+    						<?php if ($help OR $messages) { ?>
           			<div id="drupal-messages">
                 	  <?php print $help ?>
                 	  <?php print $messages ?>
           			</div>
-
-                <?php if ($content_top) { ?>
-                  <?php print $content_top; ?>
-                <?php } ?>
-
-                
-                <?php print $content; ?>
-
-                <?php if ($content_bottom) { ?>
-                  <?php print $content_bottom; ?>
-                <?php } ?>
+								<?php } ?>
 
                 <?php if ($tabs){ ?>
                   <div class="tabs"><?php print $tabs; ?></div>
                 <?php }; ?>
 
+                
+                <?php print $content; ?>
              
               </div>
           	</div>
@@ -127,7 +120,6 @@
               <?php print $footer; ?>
             </div>
 
-  
       
           </div>
         </div>
@@ -137,7 +129,6 @@
   
 
 </div>
-
 
 
 <?php print $closure; ?>
