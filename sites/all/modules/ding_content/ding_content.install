@@ -1,16 +1,16 @@
-<?php 
+<?php
 // $Id$
 
 /**
- * @file ding_profile.install
- * Installation and upgrade hooks for the ding_profile module.
+ * @file ding_content.install
+ * Installation and upgrade hooks for the ding_content module.
  */
 
 /**
  * Implementation of hook_install().
  */
-function ding_profile_install() {
-  // Set the profile node type (which we provide here) to be a 
+function ding_content_install() {
+  // Set the profile node type (which we provide here) to be a
   // content profile (content_profile.module).
   variable_set('content_profile_use_profile', TRUE);
 
@@ -28,7 +28,7 @@ function ding_profile_install() {
 /**
  * Implementation of hook_uninstall().
  */
-function ding_profile_uninstall() {
+function ding_content_uninstall() {
   // Unset all the variables we set in the install hook.
   variable_del('content_profile_use_profile');
   variable_del('comment_profile');
@@ -37,4 +37,3 @@ function ding_profile_uninstall() {
   variable_del('ant_php_profile');
   variable_del('ant_pattern_profile');
 }
-
