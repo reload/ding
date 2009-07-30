@@ -5,104 +5,134 @@ Drupal Documentation
 
 h2. Dynamo & Subthemes
 
-Themet er bygget op med subtheming
-mothership -> _moshpit *_ -> Dynamo -> "Lokalt theme"
-_ * moshpit bliver merged med dynamo senere_
+mothership ->  Dynamo -> "Local"
 
-*Mothership* "
-pre load" theme der rytter op og fjerner / tilføjer css classer og markup til og fra drupals standard installation
-
-*moshpit* 
-et starter theme der bliver merged sammen med dynamo, når vi er kommet længere i processen ...
+*Mothership*
+mothership is a "clean up starter theme" that removes a lot of bloathed html code from the drupal output
+more info about the project http://drupal.org/project/mothership
 
 *Dynamo* 
-bibliotekernes grund theme hvor alle elementer er defineret 
+The dynamo theme is the basetheme for the DING project.
+This is where the magic happens.
 
-*Lokalt theme* 
-Det er her de lokale biblioteker kan ændre i sites udformning
+*"Local"*
+For quick "skinning"  
 
-
-Documentation 
+*Documentation*
 * subtheme documentation http://drupal.org/node/225125
 * mothership: http://drupal.org/project/mothership
-* moshpit: http://drupal.org/project/moshpit
 
 
-h2. Dynamos Filer
-Dynamo themet kommer med en del filer, som det lokale theme kan overskrive, hvis man har behov for dette
+h3. Dynamo Template files (.tpl.php)
 
-  
-h3. Template filer
-
-h5. Blocks
-block.tpl.php
-
-block-account.tpl.php
-
-block-seach.tpl.php
-
-
-* comment.tpl.php
-* ding_panels_content_libary_location.tpl.php
-* ding_panels_content_libary_title.tpl.php
-* location.tpl.php
-* node-campaign.tpl.php
-* node-event.tpl.php
-* node-library.tpl.php
-* node.tpl.php
+h4. main templates
 * page.tpl.php
+overall design file
+
+design specific templates:
 * panels-threecol-33-34-33-stacked.tpl.php
 * panels-threecol-left-stacked-right.tpl.php
 * panels-threecol-left-stacked.tpl.php
 * panels-twocol-left-stacked.tpl.php
-* ting_record.tpl.php
-* ting_result.tpl.php
+
+* ding_event_similar_events.tpl.php
+* ding_panels_content_libary_location.tpl.php
+* ding_panels_content_libary_title.tpl.php
+
+
+h4. content templates
+node/"blog" 
+* node.tpl.php
 * views-view-fields--article-list--block-4.tpl.php
 * views-view-fields--article-list.tpl.php
+
+calendar
+* node-event.tpl.php
 * views-view-fields--event-list--block.tpl.php
 * views-view-fields--event-list--page.tpl.php
-* views-view-fields--library-list--page.tpl.php
 * views-view-list--event-list--block.tpl.php
 
-h3. javascript
+Library
+* node-library.tpl.php
 
-  script/jquery.jcarousel.js
-  script/jquery.jcarousel.pack.js
-  script/jquery.overlabel.js
-  script.js
+* views-view-fields--library-list--page.tpl.php
+	listing of the librarys
+* location.tpl.php
+	defnes the location element for a libary
 
-h3. css
+search
+* ting_record.tpl.php
+* ting_result.tpl.php
 
-  style/biblo.css
-  style/grid.css
-  style/jcarousel.css
-  style/search.css
-  style/style.css
-  style/typography.css
+h4. Blocks & "block like" tpls
+* block.tpl.php
+controller for all the blocks 
 
-images/
+* block-account.tpl.php
 
-h3. drupal theme filer
+* block-seach.tpl.php
+variants of the block.tpl that removes unnecessary markup around the content
 
-* dynamo.info
-* template.php
+* node-campaign.tpl.php
+campaigns template
 
+h4. comments
+* comment-folded.tpl.php
+	used if comments are folded
+* comment-wrapper.tpl.php
+a placeholder file around all the comments
+* comment.tpl.php
+template file for the comment
 
-h2. lokalbiblioteks version
+h3. Dynamo style sheets
+* reset.css
+resets / drupal based overwrites
 
-kopier folderen "lokalbibliotek" og giv den et nyt navn - navnet skal være uden mellemrum æøå osv.
-den kopierede folder plaseres i sites/all/themes/
+* grid.css
+basic layout
 
-lokalbibliotek folderen har følgende filer:
-* lokalbiblotek.info 
-her defineres alle de grunlæggende ting i themet, såsom regioner, theme features, CSS og Javascript filer
+* typography.css
+fonts & sizes
+
+* biblo.css
+library, blogs and events
+
+* search.css
+search results
+
+* jcarousel.css
+styles for the carousels 
 
 * style.css
-basic stylesheet til overskrivning af de mest gængse elementer
 
-* theme-settings.php
-defineringer af settings til themet
+
+h3. dynamo javascript
+* script.js
+controller script
+
+* script/jquery.jcarousel.js
+* script/jquery.jcarousel.pack.js
+	creates the carousels	
+	
+* script/jquery.overlabel.js
+	creates the overlabel effects for login & search
+
+h3. dynamo images
+all images are located inside the images folder
+
+h3. Dynamo theme control files
+* dynamo.info
 
 * template.php
-overskrivninger af elementer fra drupal.
+function overwrites
 
+
+h2. "Local" theme
+[local].info
+[local].css
+theme-settings.php
+
+
+h2. how to create a new local theme
+
+  

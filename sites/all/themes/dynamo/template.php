@@ -128,4 +128,3 @@ function return_terms_from_vocabulary($node, $vid){
 
 	return $content;
 }
-

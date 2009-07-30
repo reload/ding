@@ -11,14 +11,12 @@
   <?php print $scripts; ?>
 </head>
 <body class="<?php print $body_classes; ?>">
-
 <?php 
 /*adds support for for the admin module*/
  if (!empty($admin)) print $admin; 
 ?>
 
 <div id="container" class="clearfix">
-
 
     <div id="page" class="minheight">
       <div id="page-inner" class="clearfix">
@@ -29,8 +27,7 @@
           </a>
         </<?php print $site_name_element; ?>>
 
-
-        <div id="pageheader" class="">
+        <div id="pageheader">
           <div id="pageheader-inner">
             
             <div id="top" class="clearfix">
@@ -45,7 +42,7 @@
               </div>  
             </div>
 
-        		<div id="navigation" class="">
+        		<div id="navigation">
         			<div id="navigation-inner">
                 <?php if ($primary_links){ ?>
                   <?php print theme('links', $primary_links); ?>
@@ -75,16 +72,15 @@
               <div id="content-inner">
 
     						<?php if ($help OR $messages) { ?>
-          			<div id="drupal-messages">
-                	  <?php print $help ?>
-                	  <?php print $messages ?>
-          			</div>
+	          			<div id="drupal-messages">
+	                	  <?php print $help ?>
+	                	  <?php print $messages ?>
+	          			</div>
 								<?php } ?>
 
                 <?php if ($tabs){ ?>
                   <div class="tabs"><?php print $tabs; ?></div>
                 <?php }; ?>
-
                 
                 <?php print $content; ?>
              
@@ -100,7 +96,7 @@
           </div>
         </div>
 
-        <div id="pagefooter" class="">
+        <div id="pagefooter">
           <div id="pagefooter-inner" class="clearfix">
 
             <div class="left first">
@@ -119,17 +115,14 @@
               <?php print $footer_four; ?>              
               <?php print $footer; ?>
             </div>
-
       
           </div>
         </div>
 
       </div>
     </div>
-  
 
 </div>
-
 
 <?php print $closure; ?>
 </body>
