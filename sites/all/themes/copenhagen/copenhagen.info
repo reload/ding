@@ -1,5 +1,5 @@
 name        = copenhagen
-description = copenhagen subtheme of dyname for copenhagen test
+description = copenhagen subtheme of dyname for copenhagen test 
 screenshot  = screenshot.png
 version     = dev 0.1
 core        = 6.x
