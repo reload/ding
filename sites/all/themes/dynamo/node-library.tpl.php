@@ -32,7 +32,7 @@
       </div>
 
       <div class="link-card">
-          <a href="" id="biblo-<?php print $node->nid ?>">Se på kort</a>
+          <a href="/biblioteker?lat=<?php echo $node->location['latitude'] ?>&long=<?php echo $node->location['longitude'] ?>" id="biblo-<?php print $node->nid ?>">Se på kort</a>
       </div>
       
       <div class="tel">
