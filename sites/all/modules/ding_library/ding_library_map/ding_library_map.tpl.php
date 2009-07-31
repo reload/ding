@@ -9,6 +9,7 @@
 //TODO: Move config to theme preprocess
 drupal_add_css(drupal_get_path('module', 'ding_library_map') .'/css/ding_library_map.css', 'module');
 drupal_add_js(drupal_get_path('module', 'ding_library_map') .'/js/jquery.scrollTo/jquery.scrollTo-min.js', 'module');
+drupal_add_js(drupal_get_path('module', 'ding_library_map') .'/js/jquery.url/jquery.url.packed.js', 'module');
 drupal_add_js(drupal_get_path('module', 'ding_library_map') .'/js/ding_library_map.js', 'module');
 
 //setup map

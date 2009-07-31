@@ -170,6 +170,18 @@ Drupal.dingLibraryMap = function(mapId, options)
 		this.init = function()
 		{
 			var map = this.getMap();
+			
+			var lat = jQuery.url.param('lat');
+			var long = jQuery.url.param('long');
+			if (lat && long)
+			{
+				map.bind('ready', function()
+				{
+					map.map.setCenter(new GLatLng(lat, long), 14);
+					$.scrollTo(map.map.getContainer(), '500', { offset: -20 });			
+				});
+			}
+			
 			$('.link-card a').click(function()
 			{
 				geo = $(this).parents('.content:first').find('.geo');
