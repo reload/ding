@@ -180,3 +180,12 @@ function ding_content_view($node, $teaser = FALSE, $page = FALSE) {
   return $node;
 }
 
+/**
+ * Implementation of hook_views_api() {
+ */
+function ding_content_views_api() {
+  return array(
+    'api' => 2.0,
+  );
+}
+
