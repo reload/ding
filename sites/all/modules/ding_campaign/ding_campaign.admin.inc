@@ -87,6 +87,11 @@ function ding_campaign_admin_rule_form_validate($form, &$form_state) {
       // Remove the empty rules, so they won't get saved to the database.
       unset($form_state['values']['rules'][$delta]);
     }
+    elseif ($rule['type'] == 'search_term') {
+      // Force lowercase terms (we do the same when searching,
+      // so searching is effectively case-insensitive).
+      $form_state['values']['rules'][$delta]['value'] = drupal_strtolower($value);
+    }
     elseif ($rule['type'] == 'page' || $rule['type'] == 'library' || $rule['type'] == 'taxonomy') {
       $matches = array();
       // Match [nid:54], [tid:4], etc. from the text string.

@@ -449,7 +449,18 @@ function ding_campaign_get_relevant($context, $max_count = DING_CAMPAIGN_DEFAULT
     }
   }
   if (isset($context['search_term']) && !empty($context['search_term'])) {
-    $query = db_query("SELECT nid FROM {ding_campaign_rule} WHERE type = 'search_term' AND value = '%s';", $context['search_term']);
+    // If there's more than one search term, make a SQL IN condition by
+    // splitting them and joining them with commas.
+    $keys = trim(drupal_strtolower(check_plain($context['search_term'])));
+    if (strpos($keys, ' ')) {
+      $keys = implode("','", array_merge(array($keys), explode(' ', $keys)));
+      $condition = "IN ('" . $keys . "')";
+    }
+    else {
+      $condition = "= '" . $keys . "'";
+    }
+
+    $query = db_query("SELECT nid FROM {ding_campaign_rule} WHERE type = 'search_term' AND value " . $condition);
     while ($camp_nid = db_result($query)) {
       $campaigns[$camp_nid] += 7;
     }
