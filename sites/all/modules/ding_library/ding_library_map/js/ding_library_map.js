@@ -41,22 +41,14 @@ Drupal.dingLibraryMap = function(mapId, options)
 			{
 				info.hideInfo();
 			});
-			this.getMap().bind('widthchange', function()
+			hideEvents = ['widthchange', 'heightchange', 'zoom', 'move'];
+			for (event in hideEvents)
 			{
-				info.hideInfo();				
-			});
-			this.getMap().bind('heightchange', function()
-			{
-				info.hideInfo();				
-			});
-			this.getMap().bind('zoom', function()
-			{
-				info.hideInfo();				
-			});
-			this.getMap().bind('move', function()
-			{
-				info.hideInfo();				
-			});
+				this.getMap().bind(event, function()
+				{
+					info.hideInfo();				
+				});			
+			}
 		};
 	
 		this.showInfo = function(object)
@@ -93,7 +85,9 @@ Drupal.dingLibraryMap = function(mapId, options)
 					}
 				
 					if (sectionDays.length > 1) {
-						sectionDays = this.shortDayNames[sectionDays.shift()]+'-'+this.shortDayNames[sectionDays.pop()]; //use short day names if section spans more than one day
+						startDay = this.shortDayNames[sectionDays.shift()];
+						endDay = this.shortDayNames[sectionDays.pop()];
+						sectionDays = startDay.substr(0, 1).toUpperCase()+startDay.substr(1)+'-'+endDay.substr(0, 1).toUpperCase()+endDay.substr(1); //use short day names if section spans more than one day
 					} else {
 						sectionDays = this.fullDayNames[sectionDays.shift()]; //use full day name for section spanning a single day
 					}

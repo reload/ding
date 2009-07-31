@@ -34,27 +34,29 @@ foreach ($nodes as $node)
 }
 
 ?>
-<?php echo theme('gmap', $map) ?>
-<script type="text/javascript">
-	<?php //TODO: Move to Drupal javascript settings ?>
-	var options = { fullDayNames: {	'mon': '<?php echo t('Monday') ?>',
-									 								'tue': '<?php echo t('Tuesday') ?>',
-																	'wed': '<?php echo t('Wednesday') ?>',
-																	'thu': '<?php echo t('Thursday') ?>',
-																	'fri': '<?php echo t('Friday') ?>',
-																	'sat': '<?php echo t('Saturday') ?>',
-																	'sun': '<?php echo t('Sunday') ?>' },
-									shortDayNames: {	'mon': '<?php echo t('Mon') ?>',
-						 		 										'tue': '<?php echo t('Tue') ?>',
-										 								'wed': '<?php echo t('Wed') ?>',
-										 								'thu': '<?php echo t('Thu') ?>',
-										 								'fri': '<?php echo t('Fri') ?>',
-										 								'sat': '<?php echo t('Sat') ?>',
-										 								'sun': '<?php echo t('Sun') ?>' }
-	};
-								
-	jQuery(function()
-	{
-		Drupal.dingLibraryMap('<?php echo $mapId; ?>', options)
-	});
-</script>
+<div class="ding-library-map">
+	<?php echo theme('gmap', $map) ?>
+	<script type="text/javascript">
+		<?php //TODO: Move to Drupal javascript settings ?>
+		var options = { fullDayNames: {	'mon': '<?php echo t('Monday') ?>',
+										 								'tue': '<?php echo t('Tuesday') ?>',
+																		'wed': '<?php echo t('Wednesday') ?>',
+																		'thu': '<?php echo t('Thursday') ?>',
+																		'fri': '<?php echo t('Friday') ?>',
+																		'sat': '<?php echo t('Saturday') ?>',
+																		'sun': '<?php echo t('Sunday') ?>' },
+										shortDayNames: {	'mon': '<?php echo t('Mon') ?>',
+							 		 										'tue': '<?php echo t('Tue') ?>',
+											 								'wed': '<?php echo t('Wed') ?>',
+											 								'thu': '<?php echo t('Thu') ?>',
+											 								'fri': '<?php echo t('Fri') ?>',
+											 								'sat': '<?php echo t('Sat') ?>',
+											 								'sun': '<?php echo t('Sun') ?>' }
+		};
+									
+		jQuery(function()
+		{
+			Drupal.dingLibraryMap('<?php echo $mapId; ?>', options)
+		});
+	</script>
+</div>
