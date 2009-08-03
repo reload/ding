@@ -37,25 +37,26 @@ class AlmaClient {
    *    A SimpleXML object with the response.
    */
   public function request($method, $params = array()) {
-    $url = $this->base_url . $method;
+    // For use with a non-Drupal-system, we should have a way to swap
+    // the HTTP client out.
+    $request = drupal_http_request(url($this->base_url . $method, array('query' => $params)));
 
-    if (!empty($params)) {
-      $sparams = array();
-      foreach ($params as $key => $value) {
-        $sparams[] = rawurlencode($key) . '='. rawurlencode($value);
+    if ($request->code == 200) {
+      // Since we currently have no neat for the more advanced stuff
+      // SimpleXML provides, we'll just use DOM, since that is a lot
+      // faster in most cases.
+      $doc = new DOMDocument();
+      $doc->loadXML($request->data);
+      if ($doc->getElementsByTagName('status')->item(0)->getAttribute('value') == 'ok') {
+        return $doc;
       }
-
-      $url .= '?' . implode('&', $sparams);
-    }
-
-    $data = qp($url);
-
-    if ($data->find('status')->attr('value') == 'ok') {
-      return $data;
+      else {
+        // TODO: Make more descriptive exceptions.
+        throw new Exception('Status is not okay');
+      }
     }
     else {
-      // TODO: Make more descriptive exceptions.
-      throw new Exception('Status is not okay');
+      throw new Exception('Request error: ' . $request->code . $request->error);
     }
   }
 
@@ -71,10 +72,10 @@ class AlmaClient {
     // Set a no branch option.
     $branches = array(NULL => '- None -');
 
-    $data = $this->request('organisation/branches');
+    $doc = $this->request('organisation/branches');
 
-    foreach ($data->find('branch')->matches() as $branch) {
-      $branches[$branch->attr('id')] = $branch->find('name')->text();
+    foreach ($doc->getElementsByTagName('branch') as $branch) {
+      $branches[$branch->getAttribute('id')] = $branch->getElementsByTagName('name')->item(0)->nodeValue;
     }
 
     return $branches;
