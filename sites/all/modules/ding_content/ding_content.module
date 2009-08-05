@@ -118,8 +118,6 @@ function ding_content_access($op, $node, $account = NULL) {
       }
       break;
   }
-
-  return FALSE;
 }
 
 /**
