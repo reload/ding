@@ -74,49 +74,35 @@ function ding_content_access($op, $node, $account = NULL) {
     $account = $GLOBALS['user'];
   }
 
-  switch ($node->type) {
-    case 'article':
-      switch ($op) {
-        case 'create':
-          return user_access('create article', $account);
-        case 'update':
-          return user_access('edit article', $account);
-        case 'delete':
-          return user_access('delete article', $account);
-      }
-      break;
-    case 'feature':
-      switch ($op) {
-        case 'create':
-          return user_access('create feature', $account);
-        case 'update':
-          return user_access('edit feature', $account);
-        case 'delete':
-          return user_access('delete feature', $account);
-      }
-      break;
-    case 'profile':
-      switch ($op) {
-        case 'create':
-          return user_access('create profile', $account);
-        case 'view':
-          return user_access('access user profiles', $account);
-        case 'update':
-          return user_access('edit profile', $account);
-        case 'delete':
-          return user_access('delete profile', $account);
-      }
-      break;
-    case 'event':
-      switch ($op) {
-        case 'create':
-          return user_access('create event', $account);
-        case 'update':
-          return user_access('edit event', $account);
-        case 'delete':
-          return user_access('delete event', $account);
-      }
-      break;
+  $permissions = array(
+    'article' => array(
+      'create' => 'create article',
+      'view' => 'access content',
+      'update' => 'edit article',
+      'delete' => 'delete article',
+    ),
+    'feature' => array(
+      'create' => 'create feature',
+      'view' => 'access content',
+      'update' => 'edit feature',
+      'delete' => 'delete feature',
+    ),
+    'profile' => array(
+      'create' => 'create article',
+      'view' => 'access user profiles',
+      'update' => 'edit article',
+      'delete' => 'delete article',
+    ),
+    'event' => array(
+      'create' => 'create event',
+      'view' => 'access content',
+      'update' => 'edit event',
+      'delete' => 'delete event',
+    ),
+  );
+
+  if (isset($permissions[$node->type][$op])) {
+    return user_access($permissions[$node->type][$op], $account);
   }
 }
 
