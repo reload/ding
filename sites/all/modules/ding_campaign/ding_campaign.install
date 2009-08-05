@@ -108,3 +108,12 @@ function ding_campaign_schema() {
   return $schema;
 }
 
+/**
+ * Implementation of hook_update_N().
+ */
+function ding_campaign_update_6001(&$sandbox = NULL) {
+  $ret = array();
+  $ret[] = update_sql("UPDATE {blocks} SET cache = -1 WHERE module = 'ding_campaign' AND delta = 0;");
+  return $ret;
+}
+

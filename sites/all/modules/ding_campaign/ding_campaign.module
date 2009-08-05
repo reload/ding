@@ -76,7 +76,7 @@ function ding_campaign_block($op = 'list', $delta = 0, $edit = array()) {
       'status' => 1,
       'visibility' => 1, // Show only on specified pages
       'pages' => "arrangementer\nbiblioteker",
-      'cache' => BLOCK_CACHE_PER_PAGE,
+      'cache' => BLOCK_NO_CACHE,
     ));
   }
   elseif ($op == 'configure' && $delta == 0) {
