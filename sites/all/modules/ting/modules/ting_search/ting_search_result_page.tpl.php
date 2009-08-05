@@ -6,6 +6,9 @@
  * Template for the search result page itself.
  */
 ?>
+<div id="ting-search-sidebar">
+  <?php print $campaigns; ?>
+</div>
 <div id="ting-search-placeholder"></div> 
 <div id="ting-search-spinner">
   <h4><?php print t('Searching'); ?>…</h4>

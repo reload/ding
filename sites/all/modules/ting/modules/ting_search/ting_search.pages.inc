@@ -16,7 +16,7 @@ function ting_search_pages_result() {
     'content_url' => url('ting/search/content/js'),
     'result_template' => theme('ting_result')
   )), 'setting', 'footer');
-  return theme('ting_search_result_page');
+  return theme('ting_search_result_page', theme('ding_campaign_relevant_campaigns', (array('search_term' => $keys))));
 }
 
 /**
