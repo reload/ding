@@ -46,14 +46,8 @@ Account block
 /* =======================================
 	pager
 /* ------------------------------------- */
-ul.pager{}
 ul.pager li{padding:0;}
 ul.pager li{margin:0 10px 0 0;}
-ul.pager li.pager-previous{}
-ul.pager li.pager-next{}
-ul.pager li.last{}
-ul.pager li.pager-item{}
-ul.pager li.pager-current{}
 
 
 /* pagers */
@@ -79,19 +73,14 @@ ul.pager li.pager-current{}
 	#ting-result-pager ul li{width:30px; height:24px; float:left; padding:3px 2px 0 2px; text-align:center; background:transparent url(../images/bg-pager-link.gif) no-repeat left top; }
 	#ting-result-pager ul li.current,
 	ul.pager li.pager-current{width:32px; height:28px; padding:3px 2px 0 2px;  background:transparent url(../images/bg-pager-link-active.gif) no-repeat left top;}
-/* pager*/
-
-
 
 /* =====================================
-Panels styles
+Panels BOX css styles
 /*--------------------------------------*/
 .ding-box-pane{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden;}
-	.ding-box-pane h3{width:228px; padding:8px 0 4px 20px; height:18px; background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; overflow:hidden;}
+	.ding-box-pane h3{	font-size:11px; line-height:20px; font-weight:bold; width:228px; padding:8px 0 4px 20px; height:18px; background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; overflow:hidden;}
 	.ding-box-pane ul{width:228px; padding:8px 0px; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom;  overflow:hidden; }
 	.ding-box-pane li{margin:0 0 0 20px;}
-
-
 
 /* =====================================
 Campaigns

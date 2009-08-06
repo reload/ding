@@ -20,7 +20,7 @@ if($id_node){
 }
 ?>
 
-<!-- node   xxx.tpl-->
+<!-- node.tpl-->
 <?php if ($page == 0){ ?>
 <div<?php print $id_node . $classes; ?>>
 
@@ -50,6 +50,9 @@ if($id_node){
   			af <?php print theme('username', $node); ?>
   		</span>	
 
+			<?php print $node->field_library_ref[0]['view'];  ?>
+
+			
   		<?php if (count($taxonomy)){ ?>
   		  <div class="taxonomy">
   	   	  <?php print $terms ?> 
@@ -87,6 +90,7 @@ if($id_node){
 	</div>
 
 	<?php if (count($taxonomy)){ ?>
+
 	  <div class="taxonomy">
    	  <?php print $terms ?> 
 	  </div>  
