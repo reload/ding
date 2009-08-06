@@ -60,11 +60,13 @@
 
 
 /*features*/
-	.pane-library_feature_list{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden; margin:0 0 0 10px;}
+/*.pane-library_feature_list{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden; margin:0 0 0 10px;}
 	.pane-library_feature_list h3{height:18px;  width:228px; padding:10px 0 0 10px; background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; overflow:hidden;}
-	.pane-library_feature_list .item-list{width:228px; min-height:30px;  padding:10px 0px 10px 15px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom; overflow:hidden;}
-	.pane-library_feature_list .item-list li{width:65px; float:left; margin:0 10px 0 0; padding:0 0 0 15px; background:transparent url(../images/ok.png) no-repeat left 3px; }
+.pane-library_feature_list .item-list{width:228px; min-height:30px;  padding:10px 0px 10px 15px; overflow:hidden;}
 
+*/
+	.pane-library_feature_list .item-list ul{padding:8px 0 8px 10px;}	
+	.pane-library_feature_list .item-list li{width:65px; float:left; margin:0 10px 0 0; padding:0 0 0 15px; background:transparent url(../images/ok.png) no-repeat left 3px; }
 
 
 /* ==========================================================================
@@ -79,13 +81,7 @@
 	.library-info .library-map-inner{width:194px; height:140px; background:#eee;}
 
 /*opening hours*/
-	.pane-library_hours{width:228px; background:transparent url(../images/sprite-box.png) no-repeat 0px 0; overflow:hidden;}
-	.pane-library_hours h3{height:21px; width:228px; padding:8px 0 0 20px; background:transparent url(../images/sprite-box.png) no-repeat -230px -30px;}
-	.pane-library_hours .office-hours-week{ background:transparent url(../images/sprite-box.png) -700px bottom; padding:0 0 10px 0; }
-	.pane-library_hours .office-hours-week .even,
-	.pane-library_hours .office-hours-week .odd{
-		width:190px; padding:0 10px; margin:0 10px;
-	}
+	.pane-library_hours .office-hours-week .even,	.pane-library_hours .office-hours-week .odd{width:190px; padding:0 10px; margin:0 10px;}
 	.pane-library_hours .office-hours-week .week-info{margin:0 0 0 20px;}
 	.week-info a.prev{ color:#757575;}
 	.week-info a.next{color:#757575;}
@@ -96,7 +92,6 @@
 	.pane-library_location ul.links {margin:10px 0 0 0;}
 	.pane-library_location ul.links li{display:block; padding:0;}
 		.pane-library_location ul.links li a{background:transparent url(../images/icons/arrow.png) no-repeat left center; padding:0px 0 5px 20px; font-size:10px;}
-
 		/*icons for the links*/
 		.pane-library_location ul.links li a.rejseplanen{background:transparent url(../images/icons/rejseplanen.gif) no-repeat}
 		.pane-library_location ul.links li a.findvej{background:transparent url(../images/icons/findvej.png) no-repeat}
@@ -117,14 +112,6 @@
 		.pane-library_location ul.links li a.vimeo{background:transparent url(../images/icons/vimeo.png) no-repeat}
 		.pane-library_location ul.links li a.wordpress{background:transparent url(../images/icons/wordpress.png) no-repeat}
 		.pane-library_location ul.links li a.youtube{background:transparent url(../images/icons/youtube.png) no-repeat}
-
-
-/*blog catagorier*/
-.pane-blog_category_list-panel_pane_1{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden;}
-	.pane-blog_category_list-panel_pane_1 h3{width:228px; padding:6px 0 4px 20px; height:18px; background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; overflow:hidden;}
-	.pane-blog_category_list-panel_pane_1 ul{width:228px; padding:8px 0px; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom;  overflow:hidden; }
-	.pane-blog_category_list-panel_pane_1 li{margin:0 0 0 20px;}
-
 
 
 /**/

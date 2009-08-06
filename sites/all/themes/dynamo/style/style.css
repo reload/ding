@@ -54,6 +54,16 @@ ul.pager li.pager-current{
 }
 
 
+/* =====================================
+Panels styles
+/*--------------------------------------*/
+
+.ding-box-pane{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden;}
+	.ding-box-pane h3{width:228px; padding:8px 0 4px 20px; height:18px; background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; overflow:hidden;}
+	.ding-box-pane ul{width:228px; padding:8px 0px; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom;  overflow:hidden; }
+	.ding-box-pane li{margin:0 0 0 20px;}
+
+
 
 /* =====================================
 Campaigns
