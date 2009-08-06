@@ -203,7 +203,7 @@ ul.item-list li{margin:0 0 0 20px;}
 	margin:0 20px 20px 20px;
 }
 
-
+.content-top .pane-node_content{margin:0 20px 20px 0;}
 
 .view-filters{width:690px;}
 .views-exposed-form .views-exposed-widget{float:right;}
