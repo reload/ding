@@ -15,10 +15,23 @@ function dynamo_theme($existing, $type, $theme, $path) {
    'ding_panels_content_library_location' => array(
      'template' => 'ding_panels_content_libary_location',
    ),
+	'edit_search_form' => array(
+		'arguments'=> array('form' => NULL),
+		),
  );
 }
 
+// search-form
+// function dynamo_edit_seach_form($form){
+// //	dsm($form);
+// }
 
+// function dynamo_form($form){
+// 	dsm($form);
+// }
+
+
+//views
 function dynamo_preprocess_views_view_list(&$vars){
   dynamo_preprocess_views_view_unformatted($vars);  
 }

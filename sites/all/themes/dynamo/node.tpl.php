@@ -20,7 +20,7 @@ if($id_node){
 }
 ?>
 
-<!-- node.tpl-->
+<!-- node   xxx.tpl-->
 <?php if ($page == 0){ ?>
 <div<?php print $id_node . $classes; ?>>
 
@@ -28,8 +28,6 @@ if($id_node){
     <?php
  		if($field_image_rendered){
 			print $field_image_rendered; 	
-		}else{
-			
 		}
 	?>
   </div>
@@ -39,7 +37,6 @@ if($id_node){
     <div class="subject">
       <?php print return_terms_from_vocabulary($node, "1"); ?> 
     </div>
-
 
   	<?php if($node->title){	?>	
       <h3><?php print l($node->title, 'node/'.$node->nid); ?></h3>

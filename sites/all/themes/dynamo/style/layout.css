@@ -60,7 +60,8 @@ Menu
 
 
 /* =====================================
-Panels
+Panels basic content layouts
+all content based on search results are in the search.css
 /*--------------------------------------*/
 
 .content-top{background:transparent url(../images/bg-divider.png) no-repeat -20px bottom; padding:0 0 20px 20px;}
