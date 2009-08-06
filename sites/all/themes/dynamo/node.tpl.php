@@ -1,9 +1,28 @@
-<?php //dsm($node);	?>	
-<?php  //dsm(get_defined_vars());  ?> 
-<?php //print $FIELD_NAME_rendered ?>
+<?php
+
+/*
+	dsm($variables['template_files']);
+  dsm($node);
+  dsm($node->content);
+  print_r(get_defined_vars());
+  print $FIELD_NAME_rendered;
+*/
+/*
+ad a class="" if we have anything in the $classes var
+this is so we can have a cleaner output - no reason to have an empty <div class="" id=""> 
+*/
+if($classes){
+   $classes = ' class="' . $classes . ' clearfix"';
+}
+
+if($id_node){
+  $id_node = ' id="' . $id_node . '"';  
+}
+?>
+
 <!-- node.tpl-->
 <?php if ($page == 0){ ?>
-<div class="<?php print $classes ?> clearfix">
+<div<?php print $id_node . $classes; ?>>
 
   <div class="picture">
     <?php
@@ -12,8 +31,6 @@
 		}else{
 			
 		}
-
-
 	?>
   </div>
 
@@ -51,7 +68,7 @@
 <?php }else{ 
 //Content
 ?>
-<div class="<?php print $classes ?>">
+<div<?php print $id_node . $classes; ?>>
 
   <div class="subject">
     <?php print return_terms_from_vocabulary($node, "1"); ?> 
@@ -83,3 +100,4 @@
 	<?php } ?>
 </div>
 <?php } ?>
+<!-- /node.tpl-->

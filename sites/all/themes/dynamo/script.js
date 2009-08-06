@@ -11,7 +11,6 @@ $(document).ready(function() {
        wrap: "last"
      });
 
-
     $('#event-similar').jcarousel({
        vertical: false, //
        scroll: 1, //amount of items to scroll by
@@ -19,6 +18,9 @@ $(document).ready(function() {
        auto: "0", //autoscroll in secunds
        wrap: "last"
      });
+
+
+
 
 });
 

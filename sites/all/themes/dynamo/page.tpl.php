@@ -78,11 +78,11 @@
 	          			</div>
 								<?php } ?>
 
+                <?php print $content; ?>
+
                 <?php if ($tabs){ ?>
                   <div class="tabs"><?php print $tabs; ?></div>
                 <?php }; ?>
-                
-                <?php print $content; ?>
              
               </div>
           	</div>

@@ -52,7 +52,7 @@ function dynamo_panels_pane($content, $pane, $display) {
       $classstr = ' ' . $content->css_class;
     } 
     //  $output = "<div class=\"panel-pane $classstr\"$idstr>\n";
-    $output = "<div class=\"pane-$pane->subtype\">\n";
+    $output = "<div class=\"panel-pane pane-$pane->subtype $classstr \"$idstr>\n";
     if (!empty($content->title)) {
       $output .= "<h3>$content->title</h3>\n";
     }

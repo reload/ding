@@ -29,8 +29,9 @@ h4. main templates
 * page.tpl.php
 overall design file
 
-design specific templates:
+*"$content templates"*
 * panels-threecol-33-34-33-stacked.tpl.php
+ frontpage $content 
 * panels-threecol-left-stacked-right.tpl.php
 * panels-threecol-left-stacked.tpl.php
 * panels-twocol-left-stacked.tpl.php
@@ -118,7 +119,12 @@ controller script
 	creates the overlabel effects for login & search
 
 h3. dynamo images
-all images are located inside the images folder
+
+* dynamo/images/*
+All images are located inside the images folder
+
+* favicon.ico
+faverite icon
 
 h3. Dynamo theme control files
 * dynamo.info
@@ -128,11 +134,33 @@ function overwrites
 
 
 h2. "Local" theme
-[local].info
-[local].css
-theme-settings.php
+* [local].info
+* [local].css
+* theme-settings.php
 
 
 h2. how to create a new local theme
+yadi yadi ...
 
-  
+
+h2. css naming
+
+h3. main layout
+
+
+h3. panels regions name
+
+panel-top
+	panel-top-left
+	panel-top-middle
+	panel-top-right
+
+panel-left
+panel-middle
+panel-right
+
+panel-bottom
+	panel-bottom-left
+	panel-bottom-middle
+	panel-bottom-right
+
