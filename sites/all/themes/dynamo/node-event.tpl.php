@@ -1,9 +1,26 @@
-<?php // dsm($node);	?>	
-<?php  //dsm(get_defined_vars());  ?> 
-<?php //print $FIELD_NAME_rendered ?>
+<?php
+/*
+	dsm($variables['template_files']);
+  dsm($node);
+  dsm($node->content);
+  print_r(get_defined_vars());
+  print $FIELD_NAME_rendered;
+*/
+/*
+ad a class="" if we have anything in the $classes var
+this is so we can have a cleaner output - no reason to have an empty <div class="" id=""> 
+*/
+if($classes){
+   $classes = ' class="' . $classes . ' clearfix"';
+}
+
+if($id_node){
+  $id_node = ' id="' . $id_node . '"';  
+}
+?>
 <!-- node-event.tpl-->
 <?php if ($page == 0){ ?>
-<div class="<?php print $classes ?> clearfix">
+<div<?php print $id_node . $classes; ?>>
 
   <div class="picture">
     <?php print $field_image_rendered; ?>
@@ -36,7 +53,7 @@
 <?php }else{ 
 //Content
 ?>
-<div class="<?php print $classes ?>">
+<div<?php print $id_node . $classes; ?>>
 	<?php if($node->title){	?>	
 	  <h1><?php print $title;?></h1>
 	<?php } ?>

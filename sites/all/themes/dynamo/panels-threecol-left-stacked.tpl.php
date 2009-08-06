@@ -1,30 +1,34 @@
 <!--panels-threecol-left-stacked.tpl.php-->
-<div id="threecol-left">
-    <?php if (!empty($content['top'])): ?>
-      <div id="threecol-left-top">
-        <?php print $content['top']; ?>
-      </div>
-    <?php endif; ?>
+<div class="panel-threecol-left-stacked clearfix" <?php if (!empty($css_id)) { print "id=\"$css_id\""; } ?>>
 
-    <div id="threecol-left-left">
-      <?php print $content['left']; ?>      
-    </div>
+	<div class="content-left">
 
-    <div id="threecol-left-middle">
-      <?php print $content['middle']; ?>        
-    </div>
-  
-    <?php if (!empty($content['bottom'])): ?>
-      <div id="threecol-right-bottom">
-      <?php print $content['bottom']; ?>        
-      </div>
-    <?php endif; ?>
+			<div class="content-top">
+      	<?php print $content['top']; ?>
+			</div>
 
-</div>
+			<div class="content-middle">
 
-<div id="threecol-right">
-    <?php if (!empty($content['right'])): ?>
+				<div class="panel-left">
+			      <?php print $content['left']; ?>      		
+				</div>
+
+				<div class="panel-middle">
+			      <?php print $content['middle']; ?>        
+				</div>
+
+			</div>
+
+			<div class="panel-bottomt">
+      	<?php print $content['bottom']; ?>        
+			</div>
+
+	</div>
+
+	<div class="content-right">
       <?php print $content['right']; ?>
-    <?php endif; ?>
+	</div>
+	
 </div>
+
 <!--/panels-threecol-left-stacked.tpl.php-->

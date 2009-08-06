@@ -31,7 +31,7 @@ features[] = secondary_links
 
 ;--------------------- styles ------------------------------
 stylesheets[all][]  = style/reset.css
-stylesheets[all][]  = style/grid.css
+stylesheets[all][]  = style/layout.css
 stylesheets[all][]  = style/jcarousel.css
 stylesheets[all][]  = style/typography.css
 stylesheets[all][]  = style/biblo.css

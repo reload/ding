@@ -1,31 +1,32 @@
 <!--panels-twocol-left-stacked.tpl.php-->
-<div id="twocol-left">
+<!-- biblo -->
+<div class="panel-twocol-left-stacked clearfix" <?php if (!empty($css_id)) { print "id=\"$css_id\""; } ?>>
 
-  <?php if (!empty($content['top'])): ?>
-    <div id="twocol-left-top">
-      <?php print $content['top']; ?>
-    </div>
-  <?php endif; ?>
+	<div class="content-left">
 
-  <div id="twocol-left-left">
-    <?php print $content['left']; ?>      
-  </div>
-
-
-  <?php if (!empty($content['bottom'])): ?>
-    <div id="twocol-bottom">
-    <?php print $content['bottom']; ?>        
-    </div>
-  <?php endif; ?>
+		<div class="content-top">
+			<?php print $content['top']; ?>
+		</div>
+		
+		<div class="panel-left">
+			<?php print $content['left']; ?>      
+		</div>
 
 
-</div>
+		<?php if (!empty($content['bottom'])): ?>
+	  <div class="panel-bottom">
+	    <?php print $content['bottom']; ?>  
+	  </div>
+		<?php endif; ?>	
 
-<div id="twocol-right">
-  <?php if (!empty($content['right'])): ?>
-    <?php print $content['right']; ?>
-  <?php endif; ?>
+
+	</div>
+
+	<div class="content-right">
+		<?php print $content['right']; ?>
+	</div>  
+
+
+
 </div>  
-
-
 <!--/panels-twocol-left-stacked.tpl.php-->

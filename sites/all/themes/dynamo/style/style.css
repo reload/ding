@@ -1,6 +1,6 @@
 /* =====================================
-	Dynamo style.css
-	for running development 
+	style.css
+	widgets and elements inside the pages
 	------------------------------------
 /*--------------------------------------*/
 /*overlabel*/
@@ -43,11 +43,79 @@ Account block
 			#user-login-form ul li{float:left; margin:0 10px 0 0;}
 
 
+/* =======================================
+	pager
+/* ------------------------------------- */
+ul.pager{margin:10px auto 0 auto; width:300px;}
+ul.pager li{display:inline; margin:0 5px;}
+ul.pager li.pager-item,
+ul.pager li.pager-current{
+	border: 1px solid #ccc; padding:0 5px;
+}
+
+
+/* =====================================
+Panels styles
+/*--------------------------------------*/
+
+.ding-box-pane{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden;}
+	.ding-box-pane h3{width:228px; padding:8px 0 4px 20px; height:18px; background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; overflow:hidden;}
+	.ding-box-pane ul{width:228px; padding:8px 0px; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom;  overflow:hidden; }
+	.ding-box-pane li{margin:0 0 0 20px;}
+
+
+
+/* =====================================
+Campaigns
+/*--------------------------------------*/
+.pane-relevant_campaigns{width:215px; overflow:hidden; padding:0 0 10px 8px;}
+	.pane-relevant_campaigns .campaign, .pane-relevant_campaigns .node{margin:0 0 10px 0; border: 1px solid #999;}
+	.campaign-type-image-only{width:214px; height:334px; background:#ccf;}
+	.campaign-type-text-only{	width:218px; height:60px; padding:10px 0px 10px 10px; overflow:hidden;	background:transparent url(../images/sprite-box.png) no-repeat -230px -60px; }
+	.campaign-type-text-only a{color:#ccc; width:210px; height:60px; display:block; overflow:hidden; font: normal normal normal 16px/18px "Gill sans", sans-serif;	text-transform: uppercase;  }
+	.campaign-type-image-only{}
+
+	.campaign{margin:10px 0;}
+
+	/*themes*/
+	.campaign-theme-red{}
+
+/* =====================================
+basic elements
+/*--------------------------------------*/
+.meta ul{display:inline;}
+.meta li{display:inline}
+
+.node .taxonomy{padding:10px 0 0 0;}
+.node .taxonomy ul{margin:0;}
+.node .taxonomy ul li{padding:0 5px 0 0;}
+
+.node-page .content{margin:10px 0 0 0;}		
+
+.more-link a{background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0; }
+
+/*node + list*/
+.node .meta ul{margin:0 0 0 10px;}
+.meta div.taxonomy{display:inline;}
+.meta li {padding:0 10px 0 0;}
+
+
+
+.view-empty,
+.feed, 
+.more-link{
+	margin:20px 0 0 20px; 
+}
+
+
+.minheight{min-height:500px; height:auto !important; height:500px;}
+
+div.messages{margin:0 20px 10px 20px;}
 /* =====================================
 Cowboy small trix not "really" implementet yet
 /*--------------------------------------*/
 #block-ding_library_map-0 {width:690px; margin:0 0 0 20px;}
-.pane-library_feature_detail_list{width:690px; margin:0 0 0 20px;}
-.page-taxonomy .node-teaser{width:690px; margin:0 0 0 20px;}
 #pane-library_title{display:block;}
 .comment_filter{display:none;}
+.pane-library_list-panel_pane_1 >h3{display:none;}
+
