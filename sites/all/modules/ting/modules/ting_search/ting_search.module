@@ -70,15 +70,15 @@ function ting_search_block($op = 'list', $delta = 0, $edit = array()) {
   switch ($op) {
     case 'list':
       return array(
-        'searchbox' => array(
-          'info' => t('Ting search box'),
-          'cache' => BLOCK_CACHE_GLOBAL,
+        array(
+          'info' => t('Ting search box – for page header'),
+          'cache' => BLOCK_NO_CACHE,
         ),
       );
     case 'view':
       return array(
         'subject' => t('Search'),
-        'content' => drupal_get_form('search_form', '', '', 'ting', 'Skriv dit søgeord her'),
+        'content' => drupal_get_form('ting_search_form'),
       );
   }
 }
@@ -142,3 +142,29 @@ function ting_search_render_record_template() {
 function ting_search_render_pager_template() {
   return theme('ting_result_pager');
 }
+
+/**
+ * Define our own search form.
+ *
+ * We were having problems with search_form from search.module, so
+ * here's a very basic copy of it.
+ */
+function ting_search_form(&$form_state) {
+  $form = array('#action' => url('search/ting'));
+
+  $form['keys'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Enter your search terms here'),
+    '#size' => 20,
+    '#maxlength' => 255,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Search'),
+  );
+
+  return $form;
+}
+
+
