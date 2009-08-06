@@ -16,10 +16,11 @@ ting search block
 #search h3{text-indent: -9999em; height:55px; margin:0; padding:0; background:transparent url(../images/search.png) no-repeat 0 0; }
 #search .form-item{margin:0;}
 #search #edit-keys-wrapper{float:left; display:inline;}
-	#search-form{position:relative; width:600px; float:left;}
-	#search-form .form-text{height:20px; width:450px; background:#fff url(../images/magnifier.png) no-repeat 9px 5px; border: 1px solid #999; margin:0 20px 0 0; padding:4px 0 0 25px; font-size:1.2em; color:#929292; float:left;}
-	#search-form .form-button{float:left; display:block; height:29px; width:94px; background:transparent url(../images/searchbutton.png) no-repeat 0 0;;}
-		#search-form .form-button input{ border:0; background:transparent; margin:5px 10px; color:transparent; font-weight:bold; text-indent: -9999em; }
+	#ting-search-form{position:relative; width:610px; float:left;}
+	#ting-search-form .form-text{height:20px; width:468px; margin:0 10px 0 0; padding:4px 0 0 25px;  background:#fff url(../images/magnifier.png) no-repeat 9px 5px; border: 1px solid #999; font-size:13px; color:#929292; float:left;}
+		form#ting-search-form label.overlabel-apply{margin:3px 0 0 30px; font-size:13px; font-weight:normal;} 
+	#ting-search-form .form-button{float:left; display:block; height:29px; width:94px; background:transparent url(../images/searchbutton.png) no-repeat 0 0;;}
+		#ting-search-form .form-button input{ border:0; background:transparent; margin:5px 10px; color:transparent; font-weight:bold; text-indent: -9999em; }
 
 
 /* =====================================
