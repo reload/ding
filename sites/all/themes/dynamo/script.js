@@ -1,9 +1,5 @@
 $(document).ready(function() {
-//overlabel
-    // $("#user-login-form label").overlabel();
-    //    	$("#ting-search-form label").overlabel();
-
-
+	//label
 	  $("label").inFieldLabels({
 			fadeOpacity:"0.2",
 			fadeDuration:"100"			

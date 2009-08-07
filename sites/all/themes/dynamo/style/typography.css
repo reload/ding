@@ -33,16 +33,19 @@ code, tt, pre { padding: 1px; background-color: #efefef;  font-family: "Bitstrea
 /* ===================================== 
 account
 * ------------------------------------- */
-#account a{color:#fff;font-size:0.9em; text-decoration: underline;}
-#user-login-form label{font-size:0.8em; color:#000;}
+#account{color:#fff;font-size:11px;}
+#account a{color:#fff;font-size:11px; text-decoration: underline;}
+#user-login-form label{font-size:9px; color:#000;}
 #search p{font-size:0.7em; color:#eccdd3;}
-	#edit-search-block-form-1-wrapper input{font-size:1.2em; color:#929292;}
-	#edit-search-block-form-1-wrapper p{font-size:0.9em; color:#dfa1ab;}
+	#edit-search-block-form-1-wrapper input{font-size:14px; color:#929292;}
+	#edit-search-block-form-1-wrapper p{font-size:9px; color:#dfa1ab;}
 
 
 /*-- links --*/
 a, a:link, a:visited, a:active {text-decoration: none; color:#006a87;}
-a:hover, a:focus { text-decoration: underline; color:#006a87;}
+a:hover, a:focus {text-decoration: underline; color:#006a87;}
+
+
 
 li a.active{}
 tr.odd{}

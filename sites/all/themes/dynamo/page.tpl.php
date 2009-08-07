@@ -38,7 +38,48 @@
               </div>
 
               <div id="account" class="left">
-                <?php print $account ?>
+                <?php 
+									if($account){
+											print $account;
+										}else{
+								?>	
+
+									<!-- account profile-->									
+									<div id="account-profile" class="clearfix">
+										<div class="user">
+
+											<div class="logout">
+												<?php print l(t('log out'), 'logout', $options= array('attributes' => array('class' =>'logout')) );  ?>	
+											</div>
+
+											<h5>Velkommen</h5>
+											<div class="username">
+												<?php print l($user->name, 'user/'.$user->uid.'/edit', $options= array('attributes' => array('class' =>'username')) );  ?>												
+											</div>
+
+
+										</div>
+
+										<div class="cart">
+											<div>5</div>
+											<a href="#">gå til kurv</a>
+										</div>
+
+										<ul>
+											<li>
+												<div class="content">Lånte materialer<span>5</span></div>
+												<div class="status"><span class="warning">!!</span></div>
+											</li>
+											<li>
+												<div class="content">Reservationer<span>505</span></div>
+												<div class="status"><span class="ok">ok</span></div>
+											</li>
+										</ul>
+									</div>
+									<!-- account profile-->
+								<?php	} //end account ?>
+
+									 		
               </div>  
             </div>
 
@@ -52,7 +93,7 @@
 
             <?php if ($breadcrumb){ ?>
           		<div id="path">
-          		  Her er du: <?php print $breadcrumb; ?> 
+          		   <?php print t('You are here:') ." ". $breadcrumb; ?> 
               </div>
             <?php } ?>
 
