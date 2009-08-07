@@ -46,6 +46,7 @@ stylesheets[all][]  = style/style.css
 ;conditional-stylesheets[if IE 7][all][] = style_ie.css
 
 ;--------------------- scripts ----------------------------
-scripts[] = script/jquery.overlabel.js
+scripts[] = script/jquery.infieldlabel.min.js
+;scripts[] = script/jquery.overlabel.js
 scripts[] = script/jquery.jcarousel.pack.js
 scripts[] = script.js

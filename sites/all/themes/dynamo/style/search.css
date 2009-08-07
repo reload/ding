@@ -61,5 +61,7 @@
 	#content-result .meta div{ display:inline;}
 
 /*spinner*/	
-#ting-search-spinner {margin: 10px auto 10px auto; text-align: center; width: 220px;}
+#ting-search-spinner{margin: 10px auto 10px auto; text-align: center; width: 220px;}
 #ting-search-spinner .spinner {background: url(../images/ajax-loader.gif) no-repeat; margin-top: 10px; height: 19px;width: 220px;}
+
+.page-search .tabs{display:none;}

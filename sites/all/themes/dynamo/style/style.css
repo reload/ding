@@ -1,15 +1,14 @@
 /* =====================================
 	style.css
-	widgets and elements inside the pages
+	widgets and elements used throughout the site
 	------------------------------------
 /*--------------------------------------*/
-/*overlabel*/
-form{clear: both;}
-form label.overlabel-apply{position:absolute; z-index:1; color:#666; margin:3px 0 0 5px; font-size:10px;} 
-form label.overlabel-apply .form-required{color:#900;}
-form div.description{font-size:10px; line-height:12px; color:#999; padding:5px; width:400px;}
-form div.overlabel-wrapper{margin:10px;}
 
+/*forms and labels*/
+form{clear: both;}
+form div{position:relative }
+label {position:absolute; top:0; left:0; color:#000;}
+form div.description{font-size:10px; line-height:12px; color:#999; padding:5px; width:400px;}
 /* =====================================
 ting search block
 /*--------------------------------------*/
@@ -18,10 +17,9 @@ ting search block
 #search #edit-keys-wrapper{float:left; display:inline;}
 	#ting-search-form{position:relative; width:610px; float:left;}
 	#ting-search-form .form-text{height:20px; width:468px; margin:0 10px 0 0; padding:4px 0 0 25px;  background:#fff url(../images/magnifier.png) no-repeat 9px 5px; border: 1px solid #999; font-size:13px; color:#929292; float:left;}
-		form#ting-search-form label.overlabel-apply{margin:3px 0 0 30px; font-size:13px; font-weight:normal;} 
+		#ting-search-form label{margin:3px 0 0 30px; font-size:13px; font-weight:normal;} 
 	#ting-search-form .form-button{float:left; display:block; height:29px; width:94px; background:transparent url(../images/searchbutton.png) no-repeat 0 0;;}
 		#ting-search-form .form-button input{ border:0; background:transparent; margin:5px 10px; color:transparent; font-weight:bold; text-indent: -9999em; }
-
 
 /* =====================================
 Account block
@@ -29,14 +27,14 @@ Account block
 /*login*/
 #account h3{text-indent: -9999em; height:21px; background:transparent url(../images/logind.png) no-repeat 0 0; margin:10px 0 0 0; padding:0;}
 	#user-login-form .form-item{margin:0 0 3px 0;}
-	#user-login-form .form-text{ height:17px; margin:0; padding:0; background-color: #fff; border-top: 1px solid #ddd; border-left: 1px solid #ddd; }
+	#user-login-form .form-text{height:17px; padding:1px 0 0 5px; margin:0; background-color: #fff; border-top: 1px solid #ddd; border-left: 1px solid #ddd; }
+		#user-login-form label{margin:1px 0 0 5px;}
+	#edit-name-wrapper{width:215px;}
+		#edit-name-wrapper input{width:215px;}
+	#edit-pass-wrapper{width:155px; float:left;}
+		#edit-pass-wrapper input{width:155px;}
 
-	#edit-name-wrapper{width:220px;}
-		#edit-name-wrapper input{width:220px;}
-	#edit-pass-wrapper{width:160px; float:left;}
-		#edit-pass-wrapper input{width:160px;}
-
-	#user-login-form .form-button{width:60px;height:20px; display:block; float:left;overflow:hidden; padding:0; margin:1px 0 0 3px; background:transparent url(../images/accountlogin.png) no-repeat right center;}
+	#user-login-form .form-button{width:60px;height:20px; padding:0; margin:1px 0 0 9px; display:block; float:left;overflow:hidden; background:transparent url(../images/accountlogin.png) no-repeat right center;}
 		#user-login-form .form-button span {background:transparent url(../images/accountlogin.png) no-repeat left center;}
 			#user-login-form .form-button span input{background:transparent; border: 0px solid #999; color:#fff;}
 
@@ -44,7 +42,7 @@ Account block
 			#user-login-form ul li{float:left; margin:0 10px 0 0;}
 
 /* =======================================
-	pager
+	pagers
 /* ------------------------------------- */
 ul.pager li{padding:0;}
 ul.pager li{margin:0 10px 0 0;}
@@ -94,11 +92,15 @@ Campaigns
 	.campaign{margin:10px 0;}
 
 	/*themes*/
-	.campaign-theme-red{}
+	.campaign-theme-red{background:#900;}
+	.campaign-theme-green{background:#090;}
+	.campaign-theme-blue{background:#009;}
 
 /* =====================================
 basic elements
 /*--------------------------------------*/
+div.messages{margin:0 20px 10px 20px;}
+
 .meta ul{display:inline;}
 .meta li{display:inline}
 
@@ -121,7 +123,13 @@ basic elements
 
 .minheight{min-height:500px; height:auto !important; height:500px;}
 
-div.messages{margin:0 20px 10px 20px;}
+/*menu test*/
+ul.menu li.expanded{display:none;}
+ul.menu li.expanded.first{display:block;}
+
+
+
+
 /* =====================================
 Cowboy small trix not "really" implementet yet
 /*--------------------------------------*/
@@ -129,4 +137,3 @@ Cowboy small trix not "really" implementet yet
 #pane-library_title{display:block;}
 .comment_filter{display:none;}
 .pane-library_list-panel_pane_1 >h3{display:none;}
-

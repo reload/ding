@@ -45,7 +45,6 @@
 	.view-article-list li.first{background:none; padding:0 20px ;}
 	.view-article-list li li{background:none; padding:0px 10px 0px 0px; margin:0;}
 
-
 /*calender pane*/
 .pane-event_list .panel-pane{margin:0 5px;}
 .pane-event_list h3{background:#d1d9d7; padding:3px 10px; margin:5px 10px 0 10px;}
@@ -59,13 +58,7 @@
 	.pane-event_list .more-link{padding:0 30px 0 0;}
 
 
-/*features*/
-/*.pane-library_feature_list{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden; margin:0 0 0 10px;}
-	.pane-library_feature_list h3{height:18px;  width:228px; padding:10px 0 0 10px; background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; overflow:hidden;}
-.pane-library_feature_list .item-list{width:228px; min-height:30px;  padding:10px 0px 10px 15px; overflow:hidden;}
-
-*/
-	.pane-library_feature_list .item-list ul{padding:8px 0 8px 10px;}	
+.pane-library_feature_list .item-list ul{padding:8px 0 8px 10px;}	
 	.pane-library_feature_list .item-list li{width:65px; float:left; margin:0 10px 0 0; padding:0 0 0 15px; background:transparent url(../images/ok.png) no-repeat left 3px; }
 
 
@@ -114,9 +107,10 @@
 		.pane-library_location ul.links li a.youtube{background:transparent url(../images/icons/youtube.png) no-repeat}
 
 
-/**/
+/*
 .pane-user_comments_list-panel_pane_1{background:transparent url(../images/sprite-box.png) repeat-y 0 0; width:228px; overflow:hidden;}
 .pane-user_comments_list-panel_pane_1 h3{background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; padding:6px 0 4px 20px; height:18px; }
+*/
 
 /*right bar comments*/
 .pane-comment-0{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden;}
@@ -153,22 +147,14 @@
 
 
 
-
-
-
 /*events*/
 .view-event-list .libary-tag div{display:inline;margin:0 5px 0 0;}
 .view-event-list  li{background:transparent url(../images/bg-divider.png) no-repeat left top;  clear:both; padding:10px 0 10px 20px;}
 .view-event-list li.first{background:none;}
 
 
-
-
 .pane-library_feature_detail_list, .page-taxonomy .node-teaser{width:690px; margin:0 0 0 20px;}
 .panel-left .pane-node_body_title{margin:20px 0 0 20px;}
-
-
-
 
 
 /* =======================================

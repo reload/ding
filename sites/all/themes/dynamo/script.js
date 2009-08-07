@@ -1,9 +1,14 @@
 $(document).ready(function() {
-    $("#user-login-form label").overlabel();
-//   	$("#search-form label").overlabel();
-   	$("#ting-search-form label").overlabel();
-//   	$("#comment-form label").overlabel();
+//overlabel
+    // $("#user-login-form label").overlabel();
+    //    	$("#ting-search-form label").overlabel();
 
+
+	  $("label").inFieldLabels({
+			fadeOpacity:"0.2",
+			fadeDuration:"100"			
+		});
+//carousel
     $('#frontpagecarousel').jcarousel({
        vertical: false, //
        scroll: 1, //amount of items to scroll by
