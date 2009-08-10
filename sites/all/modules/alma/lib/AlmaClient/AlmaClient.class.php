@@ -51,12 +51,18 @@ class AlmaClient {
         return $doc;
       }
       else {
-        // TODO: Make more descriptive exceptions.
-        throw new Exception('Status is not okay');
+        $message = $doc->getElementsByTagName('status')->item(0)->getAttribute('key');
+        switch($message) {
+          case '':
+            throw new AlmaClientBorrCardNotFound('Invalid borrower credentials');
+            break;
+          default:
+            throw new AlmaClientCommunicationError('Status is not okay');
+        }
       }
     }
     else {
-      throw new Exception('Request error: ' . $request->code . $request->error);
+      throw new AlmaClientHTTPError('Request error: ' . $request->code . $request->error);
     }
   }
 
@@ -85,8 +91,65 @@ class AlmaClient {
    * Get patron information from Alma
    */
   public function get_patron_info($borr_card, $pin_code) {
-    $data = $this->request('patron/information', array('borrCard' => $borr_card, 'pinCode' => $pin_code));
+    $doc = $this->request('patron/information', array('borrCard' => $borr_card, 'pinCode' => $pin_code));
+
+    $info = $doc->getElementsByTagName('patronInformation')->item(0);
+
+    $data = array(
+      'patron_id' => $info->getAttribute('patronId'),
+      'patron_name' => $info->getAttribute('patronName'),
+      'addresses' => array(),
+      'mails' => array(),
+      'phones' => array(),
+    );
+
+    foreach ($info->getElementsByTagName('address') as $address) {
+      $data['addresses'][] = array(
+        'id' => $address->getAttribute('id'),
+        'type' => $address->getAttribute('type'),
+        'active' => (bool) ($address->getAttribute('isActive') == 'yes'),
+        'care_of' => $address->getAttribute('careOf'),
+        'street' => $address->getAttribute('streetAddress'),
+        'postal_code' => $address->getAttribute('zipCode'),
+        'city' => $address->getAttribute('city'),
+        'country' => $address->getAttribute('country'),
+      );
+    }
+
+    foreach ($info->getElementsByTagName('emailAddress') as $mail) {
+      $data['mails'][] = array(
+        'id' => $mail->getAttribute('id'),
+        'mail' => $mail->getAttribute('address'),
+      );
+    }
+
+    foreach ($info->getElementsByTagName('phoneNumber') as $phone) {
+      $data['phones'][] = array(
+        'id' => $phone->getAttribute('id'),
+        'phone' => $phone->getAttribute('localCode'),
+        'sms' => (bool) ($phone->getElementsByTagName('sms')->item(0)->getAttribute('useForSms') == 'yes'),
+      );
+    }
     return $data;
   }
+}
+
+/**
+ * Define exceptions for different error conditions inside the Alma client.
+ */
+
+class AlmaClientInvalidURLError extends Exception {
+}
+
+
+class AlmaClientHTTPError extends Exception {
+}
+
+
+class AlmaClientCommunicationError extends Exception {
+}
+
+
+class AlmaClientBorrCardNotFound extends Exception {
 }
 

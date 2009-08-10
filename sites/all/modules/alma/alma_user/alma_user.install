@@ -31,31 +31,36 @@ function alma_user_schema() {
     'fields' => array(
       'uid' => array(
         'description' => t('{users}.uid for node'),
-        'type' => 'serial',
+        'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
       ),
-      'borr_card' => array(
-        'description' => t('Alma borrower card for the user.'),
+      'alma_id' => array(
+        'description' => t('Alma ID.'),
         'type' => 'varchar',
-        'length' => '20',
+        'length' => 255,
         'not null' => TRUE,
       ),
-      'pin_code' => array(
-        'description' => t('Alma pin code for the user.'),
-        'type' => 'char',
-        'length' => '4',
+      'alma_name' => array(
+        'description' => t('Users real name from Alma'),
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ),
+      'admin_password' => array(
+        'description' => t('Admin password.'),
+        'type' => 'varchar',
+        'length' => 255,
         'not null' => TRUE,
       ),
     ),
     'primary key' => array('uid'),
     'unique keys' => array(
-      'borr_card' => array('borr_card')
-    ),
-    'indexes' => array(
-      'borr_card_pin_code' => array('borr_card', 'pin_code'),
+      'borr_card' => array('alma_id')
     ),
   );
+
+  $schema['cache_alma_credentials'] = drupal_get_schema_unprocessed('system', 'cache');
 
   return $schema;
 }

@@ -54,19 +54,26 @@ function alma_client() {
   static $client;
   if (!isset($client)) {
     $path = drupal_get_path('module', 'alma');
-    include($path . '/lib/QueryPath/QueryPath.php');
     include($path . '/lib/AlmaClient/AlmaClient.class.php');
     $client = new AlmaClient(variable_get('alma_base_url', ''));
   }
   return $client;
 }
 
-
 function alma_client_get_branches() {
   try {
     return alma_client()->get_branches();
   } catch (Exception $e) {
     return array();
+  }
+}
+
+function alma_client_get_patron_info($borr_card, $pin_code) {
+  try {
+    return alma_client()->get_patron_info($borr_card, $pin_code);
+  } catch (Exception $e) {
+    dpm($e->getMessage());
+    return FALSE;
   }
 }
 

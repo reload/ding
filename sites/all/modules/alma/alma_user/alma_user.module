@@ -9,7 +9,7 @@ function alma_user_block($op = 'list', $delta = 0, $edit = array()) {
     return array(
       'account' => array(
         'info' => t('Library account/login'),
-        'cache' => BLOCK_CACHE_PER_USER,
+        'cache' => BLOCK_NO_CACHE,
         'status' => 1,
         'region' => 'account',
       ),
@@ -21,13 +21,30 @@ function alma_user_block($op = 'list', $delta = 0, $edit = array()) {
 
     // If user is not logged in, display the login form.
     if (!$user->uid) {
-      $block['content'] = drupal_get_form('alma_user_login_form');
+      $block['content'] = drupal_get_form('user_login_block');
     }
     else {
       $block['content'] = theme('alma_user_status_block');
     }
 
     return $block;
+  }
+}
+
+/**
+ * Implementation of hook_user().
+ */
+function alma_user_user($op, &$edit, &$account, $category = NULL) {
+  switch ($op) {
+    case 'load':
+      if ($account->uid) {
+        // Attach the Alma user id and name to the user object when it
+        // is loaded, so it's available everywhere the user is.
+        $data = db_fetch_array(db_query("SELECT alma_id, alma_name FROM {alma_user} WHERE uid = %d LIMIT 1;", $account->uid));
+        $account->alma_id = $data['alma_id'];
+        $account->alma_name = $data['alma_name'];
+      }
+      break;
   }
 }
 
@@ -49,39 +66,46 @@ function alma_user_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Library log in form with borr_card and pin_code.
+ * Implementation of hook_form_alter().
+ *
+ * Alter the login form to disable the standard Drupal username/password
+ * combination and provide our own fields instead.
  */
-function alma_user_login_form($form_state) {
-  $form = array();
+function alma_user_form_alter(&$form, $form_state, $form_id) {
+  if ($form_id == 'user_login_block' || $form_id == 'user_login') {
+    // Add our own auth fields
+    $form['borr_card'] = array(
+      '#type' => 'password',
+      '#title' => t('Borrower card'),
+      '#required' => TRUE,
+      '#weight' => -3,
+    );
 
-  $form['borr_card'] = array(
-    '#type' => 'password',
-    '#title' => t('Borrower card'),
-    '#required' => TRUE,
-  );
+    $form['pin_code'] = array(
+      '#type' => 'password',
+      '#title' => t('Code'),
+      '#required' => TRUE,
+      '#weight' => -2,
+    );
 
-  $form['pin_code'] = array(
-    '#type' => 'password',
-    '#title' => t('Code'),
-    '#required' => TRUE,
-  );
+    // Add our own validation and submit handler.
+    array_unshift($form['#validate'], 'alma_user_login_validate');
+    $form['#submit'][] = 'alma_user_login_submit';
 
-  $form['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Log in'),
-  );
-
-  return $form;
+    // Remove the standard user login things.
+    unset($form['name'], $form['pass'], $form['links']);
+  }
 }
 
 /**
- * Validation for library log-in form.
+ * Validation for the login form.
  */
-function alma_user_login_form_validate($form, &$form_state) {
+function alma_user_login_validate($form, &$form_state) {
   if (empty($form_state['values']['borr_card']) || empty($form_state['values']['pin_code'])) {
     // Empty borr_card or pin_code makes little sense to try and validate.
     return;
   }
+
   $uid = alma_user_check_credentials($form_state['values']['borr_card'], $form_state['values']['pin_code']);
 
   if ($uid) {
@@ -101,11 +125,16 @@ function alma_user_login_form_validate($form, &$form_state) {
 }
 
 /**
- * Get Alma user credentials by Drupal uid.
+ * Submit handler for the login form.
  */
-function alma_user_get_credentials($uid) {
-  $query = db_query("SELECT borr_card, pin_code FROM {alma_user} WHERE uid=%d", $uid);
-  return db_fetch_array($query);
+function alma_user_login_submit($form, &$form_state) {
+  global $user;
+  if (!empty($form_state['values']['borr_card']) && !empty($form_state['values']['pin_code']) && $user->uid) {
+    // If we have Alma credentials and a user was logged in, cache the
+    // credentials in our own cache bin.
+    cache_set($user->alma_id, $form_state['values']['borr_card'] . '|' . $form_state['values']['pin_code'], 'cache_alma_credentials', $_SERVER['REQUEST_TIME'] + 1800);
+  }
+  $form_state['redirect'] = variable_get('alma_user_login_destination', '<front>');
 }
 
 /**
@@ -121,71 +150,39 @@ function alma_user_get_credentials($uid) {
  *    User uid if credentials are valid, FALSE if not.
  */
 function alma_user_check_credentials($borr_card, $pin_code) {
-  $data = alma_request('patron/information', array('borrCard' => $borr_card, 'pinCode' => $pin_code));
+  $data = alma_client_get_patron_info($borr_card, $pin_code);
 
-  $status = (string) $data->getPatronInformationResponse->status['value'];
-  if ($status == 'ok') {
-    // Check if user exists.
-    $alma_user = db_fetch_array(db_query("SELECT uid, pin_code FROM {alma_user} WHERE borr_card='%s'", $borr_card));
-    if ($alma_user) {
-      if ($pin_code != $alma_user['pin_code']) {
-        // If the PIN-codstored in the database is different from the 
-        // correct one, update the database.
-        db_query("UPDATE {alma_user} SET pin_code = '%s' WHERE uid = %d'", $pin_code, $alma_user['uid']);
-      }
-      return $alma_user['uid'];
-    }
-    else {
-      // Patron did not exist in our database, let's create him.
-      $patron = $data->getPatronInformationResponse->patronInformation;
-
-      // User data to pass to user_save().
-      $user_data = array(
-        'name' => (string) $patron['patronName'],
-        'mail' => (string) $patron->emailAddresses[0]->emailAddress['address'],
-        // Login via Drupal's standard login should not be possible.
-        'pass' => $_SERVER['REQUEST_TIME'] . mt_rand(),
-      );
-
-      // If no e-mail was set in the XML, we need to generate a 
-      // random, invalid address,  since Drupal has a unique 
-      // constraint on the mail column in the users table.
-      if (empty($user_data['mail'])) {
-        $user_data['mail'] = $_SERVER['REQUEST_TIME'] . mt_rand() . '@mail.invalid';
-      }
-      // Set the initial e-mail to the same e-mail-address.
-      $user_data['init'] = $user_data['mail'];
-
-      // Saves the user and returns the user UID.
-      $user = user_save(NULL, $user_data);
-
-      // Store borr_card->uid reference in our own table.
-      db_query("INSERT INTO {alma_user} (uid, borr_card, pin_code) VALUES (%d, '%s', '%s');", $user->uid, $borr_card, $pin_code);
-
-      return($user->uid);
-    }
+  // Check if user exists.
+  $uid = db_result(db_query("SELECT uid FROM {alma_user} WHERE alma_id = '%s';", $data['patron_id']));
+  if ($uid) {
+    return $uid;
   }
-  return FALSE;
-}
+  elseif (is_array($data) && !empty($data['patron_id'])) {
+    $random_name = $_SERVER['REQUEST_TIME'] . mt_rand();
+    // User data to pass to user_save().
+    $user_data = array(
+      'name' => $random_name,
+      'mail' => $data['mails'][0]['mail'],
+      // Login via Drupal's standard login should not be possible.
+      'pass' => microtime(TRUE) . mt_rand(),
+    );
 
-/**
- * Get Alma's recorded information about a user.
- */
-function alma_user_get_info($uid) {
-  $data = alma_request('patron/information', alma_user_get_credentials($uid));
+    // If no e-mail was set in the XML, we need to generate a
+    // random, invalid address,  since Drupal has a unique
+    // constraint on the mail column in the users table.
+    if (empty($user_data['mail'])) {
+      $user_data['mail'] = $random_name . '@mail.invalid';
+    }
+    // Set the initial e-mail to the same e-mail-address.
+    $user_data['init'] = $user_data['mail'];
 
-  //dvm($data);
-}
+    // Saves the user and returns the user UID.
+    $user = user_save(NULL, $user_data);
 
-/**
- * Get the current loans for a patron.
- */
-function alma_user_get_loans($uid) {
-  $data = alma_request('patron/loans', array('borr_card' => '0212611239', 'pin_code' => '0000'));
+    // Store Alma user reference in our own table.
+    db_query("INSERT INTO {alma_user} (uid, alma_id, alma_name) VALUES (%d, '%s', '%s');", $user->uid, $data['patron_id'], $data['patron_name']);
 
-  $loans = $data->getLoansResponse->loans;
-  dvm($loans);
-  $status = $data->getLoansResponse->status;
-  dvm($status);
+    return($user->uid);
+  }
 }
 
