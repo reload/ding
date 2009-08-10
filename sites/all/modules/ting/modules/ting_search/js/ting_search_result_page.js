@@ -7,8 +7,11 @@
 // Failsafe document.ready().
 jQuery(function($) {$(function(){
 
-  // Put the search keys into the main searchbox.
-  $("#search :text").val(Drupal.settings.tingSearch.keys);
+  $("#search :text")
+    // Put the search keys into the main searchbox.
+    .val(Drupal.settings.tingSearch.keys)
+    // And trigger the change event so that InFieldLabes will work correctly.
+    .change();
 
   // Remove the original output from the search module, and make room
   // for our search results and the facet browser.
