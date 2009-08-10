@@ -23,10 +23,11 @@ function ting_search_pages_result() {
  * Display a Ting collection of objects.
  */
 function ting_collection() {
-  module_load_include('php', 'ting', 'lib/TingClientFactory');
-	$client = TingClientFactory::getClient();
+  module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
 	
-	$collection = $client->getCollection(TingClientFactory::getCollectionRequest($_REQUEST['object_id']));
+  $facade = new TingClientFacade();
+  
+	$collection = $facade->getCollection($_REQUEST['object_id']);
 	if (!$collection)
 	{
 		drupal_not_found();
@@ -39,10 +40,11 @@ function ting_collection() {
  * Display a signle Ting object.
  */
 function ting_object() {
-  module_load_include('php', 'ting', 'lib/TingClientFactory');
-	$client = TingClientFactory::getClient();
+  module_load_include('php', 'ting', 'lib/facade/TingFacade');
 	
-	$object = $client->getObject(TingClientFactory::getObjectRequest($_REQUEST['object_id']));
+  $facade = new TingClientFacade();
+  
+	$object = $facade->getObject($_REQUEST['object_id']);
 	if (!$object)
 	{
 		drupal_not_found();	
@@ -55,8 +57,7 @@ function ting_object() {
  * JSON callback to search Ting.
  */
 function ting_search_pages_ting_js() {
-  module_load_include('php', 'ting', 'lib/TingClientFactory');
-  module_load_include('php', 'ting', 'lib/services/AdditionalInformationService');
+  module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
   
 	//Get users base query
 	$query = (isset($_REQUEST['query'])) ? $_REQUEST['query'] : 'dc.title:danmark';
@@ -76,68 +77,10 @@ function ting_search_pages_ting_js() {
 		$query .= ' AND '.implode(' AND ', $facetArray);
 	}
 
-	$request = TingClientFactory::getSearchRequest($query);
+	$facade = new TingClientFacade();
 	
-	$resultsPerPage = 10;
-	$page = $_REQUEST['page'];
-	$request->setStart($resultsPerPage * ($page - 1));	
-	
-	$client = TingClientFactory::getClient();
-	$result = $client->search($request);
-	
-	//Add links to collections
-	foreach ($result->collections as &$collection)
-	{
-		$collection->url = url('ting/collection', array('query' => array('object_id' => $collection->objects[0]->data->title[0])));
-	}
-	
-	//Add additional information info for cover images
-	$isbns = array();
-	foreach ($result->collections as $collection)
-	{
-		foreach($collection->objects as $object)
-		{
-			if (isset($object->data->identifier))
-			{
-				foreach ($object->data->identifier as $identifier)
-				{
-					if ($identifier->type == TingClientObjectIdentifier::ISBN)
-					{
-						$isbns[] = $identifier->id;
-					}
-				}
-			}
-		}
-	}
+	$result = $facade->search($query, $_REQUEST['page'], $resultsPerPage);
 
-	if (sizeof($isbns) > 0)
-	{
-		//TODO: Move account information to admin settings page
-		$additionalInformationService = new AdditionalInformationService('netpunkt', '710100', 'Juni1706');
-		$additionalInformations = $additionalInformationService->getByIsbn($isbns);
-		
-		foreach ($additionalInformations as $id => $ai)
-		{
-			foreach ($result->collections as &$collection)
-			{
-				foreach ($collection->objects as &$object)
-				{
-					if (isset($object->data->identifier))
-					{						
-						foreach ($object->data->identifier as $identifier)
-						{
-							if ($identifier->type == TingClientObjectIdentifier::ISBN &&
-									$identifier->id == $id)
-							{	
-								$object->additionalInformation = $ai;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	
   drupal_json($result);
   exit;
 }
