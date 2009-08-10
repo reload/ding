@@ -20,6 +20,38 @@ function ting_search_pages_result() {
 }
 
 /**
+ * Display a Ting collection of objects.
+ */
+function ting_collection() {
+  module_load_include('php', 'ting', 'lib/TingClientFactory');
+	$client = TingClientFactory::getClient();
+	
+	$collection = $client->getCollection(TingClientFactory::getCollectionRequest($_REQUEST['object_id']));
+	if (!$collection)
+	{
+		drupal_not_found();
+	}
+	
+  return theme('ting_collection', $collection);
+}
+
+/**
+ * Display a signle Ting object.
+ */
+function ting_object() {
+  module_load_include('php', 'ting', 'lib/TingClientFactory');
+	$client = TingClientFactory::getClient();
+	
+	$object = $client->getObject(TingClientFactory::getObjectRequest($_REQUEST['object_id']));
+	if (!$object)
+	{
+		drupal_not_found();	
+	}
+	
+  return theme('ting_object', $object);
+}
+
+/**
  * JSON callback to search Ting.
  */
 function ting_search_pages_ting_js() {
@@ -52,18 +84,27 @@ function ting_search_pages_ting_js() {
 	
 	$client = TingClientFactory::getClient();
 	$result = $client->search($request);
-
+	
+	//Add links to collections
+	foreach ($result->collections as &$collection)
+	{
+		$collection->url = url('ting/collection', array('query' => array('object_id' => $collection->objects[0]->data->title[0])));
+	}
+	
 	//Add additional information info for cover images
 	$isbns = array();
-	foreach ($result->records as $record)
+	foreach ($result->collections as $collection)
 	{
-		if (isset($record->data->identifier))
+		foreach($collection->objects as $object)
 		{
-			foreach ($record->data->identifier as $identifier)
+			if (isset($object->data->identifier))
 			{
-				if ($identifier->type == TingClientRecordIdentifier::ISBN)
+				foreach ($object->data->identifier as $identifier)
 				{
-					$isbns[] = $identifier->id;
+					if ($identifier->type == TingClientObjectIdentifier::ISBN)
+					{
+						$isbns[] = $identifier->id;
+					}
 				}
 			}
 		}
@@ -77,22 +118,26 @@ function ting_search_pages_ting_js() {
 		
 		foreach ($additionalInformations as $id => $ai)
 		{
-			foreach ($result->records as &$record)
+			foreach ($result->collections as &$collection)
 			{
-				if (isset($record->data->identifier))
-				{						
-					foreach ($record->data->identifier as $identifier)
-					{
-						if ($identifier->type == TingClientRecordIdentifier::ISBN &&
-								$identifier->id == $id)
-						{	
-							$record->additionalInformation = $ai;
+				foreach ($collection->objects as &$object)
+				{
+					if (isset($object->data->identifier))
+					{						
+						foreach ($object->data->identifier as $identifier)
+						{
+							if ($identifier->type == TingClientObjectIdentifier::ISBN &&
+									$identifier->id == $id)
+							{	
+								$object->additionalInformation = $ai;
+							}
 						}
 					}
 				}
 			}
 		}
 	}
+	
   drupal_json($result);
   exit;
 }
@@ -101,7 +146,7 @@ function ting_search_pages_ting_js() {
  * JSON callback to Drupal's content search.
  */
 function ting_search_pages_content_js() {
-  if (isset($_REQUEST['query'])) {
+	if (isset($_REQUEST['query'])) {
     $query = trim($_REQUEST['query']);
     $result = array('results' => do_search($query, 'node'));
     $result['count'] = count($result['results']);
@@ -115,7 +160,7 @@ function ting_search_pages_content_js() {
     if (!empty($result['result_html'])) {
       $result['result_html'] .= theme('pager', NULL, 10, 0);
     }
-  }
+	}
   else {
     $result = array(
       'results' => array(),

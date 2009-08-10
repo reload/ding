@@ -38,28 +38,47 @@ Drupal.tingResult = function(searchResultElement, facetBrowserElement, result)
 
 	this.renderTingSearchResults = function(element, result)
 	{
-		records = jQuery(Drupal.settings.tingResult.recordTemplate).mapDirective({
-			'li': 'record <- records',
-			'.title': function(arg) { return (arg.item.data.title) ? arg.item.data.title.join(', ') : ''; },
-			'.creator em': function(arg) { return (arg.item.data.creator) ? arg.item.data.creator.join(', ') : ''; },
-			'.publication_date em': function(arg) { return (arg.item.data.date) ? arg.item.data.date.join(', ') : ''; },
-			'.description p': function(arg) { return (arg.item.data.description) ? arg.item.data.description.join('</p><p>') : ''; },
-			'.picture': function(arg) { return (arg.item.additionalInformation) ? '<img src="'+arg.item.additionalInformation.thumbnailUrl+'"/>' : ''; }
+		//Extract all object types in each collection
+		for(c in result.collections)
+		{
+			types = [];
+			for(o in result.collections[c].objects)
+			{
+				for(t in result.collections[c].objects[o].data.type)
+				{
+					if (jQuery.inArray(result.collections[c].objects[o].data.type[t], types) < 0)
+					{
+						types.push(result.collections[c].objects[o].data.type[t]);
+					}
+				}
+			}
+			result.collections[c].types = types;
+		}
+		
+		//Only render values from the first object in the collection
+		collections = jQuery(Drupal.settings.tingResult.collectionTemplate).mapDirective({
+			'li': 'collection <- collections',
+			'.title': function(arg) { return (arg.item.objects[0].data.title) ? arg.item.objects[0].data.title.join(', ') : ''; },
+			'.title[href]': 'collection.url',
+			'.creator em': function(arg) { return (arg.item.objects[0].data.creator) ? arg.item.objects[0].data.creator.join(', ') : ''; },
+			'.publication_date em': function(arg) { return (arg.item.objects[0].data.date) ? arg.item.objects[0].data.date.join(', ') : ''; },
+			'.description p': function(arg) { return (arg.item.objects[0].data.description) ? arg.item.objects[0].data.description.join('</p><p>') : ''; },
+			'.picture': function(arg) { return (arg.item.objects[0].additionalInformation) ? '<img src="'+arg.item.objects[0].additionalInformation.thumbnailUrl+'"/>' : ''; }
 		});
 		
-		types = jQuery('.types', records).mapDirective({
-			'li': ['type <- record.data.type',
-						 'type' ]
+		types = jQuery('.types', collections).mapDirective({
+			'li': [ 'type <- collection.types',
+							'type']
 		});
 
-		subjects = jQuery('.subjects', records).mapDirective({
-			'li': [	'subject <- record.data.subject',
+		subjects = jQuery('.subjects', collections).mapDirective({
+			'li': [	'subject <- collection.objects.0.data.subject', //Only render subjects from first object in collection
 							'subject']
 		});
-		
-		$('.types', records).replaceWith(jQuery(types));
-		$('.subjects', records).replaceWith(jQuery(subjects));
-		$p.compile(records, 'search-result');
+
+		$('.types', collections).replaceWith(jQuery(types));
+		$('.subjects', collections).replaceWith(jQuery(subjects));
+		$p.compile(collections, 'search-result');
 
 		jQuery(element).html($p.render('search-result', result));
 	}

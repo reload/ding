@@ -14,8 +14,8 @@ Drupal.tingSearch = {
 // Get search data from Ting
 Drupal.tingSearch.getTingData = function(url, keys) {
   $.getJSON(url, {'query': 'dc.title:' + keys}, function (data) {
-    Drupal.tingSearch.resultCount.ting = data.numTotalRecords;
-    if (data.numTotalRecords > 0) {
+    Drupal.tingSearch.resultCount.ting = data.numTotalObjects;
+    if (data.numTotalObjects > 0) {
       // Pass the data on to the result and facet browser handlers.
       Drupal.tingResult("#ting-search-result", "#ting-facet-browser", data);
       Drupal.tingFacetBrowser("#ting-facet-browser", "#ting-search-result", data);
@@ -25,7 +25,7 @@ Drupal.tingSearch.getTingData = function(url, keys) {
       // Update and show the result count on the tab and make it clickable.
       $("#ting-search-tabs li.ting")
         .addClass('active')
-        .find('.count-value').text(data.numTotalRecords).end()
+        .find('.count-value').text(data.numTotalObjects).end()
         .find('.count').show().end()
         .append('<a href="#">')
         .prepend('</a>')

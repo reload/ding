@@ -8,6 +8,9 @@ require_once(dirname(__FILE__).'/ting-dbc-php5-client/lib/adapter/response/json/
 require_once(dirname(__FILE__).'/ting-dbc-php5-client/lib/log/TingClientDrupalWatchDogLogger.php');
 
 class TingClientFactory {
+	
+	private static $format = 'json';
+	
 	/**
 	 * @var TingClient
 	 */
@@ -37,12 +40,30 @@ class TingClientFactory {
 	 */
 	public static function getSearchRequest($query) {
 		$searchRequest = new TingClientSearchRequest($query);
-		$searchRequest->setOutput('json'); //use json format per default
+		$searchRequest->setOutput(self::$format); //use json format per default
 		$searchRequest->setStart(1);
 		$searchRequest->setNumResults(10);
 		$searchRequest->setFacets(array('dc.subject', 'dc.date', 'dc.type', 'dc.creator', 'dc.language'));
 		$searchRequest->setNumFacets(10);
 		return $searchRequest;
+	}
+	
+	/**
+	 * @param string $objectId
+	 * @return TingClientObjectCollection
+	 */
+	public static function getCollectionRequest($objectId)
+	{
+		return new TingClientCollectionRequest($objectId, self::$format);
+	}
+	
+	/**
+	 * @param string $objectId
+	 * @return TingClientObject
+	 */
+	public static function getObjectRequest($objectId)
+	{
+		return new TingClientObjectRequest($objectId, self::$format);	
 	}
 		
 }
