@@ -1,7 +1,9 @@
 /* =====================================
-	style: grid
-	basic grid & layout classes
+ 	layout.css
+	the basic layou for page & panels
+	
 /*--------------------------------------*/
+
 body{background:#e5e5e5 url(../images/bg.png) repeat-x 0 0;}
 #container{background:transparent url(../images/bg-header.png) no-repeat center 0;}
 #page{width:994px; margin: 0 auto;}
@@ -16,7 +18,7 @@ body{background:#e5e5e5 url(../images/bg.png) repeat-x 0 0;}
 	body.front #pageheader{min-height:175px;}
 	#top{height:145px;}
 		#search{width:600px; height:100px; overflow:hidden; margin:26px 0 0 56px; color:#fff;}
-		#account{width:260px;height:110px;  overflow:hidden; margin:30px 0 0 77px;}
+		#account{width:260px;height:125px; overflow:hidden; margin:20px 0 0 77px;}
 	#navigation{height:30px;}
 		#navigation-inner{margin:0 37px;}
 	#path{margin:5px 37px 0;}
@@ -40,8 +42,6 @@ body{background:#e5e5e5 url(../images/bg.png) repeat-x 0 0;}
 		#pagefooter-inner div.first{background-image:none;}
 		#pagefooter ul li a{background:transparent url(../images/pil.png) no-repeat left center; padding:0 0 0 10px;}		
 
-.minheight{min-height:500px; height:auto !important; height:500px;}
-
 /* =====================================
 Menu 
 /*--------------------------------------*/
@@ -60,23 +60,45 @@ Menu
 
 
 /* =====================================
-Panels
+Panels basic content layouts
+all content based on search results are in the search.css
 /*--------------------------------------*/
-#front-top{width:960px; clear:both; height:240px;}
-#front-content{clear:both}
-	#front-left{width:470px;float:left; background:transparent url(../images/bg-divider-horizontalt.png) no-repeat right top; min-height:300px}
-	#front-middle {width:240px; float:left;}
-	#front-right{width:250px; float:left;}
-	#front-bottom{width:960px; clear:both;}
 
-/*2 cols*/
-#twocol-left{width:710px; float:left;}
-#twocol-left-left{width:690px; float:left; background:transparent url(../images/bg-divider-horizontalt.png) no-repeat right top;} /* min-height:300px*/
-#twocol-right{width:250px; float:left;}
-#twocol-bottom{width:690px; clear:both; background:transparent url(../images/bg-divider-horizontalt.png) no-repeat right top;} /*margin:0 0 0 20px; */
+.content-top{background:transparent url(../images/bg-divider.png) no-repeat -20px bottom; padding:0 0 20px 20px;}
+	.content-top .picture-inner{width:680px; height:200px; overflow:hidden; background:#eee;}
+	.content-top ul.item-list{margin:10px 0 0 0;}
+	.content-top ul.item-list li {display:inline; margin:0 30px 0 0;}
+	.content-top  h1 a{color:#000; margin:20px 0 0 0;}
+	
+.content-left{width:716px; float:left; overflow:hidden;}
+.content-middle{float:left; overflow:hidden;}
+.content-right{width:244px; float:left; overflow:hidden;}
 
-/*3 cols*/
-#threecol-left{width:710px; float:left;}
-	#threecol-left-left{width:470px; float:left; background:transparent url(../images/bg-divider-horizontalt.png) no-repeat right top;}
-#threecol-left-middle {width:240px; float:left;}
-#threecol-right{width:250px; float:left;}
+.panel-top{padding:0 0 20px 20px; background:transparent url(../images/bg-divider.png) no-repeat left bottom;}
+
+/*frontpage*/
+.panel-threecol-33-34-33-stacked .panel-top{width:960px; clear:both; height:240px; padding:0;}
+.panel-threecol-33-34-33-stacked .panel-content{clear:both}
+	.panel-threecol-33-34-33-stacked .panel-left{width:470px;float:left; min-height:300px; background:transparent url(../images/bg-divider-horizontalt.png) repeat-y right top; }
+	.panel-threecol-33-34-33-stacked .panel-middle {width:240px; float:left; background:transparent url(../images/bg-divider-horizontalt.png) repeat-y right top;}
+	.panel-threecol-33-34-33-stacked .panel-right{width:247px; margin:0 0 0 3px; float:left;}
+	.panel-threecol-33-34-33-stacked .panel-bottom{width:960px; clear:both;}
+
+/*panel-twocol-left-stacked  */
+.panel-twocol-left-stacked .content-left{width:716px; float:left; overflow:hidden;}
+	.panel-twocol-left-stacked .panel-top{padding:0 0 20px 20px; background:transparent url(../images/bg-divider.png) no-repeat left bottom; }
+	.panel-twocol-left-stacked .panel-left{width:700px;}
+	.panel-twocol-left-stacked .panel-bottom{width:700px;}
+.panel-twocol-left-stacked .content-right{width:244px; float:left; overflow:hidden;}
+
+
+/*panel-threecol-left-stacked*/
+.panel-threecol-left-stacked .panel-left{width:470px; float:left; background: transparent url(../images/bg-divider-horizontalt.png) no-repeat right top;}
+.panel-threecol-left-stacked .panel-middle{width:240px; float:left;}
+.panel-threecol-left-stacked .content-top{padding:0 0 30px 20px;}
+
+/*panel-threecol-left-stacked-right*/
+.panel-threecol-left-stacked-right .panel-left{width:220px;  margin:0 0 0 20px; float:left;}
+.panel-threecol-left-stacked-right .panel-middle{width:470px; float:left;}
+
+

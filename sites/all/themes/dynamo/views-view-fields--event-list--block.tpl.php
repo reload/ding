@@ -2,10 +2,17 @@
 <?php 
   //converts the date value to time
   $date = strtotime($fields['field_datetime_value']->raw);
-
   if( date('d-m-Y') == date("d-m-Y", $date) ){
     $is_today = "today";
   }
+
+	/* Price */
+	if($fields['field_entry_price_value']->content > 0){
+		$price = check_plain($fields['field_entry_price_value']->raw) ." ". t('Kr');
+  	//print $fields['field_entry_price_value']->content;
+	}else{ 
+  	$price = t('Free');
+	}  
 ?>
 <div class="calendar-leafs">
 
@@ -20,11 +27,8 @@
     <h4><?php print $fields['title']->content; ?></h4>
     <span class="time"><?php print date("h:i", $date); ?>  
 
-      <?php if($fields['field_entry_price_value']->content){ ?>
-        <?php print $fields['field_entry_price_value']->content; ?>
-      <?php }else{ ?>
-        Gratis
-      <?php }  ?>
+
+      <?php print $price; ?>
     
     </span>
   </div>

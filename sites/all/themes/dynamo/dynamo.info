@@ -31,7 +31,7 @@ features[] = secondary_links
 
 ;--------------------- styles ------------------------------
 stylesheets[all][]  = style/reset.css
-stylesheets[all][]  = style/grid.css
+stylesheets[all][]  = style/layout.css
 stylesheets[all][]  = style/jcarousel.css
 stylesheets[all][]  = style/typography.css
 stylesheets[all][]  = style/biblo.css
@@ -46,6 +46,7 @@ stylesheets[all][]  = style/style.css
 ;conditional-stylesheets[if IE 7][all][] = style_ie.css
 
 ;--------------------- scripts ----------------------------
-scripts[] = script/jquery.overlabel.js
+scripts[] = script/jquery.infieldlabel.min.js
+;scripts[] = script/jquery.overlabel.js
 scripts[] = script/jquery.jcarousel.pack.js
 scripts[] = script.js

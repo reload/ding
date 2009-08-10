@@ -44,51 +44,29 @@ function alma_requirements($phase) {
 }
 
 /**
- * Get data from Alma.
- *
- * @param string $method
- *    The method on to call om the Alma server, e.g. 'patron/status'
- * @param array $params
- *    Array of parameters for the request. borrCard and pinCode is required
- *    for all request related to library patrons.
- * @return mixed
- *    FALSE on error, otherwise a SimpleXML object with the response.
+ * Return a fully instantiated AlmaClient instance.
  */
-function alma_request($method, $params=array()) {
-  $base_url = variable_get('alma_base_url', '');
-
-  if (empty($base_url)) {
-    trigger_error(t('alma_request() called, but "alma_base_url" is empty. Please set this on the Alma settings page.'), E_USER_ERROR);
-    return FALSE;
+function alma_client() {
+  // This is basically a singleton. We also wait until right before
+  // instantiating to include our required classes. That seems like a
+  // decent performance tradeoff instead of loading everything on every
+  // page load.
+  static $client;
+  if (!isset($client)) {
+    $path = drupal_get_path('module', 'alma');
+    include($path . '/lib/QueryPath/QueryPath.php');
+    include($path . '/lib/AlmaClient/AlmaClient.class.php');
+    $client = new AlmaClient(variable_get('alma_base_url', ''));
   }
-
-  $request = drupal_http_request(url($base_url . $method, array('query' => $params)));
-
-  if ($request->code == 200) {
-    $sx = simplexml_load_string($request->data);
-    return $sx;
-  }
-  return FALSE;
+  return $client;
 }
 
-/**
- * Get branch names from Alma.
- *
- * Formats the list of branches in an array usable for form API selects.
- *
- * @return array
- *    List of branches, keyed by branch_id
- */
-function alma_get_branches() {
-  $branches = array(
-    NULL => '- None -',
-  );
-  $data = alma_request('organisation/branches');
 
-  foreach ($data->getBranchesResponse->branches->branch as $elem) {
-    $branches[(string) $elem['id']] = (string) $elem->names[0]->name;
+function alma_client_get_branches() {
+  try {
+    return alma_client()->get_branches();
+  } catch (Exception $e) {
+    return array();
   }
-
-  return $branches;
 }
 

@@ -2,6 +2,10 @@
 	Style: search
 	search results
 * ------------------------------------- */
+#ting-search-results{width:716px; float:left;}
+#ting-search-sidebar{width:244px; float:right;}
+#ting-search-sidebar .campaign{padding:0 0 10px 8px; width:215px; overflow:hidden; }
+
 #ting-search-tabs{padding:0px 0 0 17px;}
 	#ting-search-tabs li{margin-left:3px;  padding:1px 3px 3px 5px;  display:inline; 	border: 1px solid #ccc; background: #fff;font-size:11px; text-transform: uppercase;}
 	#ting-search-tabs li.active{border-top: 1px solid #ccc; border-left: 1px solid #ccc;  border-right: 1px solid #ccc; border-bottom: 1px solid #f3f5f4; background: #f3f5f4;}
@@ -9,6 +13,7 @@
 	#ting-search-tabs li .count-value{color: #900;}
 
 #ting-result, #content-result{background:transparent url(../images/bg-search.jpg) no-repeat left top; margin:0px 0 0 20px; padding: 10px 0 0 5px;}
+
 
 /*facet browser*/
 #ting-facet-browser{width: 680px; padding: 7px 0 0 7px ; background:transparent url(../images/bg-facetbrowser.png) no-repeat left top;}
@@ -56,5 +61,7 @@
 	#content-result .meta div{ display:inline;}
 
 /*spinner*/	
-#ting-search-spinner {margin: 10px auto 10px auto; text-align: center; width: 220px;}
+#ting-search-spinner{margin: 10px auto 10px auto; text-align: center; width: 220px;}
 #ting-search-spinner .spinner {background: url(../images/ajax-loader.gif) no-repeat; margin-top: 10px; height: 19px;width: 220px;}
+
+.page-search .tabs{display:none;}
