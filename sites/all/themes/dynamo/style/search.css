@@ -40,15 +40,14 @@
 	#ting-search-result div.picture{float:left; background:#ddd; width:100px; margin:0 12px 0 0; line-height:0;}
 	#ting-search-result div.record{margin-left:112px; width:525px;}
 	#ting-search-result h4{display:inline;}
-	#ting-search-result .types li{clear:none; display:inline; float:left; margin:0 10px 0 0; padding:0; background:none;}
-	#ting-search-result .subjects li{clear:none; display:inline; float:left; margin:0 10px 0 0; padding:0; background:none; }
-
 	#ting-search-result .types{float: right;}
-		#ting-search-result .types li{font-size: 10px; padding:1px 3px; color: #fff; margin: 1px}
-		#ting-search-result .types li.available{background-color:#71bf44;}
-		#ting-search-result .types li.out{ background-color: #f85f26;}
-		#ting-search-result .types li.reserved{ background-color: #bc0028;}	
-
+	#ting-search-result .types li,.types li{clear:none; display:inline; float:left; margin:0 10px 0 0; padding:0; background:none;}
+		#ting-search-result .types li, .types li{font-size: 10px; padding:1px 3px; color: #fff; margin: 1px}
+		#ting-search-result .types li.available,.types li.available{background-color:#71bf44; color:#fff;}
+		#ting-search-result .types li.out,.types li.out{background-color: #f85f26; color:#fff;}
+		#ting-search-result .types li.reserved,ul.types li.reserved{ background-color: #bc0028;color:#fff;}	
+		
+		#ting-search-result .subjects li{clear:none; display:inline; float:left; margin:0 10px 0 0; padding:0; background:none; }
 		#ting-search-result .subjects h4{float: left; margin: 0 10px 0 0; font-size: 10px; color:#bbb;}
 		#ting-search-result .subjects li{display:inline; font-size: 10px; color:#bbb;}
 
@@ -65,3 +64,5 @@
 #ting-search-spinner .spinner {background: url(../images/ajax-loader.gif) no-repeat; margin-top: 10px; height: 19px;width: 220px;}
 
 .page-search .tabs{display:none;}
+
+

@@ -21,15 +21,69 @@ function dynamo_theme($existing, $type, $theme, $path) {
  );
 }
 
-// search-form
-// function dynamo_edit_seach_form($form){
-// //	dsm($form);
-// }
+/*
+function dynamo_preprocess_ting_collection(&$variables){
 
-// function dynamo_form($form){
-// 	dsm($form);
-// }
+	foreach ($variables['collection']->objects as $key => $value) {
+		$output[$key]['id'] = $variables['collection']->objects[$key]->id;
+		$output[$key]['title'] = $variables['collection']->objects[$key]->data->title[0];
+		$output[$key]['desciption'] .= $variables['collection']->objects[$key]->data->description[0];
+		$output[$key]['date'] = $variables['collection']->objects[$key]->data->date[0];
+		$output[$key]['type'] = $variables['collection']->objects[$key]->data->type[0];
+		$output[$key]['format'] = $variables['collection']->objects[$key]->data->format[0];
+		$output[$key]['source'] = $variables['collection']->objects[$key]->data->source[0];
 
+
+		for ($i=0; $i < count($variables['collection']->objects[$key]->data->description) ; $i++) { 
+			$output[$key]['description'][$i]	= '<span>' . $variables['collection']->objects[$key]->data->description[$i] .'</span>';
+		}
+
+
+		//creator
+		for ($i=0; $i < count($variables['collection']->objects[$key]->data->creator) ; $i++) { 
+			$output[$key]['creator'][$i]	= '<span>' . $variables['collection']->objects[$key]->data->creator[$i] .'</span>';
+		}
+
+		//subject
+		for ($i=0; $i < count($variables['collection']->objects[$key]->data->subject) ; $i++) { 
+			$output[$key]['subject'][$i]	= '<span>' . $variables['collection']->objects[$key]->data->subject[$i] .'</span>';
+		}
+
+		//publisher
+		for ($i=0; $i < count($variables['collection']->objects[$key]->data->publisher) ; $i++) { 
+			$output[$key]['publisher'][$i]	= '<span>' . $variables['collection']->objects[$key]->data->publisher[$i] .'</span>';
+		}
+
+		//contributor
+		for ($i=0; $i < count($variables['collection']->objects[$key]->data->contributor) ; $i++) { 
+			$output[$key]['contributor'][$i]	= '<span>' . $variables['collection']->objects[$key]->data->contributor[$i] .'</span>';
+		}
+
+		//language
+		for ($i=0; $i < count($variables['collection']->objects[$key]->data->language) ; $i++) { 
+			$output[$key]['language'][$i]	= '<span>' . $variables['collection']->objects[$key]->data->language[$i] .'</span>';
+		}
+
+		//relation
+		for ($i=0; $i < count($variables['collection']->objects[$key]->data->relation) ; $i++) { 
+			$output[$key]['relation'][$i]	= '<span>' . $variables['collection']->objects[$key]->data->relation[$i] .'</span>';
+		}
+
+		//coverage
+		for ($i=0; $i < count($variables['collection']->objects[$key]->data->coverage) ; $i++) { 
+			$output[$key]['coverage'][$i]	= '<span>' . $variables['collection']->objects[$key]->data->coverage[$i] .'</span>';
+		}
+
+		//rights
+		for ($i=0; $i < count($variables['collection']->objects[$key]->data->rights) ; $i++) { 
+			$output[$key]['rights'][$i]	= '<span>' . $variables['collection']->objects[$key]->data->rights[$i] .'</span>';
+		}
+
+	}
+
+	$variables['collection_data'] = $output;
+}
+*/
 
 //views
 function dynamo_preprocess_views_view_list(&$vars){

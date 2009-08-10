@@ -91,7 +91,6 @@ all content based on search results are in the search.css
 	.panel-twocol-left-stacked .panel-bottom{width:700px;}
 .panel-twocol-left-stacked .content-right{width:244px; float:left; overflow:hidden;}
 
-
 /*panel-threecol-left-stacked*/
 .panel-threecol-left-stacked .panel-left{width:470px; float:left; background: transparent url(../images/bg-divider-horizontalt.png) no-repeat right top;}
 .panel-threecol-left-stacked .panel-middle{width:240px; float:left;}
@@ -100,5 +99,7 @@ all content based on search results are in the search.css
 /*panel-threecol-left-stacked-right*/
 .panel-threecol-left-stacked-right .panel-left{width:220px;  margin:0 0 0 20px; float:left;}
 .panel-threecol-left-stacked-right .panel-middle{width:470px; float:left;}
+
+#collection{}
 
 

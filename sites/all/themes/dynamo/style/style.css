@@ -44,10 +44,11 @@ Account block
 		#user-login-form ul{clear:both;}
 			#user-login-form ul li{float:left; margin:0 10px 0 0;}
 
-
+/*user logged in*/
 #account-profile{width:251px;margin:5px 0 0 0; font-size:10px;}
+	#account-profile a{text-decoration:none;}
+
 	#account-profile .user{margin:0 0 5px 0;}
-		#account-profile a{text-decoration:none;}
 		#account-profile div.logout{margin:0 0 0 180px; }
 			#account-profile div.logout a{background:transparent url(../images/arrow.png) no-repeat left center; padding:0 0 0 5px; }
 		#account-profile h5{font-weight:normal; color:#fff; font-size:11px; line-height:11px;}
@@ -62,7 +63,8 @@ Account block
 	#account-profile ul{width:177px; float:left; background:transparent url(../images/bg-account-divider.gif) no-repeat left top;}
 		#account-profile ul li{clear:both; height:30px; background:transparent url(../images/bg-account-divider.gif) no-repeat left bottom;}
 		#account-profile ul li div{font-size:11px; float:left; overflow:hidden;}
-	#account-profile ul div.content{width:141px; padding:4px 0 0 0}
+	#account-profile ul div.content{width:136px; padding:4px 0 0 0}
+			#account-profile ul div.content span{float:right; padding:0 5px 0 0;}
 	#account-profile ul div.status{width:36px; height:26px; background:transparent url(../images/bg-account-status.gif) no-repeat left 3px; text-indent: -9999em;}
 		#account-profile ul div.status span{height:16px; width:16px; margin:4px 0 0 11px; display: block;}
 		#account-profile ul div.status span.ok{ background:transparent url(../images/status-error.png) no-repeat left top;}		
@@ -128,6 +130,23 @@ basic elements
 /*--------------------------------------*/
 div.messages{margin:0 20px 10px 20px;}
 
+.picture{width:120px; height:120px; margin:0 20px 0 0; float:left; background:#eee;}
+.content{margin:0 5px 0 0; float:left;}
+
+
+#collection .collection-navigation{float:left; width:130px; padding:0 0 0 20px;}
+#collection .collection-main{float:left; width:550px; border-left: 1px solid #999;}
+#collection .collection-info{ padding:0 0 0 20px;}
+#collection .collection{background:transparent url(../images/bg-divider.png) no-repeat left top; margin:5px 0px; padding:5px 0;}
+	#collection .picture{width:90px; margin: 0 20px 0 20px;}
+	#collection .content{margin:0 5px 0 0; float:left; width:300px;}
+		#collection .content{font-size:10px; line-height:14px;}
+		#collection .creator{font-weight:bold;}
+		#collection .content ul li {margin:0 0 0 5px; }
+	#collection .cart{float:left}
+
+	
+	
 .meta ul{display:inline;}
 .meta li{display:inline}
 

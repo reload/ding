@@ -14,4 +14,3 @@
   <h4><?php print t('Searching'); ?>…</h4>
   <div class="spinner"></div>
 </div>
-
