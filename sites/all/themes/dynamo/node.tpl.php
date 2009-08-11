@@ -99,6 +99,14 @@ if($id_node){
 	<?php if ($links){ ?>
     <?php  print $links; ?>
 	<?php } ?>
+
+  <?php $similar_nodes = similarterms_list(); ?>
+  <?php if (count($similar_nodes)) { ?>
+	  <div class="similar">
+      <h3><?php print t('Similar'); ?></h3>
+      <?php print theme('similarterms', variable_get('similarterms_display_options', 'title_only'), $similar_nodes); ?>
+    </div>
+  <?php } ?>
 </div>
 <?php } ?>
 <!-- /node.tpl-->
