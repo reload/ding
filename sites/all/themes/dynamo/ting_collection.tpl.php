@@ -41,11 +41,14 @@
 
 	  		<div class="picture">
 					<?php if($collection->objects[$key]->additionalInformation->thumbnailUrl){ ?>
-			    	<?php print theme('image', $collection->objects[$key]->additionalInformation->thumbnailUrl, '', '', null, false); ?>
+			    	<?php 
+							// 	TODO set false to true ?
+							print theme('image', $collection->objects[$key]->additionalInformation->thumbnailUrl, '', '', null, false);
+			 			?>
 				    <?php // print theme('imagecache', '120_120', $collection->objects[$key]->additionalInformation->thumbnailUrl); ?>      
 					<?php } ?>
 				</div>
-			  <div class="content">	
+			  <div class="content">
 
 					<?php print theme('item_list', $collection->objects[$key]->data->date, NULL, 'div-span', array('class' => 'date'));?>	
 
@@ -54,7 +57,7 @@
 
 					<?php print theme('item_list', $collection->objects[$key]->data->description, NULL, 'div', array('class' => 'description'));?>
 
-					<?php print l(t('More information'), "..".$collection->objects[$key]->url); ?> 
+					<?php print l(t('More information'), $collection->objects[$key]->url, array('attributes' => array('class' => 'more-link')) ); ?>
 
 					<?php print theme('item_list', $collection->objects[$key]->data->subject, t('terms'), 'span', array('class' => 'subject'));?>
 
@@ -66,7 +69,7 @@
 
 					<?php print theme('item_list', $collection->objects[$key]->data->publisher, t('publisher'), 'span', array('class' => 'publisher'));?>
 
-					<?php print theme('item_list', $collection->objects[$key]->data->language, t('language'), 'div', array('class' => 'language'));?>
+					<?php print theme('item_list', $collection->objects[$key]->data->language, t('language'), 'span', array('class' => 'language'));?>
 
 					<ul class="types">
 						<li class="out">out</li>
@@ -75,7 +78,6 @@
 					</ul>
 
 				</div>
-
 				<div class="cart">
 
 					<ul>
