@@ -16,7 +16,7 @@ ting search block
 #search .form-item{margin:0;}
 #search #edit-keys-wrapper{float:left; display:inline;}
 	#ting-search-form{position:relative; width:610px; float:left;}
-	#ting-search-form .form-text{height:20px; width:468px; margin:0 10px 0 0; padding:4px 0 0 25px;  background:#fff url(../images/magnifier.png) no-repeat 9px 5px; border: 1px solid #999; font-size:13px; color:#929292; float:left;}
+	#ting-search-form .form-text{height:20px; width:468px; margin:0 10px 0 0; padding:4px 0 0 25px; color:#929292; background:#fff url(../images/magnifier.png) no-repeat 9px 5px; border: 1px solid #999; font-size:13px; float:left;}
 		#ting-search-form label{margin:3px 0 0 30px; font-size:13px; font-weight:normal;} 
 	#ting-search-form .form-button{float:left; display:block; height:29px; width:94px; background:transparent url(../images/searchbutton.png) no-repeat 0 0;;}
 		#ting-search-form .form-button input{ border:0; background:transparent; margin:5px 10px; color:transparent; font-weight:bold; text-indent: -9999em; }
@@ -110,7 +110,7 @@ Panels BOX css styles
 	.ding-box-pane li{margin:0 0 0 20px;}
 
 /* =====================================
-Campaigns
+Campaigns 
 /*--------------------------------------*/
 .pane-relevant_campaigns{width:215px; overflow:hidden; padding:0 0 10px 8px;}
 	.pane-relevant_campaigns .campaign, .pane-relevant_campaigns .node{margin:0 0 10px 0; border: 1px solid #999;}
@@ -133,24 +133,49 @@ div.messages{margin:0 20px 10px 20px;}
 .picture{width:120px; height:120px; margin:0 20px 0 0; float:left; background:#eee;}
 .content{margin:0 5px 0 0; float:left;}
 
+/* =====================================
+collection
+/*--------------------------------------*/
+#collection .collection-navigation{float:left; width:130px; min-height:400px; padding:0 0 0 20px;}
+	 #collection .collection-navigation {background:transparent url(../images/bg-collection-left.png) no-repeat right top;}
+		 #collection .collection-navigation li{width: 131px; height: 24px; text-transform: uppercase; padding:3px 4px 0 10px; margin:0 0 4px 0; font-size:10px; background: url(../images/bg-collection-left-menu.png) no-repeat scroll top left;}
+		 	#collection .collection-navigation li.active{background: url(../images/bg-collection-left-menu-active.png) no-repeat scroll top left;}
+		 	#collection .collection-navigation li a{color:#333; display:block;}
 
-#collection .collection-navigation{float:left; width:130px; padding:0 0 0 20px;}
-	 #collection .collection-navigation li{text-transform: uppercase; padding:3px;}
-	 #collection .collection-navigation li.active{background:#ddd;}
-	 	#collection .collection-navigation li a{color:#333;}
-	
-#collection .collection-main{float:left; width:550px; border-left: 1px solid #ddd;}
-#collection .collection-info{ padding:0 0 0 20px;}
+#collection .collection-main{float:left; width:550px; background:transparent url(../images/bg-collection.png) no-repeat right top;}
+#collection .collection-info{ padding:20px;}
+
 #collection .collection{background:transparent url(../images/bg-divider.png) no-repeat left top; margin:5px 0px; padding:5px 0;}
-	#collection .picture{width:90px; margin: 0 20px 0 20px;}
-	#collection .content{margin:0 5px 0 0; float:left; width:300px;}
+	#collection .picture{width:80px; margin: 0 10px;}
+	#collection .content{width:330px;margin:0 10px 0 0; float:left;}
 		#collection .content{font-size:10px; line-height:14px;}
 		#collection .creator{font-weight:bold;}
 		#collection .content ul li {margin:0 0 0 5px; }
-	#collection .cart{float:left}
+	#collection .cart{width:110px; float:left;}
 
-	
-	
+
+
+/* =====================================
+buttons links
+/*--------------------------------------*/
+.button{height:30px; padding:0 23px 0 10px; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat right 0px}
+	.button:hover{background: transparent url(../images/sprite-knapper-reservering.png) no-repeat right -120px}
+	.button a{font-size:10px; color:#fff; height:25px; margin:0 0 0 0; padding:5px 0 0 10px; display:block; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat left -60px;}
+	.button a:hover, .button-orange a:focus{text-decoration: none; color:#eee; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat left -180px;}
+
+
+.button-orange{background-position:right 0px}
+	.button-orange:hover{background-position:right -120px}
+	.button-orange a{background-position: left -60px;}
+	.button-orange a:hover, .button-orange a:focus{background-position: left -180px;}
+
+.button-green{background-position:right -30px}
+	.button-green:hover{background-position:right -150px}
+	.button-green a{background-position: left -90px;}
+	.button-green a:hover, .button-green a:focus{background-position: left -210px;}
+
+
+
 .meta ul{display:inline;}
 .meta li{display:inline}
 
