@@ -135,7 +135,11 @@ div.messages{margin:0 20px 10px 20px;}
 
 
 #collection .collection-navigation{float:left; width:130px; padding:0 0 0 20px;}
-#collection .collection-main{float:left; width:550px; border-left: 1px solid #999;}
+	 #collection .collection-navigation li{text-transform: uppercase; padding:3px;}
+	 #collection .collection-navigation li.active{background:#ddd;}
+	 	#collection .collection-navigation li a{color:#333;}
+	
+#collection .collection-main{float:left; width:550px; border-left: 1px solid #ddd;}
 #collection .collection-info{ padding:0 0 0 20px;}
 #collection .collection{background:transparent url(../images/bg-divider.png) no-repeat left top; margin:5px 0px; padding:5px 0;}
 	#collection .picture{width:90px; margin: 0 20px 0 20px;}
@@ -154,16 +158,16 @@ div.messages{margin:0 20px 10px 20px;}
 .node .taxonomy ul{margin:0;}
 .node .taxonomy ul li{padding:0 5px 0 0;}
 .node-page .content{margin:10px 0 0 0;}		
-.more-link a{background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0; }
+.more-link a, a.more-link {background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0; }
 
 /*node + list*/
 .node .meta ul{margin:0 0 0 10px;}
 .meta div.taxonomy{display:inline;}
 .meta li {padding:0 10px 0 0;}
 
+/*.more-link, */
 .view-empty,
 .feed, 
-.more-link, 
 #user-profile-form,
 #node-form{
 	margin:20px 0 0 20px; 
