@@ -30,8 +30,7 @@ function ting_collection() {
 	$collection = $facade->getCollection($_REQUEST['object_id']);
 	if (!$collection)
 	{
-		drupal_not_found();
-		exit;
+		return drupal_not_found();
 	}
 	
   return theme('ting_collection', $collection);
@@ -48,8 +47,7 @@ function ting_object() {
 	$object = $facade->getObject($_REQUEST['object_id']);
 	if (!$object)
 	{
-		drupal_not_found();
-		exit;
+		return drupal_not_found();
 	}
 	
   return theme('ting_object', $object);
