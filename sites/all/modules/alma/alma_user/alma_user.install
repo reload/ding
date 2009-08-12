@@ -47,16 +47,33 @@ function alma_user_schema() {
         'length' => 255,
         'not null' => FALSE,
       ),
-      'admin_password' => array(
-        'description' => t('Admin password.'),
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE,
-      ),
     ),
     'primary key' => array('uid'),
     'unique keys' => array(
       'borr_card' => array('alma_id')
+    ),
+  );
+
+  $schema['alma_user_pass'] = array(
+    'description' => t('More secure passwords required for users with administrative privilgees..'),
+    'fields' => array(
+      'uid' => array(
+        'description' => t('{users}.uid for node'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+     'pass' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "User's password (hashed).",
+      ),
+    ),
+    'primary key' => array('uid'),
+    'indexes' => array(
+      'pass_uid' => array('pass', 'uid'),
     ),
   );
 

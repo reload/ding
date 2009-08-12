@@ -21,6 +21,11 @@ function alma_menu() {
     'file' => 'alma.admin.inc',
   );
 
+  $items['admin/settings/alma/main'] = array(
+    'title' => 'Alma',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+
   return $items;
 }
 

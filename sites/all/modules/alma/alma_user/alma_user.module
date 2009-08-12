@@ -2,6 +2,34 @@
 // $Id$
 
 /**
+ * Implementation of hook_menu().
+ */
+function alma_user_menu() {
+  $items = array();
+
+  $items['admin/settings/alma/user'] = array(
+    'title' => 'User settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('alma_user_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'alma_user.admin.inc',
+  );
+
+  $items['user/%user/secure_pass'] = array(
+    'title' => 'Admin password',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('alma_user_forms_admin_pass', 1),
+    'access callback' => 'alma_user_forms_admin_pass_access',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'alma_user.forms.inc',
+  );
+
+  return $items;
+}
+
+/**
  * Implementation of hook_block().
  */
 function alma_user_block($op = 'list', $delta = 0, $edit = array()) {
@@ -43,9 +71,23 @@ function alma_user_user($op, &$edit, &$account, $category = NULL) {
         $data = db_fetch_array(db_query("SELECT alma_id, alma_name FROM {alma_user} WHERE uid = %d LIMIT 1;", $account->uid));
         $account->alma_id = $data['alma_id'];
         $account->alma_name = $data['alma_name'];
+        $account->secure_pass = db_result(db_query("SELECT pass FROM {alma_user_pass} WHERE uid = %d LIMIT 1;", $account->uid));
+
+        if ($account->uid == 1 || alma_user_has_secure_role($account)) {
+          $account->has_secure_role = TRUE;
+        }
       }
       break;
   }
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function alma_user_perm() {
+  return array(
+    'change admin passwords',
+  );
 }
 
 /**
@@ -79,28 +121,41 @@ function alma_user_theme($existing, $type, $theme, $path) {
  * combination and provide our own fields instead.
  */
 function alma_user_form_alter(&$form, $form_state, $form_id) {
-  if ($form_id == 'user_login_block' || $form_id == 'user_login') {
-    // Add our own auth fields
-    $form['borr_card'] = array(
-      '#type' => 'password',
-      '#title' => t('Borrower card'),
-      '#required' => TRUE,
-      '#weight' => -3,
-    );
+  switch ($form_id) {
+    case 'user_login':
+    case 'user_login_block':
+      // Add our own auth fields
+      $form['borr_card'] = array(
+        '#type' => 'password',
+        '#title' => t('Borrower card'),
+        '#required' => TRUE,
+        '#weight' => -3,
+      );
 
-    $form['pin_code'] = array(
-      '#type' => 'password',
-      '#title' => t('Code'),
-      '#required' => TRUE,
-      '#weight' => -2,
-    );
+      $form['pin_code'] = array(
+        '#type' => 'password',
+        '#title' => t('Code'),
+        '#required' => TRUE,
+        '#weight' => -2,
+      );
 
-    // Add our own validation and submit handler.
-    array_unshift($form['#validate'], 'alma_user_login_validate');
-    $form['#submit'][] = 'alma_user_login_submit';
+      // Add our own validation and submit handler.
+      array_unshift($form['#validate'], 'alma_user_login_validate');
+      $form['#submit'][] = 'alma_user_login_submit';
 
-    // Remove the standard user login things.
-    unset($form['name'], $form['pass'], $form['links']);
+      // Remove the standard user login things.
+      unset($form['name'], $form['pass'], $form['links']);
+      break;
+    case 'user_profile_form':
+      // Remove or hide the standard user account settings we don't need.
+      unset($form['account']['pass']);
+      $form['account']['name']['#type'] = 'value';
+
+      // Add link to change admin password
+      $form['change_password_link'] = array(
+        '#value' => l('Change admin password', 'user/' . $form['_account']['#value']->uid . '/secure_pass'),
+      );
+      break;
   }
 }
 
@@ -191,5 +246,35 @@ function alma_user_check_credentials($borr_card, $pin_code) {
 
     return($user->uid);
   }
+}
+
+/**
+ * Helper function to check if user has a secure role.
+ *
+ * @param object $account
+ *    A Drupal user object.
+ * @return boolean
+ *    Boolean indicating that user has a secure role.
+ */
+function alma_user_has_secure_role($account) {
+  return array_intersect_key($account->roles, variable_get('alma_user_secure_roles', array()));
+}
+
+/**
+ * Access control for the admin password form.
+ */
+function alma_user_forms_admin_pass_access($account) {
+  // Only accounts with a secure role have admin passwords.
+  if (!$account->has_secure_role) {
+    return FALSE;
+  }
+  // Everyone is allowed to change their own password.
+  elseif ($GLOBALS['user']->uid == $account->uid) {
+    return TRUE;
+  }
+  elseif (user_access('change admin passwords')) {
+    return TRUE;
+  }
+  return FALSE;
 }
 
