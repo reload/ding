@@ -40,7 +40,7 @@ function ting_collection() {
  * Display a signle Ting object.
  */
 function ting_object() {
-  module_load_include('php', 'ting', 'lib/facade/TingFacade');
+  module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
 	
   $facade = new TingClientFacade();
   
