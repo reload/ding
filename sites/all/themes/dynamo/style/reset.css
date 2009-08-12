@@ -23,7 +23,7 @@ a img {border:none;}
 /* ----- content blocks ----- */
 /*TODO is both left & inline nesessary - min- height? is it 1% instead*/
 
-.clear {clear: both; display: block; overflow: hidden; visibility: hidden; width: 0; height: 0;}
+.clear{clear: both; display: block;}
 .left{float:left; display:inline; min-height: 1px; background-color: transparent;} 
 .right{float:right; display:inline; min-height: 1px; background-color: transparent;} 
 .clean{overflow:hidden; display:block;}

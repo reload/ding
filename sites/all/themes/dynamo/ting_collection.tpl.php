@@ -1,10 +1,10 @@
 <?php 
 //dsm($collection);
 ?>
-<div id="collection">
+<div id="ting-collection">
 	<div class="content-left">
 
-		<div class="collection-navigation">
+		<div class="tab-navigation">
 
 			<ul>
 				<li class="active"><a href="#">Materialer</a></li>
@@ -16,12 +16,13 @@
 				<li class="active"><a href="#">Materialer</a></li>
 				<li><a href="#">Forfatterportræt </a></li>
 				<li  class="active"><a href="#">Anmeldelser </a></li>				
-
 			</ul>
 
 		</div>
 
-		<div class="collection-main">
+		<div class="tab-navigation-main">
+			<div class="tab-navigation-main-inner">
+
 			<div class="collection-info">
 				<h2> title</h2>
 				af forfatter (2006)
@@ -99,8 +100,8 @@
 				?>
 
 			
-		</div>	
-
+			</div>	
+		</div>
 	</div>
 
 	<div class="content-right">

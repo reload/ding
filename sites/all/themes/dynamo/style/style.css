@@ -9,6 +9,7 @@ form{clear: both;}
 form div{position:relative }
 #search label, #account label{position:absolute; top:0; left:0; color:#000;}
 form div.description{font-size:10px; line-height:12px; color:#999; padding:5px; width:400px;}
+
 /* =====================================
 ting search block
 /*--------------------------------------*/
@@ -101,13 +102,25 @@ ul.pager li{margin:0 10px 0 0;}
 	#ting-result-pager ul li.current,
 	ul.pager li.pager-current{width:32px; height:28px; padding:3px 2px 0 2px;  background:transparent url(../images/bg-pager-link-active.gif) no-repeat left top;}
 
+
+
+
 /* =====================================
 Panels BOX css styles
 /*--------------------------------------*/
 .ding-box-pane{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden;}
-	.ding-box-pane h3{	font-size:11px; line-height:20px; font-weight:bold; width:228px; padding:8px 0 4px 20px; height:18px; background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; overflow:hidden;}
+	.ding-box-pane h3{width:228px; padding:8px 0 4px 20px; height:18px; font-size:11px; line-height:20px; font-weight:bold; background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; overflow:hidden;}
 	.ding-box-pane ul{width:228px; padding:8px 0px; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom;  overflow:hidden; }
 	.ding-box-pane li{margin:0 0 0 20px;}
+
+	.ding-box-wide{width:514px; background:transparent url(../images/sprite-box.png) repeat-y -930px 0; overflow:hidden;}
+		.ding-box-wide h3{ width:514px; font-weight:bold;padding:8px 0 4px 20px; height:18px; font-size:11px; line-height:20px;  background:transparent url(../images/sprite-box.png) no-repeat -930px -0px; overflow:hidden;}
+		.ding-box-wide ul{width:514px; padding:0px 0 8px 0; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -1444px bottom;  overflow:hidden; }
+		.ding-box-wide li{margin:0px 10px; font-size:10px; padding:2px 0;}
+
+	.ding-box-wide .odd{background:#f3f5f5;}
+	.ding-box-wide .even{background:#fff;}
+
 
 /* =====================================
 Campaigns 
@@ -125,40 +138,50 @@ Campaigns
 	.campaign-theme-green{background:#090;}
 	.campaign-theme-blue{background:#009;}
 
+
+/* =====================================
+værkvisninger
+/*--------------------------------------*/
+.tab-navigation{float:left; width:130px; min-height:400px; padding:0 0 0 20px;}
+.tab-navigation{background:transparent url(../images/bg-tab-navigation-right.png) no-repeat right top;}
+.tab-navigation li{width: 131px; height: 24px; text-transform: uppercase; padding:3px 4px 0 10px; margin:0 0 4px 0; font-size:10px; background: url(../images/bg-tab-navigation.png) no-repeat scroll top left;}
+.tab-navigation li.active{background: url(../images/bg-tab-navigation-active.png) no-repeat scroll top left;}
+.tab-navigation li a{color:#333; display:block;}
+
+.tab-navigation-main{float:left; width:550px; background:transparent url(../images/bg-tab-navigation-content.png) no-repeat right top;}
+	.tab-navigation-main-inner{padding:20px;}
+
+
+
+#ting-collection .collection{background:transparent url(../images/bg-divider.png) no-repeat left top; margin:5px 0px; padding:5px 0;}
+	#ting-collection .picture{width:80px; height:150px; margin: 0 10px; display:block; float:left; background:#eee; overflow:hidden;}
+	#ting-collection .content{width:330px;margin:0 10px 0 0; float:left;}
+		#ting-collection .content{font-size:10px; line-height:14px;}
+		#ting-collection .creator{font-weight:bold;}
+		#ting-collection .content ul li {margin:0 0 0 5px; }
+	#ting-collection .cart{width:110px; float:left;}
+
+#ting-object .picture{width:175px; height:200px; display:block; background:#eee; overflow:hidden;}
+#ting-object .button{float:left;}
+#ting-object .left-column{width:200px;}
+#ting-object .right-column{width:310px;}
+
+.object-information{width:490px; padding:10px; margin:20px 0; clear:both; background:#e8eceb; font-size:10px; color:#050505;}
+	.object-information	.item-list{clear:both;}
+	.object-information .title{width:100px; display:block; float:left; font-weight: normal;}
+
+.object-otherversions {background:transparent url(../images/bg-divider.png) no-repeat left top; margin:20px 0 0 0; padding:5px 0 0 0;}
 /* =====================================
 basic elements
 /*--------------------------------------*/
 div.messages{margin:0 20px 10px 20px;}
-
-.picture{width:120px; height:120px; margin:0 20px 0 0; float:left; background:#eee;}
 .content{margin:0 5px 0 0; float:left;}
 
-/* =====================================
-collection
-/*--------------------------------------*/
-#collection .collection-navigation{float:left; width:130px; min-height:400px; padding:0 0 0 20px;}
-	 #collection .collection-navigation {background:transparent url(../images/bg-collection-left.png) no-repeat right top;}
-		 #collection .collection-navigation li{width: 131px; height: 24px; text-transform: uppercase; padding:3px 4px 0 10px; margin:0 0 4px 0; font-size:10px; background: url(../images/bg-collection-left-menu.png) no-repeat scroll top left;}
-		 	#collection .collection-navigation li.active{background: url(../images/bg-collection-left-menu-active.png) no-repeat scroll top left;}
-		 	#collection .collection-navigation li a{color:#333; display:block;}
-
-#collection .collection-main{float:left; width:550px; background:transparent url(../images/bg-collection.png) no-repeat right top;}
-#collection .collection-info{ padding:20px;}
-
-#collection .collection{background:transparent url(../images/bg-divider.png) no-repeat left top; margin:5px 0px; padding:5px 0;}
-	#collection .picture{width:80px; margin: 0 10px;}
-	#collection .content{width:330px;margin:0 10px 0 0; float:left;}
-		#collection .content{font-size:10px; line-height:14px;}
-		#collection .creator{font-weight:bold;}
-		#collection .content ul li {margin:0 0 0 5px; }
-	#collection .cart{width:110px; float:left;}
-
-
 
 /* =====================================
-buttons links
+buttons
 /*--------------------------------------*/
-.button{height:30px; padding:0 23px 0 10px; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat right 0px}
+.button{height:30px; display:block; padding:0 23px 0 0px; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat right 0px}
 	.button:hover{background: transparent url(../images/sprite-knapper-reservering.png) no-repeat right -120px}
 	.button a{font-size:10px; color:#fff; height:25px; margin:0 0 0 0; padding:5px 0 0 10px; display:block; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat left -60px;}
 	.button a:hover, .button-orange a:focus{text-decoration: none; color:#eee; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat left -180px;}
@@ -176,21 +199,23 @@ buttons links
 
 
 
+
+/*node + list*/
+.node .meta ul{margin:0 0 0 10px;}
+.meta div.taxonomy{display:inline;}
 .meta ul{display:inline;}
 .meta li{display:inline}
-
+.meta li {padding:0 10px 0 0;}
 .node .taxonomy{padding:10px 0 0 0;}
 .node .taxonomy ul{margin:0;}
 .node .taxonomy ul li{padding:0 5px 0 0;}
 .node-page .content{margin:10px 0 0 0;}		
 .more-link a, a.more-link {background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0; }
 
-/*node + list*/
-.node .meta ul{margin:0 0 0 10px;}
-.meta div.taxonomy{display:inline;}
-.meta li {padding:0 10px 0 0;}
+/*panels links*/
+div.more-link{padding:0 20px 0 0; }
 
-/*.more-link, */
+/*paddings */
 .view-empty,
 .feed, 
 #user-profile-form,
@@ -203,8 +228,6 @@ buttons links
 /*menu test*/
 ul.menu li.expanded{display:none;}
 ul.menu li.expanded.first{display:block;}
-
-
 
 
 /* =====================================
