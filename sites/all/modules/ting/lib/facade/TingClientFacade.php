@@ -85,7 +85,7 @@ class TingClientFacade {
 	
 	private static function addCollectionUrls(TingClientObjectCollection $collection)
 	{
-		$collection->url = url('ting/collection', array('query' => array('object_id' => $collection->objects[0]->data->title[0])));
+		$collection->url = url('ting/collection', array('absolute' => true, 'query' => array('object_id' => $collection->objects[0]->data->title[0])));
 		foreach ($collection->objects as &$object)
 		{
 			$object = self::addObjectUrl($object);
@@ -95,7 +95,7 @@ class TingClientFacade {
 	
 	private static function addObjectUrl(TingClientObject $object)
 	{
-		$object->url = url('ting/object', array('query' => array('object_id' => $object->id)));
+		$object->url = url('ting/object', array('absolute' => true, 'query' => array('object_id' => $object->id)));
 		return $object;
 	}
 	
