@@ -54,3 +54,69 @@ function alma_user_forms_admin_pass_submit($form, &$form_state) {
   }
 }
 
+/**
+ * Alma authentication form.
+ *
+ * Only used when a logged in user requires access to data from Alma and
+ * his Alma credentials are not cached.
+ */
+function alma_user_forms_alma_authenticate($form_state, $account) {
+  $form = array();
+
+  $form['explanation'] = array(
+    '#value' => t('To access your personal information, you need to authenticate.'),
+  );
+
+  $form['account'] = array(
+    '#type' => 'value',
+    '#value' => $account,
+  );
+
+  $form['borr_card'] = array(
+    '#type' => 'password',
+    '#title' => t('Borrower card'),
+    '#required' => TRUE,
+  );
+
+  $form['pin_code'] = array(
+    '#type' => 'password',
+    '#title' => t('Code'),
+    '#required' => TRUE,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Log in'),
+  );
+
+  return $form;
+}
+
+/**
+ * Validation for authentication form.
+ */
+function alma_user_forms_alma_authenticate_validate($form, &$form_state) {
+  // Lookup user data
+  $data = alma_client_get_patron_info($form_state['values']['borr_card'], $form_state['values']['pin_code']);
+
+  // If we got no data or account IDs do not match, it usually means that the
+  // user supplied the wrong credentials.
+  if (!$data || $data['patron_id'] != $form_state['values']['account']->alma_id) {
+    form_set_error('borr_card', t('Invalid borrower card or pin code'));
+  }
+  dd($data);
+}
+
+/**
+ * Submit handler for authentication form.
+ */
+function alma_user_forms_alma_authenticate_submit($form, &$form_state) {
+  // Validation succeeded, so cache the correct credentials.
+  cache_set($form_state['values']['account']->alma_id, $form_state['values']['borr_card'] . '|' . $form_state['values']['pin_code'], 'cache_alma_credentials', $_SERVER['REQUEST_TIME'] + 1800);
+
+  // If we do not have a destination already, go to the profile.
+  if (isset($_REQUEST['destination'])) {
+    $form_state['redirect'] = 'user/' . $form_state['values']['account']->uid . '/profile';
+  }
+}
+

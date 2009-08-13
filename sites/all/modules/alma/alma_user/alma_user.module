@@ -20,9 +20,19 @@ function alma_user_menu() {
     'title' => 'Admin password',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('alma_user_forms_admin_pass', 1),
-    'access callback' => 'alma_user_forms_admin_pass_access',
-    'access arguments' => array(1),
+    'access callback' => 'alma_user_forms_access',
+    'access arguments' => array('secure_pass', 1),
     'type' => MENU_LOCAL_TASK,
+    'file' => 'alma_user.forms.inc',
+  );
+
+  $items['user/%user/authenticate'] = array(
+    'title' => 'Please authenticate',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('alma_user_forms_alma_authenticate', 1),
+    'access callback' => 'alma_user_forms_access',
+    'access arguments' => array('alma_authenticate', 1),
+    'type' => MENU_CALLBACK,
     'file' => 'alma_user.forms.inc',
   );
 
@@ -261,19 +271,74 @@ function alma_user_has_secure_role($account) {
 }
 
 /**
- * Access control for the admin password form.
+ * Access control for the forms we provide.
+ *
+ * @param string $name
+ *    The form name.
+ * @param object $account
+ *    The user account.
+ * @return boolean
+ *    If access was allowed.
  */
-function alma_user_forms_admin_pass_access($account) {
-  // Only accounts with a secure role have admin passwords.
-  if (!$account->has_secure_role) {
-    return FALSE;
+function alma_user_forms_access($name, $account) {
+  switch ($name) {
+    case 'secure_pass':
+      // Only accounts with a secure role have admin passwords.
+      if (!$account->has_secure_role) {
+        return FALSE;
+      }
+      // Everyone is allowed to change their own password.
+      elseif ($GLOBALS['user']->uid == $account->uid) {
+        return TRUE;
+      }
+      elseif (user_access('change admin passwords')) {
+        return TRUE;
+      }
+      break;
+    case 'alma_authenticate':
+      if ($GLOBALS['user']->uid == $account->uid) {
+        return TRUE;
+      }
+      break;
   }
-  // Everyone is allowed to change their own password.
-  elseif ($GLOBALS['user']->uid == $account->uid) {
-    return TRUE;
-  }
-  elseif (user_access('change admin passwords')) {
-    return TRUE;
+  return FALSE;
+}
+
+/**
+ * Get cached credentials for user.
+ *
+ * @param object $account
+ *    The user we're getting credentials for.
+ * @param boolean $redirect
+ *    Whether to redirect and collect credentials from the user if
+ *    they're not currently available. Default is TRUE.
+ * @return mixed
+ *    Returns array of user credentials if successful, FALSE if not.
+ */
+function alma_user_get_credentials($account, $redirect=TRUE, $reset=FALSE) {
+  if (isset($account->alma_id) && !empty($account->alma_id)) {
+    // Static cache of credentials, since they may be requested several
+    // times on a page.
+    static $creds;
+    if (!isset($creds)) {
+      $creds = array();
+    }
+
+    if (!isset($creds[$account->alma_id])) {
+      $data = cache_get($account->alma_id, 'cache_alma_credentials');
+      if (!empty($data)) {
+        list($creds[$account->alma_id]['borr_card'], $creds[$account->alma_id]['pin_code']) = explode('|', $data->data);
+      }
+      else {
+        if ($redirect) {
+          // Go fetch the credentials before we can show this page.
+          drupal_goto('user/' . $account->uid . '/authenticate', drupal_get_destination());
+        }
+        return FALSE;
+      }
+    }
+
+    return $creds[$account->alma_id];
   }
   return FALSE;
 }
