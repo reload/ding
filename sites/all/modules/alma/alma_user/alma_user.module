@@ -36,6 +36,26 @@ function alma_user_menu() {
     'file' => 'alma_user.forms.inc',
   );
 
+  $items['user/%user/change_pin'] = array(
+    'title' => 'Change pin code',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('alma_user_forms_change_pin', 1),
+    'access callback' => 'alma_user_forms_access',
+    'access arguments' => array('change_pin', 1),
+    'type' => MENU_CALLBACK,
+    'file' => 'alma_user.forms.inc',
+  );
+
+  $items['user/%user/edit_contact_info'] = array(
+    'title' => 'Change contact information',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('alma_user_forms_edit_contact_info', 1),
+    'access callback' => 'alma_user_forms_access',
+    'access arguments' => array('edit_contact_info', 1),
+    'type' => MENU_CALLBACK,
+    'file' => 'alma_user.forms.inc',
+  );
+
   return $items;
 }
 
@@ -121,6 +141,14 @@ function alma_user_theme($existing, $type, $theme, $path) {
       'template' => 'alma_user_status_block',
       'file' => 'alma_user.theme.inc',
     ),
+    'alma_user_personal_info' => array(
+      'arguments' => array(
+        'account' => NULL,
+        'alma_data' => NULL,
+      ),
+      'template' => 'alma_user_personal_info',
+      'file' => 'alma_user.theme.inc',
+    ),
   );
 }
 
@@ -166,6 +194,17 @@ function alma_user_form_alter(&$form, $form_state, $form_id) {
         '#value' => l('Change admin password', 'user/' . $form['_account']['#value']->uid . '/secure_pass'),
       );
       break;
+  }
+}
+
+/**
+ * Implementation of hook_ctools_plugin_directory().
+ *
+ * Tells CTools (and thus Panels) where to look for plugin code.
+ */
+function alma_user_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' || $module == 'panels') {
+    return 'plugins/' . $plugin;
   }
 }
 
@@ -296,6 +335,7 @@ function alma_user_forms_access($name, $account) {
       }
       break;
     case 'alma_authenticate':
+    case 'change_pin':
       if ($GLOBALS['user']->uid == $account->uid) {
         return TRUE;
       }

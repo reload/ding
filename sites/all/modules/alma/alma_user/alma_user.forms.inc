@@ -104,7 +104,6 @@ function alma_user_forms_alma_authenticate_validate($form, &$form_state) {
   if (!$data || $data['patron_id'] != $form_state['values']['account']->alma_id) {
     form_set_error('borr_card', t('Invalid borrower card or pin code'));
   }
-  dd($data);
 }
 
 /**
@@ -118,5 +117,23 @@ function alma_user_forms_alma_authenticate_submit($form, &$form_state) {
   if (isset($_REQUEST['destination'])) {
     $form_state['redirect'] = 'user/' . $form_state['values']['account']->uid . '/profile';
   }
+}
+
+/**
+ * Change PIN code form.
+ */
+function alma_user_forms_change_pin($form_state, $account) {
+  $form = array();
+
+  return $form;
+}
+
+/**
+ * Change contact information form.
+ */
+function alma_user_forms_edit_contact_info($form_state, $account) {
+  $form = array();
+
+  return $form;
 }
 
