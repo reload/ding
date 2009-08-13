@@ -16,8 +16,9 @@
   		</div>
 
   		<h3>
-  			<a class="title" href="<?php echo url('ting/collection') ?>"><?php echo implode(', ', $collection->objects[0]->data->title) ?></a>
+				<?php print l(implode(', ', $collection->objects[0]->data->title),  url('ting/collection'), $options= array('attributes' => array('class' =>'title')) );?>	
   		</h3>
+
 
   		<div class="meta">
   			<?php if ($collection->objects[0]->data->creator) : ?>
