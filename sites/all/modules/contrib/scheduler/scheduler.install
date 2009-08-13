@@ -1,15 +1,24 @@
 <?php
 // $Id: scheduler.install,v 1.5.2.5 2009/04/19 11:29:33 ericschaefer Exp $
 
+/**
+ * Implementation of hook_install().
+ */
 function scheduler_install() {
   drupal_install_schema('scheduler');
 }
 
+/**
+ * Implementation of hook_uninstall().
+ */
 function scheduler_uninstall() {
   drupal_uninstall_schema('scheduler');
   db_query("DELETE FROM {variable} WHERE name LIKE '%s_%%'", 'scheduler');
 }
 
+/**
+ * Implementation of hook_schema().
+ */
 function scheduler_schema() {
   return array(
     'scheduler' => array(
@@ -64,17 +73,27 @@ function scheduler_update_2() {
 }
 
 function scheduler_update_3() {
-  $ret[] = update_sql("CREATE INDEX scheduler_publish_on ON {scheduler} (publish_on)");
-  $ret[] = update_sql("CREATE INDEX scheduler_unpublish_on ON {scheduler} (unpublish_on)");
+  $ret = array();
+  db_add_index($ret, 'scheduler', 'scheduler_publish_on', array('publish_on'));
+  db_add_index($ret, 'scheduler', 'scheduler_unpublish_on', array('unpublish_on'));
   return $ret;
 }
 
 function scheduler_update_6100() {
   $ret = array();
   if (db_column_exists('scheduler', 'timezone')) {
-    $ret[] = update_sql("UPDATE {scheduler} SET publish_on=publish_on-timezone WHERE publish_on<>0");
-    $ret[] = update_sql("UPDATE {scheduler} SET unpublish_on=unpublish_on-timezone WHERE unpublish_on<>0");
-    $ret[] = update_sql("ALTER TABLE {scheduler} DROP COLUMN timezone");
+    $ret[] = update_sql("UPDATE {scheduler} SET publish_on = publish_on-timezone WHERE publish_on <> 0");
+    $ret[] = update_sql("UPDATE {scheduler} SET unpublish_on = unpublish_on-timezone WHERE unpublish_on <> 0");
+    db_drop_field($ret, 'scheduler', 'timezone');
   }
-  return $ret; 
+  return $ret;
+}
+
+/**
+ * Remove time configuration variable. It is not used with date_popup.
+ */
+function scheduler_update_6101() {
+  $ret = array();
+  variable_del('scheduler_date_format');
+  return $ret;
 }

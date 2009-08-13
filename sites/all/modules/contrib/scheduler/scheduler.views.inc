@@ -1,15 +1,15 @@
 <?php
-// $id$
+// $Id$
 
 function scheduler_views_data() {
   $tables['scheduler']['table']['group'] = t('Scheduler');
-  
+
   // how is the scheduler table linked to the nodes
   $tables['scheduler']['table']['join']['node'] = array(
     'left_field' => 'nid',
     'field' => 'nid',
   );
-  
+
   // description of the fields (table columns)
   $tables['scheduler']['publish_on'] = array(
     'title' => t('Publish on'),
@@ -42,6 +42,6 @@ function scheduler_views_data() {
       'handler' => 'views_handler_sort_date',
     ),
   );
-  
+
   return $tables;
 }
