@@ -1,5 +1,4 @@
 <?php
-
 /*
 	dsm($variables['template_files']);
   dsm($node);
@@ -96,17 +95,22 @@ if($id_node){
 	  </div>  
 	<?php } ?>
 		
-	<?php if ($links){ ?>
-    <?php  print $links; ?>
-	<?php } ?>
 
   <?php $similar_nodes = similarterms_list(variable_get('ding_similarterms_vocabulary_id', 0)); ?>
   <?php if (count($similar_nodes)) { ?>
-	  <div class="similar">
+		<div class="ding-box-wide similar">		
       <h3><?php print t('Similar'); ?></h3>
       <?php print theme('similarterms', variable_get('similarterms_display_options', 'title_only'), $similar_nodes); ?>
     </div>
   <?php } ?>
+
+
+	<?php if ($links){ ?>
+    <?php  print $links; ?>
+	<?php } ?>
+
+
+
 </div>
 <?php } ?>
 <!-- /node.tpl-->

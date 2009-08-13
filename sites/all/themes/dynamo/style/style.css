@@ -115,8 +115,8 @@ Panels BOX css styles
 
 	.ding-box-wide{width:514px; background:transparent url(../images/sprite-box.png) repeat-y -930px 0; overflow:hidden;}
 		.ding-box-wide h3{ width:514px; font-weight:bold;padding:8px 0 4px 20px; height:18px; font-size:11px; line-height:20px;  background:transparent url(../images/sprite-box.png) no-repeat -930px -0px; overflow:hidden;}
-		.ding-box-wide ul{width:514px; padding:0px 0 8px 0; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -1444px bottom;  overflow:hidden; }
-		.ding-box-wide li{margin:0px 10px; font-size:10px; padding:2px 0;}
+		.ding-box-wide ul{width:514px; padding:0px 0 8px 0; margin:0; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -1444px bottom;  overflow:hidden;}
+		.ding-box-wide ul li{margin:0px 10px; font-size:10px; padding:2px 0 0 10px; list-style: none}
 
 	.ding-box-wide .odd{background:#f3f5f5;}
 	.ding-box-wide .even{background:#fff;}

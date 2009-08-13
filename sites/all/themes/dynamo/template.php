@@ -3,7 +3,6 @@
   Dynamo
   template.php
 * ------------------------------------- */
-
 /**
 * Implementation of hook_theme().
 */
@@ -20,6 +19,16 @@ function dynamo_theme($existing, $type, $theme, $path) {
 		),
  );
 }
+
+
+// function dynamo_preprocess_page(&$vars, $hook){
+// 	global $theme_info;
+// 	dsm($theme_info);
+// 	dsm($vars);
+// }
+
+
+
 
 /*
 function dynamo_preprocess_ting_collection(&$variables){
@@ -195,3 +204,4 @@ function return_terms_from_vocabulary($node, $vid){
 
 	return $content;
 }
+

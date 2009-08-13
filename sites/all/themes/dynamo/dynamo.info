@@ -42,6 +42,9 @@ stylesheets[all][]  = style/style.css
 ;stylesheets[print][]  = style/print.css 
 
 ;------------------ conditional styles---------------------
+ie stylesheets[if lt IE 7][all][] = style/ie6.css
+
+
 ;conditional-stylesheets[if lt IE 7][all][] = style_ie6.css
 ;conditional-stylesheets[if IE 7][all][] = style_ie.css
 
