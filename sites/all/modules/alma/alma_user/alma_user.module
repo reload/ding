@@ -243,7 +243,7 @@ function alma_user_login_submit($form, &$form_state) {
   if (!empty($form_state['values']['borr_card']) && !empty($form_state['values']['pin_code']) && $user->uid) {
     // If we have Alma credentials and a user was logged in, cache the
     // credentials in our own cache bin.
-    cache_set($user->alma_id, $form_state['values']['borr_card'] . '|' . $form_state['values']['pin_code'], 'cache_alma_credentials', $_SERVER['REQUEST_TIME'] + 1800);
+    alma_user_cache_credentials($user, $form_state['values']['borr_card'], $form_state['values']['pin_code']);
   }
   $form_state['redirect'] = variable_get('alma_user_login_destination', '<front>');
 }
@@ -365,7 +365,7 @@ function alma_user_get_credentials($account, $redirect=TRUE, $reset=FALSE) {
     }
 
     if (!isset($creds[$account->alma_id])) {
-      $data = cache_get($account->alma_id, 'cache_alma_credentials');
+      $data = cache_get(alma_user_get_cache_key($account), 'cache_alma_credentials');
       if (!empty($data)) {
         list($creds[$account->alma_id]['borr_card'], $creds[$account->alma_id]['pin_code']) = explode('|', $data->data);
       }
@@ -381,5 +381,34 @@ function alma_user_get_credentials($account, $redirect=TRUE, $reset=FALSE) {
     return $creds[$account->alma_id];
   }
   return FALSE;
+}
+
+/**
+ * Set cached credentials for user.
+ *
+ * A thin wrapper around cache_set(), but allows us provide more
+ * granular caching control in future versions.
+ *
+ * @param object $account
+ *    The user we're getting credentials for.
+ * @param string $borr_card
+ * @param string $pin_code
+ */
+function alma_user_cache_credentials($account, $borr_card, $pin_code) {
+  cache_set(alma_user_get_cache_key($account), $borr_card . '|' . $pin_code, 'cache_alma_credentials', $_SERVER['REQUEST_TIME'] + variable_get('alma_user_credential_cache_duration', 1800));
+}
+
+/**
+ * Generate a cache key based on the user account
+ *
+ * @param object $account
+ *    The user we're generating a cache key for.
+ * @return string
+ *    The cache key.
+ */
+function alma_user_get_cache_key($account) {
+  // The cache key is based on uid, login time and IP adresses.
+  // This should provide a reasonable level of security against hijacking.
+  return md5($account->uid . $account->login . $_SERVER['REMOTE_ADDR']);
 }
 

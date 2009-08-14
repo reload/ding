@@ -111,7 +111,7 @@ function alma_user_forms_alma_authenticate_validate($form, &$form_state) {
  */
 function alma_user_forms_alma_authenticate_submit($form, &$form_state) {
   // Validation succeeded, so cache the correct credentials.
-  cache_set($form_state['values']['account']->alma_id, $form_state['values']['borr_card'] . '|' . $form_state['values']['pin_code'], 'cache_alma_credentials', $_SERVER['REQUEST_TIME'] + 1800);
+    alma_user_cache_credentials($form_state['values']['account'], $form_state['values']['borr_card'], $form_state['values']['pin_code']);
 
   // If we do not have a destination already, go to the profile.
   if (isset($_REQUEST['destination'])) {
