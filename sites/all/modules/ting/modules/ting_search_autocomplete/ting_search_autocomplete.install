@@ -1,0 +1,20 @@
+<?php
+// $Id$
+
+/**
+ * @file ting_search_autocomplete.install
+ * Install and uninstall code for the Ting search autocomplete.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function ting_search_autocomplete_install() {
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function ting_search_autocomplete_uninstall() {
+}
+
