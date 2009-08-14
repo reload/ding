@@ -124,9 +124,10 @@
 
 /*alt biblo*/
 .pane-library_portal_navigation ul.menu{list-style-position:inside;}
-.pane-library_portal_navigation ul.menu li{list-style: disc inside}
+.pane-library_portal_navigation ul.menu li{list-style: none inside}
+.pane-library_portal_navigation ul.menu li.expanded{list-style: none inside}
 	.pane-library_portal_navigation ul.menu li ul{margin:0 0 0 10px;}	
-		.pane-library_portal_navigation ul.menu li ul li{list-style-type: square;}
+		.pane-library_portal_navigation ul.menu li ul li{list-style-type: none;}
 		
 /**/
 .view-blog-category-list ul li div{display:inline;}
