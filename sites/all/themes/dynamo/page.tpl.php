@@ -118,8 +118,11 @@
 	                	  <?php print $messages ?>
 	          			</div>
 								<?php } ?>
-
-                <?php print $content; ?>
+								
+								<div id="content-main">
+									<?php print $content; ?>	
+								</div>
+                
 
                 <?php if ($tabs){ ?>
                   <div class="tabs"><?php print $tabs; ?></div>
