@@ -12,18 +12,19 @@ function alma_user_forms_admin_pass($form_state, $account) {
     '#value' => $account,
   );
 
-/*  if ($GLOBALS['user']->uid == $account->uid && !empty($account->secure_pass)) {
+  if ($GLOBALS['user']->uid == $account->uid && !empty($account->secure_pass)) {
     $form['secure_pass'] = array(
       '#type' => 'password',
       '#title' => t('Current password'),
       '#required' => TRUE,
     );
-  }*/
+  }
 
   $form['new_secure_pass'] = array(
     '#type' => 'password_confirm',
     '#title' => t('New password'),
     '#required' => TRUE,
+    '#description' => t('The new password must have at least one letter, one number, and must be a least 8 characters long.'),
   );
 
   $form['submit'] = array(
@@ -38,6 +39,23 @@ function alma_user_forms_admin_pass($form_state, $account) {
  * Validation of the admin password form.
  */
 function alma_user_forms_admin_pass_validate($form, &$form_state) {
+  if (isset($form['secure_pass'])) {
+    if (!alma_user_check_password($form_state['values']['secure_pass'], $form_state['values']['account'])) {
+      form_set_error('secure_pass', t('Please enter your current password.'));
+    }
+  }
+
+  if (drupal_strlen($form_state['values']['new_secure_pass']) < 8) {
+    form_set_error('new_secure_pass', t('The new password must be a least 8 characters long.'));
+  }
+
+  if (!preg_match('/[A-Za-zæøåÆØÅ]/', $form_state['values']['new_secure_pass'])) {
+    form_set_error('new_secure_pass', t('The new password must have at least one letter.'));
+  }
+
+  if (!preg_match('/\d/', $form_state['values']['new_secure_pass'])) {
+    form_set_error('new_secure_pass', t('The new password must have at least one number.'));
+  }
 }
 
 /**
@@ -114,7 +132,7 @@ function alma_user_forms_alma_authenticate_submit($form, &$form_state) {
     alma_user_cache_credentials($form_state['values']['account'], $form_state['values']['borr_card'], $form_state['values']['pin_code']);
 
   // If we do not have a destination already, go to the profile.
-  if (isset($_REQUEST['destination'])) {
+  if (!isset($_REQUEST['destination'])) {
     $form_state['redirect'] = 'user/' . $form_state['values']['account']->uid . '/profile';
   }
 }
@@ -190,7 +208,7 @@ function alma_user_forms_change_pin_validate($form, &$form_state) {
 function alma_user_forms_change_pin_submit($form, &$form_state) {
   // TODO: Save new PIN code to Alma.
   // If we do not have a destination already, go to the profile.
-  if (isset($_REQUEST['destination'])) {
+  if (!isset($_REQUEST['destination'])) {
     $form_state['redirect'] = 'user/' . $form_state['values']['account']->uid . '/profile';
   }
 }

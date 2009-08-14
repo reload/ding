@@ -337,12 +337,15 @@ function alma_user_forms_access($name, $account) {
       elseif ($GLOBALS['user']->uid == $account->uid) {
         return TRUE;
       }
-      elseif (user_access('change admin passwords')) {
+      // Users with the right permissions is allowed to change the
+      // password for anyone but uid=1.
+      elseif ($account->uid != 1 && user_access('change admin passwords')) {
         return TRUE;
       }
       break;
     case 'alma_authenticate':
     case 'change_pin':
+    case 'edit_contact_info':
       if ($GLOBALS['user']->uid == $account->uid) {
         return TRUE;
       }
@@ -417,5 +420,22 @@ function alma_user_get_cache_key($account) {
   // The cache key is based on uid, login time and IP adresses.
   // This should provide a reasonable level of security against hijacking.
   return md5($account->uid . $account->login . $_SERVER['REMOTE_ADDR']);
+}
+
+/**
+ * Check whether a plain text password matches a stored hashed password.
+ *
+ * Reimplementation of Drupal 7's user_check_password.
+ *
+ * @param string $password
+ *    A plain-text password
+ * @param object $account
+ *    A user object with at least the secure_pass value.
+ * @return boolean
+ *    TRUE or FALSE.
+ */
+function alma_user_check_password($password, $account) {
+  $hash = _password_crypt($password, $account->secure_pass);
+  return ($hash && $account->secure_pass == $hash);
 }
 
