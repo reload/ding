@@ -26,7 +26,7 @@
   <dl>
     <dt><?php print t('E-mail address'); ?></dt>
     <dd class="email"><?php print check_plain($alma_data['mails'][0]['mail']); ?></dd>
-    <dd><?php print l('Edit contact information', 'user/' . $account->uid . '/edit_contact_info'); ?></dd>
+    <dd><?php print $links; ?></dd>
   </dl>
 </div>    
 
