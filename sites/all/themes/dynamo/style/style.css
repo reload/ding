@@ -198,7 +198,13 @@ buttons
 	.button-green a:hover, .button-green a:focus{background-position: left -210px;}
 
 
-
+/* =====================================
+	node content styles
+/*--------------------------------------*/
+.node .content img{ padding:0 10px 10px 0;}
+.node .content ul{background:transparent url(../images/bg-divider-small.png) no-repeat left bottom;}
+.node .content ul li{list-style: circle outside url(../images/bullet_red.png);}
+.node .content a
 
 /*node + list*/
 .node .meta ul{margin:0 0 0 10px;}
