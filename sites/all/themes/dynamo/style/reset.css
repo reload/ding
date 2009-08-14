@@ -39,8 +39,8 @@ ul, .item-list ul{margin:0; padding:0;}
 li.leaf{list-style: none}
 
 .block ul{padding:0;}
-.node ol {margin: 0 0 0 5em; }
-.node ul {margin: 0 0 0.833333em 3em;}
+.node ol {margin: 0 0 0 5px; }
+.node ul {margin: 0 0 10px 10px;}
 .node ul li {list-style: square inside}
 
 
