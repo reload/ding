@@ -17,8 +17,8 @@ body{background:#e5e5e5 url(../images/bg.png) repeat-x 0 0;}
 #pageheader{background:transparent url(../images/bg-header.png) no-repeat center -39px; margin:0 0 0 1px; min-height:200px;}
 	body.front #pageheader{min-height:175px;}
 	#top{height:145px;}
-		#search{width:600px; height:100px; overflow:hidden; margin:26px 0 0 56px; color:#fff;}
-		#account{width:260px;height:125px; overflow:hidden; margin:20px 0 0 77px;}
+		#search{width:600px; height:100px; margin:26px 0 0 56px; color:#fff;}
+		#account{width:260px;height:125px; margin:20px 0 0 77px;}
 	#navigation{height:30px;}
 		#navigation-inner{margin:0 37px;}
 	#path{margin:5px 37px 0;}

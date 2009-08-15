@@ -59,10 +59,46 @@
 	#content-result .node-teaser .content,#content-result .node-library-teaser .content{width:335px;}
 	#content-result .meta div{ display:inline;}
 
+
 /*spinner*/	
 #ting-search-spinner{margin: 10px auto 10px auto; text-align: center; width: 220px;}
 #ting-search-spinner .spinner {background: url(../images/ajax-loader.gif) no-repeat; margin-top: 10px; height: 19px;width: 220px;}
 
 .page-search .tabs{display:none;}
+
+
+
+/* =====================================
+værkvisninger
+/*--------------------------------------*/
+.tab-navigation{float:left; width:130px; min-height:400px; padding:0 0 0 20px;}
+.tab-navigation{background:transparent url(../images/bg-tab-navigation-right.png) no-repeat right top;}
+.tab-navigation li{width: 131px; height: 24px; text-transform: uppercase; padding:3px 4px 0 10px; margin:0 0 4px 0; font-size:10px; background: url(../images/bg-tab-navigation.png) no-repeat scroll top left;}
+.tab-navigation li.active{background: url(../images/bg-tab-navigation-active.png) no-repeat scroll top left;}
+.tab-navigation li a{color:#333; display:block;}
+
+.tab-navigation-main{float:left; width:550px; background:transparent url(../images/bg-tab-navigation-content.png) no-repeat right top;}
+	.tab-navigation-main-inner{padding:20px;}
+
+
+
+#ting-collection .collection{background:transparent url(../images/bg-divider.png) no-repeat left top; margin:5px 0px; padding:5px 0;}
+	#ting-collection .picture{width:80px; height:150px; margin: 0 10px; display:block; float:left; background:#eee; overflow:hidden;}
+	#ting-collection .content{width:330px;margin:0 10px 0 0; float:left;}
+		#ting-collection .content{font-size:10px; line-height:14px;}
+		#ting-collection .creator{font-weight:bold;}
+		#ting-collection .content ul li {margin:0 0 0 5px; }
+	#ting-collection .cart{width:110px; float:left;}
+
+#ting-object .picture{width:175px; height:200px; display:block; background:#eee; overflow:hidden;}
+#ting-object .button{float:left;}
+#ting-object .left-column{width:200px;}
+#ting-object .right-column{width:310px;}
+
+.object-information{width:490px; padding:10px; margin:20px 0; clear:both; background:#e8eceb; font-size:10px; color:#050505;}
+	.object-information	.item-list{clear:both;}
+	.object-information .title{width:100px; display:block; float:left; font-weight: normal;}
+
+.object-otherversions {background:transparent url(../images/bg-divider.png) no-repeat left top; margin:20px 0 0 0; padding:5px 0 0 0;}
 
 

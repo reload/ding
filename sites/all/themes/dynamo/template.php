@@ -3,7 +3,6 @@
   Dynamo
   template.php
 * ------------------------------------- */
-
 /**
 * Implementation of hook_theme().
 */
@@ -21,9 +20,13 @@ function dynamo_theme($existing, $type, $theme, $path) {
  );
 }
 
-/*
-function dynamo_preprocess_ting_collection(&$variables){
 
+
+function dynamo_preprocess_ting_collection__FOO(&$variables){
+
+
+
+	
 	foreach ($variables['collection']->objects as $key => $value) {
 		$output[$key]['id'] = $variables['collection']->objects[$key]->id;
 		$output[$key]['title'] = $variables['collection']->objects[$key]->data->title[0];
@@ -83,7 +86,7 @@ function dynamo_preprocess_ting_collection(&$variables){
 
 	$variables['collection_data'] = $output;
 }
-*/
+
 
 //views
 function dynamo_preprocess_views_view_list(&$vars){
@@ -195,3 +198,4 @@ function return_terms_from_vocabulary($node, $vid){
 
 	return $content;
 }
+

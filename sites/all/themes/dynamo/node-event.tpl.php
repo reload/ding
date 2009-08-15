@@ -20,6 +20,7 @@ if($id_node){
 ?>
 <!-- node-event.tpl-->
 <?php if ($page == 0){ ?>
+
 <div<?php print $id_node . $classes; ?>>
 
   <div class="picture">
@@ -54,6 +55,7 @@ if($id_node){
 //Content
 ?>
 <div<?php print $id_node . $classes; ?>>
+
 	<?php if($node->title){	?>	
 	  <h1><?php print $title;?></h1>
 	<?php } ?>

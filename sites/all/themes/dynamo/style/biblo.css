@@ -7,8 +7,6 @@
 	main library page (http://biblo.local/biblioteker)
 		blogs 
 		events at a library
-			
-
 /*--------------------------------------*/
 
 .node-teaser .content{width:530px; margin:0 20px 0 0; float:left;}
@@ -57,7 +55,7 @@
 	.pane-event_list .view-event-list li .calendar-leafs  h4{padding:0 0 5px 0;}
 	.pane-event_list .more-link{padding:0 30px 0 0;}
 
-
+/*features pane*/
 .pane-library_feature_list .item-list ul{padding:8px 0 8px 10px;}	
 	.pane-library_feature_list .item-list li{width:65px; float:left; margin:0 10px 0 0; padding:0 0 0 15px; background:transparent url(../images/ok.png) no-repeat left 3px; }
 
@@ -107,22 +105,16 @@
 		.pane-library_location ul.links li a.youtube{background:transparent url(../images/icons/youtube.png) no-repeat}
 
 
-/*
-.pane-user_comments_list-panel_pane_1{background:transparent url(../images/sprite-box.png) repeat-y 0 0; width:228px; overflow:hidden;}
-.pane-user_comments_list-panel_pane_1 h3{background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; padding:6px 0 4px 20px; height:18px; }
-*/
-
 /*right bar comments*/
-.pane-comment-0{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden;}
+/*.pane-comment-0{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden;}
 	.pane-comment-0 h3{width:228px; padding:6px 0 4px 20px; height:18px; background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; overflow:hidden;}
 	.pane-comment-0 ul{background:transparent url(../images/sprite-box.png) no-repeat -700px bottom; padding:8px 0px; min-height:30px;}
-
+*/
 /*right bar article list*/
-
-.content-right .pane-article_list{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden;}
+/*.content-right .pane-article_list{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden;}
 .content-right .pane-article_list h3{width:228px; padding:6px 0 4px 20px; height:18px; background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; overflow:hidden;}
 .content-right .pane-article_list ul{background:transparent url(../images/sprite-box.png) no-repeat -700px bottom; padding:8px 0px; min-height:30px;}
-
+*/
 
 /*tagadelic*/
 .pane-tagadelic-2{width:200px; overflow:hidden; padding:20px 0 0 20px;}
@@ -132,26 +124,21 @@
 
 /*alt biblo*/
 .pane-library_portal_navigation ul.menu{list-style-position:inside;}
-.pane-library_portal_navigation ul.menu li{list-style: disc inside}
+.pane-library_portal_navigation ul.menu li{list-style: none inside}
+.pane-library_portal_navigation ul.menu li.expanded{list-style: none inside}
 	.pane-library_portal_navigation ul.menu li ul{margin:0 0 0 10px;}	
-		.pane-library_portal_navigation ul.menu li ul li{list-style-type: square;}
+		.pane-library_portal_navigation ul.menu li ul li{list-style-type: none;}
 		
-
 /**/
 .view-blog-category-list ul li div{display:inline;}
 .view-blog-category-list ul li div.node-count{font-size:10px;}
-
-
-.view-event-list span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px;}
-
-
 
 
 /*events*/
 .view-event-list .libary-tag div{display:inline;margin:0 5px 0 0;}
 .view-event-list  li{background:transparent url(../images/bg-divider.png) no-repeat left top;  clear:both; padding:10px 0 10px 20px;}
 .view-event-list li.first{background:none;}
-
+.view-event-list span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px;}
 
 .pane-library_feature_detail_list, .page-taxonomy .node-teaser{width:690px; margin:0 0 0 20px;}
 .panel-left .pane-node_body_title{margin:20px 0 0 20px;}
@@ -162,17 +149,17 @@
 /* ------------------------------------- */
 div.indented{margin:0 0 0 20px;}
 div.comment {width: auto; margin:0 0 10px 0; padding:5px 5px 5px 0;}
-div.comment blockquote {border: 1px solid #dedede; background:#fff; font-size:10px; padding:0 10px 10px 10px;}
-div.comment blockquote h4{margin: 10px 10px 5px 0px;}
-div.comment blockquote h4.new a{color:#000;}
-div.comment blockquote p {margin: 0 10px;}
-div.comment blockquote ul li {list-style-position: inside; margin:0 0 0 10px; list-style-type: disc;}
-div.comment blockquote ol li {list-style-position: inside; margin:0 0 0 10px;}
-div.comment ul.links{text-align:right; margin: 5px 10px}
-div.comment ul.links li{display:inline;}
-div.comment .meta {position:relative; margin:-1px 0 0 10px; padding:10px 0 0 30px ;background: transparent  url(../images/tip.gif) no-repeat 35px 0; font-style:normal;}
-div.comment .meta .author{color:#999;}
-div.comment .meta .date{color:#999;}
+	div.comment blockquote {border: 1px solid #dedede; background:#fff; font-size:10px; padding:0 10px 10px 10px;}
+	div.comment blockquote h4{margin: 10px 10px 5px 0px;}
+	div.comment blockquote h4.new a{color:#000;}
+	div.comment blockquote p {margin: 0 10px;}
+	div.comment blockquote ul li {list-style-position: inside; margin:0 0 0 10px; list-style-type: disc;}
+	div.comment blockquote ol li {list-style-position: inside; margin:0 0 0 10px;}
+	div.comment ul.links{text-align:right; margin: 5px 10px}
+	div.comment ul.links li{display:inline;}
+	div.comment .meta {position:relative; margin:-1px 0 0 10px; padding:10px 0 0 30px ;background: transparent  url(../images/tip.gif) no-repeat 35px 0; font-style:normal;}
+	div.comment .meta .author{color:#999;}
+	div.comment .meta .date{color:#999;}
 
 
 /*blog comments*/
@@ -191,6 +178,7 @@ ul.item-list li{margin:0 0 0 20px;}
 
 .content-top .pane-node_content{margin:0 20px 20px 0;}
 
+/*filters*/
 .view-filters{width:690px;}
 .views-exposed-form .views-exposed-widget{float:right;}
 .view-empty{margin:0 0 0 20px;}

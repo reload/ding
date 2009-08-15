@@ -23,7 +23,7 @@ a img {border:none;}
 /* ----- content blocks ----- */
 /*TODO is both left & inline nesessary - min- height? is it 1% instead*/
 
-.clear {clear: both; display: block; overflow: hidden; visibility: hidden; width: 0; height: 0;}
+.clear{clear: both; display: block;}
 .left{float:left; display:inline; min-height: 1px; background-color: transparent;} 
 .right{float:right; display:inline; min-height: 1px; background-color: transparent;} 
 .clean{overflow:hidden; display:block;}
@@ -39,8 +39,8 @@ ul, .item-list ul{margin:0; padding:0;}
 li.leaf{list-style: none}
 
 .block ul{padding:0;}
-.node ol {margin: 0 0 0 5em; }
-.node ul {margin: 0 0 0.833333em 3em;}
+.node ol {margin: 0 0 0 5px; }
+.node ul {margin: 0 0 10px 10px;}
 .node ul li {list-style: square inside}
 
 

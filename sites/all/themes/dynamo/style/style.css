@@ -9,6 +9,7 @@ form{clear: both;}
 form div{position:relative }
 #search label, #account label{position:absolute; top:0; left:0; color:#000;}
 form div.description{font-size:10px; line-height:12px; color:#999; padding:5px; width:400px;}
+
 /* =====================================
 ting search block
 /*--------------------------------------*/
@@ -16,7 +17,7 @@ ting search block
 #search .form-item{margin:0;}
 #search #edit-keys-wrapper{float:left; display:inline;}
 	#ting-search-form{position:relative; width:610px; float:left;}
-	#ting-search-form .form-text{height:20px; width:468px; margin:0 10px 0 0; padding:4px 0 0 25px;  background:#fff url(../images/magnifier.png) no-repeat 9px 5px; border: 1px solid #999; font-size:13px; color:#929292; float:left;}
+	#ting-search-form .form-text{height:20px; width:468px; margin:0 10px 0 0; padding:4px 0 0 25px; color:#929292; background:#fff url(../images/magnifier.png) no-repeat 9px 5px; border: 1px solid #999; font-size:13px; float:left;}
 		#ting-search-form label{margin:3px 0 0 30px; font-size:13px; font-weight:normal;} 
 	#ting-search-form .form-button{float:left; display:block; height:29px; width:94px; background:transparent url(../images/searchbutton.png) no-repeat 0 0;;}
 		#ting-search-form .form-button input{ border:0; background:transparent; margin:5px 10px; color:transparent; font-weight:bold; text-indent: -9999em; }
@@ -101,16 +102,26 @@ ul.pager li{margin:0 10px 0 0;}
 	#ting-result-pager ul li.current,
 	ul.pager li.pager-current{width:32px; height:28px; padding:3px 2px 0 2px;  background:transparent url(../images/bg-pager-link-active.gif) no-repeat left top;}
 
+
 /* =====================================
 Panels BOX css styles
 /*--------------------------------------*/
 .ding-box-pane{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden;}
-	.ding-box-pane h3{	font-size:11px; line-height:20px; font-weight:bold; width:228px; padding:8px 0 4px 20px; height:18px; background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; overflow:hidden;}
+	.ding-box-pane h3{width:228px; padding:8px 0 4px 20px; height:18px; font-size:11px; line-height:20px; font-weight:bold; background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; overflow:hidden;}
 	.ding-box-pane ul{width:228px; padding:8px 0px; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom;  overflow:hidden; }
 	.ding-box-pane li{margin:0 0 0 20px;}
 
+	.ding-box-wide{width:514px; background:transparent url(../images/sprite-box.png) repeat-y -930px 0; overflow:hidden;}
+		.ding-box-wide h3{ width:514px; font-weight:bold;padding:8px 0 4px 20px; height:18px; font-size:11px; line-height:20px;  background:transparent url(../images/sprite-box.png) no-repeat -930px -0px; overflow:hidden;}
+		.ding-box-wide ul{width:514px; padding:0px 0 8px 0; margin:0; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -1444px bottom;  overflow:hidden;}
+		.ding-box-wide ul li{margin:0px 10px; font-size:10px; padding:2px 0 0 10px; list-style: none}
+
+	.ding-box-wide .odd{background:#f3f5f5;}
+	.ding-box-wide .even{background:#fff;}
+
+
 /* =====================================
-Campaigns
+Campaigns 
 /*--------------------------------------*/
 .pane-relevant_campaigns{width:215px; overflow:hidden; padding:0 0 10px 8px;}
 	.pane-relevant_campaigns .campaign, .pane-relevant_campaigns .node{margin:0 0 10px 0; border: 1px solid #999;}
@@ -125,61 +136,75 @@ Campaigns
 	.campaign-theme-green{background:#090;}
 	.campaign-theme-blue{background:#009;}
 
+
 /* =====================================
 basic elements
 /*--------------------------------------*/
 div.messages{margin:0 20px 10px 20px;}
-
-.picture{width:120px; height:120px; margin:0 20px 0 0; float:left; background:#eee;}
 .content{margin:0 5px 0 0; float:left;}
 
 
-#collection .collection-navigation{float:left; width:130px; padding:0 0 0 20px;}
-	 #collection .collection-navigation li{text-transform: uppercase; padding:3px;}
-	 #collection .collection-navigation li.active{background:#ddd;}
-	 	#collection .collection-navigation li a{color:#333;}
-	
-#collection .collection-main{float:left; width:550px; border-left: 1px solid #ddd;}
-#collection .collection-info{ padding:0 0 0 20px;}
-#collection .collection{background:transparent url(../images/bg-divider.png) no-repeat left top; margin:5px 0px; padding:5px 0;}
-	#collection .picture{width:90px; margin: 0 20px 0 20px;}
-	#collection .content{margin:0 5px 0 0; float:left; width:300px;}
-		#collection .content{font-size:10px; line-height:14px;}
-		#collection .creator{font-weight:bold;}
-		#collection .content ul li {margin:0 0 0 5px; }
-	#collection .cart{float:left}
+/* =====================================
+buttons
+/*--------------------------------------*/
+.button{height:30px; display:block; padding:0 23px 0 0px; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat right 0px}
+	.button:hover{background: transparent url(../images/sprite-knapper-reservering.png) no-repeat right -120px}
+	.button a{font-size:10px; color:#fff; height:25px; margin:0 0 0 0; padding:5px 0 0 10px; display:block; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat left -60px;}
+	.button a:hover, .button-orange a:focus{text-decoration: none; color:#eee; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat left -180px;}
 
-	
-	
-.meta ul{display:inline;}
-.meta li{display:inline}
 
-.node .taxonomy{padding:10px 0 0 0;}
-.node .taxonomy ul{margin:0;}
-.node .taxonomy ul li{padding:0 5px 0 0;}
-.node-page .content{margin:10px 0 0 0;}		
-.more-link a, a.more-link {background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0; }
+.button-orange{background-position:right 0px}
+	.button-orange:hover{background-position:right -120px}
+	.button-orange a{background-position: left -60px;}
+	.button-orange a:hover, .button-orange a:focus{background-position: left -180px;}
+
+.button-green{background-position:right -30px}
+	.button-green:hover{background-position:right -150px}
+	.button-green a{background-position: left -90px;}
+	.button-green a:hover, .button-green a:focus{background-position: left -210px;}
+
+
+/* =====================================
+	node content styles
+/*--------------------------------------*/
+	.node .content img{ padding:0 10px 10px 0;}
+	.node .content ul{margin:0 0 15px 20px; padding:0 0 10px 0; border-bottom: 1px solid #eee;}
+	.node .content ul li{list-style: circle outside url(../images/bullet_black.png);}
+	.node .content a, a:link, .node .content a:visited,.node .content a:active {text-decoration: none; color:#872A28;}
+	.node .content a:hover,.node .content a:focus {text-decoration: underline; color:#874F1D; background:#FFECD8;}
+
+	/*i know its evil to use important and i feel very dirty ...*/
+	.node .content table{width:99% !important; margin:10px 0 !important; border: 1px solid #eee;}
+	.node .content table td{border-bottom: 1px solid #eee; border-right: 1px solid #ddd; padding:2px 4px; background:#FBFBFB;}
+
+	.node .content hr{width:100%; height:1px; border: 0; background-color: #ddd; margin:9px 0;}
 
 /*node + list*/
-.node .meta ul{margin:0 0 0 10px;}
-.meta div.taxonomy{display:inline;}
-.meta li {padding:0 10px 0 0;}
+	.node .meta ul{margin:0 0 0 10px;}
+	.meta ul{display:inline;}
+	.meta li{display:inline}
+	.meta li {padding:0 10px 0 0;}
+	.meta div.taxonomy{display:inline;}
+	.node .taxonomy{padding:10px 0 0 0;}
+	.node .taxonomy ul{margin:0;}
+	.node .taxonomy ul li{padding:0 5px 0 0;}
 
-/*.more-link, */
-.view-empty,
-.feed, 
-#user-profile-form,
-#node-form{
-	margin:20px 0 0 20px; 
-}
+	.node-page .content{margin:10px 0 0 0;}		
+	.more-link a, a.more-link {background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0; }
+
+
+
+/*panels links*/
+div.more-link{padding:0 20px 0 0; }
+
+/*paddings */
+.view-empty,.feed, #user-profile-form,#node-form{margin:20px 0 0 20px;}
 
 .minheight{min-height:500px; height:auto !important; height:500px;}
 
 /*menu test*/
 ul.menu li.expanded{display:none;}
 ul.menu li.expanded.first{display:block;}
-
-
 
 
 /* =====================================

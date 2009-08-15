@@ -30,7 +30,7 @@ function ting_collection() {
 	$collection = $facade->getCollection($_REQUEST['object_id']);
 	if (!$collection)
 	{
-		drupal_not_found();
+		return drupal_not_found();
 	}
 	
   return theme('ting_collection', $collection);
@@ -40,14 +40,14 @@ function ting_collection() {
  * Display a signle Ting object.
  */
 function ting_object() {
-  module_load_include('php', 'ting', 'lib/facade/TingFacade');
+  module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
 	
   $facade = new TingClientFacade();
   
 	$object = $facade->getObject($_REQUEST['object_id']);
 	if (!$object)
 	{
-		drupal_not_found();	
+		return drupal_not_found();
 	}
 	
   return theme('ting_object', $object);
