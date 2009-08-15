@@ -54,29 +54,6 @@ function alma_user_schema() {
     ),
   );
 
-  $schema['alma_user_pass'] = array(
-    'description' => t('More secure passwords required for users with administrative privilgees..'),
-    'fields' => array(
-      'uid' => array(
-        'description' => t('{users}.uid for node'),
-        'type' => 'int',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-      ),
-     'pass' => array(
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE,
-        'default' => '',
-        'description' => "User's password (hashed).",
-      ),
-    ),
-    'primary key' => array('uid'),
-    'indexes' => array(
-      'pass_uid' => array('pass', 'uid'),
-    ),
-  );
-
   $schema['cache_alma_credentials'] = drupal_get_schema_unprocessed('system', 'cache');
 
   return $schema;

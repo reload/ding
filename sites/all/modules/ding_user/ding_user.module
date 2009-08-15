@@ -1,0 +1,171 @@
+<?php
+// $Id$
+
+
+/**
+ * Implementation of hook_menu().
+ */
+function ding_user_menu() {
+  $items = array();
+
+  $items['admin/user/ding_user'] = array(
+    'title' => 'Ding! user settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_user_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ding_user.admin.inc',
+  );
+
+  $items['user/%user/change_pass'] = array(
+    'title' => 'Change password',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_user_forms_change_pass', 1),
+    'access callback' => 'ding_user_forms_access',
+    'access arguments' => array('change_pass', 1),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'ding_user.forms.inc',
+  );
+
+  return $items;
+}
+
+
+/**
+ * Implementation of hook_user().
+ */
+function ding_user_user($op, &$edit, &$account, $category = NULL) {
+  switch ($op) {
+    case 'load':
+      if ($account->uid) {
+        if ($account->uid == 1 || ding_user_has_secure_role($account)) {
+          $account->has_secure_role = TRUE;
+        }
+        $account->secure_pass = db_result(db_query("SELECT pass FROM {ding_user} WHERE uid = %d LIMIT 1;", $account->uid));
+      }
+      break;
+    case 'delete':
+      db_query('DELETE FROM {ding_user} WHERE uid=%d', $account->uid);
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function ding_user_perm() {
+  return array(
+    'change other user’s passwords',
+  );
+}
+
+/**
+ * Implementation of hook_form_alter().
+ *
+ * Alter the login form to disable the standard Drupal username/password
+ * combination and provide our own fields instead.
+ */
+function ding_user_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'user_login':
+    case 'user_login_block':
+      // Replace Drupal's standard user/pass authentication with our own.
+      $key = array_search('user_login_authenticate_validate', $form['#validate']);
+      $form['#validate'][$key] = 'ding_user_login_validate';
+
+      // Remove the standard user login links.
+      unset($form['links']);
+      break;
+    case 'user_profile_form':
+      // Remove or hide the standard user account settings we don't need.
+      unset($form['account']['pass']);
+      $form['account']['name']['#type'] = 'value';
+
+      // Add link to change admin password
+      $form['change_password_link'] = array(
+        '#value' => l('Change admin password', 'user/' . $form['_account']['#value']->uid . '/secure_pass'),
+      );
+      break;
+  }
+}
+
+/**
+ * User login validation.
+ *
+ * Serves as a replacement of user_login_authenticate_validate, using 
+ * our own password table instead of Drupal's user table.
+ */
+function ding_user_login_validate($form, &$form_state) {
+  if (empty($form_state['values']['name']) || empty($form_state['values']['pass'])) {
+    // empty user name or password makes little sense to try and validate.
+    return;
+  }
+
+  $account = user_load(array('name' => $form_state['values']['name'], 'status' => 1));
+
+  if ($account && ding_user_check_password($form_state['values']['pass'], $account)) {
+    global $user;
+    $user = $account;
+    user_authenticate_finalize($form_state['values']);
+  }
+}
+
+/**
+ * Helper function to check if user has a secure role.
+ *
+ * @param object $account
+ *    A Drupal user object.
+ * @return boolean
+ *    Boolean indicating that user has a secure role.
+ */
+function ding_user_has_secure_role($account) {
+  return array_intersect_key($account->roles, variable_get('ding_user_secure_roles', array()));
+}
+
+/**
+ * Access control for the forms we provide.
+ *
+ * @param string $name
+ *    The form name.
+ * @param object $account
+ *    The user account.
+ * @return boolean
+ *    If access was allowed.
+ */
+function ding_user_forms_access($name, $account) {
+  switch ($name) {
+    case 'change_pass':
+      // Only accounts with a secure role have admin passwords.
+      if ($account->uid != 1 && !$account->has_secure_role) {
+        return FALSE;
+      }
+      // Everyone is allowed to change their own password.
+      elseif ($GLOBALS['user']->uid == $account->uid) {
+        return TRUE;
+      }
+      // Users with the right permissions is allowed to change the
+      // password for anyone but uid=1.
+      elseif ($account->uid != 1 && user_access('change other user’s passwords')) {
+        return TRUE;
+      }
+      break;
+  }
+}
+
+/**
+ * Check whether a plain text password matches a stored hashed password.
+ *
+ * Reimplementation of Drupal 7's user_check_password.
+ *
+ * @param string $password
+ *    A plain-text password
+ * @param object $account
+ *    A user object with at least the secure_pass value.
+ * @return boolean
+ *    TRUE or FALSE.
+ */
+function ding_user_check_password($password, $account) {
+  $hash = _password_crypt($password, $account->secure_pass);
+  return ($hash && $account->secure_pass == $hash);
+}
+
+

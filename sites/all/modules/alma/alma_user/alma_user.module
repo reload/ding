@@ -16,16 +16,6 @@ function alma_user_menu() {
     'file' => 'alma_user.admin.inc',
   );
 
-  $items['user/%user/secure_pass'] = array(
-    'title' => 'Admin password',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('alma_user_forms_admin_pass', 1),
-    'access callback' => 'alma_user_forms_access',
-    'access arguments' => array('secure_pass', 1),
-    'type' => MENU_LOCAL_TASK,
-    'file' => 'alma_user.forms.inc',
-  );
-
   $items['user/%user/authenticate'] = array(
     'title' => 'Please authenticate',
     'page callback' => 'drupal_get_form',
@@ -101,30 +91,15 @@ function alma_user_user($op, &$edit, &$account, $category = NULL) {
         $data = db_fetch_array(db_query("SELECT alma_id, alma_name FROM {alma_user} WHERE uid = %d LIMIT 1;", $account->uid));
         $account->alma_id = $data['alma_id'];
         $account->alma_name = $data['alma_name'];
-        $account->secure_pass = db_result(db_query("SELECT pass FROM {alma_user_pass} WHERE uid = %d LIMIT 1;", $account->uid));
-
-        if ($account->uid == 1 || alma_user_has_secure_role($account)) {
-          $account->has_secure_role = TRUE;
-        }
       }
       break;
     case 'delete':
       db_query('DELETE FROM {alma_user} WHERE uid=%d', $account->uid);
-      db_query('DELETE FROM {alma_user_pass} WHERE uid=%d', $account->uid);
       // Tricky: No break, delete also performs the same actions as logout.
     case 'logout':
       cache_clear_all(alma_user_get_cache_key($account), 'cache_alma_credentials');
       break;
   }
-}
-
-/**
- * Implementation of hook_perm().
- */
-function alma_user_perm() {
-  return array(
-    'change admin passwords',
-  );
 }
 
 /**
@@ -160,51 +135,6 @@ function alma_user_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Implementation of hook_form_alter().
- *
- * Alter the login form to disable the standard Drupal username/password
- * combination and provide our own fields instead.
- */
-function alma_user_form_alter(&$form, $form_state, $form_id) {
-  switch ($form_id) {
-    case 'user_login':
-    case 'user_login_block':
-      // Add our own auth fields
-      $form['borr_card'] = array(
-        '#type' => 'password',
-        '#title' => t('Borrower card'),
-        '#required' => TRUE,
-        '#weight' => -3,
-      );
-
-      $form['pin_code'] = array(
-        '#type' => 'password',
-        '#title' => t('Code'),
-        '#required' => TRUE,
-        '#weight' => -2,
-      );
-
-      // Add our own validation and submit handler.
-      array_unshift($form['#validate'], 'alma_user_login_validate');
-      $form['#submit'][] = 'alma_user_login_submit';
-
-      // Remove the standard user login things.
-      unset($form['name'], $form['pass'], $form['links']);
-      break;
-    case 'user_profile_form':
-      // Remove or hide the standard user account settings we don't need.
-      unset($form['account']['pass']);
-      $form['account']['name']['#type'] = 'value';
-
-      // Add link to change admin password
-      $form['change_password_link'] = array(
-        '#value' => l('Change admin password', 'user/' . $form['_account']['#value']->uid . '/secure_pass'),
-      );
-      break;
-  }
-}
-
-/**
  * Implementation of hook_ctools_plugin_directory().
  *
  * Tells CTools (and thus Panels) where to look for plugin code.
@@ -216,29 +146,45 @@ function alma_user_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
+ * Implementation of hook_form_alter().
+ *
+ * Alter the login form to disable the standard Drupal username/password
+ * combination and provide our own fields instead.
+ */
+function alma_user_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'user_login':
+    case 'user_login_block':
+      // Since the login name can be a user's CPR-number, that too is hidden.
+      $form['name']['#type'] = 'password';
+
+      // Replace Drupal's standard user/pass authentication with our<D-d> own.
+
+      // Add our own validation and submit handlers.
+      array_unshift($form['#validate'], 'alma_user_login_validate');
+      $form['#submit'][] = 'alma_user_login_submit';
+
+      // Remove the standard user login links.
+      unset($form['links']);
+      break;
+  }
+}
+
+/**
  * Validation for the login form.
  */
 function alma_user_login_validate($form, &$form_state) {
-  if (empty($form_state['values']['borr_card']) || empty($form_state['values']['pin_code'])) {
-    // Empty borr_card or pin_code makes little sense to try and validate.
+  if (empty($form_state['values']['name']) || empty($form_state['values']['pass'])) {
+    // empty user name or password makes little sense to try and validate.
     return;
   }
 
-  $uid = alma_user_check_credentials($form_state['values']['borr_card'], $form_state['values']['pin_code']);
+  $uid = alma_user_check_credentials($form_state['values']['name'], $form_state['values']['pass']);
 
-  if ($uid) {
+  if ($uid && $account = user_load($uid)) {
     global $user;
-    $_user = user_load($uid);
-    // Just to be completely certain that the user is valid before we 
-    // try to log it in.
-    if ($_user) {
-      $user = $_user;
-    }
-
+    $user = $account;
     user_authenticate_finalize($form_state['values']);
-  }
-  else {
-    form_set_error('borr_card', t('Invalid borrower card or pin code'));
   }
 }
 
@@ -283,6 +229,7 @@ function alma_user_check_credentials($borr_card, $pin_code) {
       'mail' => $data['mails'][0]['mail'],
       // Login via Drupal's standard login should not be possible.
       'pass' => microtime(TRUE) . mt_rand(),
+      'status' => 1,
     );
 
     // If no e-mail was set in the XML, we need to generate a
@@ -305,18 +252,6 @@ function alma_user_check_credentials($borr_card, $pin_code) {
 }
 
 /**
- * Helper function to check if user has a secure role.
- *
- * @param object $account
- *    A Drupal user object.
- * @return boolean
- *    Boolean indicating that user has a secure role.
- */
-function alma_user_has_secure_role($account) {
-  return array_intersect_key($account->roles, variable_get('alma_user_secure_roles', array()));
-}
-
-/**
  * Access control for the forms we provide.
  *
  * @param string $name
@@ -328,21 +263,6 @@ function alma_user_has_secure_role($account) {
  */
 function alma_user_forms_access($name, $account) {
   switch ($name) {
-    case 'secure_pass':
-      // Only accounts with a secure role have admin passwords.
-      if (!$account->has_secure_role) {
-        return FALSE;
-      }
-      // Everyone is allowed to change their own password.
-      elseif ($GLOBALS['user']->uid == $account->uid) {
-        return TRUE;
-      }
-      // Users with the right permissions is allowed to change the
-      // password for anyone but uid=1.
-      elseif ($account->uid != 1 && user_access('change admin passwords')) {
-        return TRUE;
-      }
-      break;
     case 'alma_authenticate':
     case 'change_pin':
     case 'edit_contact_info':
@@ -420,22 +340,5 @@ function alma_user_get_cache_key($account) {
   // The cache key is based on uid, login time and IP adresses.
   // This should provide a reasonable level of security against hijacking.
   return md5($account->uid . $account->login . $_SERVER['REMOTE_ADDR']);
-}
-
-/**
- * Check whether a plain text password matches a stored hashed password.
- *
- * Reimplementation of Drupal 7's user_check_password.
- *
- * @param string $password
- *    A plain-text password
- * @param object $account
- *    A user object with at least the secure_pass value.
- * @return boolean
- *    TRUE or FALSE.
- */
-function alma_user_check_password($password, $account) {
-  $hash = _password_crypt($password, $account->secure_pass);
-  return ($hash && $account->secure_pass == $hash);
 }
 
