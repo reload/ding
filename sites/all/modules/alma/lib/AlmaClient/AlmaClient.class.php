@@ -88,6 +88,27 @@ class AlmaClient {
   }
 
   /**
+   * Get reservation branch names from Alma.
+   *
+   * Formats the list of branches in an array usable for form API selects.
+   *
+   * @return array
+   *    List of branches, keyed by branch_id
+   */
+  public function get_reservation_branches() {
+    // Set a no branch option.
+    $branches = array(NULL => '- None -');
+
+    $doc = $this->request('reservation/branches');
+
+    foreach ($doc->getElementsByTagName('branch') as $branch) {
+      $branches[$branch->getAttribute('id')] = $branch->getElementsByTagName('name')->item(0)->nodeValue;
+    }
+
+    return $branches;
+  }
+
+  /**
    * Get patron information from Alma
    */
   public function get_patron_info($borr_card, $pin_code) {

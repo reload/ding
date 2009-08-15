@@ -88,9 +88,10 @@ function alma_user_user($op, &$edit, &$account, $category = NULL) {
       if ($account->uid) {
         // Attach the Alma user id and name to the user object when it
         // is loaded, so it's available everywhere the user is.
-        $data = db_fetch_array(db_query("SELECT alma_id, alma_name FROM {alma_user} WHERE uid = %d LIMIT 1;", $account->uid));
+        $data = db_fetch_array(db_query("SELECT * FROM {alma_user} WHERE uid = %d LIMIT 1;", $account->uid));
         $account->alma_id = $data['alma_id'];
         $account->alma_name = $data['alma_name'];
+        $account->preferred_branch = $data['preferred_branch'];
       }
       break;
     case 'delete':

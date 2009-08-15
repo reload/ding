@@ -47,6 +47,11 @@ function alma_user_schema() {
         'length' => 255,
         'not null' => FALSE,
       ),
+      'preferred_branch' => array(
+        'description' => t('{ding_library}.branch_id for user’s preferred branch.'),
+        'type' => 'varchar',
+        'length' => 50,
+      ),
     ),
     'primary key' => array('uid'),
     'unique keys' => array(
@@ -58,4 +63,13 @@ function alma_user_schema() {
 
   return $schema;
 }
-    
+
+/**
+ * Implementation of hook_update_N().
+ */
+function alma_user_update_6001() {
+  $ret = array();
+  db_add_field($ret, 'alma_user', 'preferred_branch', array('type' => 'varchar', 'length' => 50));
+  return $ret;
+}
+

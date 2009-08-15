@@ -55,10 +55,13 @@ function alma_user_profile_content_type_render($subtype, $conf, $panel_args, $co
     switch ($subtype) {
       case 'alma_user_personal_info':
         $data = alma_client_get_patron_info($alma_creds['borr_card'], $alma_creds['pin_code']);
+        $block->title = t('Your profile');
         $block->content = theme('alma_user_personal_info', $account, $data);
         break;
       case 'alma_user_library_settings':
-        $block->content = 'Library settings';
+        module_load_include('forms.inc', 'alma_user');
+        $block->title = t('Your library');
+        $block->content = drupal_get_form('alma_user_forms_library_settings', $account);
         break;
     }
   }

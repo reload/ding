@@ -73,6 +73,14 @@ function alma_client_get_branches() {
   }
 }
 
+function alma_client_get_reservation_branches() {
+  try {
+    return alma_client()->get_reservation_branches();
+  } catch (Exception $e) {
+    return array();
+  }
+}
+
 function alma_client_get_patron_info($borr_card, $pin_code) {
   try {
     return alma_client()->get_patron_info($borr_card, $pin_code);
