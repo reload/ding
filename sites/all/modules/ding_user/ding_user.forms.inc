@@ -70,4 +70,7 @@ function ding_user_forms_change_pass_submit($form, &$form_state) {
   else {
     db_query("UPDATE {ding_user} SET pass = '%s' WHERE uid = %d LIMIT 1;", user_hash_password($form_state['values']['new_secure_pass']), $account->uid);
   }
+
+  drupal_set_message(t('Your new password has been saved.'));
 }
+
