@@ -59,6 +59,17 @@ function ding_user_perm() {
 }
 
 /**
+ * Implementation of hook_popups().
+ */
+function ding_user_popups() {
+  return array(
+    'user/*' => array(
+      'a[href~="/change_pass"]',
+    ),
+  );
+}
+
+/**
  * Implementation of hook_form_alter().
  *
  * Alter the login form to disable the standard Drupal username/password
@@ -82,7 +93,7 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
 
       // Add link to change admin password
       $form['change_password_link'] = array(
-        '#value' => l('Change admin password', 'user/' . $form['_account']['#value']->uid . '/secure_pass'),
+        '#value' => l('Change admin password', 'user/' . $form['_account']['#value']->uid . '/change_pass'),
       );
       break;
   }
