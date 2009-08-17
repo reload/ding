@@ -13,37 +13,31 @@ form div.description{font-size:10px; line-height:12px; color:#999; padding:5px; 
 /* =====================================
 ting search block
 /*--------------------------------------*/
-#search h3{text-indent: -9999em; height:55px; margin:0; padding:0; background:transparent url(../images/search.png) no-repeat 0 0; }
-#search .form-item{margin:0;}
-#search #edit-keys-wrapper{float:left; display:inline;}
-	#ting-search-form{position:relative; width:610px; float:left;}
+#ting-search-form{padding:53px 0 0 0; background:transparent url(../images/search.png) no-repeat 0 0;}
 	#ting-search-form .form-text{height:20px; width:468px; margin:0 10px 0 0; padding:4px 0 0 25px; color:#929292; background:#fff url(../images/magnifier.png) no-repeat 9px 5px; border: 1px solid #999; font-size:13px; float:left;}
 		#ting-search-form label{margin:3px 0 0 30px; font-size:13px; font-weight:normal;} 
-	#ting-search-form .form-button{float:left; display:block; height:29px; width:94px; background:transparent url(../images/searchbutton.png) no-repeat 0 0;;}
-		#ting-search-form .form-button input{ border:0; background:transparent; margin:5px 10px; color:transparent; font-weight:bold; text-indent: -9999em; }
+		#ting-search-form  .form-image-button{float:left; display:block; height:29px; width:94px; }
+		#edit-keys-wrapper{float:left; display:inline;}
 
 /* =====================================
 Account block
 /*--------------------------------------*/
-/*login*/
-
-#account {}
-	#block-user{margin:30px 0 0 0;}
-	#block-user h3{text-indent: -9999em; height:21px; background:transparent url(../images/logind.png) no-repeat 0 0; margin:10px 0 0 0; padding:0;}
-	#user-login-form .form-item{margin:0 0 3px 0;}
+/*login form*/
+	#user-login-form{margin:20px 0 0 0; padding:24px 0 0 0;background:transparent url(../images/logind.png) no-repeat 0 0;}
+	#user-login-form .form-item-password{margin:0 0 3px 0;}
 	#user-login-form .form-text{height:17px; padding:1px 0 0 5px; margin:0; background-color: #fff; border-top: 1px solid #ddd; border-left: 1px solid #ddd; }
 		#user-login-form label{margin:1px 0 0 5px;}
+
 	#edit-name-wrapper{width:215px;}
 		#edit-name-wrapper input{width:215px;}
 	#edit-pass-wrapper{width:155px; float:left;}
 		#edit-pass-wrapper input{width:155px;}
+	#edit-remember-me-wrapper{width:155px; float:left;}
+		#edit-remember-me-wrapper label{color:#fff; margin:0;}
+	#user-login-form .form-image-button{width:60px;height:20px; padding:0; margin:1px 0 0 9px; display:block; float:left;overflow:hidden; background:transparent url(../images/accountlogin.png) no-repeat right center;}
 
-	#user-login-form .form-button{width:60px;height:20px; padding:0; margin:1px 0 0 9px; display:block; float:left;overflow:hidden; background:transparent url(../images/accountlogin.png) no-repeat right center;}
-		#user-login-form .form-button span {background:transparent url(../images/accountlogin.png) no-repeat left center;}
-			#user-login-form .form-button span input{background:transparent; border: 0px solid #999; color:#fff;}
-
-		#user-login-form ul{clear:both;}
-			#user-login-form ul li{float:left; margin:0 10px 0 0;}
+	#user-login-form ul{clear:both;}
+		#user-login-form ul li{float:left; margin:0 10px 0 0;}
 
 /*user logged in*/
 #account-profile{width:251px;margin:5px 0 0 0; font-size:10px;}
@@ -62,12 +56,12 @@ Account block
 		#account-profile .cart a{display:block; font-size:9px; margin:5px 0 0 0;}
 	/* material status */	
 	#account-profile ul{width:177px; float:left; background:transparent url(../images/bg-account-divider.gif) no-repeat left top;}
-		#account-profile ul li{clear:both; height:30px; background:transparent url(../images/bg-account-divider.gif) no-repeat left bottom;}
+		#account-profile ul li{clear:both; background:transparent url(../images/bg-account-divider.gif) no-repeat left bottom;}
 		#account-profile ul li div{font-size:11px; float:left; overflow:hidden;}
-	#account-profile ul div.content{width:136px; padding:4px 0 0 0}
+	#account-profile ul div.content{width:136px; }
 			#account-profile ul div.content span{float:right; padding:0 5px 0 0;}
-	#account-profile ul div.status{width:36px; height:26px; background:transparent url(../images/bg-account-status.gif) no-repeat left 3px; text-indent: -9999em;}
-		#account-profile ul div.status span{height:16px; width:16px; margin:4px 0 0 11px; display: block;}
+	#account-profile ul div.status{width:36px; height:24px; background:transparent url(../images/bg-account-status.gif) no-repeat left 0px; text-indent: -9999em;}
+		#account-profile ul div.status span{height:16px; width:16px; margin:1px 0 0 11px; display: block;}
 		#account-profile ul div.status span.ok{ background:transparent url(../images/status-error.png) no-repeat left top;}		
 		#account-profile ul div.status span.warning{ background:transparent url(../images/status-warning.png) no-repeat left top;}		
 		
@@ -170,7 +164,8 @@ buttons
 	.node .content img{ padding:0 10px 10px 0;}
 	.node .content ul{margin:0 0 15px 20px; padding:0 0 10px 0; border-bottom: 1px solid #eee;}
 	.node .content ul li{list-style: circle outside url(../images/bullet_black.png);}
-	.node .content a, a:link, .node .content a:visited,.node .content a:active {text-decoration: none; color:#872A28;}
+	.node .content a,.node .content a:link, .node .content a:visited,.node .content a:active {text-decoration: none; color:#872A28;}
+	.subject a,.subject a:link, .subject a:visited,.subject a:active {text-decoration: none; color:#fff;}	
 	.node .content a:hover,.node .content a:focus {text-decoration: underline; color:#874F1D; background:#FFECD8;}
 
 	/*i know its evil to use important and i feel very dirty ...*/
