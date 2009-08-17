@@ -1,7 +1,6 @@
 <?php
 
 $includes = array('ting-dbc-php5-client/lib/TingClient',
-									'ting-dbc-php5-client/lib/search/TingClientSearchRequest',
 									'ting-dbc-php5-client/lib/adapter/request/http/TingClientDrupal6HttpRequestAdapter',
 									'ting-dbc-php5-client/lib/adapter/request/http/TingClientHttpRequestFactory',
 									'ting-dbc-php5-client/lib/adapter/response/json/TingClientJsonResponseAdapter',
@@ -31,8 +30,9 @@ class TingClientFacade {
 			if (!$baseUrl) {
 				throw new TingClientException('No Ting server defined');
 			}
+			$scanUrl = 'http://didicas.dbc.dk/openscan/server.php'; //TODO move this to administration
 			//Create client with default configuration: Drupal for requests and logging, json for format.
-			self::$client = new TingClient(new TingClientDrupal6HttpRequestAdapter(new TingClientHttpRequestFactory($baseUrl)),
+			self::$client = new TingClient(new TingClientDrupal6HttpRequestAdapter(new TingClientHttpRequestFactory($baseUrl, $scanUrl)),
 																				new TingClientJsonResponseAdapter(),
 																				new TingClientDrupalWatchDogLogger());
 		}
@@ -62,6 +62,21 @@ class TingClientFacade {
 		}
 		
 		return $searchResult;
+	}
+	
+	/**
+	 * @param string $query The prefix to scan for
+	 * @param int $numResults The numver of results to return
+	 * @return TingClientScanResult
+	 */
+	public static function scan($query, $numResults = 10)
+	{
+		$scanRequest = new TingClientScanRequest();
+		$scanRequest->setField('dc.title');
+		$scanRequest->setLower($query);
+		$scanRequest->setNumResults($numResults);
+		$scanRequest->setOutput('json');
+		return self::getClient()->scan($scanRequest);
 	}
 	
 	/**
