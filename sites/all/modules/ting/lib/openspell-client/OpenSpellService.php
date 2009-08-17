@@ -30,7 +30,7 @@ class OpenSpellService
 		$suggestions = array();
 		foreach ($response->term as $term)
 		{
-			$suggestions[] = new OpenSpellSuggestion($term->suggestion, $term->weight);
+			$suggestions[] = new OpenSpellSuggestion($term->suggestion, floatval(str_replace(',', '.', $term->weight)));
 		}
 		return $suggestions;
 	}

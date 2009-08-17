@@ -39,12 +39,12 @@ function ting_collection() {
 /**
  * Display a signle Ting object.
  */
-function ting_object() {
+function ting_object($object_id) {
   module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
 	
   $facade = new TingClientFacade();
   
-	$object = $facade->getObject($_REQUEST['object_id']);
+	$object = $facade->getObject($object_id);
 	if (!$object)
 	{
 		return drupal_not_found();
