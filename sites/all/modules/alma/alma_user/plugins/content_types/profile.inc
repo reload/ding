@@ -30,6 +30,14 @@ function alma_user_profile_content_type_content_types() {
       'title' => t('Library settings'),
       'description' => t('The patron’s library settings. Allows the patron to choose a preferred library and suspend his reservations for a period.'),
     ),
+    'alma_user_reservations_list' => array(
+      'title' => t('List of reservations'),
+      'description' => t('A simple list of the patron’s reserved books.'),
+    ),
+    'alma_user_loans_list' => array(
+      'title' => t('List of loans'),
+      'description' => t('A simple list of the patron’s reserved loans.'),
+    ),
   );
 
   // Append our default settings to every type.
@@ -63,6 +71,16 @@ function alma_user_profile_content_type_render($subtype, $conf, $panel_args, $co
         $block->title = t('Your library');
         $block->content = drupal_get_form('alma_user_forms_library_settings', $account);
         break;
+      case 'alma_user_reservations_list':
+        $block->title = t('Your reservations');
+        $list = alma_client_get_reservations($alma_creds['borr_card'], $alma_creds['pin_code']);
+        $block->content = theme('alma_user_record_list', $list);
+        break;
+      case 'alma_user_loans_list':
+        $block->title = t('Your loans');
+        $list = alma_client_get_loans($alma_creds['borr_card'], $alma_creds['pin_code']);
+        $block->content = theme('alma_user_record_list', $list);
+        break;
     }
   }
   elseif ($subtype == 'alma_user_personal_info') {
@@ -81,6 +99,10 @@ function alma_user_profile_content_type_admin_title($subtype, $conf, $context) {
       return t('“@s”: Personal information', array('@s' => $context->identifier));
     case 'alma_user_library_settings':
       return t('“@s”: Library settings', array('@s' => $context->identifier));
+    case 'alma_user_reservations_list':
+      return t('“@s”: Reservations list', array('@s' => $context->identifier));
+    case 'alma_user_loans_list':
+      return t('“@s”: Loans list', array('@s' => $context->identifier));
   }
 }
 

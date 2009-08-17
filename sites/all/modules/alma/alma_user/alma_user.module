@@ -132,6 +132,12 @@ function alma_user_theme($existing, $type, $theme, $path) {
       'template' => 'alma_user_personal_info',
       'file' => 'alma_user.theme.inc',
     ),
+    'alma_user_record_list' => array(
+      'arguments' => array(
+        'records' => array(),
+      ),
+      'file' => 'alma_user.theme.inc',
+    ),
   );
 }
 

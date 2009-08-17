@@ -65,6 +65,12 @@ function alma_client() {
   return $client;
 }
 
+/**
+ * Get list of library branches.
+ *
+ * @return array
+ *    Array of branch names, keyed by their ID.
+ */
 function alma_client_get_branches() {
   try {
     return alma_client()->get_branches();
@@ -73,6 +79,9 @@ function alma_client_get_branches() {
   }
 }
 
+/**
+ * Get list of library branches where patrons can fetch their reservations.
+ */
 function alma_client_get_reservation_branches() {
   try {
     return alma_client()->get_reservation_branches();
@@ -81,12 +90,64 @@ function alma_client_get_reservation_branches() {
   }
 }
 
+/**
+ * Get information about a library patron.
+ *
+ * @param string $borr_card
+ *    Library patron's borrowing card number. Either just an arbitrary
+ *    number printed on their library card or their CPR-code.
+ * @param string $pin_code
+ *    Library patron's four digit PIN code.
+ * @return array
+ *    The patron information as an array.
+ */
 function alma_client_get_patron_info($borr_card, $pin_code) {
   try {
     return alma_client()->get_patron_info($borr_card, $pin_code);
   } catch (Exception $e) {
-    dpm($e->getMessage());
+    dd($e->getMessage());
     return FALSE;
   }
 }
+
+/**
+ * Get a patron's reservations
+ *
+ * @param string $borr_card
+ *    Library patron's borrowing card number. Either just an arbitrary
+ *    number printed on their library card or their CPR-code.
+ * @param string $pin_code
+ *    Library patron's four digit PIN code.
+ * @return array
+ *    The reservations as an array.
+ */
+function alma_client_get_reservations($borr_card, $pin_code) {
+  try {
+    return alma_client()->get_reservations($borr_card, $pin_code);
+  } catch (Exception $e) {
+    dd($e->getMessage());
+    return FALSE;
+  }
+}
+
+/**
+ * Get a patron's loans
+ *
+ * @param string $borr_card
+ *    Library patron's borrowing card number. Either just an arbitrary
+ *    number printed on their library card or their CPR-code.
+ * @param string $pin_code
+ *    Library patron's four digit PIN code.
+ * @return array
+ *    The loans as an array.
+ */
+function alma_client_get_loans($borr_card, $pin_code) {
+  try {
+    return alma_client()->get_loans($borr_card, $pin_code);
+  } catch (Exception $e) {
+    dd($e->getMessage());
+    return FALSE;
+  }
+}
+
 

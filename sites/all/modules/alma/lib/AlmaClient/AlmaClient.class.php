@@ -153,6 +153,67 @@ class AlmaClient {
     }
     return $data;
   }
+
+  /**
+   * Get reservation info.
+   */
+  public function get_reservations($borr_card, $pin_code) {
+    $doc = $this->request('patron/reservations', array('borrCard' => $borr_card, 'pinCode' => $pin_code));
+
+    $reservations = array();
+    foreach ($doc->getElementsByTagName('reservation') as $item) {
+      $reservations[] = array(
+        'id' => $item->getAttribute('id'),
+        'status' => $item->getAttribute('status'),
+        'pickup_branch' => $item->getAttribute('reservationPickUpBranch'),
+        'create_date' => $item->getAttribute('createDate'),
+        'valid_from' => $item->getAttribute('validFromDate'),
+        'valid_to' => $item->getAttribute('validToDate'),
+        'queue_no' => $item->getAttribute('queueNo'),
+        'organisation_id' => $item->getAttribute('organisationId'),
+        'record_id' => $item->getElementsByTagName('catalogueRecord')->item(0)->getAttribute('id'),
+        'record_available' => $item->getElementsByTagName('catalogueRecord')->item(0)->getAttribute('isAvailable'),
+      );
+    }
+    usort($reservations, 'AlmaClient::reservation_sort');
+    return $reservations;
+  }
+
+  /**
+   * Helper function for sorting reservations.
+   */
+  private static function reservation_sort($a, $b) {
+    return strcmp($a['create_date'], $b['create_date']);
+  }
+
+  /**
+   * Get patron's current loans.
+   */
+  public function get_loans($borr_card, $pin_code) {
+    $doc = $this->request('patron/loans', array('borrCard' => $borr_card, 'pinCode' => $pin_code));
+
+    $loans = array();
+    foreach ($doc->getElementsByTagName('loan') as $item) {
+      $loans[] = array(
+        'id' => $item->getAttribute('id'),
+        'branch' => $item->getAttribute('loanBranch'),
+        'loan_date' => $item->getAttribute('loanDate'),
+        'due_date' => $item->getAttribute('loanDueDate'),
+        'is_renewable' => ($item->getElementsByTagName('loanIsRenewable')->item(0)->getAttribute('value') == 'yes') ? TRUE : FALSE,
+        'record_id' => $item->getElementsByTagName('catalogueRecord')->item(0)->getAttribute('id'),
+        'record_available' => $item->getElementsByTagName('catalogueRecord')->item(0)->getAttribute('isAvailable'),
+      );
+    }
+    usort($loans, 'AlmaClient::loan_sort');
+    return $loans;
+  }
+
+  /**
+   * Helper function for sorting reservations.
+   */
+  private static function loan_sort($a, $b) {
+    return strcmp($a['due_date'], $b['due_date']);
+  }
 }
 
 /**
