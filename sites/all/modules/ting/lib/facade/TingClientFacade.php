@@ -110,7 +110,7 @@ class TingClientFacade {
 	
 	private static function addObjectUrl(TingClientObject $object)
 	{
-		$object->url = url('ting/object', array('absolute' => true, 'query' => array('object_id' => $object->id)));
+		$object->url = url('ting/object/'.$object->id, array('absolute' => true));
 		return $object;
 	}
 	
