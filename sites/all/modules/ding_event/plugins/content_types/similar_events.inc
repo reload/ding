@@ -2,7 +2,7 @@
 // $Id$
 /**
  * @file similar_events.inc
- * Provides several library portal page related panels content types.
+ * Provides a content type that shows similar events.
  */
 
 /**
