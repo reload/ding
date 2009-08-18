@@ -109,16 +109,16 @@ function ding_panels_library_portal_content_type_edit_form_submit(&$form, &$form
 function _ding_panels_library_portal_navigation_render($library = NULL, $default_menu = NULL) {
   // If a library node is specified, try to load its menu tree.
   if ($library instanceof stdClass) {
-    $tree = menu_tree_all_data('ding_library_' . $library->nid);
+    $tree = menu_tree('ding_library_' . $library->nid);
   }
 
   if (empty($tree) && !empty($default_menu)) {
     // Load the default menu.
-    $tree = menu_tree_all_data($default_menu);
+    $tree = menu_tree($default_menu);
   }
 
   if (!empty($tree)) {
-    return menu_tree_output($tree);
+    return $tree;
   }
 }
 
