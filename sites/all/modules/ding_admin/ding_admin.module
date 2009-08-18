@@ -1,0 +1,33 @@
+<?php
+// $Id$
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function ding_admin_form_alter(&$form, $form_state, $form_id) {
+  if ($form['#id'] == 'node-form' && isset($form['menu']) && !empty($form['menu']['parent']['#options'])) {
+    // Add a not in menu option to the menu parent selector.
+    array_unshift($form['menu']['parent']['#options'], t('Not in menu'));
+
+    // Add our own validation function to catch invalid values 
+    // introduced by our 'not in menu' option.
+    $form['#validate'][] = 'ding_admin_node_form_validate';
+
+    // Add our JavaScript tweak file.
+    drupal_add_js(drupal_get_path('module', 'ding_admin') . '/ding_admin.node_form.js');
+
+  }
+}
+
+/**
+ * Validation for the node form.
+ */
+function ding_admin_node_form_validate($form, &$form_state) {
+  // If there's no proper menu parent, don't create a menu item and 
+  // remove it if it exists already.
+  if (empty($form_state['values']['menu']['parent'])) {
+    $form_state['values']['menu']['delete'] = 1;
+    $form_state['values']['menu']['link_title'] = '';
+  }
+}
+
