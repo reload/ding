@@ -19,6 +19,7 @@
 	     print "(". $fields['comment_count']->content .")";
 	   }  
 	 ?>
+
 	</div>
 
 	<p>

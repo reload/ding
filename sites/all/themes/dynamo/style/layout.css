@@ -42,6 +42,10 @@ body{background:#e5e5e5 url(../images/bg.png) repeat-x 0 0;}
 		#pagefooter-inner div.first{background-image:none;}
 		#pagefooter ul li a{background:transparent url(../images/pil.png) no-repeat left center; padding:0 0 0 10px;}		
 
+#content-inner{min-height:500px; height:auto !important; height:500px;}
+
+
+
 /* =====================================
 Menu 
 /*--------------------------------------*/

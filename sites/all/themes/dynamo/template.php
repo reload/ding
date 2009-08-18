@@ -14,18 +14,46 @@ function dynamo_theme($existing, $type, $theme, $path) {
    'ding_panels_content_library_location' => array(
      'template' => 'ding_panels_content_libary_location',
    ),
-	'edit_search_form' => array(
+	'ting_search_form' => array(
 		'arguments'=> array('form' => NULL),
+		),
+	'user_login_block' => array(
+		'arguments' => array ('form' => NULL),
 		),
  );
 }
 
 
+function dynamo_user_login_block($form){
+	$form['submit']['#type'] 	= "image_button" ;
+	$form['submit']['#src'] 	= drupal_get_path('theme','dynamo')."/images/accountlogin.png";
+	$form['submit']['#attributes']['class'] 	= "";
+
+
+	$name = drupal_render($form['name']); 
+	$pass =  	drupal_render($form['pass']); 
+	$submit =  	drupal_render($form['submit']); 
+	$remember =	drupal_render($form['remember_me']); 
+	
+	return 	$name . $pass .$submit . $remember . drupal_render($form);
+}
+
+function dynamo_ting_search_form($form){
+	$form['submit']['#type'] 	= "image_button" ;
+	$form['submit']['#src'] 	= drupal_get_path('theme','dynamo')."/images/searchbutton.png";
+	$form['submit']['#attributes']['class'] 	= "";
+
+	return drupal_render($form);	
+}
+
+
+// $form['submit']['#type'] 	= "image_button" ;
+// $form['submit']['#src'] 	= drupal_get_path('theme','mdkate')."/images/foo.gif";
+// $form['submit']['#attributes']['class'] 	= "";
+
+
 
 function dynamo_preprocess_ting_collection__FOO(&$variables){
-
-
-
 	
 	foreach ($variables['collection']->objects as $key => $value) {
 		$output[$key]['id'] = $variables['collection']->objects[$key]->id;
