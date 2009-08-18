@@ -70,14 +70,14 @@ function ding_slug_token_values($type, $object = NULL, $options = array()) {
     // If we didn't set the library slug above, try looking it up.
     if (!isset($tokens['ding_library_slug'])) {
       // Look up the slug of the related library.
-      if (isset($node->field_library_ref[0])) {
-        $slug = db_result(db_query("SELECT slug FROM {ding_slug} WHERE nid = %d LIMIT 1;", $node->field_library_ref[0]));
+      if (isset($node->field_library_ref[0]['nid']) && !empty($node->field_library_ref[0]['nid'])) {
+        $slug = db_result(db_query("SELECT slug FROM {ding_slug} WHERE nid = %d LIMIT 1;", $node->field_library_ref[0]['nid']));
         if ($slug) {
           $tokens['ding_library_slug'] = check_plain($slug);
         }
         // If the related library doesn't have a slug, return its nid.
         else {
-          $tokens['ding_library_slug'] = $node->field_library_ref[0];
+          $tokens['ding_library_slug'] = $node->field_library_ref[0]['nid'];
         }
       }
     }
