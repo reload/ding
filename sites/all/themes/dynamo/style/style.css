@@ -117,19 +117,19 @@ Panels BOX css styles
 /* =====================================
 Campaigns 
 /*--------------------------------------*/
-.pane-relevant_campaigns{width:215px; overflow:hidden; padding:0 0 10px 8px;}
-	.pane-relevant_campaigns .campaign, .pane-relevant_campaigns .node{margin:0 0 10px 0; border: 1px solid #999;}
-	.campaign-type-image-only{width:214px; height:334px; background:#ccf;}
-	.campaign-type-text-only{	width:218px; height:60px; padding:10px 0px 10px 10px; overflow:hidden;	background:transparent url(../images/sprite-box.png) no-repeat -230px -60px; }
-	.campaign-type-text-only a{color:#ccc; width:210px; height:60px; display:block; overflow:hidden; font: normal normal normal 16px/18px "Gill sans", sans-serif;	text-transform: uppercase;  }
-	.campaign-type-image-only{}
-	.campaign{margin:10px 0;}
+.campaign-text{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden; margin:10px 0;}
+	.campaign-inner{width:228px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom; overflow:hidden;}
+		.campaign-type-text-only{width:228px; background:transparent url(../images/sprite-box.png) no-repeat -230px -60px; overflow:hidden;}
+			.campaign-theme{margin:7px 10px;}
+				.campaign	a,.campaign a:link,	.campaign a:visited, .campaign a:active {}
+				.campaign a:hover,.campaign a:focus {text-decoration: underline; color:#fff;}
+				.campaign-text a{background:transparent url(../images/campaignshade.png) no-repeat left top; min-height:200px;text-decoration: none; color:#fff; padding:40px 10px; display:block; text-transform: uppercase; font: normal normal normal 16px/18px "Gill sans", sans-serif;}
+				/*colors*/
+				.campaign-theme-red{background:#C63D52; }
+				.campaign-theme-green{background:#899e99;}
+				.campaign-theme-blue{background:#006c8a;}
 
-	/*themes*/
-	.campaign-theme-red{background:#900;}
-	.campaign-theme-green{background:#090;}
-	.campaign-theme-blue{background:#009;}
-
+.campaign-image{margin:0 10px;}
 
 /* =====================================
 basic elements
