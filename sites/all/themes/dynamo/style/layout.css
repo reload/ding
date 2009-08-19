@@ -45,6 +45,32 @@ body{background:#e5e5e5 url(../images/bg.png) repeat-x 0 0;}
 #content-inner{min-height:500px; height:auto !important; height:500px;}
 
 
+
+/* =====================================
+nav tabs
+/*--------------------------------------*/
+.tab-navigation{width:130px; float:left;  min-height:400px; padding:0 0 0 20px;}
+  .page-arrangementer .panel-left ul{width:130px; float:left;  min-height:400px; padding:0 0 0 0px;}
+
+.tab-navigation,
+  .page-arrangementer .panel-left ul.item-list{background:transparent url(../images/bg-tab-navigation-right.png) no-repeat right top;	}
+.tab-navigation li,
+  .page-arrangementer .panel-left ul li{width:115px;padding:2px 4px 2px 10px; margin:0 0 4px 0; font-size:10px; line-height:13px;text-transform: uppercase;  background:#fff url(../images/bg-tab.gif) repeat-y scroll top right; 	border: 1px solid #d1d9d7; 	border-right: 0px solid #d1d9d7;	}
+.tab-navigation li.active,
+  .page-arrangementer .panel-left ul li.active{border: 1px solid #d1d9d7;	background:#f3f5f5;}
+.page-ting .content-left ul li a,
+  .page-arrangementer .panel-left ul li a{color:#333; display:block;}
+
+body.page-arrangementer .panel-middle,
+	.tab-navigation-main{float:left; width:550px; background:transparent url(../images/bg-tab-navigation-content.png) no-repeat right top;}
+body.page-arrangementer .panel-middle .panel-pane, 
+	.tab-navigation-main-inner{padding:20px;}
+
+body.page-arrangementer .panel-middle .view-event-list li{padding:10px 0;}
+body.page-arrangementer .panel-left{width:130px;}
+body.page-arrangementer .panel-middle{width:560px;  min-height:400px; }
+
+
 /* =====================================
 Menu 
 /*--------------------------------------*/
