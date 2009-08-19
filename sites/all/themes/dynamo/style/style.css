@@ -65,12 +65,13 @@ Account block
 		#account-profile ul div.status span.ok{ background:transparent url(../images/status-error.png) no-repeat left top;}		
 		#account-profile ul div.status span.warning{ background:transparent url(../images/status-warning.png) no-repeat left top;}		
 		
+
+
 /* =======================================
 	pagers
 /* ------------------------------------- */
 ul.pager li{padding:0;}
 ul.pager li{margin:0 10px 0 0;}
-
 
 /* pagers */
 #pager, ul.pager{height:30px; margin:0 0 20px 0; padding:0 0 0 10px; clear:both; background:transparent url(../images/bg-pager.gif) no-repeat left top; font-size:10px;}
@@ -112,7 +113,6 @@ Panels BOX css styles
 
 	.ding-box-wide .odd{background:#f3f5f5;}
 	.ding-box-wide .even{background:#fff;}
-
 
 /* =====================================
 Campaigns 
@@ -164,9 +164,10 @@ buttons
 	.node .content img{ padding:0 10px 10px 0;}
 	.node .content ul{margin:0 0 15px 20px; padding:0 0 10px 0; border-bottom: 1px solid #eee;}
 	.node .content ul li{list-style: circle outside url(../images/bullet_black.png);}
-	.node .content a,.node .content a:link, .node .content a:visited,.node .content a:active {text-decoration: none; color:#872A28;}
+	.node .content a,.node .content a:link, .node .content a:visited,.node .content a:active {text-decoration: none;}
+	.node .content a:hover,.node .content a:focus {text-decoration: underline; background:#C9D3D7; }
 	.subject a,.subject a:link, .subject a:visited,.subject a:active {text-decoration: none; color:#fff;}	
-	.node .content a:hover,.node .content a:focus {text-decoration: underline; color:#874F1D; background:#FFECD8;}
+
 
 	/*i know its evil to use important and i feel very dirty ...*/
 	.node .content table{width:99% !important; margin:10px 0 !important; border: 1px solid #eee;}
@@ -188,18 +189,11 @@ buttons
 	.more-link a, a.more-link {background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0; }
 
 
-
 /*panels links*/
 div.more-link{padding:0 20px 0 0; }
 
 /*paddings */
 .view-empty,.feed, #user-profile-form,#node-form{margin:20px 0 0 20px;}
-
-.minheight{min-height:500px; height:auto !important; height:500px;}
-
-/*menu test*/
-ul.menu li.expanded{display:none;}
-ul.menu li.expanded.first{display:block;}
 
 
 /* =====================================
