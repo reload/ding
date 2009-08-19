@@ -84,7 +84,7 @@ function ding_panels_library_content_type_render($subtype, $conf, $panel_args, $
       ding_breadcrumbs_set_library($node);
     case 'library_feature_detail_list':
       $block->title = t('Services and facilities');
-      $block->content = theme_item_list(_ding_panels_library_features_by_library($node));
+      $block->content = theme('item_list', _ding_panels_library_features_by_library($node, $subtype));
       break;
   }
   return $block;
@@ -103,8 +103,9 @@ function ding_panels_library_content_type_admin_title($subtype, $conf, $context)
     case 'library_hours':
       return t('"@s":  Library opening hours', array('@s' => $context->identifier));
     case 'library_feature_list':
-    case 'library_feature_detail_list':
       return t('"@s":  Library features', array('@s' => $context->identifier));
+    case 'library_feature_detail_list':
+      return t('"@s":  Library feature details', array('@s' => $context->identifier));
   }
 }
 
@@ -142,10 +143,12 @@ function ding_panels_library_content_type_edit_form_submit(&$form, &$form_state)
  *
  * @param object $node
  *    The library node we want features for.
+ * @param boolean $subtype
+ *    Which Panels pane subtype we're rendering.
  * @return array
  *    Array of feature titles, keyed by node id.
  */
-function _ding_panels_library_features_by_library($node) {
+function _ding_panels_library_features_by_library($node, $subtype = '') {
   // First, get the feature with a nice bit of SQL.
   $query = db_query("
     SELECT n.nid, n.title
@@ -158,8 +161,16 @@ function _ding_panels_library_features_by_library($node) {
 
   // And stick them in a nice little array.
   $features = array();
-  while ($row = db_fetch_array($query)) {
-    $features[$row['nid']] = $row['title'];
+  if ($subtype == 'library_feature_detail_list') {
+    while ($row = db_fetch_array($query)) {
+      $node = node_load($row['nid']);
+      $features[$row['nid']] = node_view($node, TRUE);
+    }
+  }
+  else {
+    while ($row = db_fetch_array($query)) {
+      $features[$row['nid']] = l($row['title'], 'node/' . $row['nid']);
+    }
   }
   return $features;
 }
