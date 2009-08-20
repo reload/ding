@@ -72,7 +72,8 @@ function alma_user_block($op = 'list', $delta = 0, $edit = array()) {
       $block['content'] = drupal_get_form('user_login_block');
     }
     else {
-      $block['content'] = theme('alma_user_status_block');
+      $status = alma_user_get_status($GLOBALS['user'], FALSE);
+      $block['content'] = theme('alma_user_status_block', $status);
     }
 
     return $block;
@@ -90,7 +91,7 @@ function alma_user_user($op, &$edit, &$account, $category = NULL) {
         // is loaded, so it's available everywhere the user is.
         $data = db_fetch_array(db_query("SELECT * FROM {alma_user} WHERE uid = %d LIMIT 1;", $account->uid));
         $account->alma_id = $data['alma_id'];
-        $account->alma_name = $data['alma_name'];
+        $account->alma_name = check_plain($data['alma_name']);
         $account->preferred_branch = $data['preferred_branch'];
       }
       break;
@@ -104,9 +105,23 @@ function alma_user_user($op, &$edit, &$account, $category = NULL) {
 }
 
 /**
+ * Implementation of hook_init().
+ */
+function alma_user_init() {
+  global $user;
+  $edit = array();
+
+  // Fire our own hook_user to have the Alma data available on the
+  // global $user object.
+  if ($user->uid > 1) {
+    alma_user_user('load', $edit, $user);
+  }
+}
+
+/**
  * Implementation of hook_flush_caches().
  */
-function alma_flush_caches() {
+function alma_user_flush_caches() {
   return array('cache_alma_credentials');
 }
 
@@ -117,9 +132,7 @@ function alma_user_theme($existing, $type, $theme, $path) {
   return array(
     'alma_user_status_block' => array(
       'arguments' => array(
-        'cart_count' => 0,
-        'borrowed_count' => 0,
-        'reservation_count' => 0,
+        'user_status' => NULL,
       ),
       'template' => 'alma_user_status_block',
       'file' => 'alma_user.theme.inc',
@@ -139,6 +152,15 @@ function alma_user_theme($existing, $type, $theme, $path) {
       'file' => 'alma_user.theme.inc',
     ),
   );
+}
+
+/**
+ * Implementation of hook_ctools_plugin_api().
+ */
+function alma_user_ctools_plugin_api($module, $api) {
+  if ($module == 'page_manager' && $api == 'pages_default') {
+    return array('version' => 1);
+  }
 }
 
 /**
@@ -347,5 +369,66 @@ function alma_user_get_cache_key($account) {
   // The cache key is based on uid, login time and IP adresses.
   // This should provide a reasonable level of security against hijacking.
   return md5($account->uid . $account->login . $_SERVER['REMOTE_ADDR']);
+}
+
+/**
+ * Get Alma user status.
+ *
+ * @param object $account
+ *    The user we're getting credentials for.
+ * @param boolean $redirect
+ *    Whether to redirect and collect credentials from the user if
+ *    they're not currently available. Default is TRUE.
+ * @return mixed
+ *    Returns array of user status if successful, FALSE if not.
+ */
+function alma_user_get_status($account, $redirect=TRUE) {
+  static $status;
+  if (!isset($status)) {
+    $status = array();
+  }
+
+  // Return data from static variable cache, if available.
+  if (isset($status[$account->uid])) {
+    return $status[$account->uid];
+  }
+  else {
+    // Try looking up the data in the cache system.
+    $data = cache_get($account->uid, 'cache_alma_status');
+    if ($data instanceOf stdClass && !empty($data->data)) {
+      $status[$account->uid] = $data->data;
+      return $data->data;
+    }
+    else {
+      // If the status is not cached, we will need to look up the user's
+      // Alma credentials.
+      $creds = alma_user_get_credentials($account, $redirect);
+      if (!empty($creds)) {
+        // Generate the user status by querying Alma for different
+        // details. Remember that only non-sensitive information should
+        // be available in the status, since that is cached and
+        // available without authentication as long as the user's
+        // session lasts.
+        $data = array();
+
+        $reservations = alma_client_get_reservations($creds['borr_card'], $creds['pin_code']);
+        $loans = alma_client_get_loans($creds['borr_card'], $creds['pin_code']);
+
+        $data['loan_count'] = count($loans);
+        $data['reservation_count'] = count($reservations);
+
+        $data['loan_overdue_count'] = 0;
+
+        foreach ($loans as $loan) {
+          if ($loan['due_date'] < date('Y-m-d', $_SERVER['REQUEST_TIME'])) {
+            $data['loan_overdue_count']++;
+          }
+        }
+
+        return $data;
+      }
+    }
+  }
+  return FALSE;
 }
 

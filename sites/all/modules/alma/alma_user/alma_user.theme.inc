@@ -5,6 +5,33 @@
  * Preprocessor for the user status template.
  */
 function template_preprocess_alma_user_status_block(&$variables) {
+  $variables['wrapper_classes'] = '';
+  // Use alma_name if available.
+  if (!empty($variables['user']->alma_name)) {
+    $variables['display_name'] = $variables['user']->alma_name;
+  }
+  else {
+    $variables['display_name'] = $variables['user']->name;
+  }
+
+  if (empty($variables['user_status'])) {
+    $variables['user_status_unavailable'] = TRUE;
+    if (!empty($variables['user']->alma_id)) {
+      $variables['status_unavailable_message'] = t('Please !log_in to view your loaner status', array('!log_in' => l(t('log in'), 'user/' . $variables['user']->uid . '/authenticate')));
+    }
+    else {
+      // If user doesn't have an Alma ID, don't show a message, since we
+      // can't just log him in to get the status. This should usually
+      // only be the case for admin users.
+      $variables['status_unavailable_message'] = '';
+    }
+  }
+  elseif ($variables['user_status']['loan_overdue_count'] > 0) {
+    $variables['wrapper_classes'] .= 'loans-overdue';
+  }
+
+  // Since the cart is not implemented yet, we'll just set its count to 0
+  $variables['cart_count'] = 0;
 }
 
 /**
