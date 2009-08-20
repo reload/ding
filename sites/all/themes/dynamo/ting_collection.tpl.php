@@ -1,5 +1,5 @@
 <?php 
-dsm($collection);
+//dsm($collection);
 ?>
 <div id="ting-collection">
 	<div class="content-left">
