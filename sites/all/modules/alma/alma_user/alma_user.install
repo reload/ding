@@ -66,10 +66,23 @@ function alma_user_schema() {
 
 /**
  * Implementation of hook_update_N().
+ *
+ * Add the preferred branch column to alma_user.
  */
 function alma_user_update_6001() {
   $ret = array();
   db_add_field($ret, 'alma_user', 'preferred_branch', array('type' => 'varchar', 'length' => 50));
+  return $ret;
+}
+
+/**
+ * Implementation of hook_update_N().
+ *
+ * Add a new cache table for Alma user status.
+ */
+function alma_user_update_6002() {
+  $ret = array();
+  db_create_table($ret, 'cache_alma_status', drupal_get_schema_unprocessed('system', 'cache'));
   return $ret;
 }
 
