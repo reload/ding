@@ -1,0 +1,150 @@
+<?php
+// $Id: ting_reference.module,v 1.91.2.36 2009/07/18 01:18:07 markuspetrux Exp $
+
+/**
+ * @file
+ * Defines Ting object reference field type.
+ */
+
+/**
+ * Implementation of hook_theme().
+ */
+function ting_reference_theme() {
+  return array(
+    'ting_reference_formatter_default' => array('arguments' => array('element' => NULL)),
+  );
+}
+
+/**
+ * Implementation of hook_field_info().
+ */
+function ting_reference_field_info() {
+  return array(
+    'ting_reference' => array(
+      'label' => t('Ting object reference'),
+      'description' => t('Store a reference to a Ting object.'),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_field_settings().
+ */
+function ting_reference_field_settings($op, $field) {
+  switch ($op) {
+    case 'database columns':
+     return array(
+       'ting_object_id' => array('type' => 'varchar', 'length' => 50, 'not null' => TRUE),
+       'description' => array('type' => 'text'),
+     );
+  }
+}
+
+/**
+ * Implementation of hook_field().
+ */
+function ting_reference_field($op, &$node, $field, &$items, $teaser, $page) {
+  switch ($op) {
+    case 'validate':
+      if (is_array($items)) {
+        foreach ($items as $delta => $item) {
+            $error_element = isset($item['_error_element']) ? $item['_error_element'] : '';
+            $ting_object_id = $item['ting_object_id'];
+            if ($ting_object_id && !preg_match('/^[a-z]+:\d+$/', $ting_object_id)) {
+              form_set_error($error_element, t('%name: Object id should be in <em>xxx:nnnnn</em> format.', array('%name' => t($field['widget']['label']))));
+            }
+
+            module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
+            $facade = new TingClientFacade();
+            try {
+              $object = $facade->getObject($ting_object_id);
+            }
+            catch (TingClientException $e) {
+              // If the specified object id does not exist, an exception is throw.
+            }
+            if (!$object) {
+              form_set_error($error_element, t('%name: Object id not found.', array('%name' => t($field['widget']['label']))));
+            }
+          }
+        }
+        return $items;
+    }
+  }
+
+  /**
+   * Implementation of hook_content_is_empty().
+   */
+  function ting_reference_content_is_empty($item, $field) {
+    return empty($item['ting_object_id']) && empty($item['description']);
+  }
+
+  /**
+   * Implementation of hook_field_formatter_info().
+   */
+  function ting_reference_field_formatter_info() {
+    return array(
+      'default' => array(
+        'label' => t('Default'),
+        'field types' => array('ting_reference'),
+        'multiple values' => CONTENT_HANDLE_CORE,
+      ),
+    );
+  }
+
+  /**
+   * Theme function for 'default' userreference field formatter.
+   */
+  function theme_ting_reference_formatter_default($element) {
+    module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
+
+    $facade = new TingClientFacade();
+
+    $object = $facade->getObject($element['#item']['ting_object_id']);
+    if (!$object) {
+      return t('Object not found.');
+    }
+
+    return theme('ting_object', $object);
+  }
+
+/**
+ * Implementation of hook_widget_info().
+ */
+function ting_reference_widget_info() {
+  return array(
+    'ting_reference_default' => array(
+      'label' => t('Default ting widget'),
+      'field types' => array('ting_reference'),
+      'multiple values' => CONTENT_HANDLE_CORE,
+      'callbacks' => array(
+        'default value' => CONTENT_CALLBACK_NONE,
+      ),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_widget().
+ */
+function ting_reference_widget(&$form, &$form_state, $field, $items, $delta = 0) {
+  $element = array(
+    '#type' => 'fieldset',
+    '#title' => t('Ting object reference XXX'),
+  );
+  $element['ting_object_id'] = array (
+    '#type' => 'textfield',
+    '#size' => 50,
+    '#title' => 'Ting object id',
+    '#default_value' => isset($items[$delta]['ting_object_id']) ? $items[$delta]['ting_object_id'] : '',
+    '#description' => 'A ting object id, e.g. <em>aakb:747416</em>.',
+  );
+  $element['description'] = array (
+    '#type' => 'textarea',
+    '#title' => 'Description',
+    '#rows' => 3,
+    '#default_value' => isset($items[$delta]['description']) ? $items[$delta]['description'] : '',
+  );
+  return $element;
+}
+
+
