@@ -161,9 +161,9 @@ buttons
 /* =====================================
 	node content styles
 /*--------------------------------------*/
-	.node .content img{ padding:0 10px 10px 0;}
-	.node .content ul{margin:0 0 15px 20px; padding:0 0 10px 0; border-bottom: 1px solid #eee;}
-	.node .content ul li{list-style: circle outside url(../images/bullet_black.png);}
+	.node .content img{padding:0 10px 10px 0; border: 1px solid #999; background:#eee; text-align:center; color:#aaa;}
+	.node .content ul{margin:0 0 15px 20px; padding:0 0 10px 0;}
+	.node .content ul li{list-style: circle outside;}
 	.node .content a,.node .content a:link, .node .content a:visited,.node .content a:active {text-decoration: none;}
 	.node .content a:hover,.node .content a:focus {text-decoration: underline; background:#C9D3D7; }
 	.subject a,.subject a:link, .subject a:visited,.subject a:active {text-decoration: none; color:#fff;}	
