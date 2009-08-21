@@ -13,7 +13,7 @@
  */
 function alma_user_profile_ctools_content_types() {
   return array(
-    'title' => t('Campaign'),
+    'title' => t('Library patron profile'),
   );
 }
 
@@ -31,12 +31,24 @@ function alma_user_profile_content_type_content_types() {
       'description' => t('The patron’s library settings. Allows the patron to choose a preferred library and suspend his reservations for a period.'),
     ),
     'alma_user_reservations_list' => array(
-      'title' => t('List of reservations'),
-      'description' => t('A simple list of the patron’s reserved books.'),
+      'title' => t('Reservation list'),
+      'description' => t('A simple list of the patron’s reservations.'),
+    ),
+    'alma_user_reservations_details' => array(
+      'title' => t('Reservation details'),
+      'description' => t('A detailed list of the patron’s reservations.'),
     ),
     'alma_user_loans_list' => array(
-      'title' => t('List of loans'),
-      'description' => t('A simple list of the patron’s reserved loans.'),
+      'title' => t('Loan list'),
+      'description' => t('A simple list of the patron’s loans.'),
+    ),
+    'alma_user_loans_details' => array(
+      'title' => t('Loan details'),
+      'description' => t('A detailed list of the patron’s loans.'),
+    ),
+    'alma_user_debts_notice' => array(
+      'title' => t('User debts notice'),
+      'description' => t('Provides a short noice to the user about his library debts.'),
     ),
   );
 
@@ -81,6 +93,25 @@ function alma_user_profile_content_type_render($subtype, $conf, $panel_args, $co
         $list = alma_client_get_loans($alma_creds['borr_card'], $alma_creds['pin_code']);
         $block->content = theme('alma_user_record_list', $list);
         break;
+      case 'alma_user_debts_notice':
+        $data = alma_client_get_debts($alma_creds['borr_card'], $alma_creds['pin_code']);
+        if (count($data['debts']) == 1) {
+          $block->content = t('You owe @amount for “%note”. !pay_link.', array(
+            '@amount' => $data['total_formatted'],
+            '%note' => trim($data['debts'][0]['note']),
+            '!link' => l('Pay now', 'user'),
+          ));
+        }
+        elseif (count($data['debts']) > 1) {
+          $block->content = t('You owe @amount for “%note” and !others_link. !pay_link.', array(
+            '@amount' => $data['total_formatted'],
+            '%note' => trim($data['debts'][0]['note']),
+            '!others_link' => l(format_plural(count($data['debts']) - 1, 'one other', '@count others'),
+                                'user/' . $account->uid . '/debts'),
+            '!pay_link' => l('Pay now', 'pay'),
+          ));
+        }
+        break;
     }
   }
   elseif ($subtype == 'alma_user_personal_info') {
@@ -100,9 +131,15 @@ function alma_user_profile_content_type_admin_title($subtype, $conf, $context) {
     case 'alma_user_library_settings':
       return t('“@s”: Library settings', array('@s' => $context->identifier));
     case 'alma_user_reservations_list':
-      return t('“@s”: Reservations list', array('@s' => $context->identifier));
+      return t('“@s”: Reservation list', array('@s' => $context->identifier));
+    case 'alma_user_reservations_details':
+      return t('“@s”: Reservation details', array('@s' => $context->identifier));
     case 'alma_user_loans_list':
-      return t('“@s”: Loans list', array('@s' => $context->identifier));
+      return t('“@s”: Loan list', array('@s' => $context->identifier));
+    case 'alma_user_loans_details':
+      return t('“@s”: Loan details', array('@s' => $context->identifier));
+    case 'alma_user_debts_notice':
+      return t('“@s”: Debts notice', array('@s' => $context->identifier));
   }
 }
 

@@ -150,4 +150,23 @@ function alma_client_get_loans($borr_card, $pin_code) {
   }
 }
 
+/**
+ * Get a patron's debts
+ *
+ * @param string $borr_card
+ *    Library patron's borrowing card number. Either just an arbitrary
+ *    number printed on their library card or their CPR-code.
+ * @param string $pin_code
+ *    Library patron's four digit PIN code.
+ * @return array
+ *    The loans as an array.
+ */
+function alma_client_get_debts($borr_card, $pin_code) {
+  try {
+    return alma_client()->get_debts($borr_card, $pin_code);
+  } catch (Exception $e) {
+    dd($e->getMessage());
+    return FALSE;
+  }
+}
 
