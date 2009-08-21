@@ -57,13 +57,14 @@ function ding_content_node_info() {
       'module' => 'ding_content',
       'description' => 'A staff profile with description, profile picture, and tags.',
       'title_label' => t('Name'),
-      'body_label' => FALSE,
+      'body_label' => t('Description'),
     ),
     'topic' => array(
       'name' => t('Topic'),
       'module' => 'ding_content',
       'description' => 'A collection of links and Ting objects relevant to a specific topic, possibly related to a library.',
       'title_label' => t('Name'),
+      'body_label' => FALSE,
     ),
     'event' => array(
       'name' => t('Event'),
