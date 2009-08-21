@@ -57,7 +57,7 @@ class AlmaClient {
             throw new AlmaClientBorrCardNotFound('Invalid borrower credentials');
             break;
           default:
-            throw new AlmaClientCommunicationError('Status is not okay');
+            throw new AlmaClientCommunicationError('Status is not okay: ' . $message);
         }
       }
     }
