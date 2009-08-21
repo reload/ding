@@ -127,13 +127,19 @@ function ting_reference_widget_info() {
  * Implementation of hook_widget().
  */
 function ting_reference_widget(&$form, &$form_state, $field, $items, $delta = 0) {
-  $element = array(
-    '#type' => 'fieldset',
-    '#title' => t('Ting object reference XXX'),
+  $element['ting_ref_type'] = array (
+    '#type' => 'radios',
+    '#title' => 'Reference type',
+    '#default_value' => isset($items[$delta]['ting_ref_type']) ? $items[$delta]['ting_ref_type'] : 'collection',
+    '#options' => array('object' => t('Ting object'), 'collection' => t('Ting collection')),
+    '#attributes' => array('class' => 'ting-reference-type-radio'),
+  );
+  $element['search'] = array (
+    '#type' => 'textfield',
+    '#title' => 'Search',
   );
   $element['ting_object_id'] = array (
-    '#type' => 'textfield',
-    '#size' => 50,
+    '#type' => 'hidden',
     '#title' => 'Ting object id',
     '#default_value' => isset($items[$delta]['ting_object_id']) ? $items[$delta]['ting_object_id'] : '',
     '#description' => 'A ting object id, e.g. <em>aakb:747416</em>.',
@@ -141,7 +147,7 @@ function ting_reference_widget(&$form, &$form_state, $field, $items, $delta = 0)
   $element['description'] = array (
     '#type' => 'textarea',
     '#title' => 'Description',
-    '#rows' => 3,
+    '#rows' => 2,
     '#default_value' => isset($items[$delta]['description']) ? $items[$delta]['description'] : '',
   );
   return $element;
