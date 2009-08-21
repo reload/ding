@@ -72,12 +72,6 @@ function ding_content_node_info() {
       'title_label' => t('Name'),
       'body_label' => t('Description'),
     ),
-    'flexifield_links' => array(
-      'name' => t('Topic'),
-      'module' => 'ding_content',
-      'description' => 'A collection of links and Ting objects relevant to a specific topic, possibly related to a library.',
-      'title_label' => t('Name'),
-    ),
   );
 }
 
