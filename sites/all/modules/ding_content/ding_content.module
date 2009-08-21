@@ -64,7 +64,7 @@ function ding_content_node_info() {
       'module' => 'ding_content',
       'description' => 'A collection of links and Ting objects relevant to a specific topic, possibly related to a library.',
       'title_label' => t('Name'),
-      'body_label' => FALSE,
+      'has_body' => FALSE,
     ),
     'event' => array(
       'name' => t('Event'),
