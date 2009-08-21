@@ -15,6 +15,33 @@ function ting_reference_theme() {
   );
 }
 
+
+/**
+ * Implementation of hook_menu().
+ */
+function ting_reference_menu() {
+  $items = array();
+
+  $items['ting_reference/autocomplete/collection/js'] = array(
+    'title' => 'Ting reference collection autocomplete',
+    'description' => 'Returns a list of collections to use for autocompletion',
+    'access arguments' => array('search content'),
+    'page callback' => 'ting_reference_collection_autocomplete_js',
+    'type' => MENU_CALLBACK,
+    'file' => 'ting_reference.pages.inc',
+  );
+  $items['ting_reference/autocomplete/object/js'] = array(
+    'title' => 'Ting reference object autocomplete',
+    'description' => 'Returns a list of objects to use for autocompletion',
+    'access arguments' => array('search content'),
+    'page callback' => 'ting_reference_object_autocomplete_js',
+    'type' => MENU_CALLBACK,
+    'file' => 'ting_reference.pages.inc',
+  );
+  
+  return $items;
+}
+
 /**
  * Implementation of hook_field_info().
  */
@@ -127,22 +154,33 @@ function ting_reference_widget_info() {
  * Implementation of hook_widget().
  */
 function ting_reference_widget(&$form, &$form_state, $field, $items, $delta = 0) {
-  $element['ting_ref_type'] = array (
+ 	$path = drupal_get_path('module', 'ting_reference');
+
+ 	//Added modified version of jQuery autocomplete as default plugin uses q parameter
+  drupal_add_js($path.'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.js', 'module', 'footer', TRUE);
+	drupal_add_js($path.'/js/ting_reference.js', 'module', 'footer', TRUE);
+	drupal_add_js(array('tingReference' => array('autocomplete' => array('collection' => 'ting_reference/autocomplete/collection/js', 'object' => 'ting_reference/autocomplete/object/js'))), 'setting', 'footer', TRUE);
+
+	drupal_add_css($path.'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.css', 'module');
+	
+	$element['ting_ref_type'] = array (
     '#type' => 'radios',
     '#title' => 'Reference type',
     '#default_value' => isset($items[$delta]['ting_ref_type']) ? $items[$delta]['ting_ref_type'] : 'collection',
     '#options' => array('object' => t('Ting object'), 'collection' => t('Ting collection')),
     '#attributes' => array('class' => 'ting-reference-type-radio'),
-  );
+	);
+	
   $element['search'] = array (
     '#type' => 'textfield',
     '#title' => 'Search',
+  	'#attributes' => array('class' => 'ting-reference-autocomplete')
   );
   $element['ting_object_id'] = array (
     '#type' => 'hidden',
     '#title' => 'Ting object id',
     '#default_value' => isset($items[$delta]['ting_object_id']) ? $items[$delta]['ting_object_id'] : '',
-    '#description' => 'A ting object id, e.g. <em>aakb:747416</em>.',
+  	'#attributes' => array('class' => 'ting-object-id')
   );
   $element['description'] = array (
     '#type' => 'textarea',
