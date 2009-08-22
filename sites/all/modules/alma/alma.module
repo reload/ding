@@ -104,7 +104,11 @@ function alma_client_get_reservation_branches() {
 function alma_client_get_patron_info($borr_card, $pin_code) {
   try {
     return alma_client()->get_patron_info($borr_card, $pin_code);
-  } catch (Exception $e) {
+  }
+  catch (AlmaClientBorrCardNotFound $e) {
+    watchdog('alma_user', 'get_patron_info error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
+  }
+  catch (Exception $e) {
     drupal_set_message(t('An error occurred while trying to communicate with the library system. Please try again'), 'error', FALSE);
     watchdog('alma_user', 'get_patron_info error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
     return FALSE;
