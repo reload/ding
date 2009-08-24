@@ -273,4 +273,15 @@ function dynamo_username($object) {
 
   return $output;
 }
-?>
+
+/*
+* format_danmarc2
+	documentation http://www.kat-format.dk/danMARC2/Danmarc2.5c.htm#pgfId=1575053
+*/
+function format_danmarc2($string){
+	$string = str_replace(' ; ','<br/>',$string);	
+	$string = str_replace(' / ','<br/>',$string);	 
+
+	return $string;
+}
+

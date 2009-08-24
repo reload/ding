@@ -25,14 +25,15 @@
 		<div class="tab-navigation-main">
 			<div class="tab-navigation-main-inner">
 
-				<div class="clearfix">
+				<div class="ting-overview clearfix">
 
 					<div class="left-column left">
 			  		<div class="picture">
-							<?php if($object->data->additionalInformation->thumbnailUrl){ ?>
+
+							<?php if($object->additionalInformation->detailUrl){ ?>
 					    	<?php 
 									// 	TODO set false to true ?
-									print theme('image', $collection->objects[$key]->additionalInformation->thumbnailUrl, '', '', null, false);
+									print theme('image', $object->additionalInformation->detailUrl, '', '', null, false);
 					 			?>
 							<?php } ?>
 						</div>
@@ -49,7 +50,6 @@
 							<?php print $object->data->description[0]; ?>
 
 					</div>
-
 					
 				</div>
 
@@ -59,9 +59,12 @@
 					unset($object->data->description[0]);
 
 					//now lets take those pesky ; and make this readable
-					$object->data->description = str_replace(' ; ','<br/>',$object->data->description);	
+					//docimentation http://www.kat-format.dk/danMARC2/Danmarc2.5c.htm#pgfId=1575053
+					//ruben er da man
 					
-					print theme('item_list',$object->data->description, t('Content'), 'span', array('class' => 'description'));?>	
+					// = str_replace(' ; ','<br/>',$object->data->description);	
+					
+					print theme('item_list',format_danmarc2($object->data->description), t('Content'), 'span', array('class' => 'description'));?>	
 
 					<?php print theme('item_list',$object->data->identifier, t('Identifier'), 'span', array('class' => 'identifier'));?>	
 					<?php print theme('item_list',$object->data->subject, t('Subject'), 'span', array('class' => 'subject'));?>	
