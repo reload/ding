@@ -15,7 +15,7 @@
 
 		<h5><?php print t('Welcome'); ?></h5>
 		<div class="username">
-			<?php print l($user->name, 'patron/profile', $options= array('attributes' => array('class' =>'username')) );  ?>                                                
+			<?php print l($display_name, 'user/' . $user->uid . '/profile', $options= array('attributes' => array('class' =>'username')) );  ?>                                                
 		</div>
 
 	</div>

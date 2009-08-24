@@ -29,9 +29,9 @@ function ting_search_autocomplete_js($string) {
 				if (!isset($terms[strtolower($suggestion->word)]))
 				{
 					$suggestScan = TingClientFacade::scan($suggestion->word, 1);
-					if (sizeof($suggestScan->terms) > 0)
+					if (($term = array_shift($suggestScan->terms)) &&
+							(strtolower($suggestion->word) == strtolower($term->name)))
 					{
-						$term = array_shift($suggestScan->terms);
 						$term->score = $term->count * $suggestion->weight;
 						$terms[$term->name] = $term;
 					}

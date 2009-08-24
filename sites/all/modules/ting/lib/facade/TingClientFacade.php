@@ -43,14 +43,14 @@ class TingClientFacade {
 	 * @param string $query
 	 * @return TingClientSearchResult
 	 */
-	public static function search($query, $page = 1, $resultsPerPage = 10) {
+	public static function search($query, $page = 1, $resultsPerPage = 10, $options = array()) {
 		$searchRequest = new TingClientSearchRequest($query);
 		$searchRequest->setOutput(self::$format); //use json format per default
 		$searchRequest->setStart($resultsPerPage * ($page - 1));
 		$searchRequest->setNumResults($resultsPerPage);
 		
-		$searchRequest->setFacets(array('dc.subject', 'dc.date', 'dc.type', 'dc.creator', 'dc.language'));
-		$searchRequest->setNumFacets(10);
+		$searchRequest->setFacets((isset($options['facets'])) ? $options['facets'] : array('dc.subject', 'dc.date', 'dc.type', 'dc.creator', 'dc.language'));
+		$searchRequest->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((sizeof($searchRequest->getFacets()) == 0) ? 0 : 10));
 		
 		$searchResult = self::getClient()->search($searchRequest);
 		
@@ -73,7 +73,7 @@ class TingClientFacade {
 	{
 		$scanRequest = new TingClientScanRequest();
 		$scanRequest->setField('dc.title');
-		$scanRequest->setLower($query);
+		$scanRequest->setLower(strtolower($query));
 		$scanRequest->setNumResults($numResults);
 		$scanRequest->setOutput('json');
 		return self::getClient()->scan($scanRequest);
