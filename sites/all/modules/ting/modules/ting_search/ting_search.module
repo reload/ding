@@ -119,13 +119,15 @@ function ting_search_menu_alter(&$items) {
  * Load Ting search interface JavaScript dependencies.
  */
 function ting_search_add_js() {
-  $path = drupal_get_path('module', 'ting_search');
+	$basePath = drupal_get_path('module', 'ting');
+  //Add Pure JS templating engine
+  drupal_add_js($basePath . '/js/pure/js/pure.js', 'module', 'footer', TRUE);
+	
+	
+	$path = drupal_get_path('module', 'ting_search');
   //Add base Prototype files for enhanced OOP
   drupal_add_js($path . '/js/prototype/object.js', 'module', 'footer', TRUE);
   drupal_add_js($path . '/js/prototype/enumerable.js', 'module', 'footer', TRUE);
-
-  //Add Pure JS templating engine
-  drupal_add_js($path . '/js/pure/js/pure.js', 'module', 'footer', TRUE);
   //drupal_add_js($path . '/js/pure/js/purePacked.js', 'module', 'footer', TRUE);
 
   //Add jQuery Url plugin
