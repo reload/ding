@@ -59,7 +59,6 @@ function ding_campaign_menu() {
 function ding_campaign_perm() {
   return array(
     'create campaign',
-    'view campaign',
     'edit campaign',
     'delete campaign',
   );
@@ -131,8 +130,6 @@ function ding_campaign_access($op, $node, $account = NULL) {
   switch ($op) {
     case 'create':
       return user_access('create campaign', $account);
-    case 'view':
-      return user_access('view campaign', $account);
     case 'update':
       return user_access('edit campaign', $account);
     case 'delete':
