@@ -83,8 +83,10 @@
 #ting-object .right-column{width:310px;}
 
 .object-information{width:490px; padding:10px; margin:20px 0; clear:both; background:#e8eceb; font-size:10px; color:#050505;}
-	.object-information	.item-list{clear:both;}
-	.object-information .title{width:100px; display:block; float:left; font-weight: normal;}
+	.object-information	.item-list{clear:both; border-top: 1px solid #CCCECE; padding:10px 0 20px 0;}
+		.object-information .title{width:80px; display:block; float:left; font-weight: bold;}
+		.object-information span.item-list{width:300px; display:block; float:left; clear:none; border:none; padding:0;}
+	.object-information h3{width:100px; display:block; float:left; font-weight: normal;}
 
 .object-otherversions {background:transparent url(../images/bg-divider.png) no-repeat left top; margin:20px 0 0 0; padding:5px 0 0 0;}
 

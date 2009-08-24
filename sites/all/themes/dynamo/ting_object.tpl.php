@@ -1,6 +1,5 @@
 <?php 
 //	dsm($object);
-
 ?>
 <div id="ting-object">
 
@@ -58,7 +57,12 @@
 					<?php 
 					//we printed the first part up above so remove that 
 					unset($object->data->description[0]);
-					print theme('item_list',$object->data->description, NULL, 'div', array('class' => 'description'));?>	
+
+					//now lets take those pesky ; and make this readable
+					$object->data->description = str_replace(' ; ','<br/>',$object->data->description);	
+					
+					print theme('item_list',$object->data->description, t('Content'), 'span', array('class' => 'description'));?>	
+
 					<?php print theme('item_list',$object->data->identifier, t('Identifier'), 'span', array('class' => 'identifier'));?>	
 					<?php print theme('item_list',$object->data->subject, t('Subject'), 'span', array('class' => 'subject'));?>	
 					<?php print theme('item_list',$object->data->publisher, t('Publisher'), 'span', array('class' => 'publisher'));?>						
