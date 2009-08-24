@@ -161,7 +161,7 @@ buttons
 /* =====================================
 	node content styles
 /*--------------------------------------*/
-	.node .content img{padding:0 10px 10px 0; border: 1px solid #999; background:#eee; text-align:center; color:#aaa;}
+	.node .content img{padding:0 10px 10px 0;background:#eee; text-align:center; color:#aaa;}
 	.node .content ul{margin:0 0 15px 20px; padding:0 0 10px 0;}
 	.node .content ul li{list-style: circle outside;}
 	.node .content a,.node .content a:link, .node .content a:visited,.node .content a:active {text-decoration: none;}
