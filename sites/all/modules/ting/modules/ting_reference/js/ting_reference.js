@@ -9,7 +9,7 @@ Drupal.behaviors.addTingReferenceAutocomplete = function(context)
 		autocompleter.autocomplete(path, {});
 		autocompleter.result(function(event, data, formatted)
 		{
-			$(event.target).parent().siblings('.ting-object-id').val(data[1]).change();
+			jQuery(event.target).parent().siblings('.ting-object-id').val(data[1]).change();
 		});
 
 		autocompleter.parents('td:first').find('input.ting-reference-type-radio').focus(function()
@@ -57,5 +57,19 @@ Drupal.behaviors.showTingPreview = function(context)
 									
 											input.parents('td:first').find('.ting-reference-preview').html($p.render('ting-preview', data));											
 										});
+	});
+}
+
+Drupal.behaviors.initPreview = function(context)
+{
+	jQuery('.ting-object-id').each(function(i, e)
+	{
+		if (jQuery(e).val().length > 0)
+		{
+			if (jQuery(e).parents('td:first').find('.ting-reference-preview').children().size() < 1)
+			{
+				jQuery(e).change();
+			}
+		}	
 	});
 }

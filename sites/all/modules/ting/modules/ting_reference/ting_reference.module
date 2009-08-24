@@ -171,23 +171,29 @@ function ting_reference_widget_info() {
  * Implementation of hook_widget().
  */
 function ting_reference_widget(&$form, &$form_state, $field, $items, $delta = 0) {
-	$basePath = drupal_get_path('module', 'ting');
- 	//Added modified version of jQuery autocomplete as default plugin uses q parameter
-  drupal_add_js($basePath.'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.js', 'module', 'footer', TRUE);
-  drupal_add_js($basePath.'/js/pure/js/pure.js', 'module', 'footer', TRUE);
-	drupal_add_css($basePath.'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.css', 'module');
+	static $assetsLoaded;
 	
-  $path = drupal_get_path('module', 'ting_reference');
-  drupal_add_js($path.'/js/ting_reference.js', 'module', 'footer', TRUE);
-	drupal_add_js(array('tingReference' => array(
-												'autocomplete' => array(
-													'collection' => 'ting_reference/autocomplete/collection/js', 
-													'object' => 'ting_reference/autocomplete/object/js'),
-												'referenceTemplate' => ting_reference_render_collection_template(),
-												'previewUrl' => url('ting_reference/collection/js')),
-	), 'setting', 'footer', TRUE);
-  drupal_add_css($path.'/css/ting_reference.css', 'module');
-	
+	if (!isset($assetsLoaded))
+	{
+		$basePath = drupal_get_path('module', 'ting');
+	 	//Added modified version of jQuery autocomplete as default plugin uses q parameter
+	  drupal_add_js($basePath.'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.js', 'module', 'footer', TRUE);
+	  drupal_add_js($basePath.'/js/pure/js/pure.js', 'module', 'footer', TRUE);
+		drupal_add_css($basePath.'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.css', 'module');
+		
+	  $path = drupal_get_path('module', 'ting_reference');
+	  drupal_add_js($path.'/js/ting_reference.js', 'module', 'footer', TRUE);
+		drupal_add_js(array('tingReference' => array(
+													'autocomplete' => array(
+														'collection' => 'ting_reference/autocomplete/collection/js', 
+														'object' => 'ting_reference/autocomplete/object/js'),
+													'referenceTemplate' => ting_reference_render_collection_template(),
+													'previewUrl' => url('ting_reference/collection/js')),
+		), 'setting', 'footer', TRUE);
+	  drupal_add_css($path.'/css/ting_reference.css', 'module');
+
+	  $assetsLoaded = true;
+	}
 	
 	$element['ting_ref_type'] = array (
     '#type' => 'radios',
