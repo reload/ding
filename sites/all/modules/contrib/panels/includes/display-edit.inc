@@ -1,5 +1,5 @@
 <?php
-// $Id: display-edit.inc,v 1.7.2.22 2009/07/22 00:15:50 merlinofchaos Exp $
+// $Id: display-edit.inc,v 1.7.2.28 2009/08/18 22:29:29 merlinofchaos Exp $
 
 /*
  * @file
@@ -453,7 +453,7 @@ function panels_show_pane($display, $pane, $skin = TRUE) {
       'attributes' => array('class' => 'ctools-use-modal'),
     );
   }
-  
+
   $style = panels_get_style((!empty($pane->style['style'])) ? $pane->style['style'] : 'default');
 
   $links[] = array(
@@ -616,30 +616,33 @@ function panels_edit_display_settings_form(&$form_state) {
       '#type' => 'textfield',
       '#default_value' => $display->title,
       '#title' => t('Title'),
-      '#description' => t('The title of this panel. You may use substitutions in this title.'),
+      '#description' => t('The title of this panel.'),
       '#process' => array('ctools_process_dependency'),
       '#dependency' => array('edit-display-title-hide-title' => array(0)),
     );
 
-    $form['display_title']['contexts'] = array(
-      '#title' => t('Substitutions'),
-      '#type' => 'fieldset',
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-    );
+    if (!empty($display->context)) {
+      $form['display_title']['title']['#description'] .= ' ' . t('You may use substitutions in this title.');
+      $form['display_title']['contexts'] = array(
+        '#title' => t('Substitutions'),
+        '#type' => 'fieldset',
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+      );
 
-    $rows = array();
-    foreach ($display->context as $context) {
-      foreach (ctools_context_get_converters('%' . check_plain($context->keyword) . ':', $context) as $keyword => $title) {
-        $rows[] = array(
-          check_plain($keyword),
-          t('@identifier: @title', array('@title' => $title, '@identifier' => $context->identifier)),
-        );
+      $rows = array();
+      foreach ($display->context as $context) {
+        foreach (ctools_context_get_converters('%' . check_plain($context->keyword) . ':', $context) as $keyword => $title) {
+          $rows[] = array(
+            check_plain($keyword),
+            t('@identifier: @title', array('@title' => $title, '@identifier' => $context->identifier)),
+          );
+        }
       }
-    }
 
-    $header = array(t('Keyword'), t('Value'));
-    $form['display_title']['contexts']['context'] = array('#value' => theme('table', $header, $rows));
+      $header = array(t('Keyword'), t('Value'));
+      $form['display_title']['contexts']['context'] = array('#value' => theme('table', $header, $rows));
+    }
   }
 
   // TODO doc the ability to do this as part of the API
@@ -768,12 +771,6 @@ function panels_add_content($cache, $panel_id, $key) {
 
     $output = '<div class="panels-add-content-modal">';
     natcasesort($category_names);
-    if (empty($key) || empty($category_names[$key]) || $key == 'root') {
-      $key = current(array_keys($category_names));
-    }
-
-    natcasesort($titles[$key]);
-
     $selector = '<div class="panels-categories-box">';
 
     // Render our list of categories in column 0.
@@ -784,7 +781,7 @@ function panels_add_content($cache, $panel_id, $key) {
       }
 
       $url = "panels/ajax/add-pane/$cache_key/$panel_id/$category";
-      $selector .= ctools_ajax_text_button($name, $url, $description, $class);
+      $selector .= ctools_ajax_text_button($name, $url, '', $class);
     }
 
     $selector .= '</div>';
@@ -794,27 +791,38 @@ function panels_add_content($cache, $panel_id, $key) {
       }
     }
 
-    // Fill out the info for our current category.
-    $columns = 2;
-    $col[1] = '';
-    $col[2] = '';
-
-    $col_size = count($titles[$key]) / $columns;
-    $count = 0;
-    foreach ($titles[$key] as $id => $title) {
-      $which = floor($count++ / $col_size) + 1; // we leave 0 for the categories.
-      $col[$which] .= $categories[$key][$id];
+    if (empty($key) || empty($category_names[$key]) || $key == 'root') {
+//      $key = current(array_keys($category_names));
+      $center = '<div class="panels-categories-description">';
+      $center .= t('Content options are divided by category. Please select a category from the left to proceed.');
+      $center .= '</div>';
     }
+    else {
+      natcasesort($titles[$key]);
 
+      // Fill out the info for our current category.
+      $columns = 2;
+      $col[1] = '';
+      $col[2] = '';
+
+      $col_size = count($titles[$key]) / $columns;
+      $count = 0;
+      foreach ($titles[$key] as $id => $title) {
+        $which = floor($count++ / $col_size) + 1; // we leave 0 for the categories.
+        $col[$which] .= $categories[$key][$id];
+      }
+
+      $center = '';
+      foreach ($col as $id => $column) {
+        $center .= '<div class="panels-section-column panels-section-column-' . $id . '">'
+        . '<div class="inside">' . $column . '</div></div>';
+      }
+      $center .= '</div>'; // columns
+    }
     $output .= '<div class="panels-section-column panels-section-column-categories">'
       . '<div class="inside">' . $selector . '</div></div>';
     $output .= '<div class="panels-section-columns">';
-    foreach ($col as $id => $column) {
-      $output .= '<div class="panels-section-column panels-section-column-' . $id . '">'
-      . '<div class="inside">' . $column . '</div></div>';
-    }
-    $output .= '</div>'; // columns
-
+    $output .= $center;
     $output .= '</div>'; // categories box
   }
   return $output;
@@ -1402,6 +1410,7 @@ function panels_ajax_style_settings($type, $cache, $pid = '') {
       break;
 
     case 'pane':
+      ctools_include('content');
       $pane = &$cache->display->content[$pid];
       $conf = &$pane->style['settings'];
       $subtype = ctools_content_get_subtype($pane->type, $pane->subtype);
@@ -1505,6 +1514,7 @@ function panels_edit_style_settings_form_submit($form, &$form_state) {
  * AJAX entry point to configure CSS for a pane.
  */
 function panels_ajax_configure_pane_css($cache, $pid = NULL) {
+  ctools_include('content');
   if (empty($cache->display->content[$pid])) {
     ctools_modal_render(t('Error'), t('Invalid pane id.'));
   }
