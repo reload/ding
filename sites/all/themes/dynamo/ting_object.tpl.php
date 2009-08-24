@@ -64,7 +64,7 @@
 					
 					// = str_replace(' ; ','<br/>',$object->data->description);	
 					
-					print theme('item_list',format_danmarc2($object->data->description), t('Content'), 'span', array('class' => 'description'));?>	
+			//		print theme('item_list',format_danmarc2($object->data->description), t('Content'), 'span', array('class' => 'description'));?>	
 
 					<?php print theme('item_list',$object->data->identifier, t('Identifier'), 'span', array('class' => 'identifier'));?>	
 					<?php print theme('item_list',$object->data->subject, t('Subject'), 'span', array('class' => 'subject'));?>	
