@@ -66,3 +66,16 @@ function ting_reference_autocomplete_format_items($items)
 	}
 	return implode("\n", $return);
 }
+
+function ting_reference_collection_js() {
+	$collection = false;
+
+	if (isset($_REQUEST['id']))
+	{	
+		module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
+		$object = TingClientFacade::getObject($_REQUEST['id']);
+		$collection = new TingClientObjectCollection(array($object));
+	}
+	
+	($collection) ? drupal_json($collection) : drupal_not_found();
+}
