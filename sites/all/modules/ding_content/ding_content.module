@@ -24,6 +24,9 @@ function ding_content_perm() {
     'create profile',
     'edit profile',
     'delete profile',
+    'create topic',
+    'edit topic',
+    'delete topic',
     'create event',
     'edit event',
     'delete event',
@@ -55,6 +58,13 @@ function ding_content_node_info() {
       'description' => 'A staff profile with description, profile picture, and tags.',
       'title_label' => t('Name'),
       'body_label' => t('Description'),
+    ),
+    'topic' => array(
+      'name' => t('Topic'),
+      'module' => 'ding_content',
+      'description' => 'A collection of links and Ting objects relevant to a specific topic, possibly related to a library.',
+      'title_label' => t('Name'),
+      'body_label' => FALSE,
     ),
     'event' => array(
       'name' => t('Event'),
@@ -92,6 +102,12 @@ function ding_content_access($op, $node, $account = NULL) {
       'view' => 'access user profiles',
       'update' => 'edit article',
       'delete' => 'delete article',
+    ),
+    'topic' => array(
+      'create' => 'create event',
+      'view' => 'access content',
+      'update' => 'edit event',
+      'delete' => 'delete event',
     ),
     'event' => array(
       'create' => 'create event',

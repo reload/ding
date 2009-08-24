@@ -105,7 +105,8 @@ function alma_client_get_patron_info($borr_card, $pin_code) {
   try {
     return alma_client()->get_patron_info($borr_card, $pin_code);
   } catch (Exception $e) {
-    dd($e->getMessage());
+    drupal_set_message(t('An error occurred while trying to communicate with the library system. Please try again'), 'error', FALSE);
+    watchdog('alma_user', 'get_patron_info error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
     return FALSE;
   }
 }
@@ -150,4 +151,23 @@ function alma_client_get_loans($borr_card, $pin_code) {
   }
 }
 
+/**
+ * Get a patron's debts
+ *
+ * @param string $borr_card
+ *    Library patron's borrowing card number. Either just an arbitrary
+ *    number printed on their library card or their CPR-code.
+ * @param string $pin_code
+ *    Library patron's four digit PIN code.
+ * @return array
+ *    The loans as an array.
+ */
+function alma_client_get_debts($borr_card, $pin_code) {
+  try {
+    return alma_client()->get_debts($borr_card, $pin_code);
+  } catch (Exception $e) {
+    dd($e->getMessage());
+    return FALSE;
+  }
+}
 

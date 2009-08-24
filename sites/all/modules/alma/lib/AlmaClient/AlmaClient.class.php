@@ -57,7 +57,7 @@ class AlmaClient {
             throw new AlmaClientBorrCardNotFound('Invalid borrower credentials');
             break;
           default:
-            throw new AlmaClientCommunicationError('Status is not okay');
+            throw new AlmaClientCommunicationError('Status is not okay: ' . $message);
         }
       }
     }
@@ -213,6 +213,31 @@ class AlmaClient {
    */
   private static function loan_sort($a, $b) {
     return strcmp($a['due_date'], $b['due_date']);
+  }
+
+  /**
+   * Get patron's debts.
+   */
+  public function get_debts($borr_card, $pin_code) {
+    $doc = $this->request('patron/debts', array('borrCard' => $borr_card, 'pinCode' => $pin_code));
+
+    $data = array(
+      'total_formatted' => $doc->getElementsByTagName('debts')->item(0)->getAttribute('totalDebtAmountFormatted'),
+      'debts' => array(),
+    );
+
+    foreach ($doc->getElementsByTagName('debt') as $item) {
+      $data['debts'][] = array(
+        'id' => $item->getAttribute('debtId'),
+        'date' => $item->getAttribute('debtDate'),
+        'type' => $item->getAttribute('debtType'),
+        'amount' => $item->getAttribute('debtAmount'),
+        'amount_formatted' => $item->getAttribute('debtAmountFormatted'),
+        'note' => $item->getAttribute('debtNote'),
+      );
+    }
+
+    return $data;
   }
 }
 
