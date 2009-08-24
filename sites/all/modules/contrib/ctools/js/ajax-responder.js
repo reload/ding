@@ -1,4 +1,4 @@
-// $Id: ajax-responder.js,v 1.13 2009/07/22 00:51:38 merlinofchaos Exp $
+// $Id: ajax-responder.js,v 1.14 2009/08/17 18:31:13 merlinofchaos Exp $
 /**
  * @file
  *
@@ -260,6 +260,10 @@ Drupal.CTools.AJAX.commands = {
 
   data: function(data) {
     $(data.selector).data(data.name, data.value);
+  },
+  
+  attr: function(data) {
+    $(data.selector).attr(data.name, data.value);
   },
   
   restripe: function(data) {

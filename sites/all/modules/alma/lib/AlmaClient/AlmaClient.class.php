@@ -54,6 +54,7 @@ class AlmaClient {
         $message = $doc->getElementsByTagName('status')->item(0)->getAttribute('key');
         switch($message) {
           case '':
+          case 'borrCardNotFound':
             throw new AlmaClientBorrCardNotFound('Invalid borrower credentials');
             break;
           default:

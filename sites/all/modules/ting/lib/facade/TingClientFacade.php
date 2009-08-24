@@ -95,7 +95,8 @@ class TingClientFacade {
 	 */
 	public static function getObject($objectId)
 	{
-		return self::getClient()->getObject(new TingClientObjectRequest($objectId, self::$format));	
+		$object = self::getClient()->getObject(new TingClientObjectRequest($objectId, self::$format));
+		return array_shift(self::addAdditionalInfo(array($object)));
 	}
 	
 	private static function addCollectionUrls(TingClientObjectCollection $collection)

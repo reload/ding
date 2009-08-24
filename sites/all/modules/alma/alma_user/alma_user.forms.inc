@@ -251,3 +251,51 @@ function alma_user_forms_library_settings_submit($form, &$form_state) {
   db_query("UPDATE {alma_user} SET preferred_branch = '%s' WHERE uid = %d LIMIT 1;", $form_state['values']['preferred_branch'], $form_state['values']['account']->uid);
 }
 
+/**
+ * Reservation details form.
+ */
+function alma_user_forms_reservation_details($form_state, $account, $records) {
+  $form = array();
+
+  $form['reservations'] = array(
+    '#tree' => TRUE,
+    '#prefix' => '<ul class="reservations"><ul class="labels"><li class="title">' . t('Reservations') . '</li><li class="expires">' . t('Expires') . '</li><li class="pickup-branch">' . t('Pickup branch') . '</li><li class="queue">' . t('Queue position') . '</li><li class="select">' . t('Select') . '</li></ul>',
+    '#suffix' => '</ul>',
+  );
+
+  foreach ($records as $rec) {
+    $form['reservations'][$rec['id']] = array(
+      '#type' => 'alma_reservation',
+      '#reservation' => $rec,
+      '#prefix' => '<div class="reservation-details">',
+      '#suffix' => '</div>',
+    );
+  }
+
+  $form['new_expiry'] = array(
+    '#type' => 'date_popup',
+    '#title' => t('Not interested after'),
+    '#date_format' => DATE_FORMAT_DATE,
+  );
+
+
+  $form['new_pickup_branch'] = array(
+    '#type' => 'select',
+    '#title' => t('New pickup branch'),
+    '#options' => alma_client_get_reservation_branches(),
+    '#default_value' => $account->preferred_branch,
+  );
+
+  $form['remove'] = array(
+    '#type' => 'submit',
+    '#value' => t('Cancel selected'),
+  );
+
+  $form['update'] = array(
+    '#type' => 'submit',
+    '#value' => t('Update selected'),
+  );
+
+  return $form;
+}
+

@@ -60,3 +60,11 @@ function theme_alma_user_record_list($records) {
   return theme('item_list', $items, NULL, 'ul', array('class' => 'record-list'));
 }
 
+/**
+ * Theme hook for our reservation element.
+ */
+function theme_alma_reservation($element) {
+  return $element['#children'];
+}
+
+
