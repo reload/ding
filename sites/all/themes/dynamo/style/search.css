@@ -78,8 +78,8 @@
 		#ting-collection .content{font-size:10px; line-height:14px;}
 		#ting-collection .creator{font-weight:bold;}
 		#ting-collection .content ul li {margin:0 0 0 5px; }
-	#ting-collection .cart{width:400px; float:left;}
-	#ting-collection .cart li{width:110px; float:left;}
+	#ting-collection .cart{width:70px; float:left;}
+		#ting-collection .cart li{width:80px; float:left;}
 
 #ting-object .picture{width:175px; height:200px; display:block; background:#eee; overflow:hidden;}
 #ting-object .button{float:left;}
