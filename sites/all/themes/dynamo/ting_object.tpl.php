@@ -57,14 +57,8 @@
 					<?php 
 					//we printed the first part up above so remove that 
 					unset($object->data->description[0]);
-
-					//now lets take those pesky ; and make this readable
-					//docimentation http://www.kat-format.dk/danMARC2/Danmarc2.5c.htm#pgfId=1575053
-					//ruben er da man
 					
-					// = str_replace(' ; ','<br/>',$object->data->description);	
-					
-			//		print theme('item_list',format_danmarc2($object->data->description), t('Content'), 'span', array('class' => 'description'));?>	
+					print theme('item_list',format_danmarc2($object->data->description), t('Content'), 'span', array('class' => 'description'));?>	
 
 					<?php print theme('item_list',$object->data->identifier, t('Identifier'), 'span', array('class' => 'identifier'));?>	
 					<?php print theme('item_list',$object->data->subject, t('Subject'), 'span', array('class' => 'subject'));?>	
