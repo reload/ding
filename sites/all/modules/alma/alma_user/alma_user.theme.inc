@@ -67,4 +67,3 @@ function theme_alma_reservation($element) {
   return $element['#children'];
 }
 
-
