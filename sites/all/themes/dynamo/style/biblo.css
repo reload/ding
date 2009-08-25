@@ -39,9 +39,9 @@
 	main library page (http://biblo.local/biblioteker/FOO)
 /*----------------------------------------------------------------------------*/
 /*article lists*/
-.view-article-list li{background:transparent url(../images/bg-divider-small.png) no-repeat left top; padding:10px 20px 10px 20px; margin:0;}
-	.view-article-list li.first{background:none; padding:0 20px ;}
-	.view-article-list li li{background:none; padding:0px 10px 0px 0px; margin:0;}
+.panel-left .view-article-list li{background:transparent url(../images/bg-divider-small.png) no-repeat left top; padding:10px 20px 10px 20px; margin:0;}
+	.panel-left .view-article-list li.first{background:none; padding:0 20px ;}
+	.panel-left .view-article-list li li{background:none; padding:0px 10px 0px 0px; margin:0;}
 
 /*calender pane*/
 .pane-event_list .panel-pane{margin:0 5px;}

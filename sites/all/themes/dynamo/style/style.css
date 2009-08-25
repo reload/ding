@@ -104,7 +104,8 @@ Panels BOX css styles
 .ding-box-pane{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden;}
 	.ding-box-pane h3{width:228px; padding:8px 0 4px 20px; height:18px; font-size:11px; line-height:20px; font-weight:bold; background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; overflow:hidden;}
 	.ding-box-pane ul{width:228px; padding:8px 0px; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom;  overflow:hidden; }
-	.ding-box-pane li{margin:0 0 0 20px;}
+	.ding-box-pane ul li{margin:0 0 0 10px; background:#f0f; width:210px;}
+	.ding-box-pane{font-size:11px; line-height:20px; }
 
 	.ding-box-wide{width:514px; background:transparent url(../images/sprite-box.png) repeat-y -930px 0; overflow:hidden;}
 		.ding-box-wide h3{ width:514px; font-weight:bold;padding:8px 0 4px 20px; height:18px; font-size:11px; line-height:20px;  background:transparent url(../images/sprite-box.png) no-repeat -930px -0px; overflow:hidden;}
@@ -129,7 +130,7 @@ Campaigns
 				.campaign-theme-green{background:#899e99;}
 				.campaign-theme-blue{background:#006c8a;}
 
-.campaign-image{margin:0 10px;}
+.campaign-image{margin:0 10px; width:220px; overflow:hidden;}
 
 /* =====================================
 basic elements
