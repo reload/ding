@@ -172,7 +172,9 @@ div.comment {width: auto; margin:0 0 10px 0; padding:5px 5px 5px 0;}
 	div.comment .meta .author{color:#999;}
 	div.comment .meta .date{color:#999;}
 
-
+	#comment-form .form-textarea{width:650px;}
+	#comment-form .form-buttons{text-align:right;}
+		#comment-form .form-button{display:inline;}
 /*blog comments*/
 ul.item-list h3{margin:0 0 0 20px;}
 ul.item-list li{margin:0 0 0 20px;}

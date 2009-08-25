@@ -20,6 +20,11 @@ function dynamo_theme($existing, $type, $theme, $path) {
 	'user_login_block' => array(
 		'arguments' => array ('form' => NULL),
 		),
+
+	'comment_form' => array(
+		'arguments' => array ('form' => NULL),
+		),
+
  );
 }
 
@@ -287,3 +292,20 @@ function format_danmarc2($string){
 	return $string;
 }
 
+function dynamo_comment_form($form){
+//	dsm($form);
+	$form['comment_filter']['format']['#collapsed'] = FALSE;
+	unset($form['notify_clearit']);
+	unset($form['comment_filter']['format']);
+	// $form['_author']['#value'] = '<span>' . $form['_author']['#value'] .'</span>'; // adds a span around
+	// $form['submit']['#type'] 	= "image_button" ;
+	// $form['submit']['#src'] 	= drupal_get_path('theme','mdkate')."/images/foo.gif";
+	// $form['submit']['#attributes']['class'] 	= "";
+
+	$submit = drupal_render($form['submit']);
+	$preview = drupal_render($form['preview']);
+	$theform = drupal_render($form);
+	return  $theform .'<div class="form-buttons">' . $submit . $preview .'</div>';
+
+	return drupal_render($form);
+}

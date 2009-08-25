@@ -7,7 +7,7 @@ function mothership_form_element($element, $value) {
   $t = get_t();
 
 	//add a more specific form item type instead of the all catch form-item
-  $output = "<div class=\"form-item-" . $element['#type'] . " \" ";
+  $output = "<div class=\"form-item form-item-" . $element['#type'] . " \" ";
   // TODO cant this be dublicated on a page?
   //and then its not unique
    if (!empty($element['#id'])) {
