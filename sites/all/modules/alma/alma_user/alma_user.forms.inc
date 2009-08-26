@@ -257,6 +257,11 @@ function alma_user_forms_library_settings_submit($form, &$form_state) {
 function alma_user_forms_reservation_details($form_state, $account, $records) {
   $form = array();
 
+  $form['account'] = array(
+    '#type' => 'value',
+    '#value' => $account,
+  );
+
   $form['reservations'] = array(
     '#tree' => TRUE,
     '#prefix' => '<ul class="reservations"><ul class="labels"><li class="title">' . t('Reservations') . '</li><li class="expires">' . t('Expires') . '</li><li class="pickup-branch">' . t('Pickup branch') . '</li><li class="queue">' . t('Queue position') . '</li><li class="select">' . t('Select') . '</li></ul>',
@@ -276,6 +281,7 @@ function alma_user_forms_reservation_details($form_state, $account, $records) {
     '#type' => 'date_popup',
     '#title' => t('Not interested after'),
     '#date_format' => DATE_FORMAT_DATE,
+    '#date_year_range' => '-0:+2',
   );
 
 
@@ -297,5 +303,56 @@ function alma_user_forms_reservation_details($form_state, $account, $records) {
   );
 
   return $form;
+}
+
+/**
+ * Reservation details form validation.
+ */
+function alma_user_forms_reservation_details_validate($form, &$form_state) {
+  if (!empty($form_state['values']['new_expiry'])) {
+    list($year, $month, $day) = explode('-', trim($form_state['values']['new_expiry']));
+    if (!checkdate($month, $day, $year)) {
+      form_set_error('new_expiry', t('Invalid date'));
+    }
+
+    $timestamp = strtotime($form_state['values']['new_expiry']);
+
+    if ($timestamp <= $SERVER['REQUEST_TIME']) {
+      form_set_error('new_expiry', t('Date must be later than today.'));
+    }
+    else {
+      form_set_value($form['new_expiry'], format_date($timestamp, 'custom', 'Y-m-d'), &$form_state);
+    }
+  }
+}
+
+/**
+ * Reservation details form submit handler.
+ */
+function alma_user_forms_reservation_details_submit($form, &$form_state) {
+  $selected = array();
+
+  foreach ($form_state['values']['reservations'] as $id => $res) {
+    if ($res['selected']) {
+      $selected[] = $id;
+    }
+  }
+
+  $changes = array();
+
+  if (!empty($form_state['values']['new_expiry'])) {
+    $changes['valid_to'] = $form_state['values']['new_expiry'];
+  }
+
+  if (!empty($form_state['values']['new_pickup_branch'])) {
+    $changes['pickup_branch'] = $form_state['values']['new_pickup_branch'];
+  }
+
+  if (!empty($selected) && !empty($changes)) {
+    $creds = alma_user_get_credentials($form_state['values']['account']);
+    foreach ($selected as $id) {
+      alma_client_change_reservation($creds['borr_card'], $creds['pin_code'], $form['reservations'][$id]['#reservation'], $changes);
+    }
+  }
 }
 

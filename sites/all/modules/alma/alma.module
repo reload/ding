@@ -186,3 +186,26 @@ function alma_client_get_debts($borr_card, $pin_code) {
   }
 }
 
+/**
+ * Change a reservation
+ *
+ * @param string $borr_card
+ *    Library patron's borrowing card number. Either just an arbitrary
+ *    number printed on their library card or their CPR-code.
+ * @param string $pin_code
+ *    Library patron's four digit PIN code.
+ * @param array $reservation
+ *    Data for the reservation we're changing.
+ * @param array $changes
+ *    Array of changes to apply.
+ */
+function alma_client_change_reservation($borr_card, $pin_code, $reservation, $changes) {
+  try {
+    return alma_client()->change_reservation($borr_card, $pin_code, $reservation, $changes);
+  }
+  catch (Exception $e) {
+    dd($e->getMessage());
+    return FALSE;
+  }
+}
+
