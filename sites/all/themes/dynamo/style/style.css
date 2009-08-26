@@ -17,7 +17,7 @@ ting search block
 	#ting-search-form .form-text{height:20px; width:468px; margin:0 10px 0 0; padding:4px 0 0 25px; color:#929292; background:#fff url(../images/magnifier.png) no-repeat 9px 5px; border: 1px solid #999; font-size:13px; float:left;}
 		#ting-search-form label{margin:3px 0 0 30px; font-size:13px; font-weight:normal;} 
 		#ting-search-form  .form-image-button{float:left; display:block; height:29px; width:94px; }
-		#edit-keys-wrapper{float:left; display:inline;}
+		#edit-keys-wrapper{}
 
 /* =====================================
 Account block
