@@ -1,9 +1,18 @@
 $(document).ready(function() {
+
+		//password iphone thingie
+		$('input:password').dPassword({
+				duration: 2000,
+				prefix: 'my_'
+		});
+
 	//label
 	  $("label").inFieldLabels({
 			fadeOpacity:"0.2",
 			fadeDuration:"100"			
 		});
+
+
 //carousel
     $('#frontpagecarousel').jcarousel({
        vertical: false, //
