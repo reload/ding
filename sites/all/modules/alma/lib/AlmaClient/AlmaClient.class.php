@@ -268,6 +268,20 @@ class AlmaClient {
     $doc = $this->request('patron/reservations/change', $params);
     return TRUE;
   }
+
+  /**
+   * Remove a reservation.
+   */
+  public function remove_reservation($borr_card, $pin_code, $reservation) {
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'reservation' => $reservation['id'],
+    );
+
+    $doc = $this->request('patron/reservations/remove', $params);
+    return TRUE;
+  }
 }
 
 /**

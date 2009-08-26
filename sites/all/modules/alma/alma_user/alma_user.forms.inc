@@ -295,11 +295,13 @@ function alma_user_forms_reservation_details($form_state, $account, $records) {
   $form['remove'] = array(
     '#type' => 'submit',
     '#value' => t('Cancel selected'),
+    '#attributes' => array('class' => 'cancel-button'),
   );
 
   $form['update'] = array(
     '#type' => 'submit',
     '#value' => t('Update selected'),
+    '#attributes' => array('class' => 'update-button'),
   );
 
   return $form;
@@ -338,21 +340,30 @@ function alma_user_forms_reservation_details_submit($form, &$form_state) {
     }
   }
 
-  $changes = array();
+  switch ($form_state['clicked_button']['#attributes']['class']) {
+    case 'update-button':
+      $changes = array();
+      if (!empty($form_state['values']['new_expiry'])) {
+        $changes['valid_to'] = $form_state['values']['new_expiry'];
+      }
 
-  if (!empty($form_state['values']['new_expiry'])) {
-    $changes['valid_to'] = $form_state['values']['new_expiry'];
-  }
+      if (!empty($form_state['values']['new_pickup_branch'])) {
+        $changes['pickup_branch'] = $form_state['values']['new_pickup_branch'];
+      }
 
-  if (!empty($form_state['values']['new_pickup_branch'])) {
-    $changes['pickup_branch'] = $form_state['values']['new_pickup_branch'];
-  }
-
-  if (!empty($selected) && !empty($changes)) {
-    $creds = alma_user_get_credentials($form_state['values']['account']);
-    foreach ($selected as $id) {
-      alma_client_change_reservation($creds['borr_card'], $creds['pin_code'], $form['reservations'][$id]['#reservation'], $changes);
-    }
+      if (!empty($selected) && !empty($changes)) {
+        $creds = alma_user_get_credentials($form_state['values']['account']);
+        foreach ($selected as $id) {
+          alma_client_change_reservation($creds['borr_card'], $creds['pin_code'], $form['reservations'][$id]['#reservation'], $changes);
+        }
+      }
+      break;
+    case 'cancel-button':
+      $creds = alma_user_get_credentials($form_state['values']['account']);
+      foreach ($selected as $id) {
+        alma_client_remove_reservation($creds['borr_card'], $creds['pin_code'], $form['reservations'][$id]['#reservation']);
+      }
+      break;
   }
 }
 

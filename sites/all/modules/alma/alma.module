@@ -209,3 +209,24 @@ function alma_client_change_reservation($borr_card, $pin_code, $reservation, $ch
   }
 }
 
+/**
+ * Remove a reservation
+ *
+ * @param string $borr_card
+ *    Library patron's borrowing card number. Either just an arbitrary
+ *    number printed on their library card or their CPR-code.
+ * @param string $pin_code
+ *    Library patron's four digit PIN code.
+ * @param array $reservation
+ *    Data for the reservation we're removing.
+ */
+function alma_client_remove_reservation($borr_card, $pin_code, $reservation) {
+  try {
+    return alma_client()->remove_reservation($borr_card, $pin_code, $reservation);
+  }
+  catch (Exception $e) {
+    dd($e->getMessage());
+    return FALSE;
+  }
+}
+
