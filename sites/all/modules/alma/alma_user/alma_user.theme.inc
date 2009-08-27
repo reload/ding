@@ -67,3 +67,10 @@ function theme_alma_reservation($element) {
   return $element['#children'];
 }
 
+/**
+ * Theme hook for our reservation element.
+ */
+function theme_alma_loan($element) {
+  return $element['#children'];
+}
+

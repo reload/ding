@@ -97,6 +97,13 @@ function alma_user_profile_content_type_render($subtype, $conf, $panel_args, $co
         $list = alma_client_get_loans($alma_creds['borr_card'], $alma_creds['pin_code']);
         $block->content = theme('alma_user_record_list', $list);
         break;
+      case 'alma_user_loans_details':
+        module_load_include('forms.inc', 'alma_user');
+        $list = alma_client_get_loans($alma_creds['borr_card'], $alma_creds['pin_code']);
+        $block->content = drupal_get_form('alma_user_forms_loan_details', $account, $list);
+        break;
+
+
       case 'alma_user_debts_notice':
         $data = alma_client_get_debts($alma_creds['borr_card'], $alma_creds['pin_code']);
         if (count($data['debts']) == 1) {

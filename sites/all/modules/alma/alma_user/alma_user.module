@@ -135,6 +135,11 @@ function alma_user_elements() {
       '#process' => array('alma_user_elements_reservation_process'),
       '#reservation' => array(),
     ),
+    'alma_loan' => array(
+      '#input' => TRUE,
+      '#process' => array('alma_user_elements_loan_process'),
+      '#loan' => array(),
+    ),
   );
 }
 
@@ -172,6 +177,9 @@ function alma_user_theme($existing, $type, $theme, $path) {
       'file' => 'alma_user.theme.inc',
     ),
     'alma_reservation' => array(
+      'arguments' => array('element' => NULL),
+    ),
+    'alma_loan' => array(
       'arguments' => array('element' => NULL),
     ),
   );
@@ -486,6 +494,34 @@ function alma_user_elements_reservation_process($element, $form_state) {
       '#prefix' => '<li class="select">',
       '#suffix' => '</li>',
     );
+  }
+
+  return $element;
+}
+
+/**
+ * Implementation of loan form element.
+ */
+function alma_user_elements_loan_process($element, $form_state) {
+  $element['#prefix'] = '<ul class="loan loan-' . $element['#loan']['id'] . '">';
+  $element['#suffix'] = '</ul>';
+
+  $element['title'] = array(
+    '#value' => '<li class="title">' . $element['#loan']['id'] . '</li>',
+  );
+
+  $element['renew'] = array(
+    '#attributes' => array('class' => 'renew-' . $element['#loan']['id']),
+    '#prefix' => '<li class="renew">',
+    '#suffix' => '</li>',
+  );
+
+  if ($element['#loan']['is_renewable']) {
+    $element['renew']['#type'] = 'submit';
+    $element['renew']['#value'] = t('Renew');
+  }
+  else {
+    $element['renew']['#value'] = t('Not renewable');
   }
 
   return $element;

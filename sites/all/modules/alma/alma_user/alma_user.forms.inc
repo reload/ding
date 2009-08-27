@@ -272,8 +272,6 @@ function alma_user_forms_reservation_details($form_state, $account, $records) {
     $form['reservations'][$rec['id']] = array(
       '#type' => 'alma_reservation',
       '#reservation' => $rec,
-      '#prefix' => '<div class="reservation-details">',
-      '#suffix' => '</div>',
     );
   }
 
@@ -365,5 +363,68 @@ function alma_user_forms_reservation_details_submit($form, &$form_state) {
       }
       break;
   }
+}
+
+/**
+ * Reservation details form.
+ */
+function alma_user_forms_loan_details($form_state, $account, $records) {
+  $form = array();
+
+  $form['account'] = array(
+    '#type' => 'value',
+    '#value' => $account,
+  );
+
+  $form['renew_all'] = array(
+    '#type' => 'submit',
+    '#value' => t('Renew all'),
+    '#attributes' => array('class' => 'renew-all'),
+  );
+
+  $form['loans'] = array(
+    '#tree' => TRUE,
+  );
+
+  foreach (_alma_user_forms_group_loans($records) as $date => $group) {
+
+    $form['loans'][$date] = array(
+      '#type' => 'fieldset',
+      '#tree' => FALSE, // We don't want the value nested by date, only the presentation.
+    );
+
+    if ($date == 'overdue') {
+      $form['loans'][$date]['#title'] = t('Overdue loans');
+      $form['loans'][$date]['#attributes']['class'] = 'overdue ';
+    }
+    else {
+      $form['loans'][$date]['#title'] = t('Due in @count days, @date', array('@date' => $date, '@count' => ceil((strtotime($date) - $_SERVER['REQUEST_TIME']) / 86400)));
+    }
+
+    foreach ($group as $loan) {
+      $form['loans'][$date][$loan['id']] = array(
+        '#type' => 'alma_loan',
+        '#loan' => $loan,
+      );
+    }
+  }
+  return $form;
+}
+
+/**
+ * Helper function to group loans by their due dates.
+ */
+function _alma_user_forms_group_loans($records) {
+  $groups = array();
+
+  foreach ($records as $loan) {
+    if ($loan['due_date'] <= date('Y-m-d')) {
+      $groups['overdue'][] = $loan;
+    }
+    else {
+      $groups[$loan['due_date']][] = $loan;
+    }
+  }
+  return $groups;
 }
 
