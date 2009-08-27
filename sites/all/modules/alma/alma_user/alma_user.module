@@ -480,11 +480,13 @@ function alma_user_elements_reservation_process($element, $form_state) {
     '#value' =>  '<li class="queue">' . $element['#reservation']['queue_no'] . '</li>',
   );
 
-  $element['selected'] = array(
-    '#type' => 'checkbox',
-    '#prefix' => '<li class="select">',
-    '#suffix' => '</li>',
-  );
+  if ($element['#reservation']['status'] == 'active') {
+    $element['selected'] = array(
+      '#type' => 'checkbox',
+      '#prefix' => '<li class="select">',
+      '#suffix' => '</li>',
+    );
+  }
 
   return $element;
 }
