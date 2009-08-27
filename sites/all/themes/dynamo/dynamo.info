@@ -52,5 +52,5 @@ ie stylesheets[if lt IE 7][all][] = style/ie6.css
 scripts[] = script/jquery.infieldlabel.min.js
 ;scripts[] = script/jquery.overlabel.js
 scripts[] = script/jquery.jcarousel.pack.js
-scripts[] = script/jquery.dPassword.min.js
+scripts[] = script/jquery.dpassword.min.js
 scripts[] = script.js

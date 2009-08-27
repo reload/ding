@@ -115,6 +115,10 @@ Panels BOX css styles
 	.ding-box-wide .odd{background:#f3f5f5;}
 	.ding-box-wide .even{background:#fff;}
 
+	.ding-box-pane .odd{background:#f3f5f5;}
+	.ding-box-pane .even{background:#fff;}
+
+
 /* =====================================
 Campaigns 
 /*--------------------------------------*/
@@ -138,8 +142,6 @@ basic elements
 div.messages{margin:0 20px 10px 20px;}
 .content{margin:0 5px 0 0;}
 
-.odd{background:#f3f5f5;}
-.even{background:#fff;}
 
 
 /* =====================================
