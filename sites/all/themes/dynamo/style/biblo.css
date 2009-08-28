@@ -8,16 +8,15 @@
 		blogs 
 		events at a library
 /*--------------------------------------*/
-
-.node-teaser .content{width:530px; margin:0 20px 0 0; float:left;}
+.node-teaser .content{width:535px; margin:0 5px 0 0; float:left;}
 .node-teaser .picture, .view-event-list .picture{	width:120px; height:120px; margin:0 20px 0 0; float:left; background:#eee;}
 
 /* ==========================================================================
 	library overview (http://biblo.local/biblioteker)
 /*----------------------------------------------------------------------------*/
 .ding-library-map {width:680px;}
-.node-teaser-library{background:transparent url(../images/bg-divider.png) no-repeat left top; padding:13px 0 10px 20px;}
-	li.first .node-teaser-library{background: none; padding:10px 0 10px 20px;}
+.node-teaser-library{padding:13px 0 10px 0px;} /*background:transparent url(../images/bg-divider.png) no-repeat left top;*/
+	li.first .node-teaser-library{background: none; padding:10px 0 10px 0px;}
 	.node-teaser-library .picture{width:120px; height:120px; margin:0 20px 0 0; float:left; background:#eee;}
 	.node-teaser-library .content{width:355px; margin:0 5px 0 0; float:left;}
 		.node-teaser-library .content h3{padding:0 0 5px 0;}
@@ -39,9 +38,13 @@
 	main library page (http://biblo.local/biblioteker/FOO)
 /*----------------------------------------------------------------------------*/
 /*article lists*/
-.panel-left .view-article-list li{background:transparent url(../images/bg-divider-small.png) no-repeat left top; padding:10px 20px 10px 20px; margin:0;}
+/*.panel-left .view-article-list li{background:transparent url(../images/bg-divider-small.png) no-repeat left top; padding:10px 20px 10px 20px; margin:0;}
 	.panel-left .view-article-list li.first{background:none; padding:0 20px ;}
 	.panel-left .view-article-list li li{background:none; padding:0px 10px 0px 0px; margin:0;}
+*/
+
+
+
 
 /*calender pane*/
 .pane-event_list .panel-pane{margin:0 5px;}
@@ -58,7 +61,6 @@
 /*features pane*/
 .ding-box-pane .pane-library_feature_list ul.item-list{padding:8px 0 8px 12px;}	
 	.ding-box-pane .pane-library_feature_list ul.item-list li{width:95px; float:left; margin:0 ; padding:0 0 0 15px; background:transparent url(../images/ok.png) no-repeat left 3px; }
-
 
 /* ==========================================================================
 	library Right bars
@@ -123,7 +125,6 @@ ul.menu li{list-style: none inside; margin:0; padding: 0 0 0 0px;}
 ul.menu li.leaf {font-size:10px; list-style: none outside;margin:0 0 0 20px;}
 
 
-
 ul.menu li.leaf a.active, ul.menu li.active-trail a{font-weight:bold; color:#006A87}
 ul.menu li.leaf a{font-weight:normal;}
 ul.menu li.collapsed{padding:0;}
@@ -151,10 +152,17 @@ ul.menu li.expanded ul.menu li.expanded a{display:block}
 .view-event-list li.first{background:none;}
 .view-event-list span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px;}
 
-.pane-library_feature_detail_list, .page-taxonomy .node-teaser{width:690px; margin:0 0 0 20px;}
+.pane-library_feature_detail_list, 
+.page-taxonomy 
+.node-teaser{width:700px; margin:0 0 0 0;}
 .panel-left .pane-node_body_title{margin:20px 0 0 20px;}
 
 
+
+/*medarbjedere*/
+.panel-left .view-library-staff-list ul{padding:0 0 0 10px;}
+.panel-left .view-library-staff-list ul li,.panel-left .view-library-staff-list ul li.first{width:150px; height:200px; float:left; background:none; padding:10px;}
+	.view-library-staff-list li .field-image-fid{width:120px; height:120px; background:#ddd;}
 /* =======================================
 	comment
 /* ------------------------------------- */
@@ -177,7 +185,7 @@ div.comment {width: auto; margin:0 0 10px 0; padding:5px 5px 5px 0;}
 		#comment-form .form-button{display:inline;}
 /*blog comments*/
 ul.item-list h3{margin:0 0 0 20px;}
-ul.item-list li{margin:0 0 0 20px;}
+/*ul.item-list li{margin:0 0 0 20px;}*/
 
 
 /*panels node*/

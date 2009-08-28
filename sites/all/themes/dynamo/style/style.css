@@ -10,6 +10,17 @@ form div{position:relative }
 #search label, #account label{position:absolute; top:0; left:0; color:#000;}
 form div.description{font-size:10px; line-height:12px; color:#999; padding:5px; width:400px;}
 
+
+/* =======================================
+	panels list etc
+/* ------------------------------------- */
+.panel-left ul li{background:transparent url(../images/bg-divider.png) no-repeat left top; padding:10px 0px 10px 20px; margin:0;}
+	.panel-left ul li.first{background:none; padding:0 0 10px 20px ;}
+	.panel-left ul li li{background:none; padding:0px 10px 0px 0px; margin:0;}
+	.panel-left ul .node-teaser h3 {margin:0;}
+
+	.panel-pane>h3{margin:0 0 0 20px;}
+
 /* =====================================
 ting search block
 /*--------------------------------------*/
@@ -104,7 +115,7 @@ Panels BOX css styles
 .ding-box-pane{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden;}
 	.ding-box-pane h3{width:228px; padding:8px 0 4px 20px; height:18px; font-size:11px; line-height:20px; font-weight:bold; background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; overflow:hidden;}
 	.ding-box-pane ul{width:228px; padding:8px 0px; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom;  overflow:hidden; }
-	.ding-box-pane ul li{margin:0 0 0 10px; width:210px;}
+	.ding-box-pane ul li{margin:0 0 0 10px; padding:0 0 0 10px; width:200px;}
 	.ding-box-pane{font-size:11px; line-height:20px; }
 
 	.ding-box-wide{width:514px; background:transparent url(../images/sprite-box.png) repeat-y -930px 0; overflow:hidden;}
@@ -118,6 +129,7 @@ Panels BOX css styles
 	.ding-box-pane .odd{background:#f3f5f5;}
 	.ding-box-pane .even{background:#fff;}
 
+.ding-box-pane h2 a{font-size:11px; font-weight:bold;}
 
 /* =====================================
 Campaigns 
@@ -201,6 +213,11 @@ div.more-link{padding:0 20px 0 0; }
 
 /*paddings */
 .view-empty,.feed, #user-profile-form,#node-form{margin:20px 0 0 20px;}
+
+/* =====================================
+drupal Messages
+/*--------------------------------------*/
+#drupal-messages{position:absolute; top:100px; left:100px; z-index:100; }
 
 
 /* =====================================

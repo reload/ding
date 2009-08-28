@@ -28,6 +28,17 @@ function dynamo_theme($existing, $type, $theme, $path) {
  );
 }
 
+/*
+* preprocess
+*
+*/
+
+function dynamo_preprocess_node(&$vars, $hook) {
+//	dsm($vars['body_classes']);
+
+//dsm($vars);
+}
+
 
 function dynamo_user_login_block($form){
 	$form['submit']['#type'] 	= "image_button" ;
