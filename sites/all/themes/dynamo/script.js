@@ -1,7 +1,8 @@
 $(document).ready(function() {
 
 		//password iphone thingie
-		$('input:password').dPassword({
+//		$('input:password').dPassword({
+		$('#edit-name').dPassword({
 				duration: 2000,
 				prefix: 'my_'
 		});
