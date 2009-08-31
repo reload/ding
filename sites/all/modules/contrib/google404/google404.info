@@ -1,0 +1,12 @@
+; $Id: google404.info,v 1.1 2009/08/31 10:52:06 mikl Exp $
+name = Google 404
+description = Uses Google's Webmaster Tools 404 widget to enhance your 404 pages. It provides suggestions for where the user might have been wanting to go as well as a Google search box for your site. 
+core = 6.x
+
+
+; Information added by drupal.org packaging script on 2009-08-31
+version = "6.x-1.0-beta1"
+core = "6.x"
+project = "google404"
+datestamp = "1251716130"
+

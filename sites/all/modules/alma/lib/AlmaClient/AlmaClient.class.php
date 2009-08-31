@@ -54,6 +54,7 @@ class AlmaClient {
         $message = $doc->getElementsByTagName('status')->item(0)->getAttribute('key');
         switch($message) {
           case '':
+          case 'borrCardNotFound':
             throw new AlmaClientBorrCardNotFound('Invalid borrower credentials');
             break;
           default:
@@ -238,6 +239,48 @@ class AlmaClient {
     }
 
     return $data;
+  }
+
+  /**
+   * Change a reservation.
+   */
+  public function change_reservation($borr_card, $pin_code, $reservation, $changes) {
+    // Initialise the query parameters with the current value from the
+    // reservation array.
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'reservation' => $reservation['id'],
+      'reservationPickUpBranch' => $reservation['pickup_branch'],
+      'reservationValidFrom' => $reservation['valid_from'],
+      'reservationValidTo' => $reservation['valid_to'],
+    );
+
+    // Then overwrite the values with those from the changes array.
+    if (!empty($changes['pickup_branch'])) {
+      $params['reservationPickUpBranch'] = $changes['pickup_branch'];
+    }
+
+    if (!empty($changes['valid_to'])) {
+      $params['reservationValidTo'] = $changes['valid_to'];
+    }
+
+    $doc = $this->request('patron/reservations/change', $params);
+    return TRUE;
+  }
+
+  /**
+   * Remove a reservation.
+   */
+  public function remove_reservation($borr_card, $pin_code, $reservation) {
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'reservation' => $reservation['id'],
+    );
+
+    $doc = $this->request('patron/reservations/remove', $params);
+    return TRUE;
   }
 }
 

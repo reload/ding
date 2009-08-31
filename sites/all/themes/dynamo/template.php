@@ -20,7 +20,23 @@ function dynamo_theme($existing, $type, $theme, $path) {
 	'user_login_block' => array(
 		'arguments' => array ('form' => NULL),
 		),
+
+	'comment_form' => array(
+		'arguments' => array ('form' => NULL),
+		),
+
  );
+}
+
+/*
+* preprocess
+*
+*/
+
+function dynamo_preprocess_node(&$vars, $hook) {
+//	dsm($vars['body_classes']);
+
+//dsm($vars);
 }
 
 
@@ -45,97 +61,6 @@ function dynamo_ting_search_form($form){
 
 	return drupal_render($form);	
 }
-
-
-// $form['submit']['#type'] 	= "image_button" ;
-// $form['submit']['#src'] 	= drupal_get_path('theme','mdkate')."/images/foo.gif";
-// $form['submit']['#attributes']['class'] 	= "";
-
-
-
-function dynamo_preprocess_ting_collection__FOO(&$variables){
-	
-	foreach ($variables['collection']->objects as $key => $value) {
-		$output[$key]['id'] = $variables['collection']->objects[$key]->id;
-		$output[$key]['title'] = $variables['collection']->objects[$key]->data->title[0];
-		$output[$key]['desciption'] .= $variables['collection']->objects[$key]->data->description[0];
-		$output[$key]['date'] = $variables['collection']->objects[$key]->data->date[0];
-		$output[$key]['type'] = $variables['collection']->objects[$key]->data->type[0];
-		$output[$key]['format'] = $variables['collection']->objects[$key]->data->format[0];
-		$output[$key]['source'] = $variables['collection']->objects[$key]->data->source[0];
-
-
-		for ($i=0; $i < count($variables['collection']->objects[$key]->data->description) ; $i++) { 
-			$output[$key]['description'][$i]	= '<span>' . $variables['collection']->objects[$key]->data->description[$i] .'</span>';
-		}
-
-
-		//creator
-		for ($i=0; $i < count($variables['collection']->objects[$key]->data->creator) ; $i++) { 
-			$output[$key]['creator'][$i]	= '<span>' . $variables['collection']->objects[$key]->data->creator[$i] .'</span>';
-		}
-
-		//subject
-		for ($i=0; $i < count($variables['collection']->objects[$key]->data->subject) ; $i++) { 
-			$output[$key]['subject'][$i]	= '<span>' . $variables['collection']->objects[$key]->data->subject[$i] .'</span>';
-		}
-
-		//publisher
-		for ($i=0; $i < count($variables['collection']->objects[$key]->data->publisher) ; $i++) { 
-			$output[$key]['publisher'][$i]	= '<span>' . $variables['collection']->objects[$key]->data->publisher[$i] .'</span>';
-		}
-
-		//contributor
-		for ($i=0; $i < count($variables['collection']->objects[$key]->data->contributor) ; $i++) { 
-			$output[$key]['contributor'][$i]	= '<span>' . $variables['collection']->objects[$key]->data->contributor[$i] .'</span>';
-		}
-
-		//language
-		for ($i=0; $i < count($variables['collection']->objects[$key]->data->language) ; $i++) { 
-			$output[$key]['language'][$i]	= '<span>' . $variables['collection']->objects[$key]->data->language[$i] .'</span>';
-		}
-
-		//relation
-		for ($i=0; $i < count($variables['collection']->objects[$key]->data->relation) ; $i++) { 
-			$output[$key]['relation'][$i]	= '<span>' . $variables['collection']->objects[$key]->data->relation[$i] .'</span>';
-		}
-
-		//coverage
-		for ($i=0; $i < count($variables['collection']->objects[$key]->data->coverage) ; $i++) { 
-			$output[$key]['coverage'][$i]	= '<span>' . $variables['collection']->objects[$key]->data->coverage[$i] .'</span>';
-		}
-
-		//rights
-		for ($i=0; $i < count($variables['collection']->objects[$key]->data->rights) ; $i++) { 
-			$output[$key]['rights'][$i]	= '<span>' . $variables['collection']->objects[$key]->data->rights[$i] .'</span>';
-		}
-
-	}
-
-	$variables['collection_data'] = $output;
-}
-
-
-//views
-function dynamo_preprocess_views_view_list(&$vars){
-  dynamo_preprocess_views_view_unformatted($vars);  
-}
-
-  function dynamo_preprocess_views_view_unformatted(&$vars) {
-    $view     = $vars['view'];
-    $rows     = $vars['rows'];
-
-    $vars['classes'] = array();
-    // Set up striping values.
-     foreach ($rows as $id => $row) {
-    //  $vars['classes'][$id] = 'views-row-' . ($id + 1);
-    //    $vars['classes'][$id] .= ' views-row-' . ($id % 2 ? 'even' : 'odd');
-      if ($id == 0) {
-        $vars['classes'][$id] .= ' first';
-      }
-    }
-    $vars['classes'][$id] .= ' last';
-  }
 
 /*
 * panels
@@ -273,4 +198,34 @@ function dynamo_username($object) {
 
   return $output;
 }
-?>
+
+/*
+* format_danmarc2
+	documentation http://www.kat-format.dk/danMARC2/Danmarc2.5c.htm#pgfId=1575053
+*/
+function format_danmarc2($string){
+
+	$string = str_replace('Indhold:','',$string);	
+	$string = str_replace(' ; ','<br/>',$string);	
+	$string = str_replace(' / ','<br/>',$string);	 
+
+	return $string;
+}
+
+function dynamo_comment_form($form){
+//	dsm($form);
+	$form['comment_filter']['format']['#collapsed'] = FALSE;
+	unset($form['notify_clearit']);
+	unset($form['comment_filter']['format']);
+	// $form['_author']['#value'] = '<span>' . $form['_author']['#value'] .'</span>'; // adds a span around
+	// $form['submit']['#type'] 	= "image_button" ;
+	// $form['submit']['#src'] 	= drupal_get_path('theme','mdkate')."/images/foo.gif";
+	// $form['submit']['#attributes']['class'] 	= "";
+
+	$submit = drupal_render($form['submit']);
+	$preview = drupal_render($form['preview']);
+	$theform = drupal_render($form);
+	return  $theform .'<div class="form-buttons">' . $submit . $preview .'</div>';
+
+	return drupal_render($form);
+}

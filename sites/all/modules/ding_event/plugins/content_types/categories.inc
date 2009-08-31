@@ -14,7 +14,7 @@
  */
 function ding_event_categories_ctools_content_types() {
   return array(
-    'title' => t('Node'),
+    'title' => t('Event categories'),
   );
 }
 
@@ -25,7 +25,6 @@ function ding_event_categories_content_type_content_types() {
   $types = array(
     'categories_title' => array(
       'title' => t('Event categories'),
-      'category' => t('Node'),
       'description' => t('Provides a selector for event categories.'),
     ),
   );
@@ -41,8 +40,17 @@ function ding_event_categories_content_type_render($subtype, $conf, $panel_args,
   if (isset($conf['vocabulary']) && $conf['vocabulary'] > 0) {
     $links = array();
 
+    // Strip away the trailing number, indicating the selected event
+    // category. This will not work on node pages or other things that
+    // work with a number, but the panel base path is not readily
+    // available when rendering this menu.
+    $base_path = preg_replace('/\/\d+\/*$/', '', $_GET['q']);
+
+    // Add all-link, removing the category.
+    $links['all'] = l(t('All'), $base_path);
+
     foreach (taxonomy_get_tree($conf['vocabulary'], 0, -1, 1) as $term) {
-      $links[] = l($term->name, 'arrangementer/' . $term->tid);
+      $links[] = l($term->name, $base_path . '/' . $term->tid);
     }
 
     if (!empty($links)) {

@@ -1,0 +1,50 @@
+# $Id: da.po,v 1.1 2009/08/31 10:52:06 mikl Exp $
+#
+# Danish translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  google404.admin.inc: n/a
+#  google404.module: n/a
+#  google404.info: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-08-31 12:11+0200\n"
+"PO-Revision-Date: 2009-08-31 12:16+0200\n"
+"Last-Translator: Mikkel Høgh <mikkel@hoegh.org>\n"
+"Language-Team: Dansk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: google404.admin.inc:12
+msgid "404 message"
+msgstr "404 besked"
+
+#: google404.admin.inc:13
+msgid "The message that should be displayed on the 404 page."
+msgstr "Beskeden der skal vises på 404-siden."
+
+#: google404.admin.inc:14 google404.module:37
+msgid "Sorry, the page you were looking for could not be found."
+msgstr "Beklager, den side du åbnede kunne ikke findes."
+
+#: google404.module:11
+msgid "Page not found (404)"
+msgstr "Siden blev ikke fundet (404)"
+
+#: google404.module:18 google404.info:0
+msgid "Google 404"
+msgstr "Google 404"
+
+#: google404.module:0
+msgid "google404"
+msgstr "google404"
+
+#: google404.info:0
+msgid "Uses Google's Webmaster Tools 404 widget to enhance your 404 pages. It provides suggestions for where the user might have been wanting to go as well as a Google search box for your site."
+msgstr "Bruger Google Webmaster Tools' 404 widget til at forbedre dine 404-sider. Den giver forslag til hvor brugeren muligvis ville hen, samt en Google-søgeboks for din side."
+

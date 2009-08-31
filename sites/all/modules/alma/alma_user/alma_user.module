@@ -126,6 +126,24 @@ function alma_user_flush_caches() {
 }
 
 /**
+ * Implementation of hook_elements().
+ */
+function alma_user_elements() {
+  return array(
+    'alma_reservation' => array(
+      '#input' => TRUE,
+      '#process' => array('alma_user_elements_reservation_process'),
+      '#reservation' => array(),
+    ),
+    'alma_loan' => array(
+      '#input' => TRUE,
+      '#process' => array('alma_user_elements_loan_process'),
+      '#loan' => array(),
+    ),
+  );
+}
+
+/**
  * Implementation of hook_theme().
  */
 function alma_user_theme($existing, $type, $theme, $path) {
@@ -150,6 +168,19 @@ function alma_user_theme($existing, $type, $theme, $path) {
         'records' => array(),
       ),
       'file' => 'alma_user.theme.inc',
+    ),
+    'alma_user_reservations_details' => array(
+      'arguments' => array(
+        'records' => array(),
+      ),
+      'template' => 'alma_user_reservations_details',
+      'file' => 'alma_user.theme.inc',
+    ),
+    'alma_reservation' => array(
+      'arguments' => array('element' => NULL),
+    ),
+    'alma_loan' => array(
+      'arguments' => array('element' => NULL),
     ),
   );
 }
@@ -222,10 +253,10 @@ function alma_user_login_validate($form, &$form_state) {
  */
 function alma_user_login_submit($form, &$form_state) {
   global $user;
-  if (!empty($form_state['values']['borr_card']) && !empty($form_state['values']['pin_code']) && $user->uid) {
+  if (!empty($form_state['values']['name']) && !empty($form_state['values']['pass']) && $user->uid) {
     // If we have Alma credentials and a user was logged in, cache the
     // credentials in our own cache bin.
-    alma_user_cache_credentials($user, $form_state['values']['borr_card'], $form_state['values']['pin_code']);
+    alma_user_cache_credentials($user, $form_state['values']['name'], $form_state['values']['pass']);
   }
   $form_state['redirect'] = variable_get('alma_user_login_destination', '<front>');
 }
@@ -430,5 +461,69 @@ function alma_user_get_status($account, $redirect=TRUE) {
     }
   }
   return FALSE;
+}
+
+/**
+ * Implementation of a reservation form element.
+ */
+function alma_user_elements_reservation_process($element, $form_state) {
+  $element['#prefix'] = '<ul class="reservation reservation-' . $element['#reservation']['id'] . '">';
+  $element['#suffix'] = '</ul>';
+
+  $element['title'] = array(
+    '#value' => '<li class="title">' . $element['#reservation']['id'] . '</li>',
+  );
+
+  $element['valid_to'] = array(
+    '#value' => '<li class="expires">' . $element['#reservation']['valid_to'] . '</li>',
+  );
+
+  $branches = alma_client_get_branches();
+
+  $element['pickup_branch'] = array(
+    '#value' => '<li class="pickup-branch">' . $branches[$element['#reservation']['pickup_branch']] . '</li>',
+  );
+
+  $element['queue_no'] = array(
+    '#value' =>  '<li class="queue">' . $element['#reservation']['queue_no'] . '</li>',
+  );
+
+  if ($element['#reservation']['status'] == 'active') {
+    $element['selected'] = array(
+      '#type' => 'checkbox',
+      '#prefix' => '<li class="select">',
+      '#suffix' => '</li>',
+    );
+  }
+
+  return $element;
+}
+
+/**
+ * Implementation of loan form element.
+ */
+function alma_user_elements_loan_process($element, $form_state) {
+  $element['#prefix'] = '<ul class="loan loan-' . $element['#loan']['id'] . '">';
+  $element['#suffix'] = '</ul>';
+
+  $element['title'] = array(
+    '#value' => '<li class="title">' . $element['#loan']['id'] . '</li>',
+  );
+
+  $element['renew'] = array(
+    '#attributes' => array('class' => 'renew-' . $element['#loan']['id']),
+    '#prefix' => '<li class="renew">',
+    '#suffix' => '</li>',
+  );
+
+  if ($element['#loan']['is_renewable']) {
+    $element['renew']['#type'] = 'submit';
+    $element['renew']['#value'] = t('Renew');
+  }
+  else {
+    $element['renew']['#value'] = t('Not renewable');
+  }
+
+  return $element;
 }
 

@@ -1,6 +1,5 @@
 <?php 
 //	dsm($object);
-
 ?>
 <div id="ting-object">
 
@@ -26,14 +25,15 @@
 		<div class="tab-navigation-main">
 			<div class="tab-navigation-main-inner">
 
-				<div class="clearfix">
+				<div class="ting-overview clearfix">
 
 					<div class="left-column left">
 			  		<div class="picture">
-							<?php if($object->data->additionalInformation->thumbnailUrl){ ?>
+
+							<?php if($object->additionalInformation->detailUrl){ ?>
 					    	<?php 
 									// 	TODO set false to true ?
-									print theme('image', $collection->objects[$key]->additionalInformation->thumbnailUrl, '', '', null, false);
+									print theme('image', $object->additionalInformation->detailUrl, '', '', null, false);
 					 			?>
 							<?php } ?>
 						</div>
@@ -50,7 +50,6 @@
 							<?php print $object->data->description[0]; ?>
 
 					</div>
-
 					
 				</div>
 
@@ -58,16 +57,18 @@
 					<?php 
 					//we printed the first part up above so remove that 
 					unset($object->data->description[0]);
-					print theme('item_list',$object->data->description, NULL, 'div', array('class' => 'description'));?>	
-					<?php print theme('item_list',$object->data->identifier, t('identifier'), 'span', array('class' => 'identifier'));?>	
-					<?php print theme('item_list',$object->data->subject, t('subject'), 'span', array('class' => 'subject'));?>	
-					<?php print theme('item_list',$object->data->publisher, t('publisher'), 'span', array('class' => 'publisher'));?>						
-					<?php print theme('item_list',$object->data->type, t('type'), 'span', array('class' => 'type'));?>											
-					<?php print theme('item_list',$object->data->format, t('format'), 'span', array('class' => 'format'));?>											
-					<?php print theme('item_list',$object->data->language, t('language'), 'span', array('class' => 'language'));?>						
-					<?php print theme('item_list',$object->data->relation, t('relation'), 'span', array('class' => 'relation'));?>											
-					<?php print theme('item_list',$object->data->coverage, t('coverage'), 'span', array('class' => 'coverage'));?>											
-					<?php print theme('item_list',$object->data->rights, t('rights'), 'span', array('class' => 'rights'));?>						
+					
+					print theme('item_list',format_danmarc2($object->data->description), t('Content'), 'span', array('class' => 'description'));?>	
+
+					<?php print theme('item_list',$object->data->identifier, t('Identifier'), 'span', array('class' => 'identifier'));?>	
+					<?php print theme('item_list',$object->data->subject, t('Subject'), 'span', array('class' => 'subject'));?>	
+					<?php print theme('item_list',$object->data->publisher, t('Publisher'), 'span', array('class' => 'publisher'));?>						
+					<?php print theme('item_list',$object->data->type, t('Type'), 'span', array('class' => 'type'));?>											
+					<?php print theme('item_list',$object->data->format, t('Format'), 'span', array('class' => 'format'));?>											
+					<?php print theme('item_list',$object->data->language, t('Language'), 'span', array('class' => 'language'));?>						
+					<?php print theme('item_list',$object->data->relation, t('Relation'), 'span', array('class' => 'relation'));?>											
+					<?php print theme('item_list',$object->data->coverage, t('Coverage'), 'span', array('class' => 'coverage'));?>											
+					<?php print theme('item_list',$object->data->rights, t('Rights'), 'span', array('class' => 'rights'));?>						
 				</div>
 
 				<div class="ding-box-wide">

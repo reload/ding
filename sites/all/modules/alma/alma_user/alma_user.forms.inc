@@ -251,3 +251,180 @@ function alma_user_forms_library_settings_submit($form, &$form_state) {
   db_query("UPDATE {alma_user} SET preferred_branch = '%s' WHERE uid = %d LIMIT 1;", $form_state['values']['preferred_branch'], $form_state['values']['account']->uid);
 }
 
+/**
+ * Reservation details form.
+ */
+function alma_user_forms_reservation_details($form_state, $account, $records) {
+  $form = array();
+
+  $form['account'] = array(
+    '#type' => 'value',
+    '#value' => $account,
+  );
+
+  $form['reservations'] = array(
+    '#tree' => TRUE,
+    '#prefix' => '<ul class="reservations"><ul class="labels"><li class="title">' . t('Reservations') . '</li><li class="expires">' . t('Expires') . '</li><li class="pickup-branch">' . t('Pickup branch') . '</li><li class="queue">' . t('Queue position') . '</li><li class="select">' . t('Select') . '</li></ul>',
+    '#suffix' => '</ul>',
+  );
+
+  foreach ($records as $rec) {
+    $form['reservations'][$rec['id']] = array(
+      '#type' => 'alma_reservation',
+      '#reservation' => $rec,
+    );
+  }
+
+  $form['new_expiry'] = array(
+    '#type' => 'date_popup',
+    '#title' => t('Not interested after'),
+    '#date_format' => DATE_FORMAT_DATE,
+    '#date_year_range' => '-0:+2',
+  );
+
+
+  $form['new_pickup_branch'] = array(
+    '#type' => 'select',
+    '#title' => t('New pickup branch'),
+    '#options' => alma_client_get_reservation_branches(),
+    '#default_value' => $account->preferred_branch,
+  );
+
+  $form['remove'] = array(
+    '#type' => 'submit',
+    '#value' => t('Cancel selected'),
+    '#attributes' => array('class' => 'cancel-button'),
+  );
+
+  $form['update'] = array(
+    '#type' => 'submit',
+    '#value' => t('Update selected'),
+    '#attributes' => array('class' => 'update-button'),
+  );
+
+  return $form;
+}
+
+/**
+ * Reservation details form validation.
+ */
+function alma_user_forms_reservation_details_validate($form, &$form_state) {
+  if (!empty($form_state['values']['new_expiry'])) {
+    list($year, $month, $day) = explode('-', trim($form_state['values']['new_expiry']));
+    if (!checkdate($month, $day, $year)) {
+      form_set_error('new_expiry', t('Invalid date'));
+    }
+
+    $timestamp = strtotime($form_state['values']['new_expiry']);
+
+    if ($timestamp <= $SERVER['REQUEST_TIME']) {
+      form_set_error('new_expiry', t('Date must be later than today.'));
+    }
+    else {
+      form_set_value($form['new_expiry'], format_date($timestamp, 'custom', 'Y-m-d'), &$form_state);
+    }
+  }
+}
+
+/**
+ * Reservation details form submit handler.
+ */
+function alma_user_forms_reservation_details_submit($form, &$form_state) {
+  $selected = array();
+
+  foreach ($form_state['values']['reservations'] as $id => $res) {
+    if ($res['selected']) {
+      $selected[] = $id;
+    }
+  }
+
+  switch ($form_state['clicked_button']['#attributes']['class']) {
+    case 'update-button':
+      $changes = array();
+      if (!empty($form_state['values']['new_expiry'])) {
+        $changes['valid_to'] = $form_state['values']['new_expiry'];
+      }
+
+      if (!empty($form_state['values']['new_pickup_branch'])) {
+        $changes['pickup_branch'] = $form_state['values']['new_pickup_branch'];
+      }
+
+      if (!empty($selected) && !empty($changes)) {
+        $creds = alma_user_get_credentials($form_state['values']['account']);
+        foreach ($selected as $id) {
+          alma_client_change_reservation($creds['borr_card'], $creds['pin_code'], $form['reservations'][$id]['#reservation'], $changes);
+        }
+      }
+      break;
+    case 'cancel-button':
+      $creds = alma_user_get_credentials($form_state['values']['account']);
+      foreach ($selected as $id) {
+        alma_client_remove_reservation($creds['borr_card'], $creds['pin_code'], $form['reservations'][$id]['#reservation']);
+      }
+      break;
+  }
+}
+
+/**
+ * Reservation details form.
+ */
+function alma_user_forms_loan_details($form_state, $account, $records) {
+  $form = array();
+
+  $form['account'] = array(
+    '#type' => 'value',
+    '#value' => $account,
+  );
+
+  $form['renew_all'] = array(
+    '#type' => 'submit',
+    '#value' => t('Renew all'),
+    '#attributes' => array('class' => 'renew-all'),
+  );
+
+  $form['loans'] = array(
+    '#tree' => TRUE,
+  );
+
+  foreach (_alma_user_forms_group_loans($records) as $date => $group) {
+
+    $form['loans'][$date] = array(
+      '#type' => 'fieldset',
+      '#tree' => FALSE, // We don't want the value nested by date, only the presentation.
+    );
+
+    if ($date == 'overdue') {
+      $form['loans'][$date]['#title'] = t('Overdue loans');
+      $form['loans'][$date]['#attributes']['class'] = 'overdue ';
+    }
+    else {
+      $form['loans'][$date]['#title'] = t('Due in @count days, @date', array('@date' => $date, '@count' => ceil((strtotime($date) - $_SERVER['REQUEST_TIME']) / 86400)));
+    }
+
+    foreach ($group as $loan) {
+      $form['loans'][$date][$loan['id']] = array(
+        '#type' => 'alma_loan',
+        '#loan' => $loan,
+      );
+    }
+  }
+  return $form;
+}
+
+/**
+ * Helper function to group loans by their due dates.
+ */
+function _alma_user_forms_group_loans($records) {
+  $groups = array();
+
+  foreach ($records as $loan) {
+    if ($loan['due_date'] <= date('Y-m-d')) {
+      $groups['overdue'][] = $loan;
+    }
+    else {
+      $groups[$loan['due_date']][] = $loan;
+    }
+  }
+  return $groups;
+}
+

@@ -1,0 +1,50 @@
+# $Id: google404.pot,v 1.1 2009/08/31 10:52:06 mikl Exp $
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  google404.admin.inc: n/a
+#  google404.module: n/a
+#  google404.info: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-08-31 12:12+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: google404.admin.inc:12
+msgid "404 message"
+msgstr ""
+
+#: google404.admin.inc:13
+msgid "The message that should be displayed on the 404 page."
+msgstr ""
+
+#: google404.admin.inc:14 google404.module:37
+msgid "Sorry, the page you were looking for could not be found."
+msgstr ""
+
+#: google404.module:11
+msgid "Page not found (404)"
+msgstr ""
+
+#: google404.module:18 google404.info:0
+msgid "Google 404"
+msgstr ""
+
+#: google404.module:0
+msgid "google404"
+msgstr ""
+
+#: google404.info:0
+msgid "Uses Google's Webmaster Tools 404 widget to enhance your 404 pages. It provides suggestions for where the user might have been wanting to go as well as a Google search box for your site."
+msgstr ""
+

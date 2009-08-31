@@ -72,11 +72,22 @@ function alma_client() {
  *    Array of branch names, keyed by their ID.
  */
 function alma_client_get_branches() {
-  try {
-    return alma_client()->get_branches();
-  } catch (Exception $e) {
-    return array();
+  static $branches;
+
+  if (!isset($branches)) {
+    if ($cache = cache_get('alma_branches') && !empty($cache->data)) {
+      $branches = $cache->data;
+    }
+    else {
+      try {
+        $branches = alma_client()->get_branches();
+        cache_set('alma_branches', $branches, 'cache', 1800);
+      } catch (Exception $e) {
+        return array();
+      }
+    }
   }
+  return $branches;
 }
 
 /**
@@ -104,7 +115,11 @@ function alma_client_get_reservation_branches() {
 function alma_client_get_patron_info($borr_card, $pin_code) {
   try {
     return alma_client()->get_patron_info($borr_card, $pin_code);
-  } catch (Exception $e) {
+  }
+  catch (AlmaClientBorrCardNotFound $e) {
+    watchdog('alma_user', 'get_patron_info error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
+  }
+  catch (Exception $e) {
     drupal_set_message(t('An error occurred while trying to communicate with the library system. Please try again'), 'error', FALSE);
     watchdog('alma_user', 'get_patron_info error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
     return FALSE;
@@ -166,6 +181,50 @@ function alma_client_get_debts($borr_card, $pin_code) {
   try {
     return alma_client()->get_debts($borr_card, $pin_code);
   } catch (Exception $e) {
+    dd($e->getMessage());
+    return FALSE;
+  }
+}
+
+/**
+ * Change a reservation
+ *
+ * @param string $borr_card
+ *    Library patron's borrowing card number. Either just an arbitrary
+ *    number printed on their library card or their CPR-code.
+ * @param string $pin_code
+ *    Library patron's four digit PIN code.
+ * @param array $reservation
+ *    Data for the reservation we're changing.
+ * @param array $changes
+ *    Array of changes to apply.
+ */
+function alma_client_change_reservation($borr_card, $pin_code, $reservation, $changes) {
+  try {
+    return alma_client()->change_reservation($borr_card, $pin_code, $reservation, $changes);
+  }
+  catch (Exception $e) {
+    dd($e->getMessage());
+    return FALSE;
+  }
+}
+
+/**
+ * Remove a reservation
+ *
+ * @param string $borr_card
+ *    Library patron's borrowing card number. Either just an arbitrary
+ *    number printed on their library card or their CPR-code.
+ * @param string $pin_code
+ *    Library patron's four digit PIN code.
+ * @param array $reservation
+ *    Data for the reservation we're removing.
+ */
+function alma_client_remove_reservation($borr_card, $pin_code, $reservation) {
+  try {
+    return alma_client()->remove_reservation($borr_card, $pin_code, $reservation);
+  }
+  catch (Exception $e) {
     dd($e->getMessage());
     return FALSE;
   }

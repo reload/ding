@@ -10,6 +10,17 @@ form div{position:relative }
 #search label, #account label{position:absolute; top:0; left:0; color:#000;}
 form div.description{font-size:10px; line-height:12px; color:#999; padding:5px; width:400px;}
 
+
+/* =======================================
+	panels list etc
+/* ------------------------------------- */
+.panel-left ul li{background:transparent url(../images/bg-divider.png) no-repeat left top; padding:10px 0px 10px 20px; margin:0;}
+	.panel-left ul li.first{background:none; padding:0 0 10px 20px ;}
+	.panel-left ul li li{background:none; padding:0px 10px 0px 0px; margin:0;}
+	.panel-left ul .node-teaser h3 {margin:0;}
+
+	.panel-pane>h3{margin:0 0 0 20px;}
+
 /* =====================================
 ting search block
 /*--------------------------------------*/
@@ -17,7 +28,7 @@ ting search block
 	#ting-search-form .form-text{height:20px; width:468px; margin:0 10px 0 0; padding:4px 0 0 25px; color:#929292; background:#fff url(../images/magnifier.png) no-repeat 9px 5px; border: 1px solid #999; font-size:13px; float:left;}
 		#ting-search-form label{margin:3px 0 0 30px; font-size:13px; font-weight:normal;} 
 		#ting-search-form  .form-image-button{float:left; display:block; height:29px; width:94px; }
-		#edit-keys-wrapper{float:left; display:inline;}
+		#edit-keys-wrapper{}
 
 /* =====================================
 Account block
@@ -104,7 +115,8 @@ Panels BOX css styles
 .ding-box-pane{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden;}
 	.ding-box-pane h3{width:228px; padding:8px 0 4px 20px; height:18px; font-size:11px; line-height:20px; font-weight:bold; background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; overflow:hidden;}
 	.ding-box-pane ul{width:228px; padding:8px 0px; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom;  overflow:hidden; }
-	.ding-box-pane li{margin:0 0 0 20px;}
+	.ding-box-pane ul li{margin:0 0 0 10px; padding:0 0 0 10px; width:200px;}
+	.ding-box-pane{font-size:11px; line-height:20px; }
 
 	.ding-box-wide{width:514px; background:transparent url(../images/sprite-box.png) repeat-y -930px 0; overflow:hidden;}
 		.ding-box-wide h3{ width:514px; font-weight:bold;padding:8px 0 4px 20px; height:18px; font-size:11px; line-height:20px;  background:transparent url(../images/sprite-box.png) no-repeat -930px -0px; overflow:hidden;}
@@ -113,6 +125,11 @@ Panels BOX css styles
 
 	.ding-box-wide .odd{background:#f3f5f5;}
 	.ding-box-wide .even{background:#fff;}
+
+	.ding-box-pane .odd{background:#f3f5f5;}
+	.ding-box-pane .even{background:#fff;}
+
+.ding-box-pane h2 a{font-size:11px; font-weight:bold;}
 
 /* =====================================
 Campaigns 
@@ -123,19 +140,20 @@ Campaigns
 			.campaign-theme{margin:7px 10px;}
 				.campaign	a,.campaign a:link,	.campaign a:visited, .campaign a:active {}
 				.campaign a:hover,.campaign a:focus {text-decoration: underline; color:#fff;}
-				.campaign-text a{background:transparent url(../images/campaignshade.png) no-repeat left top; min-height:200px;text-decoration: none; color:#fff; padding:40px 10px; display:block; text-transform: uppercase; font: normal normal normal 16px/18px "Gill sans", sans-serif;}
+				.campaign-text a{background:transparent url(../images/campaignshade.png) no-repeat left top; text-decoration: none; color:#fff; padding:40px 10px; display:block; text-transform: uppercase; font: normal normal normal 16px/18px "Gill sans", sans-serif;}
 				/*colors*/
 				.campaign-theme-red{background:#C63D52; }
 				.campaign-theme-green{background:#899e99;}
 				.campaign-theme-blue{background:#006c8a;}
 
-.campaign-image{margin:0 10px;}
+.campaign-image{margin:0 10px; width:220px; overflow:hidden;}
 
 /* =====================================
 basic elements
 /*--------------------------------------*/
 div.messages{margin:0 20px 10px 20px;}
-.content{margin:0 5px 0 0; float:left;}
+.content{margin:0 5px 0 0;}
+
 
 
 /* =====================================
@@ -161,9 +179,10 @@ buttons
 /* =====================================
 	node content styles
 /*--------------------------------------*/
-	.node .content img{ padding:0 10px 10px 0;}
-	.node .content ul{margin:0 0 15px 20px; padding:0 0 10px 0; border-bottom: 1px solid #eee;}
-	.node .content ul li{list-style: circle outside url(../images/bullet_black.png);}
+	.node .content p{}
+	.node .content img{margin:0 10px 10px 0; text-align:center; color:#aaa; background:#eee;}
+	.node .content ul{margin:0 0 15px 20px; padding:0 0 10px 0; clear:both;}
+	.node .content ul li{list-style-type: disc;}
 	.node .content a,.node .content a:link, .node .content a:visited,.node .content a:active {text-decoration: none;}
 	.node .content a:hover,.node .content a:focus {text-decoration: underline; background:#C9D3D7; }
 	.subject a,.subject a:link, .subject a:visited,.subject a:active {text-decoration: none; color:#fff;}	
@@ -195,6 +214,11 @@ div.more-link{padding:0 20px 0 0; }
 /*paddings */
 .view-empty,.feed, #user-profile-form,#node-form{margin:20px 0 0 20px;}
 
+/* =====================================
+drupal Messages
+/*--------------------------------------*/
+#drupal-messages{position:absolute; top:100px; left:100px; z-index:100; }
+
 
 /* =====================================
 Cowboy small trix not "really" implementet yet
@@ -203,3 +227,9 @@ Cowboy small trix not "really" implementet yet
 #pane-library_title{display:block;}
 .comment_filter{display:none;}
 .pane-library_list-panel_pane_1 >h3{display:none;}
+
+
+/* =====================================
+Crap from modules
+/*--------------------------------------*/
+.dquo {margin:0 0 0 } /*typogrify module*/

@@ -87,31 +87,26 @@ function ding_content_access($op, $node, $account = NULL) {
   $permissions = array(
     'article' => array(
       'create' => 'create article',
-      'view' => 'access content',
       'update' => 'edit article',
       'delete' => 'delete article',
     ),
     'feature' => array(
       'create' => 'create feature',
-      'view' => 'access content',
       'update' => 'edit feature',
       'delete' => 'delete feature',
     ),
     'profile' => array(
       'create' => 'create article',
-      'view' => 'access user profiles',
       'update' => 'edit article',
       'delete' => 'delete article',
     ),
     'topic' => array(
       'create' => 'create event',
-      'view' => 'access content',
       'update' => 'edit event',
       'delete' => 'delete event',
     ),
     'event' => array(
       'create' => 'create event',
-      'view' => 'access content',
       'update' => 'edit event',
       'delete' => 'delete event',
     ),
@@ -187,5 +182,14 @@ function ding_content_views_api() {
   return array(
     'api' => 2.0,
   );
+}
+
+/**
+ * Implementation of hook_ctools_plugin_api().
+ */
+function ding_content_ctools_plugin_api($module, $api) {
+  if ($module == 'page_manager' && $api == 'pages_default') {
+    return array('version' => 1);
+  }
 }
 
