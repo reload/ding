@@ -79,7 +79,7 @@ function ting_search_pages_ting_js() {
 
 	$facade = new TingClientFacade();
 	
-	$result = $facade->search($query, $_REQUEST['page'], $resultsPerPage);
+	$result = $facade->search($query, isset($_REQUEST['page']) ? $_REQUEST['page'] : 1, 10);
 
   drupal_json($result);
   exit;

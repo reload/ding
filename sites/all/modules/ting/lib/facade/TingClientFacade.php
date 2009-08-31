@@ -46,7 +46,7 @@ class TingClientFacade {
 	public static function search($query, $page = 1, $resultsPerPage = 10, $options = array()) {
 		$searchRequest = new TingClientSearchRequest($query);
 		$searchRequest->setOutput(self::$format); //use json format per default
-		$searchRequest->setStart($resultsPerPage * ($page - 1));
+		$searchRequest->setStart($resultsPerPage * ($page - 1) + 1);
 		$searchRequest->setNumResults($resultsPerPage);
 		
 		$searchRequest->setFacets((isset($options['facets'])) ? $options['facets'] : array('dc.subject', 'dc.date', 'dc.type', 'dc.creator', 'dc.language'));
