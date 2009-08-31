@@ -1,0 +1,17 @@
+<?php
+// $Id: google404.install,v 1.1 2009/08/31 10:52:06 mikl Exp $
+
+/**
+ * Implementation of hook_enable().
+ */
+function google404_enable() {
+  variable_set('site_404', 'google404');
+}
+
+/**
+ * Implementation of hook_disable().
+ */
+function google404_disable() {
+  variable_del('site_404');
+}
+
