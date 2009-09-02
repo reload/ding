@@ -93,8 +93,8 @@ function ting_reference_field($op, &$node, $field, &$items, $teaser, $page) {
           $ting_object_id = $item['ting_object_id'];
 
           if ($ting_object_id) {
-            if ($ting_object_id && !preg_match('/^[a-z]+:\d+$/', $ting_object_id)) {
-              form_set_error($error_element, t('%name: Object id should be in <em>xxx:nnnnn</em> format.', array('%name' => t($field['widget']['label']))));
+            if ($ting_object_id && !preg_match('/^\w+:\d+$/', $ting_object_id)) {
+              form_set_error($error_element, t('%name: Invalid object id: %object_id.', array('%name' => t($field['widget']['label']), '%object_id' => $ting_object_id)));
             }
 
             module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
