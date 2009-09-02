@@ -37,7 +37,7 @@ function ting_collection() {
 }
 
 /**
- * Display a signle Ting object.
+ * Display a single Ting object.
  */
 function ting_object($object_id) {
   module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
