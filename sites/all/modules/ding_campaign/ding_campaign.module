@@ -65,43 +65,6 @@ function ding_campaign_perm() {
 }
 
 /**
- * Implementation of hook_block().
- */
-function ding_campaign_block($op = 'list', $delta = 0, $edit = array()) {
-  if ($op == 'list') {
-    return array(0 => array(
-      'info' => t('Relevant campaigns'),
-      'region' => 'right',
-      'status' => 1,
-      'visibility' => 1, // Show only on specified pages
-      'pages' => "arrangementer\nbiblioteker",
-      'cache' => BLOCK_CACHE_PER_PAGE,
-    ));
-  }
-  elseif ($op == 'configure' && $delta == 0) {
-    $form = array(
-      'ding_campaign_block_count' => array(
-        '#type' => 'select',
-        '#title' => t('Maximum number of campaigns to display'),
-        '#default_value' => variable_get('ding_campaign_block_count', DING_CAMPAIGN_DEFAULT_COUNT),
-        '#options' => range(0, 10),
-      ),
-    );
-    // Our range is zero-based to get key==value, but we don't want to
-    // show a zero-option, so it is removed subsequently.
-    unset($form['ding_campaign_block_count']['#options'][0]);
-
-    return $form;
-  }
-  elseif ($op == 'save' && $delta == 0) {
-    variable_set('ding_campaign_block_count', $edit['ding_campaign_block_count']);
-  }
-  elseif ($op == 'view' && $delta == 0) {
-    return array('content' => theme('ding_campaign_relevant_campaigns', array(), variable_get('ding_campaign_block_count', DING_CAMPAIGN_DEFAULT_COUNT)));
-  }
-}
-
-/**
  * Implementation of hook_node_info().
  */
 function ding_campaign_node_info() {
