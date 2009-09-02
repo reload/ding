@@ -185,8 +185,8 @@ function ting_reference_widget(&$form, &$form_state, $field, $items, $delta = 0)
 	  drupal_add_js($path.'/js/ting_reference.js', 'module', 'footer', TRUE);
 		drupal_add_js(array('tingReference' => array(
 													'autocomplete' => array(
-														'collection' => 'ting_reference/autocomplete/collection/js', 
-														'object' => 'ting_reference/autocomplete/object/js'),
+														'collection' => url('ting_reference/autocomplete/collection/js'), 
+														'object' => url('ting_reference/autocomplete/object/js')),
 													'referenceTemplate' => ting_reference_render_collection_template(),
 													'previewUrl' => url('ting_reference/collection/js')),
 		), 'setting', 'footer', TRUE);
