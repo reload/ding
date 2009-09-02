@@ -66,6 +66,20 @@ function ding_content_node_info() {
       'title_label' => t('Name'),
       'has_body' => FALSE,
     ),
+    'flexifield_links' => array(
+      'name' => t('Flexifield placeholder: Links'),
+      'module' => 'ding_content',
+      'description' => 'A collection of links - used as flexifield field container.',
+      'has_title' => FALSE,
+      'has_body' => FALSE,
+    ),
+    'flexifield_ting_refs' => array(
+      'name' => t('Flexifield placeholder: Ting references'),
+      'module' => 'ding_content',
+      'description' => 'A collection of Ting references - used as flexifield field container.',
+      'has_title' => FALSE,
+      'has_body' => FALSE,
+    ),
     'event' => array(
       'name' => t('Event'),
       'module' => 'ding_event',
@@ -115,6 +129,16 @@ function ding_content_access($op, $node, $account = NULL) {
   if (isset($permissions[$node->type][$op])) {
     return user_access($permissions[$node->type][$op], $account);
   }
+}
+
+/**
+ * Implementation of hook_menu_alter().
+ */
+function ding_content_menu_alter(&$items) {
+  // These node types are only used ad Flexifield placeholders and are not
+  // supposed to be used for creating nodes.
+  $items['node/add/flexifield-links']['access callback'] = FALSE;
+  $items['node/add/flexifield-ting-refs']['access callback'] = FALSE;
 }
 
 /**
