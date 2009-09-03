@@ -37,7 +37,8 @@ function ting_search_theme() {
     ),
     'ting_collection' => array(
       'arguments' => array('collection' => NULL),
-      'template' => 'ting_collection'
+      'template' => 'ting_collection',
+      'file' => 'ting_search.theme.inc',
     ),
     'ting_object' => array(
       'arguments' => array('object' => NULL),
