@@ -10,6 +10,7 @@ Drupal.behaviors.addTingAutocomplete = function(context)
 																width: 493,
 																delay: 200,
 																selectFirst: false,
+																matchCase: true,
 																formatResult: function(data) { return data[1]; }
 															}). result(function(event)
 															{
