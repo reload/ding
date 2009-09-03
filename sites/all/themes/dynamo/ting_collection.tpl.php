@@ -35,12 +35,10 @@
 
 						<div class="left-column left">
 				  		<div class="picture">
-								<?php // if($object->data->additionalInformation->thumbnailUrl){ ?>
-						    	<?php 
-										// 	TODO set false to true ?
-								print theme('image', $collection->objects[$key]->additionalInformation->detailUrl, '', '', null, false);
-						 			?>
-								<?php // } ?>
+				  			<?php $image_url = ting_search_cover_url($collection->objects[$key], '80_x'); ?>
+				  		 	<?php if ($image_url) { ?>
+				  				<?php print theme('image', $image_url, '', '', null, false); ?>
+				  			<?php } ?>
 							</div>
 
 
@@ -81,13 +79,9 @@
 				<div class="collection clearfix">
 
 		  		<div class="picture">
-						<?php if($collection->objects[$key]->additionalInformation->thumbnailUrl){ ?>
-				    	<?php 
-								// 	TODO set false to true ?
-								$image = theme('image', $collection->objects[$key]->additionalInformation->thumbnailUrl, '', '', null, false);
-								print l($image, $collection->objects[$key]->url, $options= array('html'=>TRUE ) );
-				 			?>
-					    <?php // print theme('imagecache', '120_120', $collection->objects[$key]->additionalInformation->thumbnailUrl); ?>      
+						<?php $image_url = ting_search_cover_url($collection->objects[$key], '80_x'); ?>
+						<?php if ($image_url) { ?>
+							<?php print theme('image', $image_url, '', '', null, false); ?>
 						<?php } ?>
 					</div>
 
@@ -146,4 +140,4 @@
 	 KAmpagner
 	</div>
 	
-</div>	
+</div>

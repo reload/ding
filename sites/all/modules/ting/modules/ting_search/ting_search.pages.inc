@@ -54,6 +54,68 @@ function ting_object($object_id) {
 }
 
 /**
+ * Return the path to a photo of the object.
+ */
+function ting_search_cover_path($object_id) {
+  return file_directory_path() . '/covers/' . basename($object_id) . '.jpg';
+}
+
+/**
+ * Return the URL of a photo of the object.
+ */
+function ting_search_cover_url(TingClientObject $object, $presetname) {
+  $path = ting_search_cover_path($object->id);
+  if (file_exists($path)) {
+    return imagecache_create_url($presetname, $path);
+  }
+  elseif ($object->additionalInformation->thumbnailUrl ||
+          $object->additionalInformation->detailUrl) {
+
+    return url('ting/cover/' . $presetname . '/' . $object->id);
+  }
+  else {
+    return FALSE;
+  }
+}
+
+/**
+ * Return the URL of a photo of the object.
+ */
+function ting_search_cover($preset, $object_id) {
+  module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
+
+  $path = ting_search_cover_path($object_id);
+
+  if (!file_exists($path)) {
+    $facade = new TingClientFacade();
+  	$object = $facade->getObject($object_id);
+    if (!$object) {
+      drupal_not_found();
+      exit;
+    }
+
+    if ($object->additionalInformation->thumbnailUrl) {
+      $source_url =$object->additionalInformation->thumbnailUrl;
+    }
+    else if ($object->additionalInformation->detailUrl) {
+      $source_url = $object->additionalInformation->detailUrl;
+    }
+    else {
+      drupal_not_found();
+      exit;
+    }
+
+    $result = drupal_http_request($source_url);
+    if ($result->code == 200) {
+      file_check_directory(dirname($path), FILE_CREATE_DIRECTORY);
+      file_put_contents($path, $result->data);
+    }
+  }
+
+  drupal_goto(imagecache_create_url($preset, $path));
+}
+
+/**
  * JSON callback to search Ting.
  */
 function ting_search_pages_ting_js() {
