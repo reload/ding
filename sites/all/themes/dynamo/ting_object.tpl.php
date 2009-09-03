@@ -30,12 +30,10 @@
 					<div class="left-column left">
 			  		<div class="picture">
 
-							<?php if($object->additionalInformation->detailUrl){ ?>
-					    	<?php 
-									// 	TODO set false to true ?
-									print theme('image', $object->additionalInformation->detailUrl, '', '', null, false);
-					 			?>
-							<?php } ?>
+			  			<?php $image_url = ting_search_cover_url($object, '180_x'); ?>
+			  			<?php if ($image_url) { ?>
+			  				<?php print theme('image', $image_url, '', '', null, false); ?>
+			  			<?php } ?>
 						</div>
 
 						<div class="button button-orange"><a href="">Reserver nu</a></div>

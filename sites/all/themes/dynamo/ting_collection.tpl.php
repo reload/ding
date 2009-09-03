@@ -51,11 +51,15 @@
 						//print theme('image', $collection->objects[$key]->additionalInformation->detailUrl, '', '', null, false);
 			 			?>
 
-						<h2><?php print $collection->objects[$key]->data->title['0'];?></h2>
-						<div class='creator'>
-							<span class='byline'><?php echo ucfirst(t('by')); ?></span>
-							<?php echo l($collection->objects[$key]->data->creator[0], 'search/ting/'.$collection->objects[$key]->data->creator[0], array("attributes"=>array('class' => 'author'))); ?>
-							<span class='date'>(<?php echo $collection->objects[$key]->data->date[0]; ?>)</span> 
+						<div class="left-column left">
+				  		<div class="picture">
+				  			<?php $image_url = ting_search_cover_url($collection->objects[$key], '180_x'); ?>
+				  		 	<?php if ($image_url) { ?>
+				  				<?php print theme('image', $image_url, '', '', null, false); ?>
+				  			<?php } ?>
+							</div>
+
+
 						</div>
 						<p><?php print $collection->objects[$key]->data->description[0];?></p>
 
@@ -91,13 +95,9 @@
 				<div class="collection clearfix">
 
 		  		<div class="picture">
-						<?php if($collection->objects[$key]->additionalInformation->thumbnailUrl){ ?>
-				    	<?php 
-								// 	TODO set false to true ?
-								$image = theme('image', $collection->objects[$key]->additionalInformation->thumbnailUrl, '', '', null, false);
-								print l($image, $collection->objects[$key]->url, $options= array('html'=>TRUE ) );
-				 			?>
-					    <?php // print theme('imagecache', '120_120', $collection->objects[$key]->additionalInformation->thumbnailUrl); ?>      
+						<?php $image_url = ting_search_cover_url($collection->objects[$key], '80_x'); ?>
+						<?php if ($image_url) { ?>
+							<?php print theme('image', $image_url, '', '', null, false); ?>
 						<?php } ?>
 					</div>
 
@@ -152,4 +152,4 @@
 
 
 	
-</div>	
+</div>
