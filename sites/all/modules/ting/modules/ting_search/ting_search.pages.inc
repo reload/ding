@@ -57,7 +57,7 @@ function ting_object($object_id) {
  * Return the path to a photo of the object.
  */
 function ting_search_cover_path($object_id) {
-  return file_directory_path() . '/covers/' . basename($object_id) . '.jpg';
+  return 'covers/' . basename($object_id) . '.jpg';
 }
 
 /**
@@ -65,13 +65,14 @@ function ting_search_cover_path($object_id) {
  */
 function ting_search_cover_url(TingClientObject $object, $presetname) {
   $path = ting_search_cover_path($object->id);
-  if (file_exists($path)) {
+  if (file_exists(file_create_path($path))) {
     return imagecache_create_url($presetname, $path);
   }
   elseif ($object->additionalInformation->thumbnailUrl ||
           $object->additionalInformation->detailUrl) {
 
-    return url('ting/cover/' . $presetname . '/' . $object->id);
+    // Return an absolute URL like imagecache_create_url() does.
+    return url('ting/cover/' . $presetname . '/' . $object->id, array('absolute' => TRUE));
   }
   else {
     return FALSE;
@@ -84,9 +85,10 @@ function ting_search_cover_url(TingClientObject $object, $presetname) {
 function ting_search_cover($preset, $object_id) {
   module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
 
+  // $path is without the file_directory_path() prefix.
   $path = ting_search_cover_path($object_id);
 
-  if (!file_exists($path)) {
+  if (!file_exists(file_create_path($path))) {
     $facade = new TingClientFacade();
   	$object = $facade->getObject($object_id);
     if (!$object) {
@@ -107,8 +109,9 @@ function ting_search_cover($preset, $object_id) {
 
     $result = drupal_http_request($source_url);
     if ($result->code == 200) {
-      file_check_directory(dirname($path), FILE_CREATE_DIRECTORY);
+      file_check_directory(file_create_path(dirname($path)), FILE_CREATE_DIRECTORY);
       file_put_contents($path, $result->data);
+      file_save_data($result->data, $path, FILE_EXISTS_REPLACE);
     }
   }
 
