@@ -3,3 +3,7 @@
 Her kan i give den gas drenge
 
 */
+
+/* kasperg: Added to show AJAX loader for autocomplete */
+#ting-search-form label { margin-left: 0; padding-left: 30px; background: url(../images/magnifier.png) no-repeat 9px 2px; }
+#ting-search-form .ac_loading { background: #FFF url(../images/ajax-loader-micro.gif) no-repeat 470px center; }
