@@ -73,7 +73,7 @@ class TingClientFacade {
 	{
 		$scanRequest = new TingClientScanRequest();
 		$scanRequest->setField('phrase.anyIndexes');
-		$scanRequest->setLower(strtolower($query));
+		$scanRequest->setLower($query);
 		$scanRequest->setNumResults($numResults);
 		$scanRequest->setOutput('json');
 		return self::getClient()->scan($scanRequest);
