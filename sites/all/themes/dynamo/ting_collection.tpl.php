@@ -106,7 +106,7 @@
 						<h5><?php print l($collection->objects[$key]->data->title['0'], $collection->objects[$key]->url, array("attributes"=>array('class' => 'alternative'))); ?></h5>
 						<span class='byline'><?php echo t('by'); ?></span>
 						<?php echo l($collection->objects[$key]->data->creator[0], 'search/ting/'.$collection->objects[$key]->data->creator[0], array("attributes"=>array('class' => 'author alternative'))); ?>		
-						<? if($extradesc = $collection->objects[$key]->data->description[1]) { print "<p>".$extradesc."</p>"; } ?>
+						<?php if($extradesc = $collection->objects[$key]->data->description[1]) { print "<p>".$extradesc."</p>"; } ?>
 						
 						<p>På dansk ved... (mangler data)</p>
 						<p>Illustreret af... (mangler data)</p>
