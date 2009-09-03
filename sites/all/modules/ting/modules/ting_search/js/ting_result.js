@@ -151,7 +151,7 @@ Drupal.tingResult = function(searchResultElement, facetBrowserElement, result)
 	
 	this.doUrlSearch = function()
 	{
-			var path = Drupal.settings.tingSearch.ting_url+'?query=dc.title:'+Drupal.settings.tingSearch.keys+'&'+jQuery.url.attr('anchor'); 
+			var path = Drupal.settings.tingSearch.ting_url+'?query='+Drupal.settings.tingSearch.keys+'&'+jQuery.url.attr('anchor'); 
 			jQuery.getJSON(path, function(data)
 			{
 				Drupal.renderTingSearchResults(Drupal.searchResultElement, data);
