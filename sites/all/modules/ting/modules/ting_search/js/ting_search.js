@@ -38,7 +38,7 @@ Drupal.tingSearch = {
 
 // Get search data from Ting
 Drupal.tingSearch.getTingData = function(url, keys) {
-  $.getJSON(url, {'query': 'dc.title:' + keys}, function (result) {
+  $.getJSON(url, {'query': keys}, function (result) {
     if (result.count > 0) {
       Drupal.tingSearch.resultCount.ting = result.count;
       $("#ting-search-spinner").hide("normal");
