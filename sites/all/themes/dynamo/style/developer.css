@@ -3,3 +3,28 @@
 Her kan i give den gas drenge
 
 */
+
+/* kasperg: Added to show AJAX loader for autocomplete */
+#ting-search-form label { margin-left: 0; padding-left: 30px; background: url(../images/magnifier.png) no-repeat 9px 2px; }
+#ting-search-form .ac_loading { background: #FFF url(../images/ajax-loader-micro.gif) no-repeat 470px center; }
+
+/* rasmus: added styles for v¾rkvisning */
+#ting-collection .ting-overview p { color: #646765; } /* default text color, morten?! */
+#ting-collection .ting-overview .creator { color: #878787; margin-bottom: 10px; }
+#ting-collection .ting-overview .byline { font-weight: normal; font-style: italic; }
+#ting-collection .ting-overview .terms .title { font-weight: normal; }
+#ting-collection .ting-overview .terms { font-size: 11px; color: #878787;}
+
+#ting-collection .ting-overview .material-links { font-size: 11px; background-color: #E7ECEB; padding: 10px; margin-top: 15px; } 
+#ting-collection .ting-overview .material-links .title { display: block; font-weight: bold; color: #000; }
+
+#ting-collection .content h5 { font-size: 10px; display: inline; font-weight: bold; }
+#ting-collection .content .date { display: block; }
+#ting-collection .content .byline { font-style: italic; }
+#ting-collection .content .author { font-weight: bold; }
+#ting-collection .content ul.types { margin-top: 10px; }
+
+
+a.alternative:link, a.alternative:visited { color: #000; }
+.more-link { background: transparent url(../images/pil.png) no-repeat scroll right center; padding:0 12px 0 0; }
+

@@ -88,8 +88,8 @@ Drupal.tingResult = function(searchResultElement, facetBrowserElement, result)
 		//currentPage = (jQuery.url.attr('page')) ? jQuery.url.attr('page') : 1;
 		anchorVars = Drupal.getAnchorVars();
 		currentPage = (anchorVars.page != null) ? new Number(anchorVars.page) : 1;
-		totalPages = Math.ceil(result.numTotalRecords / Drupal.settings.tingResult.resultsPerPage);
-		
+		totalPages = Math.ceil(result.numTotalObjects / Drupal.settings.tingResult.resultsPerPage);
+
 		if (totalPages > 1)
 		{
 			startPage = Math.max(1, (currentPage - Math.ceil((Drupal.settings.tingResult.pagesInPager - 1) / 2)))
@@ -151,7 +151,7 @@ Drupal.tingResult = function(searchResultElement, facetBrowserElement, result)
 	
 	this.doUrlSearch = function()
 	{
-			var path = Drupal.settings.tingSearch.ting_url+'?query=dc.title:'+Drupal.settings.tingSearch.keys+'&'+jQuery.url.attr('anchor'); 
+			var path = Drupal.settings.tingSearch.ting_url+'?query='+Drupal.settings.tingSearch.keys+'&'+jQuery.url.attr('anchor'); 
 			jQuery.getJSON(path, function(data)
 			{
 				Drupal.renderTingSearchResults(Drupal.searchResultElement, data);
@@ -172,3 +172,4 @@ Drupal.tingResult = function(searchResultElement, facetBrowserElement, result)
 	this.renderTingSearchResults(searchResultElement, result);
 	this.renderTingSearchResultPager(searchResultElement, result);
 }
+

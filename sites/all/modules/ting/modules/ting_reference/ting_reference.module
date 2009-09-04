@@ -177,7 +177,7 @@ function ting_reference_widget(&$form, &$form_state, $field, $items, $delta = 0)
 	{
 		$basePath = drupal_get_path('module', 'ting');
 	 	//Added modified version of jQuery autocomplete as default plugin uses q parameter
-	  drupal_add_js($basePath.'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.js', 'module', 'footer', TRUE);
+	  drupal_add_js($basePath.'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.min.js', 'module', 'footer', TRUE);
 	  drupal_add_js($basePath.'/js/pure/js/pure.js', 'module', 'footer', TRUE);
 		drupal_add_css($basePath.'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.css', 'module');
 		
