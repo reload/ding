@@ -24,7 +24,7 @@ Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, res
        							((facets[facets-length-1] == arg.item.name) ? ' last' : '');
        	return firstLast;
 			},
-			'h4': 'facet.name'
+			'h4': function(arg) { return (Drupal.settings.tingResult.facetNames[arg.item.name]) ? Drupal.settings.tingResult.facetNames[arg.item.name] : arg.item.name; }
 		});
 		
 		facetTerms = jQuery('.facets', facetGroups).mapDirective({

@@ -167,7 +167,7 @@ function ting_search_add_js() {
   drupal_add_js($path . '/js/ting_result.js', 'module', 'footer', TRUE);
   drupal_add_js($path . '/js/ting_facet_browser.js', 'module', 'footer', TRUE);
   drupal_add_css($path . '/css/ting_facet_browser.css', 'module');
-
+	
   drupal_add_js(array('tingResult' => array(
                       'collectionTemplate' => ting_search_render_search_collection_template(),
                       'pagerTemplate' => ting_search_render_pager_template(),
@@ -175,6 +175,18 @@ function ting_search_add_js() {
                       'pagesInPager' => 5,
                       'resizeButtonText' => t('Show more facet terms'))),
                 'setting');
+  
+  $facets = array('facet.creator', 'facet.subject', 'facet.type', 'facet.date', 
+  								'facet.language', 'facet.geographic', 'facet.period', 'facet.form',
+  								'facet.fiction', 'facet.nonFiction', 'facet.music', 'facet.dk5');
+  foreach ($facets as $facet)
+  {
+  	drupal_add_js(array('tingResult' => array(
+  												'facetNames' => array(
+  													$facet => t($facet)))),
+  								'setting');
+  }
+   
 }
 
 function ting_search_render_search_collection_template() {
