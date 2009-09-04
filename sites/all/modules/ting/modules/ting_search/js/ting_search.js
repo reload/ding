@@ -128,9 +128,11 @@ Drupal.tingSearch.updateTabs = function (sender) {
     $("#ting-search-spinner").hide("normal");
 
     // If there were no results from Ting and website results available,
-    // switch to the website tab.
+    // switch to the website tab and diable the Ting tab.
     if (Drupal.tingSearch.resultCount.ting == 0 && Drupal.tingSearch.resultCount.content > 0) {
-      $("#ting-search-tabs").tabs("select", 1);
+      $("#ting-search-tabs")
+        .tabs("select", 1)
+        .tabs("disable", 0);
     }
   }
 }
