@@ -1,14 +1,12 @@
-/*
-
-Her kan i give den gas drenge
-
-*/
+/**
+ * Her kan i give den gas drenge.
+ */
 
 /* kasperg: Added to show AJAX loader for autocomplete */
 #ting-search-form label { margin-left: 0; padding-left: 30px; background: url(../images/magnifier.png) no-repeat 9px 2px; }
 #ting-search-form .ac_loading { background: #FFF url(../images/ajax-loader-micro.gif) no-repeat 470px center; }
 
-/* rasmus: added styles for v¾rkvisning */
+/* rasmus: added styles for værkvisning */
 #ting-collection .ting-overview p { color: #646765; } /* default text color, morten?! */
 #ting-collection .ting-overview .creator { color: #878787; margin-bottom: 10px; }
 #ting-collection .ting-overview .byline { font-weight: normal; font-style: italic; }
@@ -27,4 +25,16 @@ Her kan i give den gas drenge
 
 a.alternative:link, a.alternative:visited { color: #000; }
 .more-link { background: transparent url(../images/pil.png) no-repeat scroll right center; padding:0 12px 0 0; }
+
+/* mikl: A few tweaks for the search results page */
+
+/**
+ * Spinner position needs a bit of tweaking, right now it's jammed
+ * between the text and the edge of the tab.
+ */
+#ting-search-tabs li.spinning a {
+  background-image: url(../images/ajax-loader-micro.gif);
+  background-repeat: no-repeat;
+  background-position: 100% 50%;
+}
 
