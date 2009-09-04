@@ -92,11 +92,11 @@ function ting_search_cover($preset, $object_id) {
       exit;
     }
 
-    if ($object->additionalInformation->thumbnailUrl) {
-      $source_url =$object->additionalInformation->thumbnailUrl;
-    }
-    else if ($object->additionalInformation->detailUrl) {
+    if ($object->additionalInformation->detailUrl) {
       $source_url = $object->additionalInformation->detailUrl;
+    }
+    elseif ($object->additionalInformation->thumbnailUrl) {
+      $source_url =$object->additionalInformation->thumbnailUrl;
     }
     else {
       drupal_not_found();
