@@ -23,104 +23,118 @@
 		<div class="tab-navigation-main">
 			<div class="tab-navigation-main-inner">
 				<?php
-				// retrieve material types...
-				$materialtypes = array();
-				foreach ($collection->objects as $key => $value) {
-					$type = $collection->objects[$key]->data->type['0'];
-					$lang = $collection->objects[$key]->data->language['0'];
-					$type_key = $type .'_'.$lang;
-					
-					if (!in_array($type_key, $materialtypes)) {
-						$materialtypes[] = $type_key;
+				// material types retrieved from preprocess hook...
+				
+				//	dpm($sorted_collection);
+				// show the common descriptor
+				foreach($sorted_collection as $objects)
+				{
+					$common_object = $objects[0];
+					if(empty($common_object->data->description[0])) {
+						continue;
 					}
+					break;
 				}
+				
+				dpm($common_object);
 				?>
+				
+				<div class="ting-overview clearfix">
+			    	<?php 
+					// 	TODO set false to true ?
+					//print theme('image', $tingClientObject->additionalInformation->detailUrl, '', '', null, false);
+		 			?>
+
+					<div class="left-column left">
+			  		<div class="picture">
+			  			<?php $image_url = ting_search_cover_url($common_object, '180_x'); ?>
+			  		 	<?php if ($image_url) { ?>
+			  				<?php print theme('image', $image_url, '', '', null, false); ?>
+			  			<?php } ?>
+						</div>
+
+
+					</div>
+					<p><?php print $common_object->data->description[0];?></p>
+
+					<div class='terms'>
+						<?php //print theme('item_list', $tingClientObject->data->subject, t('Terms:'), 'span', array('class' => 'subject'));?>	
+						<span class='title'><?php echo t('Terms:'); ?></span>
+						<?php
+						foreach ($common_object->data->subject as $term) {
+							$terms[] = "<span class='term'>".l($term, 'search/ting/'.$term)."</span>";
+						}
+						echo implode(", ", $terms);
+						?>
+					</div>
+					
+					<div class='material-links'>
+						<span class='title'><?php echo t('Go to materials:'); ?></span>
+						<?php
+						foreach ($materialtypes as $materialtype) {
+							$material_links[] = '<span class="link"><a href="#'.$materialtype.'">'.t($materialtype).'</a></span>';
+						}
+						echo implode(", ", $material_links);
+						?>
+					</div>
+					
+				</div>
+
+								
 
 
 				<?php
-				foreach ($collection->objects as $key => $value) {
-				//	dsm($key);
-				?>
-				
-				<?php if($key == "0"){ ?>
-
-
-					<div class="ting-overview clearfix">
-				    	<?php 
-						// 	TODO set false to true ?
-						//print theme('image', $collection->objects[$key]->additionalInformation->detailUrl, '', '', null, false);
-			 			?>
-
-						<div class="left-column left">
-				  		<div class="picture">
-				  			<?php $image_url = ting_search_cover_url($collection->objects[$key], '180_x'); ?>
-				  		 	<?php if ($image_url) { ?>
-				  				<?php print theme('image', $image_url, '', '', null, false); ?>
-				  			<?php } ?>
-							</div>
-
-
-						</div>
-						<p><?php print $collection->objects[$key]->data->description[0];?></p>
-
-						<div class='terms'>
-							<?php //print theme('item_list', $collection->objects[$key]->data->subject, t('Terms:'), 'span', array('class' => 'subject'));?>	
-							<span class='title'><?php echo t('Terms:'); ?></span>
-							<?php
-							foreach ($collection->objects[$key]->data->subject as $term) {
-								$terms[] = "<span class='term'>".l($term, 'search/ting/'.$term)."</span>";
-							}
-							echo implode(", ", $terms);
-							?>
-						</div>
-						
-						<div class='material-links'>
-							<span class='title'><?php echo t('Go to materials:'); ?></span>
-							<?php
-							foreach ($materialtypes as $materialtype) {
-								$material_links[] = '<span class="link"><a href="#'.$materialtype.'">'.t($materialtype).'</a></span>';
-							}
-							echo implode(", ", $material_links);
-							?>
-						</div>
-						
-					</div>
-
-					<hr />
-
-				<?php }
+ 				foreach ($sorted_collection as $category => $objects) {		
+					print '<h3>'.$category.'<a name="'.$category.'">&nbsp;</a></h3>';
+ 					
+					foreach ($objects as $tingClientObject) {
+	
 				// now display all the materials
 				?>
 
 				<div class="collection clearfix">
 
 		  		<div class="picture">
-						<?php $image_url = ting_search_cover_url($collection->objects[$key], '80_x'); ?>
+						<?php $image_url = ting_search_cover_url($tingClientObject, '80_x'); ?>
 						<?php if ($image_url) { ?>
 							<?php print theme('image', $image_url, '', '', null, false); ?>
 						<?php } ?>
 					</div>
 
 				  <div class="content">
-				  		<span class='date'><?php echo $collection->objects[$key]->data->date[0]; ?></span> 
-						<h5><?php print l($collection->objects[$key]->data->title['0'], $collection->objects[$key]->url, array("attributes"=>array('class' => 'alternative'))); ?></h5>
+				  		<span class='date'><?php echo $tingClientObject->data->date[0]; ?></span> 
+						<h5><?php print l($tingClientObject->data->title['0'], $tingClientObject->url, array("attributes"=>array('class' => 'alternative'))); ?></h5>
 						<span class='byline'><?php echo t('by'); ?></span>
-						<?php echo l($collection->objects[$key]->data->creator[0], 'search/ting/'.$collection->objects[$key]->data->creator[0], array("attributes"=>array('class' => 'author alternative'))); ?>		
-						<?php if($extradesc = $collection->objects[$key]->data->description[1]) { print "<p>".$extradesc."</p>"; } ?>
-						
-						<p>På dansk ved... (mangler data)</p>
-						<p>Illustreret af... (mangler data)</p>
-						
-					<?php //print theme('item_list', format_danmarc2($collection->objects[$key]->data->description), t('Description'), 'span', array('class' => 'description'));?>
+						<?php echo l($tingClientObject->data->creator[0], 'search/ting/'.$tingClientObject->data->creator[0], array("attributes"=>array('class' => 'author alternative'))); ?>		
+						<?php
+						for ($i=1; $i<count($tingClientObject->data->creator); $i++)
+						{
+							if($extradesc = $tingClientObject->data->creator[$i]) { print "<p>".$extradesc."</p>"; }
+						}
 
-						<?php //print theme('item_list', $collection->objects[$key]->data->subject, t('Terms'), 'span', array('class' => 'subject'));?>
-						<?php //print theme('item_list', $collection->objects[$key]->data->type, t('Type'), 'span', array('class' => 'type'));?>
-						<?php //print theme('item_list', $collection->objects[$key]->data->format, t('Format'), 'span', array('class' => 'format'));?>
-						<?php //print theme('item_list', $collection->objects[$key]->data->source, t('Source'), 'span', array('class' => 'source'));?>
-						<?php //print theme('item_list', $collection->objects[$key]->data->publisher, t('Publisher'), 'span', array('class' => 'publisher'));?>
-						<?php //print theme('item_list', $collection->objects[$key]->data->language, t('Language'), 'span', array('class' => 'language'));?>
+						for ($i=1; $i<count($tingClientObject->data->description); $i++)
+						{
+							if($extradesc = $tingClientObject->data->description[$i]) { print "<p>".$extradesc."</p>"; }
+						}
+						?>
+		
+						
+						
+					<?php
+				//	echo "<pre>";
+				//	print_r($collection);
+				//	echo "</pre>"; ?>
+						
+					<?php //print theme('item_list', format_danmarc2($tingClientObject->data->description), t('Description'), 'span', array('class' => 'description'));?>
 
-						<?php print l(t('More information'), $collection->objects[$key]->url, array('attributes' => array('class' => 'more-link')) ); ?>
+						<?php //print theme('item_list', $tingClientObject->data->subject, t('Terms'), 'span', array('class' => 'subject'));?>
+						<?php //print theme('item_list', $tingClientObject->data->type, t('Type'), 'span', array('class' => 'type'));?>
+						<?php //print theme('item_list', $tingClientObject->data->format, t('Format'), 'span', array('class' => 'format'));?>
+						<?php //print theme('item_list', $tingClientObject->data->source, t('Source'), 'span', array('class' => 'source'));?>
+						<?php //print theme('item_list', $tingClientObject->data->publisher, t('Publisher'), 'span', array('class' => 'publisher'));?>
+						<?php //print theme('item_list', $tingClientObject->data->language, t('Language'), 'span', array('class' => 'language'));?>
+
+						<?php print l(t('More information'), $tingClientObject->url, array('attributes' => array('class' => 'more-link')) ); ?>
 
 						<ul class="types">
 							<li class="out">UDLÅNT</li>
@@ -141,7 +155,7 @@
 				</div>
 
 				<?php 
-				
+					} // foreach objects
 				} //foreach collection
 				?>
 
