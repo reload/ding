@@ -98,10 +98,10 @@ class TingClientFacade {
 		$object = self::getClient()->getObject(new TingClientObjectRequest($objectId, self::$format));
 		return array_shift(self::addAdditionalInfo(array($object)));
 	}
-	
+
 	private static function addCollectionInfo(TingClientObjectCollection $collection)
 	{
-		$collection->url = url('ting/collection', array('absolute' => true, 'query' => array('object_id' => $collection->objects[0]->data->title[0])));
+		$collection->url = url('ting/collection/' . $collection->objects[0]->id, array('absolute' => true));
 		$types = array();
 		foreach ($collection->objects as &$object)
 		{
