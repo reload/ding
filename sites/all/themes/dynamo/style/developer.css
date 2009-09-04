@@ -38,3 +38,14 @@ a.alternative:link, a.alternative:visited { color: #000; }
   background-position: 100% 50%;
 }
 
+/* Now using an em instead of a span with a class */
+#ting-search-tabs li .count em {
+  color: #900;
+}
+
+/* Disabled tabs needs to look disabled */
+#ting-search-tabs li.ui-tabs-disabled a {
+  cursor: default; /* Use the standard arrow to make it not look clickable */
+  color: #999;
+}
+
