@@ -19,9 +19,6 @@ jQuery(function($) {$(function(){
 
   // Configure our tabs
   $("#ting-search-tabs")
-    // Add the spinning class which displays a search-in-progress
-    // indicator. This is removed when the search is completed.
-    .find('li').addClass('spinning').end()
     .tabs()
     // Disable the website tab until we have some results.
     .tabs("disable", 1);

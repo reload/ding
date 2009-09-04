@@ -9,8 +9,8 @@
 <div id="ting-search-results">
 
   <ul id="ting-search-tabs" class="ui-tabs-nav">
-    <li class="ting"><a href="#ting-result"><?php echo t('Materials') ?></a></li>
-    <li class="content"><a href="#content-result"><?php echo t('Website') ?></a></li>
+    <li class="ting spinning"><a href="#ting-result"><?php echo t('Materials') ?></a></li>
+    <li class="content spinning"><a href="#content-result"><?php echo t('Website') ?></a></li>
   </ul>
 
   <div id="ting-result">
