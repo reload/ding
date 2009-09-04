@@ -49,7 +49,7 @@ class TingClientFacade {
 		$searchRequest->setStart($resultsPerPage * ($page - 1) + 1);
 		$searchRequest->setNumResults($resultsPerPage);
 		
-		$searchRequest->setFacets((isset($options['facets'])) ? $options['facets'] : array('dc.subject', 'dc.date', 'dc.type', 'dc.creator', 'dc.language'));
+		$searchRequest->setFacets((isset($options['facets'])) ? $options['facets'] : array('facet.subject', 'facet.creator', 'facet.type', 'facet.date', 'facet.language'));
 		$searchRequest->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((sizeof($searchRequest->getFacets()) == 0) ? 0 : 10));
 		
 		$searchResult = self::getClient()->search($searchRequest);
