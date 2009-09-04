@@ -154,6 +154,10 @@ function ting_search_add_js() {
   drupal_add_js($path . '/js/jquery.url/jquery.url.js', 'module', 'footer', TRUE);
   //drupal_add_js($path . '/js/jquery.url/jquery.url.packed.js', 'module', 'footer', TRUE);
 
+  // jQuery UI tabs
+  jquery_ui_add('ui.tabs');
+  jquery_ui_theme_load();
+
   drupal_add_js($path . '/js/ting_search.js', 'module', 'footer', TRUE);
   drupal_add_js($path . '/js/ting_search_result_page.js', 'module', 'footer', TRUE);
   drupal_add_js($path . '/js/ting_result.js', 'module', 'footer', TRUE);
@@ -165,7 +169,10 @@ function ting_search_add_js() {
                       'pagerTemplate' => ting_search_render_pager_template(),
                       'resultsPerPage' => 10,
                       'pagesInPager' => 5,
-                      'resizeButtonText' => t('Show more facet terms'))),
+                      'resizeButtonText' => t('Show more facet terms'),
+                      'noResultsHeader' => t('No results found'),
+                      'noResultsText' => t('Sorry, we could not find any results for your search. Please try again with different keywords or ask a librarian.'),
+                    )),
                 'setting');
 }
 

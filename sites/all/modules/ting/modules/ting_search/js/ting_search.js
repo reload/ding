@@ -5,6 +5,34 @@
  * JavaScript file holding most of the ting search related functions.
  */
 
+/**
+ * Set up the results page.
+ *
+ * This is _not_ a Drupal.behavior, since those take a lot longer to load.
+ */
+jQuery(function($) {$(function(){
+  $("#search :text")
+    // Put the search keys into the main searchbox.
+    .val(Drupal.settings.tingSearch.keys)
+    // And trigger the change event so that InFieldLabes will work correctly.
+    .change();
+
+  // Configure our tabs
+  $("#ting-search-tabs")
+    // Add the spinning class which displays a search-in-progress
+    // indicator. This is removed when the search is completed.
+    .find('li').addClass('spinning').end()
+    .tabs()
+    // Disable the website tab until we have some results.
+    .tabs("disable", 1);
+
+  Drupal.tingSearch.getTingData(Drupal.settings.tingSearch.ting_url,
+                                Drupal.settings.tingSearch.keys);
+
+  Drupal.tingSearch.getContentData(Drupal.settings.tingSearch.content_url,
+                                   Drupal.settings.tingSearch.keys);
+})});
+
 // Container object
 Drupal.tingSearch = {
   // Holds the number of results for each of the different types of search.
@@ -14,28 +42,21 @@ Drupal.tingSearch = {
 // Get search data from Ting
 Drupal.tingSearch.getTingData = function(url, keys) {
   $.getJSON(url, {'query': 'dc.title:' + keys}, function (data) {
-    Drupal.tingSearch.resultCount.ting = data.numTotalObjects;
     if (data.numTotalObjects > 0) {
+      Drupal.tingSearch.resultCount.ting = data.numTotalObjects;
+      $("#ting-search-spinner").hide("normal");
+
+      // Add the template for ting result and facet browser.
+      $("#ting-search-placeholder").replaceWith(Drupal.settings.tingSearch.result_template);
+
       // Pass the data on to the result and facet browser handlers.
       Drupal.tingResult("#ting-search-result", "#ting-facet-browser", data);
       Drupal.tingFacetBrowser("#ting-facet-browser", "#ting-search-result", data);
-      // Hide the spinner, since we're finished loading.
-      $("#ting-search-spinner").hide("normal");
-
-      // Update and show the result count on the tab and make it clickable.
-      $("#ting-search-tabs li.ting")
-        .addClass('active')
-        .find('.count-value').text(data.numTotalObjects).end()
-        .find('.count').show().end()
-        .append('<a href="#">')
-        .prepend('</a>')
-        .click(function (eventObject) {
-          $(this).addClass('active').siblings().removeClass('active');
-          $("#content-result").hide();
-          $("#ting-result").show();
-          return false;
-        });
     }
+    else {
+      Drupal.tingSearch.resultCount.ting = 0;
+    }
+    Drupal.tingSearch.updateTabs("ting");
   });
 }
 
@@ -54,6 +75,7 @@ Drupal.tingSearch.getContentData = function(url, keys, show) {
     // we should need it later.
     Drupal.tingSearch.resultCount.content = data.count;
     Drupal.tingSearch.contentData = data;
+    Drupal.tingSearch.updateTabs("content");
 
     if (data.count) {
       $("#content-result").html(Drupal.tingSearch.contentData.result_html);
@@ -65,22 +87,6 @@ Drupal.tingSearch.getContentData = function(url, keys, show) {
       if (show) {
         $("#content-result").show("fast");
       }
-
-      // Hide the spinner, since we're finished loading.
-      $("#ting-search-spinner").hide("normal");
-
-      // Update and show the result count on the tab and make it clickable.
-      $("#ting-search-tabs li.content")
-        .find(".count-value").text(data.count).end()
-        .find(".count").show().end()
-        .append('<a href="#">')
-        .prepend('</a>')
-        .click(function () {
-          $(this).addClass('active').siblings().removeClass('active');
-          $("#ting-result").hide();
-          $("#content-result").show();
-          return false;
-        });
     }
   });
 }
@@ -93,5 +99,42 @@ Drupal.tingSearch.contentPager = function() {
     Drupal.tingSearch.getContentData(eventObject.srcElement.href, false, true);
     return false;
   });
+}
+
+// Helper function to update the state of our tabs.
+Drupal.tingSearch.updateTabs = function (sender) {
+  if (Drupal.tingSearch.resultCount.hasOwnProperty(sender)) {
+    var tab = $('#ting-search-tabs li.' + sender);
+    var count = Drupal.tingSearch.resultCount[sender];
+    if (count == 0) {
+      // For no results, replace the contents of the results container
+      // with the no results message.
+      $("#" + sender + "-result").html('<h4>' + Drupal.settings.tingResult.noResultsHeader + '</h4><p>' + Drupal.settings.tingResult.noResultsText + '</p>');
+    }
+    else if (sender == 'content') {
+      // If we have a non-zero result count for content, enable its tab.
+      $("#ting-search-tabs").tabs("enable", 1);
+    }
+    tab.removeClass('spinning');
+
+    if (tab.find('span.count').length) {
+      tab.find('span.count em').text(count);
+    }
+    else {
+      tab.find('a').append(' <span class="count">(<em>' + count + '</em>)</span>');
+    }
+  }
+
+  if (Drupal.tingSearch.resultCount.hasOwnProperty("ting") && Drupal.tingSearch.resultCount.hasOwnProperty("content")) {
+    // When both searches has returned, make sure that we're in a
+    // reasonably consistent state.
+    $("#ting-search-spinner").hide("normal");
+
+    // If there were no results from Ting and website results available,
+    // switch to the website tab.
+    if (Drupal.tingSearch.resultCount.ting == 0 && Drupal.tingSearch.resultCount.content > 0) {
+      $("#ting-search-tabs").tabs("select", 1);
+    }
+  }
 }
 
