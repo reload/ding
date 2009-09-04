@@ -228,6 +228,14 @@ function ting_search_form(&$form_state) {
     '#value' => t('Search'),
   );
 
+  $form['example_text'] = array(
+    '#value' => '<div class="example"><p>' . t('For example:') . '</p>' . theme('item_list', array(
+      l('Dan Turèll', 'ting/search/Dan Turèll'),
+      l('genteknologi', 'ting/search/genteknologi'),
+      l('Ringenes Herre', 'ting/search/Ringenes Herre'),
+    )) . '</div>',
+  );
+
   return $form;
 }
 

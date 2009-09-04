@@ -59,25 +59,31 @@ msgstr "Søger"
 msgid "Ting search box – for page header"
 msgstr ""
 
-#: ting_search.module:119;246
+#: ting_search.module:119;228
 msgid "Search"
 msgstr "Søg"
 
-#: ting_search.module:188
+#: ting_search.module:187
 msgid "Show more facet terms"
 msgstr "Vis flere facettermer"
 
-#: ting_search.module:189
+#: ting_search.module:188
 msgid "No results found"
 msgstr "Ingen resultater fundet"
 
-#: ting_search.module:190
+#: ting_search.module:189
 msgid "Sorry, we could not find any results for your search. Please try again with different keywords or ask a librarian."
-msgstr "Beklager, vi kunne ikke finde nogen resultater for din søgning. Prøv venligst igen med andre søgeord eller spørg en bibliotekar."
+msgstr ""
+"Beklager, vi kunne ikke finde nogen resultater for din søgning. Prøv "
+"venligst igen med andre søgeord eller spørg en bibliotekar."
 
-#: ting_search.module:238
+#: ting_search.module:220
 msgid "Enter your search terms here"
 msgstr "Skriv dine søgeord her"
+
+#: ting_search.module:232
+msgid "For example:"
+msgstr "For eksempel:"
 
 #: ting_search.module:57 ting_search.info:0
 msgid "Ting search"

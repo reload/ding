@@ -36,7 +36,6 @@
 
               <div id="search" class="left">
                 <?php print $search ?>
-                <p>forklarende text ...</p>
               </div>
 
               <div id="account" class="left">
