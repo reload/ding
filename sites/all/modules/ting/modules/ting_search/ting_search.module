@@ -181,7 +181,6 @@ function ting_search_add_js() {
   drupal_add_css($path . '/css/ting_facet_browser.css', 'module');
 	
   drupal_add_js(array('tingResult' => array(
-                      'collectionTemplate' => ting_search_render_search_collection_template(),
                       'pagerTemplate' => ting_search_render_pager_template(),
                       'resultsPerPage' => 10,
                       'pagesInPager' => 5,
@@ -202,23 +201,6 @@ function ting_search_add_js() {
   								'setting');
   }
    
-}
-
-function ting_search_render_search_collection_template() {
-  module_load_include('php', 'ting', 'lib/ting-dbc-php5-client/lib/TingClient');
-  
-  $object = new TingClientObject();
-  $object->id = 'id';
-
-  $data = new TingClientDublinCoreData();
-  foreach ($data as $attribute => $value) {
-    $data->$attribute = array($attribute);
-  }
-  $object->data = $data;
-
-  $collection = new TingClientObjectCollection(array($object));
-
-  return theme('ting_search_collection', $collection);
 }
 
 function ting_search_render_pager_template() {

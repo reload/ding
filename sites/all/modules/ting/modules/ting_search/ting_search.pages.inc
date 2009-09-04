@@ -141,11 +141,19 @@ function ting_search_pages_ting_js() {
   $facade = new TingClientFacade();
 
   try {
-    $result = $facade->search($query, isset($_REQUEST['page']) ? $_REQUEST['page'] : 1, 10);
+    $searchResult = $facade->search($query, isset($_REQUEST['page']) ? $_REQUEST['page'] : 1, 10);
+    $result = array(
+      'count' => $searchResult->numTotalObjects,
+      'result_html' => '',
+      'facets' => $searchResult->facets,
+    );
+    foreach ($searchResult->collections as &$collection) {
+      $result['result_html'] .= theme('ting_search_collection', $collection);
+    }
   }
   catch (TingClientException $e) {
     // TODO: Log the error.
-    $result = array('numTotalObjects' => 0);
+    $result = array('count' => 0);
   }
 
   drupal_json($result);

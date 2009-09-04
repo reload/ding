@@ -41,17 +41,17 @@ Drupal.tingSearch = {
 
 // Get search data from Ting
 Drupal.tingSearch.getTingData = function(url, keys) {
-  $.getJSON(url, {'query': 'dc.title:' + keys}, function (data) {
-    if (data.numTotalObjects > 0) {
-      Drupal.tingSearch.resultCount.ting = data.numTotalObjects;
+  $.getJSON(url, {'query': 'dc.title:' + keys}, function (result) {
+    if (result.count > 0) {
+      Drupal.tingSearch.resultCount.ting = result.count;
       $("#ting-search-spinner").hide("normal");
 
       // Add the template for ting result and facet browser.
       $("#ting-search-placeholder").replaceWith(Drupal.settings.tingSearch.result_template);
 
       // Pass the data on to the result and facet browser handlers.
-      Drupal.tingResult("#ting-search-result", "#ting-facet-browser", data);
-      Drupal.tingFacetBrowser("#ting-facet-browser", "#ting-search-result", data);
+      Drupal.tingResult("#ting-search-result", "#ting-facet-browser", result);
+      Drupal.tingFacetBrowser("#ting-facet-browser", "#ting-search-result", result);
     }
     else {
       Drupal.tingSearch.resultCount.ting = 0;
