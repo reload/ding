@@ -36,7 +36,7 @@
 					break;
 				}
 				
-				dpm($common_object);
+			//	dpm($common_object);
 				?>
 				
 				<div class="ting-overview clearfix">
@@ -44,17 +44,15 @@
 					// 	TODO set false to true ?
 					//print theme('image', $tingClientObject->additionalInformation->detailUrl, '', '', null, false);
 		 			?>
+		 			
+	   				<h2><?php print $common_object->data->title['0'];?></h2>
+	
+					<div class='creator'>
+						<span class='byline'><?php echo ucfirst(t('by')); ?></span>
+						<?php echo l($common_object->data->creator[0], 'search/ting/'.$common_object->data->creator[0], array("attributes"=>array('class' => 'author'))); ?>
+						<span class='date'>(<?php echo $common_object->data->date[0]; ?>)</span> 
+					</div>		 			
 
-					<div class="left-column left">
-			  		<div class="picture">
-			  			<?php $image_url = ting_search_cover_url($common_object, '180_x'); ?>
-			  		 	<?php if ($image_url) { ?>
-			  				<?php print theme('image', $image_url, '', '', null, false); ?>
-			  			<?php } ?>
-						</div>
-
-
-					</div>
 					<p><?php print $common_object->data->description[0];?></p>
 
 					<div class='terms'>
@@ -71,8 +69,8 @@
 					<div class='material-links'>
 						<span class='title'><?php echo t('Go to materials:'); ?></span>
 						<?php
-						foreach ($materialtypes as $materialtype) {
-							$material_links[] = '<span class="link"><a href="#'.$materialtype.'">'.t($materialtype).'</a></span>';
+						foreach ($sorted_collection as $category => $objects) {
+							$material_links[] = '<span class="link"><a href="#'.$category.'">'.t($category).'</a></span>';
 						}
 						echo implode(", ", $material_links);
 						?>

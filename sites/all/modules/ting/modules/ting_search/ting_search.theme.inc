@@ -7,7 +7,7 @@ function template_preprocess_ting_collection(&$variables) {
 	
 	// group by type and language
 	$collection = $variables["collection"];
-	$variables["materialtypes"] = get_material_types($collection);
+//	$variables["materialtypes"] = get_material_types($collection);
 	
 	
 	
@@ -17,7 +17,9 @@ function template_preprocess_ting_collection(&$variables) {
 	foreach ($collection as $value) {
 		foreach ($value as $object) {
 			$type_key = $object->data->type['0'] . " (" . $object->data->language['1'] . ")";
-			$sorted[$type_key][] = $object;
+			
+			if(trim($type_key) != "()")
+				$sorted[$type_key][] = $object;
 		}
 	}
 	
