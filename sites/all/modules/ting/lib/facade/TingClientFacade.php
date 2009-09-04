@@ -57,7 +57,7 @@ class TingClientFacade {
 		//Decorate search result with additional information
 		foreach ($searchResult->collections as &$collection)
 		{
-			$collection = self::addCollectionUrls($collection);
+			$collection = self::addCollectionInfo($collection);
 			$collection = self::addAdditionalInfo($collection);
 		}
 		
@@ -86,7 +86,7 @@ class TingClientFacade {
 	public static function getCollection($objectId)
 	{
 		$collection = self::getClient()->getCollection(new TingClientCollectionRequest($objectId, self::$format));
-		return self::addCollectionUrls(self::addAdditionalInfo($collection));
+		return self::addCollectionInfo(self::addAdditionalInfo($collection));
 	}
 	
 	/**
@@ -99,13 +99,16 @@ class TingClientFacade {
 		return array_shift(self::addAdditionalInfo(array($object)));
 	}
 	
-	private static function addCollectionUrls(TingClientObjectCollection $collection)
+	private static function addCollectionInfo(TingClientObjectCollection $collection)
 	{
 		$collection->url = url('ting/collection', array('absolute' => true, 'query' => array('object_id' => $collection->objects[0]->data->title[0])));
+		$types = array();
 		foreach ($collection->objects as &$object)
 		{
 			$object = self::addObjectUrl($object);
+			$types = array_merge($types, $object->data->type);
 		}
+		$collection->types = array_unique($types);
 		return $collection;
 	}
 	

@@ -11,7 +11,7 @@
     <div class="record">
   		<div class="types">
   			<ul>
-  				<?php foreach ($collection->objects[0]->data->type as $type) { ?>
+  				<?php foreach ($collection->types as $type) { ?>
   				  <li class="available"><?php echo $type; ?></li>
   				<?php } ?>
   				<li class="out">out</li>
