@@ -24,15 +24,14 @@ function ting_search_pages_result() {
  */
 function ting_collection() {
   module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
-	
+
   $facade = new TingClientFacade();
   
-	$collection = $facade->getCollection($_REQUEST['object_id']);
-	if (!$collection)
-	{
-		return drupal_not_found();
-	}
-	
+  $collection = $facade->getCollection($_REQUEST['object_id']);
+  if (!$collection) {
+    return drupal_not_found();
+  }
+
   return theme('ting_collection', $collection);
 }
 
@@ -41,15 +40,14 @@ function ting_collection() {
  */
 function ting_object($object_id) {
   module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
-	
+
   $facade = new TingClientFacade();
   
-	$object = $facade->getObject($object_id);
-	if (!$object)
-	{
-		return drupal_not_found();
-	}
-	
+  $object = $facade->getObject($object_id);
+  if (!$object) {
+    return drupal_not_found();
+  }
+
   return theme('ting_object', $object);
 }
 
@@ -59,27 +57,33 @@ function ting_object($object_id) {
 function ting_search_pages_ting_js() {
   module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
   
-	//Get users base query
-	$query = (isset($_REQUEST['query'])) ? $_REQUEST['query'] : 'dc.title:danmark';
+  //Get users base query
+  $query = (isset($_REQUEST['query'])) ? $_REQUEST['query'] : 'dc.title:danmark';
 
-	//Extend query with selected facets
-	if (isset($_GET['facets']) && $_GET['facets']) {
-		$facetArray = array();
+  //Extend query with selected facets
+  if (isset($_GET['facets']) && $_GET['facets']) {
+    $facetArray = array();
 
-		$facets = explode(';', $_GET['facets']);
-		foreach ($facets as $facet) {
-			$facet = explode(':', $facet, 2);
-			if ($facet[0]) {
-				$facetArray[] = $facet[0].':'.$facet[1];
-			}
-		}
-			
-		$query .= ' AND '.implode(' AND ', $facetArray);
-	}
+    $facets = explode(';', $_GET['facets']);
+    foreach ($facets as $facet) {
+      $facet = explode(':', $facet, 2);
+      if ($facet[0]) {
+        $facetArray[] = $facet[0].':'.$facet[1];
+      }
+    }
 
-	$facade = new TingClientFacade();
-	
-	$result = $facade->search($query, isset($_REQUEST['page']) ? $_REQUEST['page'] : 1, 10);
+    $query .= ' AND '.implode(' AND ', $facetArray);
+  }
+
+  $facade = new TingClientFacade();
+
+  try {
+    $result = $facade->search($query, isset($_REQUEST['page']) ? $_REQUEST['page'] : 1, 10);
+  }
+  catch (TingClientException $e) {
+    // TODO: Log the error.
+    $result = array('numTotalObjects' => 0);
+  }
 
   drupal_json($result);
   exit;
@@ -89,7 +93,7 @@ function ting_search_pages_ting_js() {
  * JSON callback to Drupal's content search.
  */
 function ting_search_pages_content_js() {
-	if (isset($_REQUEST['query'])) {
+  if (isset($_REQUEST['query'])) {
     $query = trim($_REQUEST['query']);
     $result = array('results' => do_search($query, 'node'));
     $result['count'] = count($result['results']);
@@ -103,7 +107,7 @@ function ting_search_pages_content_js() {
     if (!empty($result['result_html'])) {
       $result['result_html'] .= theme('pager', NULL, 10, 0);
     }
-	}
+  }
   else {
     $result = array(
       'results' => array(),
