@@ -38,7 +38,7 @@ Drupal.tingResult = function(searchResultElement, facetBrowserElement, result)
 
 	this.renderTingSearchResults = function(element, result)
 	{
-		jQuery(element).html(result.result_html);
+		jQuery(element).find('ul,ol').html(result.result_html);
 	}
 	
 	this.renderTingSearchResultPager = function(element, result)
