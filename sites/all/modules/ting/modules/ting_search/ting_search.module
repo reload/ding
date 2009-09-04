@@ -52,6 +52,15 @@ function ting_search_theme() {
 function ting_search_menu() {
   $items = array();
 
+  $items['ting/search'] = array(
+    'title' => 'Ting search',
+    'description' => 'Provides a redirect to the Panels search page, if applicable, otherwise 404.',
+    'access arguments' => array('search content'),
+    'page callback' => 'ting_search_pages_redirect',
+    'type' => MENU_CALLBACK,
+    'file' => 'ting_search.pages.inc',
+  );
+
   $items['ting/search/js'] = array(
     'title' => 'Ting search results',
     'description' => 'Lists facets and search results from the Ting database as HTML or JSON.',
@@ -110,7 +119,7 @@ function ting_search_block($op = 'list', $delta = 0, $edit = array()) {
  */
 function ting_search_menu_alter(&$items) {
   // Override the page callback for the Ting search results.
-  $items['search/ting/%menu_tail']['page callback'] = 'ting_search_pages_result';
+  $items['search/ting/%menu_tail']['page callback'] = 'ting_search_pages_redirect';
   $items['search/ting/%menu_tail']['file'] = 'ting_search.pages.inc';
   $items['search/ting/%menu_tail']['file path'] = drupal_get_path('module', 'ting_search');
 }
@@ -159,7 +168,6 @@ function ting_search_add_js() {
   jquery_ui_theme_load();
 
   drupal_add_js($path . '/js/ting_search.js', 'module', 'footer', TRUE);
-  drupal_add_js($path . '/js/ting_search_result_page.js', 'module', 'footer', TRUE);
   drupal_add_js($path . '/js/ting_result.js', 'module', 'footer', TRUE);
   drupal_add_js($path . '/js/ting_facet_browser.js', 'module', 'footer', TRUE);
   drupal_add_css($path . '/css/ting_facet_browser.css', 'module');
@@ -204,7 +212,7 @@ function ting_search_render_pager_template() {
  * here's a very basic copy of it.
  */
 function ting_search_form(&$form_state) {
-  $form = array('#action' => url('search/ting'));
+  $form = array('#action' => url('ting/search'));
 
   $form['keys'] = array(
     '#type' => 'textfield',

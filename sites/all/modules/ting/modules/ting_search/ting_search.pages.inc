@@ -4,19 +4,17 @@
 /**
  * Search result page.
  */
-function ting_search_pages_result() {
-  $keys = search_get_keys();
-  // Loads the JavaScript files.
-  ting_search_add_js();
+function ting_search_pages_redirect() {
+  if (isset($_POST['keys'])) {
+    return drupal_goto('ting/search/' . $_POST['keys']);
+  }
 
-  drupal_add_js(array('tingSearch' => array(
-    'result' => array(),
-    'keys' => $keys,
-    'ting_url' => url('ting/search/js'),
-    'content_url' => url('ting/search/content/js'),
-    'result_template' => theme('ting_result')
-  )), 'setting', 'footer');
-  return theme('ting_search_result_page', theme('ding_campaign_relevant_campaigns', (array('search_term' => $keys))));
+  $keys = search_get_keys();
+  if (strlen($keys) > 0) {
+    // Redirect to the new Panels based search.
+    return drupal_goto('ting/search/' . $keys, NULL, NULL, 301);
+  }
+  return drupal_not_found();
 }
 
 /**
