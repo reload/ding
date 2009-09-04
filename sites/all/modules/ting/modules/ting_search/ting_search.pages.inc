@@ -20,12 +20,12 @@ function ting_search_pages_redirect() {
 /**
  * Display a Ting collection of objects.
  */
-function ting_collection() {
+function ting_collection($object_id) {
   module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
 
   $facade = new TingClientFacade();
   
-  $collection = $facade->getCollection($_REQUEST['object_id']);
+  $collection = $facade->getCollection($object_id);
   if (!$collection) {
     return drupal_not_found();
   }
