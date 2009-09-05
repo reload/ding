@@ -36,18 +36,23 @@
 			  			<?php } ?>
 						</div>
 
-						<div class="button button-orange"><a href="">Reserver nu</a></div>
-						<div class="button button-green"><a href="">Læg i kurv</a></div>
-
 					</div>
 
 					<div class="right-column left">
 						<h2><?php print $object->data->title[0];?></h2>						
-							<?php print theme('item_list',$object->data->creator, t('by'), 'span', array('class' => 'creator'));?>	
-							(<?php print theme('item_list',$object->data->date, NULL, 'span', array('class' => 'date'));?>)
-							<?php print $object->data->description[0]; ?>
-
+					<div class='creator'>
+						<span class='byline'><?php echo ucfirst(t('by')); ?></span>
+						<?php echo l($object->data->creator[0], 'search/ting/'.$object->data->creator[0], array("attributes"=>array('class' => 'author'))); ?>
+						<span class='date'>(<?php echo $object->data->date[0]; ?>)</span>
 					</div>
+					<p><?php print $object->data->description[0];?></p>
+					</div>
+
+					<div class="buttons">
+						<div class="button button-orange"><a href="">Reserver nu</a></div>
+						<div class="button button-green"><a href="">Læg i kurv</a></div>
+					</div>
+
 					
 				</div>
 
@@ -55,8 +60,8 @@
 					<?php 
 					//we printed the first part up above so remove that 
 					unset($object->data->description[0]);
-					
-					print theme('item_list',format_danmarc2($object->data->description), t('Content'), 'span', array('class' => 'description'));?>	
+					?>
+					<div class="description"><?php print implode(' ; ', format_danmarc2($object->data->description)) ?></div>
 
 					<?php print theme('item_list',$object->data->identifier, t('Identifier'), 'span', array('class' => 'identifier'));?>	
 					<?php print theme('item_list',$object->data->subject, t('Subject'), 'span', array('class' => 'subject'));?>	
@@ -70,7 +75,7 @@
 				</div>
 
 				<div class="ding-box-wide">
-					<h3>følgende biblo har <?php print $object->data->title[0];?> hjemme: </h3>
+					<h3>Følgende biblioteker har <?php print $object->data->title[0];?> hjemme:</h3>
 						<ul>
 							<li class="even"><?php print l('hovedbibloteket', 'node/'.$node->nid);?></li>
 							<li class="odd"><?php print l('hovedbibloteket', 'node/'.$node->nid);?></li>

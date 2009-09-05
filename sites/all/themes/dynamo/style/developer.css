@@ -24,6 +24,20 @@
 #ting-collection .content ul.types { margin-top: 10px; }
 
 
+/* christian: added styles for materialevisning */
+#ting-object .ting-overview .picture { text-align: center; }
+#ting-object .ting-overview { margin-bottom: 20px; }
+#ting-object .ting-overview p { color: #646765; }
+#ting-object .ting-overview .creator { color: #878787; margin-bottom: 10px; }
+#ting-object .ting-overview .byline { font-weight: normal; font-style: italic; }
+#ting-object .buttons { clear: both; }
+#ting-object .object-information .description { padding-bottom: 12px; }
+#ting-object .object-information .title { font-weight: normal; }
+#ting-object .object-information .title:after { content: ":"; }
+#ting-object .object-information .item-list { border-top: 0; padding: 0; }
+#ting-object .object-information .item-list span { display: block; }
+
+
 a.alternative:link, a.alternative:visited { color: #000; }
 .more-link { background: transparent url(../images/pil.png) no-repeat scroll right center; padding:0 12px 0 0; }
 

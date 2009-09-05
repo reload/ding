@@ -81,7 +81,7 @@
 	.collection .cart{width:70px; float:left;}
 		.collection .cart li{width:80px; float:left;}
 
-.ting-overview .picture{width:175px; height:200px; display:block; background:#eee; overflow:hidden;}
+.ting-overview .picture{width:180px; display:block; background:#eee; }
 .ting-overview .button{float:left;}
 .ting-overview .left-column{width:200px;}
 .ting-overview .right-column{width:310px;}
