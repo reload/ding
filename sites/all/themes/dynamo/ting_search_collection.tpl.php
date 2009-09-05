@@ -38,7 +38,7 @@
   		<?php if ($collection->objects[0]->data->description) : ?>
   		<div class="description">
   			<p>
-  				<?php echo implode('</p><p>', $collection->objects[0]->data->description) ?>
+  				<?php echo $collection->objects[0]->data->description[0] ?>
   			</p>
   		</div>
   		<?php endif; ?>
