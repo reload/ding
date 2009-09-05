@@ -14,7 +14,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2009-09-04 12:05+0200\n"
+"POT-Creation-Date: 2009-09-04 16:40+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -59,24 +59,28 @@ msgstr ""
 msgid "Ting search box – for page header"
 msgstr ""
 
-#: ting_search.module:119;246
+#: ting_search.module:119;228
 msgid "Search"
 msgstr ""
 
-#: ting_search.module:188
+#: ting_search.module:187
 msgid "Show more facet terms"
 msgstr ""
 
-#: ting_search.module:189
+#: ting_search.module:188
 msgid "No results found"
 msgstr ""
 
-#: ting_search.module:190
+#: ting_search.module:189
 msgid "Sorry, we could not find any results for your search. Please try again with different keywords or ask a librarian."
 msgstr ""
 
-#: ting_search.module:238
+#: ting_search.module:220
 msgid "Enter your search terms here"
+msgstr ""
+
+#: ting_search.module:232
+msgid "For example:"
 msgstr ""
 
 #: ting_search.module:57 ting_search.info:0
