@@ -12,17 +12,17 @@
 #  plugins/content_types/library_portal/library_portal.inc: n/a
 #  plugins/content_types/node_body/node_body.inc: n/a
 #  plugins/relationships/related_library.inc: n/a
-#  plugins/content_types/library_user/library_user.inc: n/a
 #  plugins/layouts/threecol_left_stacked/threecol_left_stacked.inc: n/a
 #  plugins/layouts/threecol_left_stacked_right/threecol_left_stacked_right.inc: n/a
 #  plugins/layouts/twocol_left_stacked/twocol_left_stacked.inc: n/a
+#  plugins/styles/ding_box.inc: n/a
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2009-07-28 16:23+0200\n"
-"PO-Revision-Date: 2009-07-28 17:27+0200\n"
+"POT-Creation-Date: 2009-09-06 18:10+0200\n"
+"PO-Revision-Date: 2009-09-06 18:15+0200\n"
 "Last-Translator: Mikkel Høgh <mikkel@hoegh.org>\n"
 "Language-Team: Dansk\n"
 "MIME-Version: 1.0\n"
@@ -51,8 +51,8 @@ msgid "Facilities"
 msgstr "Faciliteter"
 
 #: ding_panels.theme.inc:35
-msgid "About"
-msgstr "Om"
+msgid "About the library"
+msgstr "Om biblioteket"
 
 #: ding_panels.module:0
 msgid "ding_panels"
@@ -92,7 +92,7 @@ msgstr "Almindelig biblioteksside"
 
 #: plugins/access/library_page_type.inc:64
 msgid "Portal-style library page"
-msgstr "Portal-lignende biblioteksside"
+msgstr "Portal-lignede biblioteksside"
 
 #: plugins/access/library_page_type.inc:67
 msgid "Pick the allowed library type."
@@ -144,7 +144,9 @@ msgstr "Bibliotekets detaljerede facilitetsliste"
 
 #: plugins/content_types/library/library.inc:47
 msgid "More detailed view of library features with pictures and description."
-msgstr "Mere detaljeret oversigt over bibliotekernes faciliteter med billeder og beskrivelse."
+msgstr ""
+"Mere detaljeret oversigt over bibliotekernes faciliteter med billeder "
+"og beskrivelse."
 
 #: plugins/content_types/library/library.inc:75
 msgid "Opening hours"
@@ -166,17 +168,23 @@ msgstr "“@s”: Bibliotekets adresseoplysninger"
 msgid "\"@s\":  Library opening hours"
 msgstr "“@s”: Bibliotekets åbningstider"
 
-#: plugins/content_types/library/library.inc:107
+#: plugins/content_types/library/library.inc:106
 msgid "\"@s\":  Library features"
 msgstr "“@s”: Bibliotekets faciliteter"
 
-#: plugins/content_types/library/library.inc:120
+#: plugins/content_types/library/library.inc:108
+msgid "\"@s\":  Library feature details"
+msgstr "“@s”: Bibliotekets faciliteter – detaljeret"
+
+#: plugins/content_types/library/library.inc:121
 msgid "Display header image"
 msgstr "Vis hovedbillede"
 
-#: plugins/content_types/library/library.inc:121
+#: plugins/content_types/library/library.inc:122
 msgid "Whether a the library title should show the (quite large) picture of the library"
-msgstr "Hvorvidt bibliotekets (ret store) hovedbillede skal vises sammen med titlen"
+msgstr ""
+"Hvorvidt bibliotekets (ret store) hovedbillede skal vises sammen med "
+"titlen"
 
 #: plugins/content_types/library_portal/library_portal.inc:27
 msgid "Library portal navigation."
@@ -184,7 +192,9 @@ msgstr "Portalbiblioteksnavigation"
 
 #: plugins/content_types/library_portal/library_portal.inc:28
 msgid "Shows the CMS menu - if available, it will show the portal library specific menu."
-msgstr "Viser CMS-menuen – hvis den er tilgængelig vil den biblioteksspecifikke menu blive vist."
+msgstr ""
+"Viser CMS-menuen – hvis den er tilgængelig vil den "
+"biblioteksspecifikke menu blive vist."
 
 #: plugins/content_types/library_portal/library_portal.inc:62
 msgid "\"@s\":  Library portal navigation"
@@ -196,31 +206,13 @@ msgstr "Standardmenu"
 
 #: plugins/content_types/library_portal/library_portal.inc:75
 msgid "If a menu related to the library node can not be found, show this menu instead."
-msgstr "Hvis der ikkke kan findes en menu tilknyttet biblioteket, vis denne menu istedet."
+msgstr ""
+"Hvis der ikkke kan findes en menu tilknyttet biblioteket, vis denne "
+"menu istedet."
 
 #: plugins/content_types/library_portal/library_portal.inc:76;81
 msgid "- None -"
 msgstr "- Ingen -"
-
-#: plugins/content_types/library_user/library_user.inc:16;34
-msgid "Library user"
-msgstr "Biblioteksbruger"
-
-#: plugins/content_types/library_user/library_user.inc:26
-msgid "Library staff title"
-msgstr "Biblioteksmedarbejdertitel"
-
-#: plugins/content_types/library_user/library_user.inc:27
-msgid "The title bar for a library staff member."
-msgstr "Titel-bar for biblioteksmedarbejdere."
-
-#: plugins/content_types/library_user/library_user.inc:35
-msgid "User"
-msgstr "Bruger"
-
-#: plugins/content_types/library_user/library_user.inc:61
-msgid "\"@s\" staff profile"
-msgstr "“@s”: Medarbejderprofil"
 
 #: plugins/content_types/node_body/node_body.inc:27;49
 msgid "Node body"
@@ -268,5 +260,13 @@ msgstr "Relateret bibliotek"
 
 #: plugins/relationships/related_library.inc:16
 msgid "Finds the related library from a node context."
-msgstr ""
+msgstr "Finder det relaterede bibliotek fra en node kontekst."
+
+#: plugins/styles/ding_box.inc:15
+msgid "Ding box"
+msgstr "Ding kasse"
+
+#: plugins/styles/ding_box.inc:16
+msgid "Presents panes with a neat box around it as per the Ding design."
+msgstr "Viser Panels panes med en ekstra boks rundt om dem i overenstemmelse med KKBs design."
 

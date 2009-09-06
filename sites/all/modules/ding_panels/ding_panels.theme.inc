@@ -32,7 +32,7 @@ function _ding_panels_content_theme_library_title_navigation($node, $base_path) 
     $links['blog'] = l(t('Blog'), $base_path . '/blog');
     $links['events'] = l(t('Events'), $base_path . '/arrangementer');
     $links['facilities'] = l(t('Facilities'), $base_path . '/faciliteter');
-    $links['about'] = l(t('About'), $base_path . '/om');
+    $links['about'] = l(t('About the library'), $base_path . '/om');
   }
   return $links;
 }

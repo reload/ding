@@ -12,16 +12,16 @@
 #  plugins/content_types/library_portal/library_portal.inc: n/a
 #  plugins/content_types/node_body/node_body.inc: n/a
 #  plugins/relationships/related_library.inc: n/a
-#  plugins/content_types/library_user/library_user.inc: n/a
 #  plugins/layouts/threecol_left_stacked/threecol_left_stacked.inc: n/a
 #  plugins/layouts/threecol_left_stacked_right/threecol_left_stacked_right.inc: n/a
 #  plugins/layouts/twocol_left_stacked/twocol_left_stacked.inc: n/a
+#  plugins/styles/ding_box.inc: n/a
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2009-07-28 14:09+0200\n"
+"POT-Creation-Date: 2009-09-06 18:09+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -51,7 +51,7 @@ msgid "Facilities"
 msgstr ""
 
 #: ding_panels.theme.inc:35
-msgid "About"
+msgid "About the library"
 msgstr ""
 
 #: ding_panels.module:0
@@ -166,15 +166,19 @@ msgstr ""
 msgid "\"@s\":  Library opening hours"
 msgstr ""
 
-#: plugins/content_types/library/library.inc:107
+#: plugins/content_types/library/library.inc:106
 msgid "\"@s\":  Library features"
 msgstr ""
 
-#: plugins/content_types/library/library.inc:120
-msgid "Display header image"
+#: plugins/content_types/library/library.inc:108
+msgid "\"@s\":  Library feature details"
 msgstr ""
 
 #: plugins/content_types/library/library.inc:121
+msgid "Display header image"
+msgstr ""
+
+#: plugins/content_types/library/library.inc:122
 msgid "Whether a the library title should show the (quite large) picture of the library"
 msgstr ""
 
@@ -200,26 +204,6 @@ msgstr ""
 
 #: plugins/content_types/library_portal/library_portal.inc:76;81
 msgid "- None -"
-msgstr ""
-
-#: plugins/content_types/library_user/library_user.inc:16;34
-msgid "Library user"
-msgstr ""
-
-#: plugins/content_types/library_user/library_user.inc:26
-msgid "Library staff title"
-msgstr ""
-
-#: plugins/content_types/library_user/library_user.inc:27
-msgid "The title bar for a library staff member."
-msgstr ""
-
-#: plugins/content_types/library_user/library_user.inc:35
-msgid "User"
-msgstr ""
-
-#: plugins/content_types/library_user/library_user.inc:61
-msgid "\"@s\" staff profile"
 msgstr ""
 
 #: plugins/content_types/node_body/node_body.inc:27;49
@@ -268,5 +252,13 @@ msgstr ""
 
 #: plugins/relationships/related_library.inc:16
 msgid "Finds the related library from a node context."
+msgstr ""
+
+#: plugins/styles/ding_box.inc:15
+msgid "Ding box"
+msgstr ""
+
+#: plugins/styles/ding_box.inc:16
+msgid "Presents panes with a neat box around it as per the Ding design."
 msgstr ""
 
