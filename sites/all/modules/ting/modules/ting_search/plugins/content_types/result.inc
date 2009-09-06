@@ -1,8 +1,9 @@
 <?php
 // $Id$
+
 /**
- * @file relevant.inc
- * Provides several library portal page related panels content types.
+ * @file result.inc
+ * Provides search results as a Panels content type.
  */
 
 /**

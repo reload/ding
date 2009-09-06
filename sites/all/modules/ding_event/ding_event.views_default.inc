@@ -220,19 +220,15 @@ function ding_event_views_default_views() {
     ),
   ));
   $handler->override_option('sorts', array(
-    'sticky' => array(
-      'order' => 'DESC',
-      'id' => 'sticky',
-      'table' => 'node',
-      'field' => 'sticky',
-      'relationship' => 'none',
-    ),
-    'created' => array(
-      'order' => 'DESC',
-      'granularity' => 'second',
-      'id' => 'created',
-      'table' => 'node',
-      'field' => 'created',
+    'field_datetime_value' => array(
+      'order' => 'ASC',
+      'delta' => -1,
+      'id' => 'field_datetime_value',
+      'table' => 'node_data_field_datetime',
+      'field' => 'field_datetime_value',
+      'override' => array(
+        'button' => 'Tilsidesæt',
+      ),
       'relationship' => 'none',
     ),
   ));
@@ -309,82 +305,6 @@ function ding_event_views_default_views() {
       'field' => 'type',
       'relationship' => 'none',
     ),
-  ));
-  $handler->override_option('access', array(
-    'type' => 'none',
-  ));
-  $handler->override_option('cache', array(
-    'type' => 'none',
-  ));
-  $handler->override_option('title', 'Arrangementer');
-  $handler->override_option('empty', 'Ingen kommende arrangementer.');
-  $handler->override_option('empty_format', '1');
-  $handler->override_option('use_ajax', TRUE);
-  $handler->override_option('use_pager', '0');
-  $handler->override_option('style_plugin', 'list');
-  $handler->override_option('style_options', array(
-    'grouping' => '',
-    'type' => 'ul',
-  ));
-  $handler->override_option('row_options', array(
-    'inline' => array(),
-    'separator' => '',
-  ));
-  $handler = $view->new_display('block', 'Block', 'block_1');
-  $handler->override_option('sorts', array(
-    'field_datetime_value' => array(
-      'order' => 'ASC',
-      'delta' => -1,
-      'id' => 'field_datetime_value',
-      'table' => 'node_data_field_datetime',
-      'field' => 'field_datetime_value',
-      'override' => array(
-        'button' => 'Use default',
-      ),
-      'relationship' => 'none',
-    ),
-    'title' => array(
-      'order' => 'ASC',
-      'id' => 'title',
-      'table' => 'node',
-      'field' => 'title',
-      'override' => array(
-        'button' => 'Use default',
-      ),
-      'relationship' => 'none',
-    ),
-  ));
-  $handler->override_option('filters', array(
-    'status' => array(
-      'operator' => '=',
-      'value' => '1',
-      'group' => '0',
-      'exposed' => FALSE,
-      'expose' => array(
-        'operator' => FALSE,
-        'label' => '',
-      ),
-      'id' => 'status',
-      'table' => 'node',
-      'field' => 'status',
-      'relationship' => 'none',
-    ),
-    'type' => array(
-      'operator' => 'in',
-      'value' => array(
-        'event' => 'event',
-      ),
-      'group' => '0',
-      'exposed' => FALSE,
-      'expose' => array(
-        'operator' => FALSE,
-        'label' => '',
-      ),
-      'id' => 'type',
-      'table' => 'node',
-      'field' => 'type',
-      'relationship' => 'none',
-    ),
     'date_filter' => array(
       'operator' => '>=',
       'value' => array(
@@ -412,12 +332,30 @@ function ding_event_views_default_views() {
       'id' => 'date_filter',
       'table' => 'node',
       'field' => 'date_filter',
-      'override' => array(
-        'button' => 'Use default',
-      ),
       'relationship' => 'none',
     ),
   ));
+  $handler->override_option('access', array(
+    'type' => 'none',
+  ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
+  ));
+  $handler->override_option('title', 'Arrangementer');
+  $handler->override_option('empty', 'Ingen kommende arrangementer.');
+  $handler->override_option('empty_format', '1');
+  $handler->override_option('use_ajax', TRUE);
+  $handler->override_option('use_pager', '0');
+  $handler->override_option('style_plugin', 'list');
+  $handler->override_option('style_options', array(
+    'grouping' => '',
+    'type' => 'ul',
+  ));
+  $handler->override_option('row_options', array(
+    'inline' => array(),
+    'separator' => '',
+  ));
+  $handler = $view->new_display('block', 'Block', 'block_1');
   $handler->override_option('block_description', 'Liste over kommende arrangementer');
   $handler->override_option('block_caching', -1);
   $handler = $view->new_display('panel_pane', 'Events overview pane', 'panel_pane_1');
@@ -767,6 +705,38 @@ function ding_event_views_default_views() {
       'relationship' => 'none',
       'reduce_duplicates' => 0,
     ),
+    'date_filter' => array(
+      'operator' => '>=',
+      'value' => array(
+        'value' => NULL,
+        'min' => NULL,
+        'max' => NULL,
+        'default_date' => 'now',
+        'default_to_date' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'date_fields' => array(
+        'node_data_field_datetime.field_datetime_value' => 'node_data_field_datetime.field_datetime_value',
+      ),
+      'date_method' => 'OR',
+      'granularity' => 'day',
+      'form_type' => 'date_select',
+      'default_date' => 'now',
+      'default_to_date' => '',
+      'year_range' => '-3:+3',
+      'id' => 'date_filter',
+      'table' => 'node',
+      'field' => 'date_filter',
+      'override' => array(
+        'button' => 'Brug standard',
+      ),
+      'relationship' => 'none',
+    ),
   ));
   $handler->override_option('pane_title', 'Events overview page');
   $handler->override_option('pane_description', '');
@@ -795,7 +765,6 @@ function ding_event_views_default_views() {
   ));
   $handler->override_option('link_to_view', 0);
   $handler->override_option('inherit_panels_path', 0);
-    
 
   $views[$view->name] = $view;
   return $views;
