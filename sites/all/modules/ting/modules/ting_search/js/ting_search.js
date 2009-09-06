@@ -93,7 +93,7 @@ Drupal.tingSearch.contentPager = function() {
   $("#content-result .pager a").click(function (eventObject) {
     $("#content-result").hide("fast");
     $("#ting-search-spinner").show("normal");
-    Drupal.tingSearch.getContentData(eventObject.srcElement.href, false, true);
+    Drupal.tingSearch.getContentData(this.href, false, true);
     return false;
   });
 }
