@@ -321,7 +321,7 @@ function alma_user_forms_reservation_details_validate($form, &$form_state) {
       form_set_error('new_expiry', t('Date must be later than today.'));
     }
     else {
-      form_set_value($form['new_expiry'], format_date($timestamp, 'custom', 'Y-m-d'), &$form_state);
+      form_set_value($form['new_expiry'], format_date($timestamp, 'custom', 'Y-m-d'), $form_state);
     }
   }
 }
