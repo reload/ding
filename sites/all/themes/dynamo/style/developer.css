@@ -91,4 +91,7 @@ a.alternative:link, a.alternative:visited { color: #000; }
   color: white;
 }
 
+/** kasperg: More compact tab titles **/
+#ting-search-tabs li { padding: 0; }
+
 
