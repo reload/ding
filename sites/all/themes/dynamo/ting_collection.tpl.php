@@ -63,7 +63,14 @@
 	
 					<div class='creator'>
 						<span class='byline'><?php echo ucfirst(t('by')); ?></span>
-						<?php echo l($common_object->data->creator[0], 'search/ting/'.$common_object->data->creator[0], array("attributes"=>array('class' => 'author'))); ?>
+            <?php
+            foreach ($common_object->data->creator as $i => $creator) {
+              if ($i) {
+                print ', ';
+              }
+              print l($creator, 'search/ting/' . $creator, array('attributes' => array('class' => 'author')));
+            }
+            ?>
 						<span class='date'>(<?php echo $common_object->data->date[0]; ?>)</span> 
 					</div>		 			
 
