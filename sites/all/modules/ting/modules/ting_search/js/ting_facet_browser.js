@@ -101,6 +101,7 @@ Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, res
 			jQuery('.facets:first li', element).each(function(i, e)
 			{
 				facets = jQuery('.facets li:nth-child('+(i+1)+')');
+				facets.removeAttr('height').css('line-height', '');
 				heights = facets.map(function(i, e) { jQuery(e).attr('height', jQuery(e).innerHeight()); return jQuery(e).height(); });
 				var maxHeight = Math.max.apply(Math, jQuery.makeArray(heights));
 				facets.each(function(i, e)
