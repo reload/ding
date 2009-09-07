@@ -48,7 +48,6 @@ function ting_object_id_context($arg = NULL, $conf = NULL, $empty = FALSE) {
     return FALSE;
   }
 
-  $pony = ctools_context_create('ting_object', $object);
-  return $pony;
+  return ctools_context_create('ting_object', $object);
 }
 
