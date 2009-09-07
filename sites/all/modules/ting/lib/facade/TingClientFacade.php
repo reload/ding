@@ -107,7 +107,6 @@ class TingClientFacade {
 		$types = array();
 		foreach ($collection->objects as &$object)
 		{
-			$object = self::addObjectUrl($object);
 			$types = array_merge($types, $object->data->type);
 		}
 		$collection->types = array_unique($types);
@@ -149,6 +148,7 @@ class TingClientFacade {
 		
 		foreach($objects as $object)
 		{
+			$object = self::addObjectUrl($object);
 			if (isset($object->data->identifier))
 			{
 				foreach ($object->data->identifier as $identifier)

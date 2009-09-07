@@ -139,20 +139,22 @@ function ting_reference_field_formatter_info() {
  * Theme function for 'default' userreference field formatter.
  */
 function theme_ting_reference_formatter_default($element) {
-	module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
+  module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
 
-	$facade = new TingClientFacade();
+  $facade = new TingClientFacade();
 
-	$collection = null;
-	if ($element['#item']['ting_ref_type'] == 'object') {
-		$object = $facade->getObject($element['#item']['ting_object_id']);
-		if ($object) {
-			$collection = new TingClientObjectCollection(array($object));
-		}
-	}
-	else {
-		$collection = $facade->getCollection($element['#item']['ting_object_id']);
-	}
+  $collection = null;
+  if ($element['#item']['ting_ref_type'] == 'object') {
+    $object = $facade->getObject($element['#item']['ting_object_id']);
+    if ($object) {
+      // FIXME: We currently use the collection template for displaying the object.
+      $collection = new TingClientObjectCollection(array($object));
+      $collection->url = $object->url;
+    }
+  }
+  else {
+    $collection = $facade->getCollection($element['#item']['ting_object_id']);
+  }
 	if (!$collection) {
 		return t('Object not found.');
 	}
@@ -259,7 +261,7 @@ function ting_reference_render_collection_template() {
  *   A TingClientObject or a TingClientObjectCollection instances.
  */
 function ting_reference_nodes($object_or_collection) {
-  if ($object_or_collection instanceof TingObject) {
+  if ($object_or_collection instanceof TingClientObject) {
     $object_ids = array($object_or_collection->id);
   }
   else {
@@ -281,8 +283,10 @@ function ting_reference_nodes($object_or_collection) {
     foreach ($field_names as $field_name) {
       $info = content_database_info(content_fields($field_name));
       $query = "SELECT nid FROM {" . $info['table'] . "}
-				WHERE " . $info['columns']['ting_object_id']['column'] . " IN (" . db_placeholders($object_ids, 'varchar') . ")
-				  AND " . $info['columns']['ting_ref_type']['column'] . " = 'collection'"; 
+        WHERE " . $info['columns']['ting_object_id']['column'] . " IN (" . db_placeholders($object_ids, 'varchar') . ")";
+      if ($object_or_collection instanceof TingClientObject) {
+        $query .= " AND " . $info['columns']['ting_ref_type']['column'] . " = 'object'";
+      }
       $result = db_query($query, $object_ids);
       while ($ref = db_fetch_object($result)) {
         $nids[] = $ref->nid;
