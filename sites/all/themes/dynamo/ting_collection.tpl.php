@@ -157,7 +157,15 @@
 				} //foreach collection
 				?>
 
-			
+        <?php
+        $referenced_nodes = ting_reference_nodes($collection);
+        if ($referenced_nodes) {
+          print '<h3>Omtale på websitet</h3>';
+          foreach ($referenced_nodes as $node) {
+            print node_view($node, TRUE);
+          }
+        }
+        ?>
 			</div>	
 		</div>
 	</div>
