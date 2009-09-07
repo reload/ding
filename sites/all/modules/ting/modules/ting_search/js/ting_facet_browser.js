@@ -161,8 +161,7 @@ Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, res
 		jQuery('.facets li', facetBrowserElement).unbind('click');
 		jQuery('.facets li:not(.hidden)', facetBrowserElement).click(function()
 		{
-			clicked = $(this);
-			clicked.toggleClass('selected');
+			$(this).toggleClass('selected');
 			Drupal.updateSelectedUrl(facetBrowserElement);			
 			Drupal.doUrlSearch(facetBrowserElement, searchResultElement);
 		});
@@ -175,11 +174,7 @@ Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, res
 		{
 			facets += jQuery(e).attr('facet-group')+':'+jQuery(e).attr('facet')+';';
 		});
-		if (facets.length > 0)
-		{
-			Drupal.setAnchorVars({ 'facets': facets });
-		}
-		
+		(facets.length > 0) ? Drupal.setAnchorVars({ 'facets': facets }) : Drupal.setAnchorVars({ });
 	}
 	
 	this.updateSelectedFacetsFromUrl = function(element)
