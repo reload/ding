@@ -105,7 +105,7 @@ function ting_search_pages_ting_js() {
     foreach ($facets as $facet) {
       $facet = explode(':', $facet, 2);
       if ($facet[0]) {
-        $facetArray[] = $facet[0].':'.$facet[1];
+        $facetArray[] = '('.$facet[0].':'.$facet[1].')';
       }
     }
 
