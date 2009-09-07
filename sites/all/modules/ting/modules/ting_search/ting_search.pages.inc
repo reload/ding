@@ -18,22 +18,6 @@ function ting_search_pages_redirect() {
 }
 
 /**
- * Display a Ting collection of objects.
- */
-function ting_collection($object_id) {
-  module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
-
-  $facade = new TingClientFacade();
-  
-  $collection = $facade->getCollection($object_id);
-  if (!$collection) {
-    return drupal_not_found();
-  }
-
-  return theme('ting_collection', $collection);
-}
-
-/**
  * Return the URL of a photo of the object.
  */
 function ting_search_cover($preset, $object_id) {
