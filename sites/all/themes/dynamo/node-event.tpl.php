@@ -17,10 +17,17 @@ if($classes){
 if($id_node){
   $id_node = ' id="' . $id_node . '"';  
 }
+
+// figure out if it's an event that has already occurred
+$alertbox = null;
+$event_end = format_date(strtotime($node->field_datetime[0]['value2']), 'custom', 'U');
+if($event_end < format_date(time(), 'custom', 'U')) {
+	$alertbox = '<div class="alert">' . t('NB! This event occurred in the past.') . '</div>';
+}
 ?>
+
 <!-- node-event.tpl-->
 <?php if ($page == 0){ ?>
-
 <div<?php print $id_node . $classes; ?>>
 
   <div class="picture">
@@ -45,8 +52,13 @@ if($id_node){
 
       <?php print $field_entry_price_rendered ?>
   	</div>
-
+	
     <?php print $node->content['body']['#value'];?>
+
+	<?php
+	// adding warning for event that has already occurred
+	print $alertbox;
+ 	?>
     
   </div>
 
@@ -54,6 +66,7 @@ if($id_node){
 <?php }else{ 
 //Content
 ?>
+
 <div<?php print $id_node . $classes; ?>>
 
 	<?php if($node->title){	?>	
@@ -74,6 +87,11 @@ if($id_node){
 		  </div>  
 		<?php } ?>
 	</div>
+
+	<?php
+	// adding warning for event that has already occurred
+	print $alertbox;
+	?>
 
 	<div class="content">
 		<?php print $content ?>

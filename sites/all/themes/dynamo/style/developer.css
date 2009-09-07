@@ -23,6 +23,9 @@
 #ting-collection .content .author { font-weight: bold; }
 #ting-collection .content ul.types { margin-top: 10px; }
 
+/* rasmus: added styles for event node */
+.node-type-event .alert { padding: 10px; font-size: 16px; font-weight: bold; color: black; background-color: yellow; } /* hot damn it's ugly! */
+#ting-search-results .node-teaser-event .alert { padding: 10px; background-color: yellow; }
 
 /* christian: added styles for materialevisning - mostly copied from above */
 #ting-object .ting-overview .picture { text-align: center; }
