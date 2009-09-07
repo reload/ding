@@ -24,7 +24,7 @@
 #ting-collection .content ul.types { margin-top: 10px; }
 
 
-/* christian: added styles for materialevisning */
+/* christian: added styles for materialevisning - mostly copied from above */
 #ting-object .ting-overview .picture { text-align: center; }
 #ting-object .ting-overview { margin-bottom: 20px; }
 #ting-object .ting-overview p { color: #646765; }
@@ -36,6 +36,28 @@
 #ting-object .object-information .title:after { content: ":"; }
 #ting-object .object-information .item-list { border-top: 0; padding: 0; }
 #ting-object .object-information .item-list span { display: block; }
+
+/* christian: show ting objects and collections on blog items etc. */
+.field-ting-refs{ padding:20px 0 0 0px; width: 650px;}
+	.field-ting-refs ul li{background:transparent url(../images/bg-divider.png) no-repeat left top; margin:0 0 20px 0px;  padding:10px 0 10px 10px; list-style-position: outside; clear:both; }
+	.field-ting-refs div.picture{float:left; background:#ddd; width:80px; margin:0 12px 0 0; line-height:0;}
+	.field-ting-refs div.record{margin-left:92px; width:525px;}
+	.field-ting-refs h4{display:inline;}
+	.field-ting-refs .types{float: right;}
+	.field-ting-refs .types li,.types li{clear:none; display:inline; float:left; margin:0 10px 0 0; padding:0; background:none;}
+		.field-ting-refs .types li, .types li{font-size: 10px; padding:1px 3px; color: #fff; margin: 1px}
+		.field-ting-refs .types li.available,.types li.available{background-color:#71bf44; color:#fff;}
+		.field-ting-refs .types li.out,.types li.out{background-color: #f85f26; color:#fff;}
+		.field-ting-refs .types li.reserved,ul.types li.reserved{ background-color: #560036; /*#bc0028*/ color:#fff;}	
+		
+		.field-ting-refs .subjects li{clear:none; display:inline; float:left; margin:0 10px 0 0; padding:0; background:none; }
+		.field-ting-refs .subjects h4{float: left; margin: 0 10px 0 0; font-size: 10px; color:#bbb;}
+		.field-ting-refs .subjects li{display:inline; font-size: 10px; color:#bbb;}
+.field-ting-refs .subjects ul { clear:none; } /* overskriv ".node .content ul" i stylec.css  */
+ul.field-ting-refs { margin:0 ! important ; padding: 0 ! important; }
+ul.field-ting-refs li { clear:both; margin:0 0 20px 0; padding:10px 0 10px 10px; list-style-type: none ! important; }
+.field-ting-refs img { margin: 0 ! important }
+.field-ting-refs { font-family:Arial,sans-serif; } /* dubliker regel i ui.all.css, override typography.css */
 
 
 a.alternative:link, a.alternative:visited { color: #000; }
