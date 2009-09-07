@@ -112,53 +112,53 @@ function ting_reference_field($op, &$node, $field, &$items, $teaser, $page) {
         }
       }
       return $items;
-    }
   }
+}
 
-  /**
-   * Implementation of hook_content_is_empty().
-   */
-  function ting_reference_content_is_empty($item, $field) {
-    return empty($item['ting_object_id']) && empty($item['description']);
-  }
+/**
+ * Implementation of hook_content_is_empty().
+ */
+function ting_reference_content_is_empty($item, $field) {
+  return empty($item['ting_object_id']) && empty($item['description']);
+}
 
-  /**
-   * Implementation of hook_field_formatter_info().
-   */
-  function ting_reference_field_formatter_info() {
-    return array(
-      'default' => array(
-        'label' => t('Default'),
-        'field types' => array('ting_reference'),
-        'multiple values' => CONTENT_HANDLE_CORE,
-      ),
-    );
-  }
+/**
+ * Implementation of hook_field_formatter_info().
+ */
+function ting_reference_field_formatter_info() {
+  return array(
+    'default' => array(
+      'label' => t('Default'),
+      'field types' => array('ting_reference'),
+      'multiple values' => CONTENT_HANDLE_CORE,
+    ),
+  );
+}
 
-  /**
-   * Theme function for 'default' userreference field formatter.
-   */
-  function theme_ting_reference_formatter_default($element) {
-    module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
+/**
+ * Theme function for 'default' userreference field formatter.
+ */
+function theme_ting_reference_formatter_default($element) {
+	module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
 
-    $facade = new TingClientFacade();
+	$facade = new TingClientFacade();
 
-		$collection = null;
-		if ($element['#item']['ting_ref_type'] == 'object') {
-    	$object = $facade->getObject($element['#item']['ting_object_id']);
-			if ($object) {
-				$collection = new TingClientObjectCollection(array($object));
-    	}
+	$collection = null;
+	if ($element['#item']['ting_ref_type'] == 'object') {
+		$object = $facade->getObject($element['#item']['ting_object_id']);
+		if ($object) {
+			$collection = new TingClientObjectCollection(array($object));
 		}
-		else {
-      $collection = $facade->getCollection($element['#item']['ting_object_id']);
-		}
-    if (!$collection) {
-      return t('Object not found.');
-    }
+	}
+	else {
+		$collection = $facade->getCollection($element['#item']['ting_object_id']);
+	}
+	if (!$collection) {
+		return t('Object not found.');
+	}
 
-    return theme('ting_search_collection', $collection);
-  }
+	return theme('ting_search_collection', $collection);
+}
 
 /**
  * Implementation of hook_widget_info().
