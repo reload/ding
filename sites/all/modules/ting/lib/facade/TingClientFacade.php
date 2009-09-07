@@ -54,11 +54,13 @@ class TingClientFacade {
 		
 		$searchResult = self::getClient()->search($searchRequest);
 		
+		
 		//Decorate search result with additional information
 		foreach ($searchResult->collections as &$collection)
 		{
 			$collection = self::addCollectionInfo($collection);
 			$collection = self::addAdditionalInfo($collection);
+			$collection = self::sortObjects($collection);
 		}
 		
 		return $searchResult;
@@ -109,6 +111,26 @@ class TingClientFacade {
 			$types = array_merge($types, $object->data->type);
 		}
 		$collection->types = array_unique($types);
+		return $collection;
+	}
+	
+	private static function sortObjects($collection)
+	{
+		usort($collection->objects, array('TingClientFacade', 'compareObjects'));
+		$collection->objects = array_reverse($collection->objects);
+		
+		foreach ($collection->objects as $i => $object)
+		{
+			if (isset($object->additionalInformation->detailUrl) || 
+					isset($object->additionalInformation->thumbnailUrl))
+			{
+				$object = array_shift(array_slice($collection->objects, $i, 1));
+				unset($collection->objects[$i]);
+				array_unshift($collection->objects, $object);
+				break;
+			}
+		}
+		
 		return $collection;
 	}
 	
@@ -174,6 +196,36 @@ class TingClientFacade {
 		}
 		
 		return $collection;
+	}
+	
+	private static function compareObjects($o1, $o2, $criterias = NULL)
+	{
+		$criterias = ($criterias) ? $criterias : array(	'language' => array('Dansk', 'Engelsk'),
+																										'type' => array('Bog', 'DVD'));
+
+		foreach ($criterias as $attribute => $values)
+		{
+			foreach ($values as $value)
+			{
+				$o1Check = in_array($value, $o1->data->$attribute);
+				$o2Check = in_array($value, $o2->data->$attribute);
+				if ($o1Check && !$o2Check)
+				{
+					return 1;
+				} 
+				else if (!$o1Check && $o2Check)
+				{
+					return -1;	
+				}
+				else if ($o1Check && $o2Check && (sizeof($criterias) > 1))
+				{
+					array_shift($criterias);
+					return self::compareObjects($o1, $o2, $criterias);
+				}
+			}
+		}
+				
+		return 0;
 	}
 		
 }
