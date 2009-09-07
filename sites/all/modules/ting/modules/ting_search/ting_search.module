@@ -77,20 +77,6 @@ function ting_search_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'ting_search.pages.inc',
   );
-  $items['ting/collection'] = array(
-    'title' => 'Display a collection of objects from the Ting database',
-    'page callback' => 'ting_collection',
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
-    'file' => 'ting_search.pages.inc',
-  );
-  $items['ting/object'] = array(
-    'title' => 'Display a single object from the Ting database',
-    'page callback' => 'ting_object',
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
-    'file' => 'ting_search.pages.inc',
-  );
   $items['ting/cover'] = array(
     'title' => 'Display a photo of a Ting object',
     'page callback' => 'ting_search_cover',
@@ -213,7 +199,7 @@ function ting_search_render_pager_template() {
  * here's a very basic copy of it.
  */
 function ting_search_form(&$form_state) {
-  $form = array('#action' => url('ting/search'));
+  $form = array();
 
   $form['keys'] = array(
     '#type' => 'textfield',
@@ -243,7 +229,7 @@ function ting_search_form(&$form_state) {
  * Process a search form submission.
  */
 function ting_search_form_submit($form, &$form_state) {
-  $form_state['redirect'] = 'search/ting/' . trim($form_state['values']['keys']);
+  $form_state['redirect'] = 'ting/search/' . trim($form_state['values']['keys']);
 }
 
 /**
