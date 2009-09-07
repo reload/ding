@@ -101,6 +101,7 @@ Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, res
 			jQuery('.facets:first li', element).each(function(i, e)
 			{
 				facets = jQuery('.facets li:nth-child('+(i+1)+')');
+				facets.removeAttr('height').css('line-height', '');
 				heights = facets.map(function(i, e) { jQuery(e).attr('height', jQuery(e).innerHeight()); return jQuery(e).height(); });
 				var maxHeight = Math.max.apply(Math, jQuery.makeArray(heights));
 				facets.each(function(i, e)
@@ -161,8 +162,7 @@ Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, res
 		jQuery('.facets li', facetBrowserElement).unbind('click');
 		jQuery('.facets li:not(.hidden)', facetBrowserElement).click(function()
 		{
-			clicked = $(this);
-			clicked.toggleClass('selected');
+			$(this).toggleClass('selected');
 			Drupal.updateSelectedUrl(facetBrowserElement);			
 			Drupal.doUrlSearch(facetBrowserElement, searchResultElement);
 		});
@@ -175,11 +175,7 @@ Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, res
 		{
 			facets += jQuery(e).attr('facet-group')+':'+jQuery(e).attr('facet')+';';
 		});
-		if (facets.length > 0)
-		{
-			Drupal.setAnchorVars({ 'facets': facets });
-		}
-		
+		(facets.length > 0) ? Drupal.setAnchorVars({ 'facets': facets }) : Drupal.setAnchorVars({ });
 	}
 	
 	this.updateSelectedFacetsFromUrl = function(element)
