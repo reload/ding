@@ -34,22 +34,6 @@ function ting_collection($object_id) {
 }
 
 /**
- * Display a single Ting object.
- */
-function ting_object($object_id) {
-  module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
-
-  $facade = new TingClientFacade();
-  
-  $object = $facade->getObject($object_id);
-  if (!$object) {
-    return drupal_not_found();
-  }
-
-  return theme('ting_object', $object);
-}
-
-/**
  * Return the URL of a photo of the object.
  */
 function ting_search_cover($preset, $object_id) {
