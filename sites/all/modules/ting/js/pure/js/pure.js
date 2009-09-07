@@ -223,7 +223,7 @@ $p = pure = {
 		strOut:function (content){ return ['output.push(', "'", content, "');"].join('');},
 		outputFn:function (attValue, currentLoop){
 			if (currentLoop){
-				return attValue + '({context:context, items:' + currentLoop + ',pos:'+currentLoop+'Index==\'0\'?0:parseInt(' + currentLoop + 'Index)||'+currentLoop+'Index, item:' + currentLoop + '['+currentLoop+'Index==\'0\'?0:parseInt(' + currentLoop + 'Index)||'+currentLoop+'Index]})';}
+				return attValue + '({context:context, items:' + currentLoop + ',pos:'+currentLoop+'Index==\'0\'?0:parseOnlyInt(' + currentLoop + 'Index)||'+currentLoop+'Index, item:' + currentLoop + '['+currentLoop+'Index==\'0\'?0:parseOnlyInt(' + currentLoop + 'Index)||'+currentLoop+'Index]})';}
 			else{
 				return attValue + '({context:context})';}},
 		contextOut:function(path){ return '$p.$c(context, ' + path + ')';},
@@ -637,3 +637,9 @@ else if (typeof Sizzle !== 'undefined') {
 			sizzle[0] = $p.libs.render(sizzle[0], context, directives, html, true);
 			return sizzle;};
 		return sizzle;};}
+
+/** kasperg: Added to avoind mangling values containing ints like 2000-2009		**/
+function parseOnlyInt(val)
+{
+	return (parseInt(val).toString() == val) ? parseInt(val) : val ; 
+}
