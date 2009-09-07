@@ -192,6 +192,7 @@ function ting_search_default_page_manager_pages() {
     $display->panels['right'][0] = 'new-2';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
+  $pages['ting_object_view'] = $page;
 
   return $pages;
 }
