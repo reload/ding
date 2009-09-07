@@ -50,32 +50,6 @@ function ting_object($object_id) {
 }
 
 /**
- * Return the path to a photo of the object.
- */
-function ting_search_cover_path($object_id) {
-  return 'covers/' . basename($object_id) . '.jpg';
-}
-
-/**
- * Return the URL of a photo of the object.
- */
-function ting_search_cover_url(TingClientObject $object, $presetname) {
-  $path = ting_search_cover_path($object->id);
-  if (file_exists(file_create_path($path))) {
-    return imagecache_create_url($presetname, $path);
-  }
-  elseif ($object->additionalInformation->thumbnailUrl ||
-          $object->additionalInformation->detailUrl) {
-
-    // Return an absolute URL like imagecache_create_url() does.
-    return url('ting/cover/' . $presetname . '/' . $object->id, array('absolute' => TRUE));
-  }
-  else {
-    return FALSE;
-  }
-}
-
-/**
  * Return the URL of a photo of the object.
  */
 function ting_search_cover($preset, $object_id) {
