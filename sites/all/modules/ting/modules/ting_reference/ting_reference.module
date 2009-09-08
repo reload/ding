@@ -61,7 +61,7 @@ function ting_reference_menu() {
 function ting_reference_field_info() {
   return array(
     'ting_reference' => array(
-      'label' => t('Ting object reference'),
+      'label' => t('Ting reference'),
       'description' => t('Store a reference to a Ting object.'),
     ),
   );

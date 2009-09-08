@@ -51,7 +51,7 @@ Drupal.tingSearch.getTingData = function(url, keys) {
       Drupal.tingFacetBrowser("#ting-facet-browser", "#ting-search-result", result);
     }
     else {
-      Drupal.tingSearch.summary.content = { count: 0, page: 0 };
+      Drupal.tingSearch.summary.ting = { count: 0, page: 0 };
     }
     Drupal.tingSearch.updateTabs("ting");
   });
