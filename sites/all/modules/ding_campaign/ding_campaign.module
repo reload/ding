@@ -486,9 +486,13 @@ function theme_ding_campaign_relevant_campaigns($context, $max_count = DING_CAMP
   $campaigns = ding_campaign_get_relevant($context, $max_count);
   $output = '';
 
-  foreach ($campaigns as $campaign) {
-    $node = node_load($campaign);
-    $output .= node_view($node, TRUE, FALSE, FALSE);
+  foreach ($campaigns as $nid) {
+    if ($nid > 0) {
+      $node = node_load($nid);
+      if ($node) {
+        $output .= node_view($node, TRUE, FALSE, FALSE);
+      }
+    }
   }
 
   if (!empty($output)) {
