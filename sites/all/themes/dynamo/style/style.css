@@ -19,7 +19,7 @@ form div.description{font-size:10px; line-height:12px; color:#999; padding:5px; 
 	.panel-left ul li li{background:none; padding:0px 10px 0px 0px; margin:0;}
 	.panel-left ul .node-teaser h3 {margin:0;}
 
-	.panel-pane>h3{margin:0 0 0 20px;}
+/*	.panel-pane>h3{margin:0 0 0 20px;}*/
 
 /* =====================================
 ting search block
@@ -36,7 +36,7 @@ Account block
 /*login form*/
 	#user-login-form{margin:20px 0 0 0; padding:24px 0 0 0;background:transparent url(../images/logind.png) no-repeat 0 0;}
 	#user-login-form .form-item-password{margin:0 0 3px 0;}
-	#user-login-form .form-text{height:17px; padding:1px 0 0 5px; margin:0; background-color: #fff; border-top: 1px solid #ddd; border-left: 1px solid #ddd; }
+	#user-login-form .form-text{height:16px; padding:1px 0 0 5px; margin:0; background-color: #fff; border-top: 1px solid #ddd; border-left: 1px solid #ddd; }
 		#user-login-form label{margin:1px 0 0 5px;}
 
 	#edit-name-wrapper{width:215px;}
@@ -45,7 +45,7 @@ Account block
 		#edit-pass-wrapper input{width:155px;}
 	#edit-remember-me-wrapper{width:155px; float:left;}
 		#edit-remember-me-wrapper label{color:#fff; margin:0;}
-	#user-login-form .form-image-button{width:60px;height:20px; padding:0; margin:1px 0 0 9px; display:block; float:left;overflow:hidden; background:transparent url(../images/accountlogin.png) no-repeat right center;}
+	#user-login-form .form-image-button{width:60px;height:20px; padding:0; margin:0px 0 0 8px; display:block; float:left;overflow:hidden; background:transparent url(../images/accountlogin.png) no-repeat right center;}
 
 	#user-login-form ul{clear:both;}
 		#user-login-form ul li{float:left; margin:0 10px 0 0;}
