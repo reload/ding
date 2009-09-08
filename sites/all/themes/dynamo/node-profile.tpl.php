@@ -75,6 +75,7 @@ if($id_node){
 
 <div<?php print $id_node . $classes; ?>>
 
+
   <div class="subject">
     <?php print return_terms_from_vocabulary($node, "1"); ?> 
   </div>
@@ -83,37 +84,14 @@ if($id_node){
 	  <h2><?php print $title;?></h2>
 	<?php } ?>
 
-	<div class="meta">
-	  
-		<?php print format_date($node->created, 'custom', "j F Y - H:i") ?> 
-    <i><?php print t('by'); ?></i> 
-		<span class="author"><?php print theme('username', $node); ?></span>	
-	</div>
-
 	<div class="content">
 		<?php print $content ?>
 	</div>
 
-	<?php if (count($taxonomy)){ ?>
-
-	  <div class="taxonomy">
-   	  <?php print $terms ?> 
-	  </div>  
-	<?php } ?>
+	<?php print l(t('contact'), 'user/' . $node->uid . '/contact', $options= array('attributes' => array('class' =>'contact')) );?>	
 		
 
-  <?php $similar_nodes = similarterms_list(variable_get('ding_similarterms_vocabulary_id', 0)); ?>
-  <?php if (count($similar_nodes)) { ?>
-		<div class="ding-box-wide similar">		
-      <h3><?php print t('Similar'); ?></h3>
-      <?php print theme('similarterms', variable_get('similarterms_display_options', 'title_only'), $similar_nodes); ?>
-    </div>
-  <?php } ?>
 
-
-	<?php if ($links){ ?>
-    <?php  print $links; ?>
-	<?php } ?>
 
 
 

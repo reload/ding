@@ -199,6 +199,11 @@ ul.item-list h3{margin:0 0 0 20px;}
 
 .content-top .pane-node_content{margin:0 20px 20px 0;}
 
+/*profiler */
+.node-profile .field-image{width:120px; height:120px;background:#eee;}
+#contact-mail-user{margin:0 0 0 20px;}
+.contact{background:#eee; padding: 3px 10px; color:#fff;}
+
 /*filters*/
 .view-filters{}
 .views-exposed-form .views-exposed-widget{float:right;}
