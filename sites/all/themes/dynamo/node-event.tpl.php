@@ -44,11 +44,11 @@ if($event_end < format_date(time(), 'custom', 'U')) {
       <?php print $field_datetime_rendered ?>
       <?php print $field_library_ref_rendered ?>          
         
-  		<?php if (count($taxonomy)){ ?>
+  		<?php /* if (count($taxonomy)){ ?>
   		  <div class="taxonomy">
   	   	  <?php print $terms ?> 
   		  </div>  
-  		<?php } ?>
+  		<?php } */ ?>
 
       <?php print $field_entry_price_rendered ?>
   	</div>
@@ -72,21 +72,6 @@ if($event_end < format_date(time(), 'custom', 'U')) {
 	<?php if($node->title){	?>	
 	  <h1><?php print $title;?></h1>
 	<?php } ?>
-		
-	<div class="meta">
-		<span class="time">
-			<?php print format_date($node->created, 'custom', "j F Y") ?> 
-		</span>	
-		<span class="author">
-			af <?php print theme('username', $node); ?>
-		</span>	
-
-		<?php if (count($taxonomy)){ ?>
-		  <div class="taxonomy">
-	   	  <?php print $terms ?> 
-		  </div>  
-		<?php } ?>
-	</div>
 
 	<?php
 	// adding warning for event that has already occurred
@@ -96,6 +81,22 @@ if($event_end < format_date(time(), 'custom', 'U')) {
 	<div class="content">
 		<?php print $content ?>
 	</div>
+		
+	<div class="meta">
+		<span class="time">
+			<?php print t('This event was created'); ?>
+			<?php print format_date($node->created, 'custom', "j. F Y") ?> 
+		</span>	
+		<span class="author">
+			<?php print t('by'); ?> <?php print theme('username', $node); ?>
+		</span>	
+
+		<?php if (count($taxonomy)){ ?>
+		  <div class="taxonomy">
+	   	  <?php print t("Tags:") . " " .  $terms ?> 
+		  </div>  
+		<?php } ?>
+	</div>		
 		
 	<?php if ($links){ ?>
     <?php  print $links; ?>

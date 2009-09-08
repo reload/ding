@@ -83,8 +83,12 @@ function ting_search_pages_ting_js() {
   $facade = new TingClientFacade();
 
   try {
-    $searchResult = $facade->search($query, isset($_REQUEST['page']) ? $_REQUEST['page'] : 1, 10);
+    $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
+    $resultsPerPage = 10;
+    $searchResult = $facade->search($query, $page, $resultsPerPage);
     $result = array(
+      'page' => $page,
+      'resultsPerPage' => $resultsPerPage,
       'count' => $searchResult->numTotalObjects,
       'result_html' => '',
       'facets' => $searchResult->facets,
@@ -107,9 +111,17 @@ function ting_search_pages_ting_js() {
  */
 function ting_search_pages_content_js() {
   if (isset($_REQUEST['query'])) {
+    // Drupal's do_search() is hard-coded to 10 results per page.
+    $resultsPerPage = 10;
+    // Identifier used by pager_query().
+    $element = 0;
     $query = trim($_REQUEST['query']);
     $result = array('results' => do_search($query, 'node'));
-    $result['count'] = count($result['results']);
+    // do_search() calls pager_query() that populates these globals,
+    $result['count'] = $GLOBALS['pager_total_items'][$element];
+    // pager_query() page numbers are zero-based.
+    $result['page'] = $GLOBALS['pager_page_array'][$element] + 1;
+    $result['resultsPerPage'] = $resultsPerPage;
     $result['result_html'] = '';
     foreach ($result['results'] as $item) {
       if ($item->type == 'node') {
@@ -118,7 +130,7 @@ function ting_search_pages_content_js() {
       }
     }
     if (!empty($result['result_html'])) {
-      $result['result_html'] .= theme('pager', NULL, 10, 0);
+      $result['result_html'] .= theme('pager', NULL, $resultsPerPage, $element);
     }
   }
   else {
