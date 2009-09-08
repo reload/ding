@@ -40,7 +40,7 @@
 	#ting-search-result div.picture{float:left; background:#ddd; width:80px; margin:0 12px 0 0; line-height:0;}
 	#ting-search-result div.record{margin-left:92px; width:525px;}
 	#ting-search-result h4{display:inline;}
-	#ting-search-result .types{float: right;}
+	#ting-search-result .types{float: right; width:200px;}
 	#ting-search-result .types li,.types li{clear:none; display:inline; float:left; margin:0 10px 0 0; padding:0; background:none;}
 		#ting-search-result .types li, .types li{font-size: 10px; padding:1px 3px; color: #fff; margin: 1px}
 		#ting-search-result .types li.available,.types li.available{background-color:#71bf44; color:#fff;}
