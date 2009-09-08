@@ -60,8 +60,8 @@ if($id_node){
   		<?php } ?>
   	</div>
 
-    <?php print $node->content['body']['#value'];?>
-    
+    <?php print strip_tags($node->content['body']['#value']);?>
+
   </div>
 
 </div>
@@ -87,7 +87,7 @@ if($id_node){
 	</div>
 
 	<div class="content">
-		<?php  print $content ?>
+		<?php print $content ?>
 	</div>
 
 	<?php if (count($taxonomy)){ ?>
