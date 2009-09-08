@@ -110,7 +110,6 @@
 	</div>
 
 	<div class="content-right">
-	 KAmpagner
 	</div>
 	
 </div>
