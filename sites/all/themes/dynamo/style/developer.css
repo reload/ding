@@ -34,6 +34,9 @@
 /* rasmus: similar events */
 .pane-similar_events_title h4.title { margin-left: 20px; }
 
+/* rasmus: node-features (faciliteter) */
+.pane-library_feature_detail_list h3 { margin-left: 20px; }
+
 /* christian: added styles for materialevisning - mostly copied from above */
 #ting-object .ting-overview .picture { text-align: center; }
 #ting-object .ting-overview { margin-bottom: 20px; }
