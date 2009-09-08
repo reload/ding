@@ -26,6 +26,13 @@
 /* rasmus: added styles for event node */
 .node-type-event .alert { padding: 10px; font-size: 16px; font-weight: bold; color: black; background-color: yellow; } /* hot damn it's ugly! */
 #ting-search-results .node-teaser-event .alert { padding: 10px; background-color: yellow; }
+#ting-search-results .node-teaser-event .meta .field-datetime { color: #B41630; font-size: 12px; }
+#content .node-event .field-teaser { margin-bottom: 12px; }
+#content .node-event .meta div.taxonomy  { display: block !important; }
+#content .node-event .content .field-datetime { color: #666; font-weight: bold; }
+
+/* rasmus: similar events */
+.pane-similar_events_title h4.title { margin-left: 20px; }
 
 /* christian: added styles for materialevisning - mostly copied from above */
 #ting-object .ting-overview .picture { text-align: center; }
