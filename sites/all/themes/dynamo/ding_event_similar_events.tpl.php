@@ -7,7 +7,7 @@
  */
 ?>
 
-
+<h4 class="title"><?php print t('Other events you may like'); ?></h4>
 <ul id="event-similar" class="jcarousel-skin-events">
 <?php foreach ($events as $node): ?>
   <li>

@@ -31,6 +31,9 @@
 #content .node-event .meta div.taxonomy  { display: block !important; }
 #content .node-event .content .field-datetime { color: #666; font-weight: bold; }
 
+/* rasmus: similar events */
+.pane-similar_events_title h4.title { margin-left: 20px; }
+
 /* christian: added styles for materialevisning - mostly copied from above */
 #ting-object .ting-overview .picture { text-align: center; }
 #ting-object .ting-overview { margin-bottom: 20px; }
