@@ -26,7 +26,7 @@ function production_site_init() {
   $prod = production_site_detect();
 
   if (!$prod && $GLOBALS['user']->uid > 0) {
-    drupal_set_message('Currently working on development site. Changes made here will NOT appear on the live site and may be deleted or overwritten at any time.');
+    drupal_set_message(t('Currently working on development site. Changes made here will NOT appear on the live site and may be deleted or overwritten at any time.'));
   }
 }
 
@@ -34,7 +34,7 @@ function production_site_init() {
  * Helper function to detect if we're on a production site.
  */
 function production_site_detect() {
-  $inclusive = (bool) variable_get('production_site_rule_inclusive', FALSE);
+  $whitelist = (bool) variable_get('production_site_list_type', FALSE);
   $name_str = trim(variable_get('production_site_hostnames', ''));
 
   if (!empty($name_str)) { 
@@ -42,10 +42,10 @@ function production_site_detect() {
   }
 
   foreach ($names as $name) {
-    if (strpos($name, $_SERVER['HTTP_HOST']) !== FALSE) {
-      return ($inclusive) ? TRUE : FALSE;
+    if (strpos($_SERVER['HTTP_HOST'], $name) !== FALSE) {
+      return ($whitelist) ? TRUE : FALSE;
     }
   }
-  return ($inclusive) ? FALSE : TRUE;
+  return ($whitelist) ? FALSE : TRUE;
 }
 

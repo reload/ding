@@ -227,6 +227,7 @@ function ding_campaign_nodeapi(&$node, $op, $teaser, $page) {
 function ding_campaign_delete($node) {
   // Notice that we're matching all revision, by using the node's nid.
   db_query('DELETE FROM {ding_campaign} WHERE nid = %d', $node->nid);
+  db_query('DELETE FROM {ding_campaign_rule} WHERE nid = %d', $node->nid);
 }
 
 /**
