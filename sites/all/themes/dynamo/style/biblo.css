@@ -62,6 +62,9 @@
 .ding-box-pane .pane-library_feature_list ul.item-list{padding:8px 0 8px 12px;}	
 	.ding-box-pane .pane-library_feature_list ul.item-list li{width:95px; float:left; margin:0 ; padding:0 0 0 15px; background:transparent url(../images/ok.png) no-repeat left 3px; }
 
+
+.node-event .field-entry-price{font-weight:bold;}
+
 /* ==========================================================================
 	library Right bars
 /*----------------------------------------------------------------------------*/
@@ -198,6 +201,11 @@ ul.item-list h3{margin:0 0 0 20px;}
 }
 
 .content-top .pane-node_content{margin:0 20px 20px 0;}
+
+/*profiler */
+.node-profile .field-image{width:120px; height:120px;background:#eee;}
+#contact-mail-user{margin:0 0 0 20px;}
+.contact{background:#eee; padding: 3px 10px; color:#fff;}
 
 /*filters*/
 .view-filters{}

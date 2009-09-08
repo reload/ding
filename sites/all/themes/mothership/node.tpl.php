@@ -34,6 +34,9 @@ if($id_node){
 
 	<?php print format_date($node->created, 'custom', "j F Y") ?> 
 
+
+
+
 	<?php  print $content;?>	
 
 	<a href="<?php print $node_url ?>" title="<?php print $title ?>"><?php print t('read more') ?></a>

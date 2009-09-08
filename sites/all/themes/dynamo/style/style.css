@@ -16,8 +16,8 @@ form .form-item{margin:0 0 0 0;}
 /* =======================================
 	panels list etc
 /* ------------------------------------- */
-.panel-left ul li{background:transparent url(../images/bg-divider.png) no-repeat left top; padding:10px 0px 10px 20px; margin:0;}
-	.panel-left ul li.first{background:none; padding:0 0 10px 20px ;}
+.panel-left ul li{background:transparent url(../images/bg-divider.png) no-repeat left top; padding:10px 0px 10px 0px; margin:0;}
+	.panel-left ul li.first{background:none; padding:0 0 10px 0px ;}
 	.panel-left ul li li{background:none; padding:0px 10px 0px 0px; margin:0;}
 	.panel-left ul .node-teaser h3 {margin:0;}
 
@@ -120,6 +120,7 @@ Panels BOX css styles
 .ding-box-pane{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden;}
 	.ding-box-pane h3{width:228px; padding:8px 0 4px 20px; margin:0;height:18px; font-size:11px; line-height:20px; font-weight:bold; background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; overflow:hidden;}
 	.ding-box-pane ul{width:228px; padding:8px 0px; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom;  overflow:hidden; }
+	.ding-box-pane .view .view-empty{width:228px; padding:8px 0 0 20px ; margin:0 0 0 0px; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom;  overflow:hidden; }
 	.ding-box-pane ul li{margin:0 0 0 10px; padding:0 0 0 10px; width:200px;}
 	.ding-box-pane{font-size:11px; line-height:20px; }
 
