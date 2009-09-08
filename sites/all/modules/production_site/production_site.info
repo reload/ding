@@ -1,0 +1,6 @@
+; $Id$
+name = Production site protection
+description = Helps differentiate production and development sites. Disables developer-related modules on production sites and displays a warning message on devel sites.
+php = 5.2
+core = 6.x
+

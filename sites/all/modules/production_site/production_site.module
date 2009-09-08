@@ -1,0 +1,51 @@
+<?php
+// $Id$
+
+/**
+ * Implementation of hook_menu().
+ */
+function production_site_menu() {
+  $items = array();
+
+  $items['admin/settings/production_site'] = array(
+    'title' => 'Production site',
+    'description' => 'Production site admin settings form',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('production_site_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'production_site.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_init().
+ */
+function production_site_init() {
+  $prod = production_site_detect();
+
+  if (!$prod && $GLOBALS['user']->uid > 0) {
+    drupal_set_message('Currently working on development site. Changes made here will NOT appear on the live site and may be deleted or overwritten at any time.');
+  }
+}
+
+/**
+ * Helper function to detect if we're on a production site.
+ */
+function production_site_detect() {
+  $inclusive = (bool) variable_get('production_site_rule_inclusive', FALSE);
+  $name_str = trim(variable_get('production_site_hostnames', ''));
+
+  if (!empty($name_str)) { 
+    $names = preg_split('/[\r\n]+/', $name_str);
+  }
+
+  foreach ($names as $name) {
+    if (strpos($name, $_SERVER['HTTP_HOST']) !== FALSE) {
+      return ($inclusive) ? TRUE : FALSE;
+    }
+  }
+  return ($inclusive) ? FALSE : TRUE;
+}
+

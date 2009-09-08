@@ -1,0 +1,11 @@
+<?php
+// $Id$
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function production_site_uninstall() {
+  variable_del('production_site_hostnames');
+  variable_del('production_site_rule_inclusive');
+}
+
