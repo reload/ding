@@ -42,7 +42,7 @@ function production_site_detect() {
   }
 
   foreach ($names as $name) {
-    if (strpos($name, $_SERVER['HTTP_HOST']) !== FALSE) {
+    if (strpos($_SERVER['HTTP_HOST'], $name) !== FALSE) {
       return ($whitelist) ? TRUE : FALSE;
     }
   }
