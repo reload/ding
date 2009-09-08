@@ -39,6 +39,7 @@ Drupal.tingResult = function(searchResultElement, facetBrowserElement, result)
 	this.renderTingSearchResults = function(element, result)
 	{
 		jQuery(element).find('ul,ol').html(result.result_html);
+		Drupal.tingSearch.updateSummary($('#ting-search-summary'), result);
 	}
 	
 	this.renderTingSearchResultPager = function(element, result)
@@ -46,7 +47,7 @@ Drupal.tingResult = function(searchResultElement, facetBrowserElement, result)
 		//currentPage = (jQuery.url.attr('page')) ? jQuery.url.attr('page') : 1;
 		anchorVars = Drupal.getAnchorVars();
 		currentPage = (anchorVars.page != null) ? new Number(anchorVars.page) : 1;
-		totalPages = Math.ceil(result.count / Drupal.settings.tingResult.resultsPerPage);
+		totalPages = Math.ceil(result.count / result.resultsPerPage);
 
 		if (totalPages > 1)
 		{

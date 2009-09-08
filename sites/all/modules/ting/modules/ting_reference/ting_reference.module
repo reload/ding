@@ -61,7 +61,7 @@ function ting_reference_menu() {
 function ting_reference_field_info() {
   return array(
     'ting_reference' => array(
-      'label' => t('Ting object reference'),
+      'label' => t('Ting reference'),
       'description' => t('Store a reference to a Ting object.'),
     ),
   );
@@ -74,7 +74,7 @@ function ting_reference_field_settings($op, $field) {
   switch ($op) {
     case 'database columns':
      return array(
-       'ting_object_id' => array('type' => 'varchar', 'length' => 50, 'not null' => TRUE),
+       'ting_object_id' => array('type' => 'varchar', 'length' => 50, 'not null' => TRUE, 'index' => TRUE),
        'ting_ref_type' => array('type' => 'varchar', 'length' => 20, 'not null' => TRUE),
        'description' => array('type' => 'text'),
      );
