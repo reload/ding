@@ -34,33 +34,37 @@ if($id_node){
 
   <div class="content">
 
-    <div class="subject">
-      <?php print return_terms_from_vocabulary($node, "1"); ?> 
-    </div>
-
   	<?php if($node->title){	?>	
       <h3><?php print l($node->title, 'node/'.$node->nid); ?></h3>
   	<?php } ?>
+
+
+    <div class="subject">
+      <?php print return_terms_from_vocabulary($node, "1"); ?> 
+    </div>
 
   	<div class="meta">
   		<span class="time">
   			<?php print format_date($node->created, 'custom', "j F Y") ?> 
   		</span>	
   		<span class="author">
-  			af <?php print theme('username', $node); ?>
+				<?php print t('by') . ' ' . theme('username', $node); ?>
   		</span>	
 
 			<?php print $node->field_library_ref[0]['view'];  ?>
 
 			
-  		<?php if (count($taxonomy)){ ?>
-  		  <div class="taxonomy">
-  	   	  <?php print $terms ?> 
-  		  </div>  
-  		<?php } ?>
   	</div>
 
-    <?php print strip_tags($node->content['body']['#value']);?>
+    <p><?php print strip_tags($node->content['body']['#value']);?></p>
+
+		<?php if (count($taxonomy)){ ?>
+		  <div class="taxonomy">
+	   	  <?php print $terms ?> 
+		  </div>  
+		<?php } ?>
+
+
 
   </div>
 
