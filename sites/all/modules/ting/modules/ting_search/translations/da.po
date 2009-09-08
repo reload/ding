@@ -145,3 +145,6 @@ msgstr "Ting"
 msgid "“@s”: Ting search results"
 msgstr "“@s”: Ting søgeresultat"
 
+msgid "Showing !firstResult-!lastResult of !count results"
+msgstr "Viser resultat !firstResult-!lastResult af !count resultater"
+

@@ -33,14 +33,14 @@ jQuery(function($) {$(function(){
 // Container object
 Drupal.tingSearch = {
   // Holds the number of results for each of the different types of search.
-  resultCount: {}
+  summary: {}
 };
 
 // Get search data from Ting
 Drupal.tingSearch.getTingData = function(url, keys) {
   $.getJSON(url, {'query': keys}, function (result) {
     if (result.count > 0) {
-      Drupal.tingSearch.resultCount.ting = result.count;
+      Drupal.tingSearch.summary.ting = { count: result.count, page: result.page };
       $("#ting-search-spinner").hide("normal");
 
       // Add the template for ting result and facet browser.
@@ -51,7 +51,7 @@ Drupal.tingSearch.getTingData = function(url, keys) {
       Drupal.tingFacetBrowser("#ting-facet-browser", "#ting-search-result", result);
     }
     else {
-      Drupal.tingSearch.resultCount.ting = 0;
+      Drupal.tingSearch.summary.content = { count: 0, page: 0 };
     }
     Drupal.tingSearch.updateTabs("ting");
   });
@@ -70,15 +70,16 @@ Drupal.tingSearch.getContentData = function(url, keys, show) {
   $.getJSON(url, params, function (data) {
     // Store some of the data returned on the tingSearch object in case
     // we should need it later.
-    Drupal.tingSearch.resultCount.content = data.count;
+    Drupal.tingSearch.summary.content = { count: data.count, page: data.page };
     Drupal.tingSearch.contentData = data;
     Drupal.tingSearch.updateTabs("content");
 
     if (data.count) {
-      $("#content-result").html(Drupal.tingSearch.contentData.result_html);
+      $("#content-search-result").html(Drupal.tingSearch.contentData.result_html);
       // Redo the click event bindings for the contentPager, since we'll
       // have a new pager from the result HTML.
       Drupal.tingSearch.contentPager();
+		  Drupal.tingSearch.updateSummary($('#content-search-summary'), data);
 
       // If the show parameter is specified, show our results.
       if (show) {
@@ -100,9 +101,9 @@ Drupal.tingSearch.contentPager = function() {
 
 // Helper function to update the state of our tabs.
 Drupal.tingSearch.updateTabs = function (sender) {
-  if (Drupal.tingSearch.resultCount.hasOwnProperty(sender)) {
+  if (Drupal.tingSearch.summary.hasOwnProperty(sender)) {
     var tab = $('#ting-search-tabs li.' + sender);
-    var count = Drupal.tingSearch.resultCount[sender];
+    var count = Drupal.tingSearch.summary[sender].count;
     if (count == 0) {
       // For no results, replace the contents of the results container
       // with the no results message.
@@ -122,14 +123,14 @@ Drupal.tingSearch.updateTabs = function (sender) {
     }
   }
 
-  if (Drupal.tingSearch.resultCount.hasOwnProperty("ting") && Drupal.tingSearch.resultCount.hasOwnProperty("content")) {
+  if (Drupal.tingSearch.summary.hasOwnProperty("ting") && Drupal.tingSearch.summary.hasOwnProperty("content")) {
     // When both searches has returned, make sure that we're in a
     // reasonably consistent state.
     $("#ting-search-spinner").hide("normal");
 
     // If there were no results from Ting and website results available,
     // switch to the website tab and diable the Ting tab.
-    if (Drupal.tingSearch.resultCount.ting == 0 && Drupal.tingSearch.resultCount.content > 0) {
+    if (Drupal.tingSearch.summary.ting.count == 0 && Drupal.tingSearch.summary.content.count > 0) {
       $("#ting-search-tabs")
         .tabs("select", 1)
         .tabs("disable", 0);
@@ -137,3 +138,8 @@ Drupal.tingSearch.updateTabs = function (sender) {
   }
 }
 
+Drupal.tingSearch.updateSummary = function (element, result) {
+  element.find('.count').text(result.count);
+  element.find('.firstResult').text((result.page - 1) * result.resultsPerPage + 1);
+  element.find('.lastResult').text(Math.min(result.count, result.page * result.resultsPerPage));
+}
