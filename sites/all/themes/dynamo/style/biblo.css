@@ -62,6 +62,9 @@
 .ding-box-pane .pane-library_feature_list ul.item-list{padding:8px 0 8px 12px;}	
 	.ding-box-pane .pane-library_feature_list ul.item-list li{width:95px; float:left; margin:0 ; padding:0 0 0 15px; background:transparent url(../images/ok.png) no-repeat left 3px; }
 
+
+.node-event .field-entry-price{font-weight:bold;}
+
 /* ==========================================================================
 	library Right bars
 /*----------------------------------------------------------------------------*/

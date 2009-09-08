@@ -56,7 +56,16 @@ if($id_node){
 			
   	</div>
 
-    <p><?php print strip_tags($node->content['body']['#value']);?></p>
+    <p>
+		<?php 
+			//field_teaser
+				if($node->field_teaser[0]['value']){
+					print $node->field_teaser[0]['value'];
+				}else{
+					print strip_tags($node->content['body']['#value']);	
+				}
+			?>
+		</p>
 
 		<?php if (count($taxonomy)){ ?>
 		  <div class="taxonomy">
@@ -74,6 +83,8 @@ if($id_node){
 ?>
 
 <div<?php print $id_node . $classes; ?>>
+
+
 
   <div class="subject">
     <?php print return_terms_from_vocabulary($node, "1"); ?> 
