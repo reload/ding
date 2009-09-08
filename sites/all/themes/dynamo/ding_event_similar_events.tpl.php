@@ -13,22 +13,40 @@
   <li>
     <h4><?php print l($node->title, 'node/' . $node->nid); ?></h4>
 
-    <?php if($node->field_image['0']['filepath']){ ?>
-        <?php print theme('imagecache', '120_120', $node->field_image['0']['filepath']); ?>      
-    <?php } ?>
-
-    <?php 
+    	<?php 
 		  $date = strtotime($node->field_datetime[0]['value']);
 		  $date2 = strtotime($node->field_datetime[0]['value2']);    
 
-		  print format_date($date, 'custom', "j F Y") ."<br/>";
-		  print format_date($date, 'custom', "H:i") ." - ";
-		  print format_date($date2, 'custom', "H:i");		  
+		  if(date("Ymd", $date) == date("Ymd", $date2))
+		  {
+		  	print format_date($date, 'custom', "j. F Y");
+		  }
+		  elseif(date("Ym", $date) == date("Ym", $date2))
+		  {
+		  	print format_date($date, 'custom', "j.") . "-" . format_date($date2, 'custom', "j. F Y");
+		  }
+		  else
+		  {
+		  	print format_date($date, 'custom', "j. M.") . " - " . format_date($date2, 'custom', "j. M. Y");
+		  }
+		  
+		//  print format_date($date, 'custom', "H:i") ." - ";
+		//  print format_date($date2, 'custom', "H:i");		  
 		 ?> 
-		 <br/>
-		  pris: <?php print $node->field_entry_price[0]['value']; ?>
+
+    <?php if($node->field_image['0']['filepath']){ ?>
+        <?php print theme('imagecache', '180_x', $node->field_image['0']['filepath']); ?>      
+    <?php } 
+    	  else
+    	  {
+    	  	print $node->teaser;
+    	  }
+    
+    ?>
+
+		 <?php //print t('pris:') . $node->field_entry_price[0]['value']; ?>
   
-			<?php print $node->teaser; ?> 
+		<?php //print $node->teaser; ?> 
 
   </li>
 <?php endforeach; ?>
