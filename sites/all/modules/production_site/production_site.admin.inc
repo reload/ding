@@ -7,13 +7,13 @@
 function production_site_admin_settings_form($form_state) {
   $form = array();
 
-  $form['production_site_rule_inclusive'] = array(
+  $form['production_site_list_type'] = array(
     '#type' => 'radios',
-    '#description' => t('If the rule is exclusive, the following sites will NOT be considered development sites, if it is inclusive, they will, and all other sites will not.'),
+    '#description' => t('In blacklist mode, the following sites will NOT be considered production sites, if in whitelist mode, they will, and all other sites will not.'),
     '#title' => t('Rule type'),
     '#options' => array(
-      FALSE => t('Exclusive'),
-      TRUE => t('Inclusive'),
+      FALSE => t('Blacklist'),
+      TRUE => t('Whitelist'),
     ),
     '#default_value' => variable_get('production_site_rule_inclusive', FALSE),
   );
