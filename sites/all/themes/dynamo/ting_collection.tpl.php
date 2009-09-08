@@ -27,13 +27,27 @@
 				
 				//	dpm($sorted_collection);
 				// show the common descriptor
-				foreach($sorted_collection as $objects)
-				{
-					$common_object = $objects[0];
-					if(empty($common_object->data->description[0])) {
-						continue;
+				$preferred_typekey = "Bog (Dansk)";
+					
+				// Try to fetch a danish book
+				$common_object = null;
+				if(array_key_exists($preferred_typekey, $sorted_collection)) {
+					if(!empty($sorted_collection[$preferred_typekey][0]->data->description[0])) {
+						$common_object = $sorted_collection[$preferred_typekey][0];
+					}	
+				}
+				
+				// just get a book with a description
+				if(!$common_object) {
+					foreach($sorted_collection as $typekey => $objects)
+					{
+						$common_object = $objects[0];
+						
+						if(empty($common_object->data->description[0])) {
+							continue;
+						}
+						break;
 					}
-					break;
 				}
 				
 			//	dpm($common_object);
@@ -49,7 +63,14 @@
 	
 					<div class='creator'>
 						<span class='byline'><?php echo ucfirst(t('by')); ?></span>
-						<?php echo l($common_object->data->creator[0], 'search/ting/'.$common_object->data->creator[0], array("attributes"=>array('class' => 'author'))); ?>
+            <?php
+            foreach ($common_object->data->creator as $i => $creator) {
+              if ($i) {
+                print ', ';
+              }
+              print l($creator, 'search/ting/' . $creator, array('attributes' => array('class' => 'author')));
+            }
+            ?>
 						<span class='date'>(<?php echo $common_object->data->date[0]; ?>)</span> 
 					</div>		 			
 
@@ -60,14 +81,16 @@
 						<span class='title'><?php echo t('Terms:'); ?></span>
 						<?php
 						foreach ($common_object->data->subject as $term) {
-							$terms[] = "<span class='term'>".l($term, 'search/ting/'.$term)."</span>";
+							if(!empty($term)) {
+								$terms[] = "<span class='term'>".l($term, 'search/ting/'.$term)."</span>";
+							}
 						}
 						echo implode(", ", $terms);
 						?>
 					</div>
 					
 					<div class='material-links'>
-						<span class='title'><?php echo t('Go to materials:'); ?></span>
+						<span class='title'><?php echo t('Go to material:'); ?></span>
 						<?php
 						foreach ($sorted_collection as $category => $objects) {
 							$material_links[] = '<span class="link"><a href="#'.$category.'">'.t($category).'</a></span>';
@@ -157,7 +180,15 @@
 				} //foreach collection
 				?>
 
-			
+        <?php
+        $referenced_nodes = ting_reference_nodes($collection);
+        if ($referenced_nodes) {
+          print '<h3>Omtale på websitet</h3>';
+          foreach ($referenced_nodes as $node) {
+            print node_view($node, TRUE);
+          }
+        }
+        ?>
 			</div>	
 		</div>
 	</div>

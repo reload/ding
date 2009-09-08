@@ -42,7 +42,14 @@
 						<h2><?php print $object->data->title[0];?></h2>						
 					<div class='creator'>
 						<span class='byline'><?php echo ucfirst(t('by')); ?></span>
-						<?php echo l($object->data->creator[0], 'search/ting/'.$object->data->creator[0], array("attributes"=>array('class' => 'author'))); ?>
+            <?php
+            foreach ($object->data->creator as $i => $creator) {
+              if ($i) {
+                print ', ';
+              }
+              print l($creator, 'search/ting/' . $creator, array('attributes' => array('class' => 'author')));
+            }
+            ?>
 						<span class='date'>(<?php echo $object->data->date[0]; ?>)</span>
 					</div>
 					<p><?php print $object->data->description[0];?></p>
@@ -88,13 +95,21 @@
 					se som xxx .... yyy
 				</div>
 				
+        <?php
+        $referenced_nodes = ting_reference_nodes($object);
+        if ($referenced_nodes) {
+          print '<h3>Omtale på websitet</h3>';
+          foreach ($referenced_nodes as $node) {
+            print node_view($node, TRUE);
+          }
+        }
+        ?>
 			</div>	
 
 		</div>			
 	</div>
 
 	<div class="content-right">
-	 KAmpagner
 	</div>
 	
 </div>
