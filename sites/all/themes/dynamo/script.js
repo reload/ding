@@ -15,14 +15,19 @@ $(document).ready(function() {
 
 
 //carousel
-    $('#frontpagecarousel').jcarousel({
-       vertical: false, //
-       scroll: 1, //amount of items to scroll by
-       animation: "slow", // slow - fast
-       auto: "0", //autoscroll in secunds
-       wrap: "last"
-     });
+	if($('#frontpagecarousel')){
 
+	  $('#frontpagecarousel').jcarousel({
+	     vertical: false, //
+	     scroll: 1, //amount of items to scroll by
+	     animation: "slow", // slow - fast
+	     auto: "0", //autoscroll in secunds
+	     wrap: "last"
+	   });
+
+	}
+
+	if($('#event-similar')){
     $('#event-similar').jcarousel({
        vertical: false, //
        scroll: 1, //amount of items to scroll by
@@ -30,7 +35,7 @@ $(document).ready(function() {
        auto: "0", //autoscroll in secunds
        wrap: "last"
      });
-
+	}
 
 
 
