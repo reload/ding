@@ -42,7 +42,7 @@ function ting_search_autocomplete_form_ting_search_form_alter(&$form, &$form_sta
 	if (!isset($includes_loaded))
 	{
 		$basePath = drupal_get_path('module', 'ting');
-		drupal_add_js($basePath.'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.min.js', 'module');
+		drupal_add_js($basePath.'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.min.js', 'module', 'footer', TRUE);
 		drupal_add_css($basePath.'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.css', 'module');
 		
 		$modulePath = drupal_get_path('module', 'ting_search_autocomplete');
