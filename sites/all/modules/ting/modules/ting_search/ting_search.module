@@ -168,7 +168,6 @@ function ting_search_add_js() {
 
   drupal_add_js(array('tingResult' => array(
                       'pagerTemplate' => ting_search_render_pager_template(),
-                      'resultsPerPage' => 10,
                       'pagesInPager' => 5,
                       'resizeButtonText' => t('Show more facet terms'),
                       'noResultsHeader' => t('No results found'),

@@ -62,9 +62,19 @@ ul.field-ting-refs li { clear:both; margin:0 0 20px 0; padding:10px 0 10px 10px;
 .field-ting-refs img { margin: 0 ! important }
 .field-ting-refs { font-family:Arial,sans-serif; } /* dubliker regel i ui.all.css, override typography.css */
 
+/* christian: legend on search result page */
+#ting-search-legend { margin-top: 10px; font-size: 11px; font-family: verdana, sans-serif; margin-left: 5px; }
+#ting-search-legend ul, #ting-search-legend li { display: inline; padding: 0 10px 0 0; background: none; color: #999; }
+#ting-search-legend .marker { font-size: 100%; padding-right: 4px; }
+#ting-search-legend .available{color:#71bf44; }
+#ting-search-legend .out{color: #f85f26; }
+#ting-search-legend .reserved{ color: #560036; }
+#ting-search-summary, #content-search-summary { color: #666; margin-top: 20px; font-size: 11px; font-family: verdana; margin-left: 5px; }
+#ting-search-summary span, #content-search-summary span { font-weight: bold; }
+
 
 a.alternative:link, a.alternative:visited { color: #000; }
-.more-link { background: transparent url(../images/pil.png) no-repeat scroll right center; padding:0 12px 0 0; }
+/*.more-link { background: transparent url(../images/pil.png) no-repeat scroll right center; padding:0 12px 0 0; } "remove", morten said */
 
 /* mikl: A few tweaks for the search results page */
 
