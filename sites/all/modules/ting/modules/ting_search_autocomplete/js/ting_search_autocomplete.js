@@ -2,8 +2,8 @@
  * JavaScript behavior for the autocomplete widget.
  */
 Drupal.behaviors.addTingAutocomplete = function(context) {
-  $('input.ting-autocomplete').each(function () {
-    $(this)
+  $('input.ting-autocomplete').each(function (index, domElement) {
+    $(domElement)
       .autocomplete(Drupal.settings.tingSearchAutocomplete.path, {
         scrollHeight: 200, /* Consider moving dimensions to CSS for easier customization */
         width: 493,
