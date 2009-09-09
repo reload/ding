@@ -738,6 +738,7 @@ function ding_event_views_default_views() {
       'relationship' => 'none',
     ),
   ));
+  $handler->override_option('use_pager', '1');
   $handler->override_option('pane_title', 'Events overview page');
   $handler->override_option('pane_description', '');
   $handler->override_option('pane_category', array(
