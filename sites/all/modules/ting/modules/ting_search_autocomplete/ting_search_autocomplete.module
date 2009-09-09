@@ -46,7 +46,7 @@ function ting_search_autocomplete_form_ting_search_form_alter(&$form, &$form_sta
 		drupal_add_css($basePath.'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.css', 'module');
 		
 		$modulePath = drupal_get_path('module', 'ting_search_autocomplete');
-		drupal_add_js($modulePath.'/js/ting_search_autocomplete.js', 'module');
+		drupal_add_js($modulePath.'/js/ting_search_autocomplete.js', 'module', 'footer', TRUE);
 		drupal_add_js(array('tingSearchAutocomplete' => array('path' => url('ting/autocomplete'))), 'setting');
 		drupal_add_css($modulePath.'/css/ting_search_autocomplete.css', 'module');
 		
