@@ -70,7 +70,7 @@ if($event_end < format_date(time(), 'custom', 'U')) {
 <div<?php print $id_node . $classes; ?>>
 
 	<?php if($node->title){	?>	
-	  <h1><?php print $title;?></h1>
+	  <h2><?php print $title;?></h2>
 	<?php } ?>
 
 	<?php
@@ -79,7 +79,28 @@ if($event_end < format_date(time(), 'custom', 'U')) {
 	?>
 
 	<div class="content">
-		<?php print $content ?>
+		<p class="event-info">
+			<?php print filter_xss($node->field_datetime[0]['view']); ?>	
+			<?php print filter_xss($node->field_library_ref[0]['view']); ?>	
+
+			<?php 
+				if($node->field_entry_price[0]['value'] == "0"){
+					print t('free');
+				}else{
+					print filter_xss($node->field_entry_price[0]['view']);
+				}
+			?>
+		</p>
+				
+		<p>
+			<?php print filter_xss($node->field_teaser[0]['view']); ?>					
+		</p>
+
+		<?php print $node->content['body']['#value']; ?>
+
+
+
+		<?php // print $content ?>
 	</div>
 		
 	<div class="meta">
