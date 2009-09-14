@@ -117,6 +117,7 @@ Drupal.behaviors.fileFieldInsert = function(context) {
     if (fileFieldInsertTextarea && fileFieldInsertTextarea.fileFieldInsertHasFocus) {
       insertAtCursor(fileFieldInsertTextarea, content);
     }
+/* orig
     // WYSIWYG support, should work in all editors if available.
     else if (Drupal.wysiwyg && Drupal.wysiwyg.activeId) {
       Drupal.wysiwyg.instances[Drupal.wysiwyg.activeId].insert(content)
@@ -125,6 +126,18 @@ Drupal.behaviors.fileFieldInsert = function(context) {
     else if (typeof(tinyMCE) != 'undefined' && tinyMCE.activeEditor) {
       tinyMCE.activeEditor.execCommand('mceInsertContent', false, content);
     }
+*/
+//mdk  patch http://drupal.org/node/516298 
+    else if (typeof(tinyMCE) != 'undefined' && tinyMCE.activeEditor) {
+       tinyMCE.activeEditor.execCommand('mceInsertContent', false, content);
+     }
+    // WYSIWYG support, should work in all editors if available.
+    else if (Drupal.wysiwyg && Drupal.wysiwyg.activeId) {
+      Drupal.wysiwyg.instances[Drupal.wysiwyg.activeId].insert(content)
+    }
+//mdk  patch http://drupal.org/node/516298  END
+
+
     // FCKeditor module support.
     // Requires http://drupal.org/node/445878.
     else if (typeof(FCKeditorAPI) != 'undefined' && fckActiveId) {
