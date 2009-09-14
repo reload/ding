@@ -51,7 +51,9 @@
 .pane-event_list h3{background:#d1d9d7; padding:3px 10px; margin:5px 10px 0 10px;}
 .pane-event_list .view-event-list{margin:10px 0 0 0;}
 .pane-event_list .view-event-list .view-header{background:#d1d9d7; padding:3px 10px; margin:0 10px 0 14px;}
-.pane-event_list .view-event-list li {padding:5px 0 22px 17px; background:transparent url(../images/bg-divider-verysmall.png) no-repeat left bottom;  clear:both;} 
+/*.pane-event_list .view-event-list li {padding:5px 0 22px 17px; background:transparent url(../images/bg-divider-verysmall.png) no-repeat left bottom;  clear:both;} */
+.pane-event_list .view-event-list li {padding:8px 0 6px 17px; background:transparent url(../images/bg-divider-verysmall.png) no-repeat left top;  clear:both;} 
+
 	.pane-event_list .view-event-list li .calendar-leafs .leaf{height:65px; width:55px; float:left; padding:2px 0 0 0; background:transparent url(../images/bg-calender.png) no-repeat 0 0; overflow:hidden;}
 	.pane-event_list .view-event-list li .calendar-leafs .leaf.today{background:transparent url(../images/bg-calender.png) no-repeat 0 -64px; ;}
 	.pane-event_list .view-event-list li .calendar-leafs .info{ width:150px; float:left; overflow:hidden;padding:0 0 0 4px}
