@@ -1,4 +1,5 @@
-<?php // $Id$
+<?php
+// $Id$
 
 /**
  * @file node_body.inc
@@ -38,7 +39,7 @@ function ding_panels_node_body_content_type_content_types() {
 function ding_panels_node_body_content_type_render($subtype, $conf, $panel_args, $context) {
   $block = new stdClass();
   $node = isset($context->data) ? drupal_clone($context->data) : NULL;
-  $block->content = check_markup($node->body, $node->format, $node->language);
+  $block->content = check_markup($node->body, $node->format, FALSE);
   return $block;
 }
 
@@ -46,7 +47,7 @@ function ding_panels_node_body_content_type_render($subtype, $conf, $panel_args,
  * Return the pane titles.
  */
 function ding_panels_node_body_content_type_admin_title($subtype, $conf, $context) {
-  return t('Node body');
+  return t('“@s”:  Node body', array('@s' => $context->identifier));
 }
 
 /**
