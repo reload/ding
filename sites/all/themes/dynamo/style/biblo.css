@@ -168,6 +168,8 @@ ul.menu li.expanded ul.menu li.expanded a{display:block}
 	.event-info .event-price{font-weight:bold;}
 
 
+.content .field-teaser{margin:10px 0;}
+
 /*medarbjedere*/
 .panel-left .view-library-staff-list ul{padding:0 0 0 10px;}
 .panel-left .view-library-staff-list ul li,.panel-left .view-library-staff-list ul li.first{width:150px; height:200px; float:left; background:none; padding:10px;}
