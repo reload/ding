@@ -127,8 +127,8 @@ body.node-type-page .panel-left{width:180px;}
 body.node-type-page .panel-threecol-left-stacked-right .panel-middle {width:515px; background:transparent url(../images/bg-divider-horizontalt.png) no-repeat left top;}
 
 ul.menu{list-style-position:inside; font-size:12px;}
-ul.menu li{list-style: none inside; margin:0; padding: 0 0 0 0px;}
-ul.menu li.leaf {font-size:10px; list-style: none outside;margin:0 0 0 20px;}
+ul.menu li{list-style: none inside; margin:0; padding: 0 0 0 0px; background:none;}
+ul.menu li.leaf { padding:0 0 0 0; font-size:10px; list-style: none outside; margin:0 0 0 20px;}
 
 
 ul.menu li.leaf a.active, ul.menu li.active-trail a{font-weight:bold; color:#006A87}
