@@ -163,6 +163,9 @@ ul.menu li.expanded ul.menu li.expanded a{display:block}
 .node-teaser{width:700px; margin:0 0 0 0;}
 .panel-left .pane-node_body_title{margin:20px 0 0 20px;}
 
+.event-info {margin:0 0 20px 0;}
+	.event-info .event-date{margin:0 10px 0 0;}
+	.event-info .event-price{font-weight:bold;}
 
 
 /*medarbjedere*/
@@ -205,10 +208,6 @@ ul.item-list h3{margin:0 0 0 20px;}
 
 .content-top .pane-node_content{margin:0 20px 20px 0;}
 
-/*profiler */
-.node-profile .field-image{width:120px; height:120px;background:#eee;}
-#contact-mail-user{margin:0 0 0 20px;}
-.contact{background:#eee; padding: 3px 10px; color:#fff;}
 
 /*filters*/
 .view-filters{}

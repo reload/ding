@@ -74,33 +74,52 @@ if($event_end < format_date(time(), 'custom', 'U')) {
 	<?php } ?>
 
 	<?php
-	// adding warning for event that has already occurred
-	print $alertbox;
+		// adding warning for event that has already occurred
+		print $alertbox;
 	?>
 
 	<div class="content">
-		<p class="event-info">
-			<?php print filter_xss($node->field_datetime[0]['view']); ?>	
-			<?php print filter_xss($node->field_library_ref[0]['view']); ?>	
+		<div class="event-info">
+			<span class="event-date">
+				<?php 
+				  $date = strtotime($node->field_datetime[0]['value']);
+				  $date2 = strtotime($node->field_datetime[0]['value2']);    
 
-			<?php 
-				if($node->field_entry_price[0]['value'] == "0"){
-					print t('free');
-				}else{
-					print filter_xss($node->field_entry_price[0]['view']);
-				}
-			?>
-		</p>
+				  if(date("Ymd", $date) == date("Ymd", $date2))
+				  {
+				  	print format_date($date, 'custom', "j. F Y");
+				  }
+				  elseif(date("Ym", $date) == date("Ym", $date2))
+				  {
+				  	print format_date($date, 'custom', "j.") . "-" . format_date($date2, 'custom', "j. F Y");
+				  }
+				  else
+				  {
+				  	print format_date($date, 'custom', "j. M.") . " - " . format_date($date2, 'custom', "j. M. Y");
+				  }
+				?>
+			</span>
+			<span class="event-price">
+				<?php
+
+					if($node->field_entry_price[0]['value'] == "0"){
+						print t('free');
+					}else{
+						print filter_xss($node->field_entry_price[0]['view']);
+					}
+				?>
+			</span>		
+		</div>
 				
-		<p>
-			<?php print filter_xss($node->field_teaser[0]['view']); ?>					
-		</p>
 
-		<?php print $node->content['body']['#value']; ?>
+			<?php // print filter_xss($node->field_teaser[0]['view']); ?>					
 
 
+		<?php //print $node->content['body']['#value']; ?>
 
-		<?php // print $content ?>
+
+
+		<?php  print $content ?>
 	</div>
 		
 	<div class="meta">

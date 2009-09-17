@@ -3,7 +3,7 @@
 documentation:
   http://api.drupal.org/api/file/modules/system/page.tpl.php
 -------------------------------------
-page vars dsm(get_defined_vars())
+page vars dsm(get_defined_vars());
 -------------------------------------
 <?php print $base_path; ?>
 <?php print $is_front ?>

@@ -28,16 +28,6 @@ function dynamo_theme($existing, $type, $theme, $path) {
  );
 }
 
-/*
-* preprocess
-*
-*/
-
-function dynamo_preprocess_node(&$vars, $hook) {
-//	dsm($vars['body_classes']);
-
-//dsm($vars);
-}
 
 /*forms*/
 function dynamo_user_login_block($form){
@@ -79,8 +69,6 @@ function dynamo_comment_form($form){
 
 	return drupal_render($form);
 }
-
-
 
 
 /*
