@@ -80,6 +80,13 @@ function ding_content_node_info() {
       'has_title' => FALSE,
       'has_body' => FALSE,
     ),
+    'flexifield_text' => array(
+      'name' => t('Text'),
+      'module' => 'ding_content',
+      'description' => 'Flexifield container: A text block.',
+      'has_title' => FALSE,
+      'has_body' => FALSE,
+    ),
     'event' => array(
       'name' => t('Event'),
       'module' => 'ding_event',
