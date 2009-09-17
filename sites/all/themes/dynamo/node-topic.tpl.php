@@ -1,4 +1,5 @@
 <?php
+  dsm($node);
 /*
   dsm(get_defined_vars());
   dsm($node);
@@ -76,34 +77,21 @@ if($id_node){
 	  <h1><?php print $title;?></h1>
 	<?php } ?>
 
-	<div class="meta">
-	  
-		<?php print format_date($node->created, 'custom', "j F Y - H:i") ?> 
-    <i><?php print t('by'); ?></i> 
-		<span class="author"><?php print theme('username', $node); ?></span>	
-	</div>
-
-	<div class="content">
-  <?php ?>
-    <?php foreach ($field_flexifield_topic as $field) { ?>
-      <?php if ($field['type'] == 'flexifield_links') { ?>
-        <ul>
-          <?php foreach ($field['value']['field_links'] as $link) { ?>
-            <li><?php print l($link['title'], $link['url']); ?></li>
-          <?php } ?>
-        </ul>
-      <?php } else { ?>
-        <?php print $field['view'] ?>
-      <?php } ?>
-    <?php } ?>
-	</div>
-
 	<?php if (count($taxonomy)){ ?>
 	  <div class="taxonomy">
    	  <?php print $terms ?> 
 	  </div>  
 	<?php } ?>
 		
+
+	<div class="content">
+    <?php print $node->content['body']['#value'];?>
+
+    <?php foreach ($field_flexifield_topic as $field) { ?>
+      <?php print $field['view'] ?>
+    <?php } ?>
+	</div>
+
 
   <?php $similar_nodes = similarterms_list(variable_get('ding_similarterms_vocabulary_id', 0)); ?>
   <?php if (count($similar_nodes)) { ?>

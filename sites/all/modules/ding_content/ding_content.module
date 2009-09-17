@@ -64,12 +64,12 @@ function ding_content_node_info() {
       'module' => 'ding_content',
       'description' => 'A collection of links and Ting objects relevant to a specific topic, possibly related to a library.',
       'title_label' => t('Name'),
-      'has_body' => FALSE,
+      'body_label' => t('Description'),
     ),
-    'flexifield_links' => array(
-      'name' => t('Links'),
+    'flexifield_link' => array(
+      'name' => t('Link'),
       'module' => 'ding_content',
-      'description' => 'Flexifield container: A collection of links.',
+      'description' => 'Flexifield container: A link with a description.',
       'has_title' => FALSE,
       'has_body' => FALSE,
     ),
