@@ -43,17 +43,20 @@ if($event_end < format_date(time(), 'custom', 'U')) {
   	<div class="meta">
       <?php print $field_datetime_rendered ?>
       <?php print $field_library_ref_rendered ?>          
-        
-  		<?php /* if (count($taxonomy)){ ?>
-  		  <div class="taxonomy">
-  	   	  <?php print $terms ?> 
-  		  </div>  
-  		<?php } */ ?>
-
       <?php print $field_entry_price_rendered ?>
   	</div>
 	
-    <?php print $node->content['body']['#value'];?>
+
+
+		<?php 
+			//field_teaser
+				if($node->field_teaser[0]['value']){
+					print $node->field_teaser[0]['value'];
+				}else{
+					print strip_tags($node->content['body']['#value']);	
+				}
+			?>
+
 
 	<?php
 	// adding warning for event that has already occurred
