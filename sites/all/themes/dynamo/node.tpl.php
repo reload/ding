@@ -96,7 +96,7 @@ if($id_node){
 
 	<div class="meta">
 	  
-		<?php print format_date($node->created, 'custom', "j F Y - H:i") ?> 
+		<?php print format_date($node->created, 'custom', "j F Y") ?> 
     <i><?php print t('by'); ?></i> 
 		<span class="author"><?php print theme('username', $node); ?></span>	
 	</div>
