@@ -41,7 +41,6 @@
     	  {
     	  	print $node->teaser;
     	  }
-    
     ?>
 
 		 <?php //print t('pris:') . $node->field_entry_price[0]['value']; ?>

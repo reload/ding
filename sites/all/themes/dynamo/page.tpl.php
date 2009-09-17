@@ -1,4 +1,5 @@
 <?php // dsm(get_defined_vars()) ?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php print $language->language; ?>" lang="<?php print $language->language; ?>" dir="<?php print $language->dir; ?>">
 <!--
@@ -80,10 +81,18 @@
 	          			</div>
 								<?php } ?>
 								
+
 								<div id="content-main">
 									<?php print $content; ?>	
 								</div>
                 
+								<?php
+									// dsm(arg(0));
+									// if (arg(0) == 'user' && is_numeric(arg(1))){
+									// 	dsm('iser')	;
+									// }
+								?>
+
 
                 <?php if ($tabs){ ?>
                   <div class="tabs"><?php print $tabs; ?></div>

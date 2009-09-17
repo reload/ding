@@ -16,8 +16,8 @@ form .form-item{margin:0 0 0 0;}
 /* =======================================
 	panels list etc
 /* ------------------------------------- */
-.panel-left ul li{background:transparent url(../images/bg-divider.png) no-repeat left top; padding:10px 0px 10px 20px; margin:0;}
-	.panel-left ul li.first{background:none; padding:0 0 10px 20px} /*hmmm */
+.panel-left ul li{background:transparent url(../images/bg-divider.png) no-repeat left top; padding:10px 5px 10px 20px; margin:0;}
+	.panel-left ul li.first{background:none; padding:0 5px 10px 20px} /*hmmm */
 	.panel-left ul li li{background:none; padding:0px 10px 0px 0px; margin:0;}
 	.panel-left ul .node-teaser h3 {margin:0;}
 
@@ -154,6 +154,16 @@ Campaigns
 
 .campaign-image{margin:0 10px; width:220px; overflow:hidden;}
 
+
+
+/**/
+
+
+.view-user-comments-list .subject a,.view-user-comments-list .subject a:link,.view-user-comments-list .subject a:visited, .view-user-comments-list .subject a:active{background:none; color:#006a87; text-transform: none; font-size:10px;}
+
+
+
+
 /* =====================================
 basic elements
 /*--------------------------------------*/
@@ -217,8 +227,6 @@ buttons
 /*panels links*/
 div.more-link{padding:0 20px 0 0; }
 
-/*paddings */
-.view-empty,.feed, #user-profile-form,#node-form{margin:20px 0 0 20px;}
 
 /* =====================================
 drupal Messages
