@@ -12,7 +12,7 @@ Drupal.behaviors.addTingReferenceAutocomplete = function(context)
 			jQuery(event.target).parent().siblings('.ting-object-id').val(data[1]).change();
 		});
 
-		autocompleter.parents('td:first').find('input.ting-reference-type-radio').focus(function()
+		autocompleter.parents('.form-ting-reference').find('input.ting-reference-type-radio').focus(function()
 		{
 			type = jQuery(this).val();
 			path = Drupal.settings.tingReference.autocomplete[type];
@@ -55,7 +55,7 @@ Drupal.behaviors.showTingPreview = function(context)
 											$('.subjects', collections).replaceWith(jQuery(subjects));
 											$p.compile(collections, 'ting-preview');
 									
-											input.parents('td:first').find('.ting-reference-preview').html($p.render('ting-preview', data));											
+											input.parents('.form-ting-reference').find('.ting-reference-preview').html($p.render('ting-preview', data));											
 										});
 	});
 }
@@ -66,7 +66,7 @@ Drupal.behaviors.initPreview = function(context)
 	{
 		if (jQuery(e).val().length > 0)
 		{
-			if (jQuery(e).parents('td:first').find('.ting-reference-preview').children().size() < 1)
+			if (jQuery(e).parents('.form-ting-reference').find('.ting-reference-preview').children().size() < 1)
 			{
 				jQuery(e).change();
 			}
@@ -74,8 +74,8 @@ Drupal.behaviors.initPreview = function(context)
 	});
 
 	jQuery('.ting-reference-reset').click(function(event) {
-    jQuery(event.target).parents('td:first').find('.ting-reference-preview').html('');
-    jQuery(event.target).parents('td:first').find('.ting-object-id').val('');
+    jQuery(event.target).parents('.form-ting-reference').find('.ting-reference-preview').html('');
+    jQuery(event.target).parents('.form-ting-reference').find('.ting-object-id').val('');
     // Do not submit the form.
     event.preventDefault();
   });

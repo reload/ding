@@ -189,11 +189,14 @@ function ting_reference_widget_info() {
 function ting_reference_widget(&$form, &$form_state, $field, $items, $delta = 0) {
   _ting_reference_add_css_js();
 
+  $element['#prefix'] = '<div class="form-item form-ting-reference">';
+  $element['#suffix'] = '</div>';
+
   $element['ting_ref_type'] = array (
     '#type' => 'radios',
     '#title' => 'Reference type',
-    '#default_value' => isset($items[$delta]['ting_ref_type']) ? $items[$delta]['ting_ref_type'] : 'collection',
-    '#options' => array('object' => t('Ting object'), 'collection' => t('Ting collection')),
+    '#default_value' => !empty($items[$delta]['ting_ref_type']) ? $items[$delta]['ting_ref_type'] : 'collection',
+    '#options' => array('collection' => t('Ting collection'), 'object' => t('Ting object')),
     '#attributes' => array('class' => 'ting-reference-type-radio'),
 	);
 	
