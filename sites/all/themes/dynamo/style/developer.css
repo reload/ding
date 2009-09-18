@@ -142,4 +142,4 @@ a.alternative:link, a.alternative:visited { color: #000; }
 
 
 /* christian: style topic view */
-.topic-field-text, .topic-field-link { background:transparent url(../images/bg-divider.png) no-repeat scroll left top; padding-top: 5px; }
+.topic-field-text, .topic-field-link { background:transparent url(../images/bg-divider.png) no-repeat scroll left top; padding: 5px 0; }

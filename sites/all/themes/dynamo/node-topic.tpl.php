@@ -90,7 +90,7 @@ if($id_node){
     <?php foreach ($field_flexifield_topic as $field) { ?>
       <?php if ($field['type'] == 'flexifield_link') { ?>
         <div class="topic-field-link">
-          <?php print l($field['value']['field_link2'][0]['title'], $field['value']['field_link2'][0]['url']); ?><br />
+          <?php print l($field['value']['field_link'][0]['title'], $field['value']['field_link'][0]['url']); ?><br />
           <?php print check_plain($field['value']['field_teaser'][0]['value']); ?>
         </div>
       <?php } else if ($field['type'] == 'flexifield_text') { ?>
