@@ -269,7 +269,9 @@ function ting_reference_form_alter(&$form, $form_state, $form_id) {
 }
 
 function ting_reference_render_collection_template() {
-  module_load_include('php', 'ting', 'lib/ting-dbc-php5-client/lib/TingClient');
+  module_load_include('php', 'ting', 'lib/ting-dbc-php5-client/lib/result/object/TingClientObject');
+  module_load_include('php', 'ting', 'lib/ting-dbc-php5-client/lib/result/object/TingClientObjectCollection');
+  module_load_include('php', 'ting', 'lib/ting-dbc-php5-client/lib/result/object/data/TingClientDublinCoreData');
   
   $object = new TingClientObject();
   $object->id = 'id';
