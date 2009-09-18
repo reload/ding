@@ -19,10 +19,28 @@
  if (!empty($admin)) print $admin; 
 ?>
 
+
+<?php if ($help OR $messages) { ?>
+	<div id="drupal-messages">
+			<div id="messages-hide">
+				<a href="#">hide</a>	
+			</div>
+			
+ 	  <?php print $help ?>
+ 	  <?php print $messages ?>
+
+		</div>
+<?php } ?>
+
+<?php drupal_set_message(t('Message')); ?>
+
+
+
 <div id="container" class="clearfix">
 
     <div id="page" class="minheight">
       <div id="page-inner" class="clearfix">
+
 
         <<?php print $site_name_element; ?> id="site-name">
           <a href="<?php print $base_path; ?>" title="<?php print t('Home'); ?>" rel="home">
@@ -74,13 +92,8 @@
           	<div id="content">
               <div id="content-inner">
 
-    						<?php if ($help OR $messages) { ?>
-	          			<div id="drupal-messages">
-	                	  <?php print $help ?>
-	                	  <?php print $messages ?>
-	          			</div>
-								<?php } ?>
-								
+
+							
 
 								<div id="content-main">
 									<?php print $content; ?>	

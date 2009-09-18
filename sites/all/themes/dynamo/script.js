@@ -1,6 +1,13 @@
 $(document).ready(function() {
 
-		//password iphone thingie
+
+	//hide messages
+ 	$("#messages-hide a").click(function(event){
+			$('#drupal-messages').slideUp();
+	});
+
+
+	//password iphone thingie
 //		$('input:password').dPassword({
 		$('#edit-name').dPassword({
 				duration: 2000,
@@ -36,8 +43,6 @@ $(document).ready(function() {
        wrap: "last"
      });
 	}
-
-
 
 });
 
