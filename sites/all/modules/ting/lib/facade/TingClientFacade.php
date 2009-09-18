@@ -1,9 +1,8 @@
 <?php
 
 $includes = array('ting-dbc-php5-client/lib/TingClient',
-									'ting-dbc-php5-client/lib/adapter/request/http/TingClientDrupal6HttpRequestAdapter',
-									'ting-dbc-php5-client/lib/adapter/request/http/TingClientHttpRequestFactory',
-									'ting-dbc-php5-client/lib/adapter/response/json/TingClientJsonResponseAdapter',
+									'ting-dbc-php5-client/lib/adapter/http/TingClientDrupal6HttpRequestAdapter',
+									'ting-dbc-php5-client/lib/request/rest-json/RestJsonTingClientRequestFactory',
 									'ting-dbc-php5-client/lib/log/TingClientDrupalWatchDogLogger',
 									'addi-client/AdditionalInformationService');
 foreach ($includes as $include)
@@ -13,12 +12,15 @@ foreach ($includes as $include)
 
 class TingClientFacade {
 	
-	private static $format = 'json';
-	
 	/**
 	 * @var TingClient
 	 */
 	private static $client;
+
+	/**
+	 * @var TingClientRequestFactory
+	 */
+	private static $requestFactory;	
 	
 	/**
 	 * @return TingClient
@@ -26,17 +28,31 @@ class TingClientFacade {
 	private static function getClient() {
 		if (!isset(self::$client))
 		{
-			$baseUrl = variable_get('ting_server', false);
-			if (!$baseUrl) {
+			self::$client = new TingClient(new TingClientDrupal6HttpRequestAdapter(),
+																				new TingClientDrupalWatchDogLogger());
+		}
+		return self::$client;
+	}
+	
+	/**
+	 * @return TingClientRequestFactory
+	 */
+	private static function getRequestFactory()
+	{
+		if (!isset(self::$requestFactory))
+		{
+			$searchUrl = variable_get('ting_server', false);
+			if (!$searchUrl) {
 				throw new TingClientException('No Ting server defined');
 			}
 			$scanUrl = 'http://didicas.dbc.dk/openscan/server.php'; //TODO move this to administration
 			//Create client with default configuration: Drupal for requests and logging, json for format.
-			self::$client = new TingClient(new TingClientDrupal6HttpRequestAdapter(new TingClientHttpRequestFactory($baseUrl, $scanUrl)),
-																				new TingClientJsonResponseAdapter(),
-																				new TingClientDrupalWatchDogLogger());
+			self::$requestFactory = new RestJsonTingClientRequestFactory(array('search' => $searchUrl,
+																																									'scan' => $scanUrl,
+																																									'object' => $searchUrl,
+																																									'collection' => $searchUrl));
 		}
-		return self::$client;
+		return self::$requestFactory;
 	}
 	
 	/**
@@ -44,15 +60,15 @@ class TingClientFacade {
 	 * @return TingClientSearchResult
 	 */
 	public static function search($query, $page = 1, $resultsPerPage = 10, $options = array()) {
-		$searchRequest = new TingClientSearchRequest($query);
-		$searchRequest->setOutput(self::$format); //use json format per default
-		$searchRequest->setStart($resultsPerPage * ($page - 1) + 1);
-		$searchRequest->setNumResults($resultsPerPage);
+		$request = self::getRequestFactory()->getSearchRequest();
+		$request->setQuery($query);
+		$request->setStart($resultsPerPage * ($page - 1) + 1);
+		$request->setNumResults($resultsPerPage);
 		
-		$searchRequest->setFacets((isset($options['facets'])) ? $options['facets'] : array('facet.subject', 'facet.creator', 'dc.type', 'facet.date', 'facet.language'));
-		$searchRequest->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((sizeof($searchRequest->getFacets()) == 0) ? 0 : 10));
+		$request->setFacets((isset($options['facets'])) ? $options['facets'] : array('facet.subject', 'facet.creator', 'dc.type', 'facet.date', 'facet.language'));
+		$request->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((sizeof($request->getFacets()) == 0) ? 0 : 10));
 		
-		$searchResult = self::getClient()->search($searchRequest);
+		$searchResult = self::getClient()->execute($request);
 		
 		
 		//Decorate search result with additional information
@@ -73,12 +89,11 @@ class TingClientFacade {
 	 */
 	public static function scan($query, $numResults = 10)
 	{
-		$scanRequest = new TingClientScanRequest();
-		$scanRequest->setField('phrase.anyIndexes');
-		$scanRequest->setLower($query);
-		$scanRequest->setNumResults($numResults);
-		$scanRequest->setOutput('json');
-		return self::getClient()->scan($scanRequest);
+		$request = self::getRequestFactory()->getScanRequest();
+		$request->setField('phrase.anyIndexes');
+		$request->setLower($query);
+		$request->setNumResults($numResults);
+		return self::getClient()->execute($request);
 	}
 	
 	/**
@@ -87,7 +102,9 @@ class TingClientFacade {
 	 */
 	public static function getCollection($objectId)
 	{
-		$collection = self::getClient()->getCollection(new TingClientCollectionRequest($objectId, self::$format));
+		$request = self::getRequestFactory()->getCollectionRequest();
+		$request->setObjectId($objectId);
+		$collection = self::getClient()->execute($request);
 		return self::addCollectionInfo(self::addAdditionalInfo($collection));
 	}
 	
@@ -97,7 +114,9 @@ class TingClientFacade {
 	 */
 	public static function getObject($objectId)
 	{
-		$object = self::getClient()->getObject(new TingClientObjectRequest($objectId, self::$format));
+		$request = self::getRequestFactory()->getObjectRequest();
+		$request->setObjectId($objectId);
+		$object = self::getClient()->execute($request);
 		return array_shift(self::addAdditionalInfo(array($object)));
 	}
 
