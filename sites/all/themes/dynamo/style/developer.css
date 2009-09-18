@@ -140,3 +140,6 @@ a.alternative:link, a.alternative:visited { color: #000; }
 #ting-search-tabs li { padding: 0; }
 
 
+
+/* christian: style topic view */
+.topic-field-text, .topic-field-link { background:transparent url(../images/bg-divider.png) no-repeat scroll left top; padding-top: 5px; }

@@ -120,6 +120,18 @@ class TingClientFacade {
 		return array_shift(self::addAdditionalInfo(array($object)));
 	}
 
+	/**
+	 * @param string $localId
+	 * @return TingClientObject
+	 */
+	public static function getObjectByLocalId($localId)
+	{
+		$request = self::getRequestFactory()->getObjectRequest();
+		$request->setLocalId($localId);
+		$object = self::getClient()->execute($request);
+		return array_shift(self::addAdditionalInfo(array($object)));
+	}	
+	
 	private static function addCollectionInfo(TingClientObjectCollection $collection)
 	{
 		$collection->url = url('ting/collection/' . $collection->objects[0]->id, array('absolute' => true));
