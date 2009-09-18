@@ -72,4 +72,11 @@ Drupal.behaviors.initPreview = function(context)
 			}
 		}	
 	});
+
+	jQuery('.ting-reference-reset').click(function(event) {
+    jQuery(event.target).parents('td:first').find('.ting-reference-preview').html('');
+    jQuery(event.target).parents('td:first').find('.ting-object-id').val('');
+    // Do not submit the form.
+    event.preventDefault();
+  });
 }
