@@ -282,6 +282,19 @@ class AlmaClient {
     $doc = $this->request('patron/reservations/remove', $params);
     return TRUE;
   }
+
+  /**
+   * Renew a loan.
+   */
+  public function renew_loan($borr_card, $pin_code, $loan_ids) {
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'loans' => (is_array($loan_ids)) ? join(',', $loan_ids) : $loan_ids,
+    );
+    $doc = $this->request('patron/loans/renew', $params);
+    return TRUE;
+  }
 }
 
 /**

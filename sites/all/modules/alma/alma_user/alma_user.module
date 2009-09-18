@@ -239,12 +239,19 @@ function alma_user_login_validate($form, &$form_state) {
     return;
   }
 
-  $uid = alma_user_check_credentials($form_state['values']['name'], $form_state['values']['pass']);
+  // Remove everything from numbers from the “name” field to try and
+  // validate it as a library/borrower card.
+  $card = preg_replace('/\D+/', '', $form_state['values']['name']);
 
-  if ($uid && $account = user_load($uid)) {
-    global $user;
-    $user = $account;
-    user_authenticate_finalize($form_state['values']);
+  // Only try validation if we have 10 digits.
+  if (strlen($card) == 10) {
+    $uid = alma_user_check_credentials($card, $form_state['values']['pass']);
+
+    if ($uid && $account = user_load($uid)) {
+      global $user;
+      $user = $account;
+      user_authenticate_finalize($form_state['values']);
+    }
   }
 }
 
@@ -503,25 +510,28 @@ function alma_user_elements_reservation_process($element, $form_state) {
  * Implementation of loan form element.
  */
 function alma_user_elements_loan_process($element, $form_state) {
-  $element['#prefix'] = '<ul class="loan loan-' . $element['#loan']['id'] . '">';
-  $element['#suffix'] = '</ul>';
+  $element['#prefix'] = '<li class="loan loan-' . $element['#loan']['id'] . '">';
+  $element['#suffix'] = '</li>';
 
   $element['title'] = array(
-    '#value' => '<li class="title">' . $element['#loan']['id'] . '</li>',
-  );
-
-  $element['renew'] = array(
-    '#attributes' => array('class' => 'renew-' . $element['#loan']['id']),
-    '#prefix' => '<li class="renew">',
-    '#suffix' => '</li>',
+    '#value' => $element['#loan']['id'],
+    '#prefix' => '<div class="title">',
+    '#suffix' => '</div>',
   );
 
   if ($element['#loan']['is_renewable']) {
-    $element['renew']['#type'] = 'submit';
-    $element['renew']['#value'] = t('Renew');
+    $element['selected'] = array(
+      '#type' => 'checkbox',
+      '#prefix' => '<div class="select">',
+      '#suffix' => '</div>',
+    );
   }
   else {
-    $element['renew']['#value'] = t('Not renewable');
+    $element['not_renewable'] = array(
+      '#value' => t('Not renewable'),
+      '#prefix' => '<div class="select">',
+      '#suffix' => '</div>',
+    );
   }
 
   return $element;

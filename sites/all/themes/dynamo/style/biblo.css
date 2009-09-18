@@ -51,7 +51,9 @@
 .pane-event_list h3{background:#d1d9d7; padding:3px 10px; margin:5px 10px 0 10px;}
 .pane-event_list .view-event-list{margin:10px 0 0 0;}
 .pane-event_list .view-event-list .view-header{background:#d1d9d7; padding:3px 10px; margin:0 10px 0 14px;}
-.pane-event_list .view-event-list li {padding:5px 0 22px 17px; background:transparent url(../images/bg-divider-verysmall.png) no-repeat left bottom;  clear:both;} 
+/*.pane-event_list .view-event-list li {padding:5px 0 22px 17px; background:transparent url(../images/bg-divider-verysmall.png) no-repeat left bottom;  clear:both;} */
+.pane-event_list .view-event-list li {padding:8px 0 6px 17px; background:transparent url(../images/bg-divider-verysmall.png) no-repeat left top;  clear:both;} 
+
 	.pane-event_list .view-event-list li .calendar-leafs .leaf{height:65px; width:55px; float:left; padding:2px 0 0 0; background:transparent url(../images/bg-calender.png) no-repeat 0 0; overflow:hidden;}
 	.pane-event_list .view-event-list li .calendar-leafs .leaf.today{background:transparent url(../images/bg-calender.png) no-repeat 0 -64px; ;}
 	.pane-event_list .view-event-list li .calendar-leafs .info{ width:150px; float:left; overflow:hidden;padding:0 0 0 4px}
@@ -62,8 +64,9 @@
 .ding-box-pane .pane-library_feature_list ul.item-list{padding:8px 0 8px 12px;}	
 	.ding-box-pane .pane-library_feature_list ul.item-list li{width:95px; float:left; margin:0 ; padding:0 0 0 15px; background:transparent url(../images/ok.png) no-repeat left 3px; }
 
-
-.node-event .field-entry-price{font-weight:bold;}
+/*event*/
+#content .node-event .content .field-datetime {}
+#content .node-event .field-entry-price{font-weight:bold; display:inline;}
 
 /* ==========================================================================
 	library Right bars
@@ -124,8 +127,8 @@ body.node-type-page .panel-left{width:180px;}
 body.node-type-page .panel-threecol-left-stacked-right .panel-middle {width:515px; background:transparent url(../images/bg-divider-horizontalt.png) no-repeat left top;}
 
 ul.menu{list-style-position:inside; font-size:12px;}
-ul.menu li{list-style: none inside; margin:0; padding: 0 0 0 0px;}
-ul.menu li.leaf {font-size:10px; list-style: none outside;margin:0 0 0 20px;}
+ul.menu li{list-style: none inside; margin:0; padding: 0 0 0 0px; background:none;}
+ul.menu li.leaf { padding:0 0 0 0; font-size:10px; list-style: none outside; margin:0 0 0 20px;}
 
 
 ul.menu li.leaf a.active, ul.menu li.active-trail a{font-weight:bold; color:#006A87}
@@ -160,7 +163,12 @@ ul.menu li.expanded ul.menu li.expanded a{display:block}
 .node-teaser{width:700px; margin:0 0 0 0;}
 .panel-left .pane-node_body_title{margin:20px 0 0 20px;}
 
+.event-info {margin:0 0 20px 0;}
+	.event-info .event-date{margin:0 10px 0 0;}
+	.event-info .event-price{font-weight:bold;}
 
+
+.content .field-teaser{margin:10px 0;}
 
 /*medarbjedere*/
 .panel-left .view-library-staff-list ul{padding:0 0 0 10px;}
@@ -202,10 +210,6 @@ ul.item-list h3{margin:0 0 0 20px;}
 
 .content-top .pane-node_content{margin:0 20px 20px 0;}
 
-/*profiler */
-.node-profile .field-image{width:120px; height:120px;background:#eee;}
-#contact-mail-user{margin:0 0 0 20px;}
-.contact{background:#eee; padding: 3px 10px; color:#fff;}
 
 /*filters*/
 .view-filters{}

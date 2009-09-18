@@ -31,7 +31,6 @@
 	  </div>
 
 	  <?php print $library_links; ?>  
-
 	</div>
   
 	<div class="library-map">

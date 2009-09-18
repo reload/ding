@@ -155,11 +155,16 @@ function theme_ting_reference_formatter_default($element) {
   else {
     $collection = $facade->getCollection($element['#item']['ting_object_id']);
   }
-	if (!$collection) {
-		return t('Object not found.');
-	}
+  // For now we reuse the existing search result template and just replace the
+  // description with the one supplied by the editor.
+  if ($element['#item']['description']) {
+    $collection->objects[0]->data->description = array($element['#item']['description']);
+  }
+  if (!$collection) {
+    return t('Object not found.');
+  }
 
-	return theme('ting_search_collection', $collection);
+  return theme('ting_search_collection', $collection);
 }
 
 /**
@@ -182,31 +187,9 @@ function ting_reference_widget_info() {
  * Implementation of hook_widget().
  */
 function ting_reference_widget(&$form, &$form_state, $field, $items, $delta = 0) {
-	static $assetsLoaded;
-	
-	if (!isset($assetsLoaded))
-	{
-		$basePath = drupal_get_path('module', 'ting');
-	 	//Added modified version of jQuery autocomplete as default plugin uses q parameter
-	  drupal_add_js($basePath.'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.min.js', 'module', 'footer', TRUE);
-	  drupal_add_js($basePath.'/js/pure/js/pure.js', 'module', 'footer', TRUE);
-		drupal_add_css($basePath.'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.css', 'module');
-		
-	  $path = drupal_get_path('module', 'ting_reference');
-	  drupal_add_js($path.'/js/ting_reference.js', 'module', 'footer', TRUE);
-		drupal_add_js(array('tingReference' => array(
-													'autocomplete' => array(
-														'collection' => url('ting_reference/autocomplete/collection/js'), 
-														'object' => url('ting_reference/autocomplete/object/js')),
-													'referenceTemplate' => ting_reference_render_collection_template(),
-													'previewUrl' => url('ting_reference/collection/js')),
-		), 'setting', 'footer', TRUE);
-	  drupal_add_css($path.'/css/ting_reference.css', 'module');
+  _ting_reference_add_css_js();
 
-	  $assetsLoaded = true;
-	}
-	
-	$element['ting_ref_type'] = array (
+  $element['ting_ref_type'] = array (
     '#type' => 'radios',
     '#title' => 'Reference type',
     '#default_value' => isset($items[$delta]['ting_ref_type']) ? $items[$delta]['ting_ref_type'] : 'collection',
@@ -237,6 +220,53 @@ function ting_reference_widget(&$form, &$form_state, $field, $items, $delta = 0)
   return $element;
 }
 
+/**
+ * Add the CSS and JS required by ting_reference_widget().
+ */
+function _ting_reference_add_css_js() {
+  static $assetsLoaded;
+
+  if (!isset($assetsLoaded)) {
+    $basePath = drupal_get_path('module', 'ting');
+    //Added modified version of jQuery autocomplete as default plugin uses q parameter
+    drupal_add_js($basePath.'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.min.js', 'module', 'footer', TRUE);
+    drupal_add_js($basePath.'/js/pure/js/pure.js', 'module', 'footer', TRUE);
+    drupal_add_css($basePath.'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.css', 'module');
+
+    $path = drupal_get_path('module', 'ting_reference');
+    drupal_add_js($path.'/js/ting_reference.js', 'module', 'footer', TRUE);
+    drupal_add_js(array(
+      'tingReference' => array(
+        'autocomplete' => array(
+          'collection' => url('ting_reference/autocomplete/collection/js'), 
+          'object' => url('ting_reference/autocomplete/object/js'),
+        ),
+        'referenceTemplate' => ting_reference_render_collection_template(),
+        'previewUrl' => url('ting_reference/collection/js'),
+      ),
+    ), 'setting', 'footer', TRUE);
+    drupal_add_css($path.'/css/ting_reference.css', 'module');
+
+    $assetsLoaded = true;
+  }
+}
+
+/**
+ * Implementation of hook_form_alter().
+ *
+ * This is a workaround for a limition in Drupal's AHAH support. CSS and JS is
+ * not added to fields inserted via AHAH but assumes that the parent page
+ * already contains at least one element that includes the CSS/JS.
+ */
+function ting_reference_form_alter(&$form, $form_state, $form_id) {
+  if ($form['#id'] == 'node-form') {
+    foreach ($form['#field_info'] as $name => $field) {
+      if ($field['type'] == 'flexifield') {
+        _ting_reference_add_css_js();
+      }
+    }
+  }
+}
 
 function ting_reference_render_collection_template() {
   module_load_include('php', 'ting', 'lib/ting-dbc-php5-client/lib/TingClient');

@@ -366,7 +366,7 @@ function alma_user_forms_reservation_details_submit($form, &$form_state) {
 }
 
 /**
- * Reservation details form.
+ * Loan details form.
  */
 function alma_user_forms_loan_details($form_state, $account, $records) {
   $form = array();
@@ -376,39 +376,56 @@ function alma_user_forms_loan_details($form_state, $account, $records) {
     '#value' => $account,
   );
 
-  $form['renew_all'] = array(
-    '#type' => 'submit',
-    '#value' => t('Renew all'),
-    '#attributes' => array('class' => 'renew-all'),
-  );
-
   $form['loans'] = array(
     '#tree' => TRUE,
   );
 
   foreach (_alma_user_forms_group_loans($records) as $date => $group) {
-
-    $form['loans'][$date] = array(
-      '#type' => 'fieldset',
-      '#tree' => FALSE, // We don't want the value nested by date, only the presentation.
-    );
-
     if ($date == 'overdue') {
-      $form['loans'][$date]['#title'] = t('Overdue loans');
-      $form['loans'][$date]['#attributes']['class'] = 'overdue ';
+      $form['loans'][$date] = array(
+        '#value' => t('Overdue loans'),
+        '#prefix' => '<h4 class="loan-group overdue">',
+        '#suffix' => '</h4>',
+      );
     }
     else {
-      $form['loans'][$date]['#title'] = t('Due in @count days, @date', array('@date' => $date, '@count' => ceil((strtotime($date) - $_SERVER['REQUEST_TIME']) / 86400)));
+      $form['loans'][$date] = array(
+        '#value' => t('Due in @count days, @date', array('@date' => $date, '@count' => ceil((strtotime($date) - $_SERVER['REQUEST_TIME']) / 86400))),
+        '#prefix' => '<h4 class="loan-group">',
+        '#suffix' => '</h4>',
+      );
     }
 
     foreach ($group as $loan) {
-      $form['loans'][$date][$loan['id']] = array(
+      $form['loans'][$loan['id']] = array(
         '#type' => 'alma_loan',
         '#loan' => $loan,
       );
     }
   }
+
+  $form['renew'] = array(
+    '#type' => 'submit',
+    '#value' => t('Renew selected'),
+  );
+
   return $form;
+}
+
+/**
+ * Loan details submit handler.
+ */
+function alma_user_forms_loan_details_submit($form, $form_state) {
+  $selected = array();
+
+  foreach ($form_state['values']['loans'] as $key => $loan) {
+    if ($loan['selected']) {
+      $selected[] = $key;
+    }
+  }
+
+  $creds = alma_user_get_credentials($form_state['values']['account']);
+  alma_client_renew_loan($creds['borr_card'], $creds['pin_code'], $selected);
 }
 
 /**

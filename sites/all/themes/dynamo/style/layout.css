@@ -61,6 +61,9 @@ nav tabs
 .page-ting .content-left ul li a,
   .page-arrangementer .panel-left ul li a{color:#333; display:block;}
 
+.pane-categories_title ul.item-list li.first {padding:3px 4px 6px 10px;}
+
+
 body.page-arrangementer .panel-middle,
 	.tab-navigation-main{float:left; width:550px; background:transparent url(../images/bg-tab-navigation-content.png) no-repeat right top;}
 body.page-arrangementer .panel-middle .panel-pane, 
