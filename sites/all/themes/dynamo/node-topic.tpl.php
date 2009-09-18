@@ -88,7 +88,25 @@ if($id_node){
     <?php print $node->content['body']['#value'];?>
 
     <?php foreach ($field_flexifield_topic as $field) { ?>
-      <?php print $field['view'] ?>
+      <?php if ($field['type'] == 'flexifield_link') { ?>
+        <div class="topic-field-link">
+          <?php print l($field['value']['field_link2'][0]['title'], $field['value']['field_link2'][0]['url']); ?><br />
+          <?php print check_plain($field['value']['field_teaser'][0]['value']); ?>
+        </div>
+      <?php } else if ($field['type'] == 'flexifield_text') { ?>
+        <div class="topic-field-text">
+          <h4><?php print check_plain($field['value']['field_title'][0]['value']); ?></h4>
+          <p><?php print check_plain($field['value']['field_teaser'][0]['value']); ?></p>
+        </div>
+      <?php } else if ($field['type'] == 'flexifield_ting_refs') { ?>
+        <div class="topic-field-ting-refs">
+          <?php print $field['view'] ?>
+	      </div>
+      <?php } else { ?>
+        <div class="topic-field">
+          <?php print $field['view'] ?>
+	      </div>
+      <?php } ?>
     <?php } ?>
 	</div>
 
