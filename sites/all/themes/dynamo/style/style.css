@@ -198,7 +198,7 @@ buttons
 	.node .content p{}
 	.node .content img{margin:0 10px 10px 0; text-align:center; color:#aaa; background:#eee;}
 	.node .content ul{margin:0 0 15px 20px; padding:0 0 10px 0; clear:both;}
-	.node .content ul li{list-style-type: disc;}
+	.node .content ul li{list-style: disc outside url();}
 	.node .content a,.node .content a:link, .node .content a:visited,.node .content a:active {text-decoration: none;}
 	.node .content a:hover,.node .content a:focus {text-decoration: underline; background:#C9D3D7; }
 	.subject a,.subject a:link, .subject a:visited,.subject a:active {text-decoration: none; color:#fff;}	
