@@ -32,7 +32,7 @@
 		</div>
 <?php } ?>
 
-<?php drupal_set_message(t('Message')); ?>
+<?php // drupal_set_message(t('Message')); ?>
 
 
 
