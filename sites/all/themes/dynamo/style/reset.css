@@ -55,7 +55,7 @@ ul.breadcrumb li{display:inline; margin:0 0 0 10px;}
 * ------------------------------------- */
 /*messages*/
 div.messages{font-size:11px; line-height:17px; padding:10px; margin:10px; color:#036; background:#bdf; border:1px solid #ace;}
-div.warning{color:#840; background:#fe6;border-color:#ed5;}
+div.warning{color:#fff; background:#fe6;border-color:#ed5;}
 div.error {color:#DD2629; background:#e63; border-color:#d52;}
 div.status{color:#360; background:#cf8; border-color:#be7;}
 div.messages a,div.messages  a:link,div.messages  a:visited, div.messages a:active {color:#fff; text-decoration: underline;}

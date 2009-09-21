@@ -1,5 +1,4 @@
 <!--panels-twocol-left-stacked.tpl.php-->
-<!-- biblo -->
 <div class="panel-twocol-left-stacked clearfix" <?php if (!empty($css_id)) { print "id=\"$css_id\""; } ?>>
 
 	<div class="content-left">

@@ -38,7 +38,6 @@ if($fields['field_teaser_value']->content OR $fields['body']->content){
 
 
 <?php if($fields['edit_node']->content){ ?>
-	<br/>
 	<?php print $fields['edit_node']->content; ?>
 <?php } ?>
 
