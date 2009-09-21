@@ -484,6 +484,12 @@ function alma_user_elements_reservation_process($element, $form_state) {
       '#suffix' => '</li>',
     );
   }
+  else {
+    // If not selectable, output an empty div so our columns line up.
+    $element['not_selectable'] = array(
+      '#value' => '<li class="select"></li>',
+    );
+  }
 
   $element['title'] = array(
     '#value' => '<li class="title">' . $element['#reservation']['id'] . '</li>',

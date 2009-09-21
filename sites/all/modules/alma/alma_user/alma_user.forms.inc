@@ -264,7 +264,7 @@ function alma_user_forms_reservation_details($form_state, $account, $records) {
 
   $form['reservations'] = array(
     '#tree' => TRUE,
-    '#prefix' => '<ul class="reservations"><ul class="labels"><li class="title">' . t('Reservations') . '</li><li class="expires">' . t('Expires') . '</li><li class="pickup-branch">' . t('Pickup branch') . '</li><li class="queue">' . t('Queue position') . '</li><li class="select">' . t('Select') . '</li></ul>',
+    '#prefix' => '<ul class="reservations"><ul class="labels"><li class="select">' . t('Select') . '</li><li class="title">' . t('Reservations') . '</li><li class="expires">' . t('Expires') . '</li><li class="pickup-branch">' . t('Pickup branch') . '</li><li class="queue">' . t('Queue position') . '</li></ul>',
     '#suffix' => '</ul>',
   );
 
