@@ -189,6 +189,22 @@ class TingClientFacade {
 	{
 		//Add additional information info for cover images
 		$isbns = array();
+
+		$addiVariables = array(	'wsdlUrl' => 'addi_wdsl_url',
+														'username' => 'addi_username',
+														'group' => 'addi_group',
+														'password' => 'addi_password');
+		foreach ($addiVariables as $name => &$setting)
+		{
+			$setting = variable_get($setting, false);
+			if (!$name)
+			{
+				watchdog('TingClient', 'Additional Information service setting '.$name.' not set', array(), WATCHDOG_WARNING);
+				return $collection;
+			}
+		}
+		extract ($addiVariables);
+		$additionalInformationService = new AdditionalInformationService($wsdlUrl, $username, $group, $password);
 		
 		$objects = (isset($collection->objects)) ? $collection->objects : $collection;
 		
@@ -209,8 +225,6 @@ class TingClientFacade {
 	
 		if (sizeof($isbns) > 0)
 		{
-			//TODO: Move account information to admin settings page
-			$additionalInformationService = new AdditionalInformationService('netpunkt', '710100', 'Juni1706');
 			$additionalInformations = $additionalInformationService->getByIsbn($isbns);
 			
 			foreach ($additionalInformations as $id => $ai)

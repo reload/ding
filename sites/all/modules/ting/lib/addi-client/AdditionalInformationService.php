@@ -5,14 +5,14 @@ require_once(dirname(__FILE__).'/AdditionalInformation.php');
 
 class AdditionalInformationService {
 
-	static $wsdlUrl = 'http://forside.addi.dk/addi.wsdl';
-	
+	private $wsdlUrl;
 	private $username;
 	private $group;
 	private $password;
 
-	public function __construct($username, $group, $password)
+	public function __construct($wsdlUrl, $username, $group, $password)
 	{
+		$this->wsdlUrl = $wsdlUrl;
 		$this->username = $username;
 		$this->group = $group;
 		$this->password = $password;
@@ -36,7 +36,7 @@ class AdditionalInformationService {
 			$isbnIdentifiers[] = array('isbn' => $i);
 		}
 		
-		$client = new SoapClient('http://forside.addi.dk/addi.wsdl');
+		$client = new SoapClient($this->wsdlUrl);
 		$response = $client->additionalInformation(array(
 													'authentication' => $authInfo,
 													'identifier' => $isbnIdentifiers));
