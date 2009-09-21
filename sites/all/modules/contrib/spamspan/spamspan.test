@@ -1,5 +1,5 @@
 <?php
-// $Id: spamspan.test,v 1.1.2.1 2009/05/04 16:29:25 lakka Exp $
+// $Id: spamspan.test,v 1.1.2.2 2009/07/19 20:09:23 lakka Exp $
 
 /**
   * @file
@@ -151,5 +151,7 @@ class SpamSpanTestCase extends DrupalWebTestCase {
     $this->assertEqual(spamspan("<a href='mailto:email@example.com'>some <em>text</em></a>"),  '<span class="spamspan"><span class="u">email</span> [at] <span class="d">example [dot] com</span><span class="t"> (some <em>text</em>)</span></span>', "Test mailto: with nested tags");
     // with an email address as the tag contents
     $this->assertEqual(spamspan("<a href='mailto:email@example.com'>email@example.com</a>"),  '<span class="spamspan"><span class="u">email</span> [at] <span class="d">example [dot] com</span></span>', "Test mailto: with email as tag contents");
+    // with a URL parameter string
+    $this->assertEqual(spamspan("<a href='mailto:email@example.com?subject=subject'>some text</a>"),  '<span class="spamspan"><span class="u">email</span> [at] <span class="d">example [dot] com</span><span class="t"> (some text)</span></span>', "Test mailto: with a URL parameter string");
   }
 }
