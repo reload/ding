@@ -29,9 +29,7 @@ function ting_search_autocomplete_js() {
 				$terms[strtolower($term->name)] = $term;
 			}
 				
-			//TODO: Consider moving base url to admin settings
-			$openSpell = new OpenSpellService('http://didicas.dbc.dk/openspell/server.php', 'json');
-			$suggestions = $openSpell->getSuggestions($query);
+			$suggestions = TingClientFacade::getSpellSuggestions($query);
 			foreach ($suggestions as $suggestion)
 			{
 				if (!isset($terms[strtolower($suggestion->word)]))

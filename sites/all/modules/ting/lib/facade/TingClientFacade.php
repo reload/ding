@@ -46,11 +46,13 @@ class TingClientFacade {
 				throw new TingClientException('No Ting server defined');
 			}
 			$scanUrl = 'http://didicas.dbc.dk/openscan/server.php'; //TODO move this to administration
+			$spellUrl = 'http://didicas.dbc.dk/openspell/server.php';  //TODO move this to administration
 			//Create client with default configuration: Drupal for requests and logging, json for format.
 			self::$requestFactory = new RestJsonTingClientRequestFactory(array('search' => $searchUrl,
 																																									'scan' => $scanUrl,
 																																									'object' => $searchUrl,
-																																									'collection' => $searchUrl));
+																																									'collection' => $searchUrl,
+																																									'spell' => $spellUrl));
 		}
 		return self::$requestFactory;
 	}
@@ -131,6 +133,14 @@ class TingClientFacade {
 		$object = self::getClient()->execute($request);
 		return array_shift(self::addAdditionalInfo(array($object)));
 	}	
+	
+	public static function getSpellSuggestions($word, $numResults = 10)
+	{
+		$request = self::getRequestFactory()->getSpellRequest();
+		$request->setWord($word);
+		$request->setNumResults($numResults);
+		return self::getClient()->execute($request);
+	}
 	
 	private static function addCollectionInfo(TingClientObjectCollection $collection)
 	{
