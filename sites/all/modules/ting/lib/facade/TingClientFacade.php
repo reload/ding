@@ -41,18 +41,23 @@ class TingClientFacade {
 	{
 		if (!isset(self::$requestFactory))
 		{
-			$searchUrl = variable_get('ting_server', false);
-			if (!$searchUrl) {
-				throw new TingClientException('No Ting server defined');
+			$urlVariables = array(	'search' => 'ting_search_url',
+														 	'scan' => 'ting_scan_url',
+															'object' => 'ting_search_url',
+															'collection' => 'ting_search_url',
+															'spell' => 'ting_spell_url',
+															'recommendation' => 'ting_recommendation_server');
+			
+			$urls = array();
+			foreach ($urlVariables as $name => $setting)
+			{
+				$urls[$name] = variable_get($setting, false);
+				if (!$urls[$name]) {
+					throw new TingClientException('No Ting webservice url defined for '.$name);
+				}
 			}
-			$scanUrl = 'http://didicas.dbc.dk/openscan/server.php'; //TODO move this to administration
-			$spellUrl = 'http://didicas.dbc.dk/openspell/server.php';  //TODO move this to administration
-			//Create client with default configuration: Drupal for requests and logging, json for format.
-			self::$requestFactory = new RestJsonTingClientRequestFactory(array('search' => $searchUrl,
-																																									'scan' => $scanUrl,
-																																									'object' => $searchUrl,
-																																									'collection' => $searchUrl,
-																																									'spell' => $spellUrl));
+			
+			self::$requestFactory = new RestJsonTingClientRequestFactory($urls);
 		}
 		return self::$requestFactory;
 	}
