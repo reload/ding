@@ -20,13 +20,17 @@ function production_site_menu() {
 }
 
 /**
- * Implementation of hook_init().
+ * Preprocessor for page variables.
+ *
+ * Adds our dev-site warning to the end of messages. We do this
+ * manually, since drupal_set_message on every page load causes problems
+ * with AJAX calls and such things.
  */
-function production_site_init() {
+function production_site_preprocess_page(&$variables) {
   $prod = production_site_detect();
 
   if (!$prod && $GLOBALS['user']->uid > 0) {
-    drupal_set_message(t('Currently working on development site. Changes made here will NOT appear on the live site and may be deleted or overwritten at any time.'));
+    $variables['messages'] .= '<div class="messages warning production-site">' . t('Currently working on development site. Changes made here will NOT appear on the live site and may be deleted or overwritten at any time.') . '</div>';
   }
 }
 
