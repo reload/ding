@@ -1,0 +1,13 @@
+; $Id: oembed.info,v 1.1 2009/08/14 14:21:35 voxpelli Exp $
+package = oEmbed
+name = oEmbed Filter
+description = Replaces oEmbed-enabled URL:s with embedded content
+dependencies[] = oembedcore
+dependencies[] = filter
+core = 6.x
+; Information added by drupal.org packaging script on 2009-09-04
+version = "6.x-0.4"
+core = "6.x"
+project = "oembed"
+datestamp = "1252086956"
+

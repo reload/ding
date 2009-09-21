@@ -1,0 +1,12 @@
+; $Id: oembedprovider.info,v 1.1 2009/08/14 14:21:35 voxpelli Exp $
+package = oEmbed
+name = oEmbed Provider
+description = Turns you site into a oEmbed provider
+core = 6.x
+dependencies[] = oembedcore
+; Information added by drupal.org packaging script on 2009-09-04
+version = "6.x-0.4"
+core = "6.x"
+project = "oembed"
+datestamp = "1252086956"
+
