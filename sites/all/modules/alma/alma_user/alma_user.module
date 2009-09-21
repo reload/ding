@@ -477,6 +477,14 @@ function alma_user_elements_reservation_process($element, $form_state) {
   $element['#prefix'] = '<ul class="reservation reservation-' . $element['#reservation']['id'] . '">';
   $element['#suffix'] = '</ul>';
 
+  if ($element['#reservation']['status'] == 'active') {
+    $element['selected'] = array(
+      '#type' => 'checkbox',
+      '#prefix' => '<li class="select">',
+      '#suffix' => '</li>',
+    );
+  }
+
   $element['title'] = array(
     '#value' => '<li class="title">' . $element['#reservation']['id'] . '</li>',
   );
@@ -495,14 +503,6 @@ function alma_user_elements_reservation_process($element, $form_state) {
     '#value' =>  '<li class="queue">' . $element['#reservation']['queue_no'] . '</li>',
   );
 
-  if ($element['#reservation']['status'] == 'active') {
-    $element['selected'] = array(
-      '#type' => 'checkbox',
-      '#prefix' => '<li class="select">',
-      '#suffix' => '</li>',
-    );
-  }
-
   return $element;
 }
 
@@ -512,12 +512,6 @@ function alma_user_elements_reservation_process($element, $form_state) {
 function alma_user_elements_loan_process($element, $form_state) {
   $element['#prefix'] = '<li class="loan loan-' . $element['#loan']['id'] . '">';
   $element['#suffix'] = '</li>';
-
-  $element['title'] = array(
-    '#value' => $element['#loan']['id'],
-    '#prefix' => '<div class="title">',
-    '#suffix' => '</div>',
-  );
 
   if ($element['#loan']['is_renewable']) {
     $element['selected'] = array(
@@ -533,6 +527,12 @@ function alma_user_elements_loan_process($element, $form_state) {
       '#suffix' => '</div>',
     );
   }
+
+  $element['title'] = array(
+    '#value' => $element['#loan']['id'],
+    '#prefix' => '<div class="title">',
+    '#suffix' => '</div>',
+  );
 
   return $element;
 }
