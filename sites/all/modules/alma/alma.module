@@ -250,3 +250,73 @@ function alma_client_renew_loan($borr_card, $pin_code, $loan_ids) {
     return FALSE;
   }
 }
+
+/**
+ * Change phone number
+ *
+ * @param string $borr_card
+ *    Library patron's borrowing card number. Either just an arbitrary
+ *    number printed on their library card or their CPR-code.
+ * @param string $pin_code
+ *    Library patron's four digit PIN code.
+ * @param integer $number
+ *    New phone number.
+ * @param boolean $sms
+ *    If TRUE, the number can be used for SMS.
+ */
+function alma_client_add_phone_number($borr_card, $pin_code, $number, $sms = TRUE) {
+  try {
+    return alma_client()->add_phone_number($borr_card, $pin_code, $number, $sms);
+  }
+  catch (Exception $e) {
+    watchdog('alma_user', 'add_phone_number error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
+    return FALSE;
+  }
+}
+
+/**
+ * Change phone number
+ *
+ * @param string $borr_card
+ *    Library patron's borrowing card number. Either just an arbitrary
+ *    number printed on their library card or their CPR-code.
+ * @param string $pin_code
+ *    Library patron's four digit PIN code.
+ * @param integer $number
+ *    Existing phone number.
+ * @param integer $new_number
+ *    New phone number.
+ * @param boolean $sms
+ *    If TRUE, the number can be used for SMS.
+ */
+function alma_client_change_phone_number($borr_card, $pin_code, $number, $new_number, $sms = TRUE) {
+  try {
+    return alma_client()->change_phone_number($borr_card, $pin_code, $number, $new_number, $sms);
+  }
+  catch (Exception $e) {
+    watchdog('alma_user', 'change_phone_number error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
+    return FALSE;
+  }
+}
+
+/**
+ * Remove phone number
+ *
+ * @param string $borr_card
+ *    Library patron's borrowing card number. Either just an arbitrary
+ *    number printed on their library card or their CPR-code.
+ * @param string $pin_code
+ *    Library patron's four digit PIN code.
+ * @param string $number_id
+ *    The phone number ID. Usually the phone number itself.
+ */
+function alma_client_remove_phone_number($borr_card, $pin_code, $number_id) {
+  try {
+    return alma_client()->remove_phone_number($borr_card, $pin_code, $number_id);
+  }
+  catch (Exception $e) {
+    watchdog('alma_user', 'remove_phone_number error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
+    return FALSE;
+  }
+}
+

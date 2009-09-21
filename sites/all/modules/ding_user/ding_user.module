@@ -40,6 +40,10 @@ function ding_user_user($op, &$edit, &$account, $category = NULL) {
         if ($account->uid == 1 || ding_user_has_secure_role($account)) {
           $account->has_secure_role = TRUE;
         }
+        else {
+          $account->has_secure_role = FALSE;
+        }
+
         $account->secure_pass = db_result(db_query("SELECT pass FROM {ding_user} WHERE uid = %d LIMIT 1;", $account->uid));
       }
       break;
@@ -87,6 +91,10 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
       unset($form['links']);
       break;
     case 'user_profile_form':
+      // Add our own validation and submit handling.
+      $form['#validate'][] = 'ding_user_profile_validate';
+      $form['#submit'][] = 'ding_user_profile_submit';
+
       // Remove or hide the standard user account settings we don't need.
       unset($form['account']['pass']);
       $form['account']['name']['#type'] = 'value';

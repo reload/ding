@@ -295,6 +295,51 @@ class AlmaClient {
     $doc = $this->request('patron/loans/renew', $params);
     return TRUE;
   }
+
+  /**
+   * Add phone number
+   */
+  public function add_phone_number($borr_card, $pin_code, $number, $sms = TRUE) {
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'localCode' => $number,
+      'useForSms' => ($sms) ? 'yes' : 'no',
+    );
+    $doc = $this->request('patron/phoneNumbers/add', $params);
+    return TRUE;
+  }
+
+  /**
+   * Change phone number
+   */
+  public function change_phone_number($borr_card, $pin_code, $number, $new_number= FALSE, $sms = TRUE) {
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'phoneNumber' => $number,
+      'useForSms' => ($sms) ? 'yes' : 'no',
+    );
+
+    if ($new_number) {
+      $params['localCode'] = $new_number;
+    }
+    $doc = $this->request('patron/phoneNumbers/change', $params);
+    return TRUE;
+  }
+
+  /**
+   * Delete phone number
+   */
+  public function remove_phone_number($borr_card, $pin_code, $number) {
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'phoneNumber' => $number,
+    );
+    $doc = $this->request('patron/phoneNumbers/remove', $params);
+    return TRUE;
+  }
 }
 
 /**
