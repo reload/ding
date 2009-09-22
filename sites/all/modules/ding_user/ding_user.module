@@ -91,13 +91,19 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
       unset($form['links']);
       break;
     case 'user_profile_form':
+      $account = $form['_account']['#value'];
+
       // Add our own validation and submit handling.
       $form['#validate'][] = 'ding_user_profile_validate';
       $form['#submit'][] = 'ding_user_profile_submit';
 
       // Remove or hide the standard user account settings we don't need.
-      unset($form['account']['pass']);
-      $form['account']['name']['#type'] = 'value';
+      $form['account']['pass']['#type'] = 'value';
+
+      if (!$account->has_secure_role) {
+        $form['account']['name']['#type'] = 'value';
+        $form['account']['name']['#value'] = $account->name;
+      }
 
       // Add link to change admin password
       $form['change_password_link'] = array(
