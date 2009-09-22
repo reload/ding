@@ -7,8 +7,8 @@
 function template_preprocess_alma_user_status_block(&$variables) {
   $variables['wrapper_classes'] = '';
   // Use alma_name if available.
-  if (!empty($variables['user']->alma_name)) {
-    $variables['display_name'] = $variables['user']->alma_name;
+  if (!empty($variables['user']->display_name)) {
+    $variables['display_name'] = $variables['user']->display_name;
   }
   else {
     $variables['display_name'] = $variables['user']->name;

@@ -81,7 +81,6 @@ function alma_user_user($op, &$edit, &$account, $category = NULL) {
         // is loaded, so it's available everywhere the user is.
         $data = db_fetch_array(db_query("SELECT * FROM {alma_user} WHERE uid = %d LIMIT 1;", $account->uid));
         $account->alma_id = $data['alma_id'];
-        $account->alma_name = check_plain($data['alma_name']);
         $account->preferred_branch = $data['preferred_branch'];
       }
       break;
@@ -219,32 +218,26 @@ function alma_user_form_alter(&$form, $form_state, $form_id) {
       $account = $form['_account']['#value'];
       $creds = alma_user_get_credentials($account);
 
-      // Store the patron information for validation purposes.
-      $form['alma_user_patron_info'] = array(
-        '#type' => 'value',
-        '#value' => alma_client_get_patron_info($creds['borr_card'], $creds['pin_code']),
-      );
+      // When we have credentials available, make library patron
+      // information available for altering.
+      if (is_array($creds) && !empty($creds)) {
+        // Store the patron information for validation purposes.
+        $form['alma_user_patron_info'] = array(
+          '#type' => 'value',
+          '#value' => alma_client_get_patron_info($creds['borr_card'], $creds['pin_code']),
+        );
 
-      // Add our own validation and submit handling.
-      $form['#validate'][] = 'alma_user_profile_validate';
-      $form['#submit'][] = 'alma_user_profile_submit';
+        // Add our own validation and submit handling.
+        $form['#validate'][] = 'alma_user_profile_validate';
+        $form['#submit'][] = 'alma_user_profile_submit';
 
-      // Only users with a secure role are allowed to change their
-      // display names.
-      if ($form['_account']->has_secure_role) {
-        $form['account']['alma_user_name'] = array(
+        $form['account']['alma_user_phone'] = array(
           '#type' => 'textfield',
-          '#title' => t('Display name'),
-          '#description' => t('Your name as presented to the site users. Library transactions will still use your full name as provided by CPR.'),
+          '#title' => t('Phone number'),
+          '#description' => t('Phone number where the library can contact you. Is not published on the web site.'),
+          '#default_value' => $form['alma_user_patron_info']['#value']['phones'][0]['phone'],
         );
       }
-
-      $form['account']['alma_user_phone'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Phone number'),
-        '#description' => t('Phone number where the library can contact you. Is not published on the web site.'),
-        '#default_value' => $form['alma_user_patron_info']['#value']['phones'][0]['phone'],
-      );
       break;
   }
 }
@@ -253,10 +246,6 @@ function alma_user_form_alter(&$form, $form_state, $form_id) {
  * Validation for the user profile form.
  */
 function alma_user_profile_validate($form, &$form_state) {
-  if (isset($form_state['values']['alma_user_name'])) {
-    // TODO: Validation for display name?
-  }
-
   if (strlen($form_state['values']['alma_user_phone']) > 0) {
     $number = preg_replace('/\D+/', '', $form_state['values']['alma_user_phone']);
     if (strlen($number) != 8 && $number > 20000000) {
@@ -385,7 +374,8 @@ function alma_user_check_credentials($borr_card, $pin_code) {
     $user = user_save(NULL, $user_data);
 
     // Store Alma user reference in our own table.
-    db_query("INSERT INTO {alma_user} (uid, alma_id, alma_name) VALUES (%d, '%s', '%s');", $user->uid, $data['patron_id'], $data['patron_name']);
+    db_query("INSERT INTO {alma_user} (uid, alma_id) VALUES (%d, '%s');", $user->uid, $data['patron_id']);
+    db_query("INSERT INTO {ding_user} (uid, display_name) VALUES (%d, '%s');", $user->uid, $data['patron_name']);
 
     return($user->uid);
   }

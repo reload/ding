@@ -44,7 +44,20 @@ function ding_user_user($op, &$edit, &$account, $category = NULL) {
           $account->has_secure_role = FALSE;
         }
 
-        $account->secure_pass = db_result(db_query("SELECT pass FROM {ding_user} WHERE uid = %d LIMIT 1;", $account->uid));
+        $ding_user_data = db_fetch_array(db_query("SELECT pass, display_name FROM {ding_user} WHERE uid = %d LIMIT 1;", $account->uid));
+
+        if ($ding_user_data) {
+          $account->secure_pass = $ding_user_data['pass'];
+          $account->display_name = $ding_user_data['display_name'];
+          // For backwards compatibility, we still set alma_name.
+          // TODO: Remove this when its no longer used.
+          $account->alma_name = $ding_user_data['display_name'];
+        }
+        else {
+          // secure_pass = FALSE indicates that user doesn't have a row
+          // in {ding_user}.
+          $account->secure_pass = FALSE;
+        }
       }
       break;
     case 'delete':
@@ -93,22 +106,42 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
     case 'user_profile_form':
       $account = $form['_account']['#value'];
 
-      // Add our own validation and submit handling.
-      $form['#validate'][] = 'ding_user_profile_validate';
+      // Add our own submit handling.
       $form['#submit'][] = 'ding_user_profile_submit';
 
       // Remove or hide the standard user account settings we don't need.
       $form['account']['pass']['#type'] = 'value';
 
+      if ($account->has_secure_role || user_access('administer users'))  {
+        $form['account']['display_name'] = array(
+          '#type' => 'textfield',
+          '#title' => t('Display name'),
+          '#description' => t('Profile name as presented to the site users. Library transactions will still use your full name as provided by CPR.'),
+          '#required' => TRUE,
+          '#default_value' => $account->display_name,
+          '#weight' => -1,
+        );
+      }
+
       if (!$account->has_secure_role) {
         $form['account']['name']['#type'] = 'value';
         $form['account']['name']['#value'] = $account->name;
       }
+      else {
+        // Add link to change admin password
+        $form['change_password_link'] = array(
+          '#value' => l('Change admin password', 'user/' . $form['_account']['#value']->uid . '/change_pass'),
+        );
+      }
 
-      // Add link to change admin password
-      $form['change_password_link'] = array(
-        '#value' => l('Change admin password', 'user/' . $form['_account']['#value']->uid . '/change_pass'),
-      );
+      // Move the standard account controls down a bit.
+      if (isset($form['account']['status'])) {
+        $form['account']['status']['#weight'] = 1;
+      }
+
+      if (isset($form['account']['roles'])) {
+        $form['account']['roles']['#weight'] = 1;
+      }
       break;
   }
 }
@@ -131,6 +164,22 @@ function ding_user_login_validate($form, &$form_state) {
     global $user;
     $user = $account;
     user_authenticate_finalize($form_state['values']);
+  }
+}
+
+/**
+ * User profile submit handler.
+ */
+function ding_user_profile_submit($form, &$form_state) {
+  $account = $form['_account']['#value'];
+
+  if (isset($form_state['values']['display_name'])) {
+    if ($account->secure_pass === FALSE) {
+      db_queryd("INSERT INTO {ding_user} (uid, display_name) VALUES (%d, '%s');", $account->uid, $form_state['values']['display_name']);
+    }
+    elseif ($account->display_name != $form_state['values']['display_name']) {
+      db_queryd("UPDATE {ding_user} SET display_name = '%s' WHERE uid = %d;", $form_state['values']['display_name'], $account->uid);
+    }
   }
 }
 
@@ -192,5 +241,4 @@ function ding_user_check_password($password, $account) {
   $hash = _password_crypt($password, $account->secure_pass);
   return ($hash && $account->secure_pass == $hash);
 }
-
 
