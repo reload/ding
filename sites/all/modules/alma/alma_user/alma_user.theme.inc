@@ -14,6 +14,13 @@ function template_preprocess_alma_user_status_block(&$variables) {
     $variables['display_name'] = $variables['user']->name;
   }
 
+  if ($variables['user']->alma_id && !$variables['user']->has_secure_role) {
+    $variables['profile_link'] = 'user/' . $variables['user']->uid . '/profile';
+  }
+  else {
+    $variables['profile_link'] = 'user/' . $variables['user']->uid;
+  }
+
   if (empty($variables['user_status'])) {
     $variables['user_status_available'] = FALSE;
     if (!empty($variables['user']->alma_id)) {

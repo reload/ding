@@ -10,12 +10,12 @@
 	<div class="user">
 
 		<div class="logout">
-			<?php print l(t('log out'), 'logout', $options= array('attributes' => array('class' =>'logout')) );  ?>    
+			<?php print l(t('log out'), 'logout', array('attributes' => array('class' =>'logout'))); ?>
 		</div>
 
 		<h5><?php print t('Welcome'); ?></h5>
 		<div class="username">
-			<?php print l($display_name, 'user/' . $user->uid . '/profile', $options= array('attributes' => array('class' =>'username')) );  ?>                                                
+			<?php print l($display_name, $profile_link, array('attributes' => array('class' =>'username')));  ?>
 		</div>
 
 	</div>
@@ -41,11 +41,9 @@
 	    </li>
 	</ul>
 	<?php else: ?>
-
 	  <div class="status-unavailable">
 	    <?php print $status_unavailable_message; ?>
 	  </div>
-	
 	<?php endif; ?>
 </div>
 
