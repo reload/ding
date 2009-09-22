@@ -20,7 +20,7 @@
 
 	</div>
 
-	<?php if (!$user_status_unavailable){ ?>
+	<?php if ($user_status_available): ?>
 		<div class="cart">
 	    <div><?php print $cart_count; ?></div>
 	    <?php print l('Go to cart', 'patron/cart'); ?>
@@ -40,11 +40,12 @@
 				<div class="status"><span class="ok">ok</span></div>
 	    </li>
 	</ul>
-	<?php }else{ ?>
+	<?php else: ?>
 
 	  <div class="status-unavailable">
 	    <?php print $status_unavailable_message; ?>
 	  </div>
 	
-	<?php } ?>
+	<?php endif; ?>
 </div>
+
