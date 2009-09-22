@@ -277,6 +277,12 @@ function alma_user_profile_submit($form, &$form_state) {
   $creds = alma_user_get_credentials($account);
   $patron = $form_state['values']['alma_user_patron_info'];
 
+  if ($form_state['values']['mail'] != $account->mail) {
+    if (!empty($patron['mails'])) {
+      alma_client_change_email_address($creds['borr_card'], $creds['pin_code'], $patron['mails'][0]['id'], $form_state['values']['mail']);
+    }
+  }
+
   if (!empty($form_state['values']['alma_user_phone'])) {
     if (!empty($patron['phones'])) {
       // If user has a phone number, update it.

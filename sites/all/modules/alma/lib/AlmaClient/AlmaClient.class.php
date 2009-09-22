@@ -299,11 +299,11 @@ class AlmaClient {
   /**
    * Add phone number
    */
-  public function add_phone_number($borr_card, $pin_code, $number, $sms = TRUE) {
+  public function add_phone_number($borr_card, $pin_code, $new_number, $sms = TRUE) {
     $params = array(
       'borrCard' => $borr_card,
       'pinCode' => $pin_code,
-      'localCode' => $number,
+      'localCode' => $new_number,
       'useForSms' => ($sms) ? 'yes' : 'no',
     );
     $doc = $this->request('patron/phoneNumbers/add', $params);
@@ -313,17 +313,14 @@ class AlmaClient {
   /**
    * Change phone number
    */
-  public function change_phone_number($borr_card, $pin_code, $number, $new_number= FALSE, $sms = TRUE) {
+  public function change_phone_number($borr_card, $pin_code, $number_id, $new_number, $sms = TRUE) {
     $params = array(
       'borrCard' => $borr_card,
       'pinCode' => $pin_code,
-      'phoneNumber' => $number,
+      'phoneNumber' => $number_id,
+      'localCode' => $new_number,
       'useForSms' => ($sms) ? 'yes' : 'no',
     );
-
-    if ($new_number) {
-      $params['localCode'] = $new_number;
-    }
     $doc = $this->request('patron/phoneNumbers/change', $params);
     return TRUE;
   }
@@ -331,13 +328,57 @@ class AlmaClient {
   /**
    * Delete phone number
    */
-  public function remove_phone_number($borr_card, $pin_code, $number) {
+  public function remove_phone_number($borr_card, $pin_code, $number_id) {
     $params = array(
       'borrCard' => $borr_card,
       'pinCode' => $pin_code,
-      'phoneNumber' => $number,
+      'phoneNumber' => $number_id,
     );
     $doc = $this->request('patron/phoneNumbers/remove', $params);
+    return TRUE;
+  }
+
+  /**
+   * Add e-mail address
+   */
+  public function add_email_address($borr_card, $pin_code, $new_email) {
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'address' => $new_email,
+    );
+    $doc = $this->request('patron/email/add', $params);
+    return TRUE;
+  }
+
+  /**
+   * Change e-mail address
+   */
+  public function change_email_address($borr_card, $pin_code, $email_id, $new_email= FALSE) {
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'emailAddress' => $email_id,
+      'address' => $new_email,
+    );
+
+    if ($new_number) {
+      $params['localCode'] = $new_number;
+    }
+    $doc = $this->request('patron/email/change', $params);
+    return TRUE;
+  }
+
+  /**
+   * Delete e-mail address
+   */
+  public function remove_email_address($borr_card, $pin_code, $email_id) {
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'emailAddress' => $email_id,
+    );
+    $doc = $this->request('patron/email/remove', $params);
     return TRUE;
   }
 }

@@ -252,7 +252,7 @@ function alma_client_renew_loan($borr_card, $pin_code, $loan_ids) {
 }
 
 /**
- * Change phone number
+ * Add phone number
  *
  * @param string $borr_card
  *    Library patron's borrowing card number. Either just an arbitrary
@@ -282,16 +282,16 @@ function alma_client_add_phone_number($borr_card, $pin_code, $number, $sms = TRU
  *    number printed on their library card or their CPR-code.
  * @param string $pin_code
  *    Library patron's four digit PIN code.
- * @param integer $number
- *    Existing phone number.
+ * @param string $number_id
+ *    The phone number ID. Usually the phone number itself.
  * @param integer $new_number
  *    New phone number.
  * @param boolean $sms
  *    If TRUE, the number can be used for SMS.
  */
-function alma_client_change_phone_number($borr_card, $pin_code, $number, $new_number, $sms = TRUE) {
+function alma_client_change_phone_number($borr_card, $pin_code, $number_id, $new_number, $sms = TRUE) {
   try {
-    return alma_client()->change_phone_number($borr_card, $pin_code, $number, $new_number, $sms);
+    return alma_client()->change_phone_number($borr_card, $pin_code, $number_id, $new_number, $sms);
   }
   catch (Exception $e) {
     watchdog('alma_user', 'change_phone_number error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
@@ -316,6 +316,71 @@ function alma_client_remove_phone_number($borr_card, $pin_code, $number_id) {
   }
   catch (Exception $e) {
     watchdog('alma_user', 'remove_phone_number error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
+    return FALSE;
+  }
+}
+
+/**
+ * Add e-mail address
+ *
+ * @param string $borr_card
+ *    Library patron's borrowing card number. Either just an arbitrary
+ *    number printed on their library card or their CPR-code.
+ * @param string $pin_code
+ *    Library patron's four digit PIN code.
+ * @param integer $new_email
+ *    New e-mail address.
+ */
+function alma_client_add_email_address($borr_card, $pin_code, $new_email) {
+  try {
+    return alma_client()->add_email_address($borr_card, $pin_code, $new_email);
+  }
+  catch (Exception $e) {
+    watchdog('alma_user', 'add_email_address error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
+    return FALSE;
+  }
+}
+
+/**
+ * Change e-mail address
+ *
+ * @param string $borr_card
+ *    Library patron's borrowing card number. Either just an arbitrary
+ *    number printed on their library card or their CPR-code.
+ * @param string $pin_code
+ *    Library patron's four digit PIN code.
+ * @param integer $email_id
+ *    The e-mail address ID. Usually the e-mail address itself.
+ * @param integer $new_email
+ *    New e-mail address.
+ */
+function alma_client_change_email_address($borr_card, $pin_code, $email_id, $new_email) {
+  try {
+    return alma_client()->change_email_address($borr_card, $pin_code, $email_id, $new_email);
+  }
+  catch (Exception $e) {
+    watchdog('alma_user', 'change_email_address error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
+    return FALSE;
+  }
+}
+
+/**
+ * Remove e-mail address
+ *
+ * @param string $borr_card
+ *    Library patron's borrowing card number. Either just an arbitrary
+ *    number printed on their library card or their CPR-code.
+ * @param string $pin_code
+ *    Library patron's four digit PIN code.
+ * @param string $email_id
+ *    The e-mail address ID. Usually the e-mail address itself.
+ */
+function alma_client_remove_email_address($borr_card, $pin_code, $email_id) {
+  try {
+    return alma_client()->remove_email_address($borr_card, $pin_code, $email_id);
+  }
+  catch (Exception $e) {
+    watchdog('alma_user', 'remove_email_address error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
     return FALSE;
   }
 }
