@@ -440,7 +440,7 @@ function alma_user_get_credentials($account, $redirect=TRUE, $reset=FALSE) {
         list($creds[$account->alma_id]['borr_card'], $creds[$account->alma_id]['pin_code']) = explode('|', $data->data);
       }
       else {
-        if ($redirect) {
+        if ($redirect && $account->uid == $GLOBALS['user']->uid) {
           // Go fetch the credentials before we can show this page.
           drupal_goto('user/' . $account->uid . '/authenticate', drupal_get_destination());
         }
