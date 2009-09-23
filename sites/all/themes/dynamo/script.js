@@ -9,13 +9,13 @@ $(document).ready(function() {
 
 	//password iphone thingie
 //		$('input:password').dPassword({
-		$('#edit-name').dPassword({
+		$('#pageheader #edit-name').dPassword({
 				duration: 2000,
 				prefix: 'my_'
 		});
 
 	//label
-	  $("label").inFieldLabels({
+	  $("#pageheader label").inFieldLabels({
 			fadeOpacity:"0.2",
 			fadeDuration:"100"			
 		});

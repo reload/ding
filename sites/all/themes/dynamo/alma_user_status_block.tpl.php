@@ -15,12 +15,13 @@
 
 		<h5><?php print t('Welcome'); ?></h5>
 		<div class="username">
-			<?php print l($display_name, $profile_link, array('attributes' => array('class' =>'username')));  ?>
+			<?php print l($display_name, 'user/' . $user->uid . '/profile', array('attributes' => array('class' =>'username')));  ?>
+			<?php // print l($display_name, $profile_link, array('attributes' => array('class' =>'username')));  ?>
 		</div>
 
 	</div>
 
-	<?php if ($user_status_available): ?>
+<?php if ($user_status_available): ?>
 		<div class="cart">
 	    <div><?php print $cart_count; ?></div>
 	    <?php print l('Go to cart', 'patron/cart'); ?>
