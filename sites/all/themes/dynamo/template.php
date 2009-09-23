@@ -166,6 +166,15 @@ function return_terms_from_vocabulary($node, $vid){
  * Implementation of theme_username().
  */
 function dynamo_username($object) {
+  // We might get passed node objects or other strangeness, so if object
+  // doesn’t look like a user, try and load the user instead.
+  if ($object->uid && (!isset($object->pass) || !isset($object->login))) {
+    $account = user_load($object->uid);
+    if ($account) {
+      $object = $account;
+    }
+  }
+
   if ($object->uid && $object->name) {
     if (!empty($object->display_name)) {
       $name = $object->display_name;
@@ -176,7 +185,7 @@ function dynamo_username($object) {
 
     // Shorten the name when it is too long or it will break many tables.
     if (drupal_strlen($name) > 20) {
-      $name = drupal_substr($name, 0, 15) .'...';
+      $name = drupal_substr($name, 0, 15) .'…';
     }
 
     if (user_access('access user profiles')) {
