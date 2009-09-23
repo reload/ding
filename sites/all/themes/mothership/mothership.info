@@ -3,7 +3,7 @@ description = Theme for cleaning up that drupal html, and provide as a super dup
 screenshot  = screenshot.png
 core        = 6.x
 engine      = phptemplate
-
+;devversion beta4
 ;--------------------- regions -----------------------------
 regions[header]         = header
 regions[content_top]    = content top
@@ -65,8 +65,6 @@ settings[mothership_cleanup_comment_front]  = 0
 settings[mothership_cleanup_comment_loggedin]  = 0
 settings[mothership_cleanup_comment_user]  = 0
 
-settings[mothership_cleanup_views_format_header] = 0
-settings[mothership_cleanup_views_format_header_markup]  = h3
 settings[mothership_cleanup_views_first_last]  = 1
 settings[mothership_cleanup_views_zebra] = 0
 settings[mothership_cleanup_views_row_ident] = 1
@@ -83,4 +81,7 @@ settings[mothership_cleanup_links_baseclass]  = 1
 
 settings[mothership_stylesheet_load_order]  = 1
 settings[mothership_stylesheet_conditional]  = 1
+
+settings[mothership_cleanup_user_verified]  = 1
+
 ;--------------------- drupal.org packaging  ----------------------------
