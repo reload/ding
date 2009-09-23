@@ -22,15 +22,9 @@ if($id_node){
 
 <!-- node.tpl-->
 <?php if ($page == 0){ ?>
-<div<?php print $id_node . $classes; ?>>
+<div <?php print $id_node . $classes; ?>>
 
-  <div class="picture">
-    <?php
- 		if($field_image_rendered){
-			print $field_image_rendered; 	
-		}
-	?>
-  </div>
+  <div class="picture"><?php print $list_image; ?></div>
 
   <div class="content">
 
@@ -113,11 +107,10 @@ if($id_node){
 	<?php } ?>
 		
 
-  <?php $similar_nodes = similarterms_list(variable_get('ding_similarterms_vocabulary_id', 0)); ?>
-  <?php if (count($similar_nodes)) { ?>
-		<div class="ding-box-wide similar">		
+  <?php if ($similarterms) { ?>
+    <div class="ding-box-wide similar">
       <h3><?php print t('Similar'); ?></h3>
-      <?php print theme('similarterms', variable_get('similarterms_display_options', 'title_only'), $similar_nodes); ?>
+      <?php print $similarterms; ?>
     </div>
   <?php } ?>
 

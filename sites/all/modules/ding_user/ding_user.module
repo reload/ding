@@ -35,12 +35,74 @@ function ding_user_menu() {
  */
 function ding_user_user($op, &$edit, &$account, $category = NULL) {
   switch ($op) {
+    case 'form':
+      $form = array();
+      if ($account->has_secure_role || user_access('administer users'))  {
+        $form['account']['display_name'] = array(
+          '#type' => 'textfield',
+          '#title' => t('Display name'),
+          '#description' => t('Profile name as presented to the site users. Library transactions will still use your full name as provided by CPR.'),
+          '#required' => TRUE,
+          '#default_value' => $account->display_name,
+          '#weight' => -1,
+        );
+      }
+      return $form;
+    case 'register':
+      $form = array();
+
+      $form['display_name'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Display name'),
+        '#description' => t('Profile name as presented to the site users. Library transactions will still use your full name as provided by CPR.'),
+        '#required' => TRUE,
+        '#default_value' => $account->display_name,
+        '#weight' => -11,
+      );
+
+      return $form;
+    case 'insert':
+      db_query("INSERT INTO {ding_user} (uid, pass, display_name) VALUES (%d, '%s', '%s');", $account->uid, user_hash_password($edit['pass']), check_plain($edit['display_name']));
+
+      // According to hook_user docs, we should set the values we save
+      // to NULL.
+      $edit['display_name'] = NULL;
+      break;
+    case 'update':
+      if ($account->secure_pass === FALSE) {
+        db_query("INSERT INTO {ding_user} (uid, display_name) VALUES (%d, '%s');", $account->uid, check_plain($edit['display_name']));
+      }
+      elseif ($account->display_name != $edit['display_name']) {
+        db_query("UPDATE {ding_user} SET display_name = '%s' WHERE uid = %d;", check_plain($edit['display_name']), $account->uid);
+      }
+
+      // According to hook_user docs, we should set the values we save
+      // to NULL.
+      $edit['display_name'] = NULL;
+      break;
     case 'load':
       if ($account->uid) {
         if ($account->uid == 1 || ding_user_has_secure_role($account)) {
           $account->has_secure_role = TRUE;
         }
-        $account->secure_pass = db_result(db_query("SELECT pass FROM {ding_user} WHERE uid = %d LIMIT 1;", $account->uid));
+        else {
+          $account->has_secure_role = FALSE;
+        }
+
+        $ding_user_data = db_fetch_array(db_query("SELECT pass, display_name FROM {ding_user} WHERE uid = %d LIMIT 1;", $account->uid));
+
+        if ($ding_user_data) {
+          $account->secure_pass = $ding_user_data['pass'];
+          $account->display_name = $ding_user_data['display_name'];
+          // For backwards compatibility, we still set alma_name.
+          // TODO: Remove this when its no longer used.
+          $account->alma_name = $ding_user_data['display_name'];
+        }
+        else {
+          // secure_pass = FALSE indicates that user doesn't have a row
+          // in {ding_user}.
+          $account->secure_pass = FALSE;
+        }
       }
       break;
     case 'delete':
@@ -87,14 +149,30 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
       unset($form['links']);
       break;
     case 'user_profile_form':
-      // Remove or hide the standard user account settings we don't need.
-      unset($form['account']['pass']);
-      $form['account']['name']['#type'] = 'value';
+      $account = $form['_account']['#value'];
 
-      // Add link to change admin password
-      $form['change_password_link'] = array(
-        '#value' => l('Change admin password', 'user/' . $form['_account']['#value']->uid . '/change_pass'),
-      );
+      // Remove or hide the standard user account settings we don't need.
+      $form['account']['pass']['#type'] = 'value';
+
+      if (!$account->has_secure_role) {
+        $form['account']['name']['#type'] = 'value';
+        $form['account']['name']['#value'] = $account->name;
+      }
+      else {
+        // Add link to change admin password
+        $form['change_password_link'] = array(
+          '#value' => l('Change admin password', 'user/' . $form['_account']['#value']->uid . '/change_pass'),
+        );
+      }
+
+      // Move the standard account controls down a bit.
+      if (isset($form['account']['status'])) {
+        $form['account']['status']['#weight'] = 1;
+      }
+
+      if (isset($form['account']['roles'])) {
+        $form['account']['roles']['#weight'] = 1;
+      }
       break;
   }
 }
@@ -178,5 +256,4 @@ function ding_user_check_password($password, $account) {
   $hash = _password_crypt($password, $account->secure_pass);
   return ($hash && $account->secure_pass == $hash);
 }
-
 

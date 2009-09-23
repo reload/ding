@@ -36,16 +36,6 @@ function alma_user_menu() {
     'file' => 'alma_user.forms.inc',
   );
 
-  $items['user/%user/edit_contact_info'] = array(
-    'title' => 'Change contact information',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('alma_user_forms_edit_contact_info', 1),
-    'access callback' => 'alma_user_forms_access',
-    'access arguments' => array('edit_contact_info', 1),
-    'type' => MENU_CALLBACK,
-    'file' => 'alma_user.forms.inc',
-  );
-
   return $items;
 }
 
@@ -91,7 +81,6 @@ function alma_user_user($op, &$edit, &$account, $category = NULL) {
         // is loaded, so it's available everywhere the user is.
         $data = db_fetch_array(db_query("SELECT * FROM {alma_user} WHERE uid = %d LIMIT 1;", $account->uid));
         $account->alma_id = $data['alma_id'];
-        $account->alma_name = check_plain($data['alma_name']);
         $account->preferred_branch = $data['preferred_branch'];
       }
       break;
@@ -218,8 +207,6 @@ function alma_user_form_alter(&$form, $form_state, $form_id) {
       // Since the login name can be a user's CPR-number, that too is hidden.
       $form['name']['#type'] = 'password';
 
-      // Replace Drupal's standard user/pass authentication with our<D-d> own.
-
       // Add our own validation and submit handlers.
       array_unshift($form['#validate'], 'alma_user_login_validate');
       $form['#submit'][] = 'alma_user_login_submit';
@@ -227,6 +214,81 @@ function alma_user_form_alter(&$form, $form_state, $form_id) {
       // Remove the standard user login links.
       unset($form['links']);
       break;
+    case 'user_profile_form':
+      $account = $form['_account']['#value'];
+      $creds = alma_user_get_credentials($account);
+
+      // When we have credentials available, make library patron
+      // information available for altering.
+      if (is_array($creds) && !empty($creds)) {
+        // Store the patron information for validation purposes.
+        $form['alma_user_patron_info'] = array(
+          '#type' => 'value',
+          '#value' => alma_client_get_patron_info($creds['borr_card'], $creds['pin_code']),
+        );
+
+        // Add our own validation and submit handling.
+        $form['#validate'][] = 'alma_user_profile_validate';
+        $form['#submit'][] = 'alma_user_profile_submit';
+
+        $form['account']['alma_user_phone'] = array(
+          '#type' => 'textfield',
+          '#title' => t('Phone number'),
+          '#description' => t('Phone number where the library can contact you. Is not published on the web site.'),
+          '#default_value' => $form['alma_user_patron_info']['#value']['phones'][0]['phone'],
+        );
+      }
+      break;
+  }
+}
+
+/**
+ * Validation for the user profile form.
+ */
+function alma_user_profile_validate($form, &$form_state) {
+  if (strlen($form_state['values']['alma_user_phone']) > 0) {
+    $number = preg_replace('/\D+/', '', $form_state['values']['alma_user_phone']);
+    if (strlen($number) != 8 && $number > 20000000) {
+      form_set_error('account][alma_user_name', t('Phone number must be 8 digits.'));
+    }
+    else {
+      // If processed number was valid, set it as the correct value.
+      form_set_value($form['account']['alma_user_phone'], $number, $form_state);
+    }
+  }
+}
+
+/**
+ * Submit handler for the user profile form.
+ */
+function alma_user_profile_submit($form, &$form_state) {
+  $account = $form['_account']['#value'];
+  $creds = alma_user_get_credentials($account);
+  $patron = $form_state['values']['alma_user_patron_info'];
+
+  if ($form_state['values']['mail'] != $account->mail) {
+    if (!empty($patron['mails'])) {
+      alma_client_change_email_address($creds['borr_card'], $creds['pin_code'], $patron['mails'][0]['id'], $form_state['values']['mail']);
+    }
+  }
+
+  if (!empty($form_state['values']['alma_user_phone'])) {
+    if (!empty($patron['phones'])) {
+      // If user has a phone number, update it.
+      alma_client_change_phone_number($creds['borr_card'], $creds['pin_code'], $patron['phones'][0]['id'], $form_state['values']['alma_user_phone']);
+    }
+    else {
+      // If a phone number doesn't exist, add a new one.
+      alma_client_add_phone_number($creds['borr_card'], $creds['pin_code'], $form_state['values']['alma_user_phone']);
+    }
+  }
+  elseif (!empty($patron['phones'])) {
+    // If the user has cleared out his phone number field, remove all
+    // phone numbers from the database (not just the first, since then
+    // one of the others will just take its place, confusing the user).
+    foreach ($patron['phones'] as $phone) {
+      alma_client_remove_phone_number($creds['borr_card'], $creds['pin_code'], $phone['phone']);
+    }
   }
 }
 
@@ -312,7 +374,8 @@ function alma_user_check_credentials($borr_card, $pin_code) {
     $user = user_save(NULL, $user_data);
 
     // Store Alma user reference in our own table.
-    db_query("INSERT INTO {alma_user} (uid, alma_id, alma_name) VALUES (%d, '%s', '%s');", $user->uid, $data['patron_id'], $data['patron_name']);
+    db_query("INSERT INTO {alma_user} (uid, alma_id) VALUES (%d, '%s');", $user->uid, $data['patron_id']);
+    db_query("INSERT INTO {ding_user} (uid, display_name) VALUES (%d, '%s');", $user->uid, $data['patron_name']);
 
     return($user->uid);
   }
@@ -367,7 +430,7 @@ function alma_user_get_credentials($account, $redirect=TRUE, $reset=FALSE) {
         list($creds[$account->alma_id]['borr_card'], $creds[$account->alma_id]['pin_code']) = explode('|', $data->data);
       }
       else {
-        if ($redirect) {
+        if ($redirect && $account->uid == $GLOBALS['user']->uid) {
           // Go fetch the credentials before we can show this page.
           drupal_goto('user/' . $account->uid . '/authenticate', drupal_get_destination());
         }

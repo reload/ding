@@ -86,3 +86,16 @@ function alma_user_update_6002() {
   return $ret;
 }
 
+/**
+ * Implementation of hook_update_N().
+ *
+ * Drop alma_name.
+ */
+function alma_user_update_6003() {
+  $ret = array();
+
+  db_drop_field($ret, 'alma_user', 'alma_name');
+
+  return $ret;
+}
+

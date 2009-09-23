@@ -42,6 +42,13 @@ function ding_user_schema() {
         'default' => '',
         'description' => "User's password (hashed).",
       ),
+      'display_name' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "User's display name.",
+      ),
     ),
     'primary key' => array('uid'),
     'indexes' => array(
@@ -51,4 +58,21 @@ function ding_user_schema() {
 
   return $schema;
 }
-    
+
+/**
+ * Implementation of hook_update_N().
+ *
+ * Add a display name column.
+ */
+function ding_user_update_6001() {
+  $ret = array();
+  db_add_field($ret, 'ding_user', 'display_name', array(
+    'type' => 'varchar',
+    'length' => 255,
+    'not null' => TRUE,
+    'default' => '',
+    'description' => "User's display name.",
+  ));
+  return $ret;
+}
+

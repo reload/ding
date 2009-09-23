@@ -143,35 +143,6 @@ function alma_user_forms_change_pin_submit($form, &$form_state) {
 }
 
 /**
- * Change contact information form.
- */
-function alma_user_forms_edit_contact_info($form_state, $account) {
-  $form = array();
-
-  $form['account'] = array(
-    '#type' => 'value',
-    '#value' => $account,
-  );
-
-  $form['mail'] = array(
-    '#type' => 'textfield',
-    '#title' => t('E-mail address'),
-  );
-
-  $form['phone'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Mobile phone'),
-  );
-
-  $form['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Save new contact information'),
-  );
-
-  return $form;
-}
-
-/**
  * User library settings form.
  */
 function alma_user_forms_library_settings($form_state, $account) {

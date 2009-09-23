@@ -38,21 +38,30 @@ function ding_slug_ctools_arguments() {
  * Implementation of hook_token_list().
  */
 function ding_slug_token_list($type = 'all') {
+  $tokens = array();
   if ($type == 'node' || $type == 'all') {
-    $tokens = array();
     $tokens['node']['ding_slug'] = t('Slug for the current node');
     $tokens['node']['ding_library_slug'] = t('Slug for the library');
-    return $tokens;
+    if (function_exists('ding_user_user')) {
+      $tokens['user']['ding_user_display_name'] = t('Node author display name');
+      $tokens['user']['ding_user_display_name_raw'] = t('Node author display name (unfiltered)');
+    }
   }
+  elseif (($type == 'user' || $type == 'all') && function_exists('ding_user_user')) {
+    $tokens['user']['ding_user_display_name'] = t('User display name');
+    $tokens['user']['ding_user_display_name_raw'] = t('User display name (unfiltered)');
+  }
+
+  return $tokens;
 }
 
 /**
  * Implementation of hook_token_values().
  */
 function ding_slug_token_values($type, $object = NULL, $options = array()) {
+  $tokens = array();
   if ($type == 'node') {
     $node = $object;
-    $tokens = array();
 
     // If node has a slug, use that.
     if (isset($node->ding_slug)) {
@@ -102,8 +111,34 @@ function ding_slug_token_values($type, $object = NULL, $options = array()) {
       $tokens['ding_library_slug'] = '';
     }
 
-    return $tokens;
+    if (function_exists('ding_user_user')) {
+      $account = user_load($node->uid);
+
+      if ($account && !empty($account->display_name)) {
+        $name = $account->display_name;
+      }
+      else {
+        $name = $node->name;
+      }
+
+      $tokens['ding_user_display_name'] = check_plain($name);
+      $tokens['ding_user_display_name_raw'] = $name;
+    }
   }
+  elseif ($type == 'user') {
+    $account = user_load($object->uid);
+    if ($account && !empty($account->display_name)) {
+      $name = $account->display_name;
+    }
+    else {
+      $name = $account->name;
+    }
+
+    $tokens['ding_user_display_name'] = check_plain($name);
+    $tokens['ding_user_display_name_raw'] = $name;
+  }
+
+  return $tokens;
 }
 
 /**
