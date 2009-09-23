@@ -20,8 +20,7 @@
 		</div>
 
 	</div>
-
-<?php if ($user_status_available): ?>
+	<?php if (!$user_status_available): ?>
 		<div class="cart">
 	    <div><?php print $cart_count; ?></div>
 	    <?php print l('Go to cart', 'patron/cart'); ?>
