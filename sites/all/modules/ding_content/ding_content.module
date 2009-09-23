@@ -101,8 +101,13 @@ function ding_content_node_info() {
  * Implementation of hook_access().
  */
 function ding_content_access($op, $node, $account = NULL) {
-  if (is_null($account)) {
-    $account = $GLOBALS['user'];
+  // For nodes that have not been created yet, the $node parameter
+  // actually contains the type name.
+  if ($node instanceOf stdClass) {
+    $type = $node->type;
+  }
+  else {
+    $type = $node;
   }
 
   $permissions = array(
@@ -117,9 +122,9 @@ function ding_content_access($op, $node, $account = NULL) {
       'delete' => 'delete feature',
     ),
     'profile' => array(
-      'create' => 'create article',
-      'update' => 'edit article',
-      'delete' => 'delete article',
+      'create' => 'create profile',
+      'update' => 'edit profile',
+      'delete' => 'delete profile',
     ),
     'topic' => array(
       'create' => 'create event',
@@ -133,8 +138,8 @@ function ding_content_access($op, $node, $account = NULL) {
     ),
   );
 
-  if (isset($permissions[$node->type][$op])) {
-    return user_access($permissions[$node->type][$op], $account);
+  if (isset($permissions[$type][$op])) {
+    return user_access($permissions[$type][$op], $account);
   }
 }
 
