@@ -35,6 +35,51 @@ function ding_user_menu() {
  */
 function ding_user_user($op, &$edit, &$account, $category = NULL) {
   switch ($op) {
+    case 'form':
+      $form = array();
+      if ($account->has_secure_role || user_access('administer users'))  {
+        $form['account']['display_name'] = array(
+          '#type' => 'textfield',
+          '#title' => t('Display name'),
+          '#description' => t('Profile name as presented to the site users. Library transactions will still use your full name as provided by CPR.'),
+          '#required' => TRUE,
+          '#default_value' => $account->display_name,
+          '#weight' => -1,
+        );
+      }
+      return $form;
+    case 'register':
+      $form = array();
+
+      $form['display_name'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Display name'),
+        '#description' => t('Profile name as presented to the site users. Library transactions will still use your full name as provided by CPR.'),
+        '#required' => TRUE,
+        '#default_value' => $account->display_name,
+        '#weight' => -11,
+      );
+
+      return $form;
+    case 'insert':
+      db_query("INSERT INTO {ding_user} (uid, pass, display_name) VALUES (%d, '%s', '%s');", $account->uid, user_hash_password($edit['pass']), check_plain($edit['display_name']));
+
+      // According to hook_user docs, we should set the values we save
+      // to NULL.
+      $edit['display_name'] = NULL;
+      break;
+    case 'update':
+      if ($account->secure_pass === FALSE) {
+        db_query("INSERT INTO {ding_user} (uid, display_name) VALUES (%d, '%s');", $account->uid, check_plain($edit['display_name']));
+      }
+      elseif ($account->display_name != $edit['display_name']) {
+        db_query("UPDATE {ding_user} SET display_name = '%s' WHERE uid = %d;", check_plain($edit['display_name']), $account->uid);
+      }
+
+      // According to hook_user docs, we should set the values we save
+      // to NULL.
+      $edit['display_name'] = NULL;
+      break;
     case 'load':
       if ($account->uid) {
         if ($account->uid == 1 || ding_user_has_secure_role($account)) {
@@ -106,22 +151,8 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
     case 'user_profile_form':
       $account = $form['_account']['#value'];
 
-      // Add our own submit handling.
-      $form['#submit'][] = 'ding_user_profile_submit';
-
       // Remove or hide the standard user account settings we don't need.
       $form['account']['pass']['#type'] = 'value';
-
-      if ($account->has_secure_role || user_access('administer users'))  {
-        $form['account']['display_name'] = array(
-          '#type' => 'textfield',
-          '#title' => t('Display name'),
-          '#description' => t('Profile name as presented to the site users. Library transactions will still use your full name as provided by CPR.'),
-          '#required' => TRUE,
-          '#default_value' => $account->display_name,
-          '#weight' => -1,
-        );
-      }
 
       if (!$account->has_secure_role) {
         $form['account']['name']['#type'] = 'value';
@@ -164,22 +195,6 @@ function ding_user_login_validate($form, &$form_state) {
     global $user;
     $user = $account;
     user_authenticate_finalize($form_state['values']);
-  }
-}
-
-/**
- * User profile submit handler.
- */
-function ding_user_profile_submit($form, &$form_state) {
-  $account = $form['_account']['#value'];
-
-  if (isset($form_state['values']['display_name'])) {
-    if ($account->secure_pass === FALSE) {
-      db_queryd("INSERT INTO {ding_user} (uid, display_name) VALUES (%d, '%s');", $account->uid, $form_state['values']['display_name']);
-    }
-    elseif ($account->display_name != $form_state['values']['display_name']) {
-      db_queryd("UPDATE {ding_user} SET display_name = '%s' WHERE uid = %d;", $form_state['values']['display_name'], $account->uid);
-    }
   }
 }
 
