@@ -162,22 +162,21 @@ function return_terms_from_vocabulary($node, $vid){
 }
 
 
+/**
+ * Implementation of theme_username().
+ */
 function dynamo_username($object) {
-
-//	 (!empty($user->alma_name)), 
   if ($object->uid && $object->name) {
-    // Shorten the name when it is too long or it will break many tables.
-    if (drupal_strlen($object->name) > 20) {
-      $name = drupal_substr($object->name, 0, 15) .'...';
+    if (!empty($object->display_name)) {
+      $name = $object->display_name;
     }
     else {
-			//alma name
-	 		if(!empty($object->alma_name)){
-		 		$name = $object->alma_name;
-			}else{
-				$name = $object->name;
-			} 			
-     
+      $name = $object->name;
+    }
+
+    // Shorten the name when it is too long or it will break many tables.
+    if (drupal_strlen($name) > 20) {
+      $name = drupal_substr($name, 0, 15) .'...';
     }
 
     if (user_access('access user profiles')) {
@@ -187,7 +186,7 @@ function dynamo_username($object) {
       $output = check_plain($name);
     }
   }
-  else if ($object->name) {
+  elseif ($object->name) {
     // Sometimes modules display content composed by people who are
     // not registered members of the site (e.g. mailing list or news
     // aggregator modules). This clause enables modules to display
