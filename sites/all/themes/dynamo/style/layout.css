@@ -56,7 +56,7 @@ nav tabs
 .tab-navigation,
   .page-arrangementer .panel-left ul.item-list{background:transparent url(../images/bg-tab-navigation-right.png) no-repeat right top;	}
 .tab-navigation li,
-  .page-arrangementer .panel-left ul li{width:115px;padding:3px 4px 6px 10px; margin:0 0 4px 0; font-size:10px; line-height:13px;text-transform: uppercase;  background:#fff url(../images/bg-tab.gif) repeat-y scroll top right; 	border: 1px solid #d1d9d7; 	border-right: 0px solid #d1d9d7;	}
+  .page-arrangementer .panel-left ul li{width:115px;padding:3px 4px 6px 10px; margin:0 0 4px 0; font-size:9px; line-height:13px;text-transform: uppercase;  background:#fff url(../images/bg-tab.gif) repeat-y scroll top right; 	border: 1px solid #d1d9d7; 	border-right: 0px solid #d1d9d7;	}
 .tab-navigation li.active,
   .page-arrangementer .panel-left ul li.active{border: 1px solid #d1d9d7;	background:#f3f5f5;}
 .page-ting .content-left ul li a,
