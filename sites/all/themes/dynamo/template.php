@@ -243,6 +243,11 @@ function dynamo_preprocess_node(&$variables) {
     }
   }
 
+  $similar_nodes = similarterms_list(variable_get('ding_similarterms_vocabulary_id', 0));
+  if (count($similar_nodes)) {
+    $variables['similarterms'] = theme('similarterms', variable_get('similarterms_display_options', 'title_only'), $similar_nodes);
+  }
+
   if ($variables['type'] == 'event') {
     $date = strtotime($node->field_datetime[0]['value']);
     $date2 = strtotime($node->field_datetime[0]['value2']);
