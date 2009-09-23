@@ -18,21 +18,13 @@ if($id_node){
   $id_node = ' id="' . $id_node . '"';  
 }
 
-// figure out if it's an event that has already occurred
-$alertbox = null;
-$event_end = format_date(strtotime($node->field_datetime[0]['value2']), 'custom', 'U');
-if($event_end < format_date(time(), 'custom', 'U')) {
-	$alertbox = '<div class="alert">' . t('NB! This event occurred in the past.') . '</div>';
-}
 ?>
 
 <!-- node-event.tpl-->
 <?php if ($page == 0){ ?>
 <div<?php print $id_node . $classes; ?>>
 
-  <div class="picture">
-    <?php print $field_image_rendered; ?>
-  </div>
+  <div class="picture"><?php print $list_image; ?></div>
 
   <div class="content">
 
@@ -83,46 +75,10 @@ if($event_end < format_date(time(), 'custom', 'U')) {
 
 	<div class="content">
 		<div class="event-info">
-			<span class="event-date">
-				<?php 
-				  $date = strtotime($node->field_datetime[0]['value']);
-				  $date2 = strtotime($node->field_datetime[0]['value2']);    
-
-				  if(date("Ymd", $date) == date("Ymd", $date2))
-				  {
-				  	print format_date($date, 'custom', "j. F Y");
-				  }
-				  elseif(date("Ym", $date) == date("Ym", $date2))
-				  {
-				  	print format_date($date, 'custom', "j.") . "-" . format_date($date2, 'custom', "j. F Y");
-				  }
-				  else
-				  {
-				  	print format_date($date, 'custom', "j. M.") . " - " . format_date($date2, 'custom', "j. M. Y");
-				  }
-				?>
-			</span>
-			<span class="event-price">
-				<?php
-
-					if($node->field_entry_price[0]['value'] == "0"){
-						print t('free');
-					}else{
-						print filter_xss($node->field_entry_price[0]['view']);
-					}
-				?>
-			</span>		
+      <span class="event-date"><?php print $event_date; ?></span>
+			<span class="event-price"><?php print $event_price; ?></span>
 		</div>
-				
-
-			<?php // print filter_xss($node->field_teaser[0]['view']); ?>					
-
-
-		<?php //print $node->content['body']['#value']; ?>
-
-
-
-		<?php  print $content ?>
+		<?php print $content ?>
 	</div>
 		
 	<div class="meta">

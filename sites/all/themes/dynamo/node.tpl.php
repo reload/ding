@@ -22,15 +22,9 @@ if($id_node){
 
 <!-- node.tpl-->
 <?php if ($page == 0){ ?>
-<div<?php print $id_node . $classes; ?>>
+<div <?php print $id_node . $classes; ?>>
 
-  <div class="picture">
-    <?php
- 		if($field_image_rendered){
-			print $field_image_rendered; 	
-		}
-	?>
-  </div>
+  <div class="picture"><?php print $list_image; ?></div>
 
   <div class="content">
 
