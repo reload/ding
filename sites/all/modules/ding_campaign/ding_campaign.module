@@ -83,13 +83,6 @@ function ding_campaign_node_info() {
  * Implementation of hook_access().
  */
 function ding_campaign_access($op, $node, $account = NULL) {
-  if (is_null($account)) {
-    $account = $GLOBALS['user'];
-  }
-
-  if ($node->type != 'campaign') {
-    return FALSE;
-  }
   switch ($op) {
     case 'create':
       return user_access('create campaign', $account);
