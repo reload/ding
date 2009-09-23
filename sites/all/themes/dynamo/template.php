@@ -29,6 +29,65 @@ function dynamo_theme($existing, $type, $theme, $path) {
 }
 
 
+
+
+/**
+ * Preprocess node template variables.
+ */
+function dynamo_preprocess_node(&$variables) {
+  $node = $variables['node'];
+  if (!$variables['page']) {
+    if (isset($variables['field_list_image_rendered']) && strlen($variables['field_list_image_rendered']) > 1) {
+      $variables['list_image'] = $variables['field_list_image_rendered'];
+    }
+    else {
+      $variables['list_image'] = '&nbsp;';
+    }
+  }
+
+  $similar_nodes = similarterms_list(variable_get('ding_similarterms_vocabulary_id', 0));
+  if (count($similar_nodes)) {
+    $variables['similarterms'] = theme('similarterms', variable_get('similarterms_display_options', 'title_only'), $similar_nodes);
+  }
+
+  if ($variables['type'] == 'event') {
+    $date = strtotime($node->field_datetime[0]['value']);
+    $date2 = strtotime($node->field_datetime[0]['value2']);
+
+    // Find out the end time of the event. If there's no specified end
+    // time, we’ll use the start time. If the event is in the past, we
+    // create the alert box.
+    if (($date2 > 0 && $date2 < $_SERVER['REQUEST_TIME']) || ($date > 0 && $date < $_SERVER['REQUEST_TIME'])) {
+      $variables['alertbox'] = '<div class="alert">' . t('NB! This event occurred in the past.') . '</div>';
+    }
+
+    // More human-friendly date formatting – try only to show the stuff
+    // that’s different when displaying a date range.
+    if(date("Ymd", $date) == date("Ymd", $date2)) {
+      $variables['event_date'] = format_date($date, 'custom', "j. F Y");
+    }
+    elseif(date("Ym", $date) == date("Ym", $date2)) {
+      $variables['event_date'] = format_date($date, 'custom', "j.") . "–" . format_date($date2, 'custom', "j. F Y");
+    }
+    else {
+      $variables['event_date'] = format_date($date, 'custom', "j. M.") . " – " . format_date($date2, 'custom', "j. M. Y");
+    }
+
+    // Display free if the price is zero.
+    if ($node->field_entry_price[0]['value'] == "0") {
+      $variables['event_price'] = t('free');
+    }
+    else{
+      $variables['event_price'] = filter_xss($node->field_entry_price[0]['view']);
+    }
+  }
+}
+
+function dynamo_preprocess_block(&$variables) {
+/*TODO*/
+}
+
+
 /*forms*/
 function dynamo_user_login_block($form){
 	$form['submit']['#type'] 	= "image_button" ;
@@ -228,56 +287,3 @@ function format_danmarc2($string){
 
 	return $string;
 }
-
-/**
- * Preprocess node template variables.
- */
-function dynamo_preprocess_node(&$variables) {
-  $node = $variables['node'];
-  if (!$variables['page']) {
-    if (isset($variables['field_list_image_rendered']) && strlen($variables['field_list_image_rendered']) > 1) {
-      $variables['list_image'] = $variables['field_list_image_rendered'];
-    }
-    else {
-      $variables['list_image'] = '&nbsp;';
-    }
-  }
-
-  $similar_nodes = similarterms_list(variable_get('ding_similarterms_vocabulary_id', 0));
-  if (count($similar_nodes)) {
-    $variables['similarterms'] = theme('similarterms', variable_get('similarterms_display_options', 'title_only'), $similar_nodes);
-  }
-
-  if ($variables['type'] == 'event') {
-    $date = strtotime($node->field_datetime[0]['value']);
-    $date2 = strtotime($node->field_datetime[0]['value2']);
-
-    // Find out the end time of the event. If there's no specified end
-    // time, we’ll use the start time. If the event is in the past, we
-    // create the alert box.
-    if (($date2 > 0 && $date2 < $_SERVER['REQUEST_TIME']) || ($date > 0 && $date < $_SERVER['REQUEST_TIME'])) {
-      $variables['alertbox'] = '<div class="alert">' . t('NB! This event occurred in the past.') . '</div>';
-    }
-
-    // More human-friendly date formatting – try only to show the stuff
-    // that’s different when displaying a date range.
-    if(date("Ymd", $date) == date("Ymd", $date2)) {
-      $variables['event_date'] = format_date($date, 'custom', "j. F Y");
-    }
-    elseif(date("Ym", $date) == date("Ym", $date2)) {
-      $variables['event_date'] = format_date($date, 'custom', "j.") . "–" . format_date($date2, 'custom', "j. F Y");
-    }
-    else {
-      $variables['event_date'] = format_date($date, 'custom', "j. M.") . " – " . format_date($date2, 'custom', "j. M. Y");
-    }
-
-    // Display free if the price is zero.
-    if ($node->field_entry_price[0]['value'] == "0") {
-      $variables['event_price'] = t('free');
-    }
-    else{
-      $variables['event_price'] = filter_xss($node->field_entry_price[0]['view']);
-    }
-  }
-}
-

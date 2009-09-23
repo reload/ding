@@ -30,6 +30,8 @@ body.section-user	.panel-twocol-left-stacked .content-left{width:686px; margin:0
 	#alma-user-forms-library-settings label{float:left; margin:0 20px 0 0;}
 	#alma-user-forms-library-settings .form-item-select{padding:10px 0; border-bottom: 1px solid #eee;}
 	
+
+	
 /* user/[UID]/edit*/
 	/*	define the width*/
 	#user-profile-form{margin:0 0 50px 20px; width:500px;}
@@ -50,6 +52,10 @@ body.section-user	.panel-twocol-left-stacked .content-left{width:686px; margin:0
 
 	a.popups-processed{background:#ddd; -moz-border-radius: 3px; -webkit-border-radius: 3px; padding:2px 5px;}
 	a.popups-processed:hover{background:#bbb;}
+
+	#node-form{width:716px;}
+	#node-form th{font-weight:bold;}
+
 /* user/[UID]/status */
 	.pane-alma_user_debts_notice {}
 		.pane-alma_user_debts_notice em{font-weight: bold;}
@@ -92,4 +98,6 @@ body.section-user	.panel-twocol-left-stacked .content-left{width:686px; margin:0
 	#alma-user-forms-reservation-details .form-description{font-size:10px; color:#999;}
 	.form-button{padding:0 0 0 0px;}
 
+
+#contact-mail-user{width:700px;}
 	

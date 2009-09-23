@@ -32,9 +32,6 @@
 		</div>
 <?php } ?>
 
-<?php // drupal_set_message(t('Message')); ?>
-
-
 
 <div id="container" class="clearfix">
 
@@ -92,25 +89,24 @@
           	<div id="content">
               <div id="content-inner">
 
-
-							
+								<?php
+									/*if were in the user pages add the tabs in the top*/
+									if (arg(0) == 'user' && is_numeric(arg(1)) && $tabs){
+										print '<div class="tabs-user">' . $tabs . '</div>';
+									}
+								?>
 
 								<div id="content-main">
 									<?php print $content; ?>	
 								</div>
                 
 								<?php
-									// dsm(arg(0));
-									// if (arg(0) == 'user' && is_numeric(arg(1))){
-									// 	dsm('iser')	;
-									// }
+									if (arg(0) != 'user'  && $tabs){
+										print '<div class="tabs">' . $tabs . '</div>';
+									}
 								?>
 
 
-                <?php if ($tabs){ ?>
-                  <div class="tabs"><?php print $tabs; ?></div>
-                <?php }; ?>
-             
               </div>
           	</div>
 

@@ -32,6 +32,10 @@
 		background:transparent url(../images/bg-facetbrowser-footer.png) no-repeat center bottom;
 	}
 	
+	/*browser selected colors*/
+	#ting-facet-browser li.selected, #ting-facet-browser li.selected *{color:#000 !important;}
+	#ting-facet-browser li.selected {background:#A7AFB8 none repeat scroll 0 0 !important; border-color:#eee !important;}
+
 /*results*/
 #content form #search-form{padding:0 0 0 20px;}
 
@@ -68,6 +72,7 @@
 
 	#content-result .meta div{ display:inline;}
 
+.ui-tabs-panel {border:none;}
 
 /*spinner*/	
 #ting-search-spinner{margin: 10px auto 10px auto; text-align: center; width: 220px;}

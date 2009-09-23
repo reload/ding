@@ -10,7 +10,7 @@ form div{position:relative }
 #search label, #account label{position:absolute; top:0; left:0; color:#000;}
 form div.description{font-size:10px; line-height:12px; color:#999; padding:5px; width:400px;}
 
-form .form-item{margin:0 0 0 0;}
+#content form .form-item{margin:0 0 0 0; padding:10px 0; }
 
 
 /* =======================================
@@ -68,7 +68,7 @@ Account block
 
 	/**/	
 	#account-profile .cart{width:60px; height:46px; padding:0 12px 0 0; height:60px;float:left; background:transparent url(../images/bg-account-cart.gif) no-repeat left top; text-align:center;}
-		#account-profile .cart div{font-size:25px; padding:6px 0 0 20px;}
+		#account-profile .cart div.count{font-size:25px; margin:6px 0 0 20px; height:20px; width:30px;}
 		#account-profile .cart a{display:block; font-size:9px; margin:5px 0 0 0;}
 	/* material status */	
 	#account-profile ul{width:177px; float:left; background:transparent url(../images/bg-account-divider.gif) no-repeat left top;}
@@ -103,8 +103,8 @@ ul.pager li{margin:0 10px 0 0;}
 	ul.pager li.pager-next,
 	ul.pager li.pager-last,
 	ul.pager li.pager-previous,
-	ul.pager li.pager-first	{width:54px; height:24px; padding:3px 2px 0 2px; font-size:9px; float:left; text-align:center; background:transparent url(../images/bg-pager-link-nav.gif) no-repeat left top;}
-	#pager div.nav, ul.pager li{width:30px; height:24px;font-size:9px; padding:3px 2px 0 2px; float:left; text-align:center; background:transparent url(../images/bg-pager-link.gif) no-repeat left top;}	
+	ul.pager li.pager-first	{width:54px; height:24px; padding:6px 2px 0 2px; font-size:9px; float:left; text-align:center; background:transparent url(../images/bg-pager-link-nav.gif) no-repeat left top;}
+	#pager div.nav, ul.pager li{width:30px; height:24px;font-size:10px; padding:6px 2px 0 2px; float:left; text-align:center; background:transparent url(../images/bg-pager-link.gif) no-repeat left top;}	
 		#pager a.prev{background:transparent url(../images/arrow-pre.png) no-repeat left center; padding:0 0 0  5px;}
 		#pager a.next{background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0;}
 
