@@ -69,16 +69,18 @@ function ding_user_user($op, &$edit, &$account, $category = NULL) {
       $edit['display_name'] = NULL;
       break;
     case 'update':
-      if ($account->secure_pass === FALSE) {
-        db_query("INSERT INTO {ding_user} (uid, display_name) VALUES (%d, '%s');", $account->uid, check_plain($edit['display_name']));
-      }
-      elseif ($account->display_name != $edit['display_name']) {
-        db_query("UPDATE {ding_user} SET display_name = '%s' WHERE uid = %d;", check_plain($edit['display_name']), $account->uid);
-      }
+      if (isset($edit['display_name']) && !is_null($edit['display_name'])) {
+        if ($account->secure_pass === FALSE) {
+          db_query("INSERT INTO {ding_user} (uid, display_name) VALUES (%d, '%s');", $account->uid, check_plain($edit['display_name']));
+        }
+        elseif ($account->display_name != $edit['display_name']) {
+          db_query("UPDATE {ding_user} SET display_name = '%s' WHERE uid = %d;", check_plain($edit['display_name']), $account->uid);
+        }
 
-      // According to hook_user docs, we should set the values we save
-      // to NULL.
-      $edit['display_name'] = NULL;
+        // According to hook_user docs, we should set the values we save
+        // to NULL.
+        $edit['display_name'] = NULL;
+      }
       break;
     case 'load':
       if ($account->uid) {
