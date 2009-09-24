@@ -606,3 +606,58 @@ function alma_user_elements_loan_process($element, $form_state) {
   return $element;
 }
 
+/**
+ * Preprocessor for the user status template.
+ *
+ * Preprocessor needs to be in the module, since our theme.inc is not
+ * loaded if the template is overridden by a theme.
+ */
+function template_preprocess_alma_user_status_block(&$variables) {
+  $variables['wrapper_classes'] = '';
+  // Use alma_name if available.
+  if (!empty($variables['user']->display_name)) {
+    $variables['display_name'] = $variables['user']->display_name;
+  }
+  else {
+    $variables['display_name'] = $variables['user']->name;
+  }
+
+  if ($variables['user']->alma_id && !$variables['user']->has_secure_role) {
+    $variables['profile_link'] = 'user/' . $variables['user']->uid . '/profile';
+  }
+  else {
+    $variables['profile_link'] = 'user/' . $variables['user']->uid;
+  }
+
+  if (empty($variables['user_status'])) {
+    $variables['user_status_available'] = FALSE;
+    if (!empty($variables['user']->alma_id)) {
+      $variables['status_unavailable_message'] = t('Please !log_in to view your loaner status', array('!log_in' => l(t('log in'), 'user/' . $variables['user']->uid . '/authenticate')));
+    }
+    else {
+      // If user doesn't have an Alma ID, don't show a message, since we
+      // can't just log him in to get the status. This should usually
+      // only be the case for admin users.
+      $variables['status_unavailable_message'] = '';
+    }
+  }
+  else {
+    $variables['user_status_available'] = TRUE;
+    if ($variables['user_status']['loan_overdue_count'] > 0) {
+      $variables['wrapper_classes'] .= 'loans-overdue';
+    }
+    // Since the cart is not implemented yet, we'll just set its count to 0
+    $variables['cart_count'] = 0;
+  }
+}
+
+/**
+ * Preprocessor for the alma_user_personal_info template.
+ */
+function template_preprocess_alma_user_personal_info(&$variables) {
+  $variables['links'] = theme('item_list', array(
+    l('Edit contact information', 'user/' . $variables['account']->uid . '/edit_contact_info'),
+    l('Change PIN code', 'user/' . $variables['account']->uid . '/change_pin'),
+  ));
+}
+
