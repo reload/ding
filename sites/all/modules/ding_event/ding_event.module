@@ -25,7 +25,6 @@ function ding_event_theme() {
   return array(
     'ding_event_similar_events' => array(
       'arguments' => array('event_nids' => NULL),
-      'file' => 'ding_event.theme.inc',
       'template' => 'ding_event_similar_events',
       'preprocess functions' => array('ding_event_similar_events_preprocess'),
     ),
@@ -143,3 +142,15 @@ function ding_event_get_similar($node, $count = 5) {
   }
   return array_keys($events);
 }
+
+/**
+ * Variable preprocessing for the ding_event_similar_events template.
+ */
+function ding_event_similar_events_preprocess($variables) {
+  $variables['events'] = array();
+  // Load the node for each event, so Morten can theme them :)
+  foreach ($variables['event_nids'] as $nid) {
+    $variables['events'][$nid] = node_load($nid);
+  }
+}
+
