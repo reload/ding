@@ -77,6 +77,13 @@ function ting_search_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'ting_search.pages.inc',
   );
+  $items['ting/object/redirect'] = array(
+    'title' => 'Redirect to object based on local ID (links from bibliotek.dk).',
+    'page callback' => 'ting_search_pages_object_redirect',
+    'access arguments' => array('search content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'ting_search.pages.inc',
+  );
   $items['ting/cover'] = array(
     'title' => 'Display a photo of a Ting object',
     'page callback' => 'ting_search_cover',

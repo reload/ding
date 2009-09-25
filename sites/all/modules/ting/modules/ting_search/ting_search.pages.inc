@@ -18,6 +18,21 @@ function ting_search_pages_redirect() {
 }
 
 /**
+ * Redirec to object view based on local ID (used by bibliotek.dk).
+ */
+function ting_search_pages_object_redirect($local_id) {
+  module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
+
+  $facade = new TingClientFacade();
+  $object = $facade->getObjectByLocalId($local_id);
+  if (!$object) {
+    drupal_not_found();
+    exit;
+  }
+  drupal_goto($object->url);
+}
+
+/**
  * Return the URL of a photo of the object.
  */
 function ting_search_cover($preset, $object_id) {
