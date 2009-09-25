@@ -96,6 +96,11 @@ function ding_panels_content_preprocess_library_location(&$variables) {
   // plus a few special ones.
   $links = array();
   foreach ($node->field_links as $delta => $link) {
+    if (!$link['url']) {
+      // Workaround for http://drupal.org/node/336426.
+      continue;
+    }
+
     $links[$delta] = $link;
 
     // Extract the domain name from the link, and add it as a class.
