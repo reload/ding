@@ -21,14 +21,13 @@ function ting_search_pages_redirect() {
  * Return the URL of a photo of the object.
  */
 function ting_search_cover($preset, $object_id) {
-  module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
+  module_load_include('module', 'ting', 'ting');
 
   // $path is without the file_directory_path() prefix.
   $path = ting_search_cover_path($object_id);
 
   if (!file_exists(file_create_path($path))) {
-    $facade = new TingClientFacade();
-  	$object = $facade->getObject($object_id);
+  	$object = ting_get_object_by_id($object_id);
     if (!$object) {
       drupal_not_found();
       exit;
@@ -60,7 +59,7 @@ function ting_search_cover($preset, $object_id) {
  * JSON callback to search Ting.
  */
 function ting_search_pages_ting_js() {
-  module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
+  module_load_include('module', 'ting', 'ting');
   
   //Get users base query
   $query = (isset($_REQUEST['query'])) ? $_REQUEST['query'] : 'dc.title:danmark';
@@ -80,12 +79,10 @@ function ting_search_pages_ting_js() {
     $query .= ' AND '.implode(' AND ', $facetArray);
   }
 
-  $facade = new TingClientFacade();
-
   try {
     $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
     $resultsPerPage = 10;
-    $searchResult = $facade->search($query, $page, $resultsPerPage);
+    $searchResult = ting_do_search($query, $page, $resultsPerPage);
     $result = array(
       'page' => $page,
       'resultsPerPage' => $resultsPerPage,

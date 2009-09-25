@@ -17,24 +17,23 @@ function ting_search_autocomplete_js() {
 		}		
 		else
 		{
-			module_load_include('php', 'ting', 'lib/openspell-client/OpenSpellService');
-			module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
+			module_load_include('module', 'ting', 'ting');
 			
 			$terms = array();
 
-			$scanResults = TingClientFacade::scan($query, 10);
+			$scanResults = ting_do_scan($query, 10);
 			foreach ($scanResults->terms as $term)
 			{
 				$term->score = $term->count;
 				$terms[strtolower($term->name)] = $term;
 			}
 				
-			$suggestions = TingClientFacade::getSpellSuggestions($query);
+			$suggestions = ting_get_spell_suggestions($query);
 			foreach ($suggestions as $suggestion)
 			{
 				if (!isset($terms[strtolower($suggestion->word)]))
 				{
-					$suggestScan = TingClientFacade::scan($suggestion->word, 1);
+					$suggestScan = ting_do_scan($suggestion->word, 1);
 					if (($term = array_shift($suggestScan->terms)) &&
 							(strtolower($suggestion->word) == strtolower($term->name)))
 					{

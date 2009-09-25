@@ -5,14 +5,14 @@
  * JSON callback to Ting reference collection autocomplete
  */
 function ting_reference_collection_autocomplete_js() {
-	module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
+	module_load_include('module', 'ting', 'ting');
 	
 	$string = $_REQUEST['query'];
 	
 	$items = array();
 	if ($string && (strlen($string) > 0))
 	{
-		$searchResult = TingClientFacade::search($string, 1, 10, array('facets' => array()));
+		$searchResult = ting_do_search($string, 1, 10, array('facets' => array()));
 		foreach ($searchResult->collections as $collection)
 		{
 			$object = array_shift($collection->objects);
@@ -31,14 +31,14 @@ function ting_reference_collection_autocomplete_js() {
  * JSON callback to Ting reference collection autocomplete
  */
 function ting_reference_object_autocomplete_js() {
-	module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
+	module_load_include('module', 'ting', 'ting');
 
 	$string = $_REQUEST['query'];
 	
 	$items = array();
 	if ($string && (strlen($string) > 0))
 	{
-		$searchResult = TingClientFacade::search($string, 1, 10, array('useCollections' => 'false', 'facets' => array()));
+		$searchResult = ting_do_search($string, 1, 10, array('useCollections' => 'false', 'facets' => array()));
 		
 		foreach ($searchResult->collections as $collection)
 		{
@@ -72,8 +72,8 @@ function ting_reference_collection_js() {
 
 	if (isset($_REQUEST['id']))
 	{	
-		module_load_include('php', 'ting', 'lib/facade/TingClientFacade');
-		$object = TingClientFacade::getObject($_REQUEST['id']);
+		module_load_include('module', 'ting', 'ting');
+		$object = ting_get_object_by_id($_REQUEST['id']);
 		$collection = new TingClientObjectCollection(array($object));
 	}
 	
