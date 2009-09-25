@@ -220,7 +220,7 @@ function ting_add_collection_info(TingClientObjectCollection $collection)
 	
 function ting_sort_objects($collection)
 {
-	usort($collection->objects, array('ting_compare_objects'));
+	usort($collection->objects, 'ting_compare_objects');
 	$collection->objects = array_reverse($collection->objects);
 	
 	foreach ($collection->objects as $i => $object)
