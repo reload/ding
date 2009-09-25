@@ -9,10 +9,10 @@ $(document).ready(function() {
 
 	//password iphone thingie
 //		$('input:password').dPassword({
-		$('#pageheader #edit-name').dPassword({
-				duration: 2000,
-				prefix: 'my_'
-		});
+		// $('#pageheader #edit-name').dPassword({
+		// 		duration: 2000,
+		// 		prefix: 'my_'
+		// });
 
 	//label
 	  $("#pageheader label").inFieldLabels({
