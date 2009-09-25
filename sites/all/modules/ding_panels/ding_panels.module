@@ -69,6 +69,7 @@ function _ding_panels_content_theme_library_title_navigation($node, $base_path) 
     $links['events'] = l(t('Events'), $base_path . '/arrangementer');
     $links['facilities'] = l(t('Facilities'), $base_path . '/faciliteter');
     $links['about'] = l(t('About the library'), $base_path . '/om');
+    $links['local'] = l(t('Local'), $base_path . '/lokalt');
   }
   return $links;
 }

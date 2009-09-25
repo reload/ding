@@ -54,6 +54,10 @@ msgstr "Faciliteter"
 msgid "About the library"
 msgstr "Om biblioteket"
 
+#: ding_panels.module:72
+msgid "Local"
+msgstr "Lokalt"
+
 #: ding_panels.module:0
 msgid "ding_panels"
 msgstr "ding_panels"
