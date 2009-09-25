@@ -1,5 +1,4 @@
 <?php
-  dsm($node);
 /*
   dsm(get_defined_vars());
   dsm($node);
