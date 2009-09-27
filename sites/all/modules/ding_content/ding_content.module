@@ -21,15 +21,15 @@ function ding_content_perm() {
     'create event',
     'edit event',
     'delete event',
+    'create feature',
+    'edit feature',
+    'delete feature',
     'create profile',
     'edit profile',
     'delete profile',
     'create topic',
     'edit topic',
     'delete topic',
-    'create event',
-    'edit event',
-    'delete event',
   );
 }
 
