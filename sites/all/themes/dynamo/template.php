@@ -112,7 +112,6 @@ function dynamo_ting_search_form($form){
 }
 
 function dynamo_comment_form($form){
-//	dsm($form);
 	$form['comment_filter']['format']['#collapsed'] = FALSE;
 	unset($form['notify_clearit']);
 	unset($form['comment_filter']['format']);

@@ -1,5 +1,4 @@
 <?php 
-//dsm($collection);
 ?>
 <div id="ting-collection">
 	<div class="content-left">
@@ -25,7 +24,6 @@
 				<?php
 				// material types retrieved from preprocess hook...
 				
-				//	dpm($sorted_collection);
 				// show the common descriptor
 				$preferred_typekey = "Bog (Dansk)";
 					
@@ -49,8 +47,6 @@
 						break;
 					}
 				}
-				
-			//	dpm($common_object);
 				?>
 				
 				<div class="ting-overview clearfix">

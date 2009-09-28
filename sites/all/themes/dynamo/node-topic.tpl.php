@@ -1,10 +1,5 @@
 <?php
 /*
-  dsm(get_defined_vars());
-  dsm($node);
-  dsm($node->content);
-*/
-/*
 ad a class="" if we have anything in the $classes var
 this is so we can have a cleaner output - no reason to have an empty <div class="" id=""> 
 */

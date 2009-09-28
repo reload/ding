@@ -1,5 +1,11 @@
-<?php // dsm(get_defined_vars()) ?>
+<?php
+// $Id$
 
+/**
+ * @file page.tpl.php
+ * Main page template file for the dynamo theme.
+ */
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php print $language->language; ?>" lang="<?php print $language->language; ?>" dir="<?php print $language->dir; ?>">
 <!--
@@ -12,13 +18,10 @@
   <?php print $scripts; ?>
 </head>
 <body class="<?php print $body_classes; ?>">
-
-
 <?php 
 /*adds support for for the admin module*/
- if (!empty($admin)) print $admin; 
+  if (!empty($admin)) print $admin; 
 ?>
-
 
 <?php if ($help OR $messages) { ?>
 	<div id="drupal-messages">

@@ -1,6 +1,5 @@
 <!-- views-view-fields  event-list  page.tpl.php-->
 <?php 
-	//dsm($fields);
   //converts the date value to time
   $date = strtotime($fields['field_datetime_value']->raw);
 ?>
