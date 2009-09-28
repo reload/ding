@@ -71,7 +71,6 @@
 					<?php print theme('item_list',$object->data->identifier, t('Identifier'), 'span', array('class' => 'identifier'));?>	
 					<?php print theme('item_list',$object->data->subject, t('Subject'), 'span', array('class' => 'subject'));?>	
 					<?php print theme('item_list',$object->data->publisher, t('Publisher'), 'span', array('class' => 'publisher'));?>						
-					<?php print theme('item_list',$object->data->type, t('Type'), 'span', array('class' => 'type'));?>											
 					<?php print theme('item_list',$object->data->format, t('Format'), 'span', array('class' => 'format'));?>											
 					<?php print theme('item_list',$object->data->language, t('Language'), 'span', array('class' => 'language'));?>						
 					<?php print theme('item_list',$object->data->relation, t('Relation'), 'span', array('class' => 'relation'));?>											
