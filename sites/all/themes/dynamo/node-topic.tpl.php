@@ -81,10 +81,11 @@ if($id_node){
    	  <?php print $terms ?> 
 	  </div>  
 	<?php } ?>
-		
 
 	<div class="content">
-    <?php print $node->content['body']['#value'];?>
+    <div class="teaser">
+      <?php print check_plain($node->field_teaser[0]['value']); ?>
+    </div>
 
     <?php foreach ($field_flexifield_topic as $field) { ?>
       <?php if ($field['type'] == 'flexifield_link') { ?>
