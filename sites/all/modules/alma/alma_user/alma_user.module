@@ -613,26 +613,35 @@ function alma_user_elements_loan_process($element, $form_state) {
  * loaded if the template is overridden by a theme.
  */
 function template_preprocess_alma_user_status_block(&$variables) {
-  $variables['wrapper_classes'] = '';
-  // Use alma_name if available.
-  if (!empty($variables['user']->display_name)) {
-    $variables['display_name'] = $variables['user']->display_name;
-  }
-  else {
-    $variables['display_name'] = $variables['user']->name;
+  $account = $variables['user'];
+
+  // If has secure role is not set, ding_user's user_load has not been
+  // called for this user object. Let's do it manually.
+  if (!isset($account->has_secure_role)) {
+    $edit = array();
+    ding_user_user('load', $edit, $account);
   }
 
-  if ($variables['user']->alma_id && !$variables['user']->has_secure_role) {
-    $variables['profile_link'] = 'user/' . $variables['user']->uid . '/profile';
+  $variables['wrapper_classes'] = '';
+  // Use alma_name if available.
+  if (!empty($account->display_name)) {
+    $variables['display_name'] = $account->display_name;
   }
   else {
-    $variables['profile_link'] = 'user/' . $variables['user']->uid;
+    $variables['display_name'] = $account->name;
+  }
+
+  if ($account->alma_id && !$account->has_secure_role) {
+    $variables['profile_link'] = 'user/' . $account->uid . '/profile';
+  }
+  else {
+    $variables['profile_link'] = 'user/' . $account->uid;
   }
 
   if (empty($variables['user_status'])) {
     $variables['user_status_available'] = FALSE;
-    if (!empty($variables['user']->alma_id)) {
-      $variables['status_unavailable_message'] = t('Please !log_in to view your loaner status', array('!log_in' => l(t('log in'), 'user/' . $variables['user']->uid . '/authenticate')));
+    if (!empty($account->alma_id)) {
+      $variables['status_unavailable_message'] = t('Please !log_in to view your loaner status', array('!log_in' => l(t('log in'), 'user/' . $account->uid . '/authenticate')));
     }
     else {
       // If user doesn't have an Alma ID, don't show a message, since we
