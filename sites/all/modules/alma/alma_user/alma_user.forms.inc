@@ -227,23 +227,35 @@ function alma_user_forms_library_settings_submit($form, &$form_state) {
  */
 function alma_user_forms_reservation_details($form_state, $account, $records) {
   $form = array();
+  $branches = alma_client_get_reservation_branches();
 
   $form['account'] = array(
     '#type' => 'value',
     '#value' => $account,
   );
 
-  $form['reservations'] = array(
-    '#tree' => TRUE,
-    '#prefix' => '<ul class="reservations"><ul class="labels"><li class="select">' . t('Select') . '</li><li class="title">' . t('Reservations') . '</li><li class="expires">' . t('Expires') . '</li><li class="pickup-branch">' . t('Pickup branch') . '</li><li class="queue">' . t('Queue position') . '</li></ul>',
-    '#suffix' => '</ul>',
+  $form['reservation_data'] = array(
+    '#type' => 'value',
+    '#value' => array(),
   );
 
-  foreach ($records as $rec) {
-    $form['reservations'][$rec['id']] = array(
-      '#type' => 'alma_reservation',
-      '#reservation' => $rec,
-    );
+  $form['reservations'] = array(
+    '#tree' => TRUE,
+  );
+
+  foreach ($records as $reservation) {
+    $form['reservation_data']['#value'][$reservation['id']] = $reservation;
+    if ($reservation['status'] == 'active') {
+      $form['reservations'][$reservation['id']] = array(
+        '#type' => 'checkbox',
+      );
+    }
+    else {
+      // If not selectable, output an empty div so our columns line up.
+      $form['reservations'][$reservation['id']] = array(
+        '#value' => '&nbsp;',
+      );
+    }
   }
 
   $form['new_expiry'] = array(
@@ -257,7 +269,7 @@ function alma_user_forms_reservation_details($form_state, $account, $records) {
   $form['new_pickup_branch'] = array(
     '#type' => 'select',
     '#title' => t('New pickup branch'),
-    '#options' => alma_client_get_reservation_branches(),
+    '#options' => $branches,
     '#default_value' => $account->preferred_branch,
   );
 
@@ -302,9 +314,10 @@ function alma_user_forms_reservation_details_validate($form, &$form_state) {
  */
 function alma_user_forms_reservation_details_submit($form, &$form_state) {
   $selected = array();
+  $reservations = $form_state['values']['reservation_data'];
 
-  foreach ($form_state['values']['reservations'] as $id => $res) {
-    if ($res['selected']) {
+  foreach ($form_state['values']['reservations'] as $id => $val) {
+    if ($val == 1) {
       $selected[] = $id;
     }
   }
@@ -323,14 +336,14 @@ function alma_user_forms_reservation_details_submit($form, &$form_state) {
       if (!empty($selected) && !empty($changes)) {
         $creds = alma_user_get_credentials($form_state['values']['account']);
         foreach ($selected as $id) {
-          alma_client_change_reservation($creds['borr_card'], $creds['pin_code'], $form['reservations'][$id]['#reservation'], $changes);
+          alma_client_change_reservation($creds['borr_card'], $creds['pin_code'], $reservations[$id], $changes);
         }
       }
       break;
     case 'cancel-button':
       $creds = alma_user_get_credentials($form_state['values']['account']);
       foreach ($selected as $id) {
-        alma_client_remove_reservation($creds['borr_card'], $creds['pin_code'], $form['reservations'][$id]['#reservation']);
+        alma_client_remove_reservation($creds['borr_card'], $creds['pin_code'], $reservations[$id]);
       }
       break;
   }
@@ -347,30 +360,25 @@ function alma_user_forms_loan_details($form_state, $account, $records) {
     '#value' => $account,
   );
 
+  $form['loan_data'] = array(
+    '#type' => 'value',
+    '#grouped' => _alma_user_forms_group_loans($records),
+    '#value' => $records,
+  );
+
   $form['loans'] = array(
     '#tree' => TRUE,
   );
 
-  foreach (_alma_user_forms_group_loans($records) as $date => $group) {
-    if ($date == 'overdue') {
-      $form['loans'][$date] = array(
-        '#value' => t('Overdue loans'),
-        '#prefix' => '<h4 class="loan-group overdue">',
-        '#suffix' => '</h4>',
+  foreach ($records as $loan) {
+    if ($loan['is_renewable']) {
+      $form['loans'][$loan['id']] = array(
+        '#type' => 'checkbox',
       );
     }
     else {
-      $form['loans'][$date] = array(
-        '#value' => t('Due in @count days, @date', array('@date' => $date, '@count' => ceil((strtotime($date) - $_SERVER['REQUEST_TIME']) / 86400))),
-        '#prefix' => '<h4 class="loan-group">',
-        '#suffix' => '</h4>',
-      );
-    }
-
-    foreach ($group as $loan) {
       $form['loans'][$loan['id']] = array(
-        '#type' => 'alma_loan',
-        '#loan' => $loan,
+        '#value' => t('Not renewable'),
       );
     }
   }
@@ -389,8 +397,8 @@ function alma_user_forms_loan_details($form_state, $account, $records) {
 function alma_user_forms_loan_details_submit($form, $form_state) {
   $selected = array();
 
-  foreach ($form_state['values']['loans'] as $key => $loan) {
-    if ($loan['selected']) {
+  foreach ($form_state['values']['loans'] as $key => $value) {
+    if ($value) {
       $selected[] = $key;
     }
   }

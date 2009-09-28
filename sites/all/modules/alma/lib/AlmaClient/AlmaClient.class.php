@@ -33,8 +33,8 @@ class AlmaClient {
    *    are required for all request related to library patrons.
    * @param array $params
    *    Query string parameters in the form of key => value.
-   * @return object
-   *    A SimpleXML object with the response.
+   * @return DOMDocument
+   *    A DOMDocument object with the response.
    */
   public function request($method, $params = array()) {
     // For use with a non-Drupal-system, we should have a way to swap
