@@ -36,7 +36,7 @@ function ting_search_pages_object_redirect($local_id) {
  * Return the URL of a photo of the object.
  */
 function ting_search_cover($preset, $object_id) {
-  module_load_include('module', 'ting', 'ting');
+  module_load_include('client.inc', 'ting');
 
   // $path is without the file_directory_path() prefix.
   $path = ting_search_cover_path($object_id);
@@ -74,7 +74,7 @@ function ting_search_cover($preset, $object_id) {
  * JSON callback to search Ting.
  */
 function ting_search_pages_ting_js() {
-  module_load_include('module', 'ting', 'ting');
+  module_load_include('client.inc', 'ting');
   
   //Get users base query
   $query = (isset($_REQUEST['query'])) ? $_REQUEST['query'] : 'dc.title:danmark';

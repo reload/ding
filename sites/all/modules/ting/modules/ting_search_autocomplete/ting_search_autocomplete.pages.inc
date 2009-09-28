@@ -17,7 +17,7 @@ function ting_search_autocomplete_js() {
 		}		
 		else
 		{
-			module_load_include('module', 'ting', 'ting');
+			module_load_include('client.inc', 'ting');
 			
 			$terms = array();
 

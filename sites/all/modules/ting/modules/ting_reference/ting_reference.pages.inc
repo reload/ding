@@ -5,7 +5,7 @@
  * JSON callback to Ting reference collection autocomplete
  */
 function ting_reference_collection_autocomplete_js() {
-	module_load_include('module', 'ting', 'ting');
+	module_load_include('client.inc', 'ting');
 	
 	$string = $_REQUEST['query'];
 	
@@ -31,7 +31,7 @@ function ting_reference_collection_autocomplete_js() {
  * JSON callback to Ting reference collection autocomplete
  */
 function ting_reference_object_autocomplete_js() {
-	module_load_include('module', 'ting', 'ting');
+	module_load_include('client.inc', 'ting');
 
 	$string = $_REQUEST['query'];
 	
@@ -72,7 +72,7 @@ function ting_reference_collection_js() {
 
 	if (isset($_REQUEST['id']))
 	{	
-		module_load_include('module', 'ting', 'ting');
+		module_load_include('client.inc', 'ting');
 		$object = ting_get_object_by_id($_REQUEST['id']);
 		$collection = new TingClientObjectCollection(array($object));
 	}

@@ -97,7 +97,7 @@ function ting_reference_field($op, &$node, $field, &$items, $teaser, $page) {
               form_set_error($error_element, t('%name: Invalid object id: %object_id.', array('%name' => t($field['widget']['label']), '%object_id' => $ting_object_id)));
             }
 
-            module_load_include('module', 'ting', 'ting');
+            module_load_include('client.inc', 'ting');
             try {
               $object = ting_get_object_by_id($ting_object_id);
             }
@@ -138,7 +138,7 @@ function ting_reference_field_formatter_info() {
  * Theme function for 'default' userreference field formatter.
  */
 function theme_ting_reference_formatter_default($element) {
-  module_load_include('module', 'ting', 'ting');
+  module_load_include('client.inc', 'ting');
 
   $collection = null;
   if ($element['#item']['ting_ref_type'] == 'object') {
