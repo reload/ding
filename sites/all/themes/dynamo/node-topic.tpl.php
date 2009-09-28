@@ -1,10 +1,5 @@
 <?php
 /*
-  dsm(get_defined_vars());
-  dsm($node);
-  dsm($node->content);
-*/
-/*
 ad a class="" if we have anything in the $classes var
 this is so we can have a cleaner output - no reason to have an empty <div class="" id=""> 
 */
@@ -81,10 +76,11 @@ if($id_node){
    	  <?php print $terms ?> 
 	  </div>  
 	<?php } ?>
-		
 
 	<div class="content">
-    <?php print $node->content['body']['#value'];?>
+    <div class="teaser">
+      <?php print check_plain($node->field_teaser[0]['value']); ?>
+    </div>
 
     <?php foreach ($field_flexifield_topic as $field) { ?>
       <?php if ($field['type'] == 'flexifield_link') { ?>

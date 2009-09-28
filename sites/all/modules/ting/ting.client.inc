@@ -33,11 +33,7 @@ function ting_get_object_by_id($object_id) {
 	$request = ting_get_request_factory()->getObjectRequest();
 	$request->setObjectId($objectId);
 	$object = ting_get_client()->execute($request);
-  
-  if (!$object) {
-    return FALSE;
-  }
-  return $object;
+	return ($object) ? array_shift(self::addAdditionalInfo(array(ting_add_object_url($object)))) : false;
 }
 
 /**
@@ -48,11 +44,7 @@ function ting_get_object_by_local_id($localId) {
 	$request = ting_get_request_factory()->getObjectRequest();
 	$request->setLocalId($localId);
 	$object = ting_get_client()->execute($request);
-	
-	if (!$object) {
-    return FALSE;
-  }
-  return $object;
+	return ($object) ? array_shift(self::addAdditionalInfo(array(ting_add_object_url($object)))) : false;
 }	
 
 /**
@@ -64,16 +56,10 @@ function ting_get_object_by_local_id($localId) {
  *    Collection object, if found - boolean FALSE if not.
  */
 function ting_get_collection_by_id($collection_id) {
-
 	$request = ting_get_request_factory()->getCollectionRequest();
 	$request->setObjectId($collection_id);
 	$collection = ting_get_client()->execute($request);
-	
-  if (!$collection) {
-    return FALSE;
-  }
-
-  return $collection;
+  return ($collection) ? ting_add_collection_info(ting_add_additional_info($collection)) : false;
 }
 
 /**
@@ -177,6 +163,7 @@ function ting_add_collection_info(TingClientObjectCollection $collection)
 	$types = array();
 	foreach ($collection->objects as &$object)
 	{
+		$object = ting_add_object_url($object);
 		$types = array_merge($types, $object->data->type);
 	}
 	$collection->types = array_unique($types);
@@ -202,7 +189,7 @@ function ting_sort_objects($collection)
 		
 	return $collection;
 }
-	
+
 function ting_add_object_url(TingClientObject $object)
 {
 	$object->url = url('ting/object/'.$object->id, array('absolute' => true));
@@ -234,7 +221,6 @@ function ting_add_additional_info($collection)
 	
 	foreach($objects as $object)
 	{
-		$object = ting_add_object_url($object);
 		if (isset($object->data->identifier))
 		{
 			foreach ($object->data->identifier as $identifier)

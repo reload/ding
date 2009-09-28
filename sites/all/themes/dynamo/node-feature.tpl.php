@@ -1,13 +1,5 @@
 <?php
 /*
-  dsm($node);
-	dsm($variables['template_files']);
-  dsm($node);
-  dsm($node->content);
-  print_r(get_defined_vars());
-  print $FIELD_NAME_rendered;
-*/
-/*
 ad a class="" if we have anything in the $classes var
 this is so we can have a cleaner output - no reason to have an empty <div class="" id=""> 
 */

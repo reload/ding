@@ -1,6 +1,3 @@
-<?php 
-//	dsm($object);
-?>
 <div id="ting-object">
 
 	<div class="content-left">
