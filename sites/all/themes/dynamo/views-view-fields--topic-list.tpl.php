@@ -2,7 +2,7 @@
 
 <div class="subject"><?php print $fields['tid']->content; ?> </div>
 
-<h4><?php print $fields['title']->content; ?></h4>
+<h2><?php print $fields['title']->content; ?></h2>
 
 <div class="meta">
 	 <?php if($fields['field_library_ref_nid']->content){ ?>

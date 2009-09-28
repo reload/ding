@@ -31,20 +31,20 @@ foreach ($includes as $include) {
  */
 function ting_get_object_by_id($object_id) {
 	$request = ting_get_request_factory()->getObjectRequest();
-	$request->setObjectId($objectId);
+	$request->setObjectId($object_id);
 	$object = ting_get_client()->execute($request);
-	return ($object) ? array_shift(self::addAdditionalInfo(array(ting_add_object_url($object)))) : false;
+	return ($object) ? array_shift(ting_add_collection_info(array(ting_add_object_url($object)))) : false;
 }
 
 /**
  * @param string $localId
  * @return TingClientObject
  */
-function ting_get_object_by_local_id($localId) {
+function ting_get_object_by_local_id($local_id) {
 	$request = ting_get_request_factory()->getObjectRequest();
-	$request->setLocalId($localId);
+	$request->setLocalId($local_id);
 	$object = ting_get_client()->execute($request);
-	return ($object) ? array_shift(self::addAdditionalInfo(array(ting_add_object_url($object)))) : false;
+	return ($object) ? array_shift(ting_add_collection_info(array(ting_add_object_url($object)))) : false;
 }	
 
 /**
