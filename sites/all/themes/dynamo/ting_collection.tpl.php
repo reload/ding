@@ -23,38 +23,7 @@
 			<div class="tab-navigation-main-inner">
 				<?php
 				// material types retrieved from preprocess hook...
-				
-				// show the common descriptor
-				$preferred_typekey = "Bog";
-				$preferred_language = "dan";
-					
-				// Try to fetch a danish book
-				$common_object = null;
-				if(array_key_exists($preferred_typekey, $sorted_collection)) {
-					foreach($sorted_collection[$preferred_typekey] as $object)
-					{	
-						if($object->data->language[0] == $preferred_language)
-						{
-							if(!empty($object->data->description[0])) {
-								$common_object = $object;
-								break;
-							}			
-						}
-					}
-				}
-				
-				// just get a material with a description
-				if(!$common_object) {
-					foreach($sorted_collection as $typekey => $objects)
-					{
-						$common_object = $objects[0];
-						
-						if(empty($common_object->data->description[0])) {
-							continue;
-						}
-						break;
-					}
-				}
+				// $common_object is fetched from the preprocess hook
 				?>
 				
 				<div class="ting-overview clearfix">
