@@ -129,6 +129,7 @@ function ding_library_form(&$node) {
     '#title' => t('Library settings'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
+    '#access' => user_access('configure libraries'),
   );
 
   $form['library_settings']['library_page_type'] = array(

@@ -1,13 +1,14 @@
 /* =====================================
  	layout.css
 	the basic layou for page & panels
-	
+
 /*--------------------------------------*/
 
 body{background:#e5e5e5 url(../images/bg.png) repeat-x 0 0;}
 #container{background:transparent url(../images/bg-header.png) no-repeat center 0;}
 #page{width:994px; margin: 0 auto;}
 #page{overflow:hidden;} /*might have consequenses*/
+
 /* sitename */	
 #site-name {text-indent: -9999em; margin: 0px 17px 0 720px; padding:17px 0 0 0; height:22px;}
 	body.admin-menu #site-name {margin: 12px 17px 0 720px;}
@@ -134,5 +135,3 @@ all content based on search results are in the search.css
 .panel-threecol-left-stacked-right .panel-middle{width:470px; float:left;}
 
 #collection{}
-
-

@@ -8,3 +8,5 @@ dependencies[] = content_profile
 dependencies[] = flexifield
 dependencies[] = link
 dependencies[] = ting_reference
+dependencies[] = views_bulk_operations
+

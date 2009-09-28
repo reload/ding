@@ -45,6 +45,7 @@ function ting_ting_object_create($empty, $data = NULL, $conf = FALSE) {
   if ($conf) {
     $object_id = is_array($data) && isset($data['object_id']) ? $data['object_id'] : (is_object($data) ? $data->id : 0);
 
+    module_load_include('client.inc', 'ting');
     $data = ting_get_object_by_id($object_id);
   }
 

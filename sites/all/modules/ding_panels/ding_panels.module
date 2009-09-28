@@ -69,6 +69,7 @@ function _ding_panels_content_theme_library_title_navigation($node, $base_path) 
     $links['events'] = l(t('Events'), $base_path . '/arrangementer');
     $links['facilities'] = l(t('Facilities'), $base_path . '/faciliteter');
     $links['about'] = l(t('About the library'), $base_path . '/om');
+    $links['local'] = l(t('Local'), $base_path . '/lokalt');
   }
   return $links;
 }
@@ -95,6 +96,11 @@ function ding_panels_content_preprocess_library_location(&$variables) {
   // plus a few special ones.
   $links = array();
   foreach ($node->field_links as $delta => $link) {
+    if (!$link['url']) {
+      // Workaround for http://drupal.org/node/336426.
+      continue;
+    }
+
     $links[$delta] = $link;
 
     // Extract the domain name from the link, and add it as a class.
