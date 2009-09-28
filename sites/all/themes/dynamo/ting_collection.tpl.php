@@ -27,17 +27,25 @@
 				
 				//	dpm($sorted_collection);
 				// show the common descriptor
-				$preferred_typekey = "Bog (Dansk)";
+				$preferred_typekey = "Bog";
+				$preferred_language = "dan";
 					
 				// Try to fetch a danish book
 				$common_object = null;
 				if(array_key_exists($preferred_typekey, $sorted_collection)) {
-					if(!empty($sorted_collection[$preferred_typekey][0]->data->description[0])) {
-						$common_object = $sorted_collection[$preferred_typekey][0];
-					}	
+					foreach($sorted_collection[$preferred_typekey] as $object)
+					{	
+						if($object->data->language[0] == $preferred_language)
+						{
+							if(!empty($object->data->description[0])) {
+								$common_object = $object;
+								break;
+							}			
+						}
+					}
 				}
 				
-				// just get a book with a description
+				// just get a material with a description
 				if(!$common_object) {
 					foreach($sorted_collection as $typekey => $objects)
 					{
@@ -127,6 +135,8 @@
 						<h5><?php print l($tingClientObject->data->title['0'], $tingClientObject->url, array("attributes"=>array('class' => 'alternative'))); ?></h5>
 						<span class='byline'><?php echo t('by'); ?></span>
 						<?php echo l($tingClientObject->data->creator[0], 'search/ting/'.$tingClientObject->data->creator[0], array("attributes"=>array('class' => 'author alternative'))); ?>		
+						
+						<div class='language'><?php echo t('Language: ') . $tingClientObject->data->language[1]; ?></div>
 						<?php
 						for ($i=1; $i<count($tingClientObject->data->creator); $i++)
 						{
