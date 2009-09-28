@@ -66,7 +66,8 @@
 					unset($object->data->description[0]);
 					?>
 					<div class="description"><?php print implode(' ; ', format_danmarc2($object->data->description)) ?></div>
-
+					
+					<?php print theme('item_list',$object->data->type, t('Type'), 'span', array('class' => 'type'));?>
 					<?php print theme('item_list',$object->data->identifier, t('Identifier'), 'span', array('class' => 'identifier'));?>	
 					<?php print theme('item_list',$object->data->subject, t('Subject'), 'span', array('class' => 'subject'));?>	
 					<?php print theme('item_list',$object->data->publisher, t('Publisher'), 'span', array('class' => 'publisher'));?>						
@@ -89,7 +90,24 @@
 
 
 				<div class="object-otherversions">
-					se som xxx .... yyy
+				<?php
+				$collection = ting_get_collection_by_id($object->id);
+				if($collection instanceof TingClientObjectCollection)
+				{
+					if(is_array($collection->types))
+					{
+						//dpm($collection);
+	
+						print '<h3>'. t('Also available as: ') . '</h3>';
+						foreach ($collection->types as $category) {
+							if($category == $object->data->type[0]) continue;
+							$material_links[] = '<span class="category"><a href="'.$collection->url.'#'.$category.'">'.t($category).'</a></span>';
+						}
+						echo implode(", ", $material_links);
+					}
+					
+				}
+				?>
 				</div>
 				
         <?php
