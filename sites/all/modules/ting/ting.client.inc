@@ -134,7 +134,6 @@ function ting_get_client() {
 	
 	if (!isset($client))
 	{
-		ting_load_includes();
 		$client = new TingClient(new TingClientDrupal6HttpRequestAdapter(),
 																			new TingClientDrupalWatchDogLogger());
 	}
@@ -150,8 +149,6 @@ function ting_get_request_factory() {
 	
 	if (!isset($requestFactory))
 	{
-		ting_load_includes();
-		
 		$urlVariables = array(	'search' => 'ting_search_url',
 													 	'scan' => 'ting_scan_url',
 														'object' => 'ting_search_url',
