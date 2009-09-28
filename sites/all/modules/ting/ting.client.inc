@@ -55,9 +55,9 @@ function ting_get_object_by_local_id($local_id) {
  * @return mixed
  *    Collection object, if found - boolean FALSE if not.
  */
-function ting_get_collection_by_id($collection_id) {
+function ting_get_collection_by_id($object_id) {
 	$request = ting_get_request_factory()->getCollectionRequest();
-	$request->setObjectId($collection_id);
+	$request->setObjectId($object_id);
 	$collection = ting_get_client()->execute($request);
   return ($collection) ? ting_add_collection_info(ting_add_additional_info($collection)) : false;
 }
