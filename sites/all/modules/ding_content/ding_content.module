@@ -149,7 +149,8 @@ function ding_content_access($op, $node, $account = NULL) {
 function ding_content_menu_alter(&$items) {
   // These node types are only used ad Flexifield placeholders and are not
   // supposed to be used for creating nodes.
-  $items['node/add/flexifield-links']['access callback'] = FALSE;
+  $items['node/add/flexifield-link']['access callback'] = FALSE;
+  $items['node/add/flexifield-text']['access callback'] = FALSE;
   $items['node/add/flexifield-ting-refs']['access callback'] = FALSE;
 }
 
