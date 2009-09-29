@@ -1778,7 +1778,7 @@ function ding_content_views_default_views() {
         'strip_tags' => 0,
         'html' => 0,
       ),
-      'link_to_node' => 0,
+      'link_to_node' => 1,
       'exclude' => 0,
       'id' => 'title',
       'table' => 'node',
