@@ -11,6 +11,36 @@
  */
 function ting_search_carousel_install() {
 	drupal_install_schema('ting_search_carousel');
+
+  variable_set('ting_search_carousel_searches', array());
+	
+  //install ImageCache presets
+  $imagecache_presets = array(
+    array(
+      'presetname' => 'ting_search_carousel',
+    ),
+  );
+ 
+  $imagecache_actions = array(
+    'ting_search_carousel' => array(
+      'action' => 'imagecache_scale',
+      'data' => array(
+        'width' => 140,
+        'height' => 112,
+        'upscale' => 0,
+      ),
+      'weight' => 0,
+    ),
+  );
+ 
+  //need to install preset, id will be returned by function,
+  //then install action add presetid to action prior to install:
+  foreach ($imagecache_presets as $preset) {
+      $preset = imagecache_preset_save($preset);
+      $imagecache_actions[$preset['presetname']]['presetid'] = $preset['presetid'];
+      imagecache_action_save($imagecache_actions[$preset['presetname']]);
+      drupal_set_message(t('ImageCache preset %id: %name and corresponding actions saved.', array('%id' => $preset['presetid'], '%name' => $preset['presetname'])));
+  }
 }
   
 /**
@@ -18,6 +48,11 @@ function ting_search_carousel_install() {
  */
 function ting_search_carousel_uninstall() {
 	drupal_uninstall_schema('ting_search_carousel');
+	
+	variable_del('ting_search_carousel_searches');
+	
+	imagecache_action_delete('ting_search_carousel');
+	imagecache_preset_delete('ting_search_carousel');
 }
 
 /**
