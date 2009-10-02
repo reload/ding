@@ -43,7 +43,14 @@ Drupal.tingSearchCarousel.itemLoad = function(carousel, state)
 		if (carousel.size() < start+Drupal.settings.tingSearchCarousel.resultsPerPage)
 		{
 			var index = Drupal.tingSearchCarousel.activeIndex(carousel.container);
+			if (state == 'init') 
+			{
+				Drupal.tingSearchCarousel.setLoading(carousel.container, true);
+			}
+			
 			jQuery.get('/ting_search_carousel/results/ahah/'+index+'/'+start+'/'+Drupal.settings.tingSearchCarousel.resultsPerPage, function(data, status) {
+				Drupal.tingSearchCarousel.setLoading(carousel.container, false);
+
 				//add new items
 				var size = start;
 				$('<ul>'+data+'</ul>').find('li').each(function(i)
@@ -83,4 +90,13 @@ Drupal.tingSearchCarousel.setActiveCarousel = function(carousel, index)
 	
 	$(carousel).find('.search-results > li').removeClass('active');
 	$(carousel).find('.search-results > li:eq('+index+')').addClass('active');
-}
+};
+
+Drupal.tingSearchCarousel.setLoading = function(carousel, loading)
+{
+	$(carousel).parents('.ting-search-carousel').find('.search-results').each(function()
+	{
+		(loading) ? $(this).addClass('loading') : $(this).removeClass('loading');
+			
+	});
+};

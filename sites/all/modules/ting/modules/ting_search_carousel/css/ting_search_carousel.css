@@ -22,9 +22,10 @@
 	.jcarousel-skin-ting-search-carousel .jcarousel-prev-disabled-horizontal:hover,
 	.jcarousel-skin-ting-search-carousel .jcarousel-prev-disabled-horizontal:active {cursor: default; background-position: -105px 0;}
 
-.ting-search-carousel .subtitle { width: 210px; padding: 10px 0 10px 10px; float: left; color: #fff; font-size: 50px; line-height: 0.9; font-weight: bold; text-transform: uppercase; text-shadow: 1px 1px #727272;
-}
-.ting-search-carousel .search-results { background: #918F91; }
+.ting-search-carousel .subtitle { width: 210px; padding: 10px 0 10px 10px; float: left; color: #fff; font-size: 50px; line-height: 0.9; font-weight: bold; text-transform: uppercase; text-shadow: 1px 1px #727272; }
+.ting-search-carousel .loading { background: url(../images/ajax-loader.gif) no-repeat 60% 50%; }
+
+.ting-search-carousel .search-results { background-color: #918F91; }
 .ting-search-carousel .search-results > li { display: none; }
 .ting-search-carousel .search-results > li.active { display: block; }
 
