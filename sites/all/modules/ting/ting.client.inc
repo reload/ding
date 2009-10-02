@@ -33,7 +33,7 @@ function ting_get_object_by_id($object_id) {
 	$request = ting_get_request_factory()->getObjectRequest();
 	$request->setObjectId($object_id);
 	$object = ting_get_client()->execute($request);
-	return ($object) ? array_shift(ting_add_collection_info(array(ting_add_object_url($object)))) : false;
+	return ($object) ? array_shift(ting_add_additional_info(array(ting_add_object_url($object)))) : false;
 }
 
 /**
@@ -44,7 +44,7 @@ function ting_get_object_by_local_id($local_id) {
 	$request = ting_get_request_factory()->getObjectRequest();
 	$request->setLocalId($local_id);
 	$object = ting_get_client()->execute($request);
-	return ($object) ? array_shift(ting_add_collection_info(array(ting_add_object_url($object)))) : false;
+	return ($object) ? array_shift(ting_add_additional_info(array(ting_add_object_url($object)))) : false;
 }	
 
 /**
