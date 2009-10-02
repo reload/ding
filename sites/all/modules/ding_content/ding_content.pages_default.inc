@@ -343,6 +343,7 @@ function ding_content_default_page_manager_pages() {
     $display->panels['top'][0] = 'new-3';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
+  $pages['library_local'] = $page;
 
 
   /**
