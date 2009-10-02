@@ -276,8 +276,8 @@ function ting_compare_objects($o1, $o2, $criterias = NULL)
 	{
 		foreach ($values as $value)
 		{
-			$o1Check = in_array($value, $o1->data->$attribute);
-			$o2Check = in_array($value, $o2->data->$attribute);
+			$o1Check = (isset($o1->data->$attribute)) ? in_array($value, $o1->data->$attribute) : false;
+			$o2Check = (isset($o1->data->$attribute)) ? in_array($value, $o2->data->$attribute) : false;
 			if ($o1Check && !$o2Check)
 			{
 				return 1;
