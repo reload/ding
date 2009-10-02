@@ -10,10 +10,21 @@
  * Implementation of hook_install().
  */
 function ting_search_carousel_install() {
+	drupal_install_schema('ting_search_carousel');
 }
   
 /**
  * Implementation of hook_uninstall().
  */
 function ting_search_carousel_uninstall() {
+	drupal_uninstall_schema('ting_search_carousel');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function ting_search_carousel_schema() {
+	$schema = array(); 
+	$schema['cache_ting_search_carousel'] = drupal_get_schema_unprocessed('system', 'cache');
+	return $schema;
 }

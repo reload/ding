@@ -24,7 +24,7 @@ function ting_search_carousel_admin_page() {
  */
 function ting_search_carousel_admin_form($form_state) {
   $form = array();
-
+    
   $form['ting_search_carousel_searches'] = array(
     '#type' => 'fieldset',
     '#title' => t('Searches'),
@@ -78,13 +78,13 @@ function ting_search_carousel_form_ahah($form_state) {
   // form, Drupal is not aware of this new elements existence and will not
   // process it. We retreive the cached form, add the element, and resave.
   $form = form_get_cache($form_build_id, $form_state);
-
+  
   // Delta is assigned to the count of current elements, so it'll be the 
   // next in the zero-based list.
   $delta = count(element_children($form['ting_search_carousel_searches']));
 
   $form['ting_search_carousel_searches'][$delta] = array(
-    '#type' => 'ting_search_carousel',
+    '#type' => 'ting_search_carousel_search',
     '#delta' => $delta,
   );
   form_set_cache($form_build_id, $form, $form_state);

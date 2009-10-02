@@ -1,16 +1,14 @@
-<?php krumo($searches); ?>
 <div class="ting-search-carousel">
 	<ul class="search-results">
-	<?php for ($i = 0; $i < 4; $i++) :?>
-		<li class="<?php echo ($i == 0) ? 'active' : ''; ?>">
-		<ul>
-		<?php for ($j = 0; $j < 6; $j++) :?>
-			<li><img src="" /> <span class="creator">Creator</span> <span
-				class="title">Title</span></li>
-				<?php endfor; ?>
-		</ul>
-		</li>
-		<?php endfor; ?>
+		<?php foreach ($searches as $i => $search) :?>
+			<li class="<?php echo ($i == 0) ? 'active' : ''; ?>">
+				<div class="subtitle">
+					<?php echo $search['subtitle']; ?>
+				</div>							
+				<ul class="jcarousel-skin-ting-search-carousel">
+				</ul>
+			</li>
+		<?php endforeach; ?>
 	</ul>
 	
 	<ul class="search-controller">

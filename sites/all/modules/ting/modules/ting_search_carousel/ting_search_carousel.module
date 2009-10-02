@@ -15,7 +15,7 @@ function ting_search_carousel_menu() {
     'file' => 'ting_search_carousel.admin.inc',
     'file path' => $path,
   );
-  
+
   $items['admin/settings/ting_search_carousel/form/ahah'] = array(
     'title' => 'Edit search carousels',
     'page callback' => 'drupal_get_form',
@@ -25,13 +25,14 @@ function ting_search_carousel_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  $items['admin/settings/ting_search_carousel/js'] = array(
-    'title' => 'Edit search carousels',
-    'page callback' => 'ting_search_carousel_result_js',
-    'file' => 'ting_search_carousel.pages.inc',
+  $items['ting_search_carousel/results/ahah'] = array(
+    'title' => 'Show search carousel results',
+    'page callback' => 'ting_search_carousel_result_ahah',
+    'access arguments' => array('view search carousel'),
+  	'file' => 'ting_search_carousel.pages.inc',
     'type' => MENU_CALLBACK,
   );
-  
+
   return $items;
 }
 
@@ -44,6 +45,7 @@ function ting_search_carousel_menu() {
  */
 function ting_search_carousel_perm() {
   return array(
+  	'view search carousel',
     'administer search carousel'
   );
 }
@@ -62,7 +64,19 @@ function ting_search_carousel_theme() {
   	'ting_search_carousel_search' => array(
       'arguments' => array('element' => NULL),
     ),
+    'ting_search_carousel_collection' => array(
+      'arguments' => array('collection' => NULL),
+  		'template' => 'ting_search_carousel_collection'
+    ),
+    
   );
+}
+
+/**
+ * Implementation of hook_flush_caches().
+ */
+function ting_search_carousel_flush_caches() {
+	return array('cache_ting_search_carousel');
 }
 
 /**
@@ -158,29 +172,4 @@ function ting_search_carousel_search_element_process($element, $form_state) {
  */
 function ting_search_carousel_search_element_validate($element, &$form_state) {
   return $form;
-}
-
-function ting_search_carousel_populate_searches($searches) {
-	module_load_include('client.inc', 'ting');
-
-	foreach ($searches as &$search)
-	{
-		$search['results'] = array();
-		
-		$i = 0;
-		do {
-			$result = ting_do_search($search['query'], ++$i, 10, array('facets' => array()));
-			
-			foreach ($result->collections as $collection)
-			{
-				if ($collection->objects[0]->additionalInformation->thumbnailUrl ||
-          	$collection->objects[0]->additionalInformation->detailUrl)
-				{
-					$search['results'][] = $collection;
-				}
-			}
-		} while (sizeof($search->results) < 6 && sizeof($result->collections) > 0);
-	}
-	
-	return $searches;
 }
