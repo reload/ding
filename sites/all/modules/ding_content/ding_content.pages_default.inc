@@ -10,6 +10,9 @@
  * Implementation of hook_default_page_manager_pages()
  */
 function ding_content_default_page_manager_pages() {
+  /**
+   * Panel 'page-front_panel'.
+   */
   $page = new stdClass;
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
@@ -215,7 +218,136 @@ function ding_content_default_page_manager_pages() {
   $page->default_handlers[$handler->name] = $handler;
   $pages['article_list'] = $page;
 
+  /**
+   * Panel 'page-library_local'.
+   */
+  $page = new stdClass;
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
+  $page->name = 'library_local';
+  $page->task = 'page';
+  $page->admin_title = 'Library topic list';
+  $page->admin_description = '';
+  $page->path = 'biblioteker/%slug/lokalt';
+  $page->access = array();
+  $page->menu = array();
+  $page->arguments = array(
+    'slug' => array(
+      'id' => 1,
+      'identifier' => 'Library slug',
+      'name' => 'ding_slug',
+      'settings' => array(),
+    ),
+  );
+  $page->conf = array();
+  $page->default_handlers = array();
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_library_local_panel_context';
+  $handler->task = 'page';
+  $handler->subtask = 'library_local';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Panel',
+    'no_blocks' => FALSE,
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+  );
+  $display = new panels_display;
+  $display->layout = 'twocol_left_stacked';
+  $display->layout_settings = array();
+  $display->panel_settings = array();
+  $display->cache = array();
+  $display->title = '';
+  $display->hide_title = FALSE;
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'left';
+    $pane->type = 'views';
+    $pane->subtype = 'topic_list';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'nodes_per_page' => '10',
+      'pager_id' => '1',
+      'use_pager' => 0,
+      'offset' => '0',
+      'more_link' => 0,
+      'feed_icons' => 0,
+      'panel_args' => 0,
+      'link_to_view' => 0,
+      'args' => '',
+      'url' => '',
+      'display' => 'default',
+      'context' => array(
+        '0' => 'argument_ding_slug_1.nid',
+      ),
+      'override_title' => 1,
+      'override_title_text' => 'Lokale emnesamlinger',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['left'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'right';
+    $pane->type = 'relevant';
+    $pane->subtype = 'relevant_campaigns';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        '0' => 'empty',
+        '1' => 'argument_ding_slug_1',
+        '2' => 'empty',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['right'][0] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'top';
+    $pane->type = 'library';
+    $pane->subtype = 'library_title';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'display_header_image' => FALSE,
+      'context' => 'argument_ding_slug_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-3'] = $pane;
+    $display->panels['top'][0] = 'new-3';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
 
+
+  /**
+   * Panel 'page-recommendations'.
+   */
   $page = new stdClass;
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
