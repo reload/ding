@@ -33,8 +33,10 @@ function ting_search_carousel_install() {
       'action' => 'canvasactions_definecanvas',
       'data' => array(
         'ecaxt' => array(
-          'width' => 112,
-          'height' => 140),
+          'width' => '112',
+          'height' => '140',
+          'xpos' => 'center',
+          'ypos' => 'center',),
         'RGB' => array('HEX' => '918F91'),
         'under' => true
       ),
