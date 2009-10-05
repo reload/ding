@@ -28,9 +28,6 @@ function dynamo_theme($existing, $type, $theme, $path) {
  );
 }
 
-
-
-
 /**
  * Preprocess node template variables.
  */
@@ -83,10 +80,30 @@ function dynamo_preprocess_node(&$variables) {
   }
 }
 
-function dynamo_preprocess_block(&$variables) {
-/*TODO*/
-}
+/**
+ * Preprocess variables for block.tpl.php.
+ */
+/*function dynamo_preprocess_block(&$variables) {
+  TODO: Morten, what's going on here?
+}*/
 
+/**
+ * Implementation of theme_breadcrumb().
+ */
+function dynamo_breadcrumb($breadcrumb) {
+  if (!empty($breadcrumb)) {
+    // Remove the last, empty item from the breadcrumb trail.
+    if (end($breadcrumb) == NULL) {
+      array_pop($breadcrumb);
+    }
+    // Append the page title to the breadcrumb.
+    $breadcrumb[] = menu_get_active_title();
+    $output = '<div id="path">' . t('You are here:');
+    $output .= ' <div class="breadcrumb">'. implode(' » ', $breadcrumb) .'</div>';
+    $output .= '</div>';
+    return $output;
+  }
+}
 
 /*forms*/
 function dynamo_user_login_block($form){
