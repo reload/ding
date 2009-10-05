@@ -29,6 +29,7 @@
 .ting-search-carousel .search-results > li { display: none; }
 .ting-search-carousel .search-results > li.active { display: block; }
 
+.ting-search-carousel .search-results .info { height: 39px; overflow: hidden; } 
 .ting-search-carousel .search-results img,
 .ting-search-carousel .search-results .creator,
 .ting-search-carousel .search-results .title { display: block; } 
