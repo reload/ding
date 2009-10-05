@@ -58,7 +58,7 @@ function ting_search_carousel_result_ahah($search, $start, $numResults) {
 		
 	  //cache the updated search after each query as retrieving the requested number 
 	  //of collections with cover images might take a few requests
-	  cache_set(md5($search['query']), $carouselSearch, 'cache_ting_search_carousel', CACHE_TEMPORARY);		
+	  cache_set(md5($search['query']), $carouselSearch, 'cache_ting_search_carousel', time()+variable_get('ting_search_carousel_cache_duration', 604800));		
 	}
 	
 	//render the collections for the carousel
