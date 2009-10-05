@@ -71,12 +71,7 @@
               </div>
             </div>
 
-            <?php if ($breadcrumb){ ?>
-          		<div id="path">
-          		   <?php print t('You are here:') ." ". $breadcrumb; ?> 
-              </div>
-            <?php } ?>
-
+            <?php print $breadcrumb; ?>
           </div>
         </div>
         
