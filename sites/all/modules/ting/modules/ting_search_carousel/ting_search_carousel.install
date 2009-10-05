@@ -15,14 +15,12 @@ function ting_search_carousel_install() {
   variable_set('ting_search_carousel_searches', array());
 	
   //install ImageCache presets
-  $imagecache_presets = array(
-    array(
+  $preset = array(
       'presetname' => 'ting_search_carousel',
-    ),
   );
  
   $imagecache_actions = array(
-    'ting_search_carousel' => array(
+    array(
       'action' => 'imagecache_scale',
       'data' => array(
         'width' => 112,
@@ -31,16 +29,28 @@ function ting_search_carousel_install() {
       ),
       'weight' => 0,
     ),
+    array(
+      'action' => 'canvasactions_definecanvas',
+      'data' => array(
+        'ecaxt' => array(
+          'width' => 112,
+          'height' => 140),
+        'RGB' => array('HEX' => '918F91'),
+        'under' => true
+      ),
+      'weight' => 1,
+    ),
   );
  
   //need to install preset, id will be returned by function,
   //then install action add presetid to action prior to install:
-  foreach ($imagecache_presets as $preset) {
-      $preset = imagecache_preset_save($preset);
-      $imagecache_actions[$preset['presetname']]['presetid'] = $preset['presetid'];
-      imagecache_action_save($imagecache_actions[$preset['presetname']]);
-      drupal_set_message(t('ImageCache preset %id: %name and corresponding actions saved.', array('%id' => $preset['presetid'], '%name' => $preset['presetname'])));
+  $preset = imagecache_preset_save($preset);
+  foreach ($imagecache_actions as $action)
+  {
+    $action['presetid'] = $preset['presetid'];
+    imagecache_action_save($action);	
   }
+  drupal_set_message(t('ImageCache preset %id: %name and corresponding actions saved.', array('%id' => $preset['presetid'], '%name' => $preset['presetname'])));
 }
   
 /**
@@ -51,8 +61,10 @@ function ting_search_carousel_uninstall() {
 	
 	variable_del('ting_search_carousel_searches');
 	
-	imagecache_action_delete('ting_search_carousel');
-	imagecache_preset_delete('ting_search_carousel');
+	if ($preset = imagecache_preset_by_name('ting_search_carousel'))
+	{
+    imagecache_preset_delete($preset);	
+	}
 }
 
 /**

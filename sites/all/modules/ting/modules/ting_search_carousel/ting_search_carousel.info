@@ -5,3 +5,4 @@ package = Ding!
 core = 6.x
 dependencies[] = ting
 dependencies[] = ting_search
+dependencies[] = imagecache_canvasactions
