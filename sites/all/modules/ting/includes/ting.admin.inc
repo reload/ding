@@ -69,7 +69,7 @@ function ting_admin_settings_form($form_state) {
     '#default_value' => variable_get('addi_group', ''),
   );
   $form['addi']['addi_password'] = array(
-    '#type' => 'password',
+    '#type' => 'textfield',
     '#title' => t('Password'),
     '#description' => t('Password for the Additional information webservice'),
     '#required' => TRUE,
