@@ -6,7 +6,7 @@
 <div class="node-teaser clearfix">
 
   <div class="picture">
-    <?php print $fields['field_image_fid']->content; ?>  
+    <?php print $fields['field_list_image_fid']->content; ?>
   </div>
 
   <div class="info">

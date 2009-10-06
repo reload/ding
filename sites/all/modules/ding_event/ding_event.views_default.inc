@@ -148,7 +148,7 @@ function ding_event_views_default_views() {
       'field' => 'field_entry_price_value',
       'relationship' => 'none',
     ),
-    'field_image_fid' => array(
+    'field_list_image_fid' => array(
       'label' => '',
       'alter' => array(
         'alter_text' => 0,
@@ -176,9 +176,9 @@ function ding_event_views_default_views() {
         'multiple_reversed' => FALSE,
       ),
       'exclude' => 0,
-      'id' => 'field_image_fid',
-      'table' => 'node_data_field_image',
-      'field' => 'field_image_fid',
+      'id' => 'field_list_image_fid',
+      'table' => 'node_data_field_list_image',
+      'field' => 'field_list_image_fid',
       'override' => array(
         'button' => 'Override',
       ),
@@ -490,7 +490,7 @@ function ding_event_views_default_views() {
       'field' => 'field_entry_price_value',
       'relationship' => 'none',
     ),
-    'field_image_fid' => array(
+    'field_list_image_fid' => array(
       'label' => '',
       'alter' => array(
         'alter_text' => 0,
@@ -518,9 +518,9 @@ function ding_event_views_default_views() {
         'multiple_reversed' => FALSE,
       ),
       'exclude' => 0,
-      'id' => 'field_image_fid',
-      'table' => 'node_data_field_image',
-      'field' => 'field_image_fid',
+      'id' => 'field_list_image_fid',
+      'table' => 'node_data_field_list_image',
+      'field' => 'field_list_image_fid',
       'override' => array(
         'button' => 'Override',
       ),
