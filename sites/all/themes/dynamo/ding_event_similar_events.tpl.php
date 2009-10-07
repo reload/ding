@@ -34,8 +34,8 @@
 		//  print format_date($date2, 'custom', "H:i");		  
 		 ?> 
 
-    <?php if($node->field_image['0']['filepath']){ ?>
-        <?php print theme('imagecache', '180_x', $node->field_image['0']['filepath']); ?>      
+    <?php if($node->field_list_image['0']['filepath']){ ?>
+        <?php print theme('imagecache', '120_120', $node->field_list_image['0']['filepath']); ?>      
     <?php } 
     	  else
     	  {
