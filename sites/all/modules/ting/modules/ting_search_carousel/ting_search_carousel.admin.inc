@@ -37,10 +37,13 @@ function ting_search_carousel_admin_form($form_state) {
   $searches = variable_get('ting_search_carousel_searches', array());
   if ($searches) {
     foreach ($searches as $delta => $search) {
-      $form['ting_search_carousel_searches'][$delta] = array(
-        '#type' => 'ting_search_carousel_search',
-        '#value' => $search
-      );
+    	if ($search['title'])
+    	{
+	      $form['ting_search_carousel_searches'][$delta] = array(
+	        '#type' => 'ting_search_carousel_search',
+	        '#value' => $search
+	      );
+    	}
     }
   }
   else {
