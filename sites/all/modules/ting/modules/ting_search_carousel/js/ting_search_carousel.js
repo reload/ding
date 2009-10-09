@@ -26,7 +26,8 @@ Drupal.tingSearchCarousel.initCarousel = function(resultList)
 	  animation: "slow", // slow - fast
 	  auto: "0", //autoscroll in seconds
 	  wrap: "last",
-	  itemLoadCallback: Drupal.tingSearchCarousel.itemLoad
+	  itemLoadCallback: Drupal.tingSearchCarousel.itemLoad,
+	  buttonNextCallback: Drupal.tingSearchCarousel.buttonNext
   });
 };
 
@@ -59,9 +60,9 @@ Drupal.tingSearchCarousel.itemLoad = function(carousel, state)
 					size++;
 				});
 				//update size with number of added items;
-				carousel.size(size);
+				(size > start) ? carousel.size(size) : carousel.inTail = true;
 				
-				//advance carousel if items have been added
+				//reset carousel position on init
 				if (state == 'init')
 				{
 					carousel.scroll(0);

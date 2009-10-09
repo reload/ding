@@ -157,11 +157,14 @@ function ting_search_carousel_search_element_process($element, $form_state) {
     '#description' => t('The query to display search results for'),
   	'#default_value' => $element['#value']['query'],
   );
+  $element['sort'] = array (
+    '#value' => '<div class="sort">'.t('Move').'</div>',
+  );
   $element['remove'] = array(
     '#type' => 'button',
-  	'#submit' => FALSE,
-  	'#value' => t('Remove'),
-  	'#attributes' => array('class' => 'remove')  
+    '#submit' => FALSE,
+    '#value' => t('Remove'),
+    '#attributes' => array('class' => 'remove')
 	);
 	
   return $element;
