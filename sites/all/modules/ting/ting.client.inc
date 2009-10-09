@@ -235,24 +235,31 @@ function ting_add_additional_info($collection)
 
 	if (sizeof($isbns) > 0)
 	{
-		$additionalInformations = $additionalInformationService->getByIsbn($isbns);
-		
-		foreach ($additionalInformations as $id => $ai)
+		try
 		{
-			foreach ($objects as &$object)
+			$additionalInformations = $additionalInformationService->getByIsbn($isbns);
+			
+			foreach ($additionalInformations as $id => $ai)
 			{
-				if (isset($object->data->identifier))
-				{						
-					foreach ($object->data->identifier as $identifier)
-					{
-						if ($identifier->type == TingClientObjectIdentifier::ISBN &&
-								$identifier->id == $id)
-						{	
-							$object->additionalInformation = $ai;
+				foreach ($objects as &$object)
+				{
+					if (isset($object->data->identifier))
+					{						
+						foreach ($object->data->identifier as $identifier)
+						{
+							if ($identifier->type == TingClientObjectIdentifier::ISBN &&
+									$identifier->id == $id)
+							{	
+								$object->additionalInformation = $ai;
+							}
 						}
 					}
 				}
 			}
+		}
+		catch (AdditionalInformationServiceException $e)
+		{
+			watchdog('TingClient', 'Error retrieving additional information and covers: '.$e->getMessage(), $isbns, WATCHDOG_ERROR);
 		}
 	}
 	
