@@ -26,7 +26,7 @@ foreach ($includes as $include) {
  *
  * @param string $object_id
  *    Ting object ID.
- * @return mixed
+ * @return TingClientObject
  *    Object, if found - boolean FALSE if not.
  */
 function ting_get_object_by_id($object_id) {

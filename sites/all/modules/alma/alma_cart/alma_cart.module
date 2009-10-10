@@ -2,6 +2,36 @@
 // $Id$
 
 /**
+ * Implementation of hook_menu().
+ */
+function alma_cart_menu() {
+  $items = array();
+
+  $items['alma/cart/add/%alma_cart_item'] = array(
+    'title' => 'Add item to cart',
+    'page callback' => 'alma_cart_page_add_to_cart',
+    'page arguments' => array(3),
+    'access arguments' => array('access content'),
+    'file' => 'alma_cart.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function alma_cart_theme($existing, $type, $theme, $path) {
+  return array(
+    'alma_cart_reservation_buttons' => array(
+      'arguments' => array('object' => NULL),
+      'file' => 'alma_cart.theme.inc',
+    ),
+  );
+}
+
+/**
  * Implementation of hook_ctools_plugin_api().
  */
 function alma_cart_ctools_plugin_api($module, $api) {
@@ -19,5 +49,20 @@ function alma_cart_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools' || $module == 'panels') {
     return 'plugins/' . $plugin;
   }
+}
+
+/**
+ * Load function for Alma cart callbacks.
+ *
+ * Called by the menu system to load items.
+ *
+ * @param string $item_id
+ *    The ID of an item.
+ * @return TingClientObject
+ *    The loaded Ting object – boolean FALSE if not found.
+ */
+function alma_cart_item_load($item_id) {
+  module_load_include('client.inc', 'ting');
+  return ting_get_object_by_local_id($item_id);
 }
 

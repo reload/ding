@@ -47,19 +47,32 @@ function alma_cart_schema() {
         'length' => 255,
         'not null' => TRUE,
       ),
-      'title' => array(
-        'description' => t('The title for this record'),
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE,
-      ),
       'created' => array(
         'description' => t('Timestamp for when this record was created.'),
         'type' => int,
         'unsigned' => TRUE,
         'not null' => TRUE,
       ),
+      'title' => array(
+        'description' => t('The title for this record'),
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'author' => array(
+        'description' => t('The author name for this record'),
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'thumbnail_url' => array(
+        'description' => t('The thumbnail URL for this record'),
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
     ),
+    'primary key' => array('uid', 'alma_id'),
     'indexes' => array(
       'uid' => array('uid'),
     ),

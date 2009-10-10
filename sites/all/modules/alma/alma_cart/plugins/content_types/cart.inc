@@ -76,4 +76,3 @@ function alma_cart_cart_content_type_edit_form(&$form, &$form_state) {
   return $form;
 }
 
-
