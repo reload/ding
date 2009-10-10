@@ -80,8 +80,6 @@ function alma_cart_confirm_form(&$form_state, $object, $action) {
  * Submit handler for Alma cart confirmation form.
  */
 function alma_cart_confirm_form_submit($form, &$form_state) {
-  dpm($form_state);
-
   switch ($form_state['values']['action']) {
     case 'add':
       // Create an array of the item to save.
@@ -92,6 +90,7 @@ function alma_cart_confirm_form_submit($form, &$form_state) {
         'created' => $_SERVER['REQUEST_TIME'],
         'title' => $form_state['values']['object']->data->title[0],
         'author' => $form_state['values']['object']->data->creator[0],
+        'type' => $form_state['values']['object']->data->type[0],
         'thumbnail_url' => $form_state['values']['object']->additionalInformation->thumbnailUrl,
       );
 

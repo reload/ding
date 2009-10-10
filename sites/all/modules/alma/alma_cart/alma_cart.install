@@ -65,6 +65,12 @@ function alma_cart_schema() {
         'length' => 255,
         'not null' => TRUE,
       ),
+      'type' => array(
+        'description' => t('The record type - book, DVD, magnaprint, etc.'),
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
       'thumbnail_url' => array(
         'description' => t('The thumbnail URL for this record'),
         'type' => 'varchar',
