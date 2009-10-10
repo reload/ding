@@ -24,9 +24,17 @@ function alma_cart_menu() {
  */
 function alma_cart_theme($existing, $type, $theme, $path) {
   return array(
+    'alma_cart_item' => array(
+      'arguments' => array('item' => NULL),
+      'file' => 'alma_cart.theme.inc',
+    ),
     'alma_cart_reservation_buttons' => array(
       'arguments' => array('object' => NULL),
       'file' => 'alma_cart.theme.inc',
+    ),
+    'alma_cart_forms_cart_details' => array(
+      'arguments' => array('form' => NULL),
+      'file' => 'alma_user.theme.inc',
     ),
   );
 }
