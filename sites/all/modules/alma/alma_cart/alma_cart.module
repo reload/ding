@@ -117,6 +117,10 @@ function theme_alma_cart_forms_cart_details($form) {
     );
   }
 
+  if (empty($rows)) {
+    return t('The cart is empty.');
+  }
+
   $output .= theme('table', $header, $rows);
   $output .= drupal_render($form);
   return $output;

@@ -18,11 +18,11 @@ Drupal.behaviors.almaCartButtons = function () {
       $.post(this.href, {}, function (data) {
         var buttons = {};
         if (data.status != 'success') {
-          buttons[Drupal.t('Close')] = function () { $(this).dialog('close'); };  
+          buttons[Drupal.t('Close')] = function () { $(this).dialog('close'); };
         }
         else {
-          buttons[Drupal.t('Close')] = function () { $(this).dialog('close'); };  
-          buttons[Drupal.t('View cart…')] = function () { window.location = data.cart_link };  
+          buttons[Drupal.t('Close')] = function () { $(this).dialog('close'); };
+          buttons[Drupal.t('View cart…')] = function () { window.location = data.cart_link };
         }
 
         $('#alma-cart-dialog')
