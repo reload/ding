@@ -255,7 +255,6 @@ function alma_user_forms_library_settings_submit($form, &$form_state) {
  */
 function alma_user_forms_reservation_details($form_state, $account, $records) {
   $form = array();
-  $branches = alma_client_get_reservation_branches();
 
   $form['account'] = array(
     '#type' => 'value',
@@ -297,7 +296,7 @@ function alma_user_forms_reservation_details($form_state, $account, $records) {
   $form['new_pickup_branch'] = array(
     '#type' => 'select',
     '#title' => t('New pickup branch'),
-    '#options' => $branches,
+    '#options' => alma_client_get_reservation_branches(),
     '#default_value' => $account->preferred_branch,
   );
 

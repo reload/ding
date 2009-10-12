@@ -12,21 +12,51 @@
 function alma_cart_page_add_to_cart($object) {
   // First, let's check if this is in the cart already :)
   $exists = (boolean) db_result(db_query("SELECT created FROM {alma_cart} WHERE uid = %d AND alma_id = '%s';", $GLOBALS['user']->uid, $object->data->localId));
+
+  // If client wants JSON (usually AJAX requests), let's give it to them.
+  if (isset($_SERVER['HTTP_ACCEPT']) && (strpos($_SERVER['HTTP_ACCEPT'], 'application/json')) || (strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript'))) {
+    $reply = array();
+    if (!$GLOBALS['user']->uid) {
+      $reply['status'] = 'error';
+      $reply['error_type'] = 'not-logged-in';
+      $reply['title'] = t('Not logged in');
+      $reply['message'] = t('You have to log in to put books in your basket');
+    }
+    elseif ($exists) {
+      $reply['status'] = 'error';
+      $reply['error_type'] = 'already-in-basket';
+      $reply['title'] = t('Already in basket');
+      $reply['message'] = t('@item is already in your basket.', array('@item' => $object->data->title[0]));
+    }
+    else {
+      if (alma_cart_add_ting_object($object) == SAVED_NEW) {
+        $reply['status'] = 'success';
+        $reply['title'] = t('Success');
+        $reply['message'] = t('@item is now in your basket.', array('@item' => $object->data->title[0]));
+        $reply['cart_link'] = url('user/' . $GLOBALS['user']->uid . '/cart');
+      }
+      else {
+        $reply['status'] = 'error';
+        $reply['error_type'] = 'cart-save-error';
+        $reply['title'] = t('Cart saving error');
+        $reply['message'] = t('An error occurred while saving to the basket. Please try again.');
+      }
+    }
+
+    // We are returning JavaScript, so tell the browser.
+    drupal_set_header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($reply);
+    return;
+  }
+
+  // For regular POST requests, we present forms, etc.
   if ($exists) {
     drupal_set_message('%book is already in your cart.', array('%book' => $object->data->title[0]));
     return drupal_goto('user/' . $GLOBALS['user']->uid . '/cart');
   }
 
-  $creds = alma_user_get_credentials($GLOBALS['user'], FALSE);
-  if ($creds) {
-    // Present a confirmation form.
-    return drupal_get_form('alma_cart_confirm_form', $object, 'add');
-  }
-  else {
-    // Require user login.
-    module_load_include('forms.inc', 'alma_user');
-    return drupal_get_form('alma_user_forms_alma_authenticate', $GLOBALS['user'],t('To add books to your cart, you need to log in.'), FALSE); 
-  } 
+  // Present a confirmation form.
+  return drupal_get_form('alma_cart_confirm_form', $object, 'add');
 
   return drupal_not_found(); 
 }
@@ -82,20 +112,8 @@ function alma_cart_confirm_form(&$form_state, $object, $action) {
 function alma_cart_confirm_form_submit($form, &$form_state) {
   switch ($form_state['values']['action']) {
     case 'add':
-      // Create an array of the item to save.
-      $cart_item = array(
-        'uid' => $GLOBALS['user']->uid,
-        'alma_id' => $form_state['values']['object']->data->localId,
-        'ting_id' => $form_state['values']['object']->id,
-        'created' => $_SERVER['REQUEST_TIME'],
-        'title' => $form_state['values']['object']->data->title[0],
-        'author' => $form_state['values']['object']->data->creator[0],
-        'type' => $form_state['values']['object']->data->type[0],
-        'thumbnail_url' => $form_state['values']['object']->additionalInformation->thumbnailUrl,
-      );
-
       // Save the item to the cart table.
-      drupal_write_record('alma_cart', $cart_item);
+      alma_cart_add_ting_object($form_state['values']['object']);
       break;
   }
 

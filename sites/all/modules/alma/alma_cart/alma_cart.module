@@ -34,7 +34,6 @@ function alma_cart_theme($existing, $type, $theme, $path) {
     ),
     'alma_cart_forms_cart_details' => array(
       'arguments' => array('form' => NULL),
-      'file' => 'alma_user.theme.inc',
     ),
   );
 }
@@ -72,5 +71,54 @@ function alma_cart_ctools_plugin_directory($module, $plugin) {
 function alma_cart_item_load($item_id) {
   module_load_include('client.inc', 'ting');
   return ting_get_object_by_local_id($item_id);
+}
+
+/**
+ * Helper function to add a TingClientObject to the Alma cart.
+ *
+ * @param TingClientObject $object
+ * @return mixed
+ *    The return value of drupal_write_record for the cart item.
+ */
+function alma_cart_add_ting_object($object) {
+  // Create an array of the item to save.
+  $cart_item = array(
+    'uid' => $GLOBALS['user']->uid,
+    'alma_id' => $object->data->localId,
+    'ting_id' => $object->id,
+    'created' => $_SERVER['REQUEST_TIME'],
+    'title' => $object->data->title[0],
+    'author' => $object->data->creator[0],
+    'type' => $object->data->type[0],
+    'thumbnail_url' => $object->additionalInformation->thumbnailUrl,
+  );
+
+  // Save the item to the cart table.
+  return drupal_write_record('alma_cart', $cart_item);
+}
+
+/**
+ * Theme function for Alma cart form.
+ *
+ * This has to be in the module file to get loaded properly. The theme 
+ * system's support for external files is still lacking for preprocess 
+ * hooks and overriding theme functions.
+ */
+function theme_alma_cart_forms_cart_details($form) {
+  $header = array(t('Select'), t('Title'), t('Wait time'));
+  $rows = array();
+  $output = '';
+
+  foreach ($form['cart_data']['#value'] as $item) {
+    $rows[] = array(
+      drupal_render($form['cart'][$item['alma_id']]),
+      theme('alma_cart_item', $item),
+      '~0.25E-3 millenia', // TODO: Wait time not implemented yet.
+    );
+  }
+
+  $output .= theme('table', $header, $rows);
+  $output .= drupal_render($form);
+  return $output;
 }
 
