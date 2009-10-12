@@ -105,11 +105,28 @@ function ting_do_scan($query, $numResults = 10) {
 	return ting_get_client()->execute($request);
 }
 	
+/**
+ * @param string $word The word to get spell suggestions for 
+ * @param $numResults The number of results to return
+ * @return array An array of TingClientSpellSuggestion objects
+ */
 function ting_get_spell_suggestions($word, $numResults = 10) {
 	$request = ting_get_request_factory()->getSpellRequest();
 	$request->setWord($word);
 	$request->setNumResults($numResults);
 	return ting_get_client()->execute($request);
+}
+  
+/**
+ * @param string $word The word to get spell suggestions for 
+ * @param $numResults The number of results to return
+ * @return array An array of TingClientSpellSuggestion objects
+ */
+function ting_get_object_recommendations($isbn, $numResults = 10) {
+  $request = ting_get_request_factory()->getObjectRecommendationRequest();
+  $request->setIsbn($isbn);
+  $request->setNumResults($numResults);
+  return ting_get_client()->execute($request);
 }
 
 /**
