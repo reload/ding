@@ -1,0 +1,1 @@
+<?php dsm(get_defined_vars()) ?>
