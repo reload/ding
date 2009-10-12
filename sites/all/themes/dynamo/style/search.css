@@ -27,8 +27,8 @@
 	#ting-facet-browser .resize.contract {background:transparent url(../images/bg-facetbrowser-footer-up.png) no-repeat center bottom;}
 
 	#ting-facet-browser a.resize {
-	width: 660px; height: 40px;
-		position: absolute; left: 4px; bottom: -13px; display: block;  text-indent: -9999px; z-index: 9999;
+	width: 660px; height: 24px;
+		position: absolute; left: 4px; bottom: -24px; display: block;  text-indent: -9999px; z-index: 9999;
 		background:transparent url(../images/bg-facetbrowser-footer.png) no-repeat center bottom;
 	}
 	

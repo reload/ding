@@ -143,7 +143,7 @@ Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, res
 			{
 				jQuery('.resize', element).toggleClass('expand').toggleClass('contract');
 			});
-			jQuery('.resize', element).animate({ 'top': (Drupal.getFacetHeight()+headerHeight-13)+'px' }, 1000, 'swing');
+			jQuery('.resize', element).animate({ 'top': (Drupal.getFacetHeight()+headerHeight+6)+'px' }, 1000, 'swing');
 			jQuery('.jcarousel-prev, .jcarousel-next', element).animate({ 'top': ((Drupal.getFacetHeight()+headerHeight)/2)+'px' }, 1000, 'swing');
 			
 		}, function()
