@@ -18,7 +18,7 @@ $includes = array(
 $path = drupal_get_path('module', 'ting') . '/lib/';
 
 foreach ($includes as $include) {
-  require_once($path . $include);
+	require_once($path . $include);
 }
 
 /**
@@ -31,16 +31,16 @@ foreach ($includes as $include) {
  * @return mixed
  *    Object, if found - boolean FALSE if not.
  */
-function ting_get_object_by_id($object_id, $enrich = true) {
+function ting_get_object_by_id($object_id, $enrich = false) {
 	$request = ting_get_request_factory()->getObjectRequest();
 	$request->setObjectId($object_id);
 	$object = ting_get_client()->execute($request);
-  
-  if ($object) {
-    $object = ting_add_object_url($object);
-    $object = array_shift(ting_add_additional_info(array($object)));    
-  }
-  return ($object) ? $object : false;
+
+	if ($object) {
+		$object = ting_add_object_url($object);
+		$object = ($enrich) ? array_shift(ting_add_additional_info(array($object))) : $object;
+	}
+	return ($object) ? $object : false;
 }
 
 /**
@@ -52,17 +52,17 @@ function ting_get_object_by_id($object_id, $enrich = true) {
  *    Whether to enrich the object with additional information, covers etc.
  * @return TingClientObject
  */
-function ting_get_object_by_local_id($local_id, $enrich = true) {
+function ting_get_object_by_local_id($local_id, $enrich = false) {
 	$request = ting_get_request_factory()->getObjectRequest();
 	$request->setLocalId($local_id);
 	$object = ting_get_client()->execute($request);
-	
+
 	if ($object) {
 		$object = ting_add_object_url($object);
-    $object = array_shift(ting_add_additional_info(array($object)));		
+		$object = ($enrich) ? array_shift(ting_add_additional_info(array($object))) : $object;
 	}
 	return ($object) ? $object : false;
-}	
+}
 
 /**
  * Display a Ting collection of objects.
@@ -74,14 +74,14 @@ function ting_get_object_by_local_id($local_id, $enrich = true) {
  * @return mixed
  *    Collection object, if found - boolean FALSE if not.
  */
-function ting_get_collection_by_id($object_id, $enrich = true) {
+function ting_get_collection_by_id($object_id, $enrich = false) {
 	$request = ting_get_request_factory()->getCollectionRequest();
 	$request->setObjectId($object_id);
 	$collection = ting_get_client()->execute($request);
-	
+
 	if ($collection) {
-    $collection = ($enrich) ? ting_add_additional_info($collection) : $collection;
-    $collection = ting_add_collection_info($collection);
+		$collection = ting_add_collection_info($collection);
+		$collection = ($enrich) ? ting_add_additional_info($collection) : $collection;
 	}
 	return ($collection) ? $collection : false;
 }
@@ -99,23 +99,23 @@ function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = arra
 	$request->setQuery($query);
 	$request->setStart($resultsPerPage * ($page - 1) + 1);
 	$request->setNumResults($resultsPerPage);
-		
+
 	$request->setFacets((isset($options['facets'])) ? $options['facets'] : array('facet.subject', 'facet.creator', 'facet.type', 'facet.date', 'facet.language'));
 	$request->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((sizeof($request->getFacets()) == 0) ? 0 : 10));
-		
+
 	$searchResult = ting_get_client()->execute($request);
-		
+
 	//Decorate search result with additional information
 	foreach ($searchResult->collections as &$collection)
 	{
 		$collection = ting_add_collection_info($collection);
-		if (!isset($options['enrich']) || $options['enrich'])
+		if (isset($options['enrich']) && $options['enrich'])
 		{
-  		$collection = ting_add_additional_info($collection);
+			$collection = ting_add_additional_info($collection);
 		}
 		$collection = ting_sort_objects($collection);
 	}
-		
+
 	return $searchResult;
 }
 
@@ -131,9 +131,9 @@ function ting_do_scan($query, $numResults = 10) {
 	$request->setNumResults($numResults);
 	return ting_get_client()->execute($request);
 }
-	
+
 /**
- * @param string $word The word to get spell suggestions for 
+ * @param string $word The word to get spell suggestions for
  * @param $numResults The number of results to return
  * @return array An array of TingClientSpellSuggestion objects
  */
@@ -143,17 +143,17 @@ function ting_get_spell_suggestions($word, $numResults = 10) {
 	$request->setNumResults($numResults);
 	return ting_get_client()->execute($request);
 }
-  
+
 /**
- * @param string $word The word to get spell suggestions for 
+ * @param string $word The word to get spell suggestions for
  * @param $numResults The number of results to return
  * @return array An array of TingClientSpellSuggestion objects
  */
 function ting_get_object_recommendations($isbn, $numResults = 10) {
-  $request = ting_get_request_factory()->getObjectRecommendationRequest();
-  $request->setIsbn($isbn);
-  $request->setNumResults($numResults);
-  return ting_get_client()->execute($request);
+	$request = ting_get_request_factory()->getObjectRecommendationRequest();
+	$request->setIsbn($isbn);
+	$request->setNumResults($numResults);
+	return ting_get_client()->execute($request);
 }
 
 /**
@@ -161,13 +161,13 @@ function ting_get_object_recommendations($isbn, $numResults = 10) {
  */
 function ting_get_client() {
 	static $client;
-	
+
 	if (!isset($client))
 	{
 		$client = new TingClient(new TingClientDrupal6HttpRequestAdapter(),
-																			new TingClientDrupalWatchDogLogger());
+		new TingClientDrupalWatchDogLogger());
 	}
-	
+
 	return $client;
 }
 
@@ -176,7 +176,7 @@ function ting_get_client() {
  */
 function ting_get_request_factory() {
 	static $requestFactory;
-	
+
 	if (!isset($requestFactory))
 	{
 		$urlVariables = array(	'search' => 'ting_search_url',
@@ -194,10 +194,10 @@ function ting_get_request_factory() {
 				throw new TingClientException('No Ting webservice url defined for '.$name);
 			}
 		}
-		
+
 		$requestFactory = new RestJsonTingClientRequestFactory($urls);
 	}
-	
+
 	return $requestFactory;
 }
 
@@ -213,16 +213,16 @@ function ting_add_collection_info(TingClientObjectCollection $collection)
 	$collection->types = array_unique($types);
 	return $collection;
 }
-	
+
 function ting_sort_objects($collection)
 {
 	usort($collection->objects, 'ting_compare_objects');
 	$collection->objects = array_reverse($collection->objects);
-	
+
 	foreach ($collection->objects as $i => $object)
 	{
-		if (isset($object->additionalInformation->detailUrl) || 
-				isset($object->additionalInformation->thumbnailUrl))
+		if (isset($object->additionalInformation->detailUrl) ||
+		isset($object->additionalInformation->thumbnailUrl))
 		{
 			$object = array_shift(array_slice($collection->objects, $i, 1));
 			unset($collection->objects[$i]);
@@ -230,7 +230,7 @@ function ting_sort_objects($collection)
 			break;
 		}
 	}
-		
+
 	return $collection;
 }
 
@@ -239,7 +239,7 @@ function ting_add_object_url(TingClientObject $object)
 	$object->url = url('ting/object/'.$object->id, array('absolute' => true));
 	return $object;
 }
-	
+
 function ting_add_additional_info($collection)
 {
 	//Add additional information info for cover images
@@ -260,9 +260,9 @@ function ting_add_additional_info($collection)
 	}
 	extract ($addiVariables);
 	$additionalInformationService = new AdditionalInformationService($wsdlUrl, $username, $group, $password);
-		
+
 	$objects = (isset($collection->objects)) ? $collection->objects : $collection;
-	
+
 	foreach($objects as $object)
 	{
 		if (isset($object->data->identifier))
@@ -282,18 +282,18 @@ function ting_add_additional_info($collection)
 		try
 		{
 			$additionalInformations = $additionalInformationService->getByIsbn($isbns);
-			
+				
 			foreach ($additionalInformations as $id => $ai)
 			{
 				foreach ($objects as &$object)
 				{
 					if (isset($object->data->identifier))
-					{						
+					{
 						foreach ($object->data->identifier as $identifier)
 						{
 							if ($identifier->type == TingClientObjectIdentifier::ISBN &&
-									$identifier->id == $id)
-							{	
+							$identifier->id == $id)
+							{
 								$object->additionalInformation = $ai;
 							}
 						}
@@ -306,24 +306,24 @@ function ting_add_additional_info($collection)
 			watchdog('TingClient', 'Error retrieving additional information and covers: '.$e->getMessage(), $isbns, WATCHDOG_ERROR);
 		}
 	}
-	
+
 	if (isset($collection->objects))
 	{
 		$collection->objects = $objects;
 	}
 	else
 	{
-		$collection = $objects;			
+		$collection = $objects;
 	}
-	
+
 	return $collection;
 }
-	
+
 function ting_compare_objects($o1, $o2, $criterias = NULL)
 {
 	$criterias = ($criterias) ? $criterias : array(	'language' => array('Dansk', 'Engelsk'),
 																									'type' => array('Bog', 'DVD'));
-		foreach ($criterias as $attribute => $values)
+	foreach ($criterias as $attribute => $values)
 	{
 		foreach ($values as $value)
 		{
@@ -332,10 +332,10 @@ function ting_compare_objects($o1, $o2, $criterias = NULL)
 			if ($o1Check && !$o2Check)
 			{
 				return 1;
-			} 
+			}
 			else if (!$o1Check && $o2Check)
 			{
-				return -1;	
+				return -1;
 			}
 			else if ($o1Check && $o2Check && (sizeof($criterias) > 1))
 			{
@@ -344,6 +344,6 @@ function ting_compare_objects($o1, $o2, $criterias = NULL)
 			}
 		}
 	}
-			
+		
 	return 0;
 }

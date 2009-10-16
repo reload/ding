@@ -41,7 +41,7 @@ function ting_search_cover($preset, $object_id) {
   $path = ting_search_cover_path($object_id);
 
   if (!file_exists(file_create_path($path))) {
-  	$object = ting_get_object_by_id($object_id);
+  	$object = ting_get_object_by_id($object_id, true);
     if (!$object) {
       drupal_not_found();
       exit;
@@ -96,7 +96,7 @@ function ting_search_pages_ting_js() {
   try {
     $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
     $resultsPerPage = 10;
-    $searchResult = ting_do_search($query, $page, $resultsPerPage);
+    $searchResult = ting_do_search($query, $page, $resultsPerPage, array('enrich' => true));
     $result = array(
       'page' => $page,
       'resultsPerPage' => $resultsPerPage,
