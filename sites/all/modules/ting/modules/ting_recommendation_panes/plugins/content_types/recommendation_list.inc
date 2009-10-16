@@ -23,10 +23,6 @@ function ting_recommendation_panes_recommendation_list_ctools_content_types() {
  */
 function ting_recommendation_panes_recommendation_list_content_type_content_types() {
   $types = array(
-    'recommendation_carousel' => array(
-      'title' => t('Ting recommendation carousel'),
-      'description' => t('Displays a carousel of recommended Ting objects.'),
-    ),
     'recommendation_list' => array(
       'title' => t('Ting recommendation list'),
       'description' => t('Displays a list of recommended Ting objects.'),
@@ -50,10 +46,12 @@ function ting_recommendation_panes_recommendation_list_content_type_content_type
  * Return the pane contents.
  */
 function ting_recommendation_panes_recommendation_list_content_type_render($subtype, $conf, $panel_args, $context) {
-  //get the objects to base the recommendation on based on the first supplied context
+  $basePath = drupal_get_path('module', 'ting_recommendation_panes');
+  drupal_add_css($basePath.'/css/ting_recommendation_panes.css');
+  
+	//get the objects to base the recommendation on based on the first supplied context
 	$objects = FALSE;
-	foreach ($context as $c)
-  {
+	foreach ($context as $c) {
   	switch ($c->type) {
   		case 'ting_object':
   		  $objects = ting_get_object_by_id($c->original_argument);
@@ -70,9 +68,6 @@ function ting_recommendation_panes_recommendation_list_content_type_render($subt
 	  $recommendedObjects = ting_recommendation_panes_get_recommended_objects($objects);
 	  
 	  switch($subtype) {
-	    case 'recommendation_carousel':
-	      $block->content = theme('ting_recommendation_panes_recommendation_carousel', $recommendedObjects);
-	      break;
 	    case 'recommendation_list':
 	      $block->content = theme('ting_recommendation_panes_recommendation_list', $recommendedObjects);
 	      break;
@@ -97,8 +92,6 @@ function ting_recommendation_panes_recommendation_list_content_type_admin_title(
   $contextIdentifiers = implode(', ', $contextIdentifiers);
 	
 	switch($subtype) {
-    case 'recommendation_carousel':
-      return t('“@s”: Ting recommendation carousel', array('@s' => $contextIdentifiers));
     case 'recommendation_list':
       return t('“@s”: Ting recommendation list', array('@s' => $contextIdentifiers));
   }
