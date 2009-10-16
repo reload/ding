@@ -26,25 +26,42 @@ foreach ($includes as $include) {
  *
  * @param string $object_id
  *    Ting object ID.
+ * @param bool $enrich
+ *    Whether to enrich the object with additional information, covers etc.
  * @return mixed
  *    Object, if found - boolean FALSE if not.
  */
-function ting_get_object_by_id($object_id) {
+function ting_get_object_by_id($object_id, $enrich = true) {
 	$request = ting_get_request_factory()->getObjectRequest();
 	$request->setObjectId($object_id);
 	$object = ting_get_client()->execute($request);
-	return ($object) ? array_shift(ting_add_additional_info(array(ting_add_object_url($object)))) : false;
+  
+  if ($object) {
+    $object = ting_add_object_url($object);
+    $object = array_shift(ting_add_additional_info(array($object)));    
+  }
+  return ($object) ? $object : false;
 }
 
 /**
- * @param string $localId
+ * Load an object from Ting by local ID (faust number).
+ *
+ * @param string $local_id
+ *    Local identifier
+ * @param bool $enrich
+ *    Whether to enrich the object with additional information, covers etc.
  * @return TingClientObject
  */
-function ting_get_object_by_local_id($local_id) {
+function ting_get_object_by_local_id($local_id, $enrich = true) {
 	$request = ting_get_request_factory()->getObjectRequest();
 	$request->setLocalId($local_id);
 	$object = ting_get_client()->execute($request);
-	return ($object) ? array_shift(ting_add_additional_info(array(ting_add_object_url($object)))) : false;
+	
+	if ($object) {
+		$object = ting_add_object_url($object);
+    $object = array_shift(ting_add_additional_info(array($object)));		
+	}
+	return ($object) ? $object : false;
 }	
 
 /**
@@ -52,14 +69,21 @@ function ting_get_object_by_local_id($local_id) {
  *
  * @param string $collection_id
  *    Ting collection ID.
+ * @param bool $enrich
+ *    Whether to enrich objects in the collection with additional information, covers etc.
  * @return mixed
  *    Collection object, if found - boolean FALSE if not.
  */
-function ting_get_collection_by_id($object_id) {
+function ting_get_collection_by_id($object_id, $enrich = true) {
 	$request = ting_get_request_factory()->getCollectionRequest();
 	$request->setObjectId($object_id);
 	$collection = ting_get_client()->execute($request);
-  return ($collection) ? ting_add_collection_info(ting_add_additional_info($collection)) : false;
+	
+	if ($collection) {
+    $collection = ($enrich) ? ting_add_additional_info($collection) : $collection;
+    $collection = ting_add_collection_info($collection);
+	}
+	return ($collection) ? $collection : false;
 }
 
 /**
@@ -85,7 +109,10 @@ function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = arra
 	foreach ($searchResult->collections as &$collection)
 	{
 		$collection = ting_add_collection_info($collection);
-		$collection = ting_add_additional_info($collection);
+		if (!isset($options['enrich']) || $options['enrich'])
+		{
+  		$collection = ting_add_additional_info($collection);
+		}
 		$collection = ting_sort_objects($collection);
 	}
 		
