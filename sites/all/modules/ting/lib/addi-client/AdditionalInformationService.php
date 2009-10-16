@@ -37,10 +37,15 @@ class AdditionalInformationService {
 		}
 		
 		$client = new SoapClient($this->wsdlUrl);
+		
+		$startTime = explode(' ', microtime());	
 		$response = $client->additionalInformation(array(
 													'authentication' => $authInfo,
 													'identifier' => $isbnIdentifiers));
-		
+		$stopTime = explode(' ', microtime());
+    $time = floatval(($stopTime[1]+$stopTime[0]) - ($startTime[1]+$startTime[0]));
+		watchdog('addi', 'Completed request ('.round($time, 3).'s)', $isbnIdentifiers, WATCHDOG_INFO, 'http://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
+    
 		if ($response->requestStatus->statusEnum != 'ok')
 		{
 			throw new AdditionalInformationServiceException($response->requestStatus->statusEnum.': '.$response->requestStatus->errorText);
