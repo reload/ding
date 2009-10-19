@@ -22,7 +22,7 @@
 	<?php if ($user_status_available): ?>
 		<div class="cart">
 	    <div class="count"><?php print $cart_count; ?></div>
-	    <?php print l('Go to cart', 'patron/cart'); ?>
+	    <?php print l('Go to cart', 'user/' . $user->uid . '/cart'); ?>
 		</div>
 
 		<ul>

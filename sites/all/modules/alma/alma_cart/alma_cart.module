@@ -98,6 +98,18 @@ function alma_cart_add_ting_object($object) {
 }
 
 /**
+ * Get cart item count for user.
+ *
+ * @param stdClass $account
+ *    User object.
+ * return integer
+ *    Item count.
+ */
+function alma_cart_user_count($account) {
+  return db_result(db_query("SELECT COUNT(alma_id) FROM {alma_cart} WHERE uid = %d", $account->uid));
+}
+
+/**
  * Theme function for Alma cart form.
  *
  * This has to be in the module file to get loaded properly. The theme 

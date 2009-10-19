@@ -187,6 +187,27 @@ function alma_client_get_debts($borr_card, $pin_code) {
 }
 
 /**
+ * Add reservation.
+ *
+ * @param string $borr_card
+ *    Library patron's borrowing card number. Either just an arbitrary
+ *    number printed on their library card or their CPR-code.
+ * @param string $pin_code
+ *    Library patron's current four digit PIN code.
+ * @param array $reservation
+ *    Data for the reservation we're adding.
+ */
+function alma_client_add_reservation($borr_card, $pin_code, $reservation) {
+  try {
+    return alma_client()->add_reservation($borr_card, $pin_code, $reservation);
+  }
+  catch (Exception $e) {
+    watchdog('alma_user', 'add_reservation error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
+    return FALSE;
+  }
+}
+
+/**
  * Change a reservation
  *
  * @param string $borr_card
@@ -231,7 +252,7 @@ function alma_client_remove_reservation($borr_card, $pin_code, $reservation) {
 }
 
 /**
- * Remove a reservation
+ * Renew a loan
  *
  * @param string $borr_card
  *    Library patron's borrowing card number. Either just an arbitrary
