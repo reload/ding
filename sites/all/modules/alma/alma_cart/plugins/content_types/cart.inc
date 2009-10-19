@@ -49,7 +49,11 @@ function alma_cart_cart_content_type_render($subtype, $conf, $panel_args, $conte
 
   switch ($subtype) {
     case 'alma_cart_details':
-      $block->content = 'Cart contents here';
+      $account = isset($context->data) ? drupal_clone($context->data) : NULL;
+      if ($account->uid) {
+        module_load_include('forms.inc', 'alma_cart');
+        $block->content = drupal_get_form('alma_cart_forms_cart_details', $account);
+      }
       break;
   }
 
@@ -75,5 +79,4 @@ function alma_cart_cart_content_type_admin_title($subtype, $conf, $context) {
 function alma_cart_cart_content_type_edit_form(&$form, &$form_state) {
   return $form;
 }
-
 

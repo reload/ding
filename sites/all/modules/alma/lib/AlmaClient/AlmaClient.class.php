@@ -16,7 +16,7 @@ class AlmaClient {
    * Constructor, checking if we have a sensible value for $base_url.
    */
   function __construct($base_url) {
-    if (/*stripos('http', $base_url) === 0 &&*/ filter_var($base_url, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED)) {
+    if (stripos($base_url, 'http') === 0 && filter_var($base_url, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED)) {
       $this->base_url = $base_url;
     }
     else {
@@ -210,7 +210,7 @@ class AlmaClient {
   }
 
   /**
-   * Helper function for sorting reservations.
+   * Helper function for sorting loans.
    */
   private static function loan_sort($a, $b) {
     return strcmp($a['due_date'], $b['due_date']);
@@ -239,6 +239,35 @@ class AlmaClient {
     }
 
     return $data;
+  }
+
+  /**
+   * Add a reservation.
+   */
+  public function add_reservation($borr_card, $pin_code, $reservation) {
+    // Initialise the query parameters with the current value from the
+    // reservation array.
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'reservable' => $reservation['id'],
+      'reservationPickUpBranch' => $reservation['pickup_branch'],
+      'reservationValidFrom' => $reservation['valid_from'],
+      'reservationValidTo' => $reservation['valid_to'],
+    );
+
+    // If there's not a validFrom date, set it as today.
+    if (empty($params['reservationValidFrom'])) {
+      $params['reservationValidFrom'] = date('Y-m-d', $_SERVER['REQUEST_TIME']);
+    }
+
+    // If there's not a validTo date, set it a year in the future.
+    if (empty($params['reservationValidTo'])) {
+      $params['reservationValidTo'] = intval(date('Y', $_SERVER['REQUEST_TIME'])) + 1 . date('-m-d', $_SERVER['REQUEST_TIME']);
+    }
+
+    $doc = $this->request('patron/reservations/add', $params);
+    return TRUE;
   }
 
   /**

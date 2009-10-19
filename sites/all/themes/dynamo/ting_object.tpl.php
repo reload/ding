@@ -52,11 +52,7 @@
 					<p><?php print $object->data->description[0];?></p>
 					</div>
 
-					<div class="buttons">
-						<div class="button button-orange"><a href="">Reserver nu</a></div>
-						<div class="button button-green"><a href="">Læg i kurv</a></div>
-					</div>
-
+          <?php print theme('alma_cart_reservation_buttons', $object); ?>
 					
 				</div>
 

@@ -590,8 +590,14 @@ function template_preprocess_alma_user_status_block(&$variables) {
     if ($variables['user_status']['loan_overdue_count'] > 0) {
       $variables['wrapper_classes'] .= 'loans-overdue';
     }
-    // Since the cart is not implemented yet, we'll just set its count to 0
-    $variables['cart_count'] = 0;
+
+    // Get the item count from alma_cart, if the module is available.
+    if (function_exists('alma_cart_user_count')) {
+      $variables['cart_count'] = alma_cart_user_count($account);
+    }
+    else {
+      $variables['cart_count'] = 0;
+    }
   }
 }
 
