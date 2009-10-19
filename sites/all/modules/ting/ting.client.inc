@@ -90,12 +90,22 @@ function ting_get_collection_by_id($object_id, $enrich = false) {
 }
 
 /**
- * Display a Ting collection of objects.
+ * Performs a search agains the 
  *
- * @param string $collection_id
- *    Ting collection ID.
- * @return mixed
- *    Collection object, if found - boolean FALSE if not.
+ * @param string $query
+ *    The search query
+ * @param int $page
+ *    The page number to retrieve search results for
+ * @param int $resultsPerPage
+ *    The number of results to include per page
+ * @param array $options
+ *    Options to pass to the search. Possible options are:
+ *    - facets: Array of facet names for which to return results. Default: facet.subject, facet.creator, facet.type, facet.date, facet.language
+ *    - numFacets: The number of terms to include with each facet. Default: 10
+ *    - enrich: Whether to include additional information and cover images with each object. Default: false
+ *    - supportingTypes: Whether to include supporting types such as reviews. Default: false
+ * @return TingClientSearchResult
+ *    The search result
  */
 function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = array()) {
 	$request = ting_get_request_factory()->getSearchRequest();
@@ -103,7 +113,8 @@ function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = arra
 	$request = ting_add_agency($request);
 	$request->setStart($resultsPerPage * ($page - 1) + 1);
 	$request->setNumResults($resultsPerPage);
-
+  
+	$request->setQuery((!isset($options['supportingTypes']) || !$options['supportingTypes']) ? $request->getQuery().' AND NOT facet.type:materialevurdering AND NOT facet.type:anmeldelse' : $request->getQuery());	
 	$request->setFacets((isset($options['facets'])) ? $options['facets'] : array('facet.subject', 'facet.creator', 'facet.type', 'facet.date', 'facet.language'));
 	$request->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((sizeof($request->getFacets()) == 0) ? 0 : 10));
 
