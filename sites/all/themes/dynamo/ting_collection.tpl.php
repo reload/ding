@@ -140,12 +140,7 @@
 
 					</div>
 					<div class="cart">
-
-						<ul>
-							<li class="button button-orange"><a href="">Reserver nu</a></li>
-							<li class="button button-green"><a href="">Læg i kurv</a></li>
-						</ul>
-
+          <?php print theme('alma_cart_reservation_buttons', $tingClientObject); ?>
 					</div>
 
 				</div>
