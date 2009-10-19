@@ -78,12 +78,17 @@ function ting_recommendation_panes_get_recommended_objects($objects) {
 		
 		$localIds = array();
 		foreach ($identifiers as $id) {
-			$recommendations = ting_get_object_recommendations($id, $numResults);
-			foreach ($recommendations as $recommendation) {
-				if (isset($localIds[$recommendation->localId])) {
-	        $localIds[$recommendation->localId] = 0;
+			try {
+				$recommendations = ting_get_object_recommendations($id, $numResults);
+				foreach ($recommendations as $recommendation) {
+					if (isset($localIds[$recommendation->localId])) {
+		        $localIds[$recommendation->localId] = 0;
+					}
+					$localIds[$recommendation->localId]++;
 				}
-				$localIds[$recommendation->localId]++;
+			} catch (TingClientException $e)
+			{
+				watchdog('ting client', 'Error retrieving recommendations: '. $e->getMessage(), array($id, $e), WATCHDOG_WARNING, $_SERVER["REQUEST_URI"]);
 			}
 		}
 		arsort($localIds);
@@ -109,22 +114,25 @@ function ting_recommendation_panes_extract_identifers($objects)
 		foreach ($objects as $o) {
 			$ids = array_merge($ids, ting_recommendation_panes_extract_identifers($o));
 		}
-		return $ids;
+		return array_unique($ids);
 	} else {
 		//if passing a single value then extract ids depending on type
 		switch (get_class($objects)) {
 			case 'TingClientObject':
 				//get id from the object
-	      foreach ($objects->data->identifier as $id)
+				$id = array();
+				foreach ($objects->data->identifier as $i)
 	      {
-	      	if ($id->type == TingClientObjectIdentifier::ISBN) {
-	      		return array($id->id);
+	      	if ($i->type == TingClientObjectIdentifier::ISBN) {
+	      		$id = array($i->id);
+	      		break;
 	      	}
-	      }		
+	      }
+	      return $id;		
 			break;		
 	    case 'TingClientObjectCollection':
 	    	//get ids from each of the objects in the collection
-        return ting_recommendation_panes_extract_identifers($objects->objects);
+	    	return ting_recommendation_panes_extract_identifers($objects->objects);
 	    break;		
 			default:
 				//assume a string or integer has been passed and return it
