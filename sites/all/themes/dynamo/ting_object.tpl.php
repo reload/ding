@@ -91,8 +91,6 @@
 				{
 					if(is_array($collection->types))
 					{
-						//dpm($collection);
-	
 						print '<h3>'. t('Also available as: ') . '</h3>';
 						foreach ($collection->types as $category) {
 							if($category == $object->data->type[0]) continue;

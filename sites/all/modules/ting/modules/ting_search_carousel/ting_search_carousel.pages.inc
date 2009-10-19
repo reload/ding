@@ -37,7 +37,7 @@ function ting_search_carousel_result_ahah($search, $start, $numResults) {
   while ((sizeof($carouselSearch->collections) < ($start+$numResults)) 
 				 && $carouselSearch->more)
 	{
-		$result = ting_do_search($search['query'], ++$page, $resultsPerPage, array('facets' => array()));
+		$result = ting_do_search($search['query'], ++$page, $resultsPerPage, array('facets' => array(), 'enrich' => true));
     
 		if (sizeof($result->collections) > 0)
 		{
