@@ -12,6 +12,12 @@ function ting_admin_settings_form($form_state) {
     '#title' => t('Ting service settings'),
     '#tree' => FALSE,
   );
+  $form['ting']['ting_agency'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Library code'),
+    '#description' => t('The 6-digit code representing the library organization'),
+    '#default_value' => variable_get('ting_agency', ''),
+  );
   $form['ting']['ting_search_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Search service URL'),

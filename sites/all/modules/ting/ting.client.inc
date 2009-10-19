@@ -32,6 +32,7 @@ foreach ($includes as $include) {
 function ting_get_object_by_id($object_id, $enrich = false) {
 	$request = ting_get_request_factory()->getObjectRequest();
 	$request->setObjectId($object_id);
+	$request = ting_add_agency($request);
 	$object = ting_get_client()->execute($request);
 
 	if ($object) {
@@ -53,6 +54,7 @@ function ting_get_object_by_id($object_id, $enrich = false) {
 function ting_get_object_by_local_id($local_id, $enrich = false) {
 	$request = ting_get_request_factory()->getObjectRequest();
 	$request->setLocalId($local_id);
+	$request = ting_add_agency($request);
 	$object = ting_get_client()->execute($request);
 
 	if ($object) {
@@ -75,6 +77,7 @@ function ting_get_object_by_local_id($local_id, $enrich = false) {
 function ting_get_collection_by_id($object_id, $enrich = false) {
 	$request = ting_get_request_factory()->getCollectionRequest();
 	$request->setObjectId($object_id);
+  $request = ting_add_agency($request);
 	$collection = ting_get_client()->execute($request);
 
 	if ($collection) {
@@ -95,6 +98,7 @@ function ting_get_collection_by_id($object_id, $enrich = false) {
 function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = array()) {
 	$request = ting_get_request_factory()->getSearchRequest();
 	$request->setQuery($query);
+	$request = ting_add_agency($request);
 	$request->setStart($resultsPerPage * ($page - 1) + 1);
 	$request->setNumResults($resultsPerPage);
 
@@ -342,4 +346,13 @@ function ting_compare_objects($o1, $o2, $criterias = NULL)
 	}
 		
 	return 0;
+}
+
+function ting_add_agency(TingClientSearchRequest $request)
+{
+	if ($agency = variable_get('ting_agency', false))
+	{
+		$request->setAgency($agency);
+	}
+	return $request;
 }
