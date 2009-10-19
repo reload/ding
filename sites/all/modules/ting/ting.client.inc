@@ -26,6 +26,8 @@ foreach ($includes as $include) {
  *
  * @param string $object_id
  *    Ting object ID.
+ * @param bool $enrich
+ *    Whether to enrich the object with additional information, covers etc.
  * @return mixed
  *    Object, if found - boolean FALSE if not.
  */

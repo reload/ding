@@ -164,6 +164,10 @@ function alma_user_forms_change_pin_validate($form, &$form_state) {
 function alma_user_forms_change_pin_submit($form, &$form_state) {
   $creds = alma_user_get_credentials($form_state['values']['account']);
   alma_client_change_pin($creds['borr_card'], $creds['pin_code'], $form_state['values']['new_pin']);
+
+  // Cache the new pin-code
+  alma_user_cache_credentials($form_state['values']['account'], $creds['borr_card'], $form_state['values']['new_pin']);
+
   // If we do not have a destination already, go to the profile.
   if (!isset($_REQUEST['destination'])) {
     $form_state['redirect'] = 'user/' . $form_state['values']['account']->uid . '/profile';

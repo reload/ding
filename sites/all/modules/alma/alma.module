@@ -406,3 +406,24 @@ function alma_client_remove_email_address($borr_card, $pin_code, $email_id) {
   }
 }
 
+/**
+ * Change PIN code.
+ *
+ * @param string $borr_card
+ *    Library patron's borrowing card number. Either just an arbitrary
+ *    number printed on their library card or their CPR-code.
+ * @param string $pin_code
+ *    Library patron's current four digit PIN code.
+ * @param string $new_pin
+ *    Library patron's new four digit PIN code.
+ */
+function alma_client_change_pin($borr_card, $pin_code, $new_pin) {
+  try {
+    return alma_client()->change_pin($borr_card, $pin_code, $new_pin);
+  }
+  catch (Exception $e) {
+    watchdog('alma_user', 'change_pin error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
+    return FALSE;
+  }
+}
+

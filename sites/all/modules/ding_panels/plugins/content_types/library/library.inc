@@ -47,6 +47,10 @@ function ding_panels_library_content_type_content_types() {
       'title' => t('Library detailed feature list'),
       'description' => t('More detailed view of library features with pictures and description.'),
     ),
+    'library_pc_booking' => array(
+      'title' => t('Library pc booking'),
+      'description' => t('Provide access to booking system for public PC\'s in the library.'),
+    ),
   );
 
   // Append our default settings to every type.
@@ -87,6 +91,9 @@ function ding_panels_library_content_type_render($subtype, $conf, $panel_args, $
       $block->title = t('Services and facilities');
       $block->content = theme('item_list', _ding_panels_library_features_by_library($node, $subtype));
       break;
+    case 'library_pc_booking':
+      $block->content = theme('ding_panels_content_library_pc_booking', $node);
+      break;
   }
   return $block;
 }
@@ -107,6 +114,8 @@ function ding_panels_library_content_type_admin_title($subtype, $conf, $context)
       return t('"@s":  Library features', array('@s' => $context->identifier));
     case 'library_feature_detail_list':
       return t('"@s":  Library feature details', array('@s' => $context->identifier));
+    case 'library_pc_booking':
+      return t('"@s":  Library PC booking', array('@s' => $context->identifier));
   }
 }
 
