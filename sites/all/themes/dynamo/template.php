@@ -258,8 +258,9 @@ function dynamo_username($object) {
       $name = $object->name;
     }
 
-    // Shorten the name when it is too long or it will break many tables.
-    if (drupal_strlen($name) > 20) {
+    // Prevent extremely long names of non-trusted users from breaking the
+    // design.
+    if (drupal_strlen($name) > 20 && empty($object->has_secure_role)) {
       $name = drupal_substr($name, 0, 15) .'…';
     }
 
