@@ -26,7 +26,7 @@ class AlmaClient {
   }
 
   /**
-   * Perform request to the Alma server
+   * Perform request to the Alma server.
    *
    * @param string $method
    *    The REST method to call e.g. 'patron/status'. borrCard and pinCode
@@ -110,7 +110,7 @@ class AlmaClient {
   }
 
   /**
-   * Get patron information from Alma
+   * Get patron information from Alma.
    */
   public function get_patron_info($borr_card, $pin_code) {
     $doc = $this->request('patron/information', array('borrCard' => $borr_card, 'pinCode' => $pin_code));
@@ -326,7 +326,7 @@ class AlmaClient {
   }
 
   /**
-   * Add phone number
+   * Add phone number.
    */
   public function add_phone_number($borr_card, $pin_code, $new_number, $sms = TRUE) {
     $params = array(
@@ -340,7 +340,7 @@ class AlmaClient {
   }
 
   /**
-   * Change phone number
+   * Change phone number.
    */
   public function change_phone_number($borr_card, $pin_code, $number_id, $new_number, $sms = TRUE) {
     $params = array(
@@ -355,7 +355,7 @@ class AlmaClient {
   }
 
   /**
-   * Delete phone number
+   * Delete phone number.
    */
   public function remove_phone_number($borr_card, $pin_code, $number_id) {
     $params = array(
@@ -368,7 +368,7 @@ class AlmaClient {
   }
 
   /**
-   * Add e-mail address
+   * Add e-mail address.
    */
   public function add_email_address($borr_card, $pin_code, $new_email) {
     $params = array(
@@ -381,7 +381,7 @@ class AlmaClient {
   }
 
   /**
-   * Change e-mail address
+   * Change e-mail address.
    */
   public function change_email_address($borr_card, $pin_code, $email_id, $new_email= FALSE) {
     $params = array(
@@ -399,7 +399,7 @@ class AlmaClient {
   }
 
   /**
-   * Delete e-mail address
+   * Delete e-mail address.
    */
   public function remove_email_address($borr_card, $pin_code, $email_id) {
     $params = array(
@@ -408,6 +408,19 @@ class AlmaClient {
       'emailAddress' => $email_id,
     );
     $doc = $this->request('patron/email/remove', $params);
+    return TRUE;
+  }
+
+  /**
+   * Change PIN code.
+   */
+  public function change_pin($borr_card, $pin_code, $new_pin) {
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'pinCodeChange' => $new_pin,
+    );
+    $doc = $this->request('patron/pinCode/change', $params);
     return TRUE;
   }
 }
