@@ -28,6 +28,10 @@ function ding_panels_theme($existing, $type, $theme, $path) {
       'template' => 'ding_panels_library_user_staff_title',
       'preprocess functions' => array('ding_panels_content_preprocess_library_user_staff_title'),
     ),
+    'ding_panels_content_library_pc_booking' => array(
+      'arguments' => array('node' => NULL),
+      'template' => 'ding_panels_content_library_pc_booking',
+    ),
   );
 }
 
@@ -68,6 +72,14 @@ function _ding_panels_content_theme_library_title_navigation($node, $base_path) 
     $links['blog'] = l(t('Blog'), $base_path . '/blog');
     $links['events'] = l(t('Events'), $base_path . '/arrangementer');
     $links['facilities'] = l(t('Facilities'), $base_path . '/faciliteter');
+    if ($node->field_pc_booking_url[0]['value']) {
+      if ($node->field_pc_booking_method[0]['value'] == 'popup') {
+        $links['pc_booking'] = l(t('Book PC'), $node->field_pc_booking_url[0]['value'], array('attributes' => array('target' => '_blank')));
+      }
+      else {
+        $links['pc_booking'] = l(t('Book PC'), $base_path . '/bookpc');
+      }
+    }
     $links['about'] = l(t('About the library'), $base_path . '/om');
     $links['local'] = l(t('Local'), $base_path . '/lokalt');
   }
