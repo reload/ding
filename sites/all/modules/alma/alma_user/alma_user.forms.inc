@@ -6,12 +6,32 @@
  *
  * Only used when a logged in user requires access to data from Alma and
  * his Alma credentials are not cached.
+ *
+ * @param array $form_state
+ *    Drupal's form state.
+ * @param stdClass $account
+ *    User account object.
+ * @param mixed $explanation
+ *    Explanation for the login form. NULL for the default message.
+ * @param mixed $redirect
+ *    Redirect destination – boolean TRUE for default destination
+ *    (user's profile page).
  */
-function alma_user_forms_alma_authenticate($form_state, $account) {
+function alma_user_forms_alma_authenticate($form_state, $account, $explanation=NULL, $redirect=TRUE) {
   $form = array();
 
+  $form['redirect'] = array(
+    '#type' => 'value',
+    '#value' => $redirect,
+  );
+
+  // Strict NULL check to allow an empty explanation string.
+  if (is_null($explanation)) {
+    $explanation = t('To access your personal information, you need to authenticate.');
+  }
+
   $form['explanation'] = array(
-    '#value' => t('To access your personal information, you need to authenticate.'),
+    '#value' => $explanation,
   );
 
   $form['account'] = array(
@@ -60,9 +80,16 @@ function alma_user_forms_alma_authenticate_submit($form, &$form_state) {
   // Validation succeeded, so cache the correct credentials.
     alma_user_cache_credentials($form_state['values']['account'], $form_state['values']['borr_card'], $form_state['values']['pin_code']);
 
-  // If we do not have a destination already, go to the profile.
-  if (!isset($_REQUEST['destination'])) {
-    $form_state['redirect'] = 'user/' . $form_state['values']['account']->uid . '/profile';
+  // If we do not have a destination already, use the redirect value.
+  if (!isset($_REQUEST['destination']) && $form_state['values']['redirect']) {
+    // If redirect is boolean TRUE, use the default redirect.
+    if (is_bool($form_state['values']['redirect'])) {
+      $form_state['redirect'] = 'user/' . $form_state['values']['account']->uid . '/profile';
+    }
+    else {
+      // Otherwise, assume that the redirect value is a sane destination.
+      $form_state['redirect'] = $form_state['values']['redirect'];
+    }
   }
 }
 
@@ -135,7 +162,8 @@ function alma_user_forms_change_pin_validate($form, &$form_state) {
  * Submit handler for the PIN code changing form.
  */
 function alma_user_forms_change_pin_submit($form, &$form_state) {
-  // TODO: Save new PIN code to Alma.
+  $creds = alma_user_get_credentials($form_state['values']['account']);
+  alma_client_change_pin($creds['borr_card'], $creds['pin_code'], $form_state['values']['new_pin']);
   // If we do not have a destination already, go to the profile.
   if (!isset($_REQUEST['destination'])) {
     $form_state['redirect'] = 'user/' . $form_state['values']['account']->uid . '/profile';
@@ -227,7 +255,6 @@ function alma_user_forms_library_settings_submit($form, &$form_state) {
  */
 function alma_user_forms_reservation_details($form_state, $account, $records) {
   $form = array();
-  $branches = alma_client_get_reservation_branches();
 
   $form['account'] = array(
     '#type' => 'value',
@@ -251,7 +278,7 @@ function alma_user_forms_reservation_details($form_state, $account, $records) {
       );
     }
     else {
-      // If not selectable, output an empty div so our columns line up.
+      // If not selectable, output an empty column.
       $form['reservations'][$reservation['id']] = array(
         '#value' => '&nbsp;',
       );
@@ -269,7 +296,7 @@ function alma_user_forms_reservation_details($form_state, $account, $records) {
   $form['new_pickup_branch'] = array(
     '#type' => 'select',
     '#title' => t('New pickup branch'),
-    '#options' => $branches,
+    '#options' => alma_client_get_reservation_branches(),
     '#default_value' => $account->preferred_branch,
   );
 
