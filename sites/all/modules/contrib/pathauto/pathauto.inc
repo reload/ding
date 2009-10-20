@@ -1,5 +1,5 @@
 <?php
-// $Id: pathauto.inc,v 1.51 2009/03/21 00:24:28 freso Exp $
+// $Id: pathauto.inc,v 1.52 2009/10/17 17:45:10 greggles Exp $
 
 /**
  * @file
@@ -264,7 +264,7 @@ function pathauto_cleanstring($string, $clean_slash = TRUE) {
  *   The name of your module (e.g., 'node').
  * @param $op
  *   Operation being performed on the content being aliased
- *   ('insert', 'update', or 'bulkupdate').
+ *   ('insert', 'update', 'return', or 'bulkupdate').
  * @param $placeholders
  *   An array whose keys consist of the translated placeholders
  *   which appear in patterns (e.g., t('[title]')) and values are the
@@ -362,6 +362,11 @@ function pathauto_create_alias($module, $op, $placeholders, $src, $entity_id, $t
       drupal_set_message(t('The automatically generated alias %original_alias conflicted with an existing alias. Alias changed to %alias.',
         array('%original_alias' => $original_alias, '%alias' => $alias)));
     }
+  }
+
+  // Return the generated alias if requested.
+  if ($op == 'return') {
+    return $alias;
   }
 
   // If $pid is NULL, a new alias is created - otherwise, the existing
