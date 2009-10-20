@@ -6,40 +6,52 @@
  *
  * Handles both AJAX and regular requests, presenting the user with the 
  * opportunity to log in if needed. 
- *
- * @param TingClientObject $object
  */
-function alma_cart_page_add_to_cart($object) {
+function alma_cart_page_add_to_cart($item_id) {
+  module_load_include('client.inc', 'ting');
+  $is_ahah = alma_cart_detect_ahah();
+  $object = ting_get_object_by_local_id($item_id, TRUE);
+
+  // Get creds, redirect if not ahah.
+  $creds = alma_user_get_credentials($GLOBALS['user'], !$is_ahah);
+
   // First, let's check if this is in the cart already :)
-  $exists = (boolean) db_result(db_query("SELECT created FROM {alma_cart} WHERE uid = %d AND alma_id = '%s';", $GLOBALS['user']->uid, $object->data->localId));
+  $cart_item_exists = (boolean) db_result(db_query("SELECT created FROM {alma_cart} WHERE uid = %d AND alma_id = '%s';", $GLOBALS['user']->uid, $object->data->localId));
+  $reservation_exists = alma_client_user_has_reservation($item_id);
 
   // If client wants JSON (usually AJAX requests), let's give it to them.
-  if (isset($_SERVER['HTTP_ACCEPT']) && (strpos($_SERVER['HTTP_ACCEPT'], 'application/json')) || (strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript'))) {
+  if ($is_ahah) {
     $reply = array();
-    if (!$GLOBALS['user']->uid) {
+    if (!$account->uid || !$creds) {
       $reply['status'] = 'error';
       $reply['error_type'] = 'not-logged-in';
       $reply['title'] = t('Not logged in');
-      $reply['message'] = t('You have to log in to put books in your basket');
+      $reply['message'] = t('You have to log in to put books in your cart');
     }
-    elseif ($exists) {
+    elseif ($cart_item_exists) {
       $reply['status'] = 'error';
-      $reply['error_type'] = 'already-in-basket';
-      $reply['title'] = t('Already in basket');
-      $reply['message'] = t('@item is already in your basket.', array('@item' => $object->data->title[0]));
+      $reply['error_type'] = 'already-in-cart';
+      $reply['title'] = t('Already in cart');
+      $reply['message'] = t('@item is already in your cart.', array('@item' => $object->data->title[0]));
+    }
+    elseif ($reservation_exists) {
+      $reply['status'] = 'error';
+      $reply['error_type'] = 'reservation-exists';
+      $reply['title'] = t('Reservation exists');
+      $reply['message'] = t('@item is already reserved.', array('@item' => $object->data->title[0]));
     }
     else {
       if (alma_cart_add_ting_object($object) == SAVED_NEW) {
         $reply['status'] = 'success';
         $reply['title'] = t('Success');
-        $reply['message'] = t('@item is now in your basket.', array('@item' => $object->data->title[0]));
+        $reply['message'] = t('@item is now in your cart.', array('@item' => $object->data->title[0]));
         $reply['cart_link'] = url('user/' . $GLOBALS['user']->uid . '/cart');
       }
       else {
         $reply['status'] = 'error';
         $reply['error_type'] = 'cart-save-error';
         $reply['title'] = t('Cart saving error');
-        $reply['message'] = t('An error occurred while saving to the basket. Please try again.');
+        $reply['message'] = t('An error occurred while saving to the cart. Please try again.');
       }
     }
 
@@ -49,16 +61,76 @@ function alma_cart_page_add_to_cart($object) {
     return;
   }
 
-  // For regular POST requests, we present forms, etc.
-  if ($exists) {
-    drupal_set_message('%book is already in your cart.', array('%book' => $object->data->title[0]));
+  // For regular requests, we present forms, etc.
+  if ($cart_item_exists) {
+    drupal_set_message(t('@item is already in your cart.', array('@item' => $object->data->title[0])) , 'warning');
     return drupal_goto('user/' . $GLOBALS['user']->uid . '/cart');
+  }
+
+  if ($reservation_exists) {
+    drupal_set_message(t('@item is already reserved.', array('@item' => $object->data->title[0])), 'warning');
+    return drupal_goto('user/' . $account->uid . '/status');
   }
 
   // Present a confirmation form.
   return drupal_get_form('alma_cart_confirm_form', $object, 'add');
+}
 
-  return drupal_not_found(); 
+/**
+ * Reserve an item immediately.
+ */
+function alma_cart_page_reserve_item($item_id) {
+  module_load_include('client.inc', 'ting');
+  $is_ahah = alma_cart_detect_ahah();
+  // Get object, enrich if not ahah. 
+  $object = ting_get_object_by_local_id($item_id, !$is_ahah);
+  if (!$object) {
+    return drupal_not_found(); 
+  }
+
+  // Get creds, redirect if not ahah.
+  $creds = alma_user_get_credentials($GLOBALS['user'], !$is_ahah);
+
+  $account = $GLOBALS['user'];
+
+  if (!isset($account->preferred_branch)) {
+  }
+
+  $reservation_exists = alma_client_user_has_reservation($creds['borr_card'], $creds['pin_code'], $item_id);
+
+  // If client wants JSON (usually AJAX requests), let's give it to them.
+  if ($is_ahah) {
+    $reply = array();
+    if (!$account->uid || !$creds) {
+      $reply['status'] = 'error';
+      $reply['error_type'] = 'not-logged-in';
+      $reply['title'] = t('Not logged in');
+      $reply['message'] = t('You have to log in to make reservations.');
+    }
+    elseif ($reservation_exists) {
+      $reply['status'] = 'error';
+      $reply['error_type'] = 'reservation-exists';
+      $reply['title'] = t('Reservation exists');
+      $reply['message'] = t('@item is already reserved.', array('@item' => $object->data->title[0]));
+    }
+    else {
+      // Do reservation.
+    }
+
+    // We are returning JavaScript, so tell the browser.
+    drupal_set_header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($reply);
+    return;
+  }
+
+  // For regular requests.
+  $creds = alma_user_get_credentials($GLOBALS['user']);
+  if ($reservation_exists) {
+    drupal_set_message(t('@item is already reserved.', array('@item' => $object->data->title[0])), 'warning');
+    return drupal_goto('user/' . $account->uid . '/status');
+  }
+
+  return drupal_get_form('alma_cart_confirm_form', $account, $object, 'reserve');
 }
 
 /**
@@ -66,12 +138,14 @@ function alma_cart_page_add_to_cart($object) {
  *
  * @param array $form_state
  *    Drupal form API state.
+ * @param stdClass $account
+ *    Drupal user account. 
  * @param TingClientObject $object
  *    The object we're acting on.
  * @param string $action
  *    The type of action we're taking.
  */
-function alma_cart_confirm_form(&$form_state, $object, $action) {
+function alma_cart_confirm_form(&$form_state, $account, $object, $action) {
   // Question keyed by action.
   $questions = array(
     'add' => t('Add %book to your cart?', array('%book' => $object->data->title[0])),
@@ -80,13 +154,17 @@ function alma_cart_confirm_form(&$form_state, $object, $action) {
 
   // Destination URL keyed by action.
   $urls = array(
-    'add' => 'user/' . $GLOBALS['user']->uid . '/cart',
-    'reserve' => 'user/' . $GLOBALS['user']->uid . '/status',
+    'add' => 'user/' . $account->uid . '/cart',
+    'reserve' => 'user/' . $account->uid . '/status',
   );
-
 
   // Send some form values along for the submit step.
   $form = array();
+
+  $form['account'] = array(
+    '#type' => 'value',
+    '#value' => $account,
+  );
 
   $form['object'] = array(
     '#type' => 'value',
@@ -114,6 +192,21 @@ function alma_cart_confirm_form_submit($form, &$form_state) {
     case 'add':
       // Save the item to the cart table.
       alma_cart_add_ting_object($form_state['values']['object']);
+      break;
+    case 'reserve':
+      $creds = alma_user_get_credentials($form_state['values']['account'], FALSE);
+      if ($creds) {
+        $reservation = alma_client_add_reservation($creds['borr_card'], $creds['pin_code'], array(
+          'id' => $form_state['values']['object']->data->localId,
+          'pickup_branch' => $form_state['values']['account']->preferred_branch,
+        ));
+        if ($reservation) {
+          drupal_set_message(t('@item is now on your reservation list.', array('@item' => $form_state['values']['object']->data->title[0])));
+        }
+        else {
+          drupal_set_message(t('Reservation of @item failed.', array('@item' => $form_state['values']['object']->data->title[0])));
+        }
+      }
       break;
   }
 

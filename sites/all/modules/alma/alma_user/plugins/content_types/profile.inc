@@ -1,5 +1,6 @@
 <?php
 // $Id$
+
 /**
  * @file relevant.inc
  * Provides several library portal page related panels content types.
@@ -95,6 +96,7 @@ function alma_user_profile_content_type_render($subtype, $conf, $panel_args, $co
         break;
       case 'alma_user_loans_list':
         $list = alma_client_get_loans($alma_creds['borr_card'], $alma_creds['pin_code']);
+        $block->title = t('Your loans');
         $block->content = theme('alma_user_record_list', $list);
         break;
       case 'alma_user_loans_details':

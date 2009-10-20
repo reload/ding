@@ -7,11 +7,13 @@
  * Usually a list of reservations, books, etc, coming from Alma.
  */
 function theme_alma_user_record_list($records) {
+  module_load_include('client.inc', 'ting');
   $items = array();
 
   foreach ($records as $rec) {
-    // TODO: We need to get the name from Ting based on the record ID.
-    $items[] = $rec['record_id'];
+    // Load the object from Ting to get the title.
+    $object = ting_get_object_by_local_id($rec['record_id']);
+    $items[] = theme('ting_object_title', $object);
   }
 
   return theme('item_list', $items, NULL, 'ul', array('class' => 'record-list'));

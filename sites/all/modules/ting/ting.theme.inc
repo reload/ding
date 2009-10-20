@@ -25,7 +25,8 @@ function theme_ting_object_title($ting_object, $display_image = FALSE) {
         $output .= theme('image', $image_url, '', '', NULL, FALSE) . $loan_title;
       }
     }
-    $output .= '<span class="title">' . $ting_object->data->title[0] . '</span>';
+    $output .= '<span class="title">' . l($ting_object->data->title[0], 'ting/object/' . $ting_object->id) . '</span>';
+
   }
   else {
     return t('Title not available.');
