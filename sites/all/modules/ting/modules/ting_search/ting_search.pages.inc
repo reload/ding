@@ -76,7 +76,12 @@ function ting_search_pages_ting_js() {
   module_load_include('client.inc', 'ting');
   
   //Get users base query
-  $query = (isset($_REQUEST['query'])) ? $_REQUEST['query'] : 'dc.title:danmark';
+  $query = $_REQUEST['query'];
+  if (!$query)
+  {
+    drupal_not_found();
+    exit;
+  }
 
   //Extend query with selected facets
   if (isset($_GET['facets']) && $_GET['facets']) {
@@ -86,7 +91,7 @@ function ting_search_pages_ting_js() {
     foreach ($facets as $facet) {
       $facet = explode(':', $facet, 2);
       if ($facet[0]) {
-        $facetArray[] = '('.$facet[0].':'.$facet[1].')';
+        $facetArray[] = $facet[0].':"'.$facet[1].'"';
       }
     }
 
