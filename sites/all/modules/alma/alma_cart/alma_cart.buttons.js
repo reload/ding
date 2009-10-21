@@ -9,6 +9,11 @@ Drupal.behaviors.almaCartButtons = function () {
       // Make sure we grab the click.
       event.preventDefault();
 
+      // If the dialog div doesn't exist, create it.
+      if ($('#alma-cart-dialog').length == 0) {
+        $("#content-main").append('<div id="alma-cart-dialog"></div>');
+      }
+
       // Make the request back to Drupal.
       $.post(this.href, {}, function (data) {
         var buttons = {};
@@ -20,14 +25,10 @@ Drupal.behaviors.almaCartButtons = function () {
           buttons[Drupal.t('View cart…')] = function () { window.location = data.cart_link };
         }
 
-        // If the dialog div doesn't exist, create it.
-        if ($('#alma-cart-dialog').length == 0) {
-          $("#content-main").append('<div id="alma-cart-dialog"></div>');
-        }
-
         $('#alma-cart-dialog')
           .text(data.message)
-          .dialog({'title': data.title, 'buttons': buttons});
+          .dialog({'title': data.title, 'buttons': buttons, 'autoOpen': false})
+          .dialog("open");
       }, 'json');
 
       return false;
