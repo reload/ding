@@ -361,7 +361,7 @@ function ting_compare_objects($o1, $o2, $criterias = NULL)
 	return 0;
 }
 
-function ting_add_agency(TingClientSearchRequest $request)
+function ting_add_agency(TingClientAgentRequest $request)
 {
 	if ($agency = variable_get('ting_agency', false))
 	{
