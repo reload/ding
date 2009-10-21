@@ -121,13 +121,15 @@ function ting_recommendation_panes_extract_identifers($objects)
 			case 'TingClientObject':
 				//get id from the object
 				$id = array();
-				foreach ($objects->data->identifier as $i)
-	      {
-	      	if ($i->type == TingClientObjectIdentifier::ISBN) {
-	      		$id = array($i->id);
-	      		break;
-	      	}
-	      }
+				if (isset($objects->data->identifier)) {
+					foreach ($objects->data->identifier as $i)
+		      {
+		      	if ($i->type == TingClientObjectIdentifier::ISBN) {
+		      		$id = array($i->id);
+		      		break;
+		      	}
+		      }
+		    }
 	      return $id;		
 			break;		
 	    case 'TingClientObjectCollection':
