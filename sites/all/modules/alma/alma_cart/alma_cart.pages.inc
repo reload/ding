@@ -11,12 +11,13 @@ function alma_cart_page_add_to_cart($item_id) {
   module_load_include('client.inc', 'ting');
   $is_ahah = alma_cart_detect_ahah();
   $object = ting_get_object_by_local_id($item_id, TRUE);
+  $account = $GLOBALS['user'];
 
   // Get creds, redirect if not ahah.
-  $creds = alma_user_get_credentials($GLOBALS['user'], !$is_ahah);
+  $creds = alma_user_get_credentials($account, !$is_ahah);
 
   // First, let's check if this is in the cart already :)
-  $cart_item_exists = (boolean) db_result(db_query("SELECT created FROM {alma_cart} WHERE uid = %d AND alma_id = '%s';", $GLOBALS['user']->uid, $object->data->localId));
+  $cart_item_exists = (boolean) db_result(db_query("SELECT created FROM {alma_cart} WHERE uid = %d AND alma_id = '%s';", $account->uid, $object->data->localId));
   $reservation_exists = alma_client_user_has_reservation($item_id);
 
   // If client wants JSON (usually AJAX requests), let's give it to them.
@@ -45,7 +46,7 @@ function alma_cart_page_add_to_cart($item_id) {
         $reply['status'] = 'success';
         $reply['title'] = t('Success');
         $reply['message'] = t('@item is now in your cart.', array('@item' => $object->data->title[0]));
-        $reply['cart_link'] = url('user/' . $GLOBALS['user']->uid . '/cart');
+        $reply['cart_link'] = url('user/' . $account->uid . '/cart');
       }
       else {
         $reply['status'] = 'error';
@@ -64,7 +65,7 @@ function alma_cart_page_add_to_cart($item_id) {
   // For regular requests, we present forms, etc.
   if ($cart_item_exists) {
     drupal_set_message(t('@item is already in your cart.', array('@item' => $object->data->title[0])) , 'warning');
-    return drupal_goto('user/' . $GLOBALS['user']->uid . '/cart');
+    return drupal_goto('user/' . $account->uid . '/cart');
   }
 
   if ($reservation_exists) {
@@ -88,12 +89,14 @@ function alma_cart_page_reserve_item($item_id) {
     return drupal_not_found(); 
   }
 
-  // Get creds, redirect if not ahah.
-  $creds = alma_user_get_credentials($GLOBALS['user'], !$is_ahah);
-
   $account = $GLOBALS['user'];
 
+  // Get creds, redirect if not ahah.
+  $creds = alma_user_get_credentials($account, !$is_ahah);
+
+
   if (!isset($account->preferred_branch)) {
+    // TODO: What happens if there's not a preferred branch selected?
   }
 
   $reservation_exists = alma_client_user_has_reservation($creds['borr_card'], $creds['pin_code'], $item_id);
@@ -114,7 +117,23 @@ function alma_cart_page_reserve_item($item_id) {
       $reply['message'] = t('@item is already reserved.', array('@item' => $object->data->title[0]));
     }
     else {
-      // Do reservation.
+      $reservation = alma_client_add_reservation($creds['borr_card'], $creds['pin_code'], array(
+        'id' => $object->data->localId,
+        'pickup_branch' => $account->preferred_branch,
+      ));
+
+      if ($reservation) {
+        $reply['status'] = 'success';
+        $reply['title'] = t('Success');
+        $reply['message'] = t('Reservation for @item added.', array('@item' => $object->data->title[0]));
+        $reply['cart_link'] = url('user/' . $account . '/status');
+      }
+      else {
+        $reply['status'] = 'error';
+        $reply['error_type'] = 'reservation-error';
+        $reply['title'] = t('Reservation error');
+        $reply['message'] = t('An error occurred while reserving item. Please try again.');
+      }
     }
 
     // We are returning JavaScript, so tell the browser.
@@ -124,7 +143,7 @@ function alma_cart_page_reserve_item($item_id) {
   }
 
   // For regular requests.
-  $creds = alma_user_get_credentials($GLOBALS['user']);
+  $creds = alma_user_get_credentials($account);
   if ($reservation_exists) {
     drupal_set_message(t('@item is already reserved.', array('@item' => $object->data->title[0])), 'warning');
     return drupal_goto('user/' . $account->uid . '/status');
