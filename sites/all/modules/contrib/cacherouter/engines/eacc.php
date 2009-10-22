@@ -100,6 +100,7 @@ class eaccCache extends Cache {
     }
 
     return $return;
+  }
 
   /**
    * delete()
