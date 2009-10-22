@@ -106,6 +106,7 @@ form#alma-user-forms-library-settings .container-inline-date{padding:10px 0 0 0;
 	#alma-user-forms-reservation-details .form-description{font-size:10px; color:#999;}
 	.form-button{padding:0 0 0 0px;}
 
-
 #contact-mail-user{width:700px;}
 	
+/**/
+form#alma-user-forms-loan-details{}
