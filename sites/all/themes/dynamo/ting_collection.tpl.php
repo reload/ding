@@ -1,4 +1,15 @@
-<?php 
+<?php
+// $Id$
+/**
+ * @file ting_object.tpl.php
+ *
+ * Template to render a collection objects from the Ting database.
+ *
+ * Available variables:
+ * - $collection: The TingClientObjectCollection instance we're rendering.
+ * - $sorted_collection: Array of TingClientObject instances sorted by type.
+ * - $common_object: TingClientObject holding information for the entire collection.
+ */
 ?>
 <div id="ting-collection">
 	<div class="content-left">
@@ -86,7 +97,7 @@
 				// now display all the materials
 				?>
 
-				<div class="collection clearfix">
+				<div id="ting-item-<?php print $tingClientObject->data->localId; ?>" class="ting-item clearfix">
 
 		  		<div class="picture">
 						<?php $image_url = ting_search_cover_url($tingClientObject, '80_x'); ?>
@@ -131,12 +142,8 @@
 						<?php //print theme('item_list', $tingClientObject->data->language, t('Language'), 'span', array('class' => 'language'));?>
 
 						<?php print l(t('More information'), $tingClientObject->url, array('attributes' => array('class' => 'more-link')) ); ?>
-
-						<ul class="types">
-							<li class="out">UDLÅNT</li>
-							<li class="reserved">UDLÅNT - x-y ugers ventetid</li>					
-							<li class="available">HJEMME</li>										
-						</ul>
+            
+            <div class="alma-status waiting">Afventer data…</div>
 
 					</div>
 					<div class="cart">
@@ -163,6 +170,5 @@
 		</div>
 	</div>
 
-
-	
 </div>
+
