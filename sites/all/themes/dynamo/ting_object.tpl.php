@@ -1,3 +1,14 @@
+<?php
+// $Id$
+/**
+ * @file ting_object.tpl.php
+ *
+ * Template to render objects from the Ting database.
+ *
+ * Available variables:
+ * - $object: The TingClientObject instance we're rendering.
+ */
+?>
 <div id="ting-object">
 
 	<div class="content-left">
@@ -21,7 +32,7 @@
 
 		<div class="tab-navigation-main">
 			<div class="tab-navigation-main-inner">
-
+        <div id="ting-item-<?php print $object->data->localId; ?>" class="ting-item ting-item-full">
 				<div class="ting-overview clearfix">
 
 					<div class="left-column left">
@@ -74,13 +85,11 @@
 					<?php print theme('item_list',$object->data->rights, t('Rights'), 'span', array('class' => 'rights'));?>						
 				</div>
 
-				<div class="ding-box-wide">
+				<div class="ding-box-wide alma-availability">
 					<h3>Følgende biblioteker har <?php print $object->data->title[0];?> hjemme:</h3>
-						<ul>
-							<li class="even"><?php print l('hovedbibloteket', 'node/'.$node->nid);?></li>
-							<li class="odd"><?php print l('hovedbibloteket', 'node/'.$node->nid);?></li>
-							<li class="even"><?php print l('hovedbibloteket', 'node/'.$node->nid);?></li>
-						</ul>
+          <ul class="library-list">
+            <li class="alma-status waiting even">Afventer data…</li>
+          </ul>
 				</div>
 
 
@@ -113,7 +122,7 @@
         }
         ?>
 			</div>	
-
+      </div>
 		</div>			
 	</div>
 
