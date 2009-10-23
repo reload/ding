@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * $Id: eacc.php,v 1.1.2.14 2009/09/05 13:03:25 slantview Exp $
+ *
+ * @file eacc.php
+ *   Engine file for eAccelerator.
+ */
 class eaccCache extends Cache {
   /**
    * page_fast_cache
@@ -30,6 +35,9 @@ class eaccCache extends Cache {
     if (!empty($cache)) {
       $cache = unserialize($cache);
     }
+    else {
+      $cache = FALSE;
+    }
     parent::set($this->key($key), $cache);
     return $cache;
   }
@@ -50,39 +58,36 @@ class eaccCache extends Cache {
    *   Returns TRUE on success or FALSE on failure
    */
   function set($key, $value, $expire = CACHE_PERMANENT, $headers = NULL) {
-    if ($expire == CACHE_TEMPORARY) {
-      $expire = 180;
-    }
     // Create new cache object.
     $cache = new stdClass;
     $cache->cid = $key;
     $cache->created = time();
     $cache->expire = $expire;
     $cache->headers = $headers;
-
-    if (!is_string($value)) {
-      $cache->serialized = TRUE;
-      $cache->data = serialize($value);
+    $cache->data = $value;
+    
+    if ($expire != CACHE_PERMANENT && $expire != CACHE_TEMPORARY) {
+      // Convert Drupal $expire, which is a timestamp, to a TTL
+      $ttl = $expire - time();
     }
-    else { 
-      $cache->serialized = FALSE;
-      $cache->data = $value;
+    else {
+      $ttl = 0;
     }
 
+    $return = FALSE;
     if (!empty($key) && $this->lock()) {
       // Get lookup table to be able to keep track of bins
-      $lookup = eaccelerator_get($this->lookup);
+      $lookup = $this->getLookup();
 
       // If the lookup table is empty, initialize table
       if (empty($lookup)) {
         $lookup = array();
       }
-
-      // Set key to 1 so we can keep track of the bin
-      $lookup[$this->key($key)] = 1;
-
+      
+      $lookup[$this->key($key)] = $expire;
+      
       // Attempt to store full key and value
-      if (!eaccelerator_put($this->key($key), $cache, $expire)) {
+      if (!eaccelerator_put($this->key($key), serialize($cache), $ttl)) {
         unset($lookup[$this->key($key)]);
         $return = FALSE;
       }
@@ -91,9 +96,9 @@ class eaccCache extends Cache {
         parent::set($this->key($key), $cache);
         $return = TRUE;
       }
-      
+
       // Resave the lookup table (even on failure)
-      eaccelerator_put($this->lookup, $lookup, 0);
+      $lookup = $this->setLookup($lookup);
 
       // Remove lock.
       $this->unlock();
@@ -114,45 +119,31 @@ class eaccCache extends Cache {
   function delete($key) {
     // Remove from static array cache.
     parent::flush();
-
-    if (substr($key, -1, 1) == '*') {
+    if (substr($key, strlen($key) - 1, 1) == '*') {
+      $key = $this->key(substr($key, 0, strlen($key) - 1));
+      $lookup = $this->getLookup();
+      if (!empty($lookup) && is_array($lookup)) {
+        foreach ($lookup as $k => $v) {
+          if (substr($k, 0, strlen($key)) == $key) {
+            eaccelerator_rm($k);
+            unset($lookup[$k]);
+          }
+        }
+      }
       if ($this->lock()) {
-        $lookup = eaccelerator_get($this->lookup);
-        if (!is_null($lookup)) {
-        	$lookup = unserialize($lookup);
-        }
-        if (is_array($lookup)) {
-          if ($key == '*') {
-            //Fast clean of lookup
-            eaccelerator_put($this->lookup, array());
-            $this->unlock();
-            foreach ($lookup as $k => $v) {
-              eaccelerator_rm($k);
-            }
-            return TRUE;
-          }
-          else {
-            $key = substr($key, 0, strlen($key) - 1);
-            foreach ($lookup as $k => $v) {
-              if (strpos($k, $key) === 0) {
-              //if (substr($k, 0, strlen($key) - 1)) {
-                eaccelerator_rm($k);
-                unset($lookup[$k]);
-              }
-            }
-          }
-        }
-        else {
-        	$lookup = array();
-        }
-        eaccelerator_put($this->lookup, serialize($lookup));
+        $lookup = $this->setLookup($lookup);
         $this->unlock();
       }
     }
     else {
-      //Remove only key - clean $lookup on flush
-      return eaccelerator_rm($this->key($key));
+      if (!empty($key)) {
+        if (!eaccelerator_rm($this->key($key))) {
+          return FALSE;
+        }
+      }
     }
+    eaccelerator_gc();
+    return TRUE;
   }
 
   /**
@@ -167,31 +158,24 @@ class eaccCache extends Cache {
     parent::flush();
     if ($this->lock()) {
       // Get lookup table to be able to keep track of bins
-      $lookup = eaccelerator_get($this->lookup);
+      $lookup = $this->getLookup();
 
       // If the lookup table is empty, remove lock and return
-      if (empty($lookup)) {
+      if (empty($lookup) || !is_array($lookup)) {
         $this->unlock();
         return TRUE;
       }
-      $lookup = unserialize($lookup);
 
       // Cycle through keys and remove each entry from the cache
-      if (is_array($lookup)) {
-        foreach ($lookup as $k => $v) {
-          if ($v == CACHE_TEMPORARY || is_null(eaccelerator_get($k))) {
-            if (eaccelerator_rm($k)) {
-              unset($lookup[$k]);
-            }
-          }
+      foreach ($lookup as $k => $expire) {
+        if ($expire != CACHE_PERMANENT && $expire <= time()) {
+          eaccelerator_rm($k);
+          unset($lookup[$k]);
         }
-      }
-      else {
-      	$lookup = array();
       }
 
       // Resave the lookup table (even on failure)
-      eaccelerator_put($this->lookup, serialize($lookup));
+      $lookup = $this->setLookup($lookup);
 
       // Remove lock
       $this->unlock();
@@ -223,4 +207,31 @@ class eaccCache extends Cache {
   function unlock() {
     return  eaccelerator_unlock($this->lock);
   }
+  
+  function getLookup() {
+    return unserialize(eaccelerator_get($this->lookup));
+  }
+  
+  function setLookup($lookup = array()) {
+    eaccelerator_put($this->lookup, serialize($lookup), 0);
+  }
+
+  function stats() {
+    $eacc_stats = eaccelerator_info();
+    $stats = array(
+      'uptime' => time(),
+      'bytes_used' => $eacc_stats['memoryAllocated'],
+      'bytes_total' => $eacc_stats['memorySize'],
+      'gets' => 0,
+      'sets' => 0,
+      'hits' => 0,
+      'misses' => 0,
+      'req_rate' => 0,
+      'hit_rate' => 0,
+      'miss_rate' => 0,
+      'set_rate' => 0,
+    );
+    return $stats;
+  }
+
 }

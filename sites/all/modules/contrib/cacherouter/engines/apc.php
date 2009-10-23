@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * $Id: apc.php,v 1.1.2.17 2009/09/05 13:03:25 slantview Exp $
+ *
+ * @file apc.php
+ *   APC engine class.
+ */
 class apcCache extends Cache {
   /**
    * page_fast_cache
@@ -50,15 +55,20 @@ class apcCache extends Cache {
    *   Returns TRUE on success or FALSE on failure
    */
   function set($key, $value, $expire = CACHE_PERMANENT, $headers = NULL) {
-    if ($expire == CACHE_TEMPORARY) {
-      $expire = 180;
-    }
     // Create new cache object.
     $cache = new stdClass;
     $cache->cid = $key;
     $cache->created = time();
     $cache->expire = $expire;
     $cache->headers = $headers;
+
+    if ($expire != CACHE_PERMANENT && $expire != CACHE_TEMPORARY) {
+      // Convert Drupal $expire, which is a timestamp, to a TTL for APC
+      $ttl = $expire - time();
+    }
+    else {
+      $ttl = 0;
+    }
 
     if (!is_string($value)) {
       $cache->serialized = TRUE;
@@ -69,20 +79,20 @@ class apcCache extends Cache {
       $cache->data = $value;
     }
 
+    $return = FALSE;
     if (!empty($key) && $this->lock()) {
       // Get lookup table to be able to keep track of bins
-      $lookup = apc_fetch($this->lookup);
+      $lookup = $this->getLookup();
 
       // If the lookup table is empty, initialize table
       if (empty($lookup)) {
         $lookup = array();
       }
 
-      // Set key to 1 so we can keep track of the bin
-      $lookup[$this->key($key)] = 1;
+      $lookup[$this->key($key)] = $expire;
 
       // Attempt to store full key and value
-      if (!apc_store($this->key($key), $cache, $expire)) {
+      if (!apc_store($this->key($key), $cache, $ttl)) {
         unset($lookup[$this->key($key)]);
         $return = FALSE;
       }
@@ -93,7 +103,7 @@ class apcCache extends Cache {
       }
       
       // Resave the lookup table (even on failure)
-      apc_store($this->lookup, $lookup);
+      $this->setLookup($lookup);
       
       // Remove lock.
       $this->unlock();
@@ -113,32 +123,32 @@ class apcCache extends Cache {
    */
   function delete($key) {
     // Remove from static array cache.
-    parent::delete($this->key($key));
+    parent::flush();
     
-    if (substr($key, -1, 1) == '*') {
-      $key = substr($key, 0, strlen($key) - 1);
-      $lookup = apc_fetch($this->lookup);
-      foreach ($lookup as $k => $v) {
-        if (substr($k, 0, strlen($key) - 1)) {
-          apc_delete($k);
-          unset($lookup[$k]);  
+    if (substr($key, strlen($key) - 1, 1) == '*') {
+      $key = $this->key(substr($key, 0, strlen($key) - 1));
+      $lookup = $this->getLookup();
+      if (!empty($lookup) && is_array($lookup)) {
+        foreach ($lookup as $k => $v) {
+          if (substr($k, 0, strlen($key)) == $key) {
+            apc_delete($k);
+            unset($lookup[$k]);
+          }
         }
       }
       if ($this->lock()) {
-        apc_store($this->lookup, $lookup);
+        $this->setLookup($lookup);
         $this->unlock();
       }
     }
     else {
       if (!empty($key)) {
         if (!apc_delete($this->key($key))) {
-          $return = FALSE;
-        }
-        else {
-          $return = TRUE;
+          return FALSE;
         }
       }
     }
+    return TRUE;
   }
 
   /**
@@ -153,23 +163,24 @@ class apcCache extends Cache {
     parent::flush();
     if ($this->lock()) {
       // Get lookup table to be able to keep track of bins
-      $lookup = apc_fetch($this->lookup);
+      $lookup = $this->getLookup();
     
       // If the lookup table is empty, remove lock and return
-      if (empty($lookup)) {
+      if (empty($lookup) || !is_array($lookup)) {
         $this->unlock();
         return TRUE;
       }
 
       // Cycle through keys and remove each entry from the cache
-      foreach ($lookup as $k => $v) {
-        if (apc_delete($k)) {
+      foreach ($lookup as $k => $expire) {
+        if ($expire != CACHE_PERMANENT && $expire <= time()) {
+          apc_delete($k);
           unset($lookup[$k]);
         }
       }
 
       // Resave the lookup table (even on failure)
-      apc_store($this->lookup, $lookup);
+      $this->setLookup($lookup);
 
       // Remove lock
       $this->unlock();
@@ -177,51 +188,31 @@ class apcCache extends Cache {
     
     return TRUE;
   }
-
-  /**
-   * lock()
-   *   lock the cache from other writes.
-   *
-   * @param none
-   * @return string
-   *   Returns TRUE on success, FALSE on failure
-   */
-  function lock() {
-    if (function_exists('apc_add')) {
-      // Lock once by trying to add lock file, if we can't get the lock, we will loop
-      // for 3 seconds attempting to get lock.  If we still can't get it at that point,
-      // then we give up and return FALSE.
-      if (apc_add($this->lock, TRUE) === FALSE) {
-        $time = time();
-        while (apc_add($this->lock, TRUE) === FALSE) {
-          if (time() - $time >= 3) {
-            return FALSE;
-          }
-        }
-      }
-    }
-    else {
-      // For old versions of apc (before 3.0.13)
-    	$time = time();
-    	while (apc_fetch($this->lock)) {
-        if (time() - $time >= 3) {
-          return FALSE;
-        }
-    	}
-    	apc_store($this->lock, TRUE);
-    }
-    return TRUE;
+  
+  function getLookup() {
+    return apc_fetch($this->lookup);
   }
   
-  /**
-   * unlock()
-   *   lock the cache from other writes.
-   *
-   * @param none
-   * @return bool
-   *   Returns TRUE on success, FALSE on failure
-   */
-  function unlock() {
-    return apc_delete($this->lock);
+  function setLookup($lookup = array()) {
+    apc_store($this->lookup, $lookup, 0);
+  }
+    
+  function stats() {
+    $apc_stats = apc_cache_info('user', TRUE);
+    $apc_stats['uptime'] = time() - $apc_stats['start_time'];
+    $stats = array(
+      'uptime' => $apc_stats['uptime'],
+      'bytes_used' => $apc_stats['mem_size'],
+      'bytes_total' => ini_get('apc.shm_size') * 1024 * 1024,
+      'gets' => $apc_stats['num_hits'],
+      'sets' => $apc_stats['num_inserts'],
+      'hits' => $apc_stats['num_hits'] + $apc_stats['num_misses'],
+      'misses' => $apc_stats['num_misses'],
+      'req_rate' => (($apc_stats['num_hits'] + $apc_stats['num_misses']) / $apc_stats['uptime']),
+      'hit_rate' => ($apc_stats['num_hits'] / $apc_stats['uptime']),
+      'miss_rate' => ($apc_stats['num_misses'] / $apc_stats['uptime']),
+      'set_rate' => ($apc_stats['num_inserts'] / $apc_stats['uptime']),
+    );
+    return $stats;
   }
 }

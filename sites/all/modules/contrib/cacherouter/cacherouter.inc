@@ -1,35 +1,44 @@
 <?php
 /**
+ * $Id: cacherouter.inc,v 1.2.2.12 2009/09/05 13:03:25 slantview Exp $
+ *
  * @file cacherouter.inc
  *   Defines the cacherouter module
  */
 require dirname(__FILE__) .'/CacheRouter.php';
 
-// We default this to true, and let the engines determine if they can implement it.  (e.g. db can't.)
-$conf += array('page_cache_fastpath' => TRUE);
-
 /**
  * Return data from the persistent cache. Data may be stored as either plain text or as serialized data.
  * cache_get will automatically return unserialized objects and arrays.
  *
- * @param $cid
+ * @param $key
  *   The cache ID of the data to retrieve.
  * @param $table
  *   The table $table to store the data in. Valid core values are 'cache_filter',
  *   'cache_menu', 'cache_page', or 'cache' for the default cache.
  */
-function cache_get($cid, $table = 'cache') {
+function cache_get($key, $table = 'cache') {
   global $cache, $user;
   if (!isset($cache)) {
     $cache = new CacheRouter();
   }
   
-  $cache_object = $cache->get($cid, $table);  
-  if ($cache_object && isset($user->cache) && $user->cache > $cache_object->created) {
-    return 0;
+  $cache_object = $cache->get($key, $table);  
+  if (isset($cache_object->data)) {
+    if ($cache_object->expire == CACHE_PERMANENT || !variable_get('cache_lifetime', 0)) {
+      return $cache_object;
+    }
+    else {
+      if ($user->cache > $cache_object->created) {
+        return 0;
+      }
+      else {
+        return $cache_object;
+      }
+    }
   }
   
-  return $cache_object;
+  return 0;
 }
 
 /**
@@ -57,7 +66,7 @@ function cache_get($cid, $table = 'cache') {
  *   changing tables will need a lot of writes to disk. The more
  *   static tables will also be better cachable with MySQL's query cache
  *
- * @param $cid
+ * @param $key
  *   The cache ID of the data to store.
  * @param $data
  *   The data to store in the cache. Complex data types will be automatically serialized before insertion.
@@ -76,12 +85,12 @@ function cache_get($cid, $table = 'cache') {
  * @param $headers
  *   A string containing HTTP header information for cached pages.
  */
-function cache_set($cid, $value, $table = 'cache', $expire = CACHE_PERMANENT, $headers = NULL) {
+function cache_set($key, $value, $table = 'cache', $expire = CACHE_PERMANENT, $headers = NULL) {
   global $cache;
   if (!isset($cache)) {
     $cache = new CacheRouter();
   }
-  return $cache->set($cid, $value, $expire, $headers, $table);
+  return $cache->set($key, $value, $expire, $headers, $table);
 }
 
 /**
@@ -89,20 +98,20 @@ function cache_set($cid, $value, $table = 'cache', $expire = CACHE_PERMANENT, $h
  * Expire data from the cache. If called without arguments, expirable
  * entries will be cleared from the cache_page and cache_block tables.
  *
- * @param $cid
+ * @param $key
  *   If set, the cache ID to delete. Otherwise, all cache entries that can
  *   expire are deleted.
  *
  * @param $table
  *   If set, the table $table to delete from. Mandatory
- *   argument if $cid is set.
+ *   argument if $key is set.
  *
  * @param $wildcard
- *   If set to TRUE, the $cid is treated as a substring
+ *   If set to TRUE, the $key is treated as a substring
  *   to match rather than a complete ID. The match is a right hand
- *   match. If '*' is given as $cid, the table $table will be emptied.
+ *   match. If '*' is given as $key, the table $table will be emptied.
  */
-function cache_clear_all($cid = NULL, $table = NULL, $wildcard = FALSE) {
+function cache_clear_all($key = NULL, $table = NULL, $wildcard = FALSE) {
   global $cache;
   global $user;
 
@@ -110,7 +119,7 @@ function cache_clear_all($cid = NULL, $table = NULL, $wildcard = FALSE) {
     $cache = new CacheRouter();
   }
 
-  if (!isset($cid) && !isset($table)) {
+  if (!isset($key) && !isset($table)) {
     // Clear the block cache first, so stale data will
     // not end up in the page cache.
     $cache->flush('cache_block');
@@ -118,7 +127,7 @@ function cache_clear_all($cid = NULL, $table = NULL, $wildcard = FALSE) {
     return;
   }
 
-  if (empty($cid)) {
+  if (empty($key)) {
     if (variable_get('cache_lifetime', 0)) {
       // We store the time in the current user's $user->cache variable which
       // will be saved into the sessions table by sess_write(). We then
@@ -145,54 +154,57 @@ function cache_clear_all($cid = NULL, $table = NULL, $wildcard = FALSE) {
   }
   else {
     if ($wildcard) {
-      if ($cid == '*') {
+      if ($key == '*' || empty($key)) {
         $cache->delete('*', $table);
       }
       else {
-        $cache->delete($cid . '*', $table);
+        $cache->delete($key .'*', $table);
       }
     }
     else {
-      $cache->delete($cid, $table);
+      $key = str_replace('*', '', $key);
+      $cache->delete($key, $table);
     }
   }
-
 }
 
 /**
  * Main callback from DRUPAL_BOOTSTRAP_EARLY_PAGE_CACHE phase
  */
-function page_cache_fastpath() {
-  global $base_root;
-  global $cache;
+if (!function_exists('page_cache_fastpath')) {
+  function page_cache_fastpath() {
+    global $base_root;
+    global $cache;
   
-  if (empty($_POST) && !isset($_COOKIE['cacherouter'])) {
-    if (!isset($cache)) {
-      $cache = new CacheRouter();
-    }
-    if ($cache->page_fast_cache('cache_page')) {
-      $page = $cache->get($base_root . request_uri(), 'cache_page');
-      if (!empty($page)) {
-        drupal_page_header();
+    if (empty($_POST) && !isset($_COOKIE['DRUPAL_UID'])) {
+      if (!isset($cache)) {
+        $cache = new CacheRouter();
+      }
+      if ($cache->page_fast_cache('cache_page')) {
+        $page = $cache->get($base_root . request_uri(), 'cache_page');
+        if (!empty($page)) {
+          drupal_page_header();
         
-         //checking if first chars are compressed (always the same pattern for every header)
-        if (substr($page->data, 0,3) == "\x1f\x8b\x08") {
+           //checking if first chars are compressed (always the same pattern for every header)
+          if (substr($page->data, 0,3) == "\x1f\x8b\x08") {
           
-          // Determine if the browser accepts gzipped data.
-          if (@strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') === FALSE && function_exists('gzencode')) {
-            // Strip the gzip header and run uncompress.
-            $page->data = gzinflate(substr(substr($page->data, 10), 0, -8));
+            // Determine if the browser accepts gzipped data.
+            if (@strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') === FALSE && function_exists('gzencode')) {
+              // Strip the gzip header and run uncompress.
+              $page->data = gzinflate(substr(substr($page->data, 10), 0, -8));
+            }
+            elseif (function_exists('gzencode')) {
+              //send gzip header to the browser
+              header('Content-Encoding: gzip');
+            }
           }
-          elseif (function_exists('gzencode')) {
-            //send gzip header to the browser
-            header('Content-Encoding: gzip');
-          }
-        }
         
-        print $page->data;
-        return TRUE;
+          print $page->data;
+        
+          return TRUE;
+        }
       }
     }
+    return FALSE;
   }
-  return FALSE;
 }

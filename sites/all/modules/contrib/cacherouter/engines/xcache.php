@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * $Id: xcache.php,v 1.1.2.14 2009/09/05 13:03:25 slantview Exp $
+ *
+ * @file xcache.php
+ *   Engine file for XCache.
+ */
 class xcacheCache extends Cache {
   /**
    * page_fast_cache
@@ -27,11 +32,11 @@ class xcacheCache extends Cache {
     }
     
     // Get item from cache    
-    $cache = xcache_get($this->key($key));
+    $cache = unserialize(xcache_get($this->key($key)));
 
     // Update static cache
     parent::set($this->key($key), $cache);
-    
+
     return $cache;
   }
 
@@ -51,25 +56,23 @@ class xcacheCache extends Cache {
    *   Returns TRUE on success or FALSE on failure
    */
   function set($key, $value, $expire = CACHE_PERMANENT, $headers = NULL) {
-    if ($expire == CACHE_TEMPORARY) {
-      $expire = 180;
-    }
     // Create new cache object.
     $cache = new stdClass;
     $cache->cid = $key;
     $cache->created = time();
     $cache->expire = $expire;
     $cache->headers = $headers;
+    $cache->data = $value;
 
-    if (!is_string($value)) {
-      $cache->serialized = TRUE;
-      $cache->data = serialize($value);
+    if ($expire != CACHE_PERMANENT && $expire != CACHE_TEMPORARY) {
+      // Convert Drupal $expire, which is a timestamp, to a TTL
+      $ttl = $expire - time();
     }
-    else { 
-      $cache->serialized = FALSE;
-      $cache->data = $value;
+    else {
+      $ttl = 0;
     }
 
+    $return = FALSE;
     if (!empty($key) && $this->lock()) {
       // Get lookup table to be able to keep track of bins
       $lookup = xcache_get($this->lookup);
@@ -79,11 +82,10 @@ class xcacheCache extends Cache {
         $lookup = array();
       }
 
-      // Set key to 1 so we can keep track of the bin
-      $lookup[$this->key($key)] = 1;
+      $lookup[$this->key($key)] = $expire;
 
       // Attempt to store full key and value
-      if (!xcache_set($this->key($key), $cache, $expire)) {
+      if (!xcache_set($this->key($key), serialize($cache), $ttl)) {
         unset($lookup[$this->key($key)]);
         $return = FALSE;
       }
@@ -95,7 +97,7 @@ class xcacheCache extends Cache {
       
       // Resave the lookup table (even on failure)
       xcache_set($this->lookup, $lookup);
-
+      
       // Remove lock.
       $this->unlock();
     }
@@ -114,15 +116,17 @@ class xcacheCache extends Cache {
    */
   function delete($key) {
     // Remove from static array cache.
-    parent::delete($this->key($key));
-    
-    if (substr($key, -1, 1) == '*') {
-      $key = substr($key, 0, strlen($key) - 1);
+    parent::flush();
+
+    if (substr($key, strlen($key) - 1, 1) == '*') {
+      $key = $this->key(substr($key, 0, strlen($key) - 1));
       $lookup = xcache_get($this->lookup);
-      foreach ($lookup as $k => $v) {
-        if (substr($k, 0, strlen($key) - 1)) {
-          xcache_unset($k);
-          unset($lookup[$k]);  
+      if (!empty($lookup) && is_array($lookup)) {
+        foreach ($lookup as $k => $v) {
+          if (substr($k, 0, strlen($key)) == $key) {
+            xcache_unset($k);
+            unset($lookup[$k]);
+          }
         }
       }
       if ($this->lock()) {
@@ -133,13 +137,11 @@ class xcacheCache extends Cache {
     else {
       if (!empty($key)) {
         if (!xcache_unset($this->key($key))) {
-          $return = FALSE;
-        }
-        else {
-          $return = TRUE;
+          return FALSE;
         }
       }
     }
+    return TRUE;
   }
 
   /**
@@ -155,16 +157,17 @@ class xcacheCache extends Cache {
     if ($this->lock()) {
       // Get lookup table to be able to keep track of bins
       $lookup = xcache_get($this->lookup);
-
+    
       // If the lookup table is empty, remove lock and return
-      if (empty($lookup)) {
+      if (empty($lookup) || !is_array($lookup)) {
         $this->unlock();
         return TRUE;
       }
 
       // Cycle through keys and remove each entry from the cache
-      foreach ($lookup as $k => $v) {
-        if (xcache_unset($k)) {
+      foreach ($lookup as $k => $expire) {
+        if ($expire != CACHE_PERMANENT && $expire <= time()) {
+          xcache_unset($k);
           unset($lookup[$k]);
         }
       }
@@ -175,42 +178,32 @@ class xcacheCache extends Cache {
       // Remove lock
       $this->unlock();
     }
-    return TRUE;
-  }
-
-  /**
-   * lock()
-   *   lock the cache from other writes.
-   *
-   * @param none
-   * @return string
-   *   Returns TRUE on success, FALSE on failure
-   */
-  function lock() {
-    // Lock once by trying to add lock file, if we can't get the lock, we will loop
-    // for 3 seconds attempting to get lock.  If we still can't get it at that point,
-    // then we give up and return FALSE.
-    if (xcache_isset($this->lock) === TRUE) {
-      $time = time();
-      while (xcache_isset($this->lock) === TRUE) {
-        if (time() - $time >= 3) {
-          return FALSE;
-        }
-      }
-    }
-    xcache_set($this->lock, TRUE);
+    
     return TRUE;
   }
   
-  /**
-   * unlock()
-   *   lock the cache from other writes.
-   *
-   * @param none
-   * @return bool
-   *   Returns TRUE on success, FALSE on failure
-   */
-  function unlock() {
-    return xcache_unset($this->lock); 
+  function getLookup() {
+    return xcache_get($this->lookup);
+  }
+  
+  function setLookup($lookup = array()) {
+    xcache_set($this->lookup, $lookup, 0);
+  }
+  
+  function stats() {
+    $stats = array(
+      'uptime' => time(),
+      'bytes_used' => 0,
+      'bytes_total' => 0,
+      'gets' => 0,
+      'sets' => 0,
+      'hits' => 0,
+      'misses' => 0,
+      'req_rate' => 0,
+      'hit_rate' => 0,
+      'miss_rate' => 0,
+      'set_rate' => 0,
+    );
+    return $stats;
   }
 }

@@ -1,29 +1,34 @@
 <?php
-
+/**
+ * $Id: file.php,v 1.1.2.17 2009/09/05 13:03:25 slantview Exp $
+ *
+ * @file file.php
+ *   Engine file for file based.
+ */
 class fileCache extends Cache {
   var $content = array();
   var $fspath = '/tmp/filecache';
   
   function page_fast_cache() {
-    return $this->fast_cache;
+    return TRUE;
   }
   
-  function __construct($bin) {
-    global $conf;
-    
+  function __construct($bin, $options, $default_options) {
     // Assign the path on the following order: bin specific -> default specific -> /tmp/filepath
-    $this->fspath = $conf['cacherouter'][$bin]['path'];
-    if (!isset($conf['cacherouter'][$bin]['path'])) {
-      if (isset($conf['cacherouter']['default']['path'])) {
-        $this->fspath = $conf['cacherouter']['default']['path'];
-      }
+    if (isset($options['path'])) {
+      $this->fspath = $options['path'];
     }
-
-    parent::__construct($bin);
+    elseif (isset($default_options['path'])) {
+      $this->fspath = $default_options['path'];
+    }
+    if (substr($this->fspath,-1) == '/') {
+      $this->fspath = substr($this->fspath, 0, strlen($this->fspath) - 2);
+    }
+    parent::__construct($bin, $options, $default_options);
   }
   
   function get($key) {
-    global $user;
+    global $user, $conf;
     
     if (isset($this->content[$key])) {
       return $this->content[$key];
@@ -31,14 +36,14 @@ class fileCache extends Cache {
     
     $cache_lifetime = variable_get('cache_lifetime', 0);
 
-    if (variable_get('page_cache_fastpath', 0)) {
+    //make sure fast cache is enabled (see CacheRouter function page_fast_cache)
+    if ($this->page_fast_cache()) {
       $cache = NULL;
       $cache_file = $this->key($key);
-
       if (file_exists($cache_file)) {    
         if ($fp = fopen($cache_file, 'r')) {
           if (flock($fp, LOCK_SH)) {
-            $data = fread($fp, filesize($cache_file));
+            $data = @fread($fp, filesize($cache_file));
             flock($fp, LOCK_UN);
             $cache = unserialize($data);
           }
@@ -73,8 +78,8 @@ class fileCache extends Cache {
   
   function set($key, $value, $expire = CACHE_PERMANENT, $headers = NULL) {
     static $subdirectories;
-
-    if (variable_get('page_cache_fastpath', 0)) {
+    //make sure fast cache is enabled (see CacheRouter function page_fast_cache)
+    if ($this->page_fast_cache()) {
       // prepare the cache before grabbing the file lock
       $cache = new stdClass;
       $cache->cid = $key;
@@ -94,42 +99,70 @@ class fileCache extends Cache {
           flock($fp, LOCK_UN);
         }
         fclose($fp);
+        @chmod(0664, $file); // Necessary for non-webserver users.
       }
       else {
         // t() may not be loaded
-        drupal_set_message(strtr('Cache write error, failed to open file "%file"', array('%file' => $file)), 'error');
+        if (function_exists('watchdog')) {
+          watchdog('cache', strtr('Cache write error, failed to open file "%file"', array('%file' => $file)), WATCHDOG_ERROR);
+        }
+      }
+    } 
+    else {
+      if (function_exists('watchdog')) {
+        watchdog('cache', 'Cache write error, failed to verify page_cache_fastpath');
       }
     }
   }
   
   function delete($key) {
     // when using wildcard: $key is part-of-key + '*'
-    if (strrpos($key, '*')) {
+    
+    $filename = $this->key($key);
+    if (is_dir($filename)) {
+      $fspath = $filename;
+      // Filename: abcdef12345verylongmd5code--content:123456:987654
+      $files = file_scan_directory($fspath, ".--.", array('.', '..', 'CVS'));
+      foreach ($files as $file) {
+        if(is_file($file->filename)){
+          if ($fp = fopen($file->filename, 'w')) {
+            // only delete the cache file once we obtain an exclusive lock to prevent
+            // deleting a cache file that is currently being read.
+            if (flock($fp, LOCK_EX)) {
+              unlink($file->filename);
+            }
+          }
+        }
+      }
+    } 
+    else if (strrpos($key, '*') !== FALSE) {
       $look_for = explode('*', $key);
       $fspath = $this->fspath;
       // Filename: abcdef12345verylongmd5code--content:123456:987654
-      $files = file_scan_directory($fspath, ".--$look_for[0].", array('.', '..', 'CVS'));
+      $files = file_scan_directory($fspath, ".--{$look_for[0]}.*", array('.', '..', 'CVS'));
       foreach ($files as $file) {
-        if ($fp = fopen($file, 'w')) {
-          // only delete the cache file once we obtain an exclusive lock to prevent
-          // deleting a cache file that is currently being read.
-          if (flock($fp, LOCK_EX)) {
-            unlink($file);
+        if (is_file($file->filename)){
+          if ($fp = @fopen($file->filename, 'w')) {
+            // only delete the cache file once we obtain an exclusive lock to prevent
+            // deleting a cache file that is currently being read.
+            if (flock($fp, LOCK_EX)) {
+              unlink($file->filename);
+            }
           }
         }
-      }      
-    }
+      }
+    } 
     else {
-      $file = $this->key($key);
-      if ($fp = fopen($file, 'w')) {
+      if ($fp = @fopen($filename, 'w')) {
         // only delete the cache file once we obtain an exclusive lock to prevent
         // deleting a cache file that is currently being read.
         if (flock($fp, LOCK_EX)) {
-          unlink($file);
+          unlink($filename);
         }
       }
     }
   }
+
   
   function flush() {
     global $user;
@@ -153,13 +186,31 @@ class fileCache extends Cache {
   function key($key) {
     $table = $this->name;
     $fspath = $this->fspath;
-    $hash = md5($key);
-    // TODO make sure we always get valid filenames in the appendix
-    $appendix = str_replace(array('/'), array('-'), $key);
-    
-    $this->create_directory($fspath, $hash{0});
-    
-    return  "$fspath/$table/". $hash{0}. '/'. $hash. '--'. $appendix;
+    if ($key != '*') {
+      // Make sure we have a good filename when we concatentate $hash with $appendix:
+      // * Can't be over 255 bytes (ext2, 3, 4) or 255 characters (NTFS, FAT) as per 
+      //  http://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits
+      // * Can't include "? * / \ : ; < >" in NTFS and FAT as per 
+      //  http://technet.microsoft.com/en-us/library/cc722482.aspx
+      $hash = md5($key);
+      $appendix = str_replace(array('?','*','/','\\',':',';','<','>'), '-', $key);
+      $filename = $hash . '--' . $appendix;
+      
+      if (function_exists('mb_substr')) {
+        $filename = mb_substr($filename, 0, 255, '8bit');
+      }
+      else {
+        // We'll have to assume we're working with ASCII if mb_ extension isn't installed.
+        $filename = substr($filename, 0, 255);
+      }
+
+      $this->create_directory($fspath, $hash{0});
+      return  "$fspath/$table/". $hash{0}. '/'. $filename;
+    }
+    else {
+      return  "$fspath/$table/";
+    }
+
   }
   
   /**
@@ -181,10 +232,12 @@ class fileCache extends Cache {
         if (!is_dir($dir)) {
           if (!mkdir($dir)) {
             // t() is not available.
-            drupal_set_message(strtr('Failed to create directory %dir.', array('%dir' => "<em>$dir</em>")));
+            if (function_exists('watchdog')) {
+              watchdog('cache', strtr('Failed to create directory %dir.', array('%dir' => "<em>$dir</em>")), WATCHDOG_ERROR);
+            }
           }
           else {
-            @chmod($subdirectory, 0775); // Necessary for non-webserver users.
+            @chmod($dir, 0775); // Necessary for non-webserver users.
           }
         }
       }
@@ -192,10 +245,10 @@ class fileCache extends Cache {
   }
 
   function purge($dir) {
-    global $cache_lifetime;
+    $cache_lifetime = variable_get('cache_lifetime', 0);
     $files = file_scan_directory($dir, '.', array('.', '..', 'CVS'));
     foreach ($files as $file) {
-      if (filemtime($file->filename) < (time() - $cache_lifetime)) {
+      if ((filemtime($file->filename) < (time() - $cache_lifetime)) && $cache_lifetime > 0) {
         if ($fp = fopen($file->filename, 'r')) {
           // We need an exclusive lock, but don't block if we can't get it as
           // we can simply try again next time cron is run.
@@ -204,6 +257,38 @@ class fileCache extends Cache {
           }
         }
       }
+      else {
+        if (file_exists($file->filename)) {    
+          if ($fp = @fopen($file->filename, 'r')) {
+            if (flock($fp, LOCK_SH)) {
+              $data = @fread($fp, filesize($file->filename));
+              flock($fp, LOCK_UN);
+              $cache = unserialize($data);
+            }
+            fclose($fp);
+            if ($cache->expire != CACHE_PERMANENT && $cache->expire <= time()) {
+              unlink($file->filename);
+            }
+          }
+        }
+      }
     }
+  }
+  
+  function stats() {
+    $stats = array(
+      'uptime' => time(),
+      'bytes_used' => disk_total_space($this->fspath) - disk_free_space($this->fspath),
+      'bytes_total' => disk_total_space($this->fspath),
+      'gets' => 0,
+      'sets' => 0,
+      'hits' => 0,
+      'misses' => 0,
+      'req_rate' => 0,
+      'hit_rate' => 0,
+      'miss_rate' => 0,
+      'set_rate' => 0,
+    );
+    return $stats;
   }
 }
