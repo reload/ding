@@ -77,11 +77,11 @@ div.edit a:hover{color: #333;}
 /* =====================================
  	blocks configuration
 * ------------------------------------- */
-table.sticky-header{background:#606;}
-table.sticky-header th{font-weight:bold; color:#f0f}
-td.region{color:#000; background:#999; text-align:center;}
-#block-admin-display-form td.block{color:#000; font-weight:bold;	}
-.block-region{background-color:#606; text-align:center; color:#f0f;}
+body.page-admin table.sticky-header{background:#606;}
+body.page-admin table.sticky-header th{font-weight:bold; color:#f0f}
+body.page-admin td.region{color:#000; background:#999; text-align:center;}
+body.page-admin #block-admin-display-form td.block{color:#000; font-weight:bold;	}
+body.page-admin .block-region{background-color:#606; text-align:center; color:#f0f;}
 
 .draggable a.tabledrag-handle {
 	cursor:move;
