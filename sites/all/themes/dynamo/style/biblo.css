@@ -146,7 +146,8 @@ ul.menu li ul{margin:0 0 5px 0; padding:0 0 5px 0;}
 
 ul.menu li.expanded ul.menu li.expanded{margin:0 0 0 20px;	}
 ul.menu li.expanded ul.menu li.expanded a{display:block}
-		
+
+.panel-left ul.menu li.first{background:none; padding:0 5px 10px 0px}		
 /**/
 .view-blog-category-list ul li div{display:inline;}
 .view-blog-category-list ul li div.node-count{font-size:10px;}
