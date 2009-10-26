@@ -44,7 +44,7 @@ class AdditionalInformationService {
 													'identifier' => $isbnIdentifiers));
 		$stopTime = explode(' ', microtime());
     $time = floatval(($stopTime[1]+$stopTime[0]) - ($startTime[1]+$startTime[0]));
-		watchdog('addi', 'Completed request ('.round($time, 3).'s)', $isbnIdentifiers, WATCHDOG_INFO, 'http://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
+		watchdog('addi', 'Completed request ('.round($time, 3).'s): ISBN %isbns', array('%isbns' => implode(', ', $isbn)), WATCHDOG_INFO, 'http://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
     
 		if ($response->requestStatus->statusEnum != 'ok')
 		{
