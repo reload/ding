@@ -20,6 +20,7 @@ body.page-user .panel-twocol-left-stacked .content-left{width:686px; margin:0 0 
 
 /* vcard*/
 .pane-alma_user_personal_info .vcard {margin: 0 0 0 0px;}
+.pane-alma_user_personal_info .vcard h4{clear:both;}
 .pane-alma_user_personal_info .vcard dl{display:block; clear:both; margin:0 0 0 0px;}
 	.pane-alma_user_personal_info	.vcard h4{padding:5px 0}
 	.pane-alma_user_personal_info .vcard dl dt{width:120px; margin:0 10px 0 0; float:left; font-weight:bold;}
