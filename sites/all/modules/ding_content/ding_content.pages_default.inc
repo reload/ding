@@ -59,12 +59,7 @@ function ding_content_default_page_manager_pages() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
-    $pane->cache = array(
-      'method' => 'simple',
-      'settings' => array(
-        'lifetime' => '120',
-      ),
-    );
+    $pane->cache = array();
     $pane->style = array();
     $pane->css = array();
     $pane->extras = array();
