@@ -115,14 +115,14 @@ ul.pager li{margin:0 10px 0 0;}
 	ul.pager li.pager-last,
 	ul.pager li.pager-previous,
 	ul.pager li.pager-first	{width:54px; height:24px; padding:6px 2px 0 2px; font-size:9px; float:left; text-align:center; background:transparent url(../images/bg-pager-link-nav.gif) no-repeat left top;}
-	#pager div.nav, ul.pager li{width:30px; height:24px;font-size:10px; padding:6px 2px 0 2px; float:left; text-align:center; background:transparent url(../images/bg-pager-link.gif) no-repeat left top;}	
+	#pager div.nav, ul.pager li{width:30px; height:24px;font-size:10px; padding:6px 2px 0 2px; float:left; text-align:center; background:transparent url(../images/bg-pager-link.gif) no-repeat left top; clear:none;}	
 		#pager a.prev{background:transparent url(../images/arrow-pre.png) no-repeat left center; padding:0 0 0  5px;}
 		#pager a.next{background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0;}
 
 	#ting-result-pager ul{display:inline}
 	#ting-result-pager ul li{width:30px; height:24px; float:left; padding:3px 2px 0 2px; text-align:center; background:transparent url(../images/bg-pager-link.gif) no-repeat left top; }
 	#ting-result-pager ul li.current,
-	ul.pager li.pager-current{width:32px; height:28px; padding:3px 2px 0 2px;  background:transparent url(../images/bg-pager-link-active.gif) no-repeat left top;}
+	ul.pager li.pager-current{width:32px; height:28px; float:left; padding:3px 2px 0 2px;  background:transparent url(../images/bg-pager-link-active.gif) no-repeat left top;}
 
 
 /* =====================================
