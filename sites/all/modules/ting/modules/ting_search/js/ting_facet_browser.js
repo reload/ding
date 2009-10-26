@@ -89,7 +89,7 @@ Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, res
 		 	});
 
 			//hide and unselect all superflous facets
-			jQuery('li:gt('+Object.keys(result.facets[f].terms).length+')', facetElements).removeClass('selected').addClass('hidden');
+			jQuery('li:gt('+(Object.keys(result.facets[f].terms).length-1)+')', facetElements).removeClass('selected').addClass('hidden');
 		}
 		
 		this.resizeFacets(element);
