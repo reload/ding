@@ -114,7 +114,7 @@ function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = arra
 	$request->setStart($resultsPerPage * ($page - 1) + 1);
 	$request->setNumResults($resultsPerPage);
   
-	$request->setQuery((!isset($options['supportingTypes']) || !$options['supportingTypes']) ? $request->getQuery().' AND NOT facet.type:materialevurdering AND NOT facet.type:anmeldelse' : $request->getQuery());	
+	$request = (!isset($options['supportingTypes']) || !$options['supportingTypes']) ? ting_remove_supporting_types($request) : $request;
 	$request->setFacets((isset($options['facets'])) ? $options['facets'] : array('facet.subject', 'facet.creator', 'facet.type', 'facet.date', 'facet.language'));
 	$request->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((sizeof($request->getFacets()) == 0) ? 0 : 10));
 
@@ -367,5 +367,12 @@ function ting_add_agency(TingClientAgentRequest $request)
 	{
 		$request->setAgency($agency);
 	}
+	return $request;
+}
+
+function ting_remove_supporting_types(TingClientSearchRequest $request)
+{
+	$supportingTypes = array('materialevurdering*', 'anmeldelse');
+	$request->setQuery($request->getQuery().' NOT ('.implode(' OR ', $supportingTypes).')');
 	return $request;
 }
