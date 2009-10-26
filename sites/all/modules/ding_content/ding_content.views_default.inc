@@ -1680,7 +1680,9 @@ function ding_content_views_default_views() {
     'type' => 'none',
   ));
   $handler->override_option('cache', array(
-    'type' => 'none',
+    'type' => 'time',
+    'results_lifespan' => '300',
+    'output_lifespan' => '-1',
   ));
   $handler->override_option('title', 'Emnesamlinger');
   $handler->override_option('empty', 'Ingen emnesamlinger.');
