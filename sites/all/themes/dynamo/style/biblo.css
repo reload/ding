@@ -154,7 +154,7 @@ ul.menu li.expanded ul.menu li.expanded a{display:block}
 
 /*events*/
 .view-event-list .libary-tag div{display:inline;margin:0 5px 0 0;}
-.view-event-list  li{background:transparent url(../images/bg-divider.png) no-repeat left top;  clear:both; padding:10px 0 10px 20px;}
+.view-event-list li{background:transparent url(../images/bg-divider.png) no-repeat left top;  clear:both; padding:10px 0 10px 20px;}
 .view-event-list li.first{background:none;}
 .view-event-list span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px;}
 
@@ -171,6 +171,7 @@ ul.menu li.expanded ul.menu li.expanded a{display:block}
 .content .field-teaser{margin:10px 0;}
 
 /*medarbjedere*/
+.pane-library_staff_list-panel_pane_1  h3{margin:0 0 0 20px;}
 .panel-left .view-library-staff-list ul{padding:0 0 0 10px;}
 .panel-left .view-library-staff-list ul li,.panel-left .view-library-staff-list ul li.first{width:150px; height:200px; float:left; background:none; padding:10px;}
 	.view-library-staff-list li .field-image-fid{width:120px; height:120px; background:#ddd;}
