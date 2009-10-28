@@ -38,7 +38,7 @@ function dynamo_preprocess_node(&$variables) {
       $variables['list_image'] = $variables['field_list_image_rendered'];
     }
     else {
-      $variables['list_image'] = '&nbsp;';
+      $variables['list_image'] = '&nbsp;'; //<--why ??
     }
   }
 

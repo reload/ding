@@ -51,6 +51,9 @@ function mothership_preprocess(&$vars, $hook) {
         list($section, ) = explode('/', $path, 2);
         $body_classes[] = mothership_id_safe('page-' . $path);
         $body_classes[] = mothership_id_safe('section-' . $section);
+        //add classes without ids
+        $body_classes[] = mothership_id_safe('page-' . $path, 'remove-numbers');
+        $body_classes[] = mothership_id_safe('section-' . $section, 'remove-numbers');
       }
 
       //add actions

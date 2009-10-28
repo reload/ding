@@ -45,7 +45,7 @@ body{background:#e5e5e5 url(../images/bg.png) repeat-x 0 0;}
 
 #content-inner{min-height:500px; height:auto !important; height:500px;}
 
-#content-main form{margin:20px 0 0 20px;}
+#content-main form{margin:20px 0 0 0;}
 
 
 /* =====================================

@@ -68,19 +68,20 @@ Account block
 
 /*user logged in*/
 #account-profile{width:251px;margin:5px 0 0 0; font-size:10px;}
-	#account-profile a{text-decoration:none;}
-
+	#account-profile a{text-decoration:none; }
+	#account-profile a:hover{text-decoration:underline; font-weight:bold;}
 	#account-profile .user{margin:0 0 5px 0;}
 		#account-profile div.logout{margin:0 0 0 180px; }
 			#account-profile div.logout a{background:transparent url(../images/arrow.png) no-repeat left center; padding:0 0 0 5px; }
 		#account-profile h5{font-weight:normal; color:#fff; font-size:11px; line-height:11px;}
 		#account-profile .username {width:230px; height:20px; overflow:hidden; }
-		#account-profile .username a{font-size:12px; background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0; text-decoration:none;}
+		#account-profile .username a{font-size:12px; background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0;}
 
 	/**/	
 	#account-profile .cart{width:60px; height:46px; padding:0 12px 0 0; height:60px;float:left; background:transparent url(../images/bg-account-cart.gif) no-repeat left top; text-align:center;}
 		#account-profile .cart div.count{font-size:25px; margin:6px 0 0 20px; height:20px; width:30px;}
 		#account-profile .cart a{display:block; font-size:9px; margin:5px 0 0 0;}
+
 	/* material status */	
 	#account-profile ul{width:177px; float:left; background:transparent url(../images/bg-account-divider.gif) no-repeat left top;}
 		#account-profile ul li{clear:both; background:transparent url(../images/bg-account-divider.gif) no-repeat left bottom;}
@@ -89,9 +90,9 @@ Account block
 			#account-profile ul div.content span{float:right; padding:0 5px 0 0;}
 	#account-profile ul div.status{width:36px; height:24px; background:transparent url(../images/bg-account-status.gif) no-repeat left 0px; text-indent: -9999em;}
 		#account-profile ul div.status span{height:16px; width:16px; margin:1px 0 0 11px; display: block;}
-		#account-profile ul div.status span.ok{ background:transparent url(../images/status-error.png) no-repeat left top;}		
-		#account-profile ul div.status span.warning{ background:transparent url(../images/status-warning.png) no-repeat left top;}		
-		
+		#account-profile ul div.status span.ok{background:transparent url(../images/status-info.png) no-repeat left top; }
+		#account-profile ul div.status span.warning{background:transparent url(../images/status-warning.png) no-repeat left top;}
+		#account-profile ul div.status span.default{background:transparent none}
 
 
 /* =======================================

@@ -14,11 +14,13 @@ if($id_node){
 
 <?php if ($page == 0){ ?>
 <div<?php print $id_node . $classes; ?>>
+  <?php 
 
-  <div class="picture"><?php print $list_image; ?></div>
-
+  if($list_image !="&nbsp;"){ ?>
+    <div class="picture"><?php print $list_image; ?></div>
+  <?php } ?>
+  
   <div class="content">
-
     <div class="subject">
       <?php print return_terms_from_vocabulary($node, "1"); ?> 
     </div>
@@ -27,15 +29,14 @@ if($id_node){
       <h3><?php print l($node->title, 'node/'.$node->nid); ?></h3>
   	<?php } ?>
 
-<?php 
-		//field_teaser
-
-		if($node->field_teaser[0]['view']){
-			print $node->field_teaser[0]['view'];
-		}else{
-			print strip_tags($node->content['body']['#value']);	
-		}
- ?>
+    <?php 
+    		//field_teaser
+    		if($node->field_teaser[0]['view']){
+    			print $node->field_teaser[0]['view'];
+    		}else{
+    			print strip_tags($node->content['body']['#value']);	
+    		}
+     ?>
 
     <?php // print strip_tags($node->content['body']['#value']);?>
 
