@@ -26,6 +26,14 @@ function alma_menu() {
     'type' => MENU_DEFAULT_LOCAL_TASK,
   );
 
+  $items['alma/item/%/status'] = array(
+    'title' => 'Get Alma status',
+    'description' => 'Get Alma status for items. Availability, location, etc.',
+    'page callback' => 'alma_item_status_page',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+  );
+
   return $items;
 }
 
@@ -453,5 +461,79 @@ function alma_client_user_has_reservation($borr_card, $pin_code, $item_id) {
   } 
 
   return FALSE;
+}
+
+/**
+ * Get details about a catalogue record.
+ *
+ * @param string $alma_id
+ *    ID for the record.
+ * @return array
+ *    Information about the record.
+ */
+function alma_client_catalogue_record_detail($alma_id) {
+  // Return data from cache if available.
+  $cache = cache_get('catalogue_record_detail-' . $alma_id, 'cache_alma_requests');
+  if ($cache && !empty($cache->data)) {
+    return $cache->data;
+  }
+
+  try {
+    $data = alma_client()->catalogue_record_detail($alma_id);
+  } catch (Exception $e) {
+    watchdog('alma_user', 'catalogue_record_detail error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
+  }
+  // Cache output for 12 hours.
+  cache_set('catalogue_record_detail-' . $alma_id, $data, 'cache_alma_requests', $_SERVER['REQUEST_TIME'] + 43200);
+  return $data;
+}
+
+/**
+ * AHAH callback to get library item status.
+ *
+ * @param string $input
+ *    Input string, one or more Alma item IDs, dot-separated.
+ */
+function alma_item_status_page($input) {
+  // Split input on dots, filter out bogus values.
+  $numbers = array_filter(explode('.', $input), is_numeric);
+  $items = array();
+
+  foreach ($numbers as $alma_id) {
+    $items[$alma_id] = alma_client_catalogue_record_detail($alma_id);
+  }
+
+  // We are returning JavaScript, so tell the browser.
+  drupal_set_header('Content-Type: application/json; charset=utf-8');
+  echo json_encode($items);
+  return;
+}
+
+/**
+ * Helper function that adds our JavaScript behaviors.
+ *
+ * @param string $page_type
+ *    The type of page we're adding JavaScript for. Different pages gets
+ *    different things.
+ */
+function alma_add_js($page_type) {
+  // Static variable to avoid to adding data twice.
+  static $called;
+  if (!$called) {
+    // On all pages, add branch info, etc.
+    $branches = alma_client_get_branches();
+    drupal_add_js(array('alma' => array(
+      'branches' => $branches,
+      'base_url' => url('<front>') . 'alma',
+    )), 'setting');
+    $called = TRUE;
+  }
+
+  $path = drupal_get_path('module', 'alma') . '/js';
+  switch ($page_type) {
+    case 'ting_object_view':
+      drupal_add_js($path . '/alma.availability.js');
+    break;
+  }
 }
 

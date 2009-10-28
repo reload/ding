@@ -48,26 +48,31 @@ function dynamo_preprocess_node(&$variables) {
   }
 
   if ($variables['type'] == 'event') {
-    $date = strtotime($node->field_datetime[0]['value']);
-    $date2 = strtotime($node->field_datetime[0]['value2']);
+    $start = strtotime($node->field_datetime[0]['value']);
+    $end = strtotime($node->field_datetime[0]['value2']);
+
+    // If no end time is set, use the start time for comparison.
+    if (2 > $end) {
+      $end = $start;
+    }
 
     // Find out the end time of the event. If there's no specified end
     // time, we’ll use the start time. If the event is in the past, we
     // create the alert box.
-    if (($date2 > 0 && $date2 < $_SERVER['REQUEST_TIME'])) {
+    if (($end > 0 && date('Ymd', $end) < date('Ymd', $_SERVER['REQUEST_TIME']))) {
       $variables['alertbox'] = '<div class="alert">' . t('NB! This event occurred in the past.') . '</div>';
     }
 
     // More human-friendly date formatting – try only to show the stuff
     // that’s different when displaying a date range.
-    if(date("Ymd", $date) == date("Ymd", $date2)) {
-      $variables['event_date'] = format_date($date, 'custom', "j. F Y");
+    if(date("Ymd", $date) == date("Ymd", $end)) {
+      $variables['event_date'] = format_date($start, 'custom', "j. F Y");
     }
-    elseif(date("Ym", $date) == date("Ym", $date2)) {
-      $variables['event_date'] = format_date($date, 'custom', "j.") . "–" . format_date($date2, 'custom', "j. F Y");
+    elseif(date("Ym", $date) == date("Ym", $end)) {
+      $variables['event_date'] = format_date($start, 'custom', "j.") . "–" . format_date($end, 'custom', "j. F Y");
     }
     else {
-      $variables['event_date'] = format_date($date, 'custom', "j. M.") . " – " . format_date($date2, 'custom', "j. M. Y");
+      $variables['event_date'] = format_date($start, 'custom', "j. M.") . " – " . format_date($end, 'custom', "j. M. Y");
     }
 
     // Display free if the price is zero.

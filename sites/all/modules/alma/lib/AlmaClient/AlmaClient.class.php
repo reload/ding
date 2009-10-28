@@ -228,8 +228,9 @@ class AlmaClient {
     );
 
     foreach ($doc->getElementsByTagName('debt') as $item) {
-      $data['debts'][] = array(
-        'id' => $item->getAttribute('debtId'),
+      $id = $item->getAttribute('debtId');
+      $data['debts'][$id] = array(
+        'id' => $id,
         'date' => $item->getAttribute('debtDate'),
         'type' => $item->getAttribute('debtType'),
         'amount' => $item->getAttribute('debtAmount'),
@@ -422,6 +423,77 @@ class AlmaClient {
     );
     $doc = $this->request('patron/pinCode/change', $params);
     return TRUE;
+  }
+
+  /**
+   * Get details about a catalogue record.
+   */
+  function catalogue_record_detail($alma_id) {
+    $params = array(
+      'catalogueRecordKey' => $alma_id,
+    );
+    $doc = $this->request('catalogue/detail', $params);
+    $details = $doc->getElementsByTagName('detailCatalogueRecord')->item(0);
+    $data = array(
+      'request_status' => $doc->getElementsByTagName('status')->item(0)->getAttribute('value'),
+      'alma_id' => $details->getAttribute('id'),
+      'target_audience' => $details->getAttribute('targetAudience'),
+      'show_reservation_button' => ($details->getAttribute('showReservationButton') == 'yes') ? TRUE : FALSE,
+      'reservation_count' => $details->getAttribute('nofReservations'),
+      'loan_count_year' => $details->getAttribute('nofLoansYear'),
+      'loan_count_total' => $details->getAttribute('nofLoansTotal'),
+      'available_count' => $details->getAttribute('nofAvailableForLoan'),
+      'title_series' => $details->getAttribute('titleSeries'),
+      'title_original' => $details->getAttribute('titleOriginal'),
+      'resource_type' => $details->getAttribute('resourceType'),
+      'publication_year' => $details->getAttribute('publicationYear'),
+      'media_class' => $details->getAttribute('mediaClass'),
+      'extent' => $details->getAttribute('extent'),
+      'edition' => $details->getAttribute('edition'),
+      'category' => $details->getAttribute('category'),
+    );
+
+    foreach ($doc->getElementsByTagName('author') as $item) {
+      $data['authors'][] = $item->getAttribute('value');
+    }
+
+    foreach ($doc->getElementsByTagName('description') as $item) {
+      $data['descriptions'][] = $item->getAttribute('value');
+    }
+
+    foreach ($doc->getElementsByTagName('isbn') as $item) {
+      $data['isbns'][] = $item->getAttribute('value');
+    }
+
+    foreach ($doc->getElementsByTagName('language') as $item) {
+      $data['languages'][] = $item->getAttribute('value');
+    }
+
+    foreach ($doc->getElementsByTagName('note') as $item) {
+      $data['notes'][] = $item->getAttribute('value');
+    }
+
+    foreach ($doc->getElementsByTagName('title') as $item) {
+      $data['titles'][] = $item->getAttribute('value');
+    }
+
+    foreach ($doc->getElementsByTagName('holding') as $item) {
+      $data['holdings'][] = array(
+        'status' => $item->getAttribute('status'),
+        'ordered_count' => $item->getAttribute('nofOrdered'),
+        'checked_out_count' => $item->getAttribute('nofCheckedOut'),
+        'reference_count' => $item->getAttribute('nofReference'),
+        'total_count' => $item->getAttribute('nofTotal'),
+        'collection_id' => $item->getAttribute('collectionId'),
+        'sublocation_id' => $item->getAttribute('subLocationId'),
+        'location_id' => $item->getAttribute('locationId'),
+        'department_id' => $item->getAttribute('departmentId'),
+        'branch_id' => $item->getAttribute('branchId'),
+        'organisation_id' => $item->getAttribute('organisationId'),
+        'available_count' => $item->getAttribute('nofAvailableForLoan'),
+      );
+    }
+    return $data;
   }
 }
 
