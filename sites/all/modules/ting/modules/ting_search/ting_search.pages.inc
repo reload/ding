@@ -160,3 +160,77 @@ function ting_search_pages_content_js() {
   drupal_json($result);
   exit;
 }
+
+/**
+ * Generate Atom feed of Ting search results.
+ */
+function ting_search_pages_ting_feed($query) {
+  module_load_include('client.inc', 'ting');
+  $entries = '';
+  $max_results = 10;
+  $result_count = 0;
+
+  try {
+    $search_result = ting_do_search($query, 1, 10);
+    $result_count = $search_result->numTotalObjects;
+    foreach ($search_result->collections as &$collection) {
+      $data = $collection->objects[0]->data;
+      $entry = array(
+        'id' => url('ting/collection/' . $collection->objects[0]->id, array('absolute' => TRUE)),
+        'title' => $data->title[0],
+        'summary' => $data->description[0],
+        'published' => gmdate('c', strtotime($data->date[0])),
+        'authors' => array(),
+        'categories' => array(),
+      );
+
+      // Since we don't have any content, we must provide an alternate link.
+      $entry['alternate_link'] = $entry['id'];
+
+      // We have no data available about when something was updated, so
+      // we'll reuse the published attribute (since updated is a
+      // required attribute per Atom spec).
+      $entry['updated'] = $entry['published'];
+
+      foreach ($data->creator as $name) {
+        $entry['authors'][] = array('name' => $name);
+      }
+
+      foreach ($data->subject as $term) {
+        $entry['categories'][] = array('term' => $term);
+      }
+
+      $entries .= theme('ting_atom_entry', $entry);
+    }
+  }
+  catch (TingClientException $e) {
+  }
+
+  $feed = array(
+    'title' => t('“@title” search results feed', array('@title' => $query)),
+    'alternate_link' => url('ting/search/' . $query, array('absolute' => TRUE)),
+    'entries' => $entries,
+  );
+
+  if ($result_count > $max_results) {
+    $feed['subtitle'] = t('First @max of @count items found.', array('@max' => $max_results, '@count' => $result_count));
+  }
+  elseif ($result_count > 0) {
+    $feed['subtitle'] = format_plural($result_count, 'One item found', '@count items found.', array('@count' => $result_count));
+  }
+  else {
+    $feed['subtitle'] = t('No items found.');
+  }
+
+  // Set the correct content type for Atom feeds.
+  drupal_set_header('Content-Type: text/xml; charset=utf-8');
+  print theme('ting_atom_feed', $feed);
+  return;
+}
+
+/**
+ * Generate Atom feed of content search results.
+ */
+function ting_search_pages_content_feed($query) {
+}
+
