@@ -239,7 +239,7 @@ function ting_search_pages_ting_feed($query) {
   }
 
   // Set the correct content type for Atom feeds.
-  drupal_set_header('Content-Type: text/xml; charset=utf-8');
+  drupal_set_header('Content-Type: application/atom+xml; charset=utf-8');
   print theme('ting_atom_feed', $feed);
   return;
 }
