@@ -529,7 +529,7 @@ function alma_add_js($page_type) {
     $called = TRUE;
   }
 
-  $path = drupal_get_path('module', 'alma');
+  $path = drupal_get_path('module', 'alma') . '/js';
   switch ($page_type) {
     case 'ting_object_view':
       drupal_add_js($path . '/alma.availability.js');
