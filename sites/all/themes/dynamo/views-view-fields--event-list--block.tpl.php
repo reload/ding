@@ -26,7 +26,7 @@
     <?php print $fields['field_library_ref_nid']->content; ?>
     <h4><?php print $fields['title']->content; ?></h4>
     <span class="time">
-			<?php print format_date($date, 'custom', 'H:i');?>
+			<?php print format_date($date, 'custom', 'H:i');?> -
       <?php print $price; ?>
     </span>
   </div>
