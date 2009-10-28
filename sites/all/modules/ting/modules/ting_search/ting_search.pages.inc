@@ -169,41 +169,51 @@ function ting_search_pages_ting_feed($query) {
   $entries = '';
   $max_results = 10;
   $result_count = 0;
+  $cache_key = 'ting_search_ting_feed_entries:' . md5(drupal_strtolower($query));
+  $cache_data = cache_get($cache_key);
 
-  try {
-    $search_result = ting_do_search($query, 1, 10);
-    $result_count = $search_result->numTotalObjects;
-    foreach ($search_result->collections as &$collection) {
-      $data = $collection->objects[0]->data;
-      $entry = array(
-        'id' => url('ting/collection/' . $collection->objects[0]->id, array('absolute' => TRUE)),
-        'title' => $data->title[0],
-        'summary' => $data->description[0],
-        'published' => gmdate('c', strtotime($data->date[0])),
-        'authors' => array(),
-        'categories' => array(),
-      );
-
-      // Since we don't have any content, we must provide an alternate link.
-      $entry['alternate_link'] = $entry['id'];
-
-      // We have no data available about when something was updated, so
-      // we'll reuse the published attribute (since updated is a
-      // required attribute per Atom spec).
-      $entry['updated'] = $entry['published'];
-
-      foreach ($data->creator as $name) {
-        $entry['authors'][] = array('name' => $name);
-      }
-
-      foreach ($data->subject as $term) {
-        $entry['categories'][] = array('term' => $term);
-      }
-
-      $entries .= theme('ting_atom_entry', $entry);
-    }
+  if ($cache_data) {
+    $result_count = $cache_data->data['result_count'];
+    $entries = $cache_data->data['entries'];
   }
-  catch (TingClientException $e) {
+  else {
+    try {
+      $search_result = ting_do_search($query, 1, 10);
+      $result_count = $search_result->numTotalObjects;
+      foreach ($search_result->collections as &$collection) {
+        $data = $collection->objects[0]->data;
+        $entry = array(
+          'id' => url('ting/collection/' . $collection->objects[0]->id, array('absolute' => TRUE)),
+          'title' => $data->title[0],
+          'summary' => $data->description[0],
+          'published' => gmdate('c', strtotime($data->date[0])),
+          'authors' => array(),
+          'categories' => array(),
+        );
+
+        // Since we don't have any content, we must provide an alternate link.
+        $entry['alternate_link'] = $entry['id'];
+
+        // We have no data available about when something was updated, so
+        // we'll reuse the published attribute (since updated is a
+        // required attribute per Atom spec).
+        $entry['updated'] = $entry['published'];
+
+        foreach ($data->creator as $name) {
+          $entry['authors'][] = array('name' => $name);
+        }
+
+        foreach ($data->subject as $term) {
+          $entry['categories'][] = array('term' => $term);
+        }
+
+        $entries .= theme('ting_atom_entry', $entry);
+      }
+    }
+    catch (TingClientException $e) {
+    }
+    // Cache the fetched data for 8 hours.
+    cache_set($cache_key, array('result_count' => $result_count, 'entries' => $entries), 'cache', time() + 28000);
   }
 
   $feed = array(
@@ -211,6 +221,12 @@ function ting_search_pages_ting_feed($query) {
     'alternate_link' => url('ting/search/' . $query, array('absolute' => TRUE)),
     'entries' => $entries,
   );
+
+  // If data was received from cache, set the feeds update time to the
+  // cache creation time.
+  if ($cache_data) {
+    $feed['updated'] = gmdate('c', $cache_data->created);
+  }
 
   if ($result_count > $max_results) {
     $feed['subtitle'] = t('First @max of @count items found.', array('@max' => $max_results, '@count' => $result_count));
