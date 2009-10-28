@@ -1,12 +1,11 @@
-body{background:#FFE3C1;}
-.left{width: 220px;}
-.right{width: 220px;}
-.main {width: 460px;}
+body{background:#f8f8f8;}
+.left{width: 220px; background:#ddd;}
+.right{width: 220px; background:#ddd;}
+.main {width: 460px; background:#ddd;}
 
 .header,.body, .footer{width: 960px; margin: 0 auto; background:#eee; min-height:1px; clear:both;}
 
-.left,.main
-{
+.left,.main{
   display: inline; float:left; margin:0 10px;
   min-height: 1%;
   min-height: 1px;

@@ -1,11 +1,17 @@
-<?php 
+<?php
+// $Id$
+/**
+ * @file
+ * themesettings.php
+ */
+
 /**
  * Return the theme settings' default values from the .info and save them into the database.
  *
  * @param $theme
  *   The name of theme.
  */
- 
+
 function mothership_theme_get_default_settings($theme) {
 
   $themes = list_themes();
@@ -38,16 +44,14 @@ function mothership_theme_get_default_settings($theme) {
 }
 
 
-/* =====================================
-  SETTINGS
-* ------------------------------------- */
 /**
-* Implementation of THEMEHOOK_settings() function.
-*/
+ * SETTINGS
+ * Implementation of THEMEHOOK_settings() function.
+ */
 
 
-//function phptemplate_settings($saved_settings){
-function mothership_settings($saved_settings, $subtheme_defaults = array()){
+//function phptemplate_settings($saved_settings) {
+function mothership_settings($saved_settings, $subtheme_defaults = array()) {
 
   // Get the default values from the .info file.
   $defaults = mothership_theme_get_default_settings('mothership');
@@ -67,16 +71,16 @@ function mothership_settings($saved_settings, $subtheme_defaults = array()){
   $form['cleanup'] = array(
     '#type'          => 'fieldset',
     '#title'         => t('"Tipl Phiphs" CSS Cleanup'),
-    '#collapsible' => TRUE, 
+    '#collapsible' => TRUE,
     '#collapsed' => FALSE,
   );
-  
-  // -- body ------------------------------------- 
+
+  // -- body -------------------------------------
   $form['cleanup']['body'] = array(
     '#type'          => 'fieldset',
     '#title'         => t('body (page.tpl)'),
-    '#collapsible' => TRUE, 
-    '#collapsed' => FALSE,    
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
   );
 
   $form['cleanup']['body']['mothership_cleanup_body_path'] = array(
@@ -90,13 +94,13 @@ function mothership_settings($saved_settings, $subtheme_defaults = array()){
     '#title'         => t('Add action based classes: edit, delete'),
     '#default_value' => $settings['mothership_cleanup_body_actions'],
   );
-  
+
   // -- node -------------------------------------
   $form['cleanup']['node'] = array(
     '#type'          => 'fieldset',
     '#title'         => t('node.tpl'),
-    '#collapsible' => TRUE, 
-    '#collapsed' => FALSE,    
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
   );
 
   $form['cleanup']['node']['mothership_cleanup_node_node'] = array(
@@ -122,7 +126,7 @@ function mothership_settings($saved_settings, $subtheme_defaults = array()){
     '#title'         => t('add promoted'),
     '#default_value' => $settings['mothership_cleanup_node_promoted'],
   );
-  
+
   $form['cleanup']['node']['mothership_cleanup_node_content_type'] = array(
     '#type'          => 'checkbox',
     '#title'         => t('node: content type '),
@@ -142,14 +146,14 @@ function mothership_settings($saved_settings, $subtheme_defaults = array()){
   );
 
 
-  // -- block ------------------------------------- 
+  // -- block -------------------------------------
   $form['cleanup']['block'] = array(
     '#type'          => 'fieldset',
     '#title'         => t('block.tpl'),
-    '#collapsible' => TRUE, 
-    '#collapsed' => FALSE,    
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
   );
-  
+
 
   $form['cleanup']['block']['mothership_cleanup_block_block'] = array(
     '#type'          => 'checkbox',
@@ -210,8 +214,8 @@ function mothership_settings($saved_settings, $subtheme_defaults = array()){
   $form['cleanup']['comment'] = array(
     '#type'          => 'fieldset',
     '#title'         => t('comments'),
-    '#collapsible' => TRUE, 
-    '#collapsed' => FALSE,    
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
   );
 
   $form['cleanup']['comment']['mothership_cleanup_comment_comment'] = array(
@@ -276,32 +280,72 @@ function mothership_settings($saved_settings, $subtheme_defaults = array()){
 
 
   // -- views ------------------------------------- */
-  
+
   $form['views'] = array(
     '#type'          => 'fieldset',
     '#title'         => t('Views'),
-    '#collapsible' => TRUE, 
-    '#collapsed' => FALSE,    
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
   );
-  
-  $form['views']['mothership_cleanup_views_first_last'] = array(
+  //list
+  $form['views']['list'] = array(
+    '#type'          => 'fieldset',
+    '#title'         => t('List'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+
+  $form['views']['list']['mothership_cleanup_views_first_last'] = array(
     '#type'          => 'checkbox',
     '#title'         => t('add first & last classes from views list'),
     '#default_value' => $settings['mothership_cleanup_views_first_last'],
   );
 
-  $form['views']['mothership_cleanup_views_zebra'] = array(
+  $form['views']['list']['mothership_cleanup_views_zebra'] = array(
     '#type'          => 'checkbox',
     '#title'         => t('add odd / even class '),
     '#default_value' => $settings['mothership_cleanup_views_zebra'],
   );
 
-  $form['views']['mothership_cleanup_views_row_ident'] = array(
+  $form['views']['list']['mothership_cleanup_views_row_ident'] = array(
     '#type'          => 'checkbox',
     '#title'         => t('add views-row '),
     '#default_value' => $settings['mothership_cleanup_views_row_ident'],
   );
 
+  //tables
+  $form['views']['table'] = array(
+    '#type'          => 'fieldset',
+    '#title'         => t('Tables'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+
+  $form['views']['table']['mothership_cleanup_views_table_first_last'] = array(
+    '#type'          => 'checkbox',
+    '#title'         => t('add first & last class in table rows'),
+    '#default_value' => $settings['mothership_cleanup_views_table_first_last'],
+  );
+
+  $form['views']['table']['mothership_cleanup_views_table_zebra'] = array(
+    '#type'          => 'checkbox',
+    '#title'         => t('add odd / even class to the table rows '),
+    '#default_value' => $settings['mothership_cleanup_views_table_zebra'],
+  );
+
+  $form['views']['table']['mothership_cleanup_views_table_row_count'] = array(
+    '#type'          => 'checkbox',
+    '#title'         => t('row-x to the table rows'),
+    '#default_value' => $settings['mothership_cleanup_views_table_row_count'],
+  );
+
+  //grid
+  $form['views']['grid'] = array(
+    '#type'          => 'fieldset',
+    '#title'         => t('Grid'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
 
 
 
@@ -309,8 +353,8 @@ function mothership_settings($saved_settings, $subtheme_defaults = array()){
   $form['menu'] = array(
     '#type'          => 'fieldset',
     '#title'         => t('Menu'),
-    '#collapsible' => TRUE, 
-    '#collapsed' => FALSE,    
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
   );
 
   $form['menu']['mothership_cleanup_menu_baseclass'] = array(
@@ -367,8 +411,8 @@ function mothership_settings($saved_settings, $subtheme_defaults = array()){
   $form['stylesheets'] = array(
     '#type'          => 'fieldset',
     '#title'         => t('stylesheets'),
-    '#collapsible' => TRUE, 
-    '#collapsed' => FALSE,    
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
   );
 
 
@@ -383,7 +427,7 @@ function mothership_settings($saved_settings, $subtheme_defaults = array()){
     '#type'          => 'checkbox',
     '#title'         => t('ie specific stylesheet conditions in the .info file'),
     '#default_value' => $settings['mothership_stylesheet_conditional'],
-    '#description'   => t('.info file: <strong>stylesheets[ condition ][all][] = ie.css</strong>. exampels [if lt IE 7] , [if IE 7] , [if IE 6]'),
+    '#description'   => t('.info file: <strong>ie stylesheets[ condition ][all][] = ie.css</strong> condition exampels [if lt IE 7] , [if IE 7] , [if IE 6]'),
   );
 
 
@@ -392,8 +436,8 @@ function mothership_settings($saved_settings, $subtheme_defaults = array()){
   $form['misc'] = array(
     '#type'          => 'fieldset',
     '#title'         => t('misc stuff'),
-    '#collapsible' => TRUE, 
-    '#collapsed' => FALSE,    
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
   );
 
 
@@ -434,8 +478,8 @@ function mothership_settings($saved_settings, $subtheme_defaults = array()){
   $form['misc']['features'] = array(
     '#type'          => 'fieldset',
     '#title'         => t('Sneaky Features'),
-    '#collapsible' => TRUE, 
-    '#collapsed' => FALSE,    
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
   );
 
   $form['misc']['features']['mothership_cleanup_node_regions'] = array(
@@ -444,12 +488,7 @@ function mothership_settings($saved_settings, $subtheme_defaults = array()){
     '#default_value' => $settings['mothership_cleanup_node_regions'],
   );
 
-
-
-
-
-
   // Return form
   return $form;
-  
+
 }

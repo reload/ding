@@ -229,7 +229,7 @@ buttons
 	.meta li{display:inline}
 	.meta li {padding:0 10px 0 0;}
 	.meta div.taxonomy{display:inline;}
-	.node .taxonomy{padding:10px 0 0 0;}
+	.node .taxonomy{padding:10px 0;}
 	.node .taxonomy ul{margin:0;}
 	.node .taxonomy ul li{padding:0 5px 0 0;}
 
