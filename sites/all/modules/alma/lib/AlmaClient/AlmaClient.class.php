@@ -228,8 +228,9 @@ class AlmaClient {
     );
 
     foreach ($doc->getElementsByTagName('debt') as $item) {
-      $data['debts'][] = array(
-        'id' => $item->getAttribute('debtId'),
+      $id = $item->getAttribute('debtId');
+      $data['debts'][$id] = array(
+        'id' => $id,
         'date' => $item->getAttribute('debtDate'),
         'type' => $item->getAttribute('debtType'),
         'amount' => $item->getAttribute('debtAmount'),
