@@ -492,11 +492,11 @@ function alma_client_catalogue_record_detail($alma_id) {
  * AHAH callback to get library item status.
  *
  * @param string $input
- *    Input string, one or more Alma item IDs, dot-separated.
+ *    Input string, one or more Alma item IDs, comma-separated.
  */
 function alma_item_status_page($input) {
-  // Split input on dots, filter out bogus values.
-  $numbers = array_filter(explode('.', $input), is_numeric);
+  // Split input on commas, filter out bogus values.
+  $numbers = array_filter(explode(',', $input), is_numeric);
   $items = array();
 
   foreach ($numbers as $alma_id) {
@@ -533,7 +533,8 @@ function alma_add_js($page_type) {
   switch ($page_type) {
     case 'ting_object_view':
       drupal_add_js($path . '/alma.availability.js');
-    break;
+      drupal_add_js($path . '/alma.availability.ting_object_view.js');
+      break;
   }
 }
 

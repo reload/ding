@@ -4,27 +4,32 @@
  * JavaScript behaviours for fetching and displaying availability.
  */
 
-Drupal.behaviors.almaAvailability = function () {
-  var items = $("div.ting-item");
-  var id_matcher = /ting-item-(\d+)/;
-  var id_list = [];
+// Container object for all our availability stuff.
+Drupal.almaAvailability = {
+  id_matcher: /ting-item-(\d+)/,
+  id_list: []
+}
 
-  items.each(function (i) {
-    id_list.push(id_matcher.exec(this.id)[1]);
+/**
+ * Helper function to find and store all ting item ids.
+ */
+Drupal.almaAvailability.find_ids = function () {
+  $("div.ting-item").each(function () {
+    Drupal.almaAvailability.id_list.push(Drupal.almaAvailability.id_matcher.exec(this.id)[1]);
   });
+};
 
-  $.getJSON(Drupal.settings.alma.base_url + '/item/' + id_list.join('.') + '/status', {}, function (data, textStatus) {
-    if ($("#ting-object .alma-availability").length == 1) {
-      $("#ting-object .alma-availability ul.library-list").empty();
-      // Iterate over each Alma item's data.
-      $.each(data, function (dataIndex, dataItem) {
-        var container = $('#ting-item-' + dataItem.alma_id + ' .alma-availability ul.library-list');
-        // Add a list item for each holding.
-        $.each(this.holdings, function (holdingIndex, holdingData) {
-          container.append('<li>' + Drupal.settings.alma.branches[holdingData.branch_id] + '</li>');
-        });
-      });
-    }
-  });
+/**
+ * Get details for all ting items found.
+ */
+Drupal.almaAvailability.get_details = function (callback) {
+  // If the id_list is empty, try and find ids again.
+  if (Drupal.almaAvailability.id_list.length == 0) {
+    Drupal.almaAvailability.find_ids();
+  }
+
+  if (Drupal.almaAvailability.id_list.length > 0) {
+    $.getJSON(Drupal.settings.alma.base_url + '/item/' + Drupal.almaAvailability.id_list.join(',') + '/status', {}, callback);
+  }
 }
 
