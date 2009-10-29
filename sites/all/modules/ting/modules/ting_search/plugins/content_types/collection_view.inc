@@ -30,6 +30,10 @@ function ting_search_collection_view_content_type_render($subtype, $conf, $panel
   $collection = isset($context->data) ? drupal_clone($context->data) : NULL;
 
   if ($collection instanceOf TingClientObjectCollection) {
+    // If alma.module is present, use its JavaScript behaviors.
+    if (function_exists('alma_add_js')) {
+      alma_add_js('ting_collection_view');
+    }
     $block->content = theme('ting_collection', $collection);
   }
 
