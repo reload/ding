@@ -507,6 +507,14 @@ class AlmaClient {
     }
     return $data;
   }
+
+  /**
+   * Pay debts.
+   */
+  function add_payment($debt_ids) {
+    $doc = $this->request('patron/payments/add', array('debts' => $debt_ids));
+    return TRUE;
+  }
 }
 
 /**

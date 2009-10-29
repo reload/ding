@@ -51,6 +51,10 @@ function alma_user_profile_content_type_content_types() {
       'title' => t('User debts notice'),
       'description' => t('Provides a short noice to the user about his library debts.'),
     ),
+    'alma_user_debts_details' => array(
+      'title' => t('User debts details'),
+      'description' => t('Provides the full list of user debts, with an option to pay them.'),
+    ),
   );
 
   // Append our default settings to every type.
@@ -125,6 +129,11 @@ function alma_user_profile_content_type_render($subtype, $conf, $panel_args, $co
           ));
         }
         break;
+      case 'alma_user_debts_details':
+        module_load_include('forms.inc', 'alma_user');
+        $data = alma_client_get_debts($alma_creds['borr_card'], $alma_creds['pin_code']);
+        $block->content = drupal_get_form('alma_user_forms_debts_details', $account, $data);
+        break;
     }
   }
   elseif ($subtype == 'alma_user_personal_info') {
@@ -153,6 +162,8 @@ function alma_user_profile_content_type_admin_title($subtype, $conf, $context) {
       return t('“@s”: Loan details', array('@s' => $context->identifier));
     case 'alma_user_debts_notice':
       return t('“@s”: Debts notice', array('@s' => $context->identifier));
+    case 'alma_user_debts_details':
+      return t('“@s”: Debts list', array('@s' => $context->identifier));
   }
 }
 
