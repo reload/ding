@@ -12,7 +12,7 @@
   Dynamo!
 -->
 <head>
-  <title><?php print $head_title; ?></title>
+  <title><?php print $body_classes; ?> | <?php print $head_title; ?></title>
   <?php print $head; ?>
   <?php print $styles; ?>
   <?php print $scripts; ?>

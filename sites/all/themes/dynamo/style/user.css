@@ -47,7 +47,8 @@ form#alma-user-forms-library-settings .container-inline-date{padding:10px 0 0 0;
 	
 /* user/[UID]/edit*/
 	/*	define the width*/
-	#user-profile-form{margin:0 0 50px 20px; width:500px;}
+body.page-user #content-main form{margin:20px 0 0 20px;}
+	#user-profile-form{margin:0 0 50px 0px; width:500px;}
 	#user-profile-form .form-item{margin:0 0 0 20px;}
 	
 	#user-profile-form .account legend{font-weight:bold;font-weight:bold; width:500px; padding:0 0 10px 0;}

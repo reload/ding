@@ -134,12 +134,15 @@ Panels BOX css styles
 	.ding-box-pane ul{width:228px; padding:8px 0px; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom;  overflow:hidden; }
 	.ding-box-pane .view .view-empty{width:228px; padding:8px 0 0 20px ; margin:0 0 0 0px; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom;  overflow:hidden; }
 	.ding-box-pane ul li{margin:0 0 0 10px; padding:0 0 0 10px; width:200px;}
+
+  .ding-box-pane .meta ul {background:none;}
+	.ding-box-pane .meta ul li{margin:0 0 0 0px; padding:0 0 0 0px; width:200px;}
 	.ding-box-pane{font-size:11px; line-height:20px; }
 
 	.ding-box-wide{width:514px; background:transparent url(../images/sprite-box.png) repeat-y -930px 0; overflow:hidden;}
-		.ding-box-wide h3{ width:514px; font-weight:bold;padding:8px 0 4px 20px; height:18px; font-size:11px; line-height:20px;  background:transparent url(../images/sprite-box.png) no-repeat -930px -0px; overflow:hidden;}
+		.ding-box-wide h3{ width:514px; font-weight:bold;padding:8px 0 4px 20px; height:16px; font-size:11px; line-height:20px;  background:transparent url(../images/sprite-box.png) no-repeat -930px -0px; overflow:hidden;}
 		.ding-box-wide ul{width:514px; padding:0px 0 8px 0; margin:0; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -1444px bottom;  overflow:hidden;}
-		.ding-box-wide ul li{margin:0px 10px; font-size:10px; padding:2px 0 0 10px; list-style: none}
+		.ding-box-wide ul li,.ding-box-wide ul li.first{margin:0px 10px; font-size:10px; padding:2px 0 0 10px; list-style: none}
 
 	.ding-box-wide .odd{background:#f3f5f5;}
 	.ding-box-wide .even{background:#fff;}
@@ -150,6 +153,10 @@ Panels BOX css styles
 .ding-box-pane h2 a{font-size:11px; font-weight:bold;}
 
 .panel-threecol-left-stacked .panel-middle .ding-box-pane{margin:0 0 0 10px;}
+
+/* box variants
+---------------------------*/
+.pane-tagadelic-2{width:228px; padding:8px 0 4px 20px; margin:0; background:transparent url(../images/sprite-box.png) no-repeat -0px -0px; overflow:hidden;}
 
 /* =====================================
 Campaigns 
@@ -212,7 +219,7 @@ buttons
 	.node .content p{}
 	.node .content img{margin:0 10px 10px 0; text-align:center; color:#aaa; background:#eee;}
 	.node .content ul{margin:0 0 15px 20px; padding:0 0 10px 0; clear:both;}
-	.node .content ul li{list-style: disc outside url();}
+	.node .content ul li{list-style: disc outside url();background:none; padding:5px 0; }
 	.node .content a,.node .content a:link, .node .content a:visited,.node .content a:active {text-decoration: none;}
 	.node .content a:hover,.node .content a:focus {text-decoration: underline; background:#C9D3D7; }
 	.subject a,.subject a:link, .subject a:visited,.subject a:active {text-decoration: none; color:#fff;}	

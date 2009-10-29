@@ -49,11 +49,16 @@ function mothership_preprocess(&$vars, $hook) {
       if (theme_get_setting('mothership_cleanup_body_path')) {
         $path = drupal_get_path_alias($_GET['q']);
         list($section, ) = explode('/', $path, 2);
-        $body_classes[] = mothership_id_safe('page-' . $path);
+
         $body_classes[] = mothership_id_safe('section-' . $section);
         //add classes without ids
-        $body_classes[] = mothership_id_safe('page-' . $path, 'remove-numbers');
-        $body_classes[] = mothership_id_safe('section-' . $section, 'remove-numbers');
+
+        if( arg(0) == "user"  && is_numeric(arg(1))   ) {
+          $body_classes[] = mothership_id_safe('page-' . $path, 'remove-numbers');
+        }else{
+          $body_classes[] = mothership_id_safe('page-' . $path);          
+        }
+
       }
 
       //add actions
