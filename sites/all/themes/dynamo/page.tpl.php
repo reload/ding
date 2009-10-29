@@ -12,12 +12,12 @@
   Dynamo!
 -->
 <head>
-  <title><?php print $body_classes; ?> | <?php print $head_title; ?></title>
+  <title><?php print $head_title; ?></title>
   <?php print $head; ?>
   <?php print $styles; ?>
   <?php print $scripts; ?>
 </head>
-<body class="<?php print $body_classes; ?>">
+<body class="<?php print $body_classes; ?><?php if (!empty($admin)) print ' '.admin;  ?>">
 <?php 
 /*adds support for for the admin module*/
   if (!empty($admin)) print $admin; 
@@ -34,7 +34,6 @@
 
 		</div>
 <?php } ?>
-
 
 <div id="container" class="clearfix">
 

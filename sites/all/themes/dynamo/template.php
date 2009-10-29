@@ -29,6 +29,18 @@ function dynamo_theme($existing, $type, $theme, $path) {
 }
 
 /**
+ * Preprocess page template variables.
+ */
+/*
+function dynamo_preprocess_page(&$vars){
+  $body_classes = array($vars['body_classes']);
+  print_r($body_classes);
+
+  print_r($_SERVER['REQUEST_URI']);
+}
+*/
+
+/**
  * Preprocess node template variables.
  */
 function dynamo_preprocess_node(&$variables) {

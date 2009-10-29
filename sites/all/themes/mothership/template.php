@@ -47,6 +47,8 @@ function mothership_preprocess(&$vars, $hook) {
     if (!$vars['is_front']) {
       // Add unique path classes for each page
       if (theme_get_setting('mothership_cleanup_body_path')) {
+
+//        $path = $_SERVER['REQUEST_URI'];
         $path = drupal_get_path_alias($_GET['q']);
         list($section, ) = explode('/', $path, 2);
 

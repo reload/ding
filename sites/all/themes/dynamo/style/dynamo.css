@@ -1,5 +1,5 @@
 /* =====================================
-	style.css
+	dynamo.css
 	widgets and elements used throughout the site
 	------------------------------------
 	
@@ -104,11 +104,11 @@ ul.pager li{margin:0 10px 0 0;}
 /* pagers */
 #pager, ul.pager{height:30px; margin:0 0 20px 0; padding:0 0 0 10px; clear:both; background:transparent url(../images/bg-pager.gif) no-repeat left top; font-size:10px;}
 /*-- search  --*/
-#pager a{margin:3px 0 0 0;}
+#pager a{margin:3px 0 0 0; cursor: pointer}
 	#pager a.hidden{display:none;}
 	#pager a,#pager  a:link, #pager a:active {text-decoration: none; color:#666;}
  	#pager a:visited{color:#050505}
-	#pager a:hover, #ting-result-pager a:focus { text-decoration: underline; color:#666;}
+	#pager a:hover, #ting-result-pager a:focus { text-decoration: underline; color:#666; cursor: pointer;}
 	#ting-result-pager li.current a,#ting-result-pager li.current a:link,	#ting-result-pager li.current a:active,	#ting-result-pager li.current a:visited	{color:#000; font-weight:bold;}
 
 	#pager div.navwide, 

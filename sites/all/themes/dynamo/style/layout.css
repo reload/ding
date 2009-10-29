@@ -5,6 +5,7 @@
 /*--------------------------------------*/
 
 body{background:#e5e5e5 url(../images/bg.png) repeat-x 0 0;}
+body.admin{background-position: 0 30px }
 #container{background:transparent url(../images/bg-header.png) no-repeat center 0;}
 #page{width:994px; margin: 0 auto;}
 #page{overflow:hidden;} /*might have consequenses*/
