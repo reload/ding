@@ -26,12 +26,22 @@ function alma_menu() {
     'type' => MENU_DEFAULT_LOCAL_TASK,
   );
 
-  $items['alma/item/%/status'] = array(
-    'title' => 'Get Alma status',
-    'description' => 'Get Alma status for items. Availability, location, etc.',
-    'page callback' => 'alma_item_status_page',
+  $items['alma/item/%/availability'] = array(
+    'title' => 'Get Alma availability',
+    'description' => 'Get Alma availability for items.',
+    'page callback' => 'alma_item_availability_page',
     'page arguments' => array(2),
     'access arguments' => array('access content'),
+    'file' => 'alma.pages.inc',
+  );
+
+  $items['alma/item/%/details'] = array(
+    'title' => 'Get Alma details',
+    'description' => 'Get all Alma details for items. Availability, location, etc.',
+    'page callback' => 'alma_item_details_page',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'file' => 'alma.pages.inc',
   );
 
   return $items;
@@ -473,7 +483,7 @@ function alma_client_user_has_reservation($borr_card, $pin_code, $item_id) {
  */
 function alma_client_catalogue_record_detail($alma_id) {
   // Return data from cache if available.
-  $cache = cache_get('catalogue_record_detail-' . $alma_id, 'cache_alma_requests');
+  $cache = cache_get('catalogue_record_detail:' . $alma_id, 'cache_alma_requests');
   if ($cache && !empty($cache->data)) {
     return $cache->data;
   }
@@ -483,30 +493,34 @@ function alma_client_catalogue_record_detail($alma_id) {
   } catch (Exception $e) {
     watchdog('alma_user', 'catalogue_record_detail error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
   }
-  // Cache output for 12 hours.
-  cache_set('catalogue_record_detail-' . $alma_id, $data, 'cache_alma_requests', $_SERVER['REQUEST_TIME'] + 43200);
+  // Cache output for 8 hours.
+  cache_set('catalogue_record_detail:' . $alma_id, $data, 'cache_alma_requests', $_SERVER['REQUEST_TIME'] + 28800);
   return $data;
 }
 
 /**
- * AHAH callback to get library item status.
+ * Get availability for one or more catalogue records.
  *
- * @param string $input
- *    Input string, one or more Alma item IDs, comma-separated.
+ * @param string $alma_ids
+ *    IDs for the records, comma-separated.
+ * @return array
+ *    Information about the record.
  */
-function alma_item_status_page($input) {
-  // Split input on commas, filter out bogus values.
-  $numbers = array_filter(explode(',', $input), is_numeric);
-  $items = array();
-
-  foreach ($numbers as $alma_id) {
-    $items[$alma_id] = alma_client_catalogue_record_detail($alma_id);
+function alma_client_get_availability($alma_ids) {
+  // Return data from cache if available.
+  $cache = cache_get('alma_availability:' . $alma_ids, 'cache_alma_requests');
+  if ($cache && !empty($cache->data)) {
+    return $cache->data;
   }
 
-  // We are returning JavaScript, so tell the browser.
-  drupal_set_header('Content-Type: application/json; charset=utf-8');
-  echo json_encode($items);
-  return;
+  try {
+    $data = alma_client()->get_availability($alma_ids);
+  } catch (Exception $e) {
+    watchdog('alma_user', 'get_availability error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
+  }
+  // Cache output for 8 hours.
+  cache_set('get_availability:' . $alma_ids, $data, 'cache_alma_requests', $_SERVER['REQUEST_TIME'] + 28800);
+  return $data;
 }
 
 /**
@@ -534,6 +548,10 @@ function alma_add_js($page_type) {
     case 'ting_object_view':
       drupal_add_js($path . '/alma.availability.js');
       drupal_add_js($path . '/alma.availability.ting_object_view.js');
+      break;
+    case 'ting_collection_view':
+      drupal_add_js($path . '/alma.availability.js');
+      drupal_add_js($path . '/alma.availability.generic_view.js');
       break;
   }
 }

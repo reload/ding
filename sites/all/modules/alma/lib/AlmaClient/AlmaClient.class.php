@@ -495,6 +495,18 @@ class AlmaClient {
     }
     return $data;
   }
+
+  /**
+   * Get availability data for one or more records.
+   */
+  function get_availability($alma_ids) {
+    $data = array();
+    $doc = $this->request('catalogue/availability', array('catalogueRecordKey' => $alma_ids));
+    foreach ($doc->getElementsByTagName('catalogueRecord') as $record) {
+      $data[$record->getAttribute('id')] = ($record->getAttribute('isAvailable') == 'yes') ? TRUE : FALSE;
+    }
+    return $data;
+  }
 }
 
 /**

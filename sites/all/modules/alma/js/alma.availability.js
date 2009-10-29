@@ -29,7 +29,24 @@ Drupal.almaAvailability.get_details = function (callback) {
   }
 
   if (Drupal.almaAvailability.id_list.length > 0) {
-    $.getJSON(Drupal.settings.alma.base_url + '/item/' + Drupal.almaAvailability.id_list.join(',') + '/status', {}, callback);
+    $.getJSON(Drupal.settings.alma.base_url + '/item/' + Drupal.almaAvailability.id_list.join(',') + '/details', {}, callback);
+  }
+}
+
+/**
+ * Get availability for all ting items found.
+ *
+ * This call is more light-weight than get_details, and thus more
+ * suitable if you have multiple ting items on a page.
+ */
+Drupal.almaAvailability.get_availability = function (callback) {
+  // If the id_list is empty, try and find ids again.
+  if (Drupal.almaAvailability.id_list.length == 0) {
+    Drupal.almaAvailability.find_ids();
+  }
+
+  if (Drupal.almaAvailability.id_list.length > 0) {
+    $.getJSON(Drupal.settings.alma.base_url + '/item/' + Drupal.almaAvailability.id_list.join(',') + '/availability', {}, callback);
   }
 }
 
