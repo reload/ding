@@ -25,9 +25,9 @@
 
 <?php if ($help OR $messages) { ?>
 	<div id="drupal-messages">
-			<div id="messages-hide">
-				<a href="#">hide</a>	
-			</div>
+		<div id="messages-hide">
+			<a href="#">hide</a>	
+		</div>
 			
  	  <?php print $help ?>
  	  <?php print $messages ?>
