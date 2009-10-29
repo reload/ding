@@ -34,11 +34,11 @@ function dynamo_theme($existing, $type, $theme, $path) {
 /*
 function dynamo_preprocess_page(&$vars){
   $body_classes = array($vars['body_classes']);
-  print_r($body_classes);
-
-  print_r($_SERVER['REQUEST_URI']);
+  $foo = explode('/', $_SERVER['REQUEST_URI']);
+  $body_classes[] = mothership_id_safe('page-' . $section);
 }
 */
+
 
 /**
  * Preprocess node template variables.

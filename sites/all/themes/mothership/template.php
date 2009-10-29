@@ -54,7 +54,6 @@ function mothership_preprocess(&$vars, $hook) {
 
         $body_classes[] = mothership_id_safe('section-' . $section);
         //add classes without ids
-
         if( arg(0) == "user"  && is_numeric(arg(1))   ) {
           $body_classes[] = mothership_id_safe('page-' . $path, 'remove-numbers');
         }else{
