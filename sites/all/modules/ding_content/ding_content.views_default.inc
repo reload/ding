@@ -1680,7 +1680,9 @@ function ding_content_views_default_views() {
     'type' => 'none',
   ));
   $handler->override_option('cache', array(
-    'type' => 'none',
+    'type' => 'time',
+    'results_lifespan' => '300',
+    'output_lifespan' => '-1',
   ));
   $handler->override_option('title', 'Emnesamlinger');
   $handler->override_option('empty', 'Ingen emnesamlinger.');
@@ -1927,7 +1929,7 @@ function ding_content_views_default_views() {
     'tid' => array(
       'operator' => 'or',
       'value' => array(
-        '0' => '248',
+        '3' => '3',
       ),
       'group' => '0',
       'exposed' => FALSE,
@@ -1935,13 +1937,13 @@ function ding_content_views_default_views() {
         'operator' => FALSE,
         'label' => '',
       ),
-      'type' => 'textfield',
+      'type' => 'select',
       'limit' => TRUE,
-      'vid' => '2',
+      'vid' => '1',
       'id' => 'tid',
       'table' => 'term_node',
       'field' => 'tid',
-      'hierarchy' => 0,
+      'hierarchy' => 1,
       'relationship' => 'none',
       'reduce_duplicates' => 0,
     ),

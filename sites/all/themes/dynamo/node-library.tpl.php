@@ -56,6 +56,7 @@ if($id_node){
 
 
   </div>
+  
   <?php print $node->field_opening_hours['0']['view'];?>
 </div>
 

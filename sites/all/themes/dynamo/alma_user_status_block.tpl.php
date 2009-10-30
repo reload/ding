@@ -5,6 +5,24 @@
  * @file alma_user_status_block.tpl.php
  * Template for the user status block.
  */
+ 
+/*
+ * TODO get status from mikl
+ */
+if( $user_status['loan_overdue_count'] >= 1){
+  $loan_status  = "warning";
+}
+else{
+  $loan_status  = "default";
+}
+  
+if( $user_status['reservation_count'] >= 1){
+  $reservation_status = "ok";
+}
+else{
+  $reservation_status = "default";
+  
+}
 ?>
 <div id="account-profile" class="clearfix">
 	<div class="user">
@@ -30,13 +48,16 @@
 	      <div class="content">
 					<?php print l(t("Loans") . ' <span class="count">' . $user_status['loan_count'] . '</span>', 'user/'. $user->uid . '/status', array('html' => TRUE)); ?>
 				</div>
-				<div class="status"><span class="warning">!!</span></div>
+				<div class="status"><span class="<?php print $loan_status ?>">!</span></div>
 	    </li>
 	    <li>
 				<div class="content">
 	      <?php print l(t("Reservations") . ' <span class="count">' . $user_status['reservation_count'] . '</span>', 'user/'. $user->uid . '/status', array('html' => TRUE)); ?>
 				</div>
-				<div class="status"><span class="ok">ok</span></div>
+				
+				<div class="status"><span class="<?php print $reservation_status ?>">ok</span></div>
+
+
 	    </li>
 	</ul>
 	<?php else: ?>

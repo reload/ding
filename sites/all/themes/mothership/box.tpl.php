@@ -1,9 +1,8 @@
 <?php
-// $Id: box.tpl.php,v 1.2 2008/09/14 11:56:34 johnalbin Exp $
-
+// $Id$
 /**
- * @file box.tpl.php
- *
+ * @file
+ * box.tpl.php
  * Theme implementation to display a box.
  *
  * Available variables:
@@ -12,10 +11,11 @@
  *
  * @see template_preprocess()
  *
-*<?php if ($title){ ?>
-*   <h3><?php print $title; ?></h2>
-*<?php } ?>
+ * <?php if ($title) { ?>
+ *   <h3><?php print $title; ?></h2>
+ * <?php } ?>
  */
 ?>
 
-<?php print $content; ?>
+<?php
+  print $content;

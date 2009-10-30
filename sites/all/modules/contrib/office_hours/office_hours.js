@@ -15,8 +15,8 @@ Drupal.behaviors.officeHours = function () {
     var nid = nid_matcher.exec($(this).attr('class'))[1];
     if (Drupal.settings.officeHours.hasOwnProperty("n" + nid)) {
       $(this).find('.week-info')
-        .prepend('<a class="prev" href="#">&#9664;</a>')
-        .append('<a class="next" href="#">&#9654;</a>')
+        .prepend('<span class="pil"><a class="prev" href="#">&#x2190;</a></span>')
+        .append('<span class="pil"><a class="next" href="#">&#x2192;</a></span>')
       .end()
       .find('a.prev')
         .click(function () {return Drupal.officeHours.changeWeek(nid, 'prev');})

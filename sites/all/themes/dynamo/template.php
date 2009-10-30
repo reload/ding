@@ -29,6 +29,20 @@ function dynamo_theme($existing, $type, $theme, $path) {
 }
 
 /**
+ * Preprocess page template variables.
+ */
+
+function dynamo_preprocess_page(&$vars){
+  //adds a class to the body with the last path of the url
+  // for use in the panels
+  $body_classes = array($vars['body_classes']);
+  $path = explode('/', $_SERVER['REQUEST_URI']);
+  $body_classes[] = mothership_id_safe('page-' . end($path));
+ // Concatenate with spaces
+  $vars['body_classes'] = implode(' ', $body_classes);
+}
+
+/**
  * Preprocess node template variables.
  */
 function dynamo_preprocess_node(&$variables) {
@@ -38,7 +52,7 @@ function dynamo_preprocess_node(&$variables) {
       $variables['list_image'] = $variables['field_list_image_rendered'];
     }
     else {
-      $variables['list_image'] = '&nbsp;';
+      $variables['list_image'] = '&nbsp;'; //<--why ??
     }
   }
 
@@ -48,26 +62,31 @@ function dynamo_preprocess_node(&$variables) {
   }
 
   if ($variables['type'] == 'event') {
-    $date = strtotime($node->field_datetime[0]['value']);
-    $date2 = strtotime($node->field_datetime[0]['value2']);
+    $start = strtotime($node->field_datetime[0]['value']);
+    $end = strtotime($node->field_datetime[0]['value2']);
+
+    // If no end time is set, use the start time for comparison.
+    if (2 > $end) {
+      $end = $start;
+    }
 
     // Find out the end time of the event. If there's no specified end
     // time, we’ll use the start time. If the event is in the past, we
     // create the alert box.
-    if (($date2 > 0 && $date2 < $_SERVER['REQUEST_TIME'])) {
+    if (($end > 0 && date('Ymd', $end) < date('Ymd', $_SERVER['REQUEST_TIME']))) {
       $variables['alertbox'] = '<div class="alert">' . t('NB! This event occurred in the past.') . '</div>';
     }
 
     // More human-friendly date formatting – try only to show the stuff
     // that’s different when displaying a date range.
-    if(date("Ymd", $date) == date("Ymd", $date2)) {
-      $variables['event_date'] = format_date($date, 'custom', "j. F Y");
+    if(date("Ymd", $date) == date("Ymd", $end)) {
+      $variables['event_date'] = format_date($start, 'custom', "j. F Y");
     }
-    elseif(date("Ym", $date) == date("Ym", $date2)) {
-      $variables['event_date'] = format_date($date, 'custom', "j.") . "–" . format_date($date2, 'custom', "j. F Y");
+    elseif(date("Ym", $date) == date("Ym", $end)) {
+      $variables['event_date'] = format_date($start, 'custom', "j.") . "–" . format_date($end, 'custom', "j. F Y");
     }
     else {
-      $variables['event_date'] = format_date($date, 'custom', "j. M.") . " – " . format_date($date2, 'custom', "j. M. Y");
+      $variables['event_date'] = format_date($start, 'custom', "j. M.") . " – " . format_date($end, 'custom', "j. M. Y");
     }
 
     // Display free if the price is zero.
@@ -79,13 +98,6 @@ function dynamo_preprocess_node(&$variables) {
     }
   }
 }
-
-/**
- * Preprocess variables for block.tpl.php.
- */
-/*function dynamo_preprocess_block(&$variables) {
-  TODO: Morten, what's going on here?
-}*/
 
 /**
  * Implementation of theme_breadcrumb().
@@ -143,6 +155,27 @@ function dynamo_comment_form($form){
 	return  $theform .'<div class="form-buttons">' . $submit . $preview .'</div>';
 
 	return drupal_render($form);
+}
+
+
+
+/**
+ * office hours
+ */
+function dynamo_office_hours_format_day($name, $values, $day_number) {
+  $oddity = ($day_number % 2) ? 'odd' : 'even';
+  $output = '<div class="' . $oddity . '">';
+  $output .= '<span class="day">' . $name . '</span>';
+  if (is_array($values) && !empty($values)) {
+    foreach ($values as $val) {
+      $output .= ' <span class="hours start">' . _office_hours_format_time($val['start']) . '</span>';
+      $output .= ' – <span class="hours end">' . _office_hours_format_time($val['end']) . '</span>';
+    }
+  }
+  else {
+    $output .= ' <span class="closed">' . t('closed') . '</span>';
+  }
+  return $output . '</div>';
 }
 
 

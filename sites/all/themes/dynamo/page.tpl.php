@@ -17,7 +17,7 @@
   <?php print $styles; ?>
   <?php print $scripts; ?>
 </head>
-<body class="<?php print $body_classes; ?>">
+<body class="<?php print $body_classes; ?><?php if (!empty($admin)) print ' '.admin;  ?>">
 <?php 
 /*adds support for for the admin module*/
   if (!empty($admin)) print $admin; 
@@ -25,16 +25,15 @@
 
 <?php if ($help OR $messages) { ?>
 	<div id="drupal-messages">
-			<div id="messages-hide">
-				<a href="#">hide</a>	
-			</div>
+		<div id="messages-hide">
+			<a href="#">hide</a>	
+		</div>
 			
  	  <?php print $help ?>
  	  <?php print $messages ?>
 
 		</div>
 <?php } ?>
-
 
 <div id="container" class="clearfix">
 

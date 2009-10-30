@@ -30,6 +30,10 @@ function ting_search_object_view_content_type_render($subtype, $conf, $panel_arg
   $object = isset($context->data) ? drupal_clone($context->data) : NULL;
 
   if ($object instanceOf TingClientObject) {
+    // If alma.module is present, use its JavaScript behaviors.
+    if (function_exists('alma_add_js')) {
+      alma_add_js('ting_object_view');
+    }
     $block->content = theme('ting_object', $object);
   }
 

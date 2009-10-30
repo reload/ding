@@ -33,6 +33,18 @@
 	.node-teaser-library .office-hours-week{width:175px; float:left;}
 	.node-teaser-library .office-hours-week .week-info{background:#d1d9d7}
 	.node-teaser-library .office-hours-week .odd,	.node-teaser-library .office-hours-week .even{padding:0 5px;} 
+	.node-teaser-library .office-hours-week .day{width:90px; display:block; float:left; }
+	.node-teaser-library .office-hours-week  .week-info{padding:0 0px 0 5px; font-size:10px;}
+	.node-teaser-library .office-hours-week  .week-info a.prev{width:15px; height:20px;}
+	.node-teaser-library .office-hours-week  .week-info a.next{width:15px; height:20px}
+
+/*
+	.node-teaser-library .office-hours-week  .week-info .pil {text-indent: -9999em; margin:0 0 0 0}
+	.node-teaser-library .office-hours-week  .week-info a.prev{background:transparent url(../images/pil.png) no-repeat left top; display: block; width:15px; height:20px;}
+	.node-teaser-library .office-hours-week  .week-info a.next{background:transparent url(../images/pil.png) no-repeat left top; display: block; width:15px; height:20px}
+*/
+
+
 
 /* ==========================================================================
 	main library page (http://biblo.local/biblioteker/FOO)
@@ -146,7 +158,8 @@ ul.menu li ul{margin:0 0 5px 0; padding:0 0 5px 0;}
 
 ul.menu li.expanded ul.menu li.expanded{margin:0 0 0 20px;	}
 ul.menu li.expanded ul.menu li.expanded a{display:block}
-		
+
+.panel-left ul.menu li.first{background:none; padding:0 5px 10px 0px}		
 /**/
 .view-blog-category-list ul li div{display:inline;}
 .view-blog-category-list ul li div.node-count{font-size:10px;}

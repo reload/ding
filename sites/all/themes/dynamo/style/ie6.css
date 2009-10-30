@@ -6,6 +6,8 @@
 
 #user-login-form .form-image-button{padding:0; margin:1px 0 0 0px}
 #edit-pass-wrapper input{width:155px;}
+
+#ting-search-form div.example{clear:none;}
 /* ___________ IE6 IFRAME FIX ________ */
 .ui-datepicker-cover {
   display: none; /*sorry for IE5*/

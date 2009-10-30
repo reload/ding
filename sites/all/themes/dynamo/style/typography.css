@@ -16,13 +16,21 @@ h1, h2, h3, h4, h5, h6{
   font-weight: normal;
   color: #050505;
 }
-h1{font-size: 21px; line-height: 25px; color: #050505;}
-h2{font-size: 17px; line-height: 20px;}
-h3{font-size: 17px; line-height: 20px;}
+h1{font-size: 21px; line-height: 20px; color: #050505;}
+h2{font-size: 21px; line-height: 20px;}
+h3{font-size: 17px; line-height: 17px;}
 h4{font-size: 14px; font-weight: bold;}
 h5{font-size: 14px; font-weight: bold; color: #333;}
 h6{font-size: 14px; font-weight: bold; color: #333;}
 p {margin-bottom: 0.5em;}
+
+
+h2 a, h2 a:link,h2 a:visited,h2 a:active,
+h3 a, h3 a:link,h3 a:visited,h3 a:active{
+ color:#050505;
+}
+h4 a, h4 a:link,h4 a:visited,h4 a:active{font-size:12px; line-height:15px; color:#050505;}
+
 
 /*-- form --*/
 textarea{font-size: 11px;}
@@ -57,13 +65,6 @@ tr.even{}
 .meta a,.meta a:link,.meta a:visited,.meta a:active {text-decoration: none; color:#006a87;} /*999*/
 .author a,.author a:link,.author a:visited,.author a:active {text-decoration: none; color:#006a87;}
 
-/*headers*/
-h1,
-h2 a, h2 a:link,h2 a:visited,h2 a:active,
-h3 a, h3 a:link,h3 a:visited,h3 a:active{
-	font-size:21px; line-height:25px; color:#050505;
-}
-h4 a, h4 a:link,h4 a:visited,h4 a:active{font-size:12px; line-height:15px; color:#050505;}
 
 
 .comment,

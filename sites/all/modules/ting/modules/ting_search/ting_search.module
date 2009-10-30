@@ -42,7 +42,15 @@ function ting_search_theme() {
     ),
     'ting_object' => array(
       'arguments' => array('object' => NULL),
-      'template' => 'ting_object'
+      'template' => 'ting_object',
+    ),
+    'ting_atom_feed' => array(
+      'arguments' => array('feed' => NULL),
+      'template' => 'ting_atom_feed',
+    ),
+    'ting_atom_entry' => array(
+      'arguments' => array('entry' => NULL),
+      'template' => 'ting_atom_entry',
     ),
   );
 }
@@ -70,6 +78,7 @@ function ting_search_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'ting_search.pages.inc',
   );
+
   $items['ting/search/content/js'] = array(
     'title' => 'Content search AJAX page callback',
     'page callback' => 'ting_search_pages_content_js',
@@ -77,6 +86,27 @@ function ting_search_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'ting_search.pages.inc',
   );
+
+  $items['ting/search/feed/%'] = array(
+    'title' => 'Ting search feed',
+    'description' => 'Provides an Atom feed of Ting search results',
+    'access arguments' => array('search content'),
+    'page callback' => 'ting_search_pages_ting_feed',
+    'page arguments' => array(3),
+    'type' => MENU_CALLBACK,
+    'file' => 'ting_search.pages.inc',
+  );
+
+  $items['ting/search/content/feed/%'] = array(
+    'title' => 'Ting search feed',
+    'description' => 'Provides an Atom feed of content search results',
+    'access arguments' => array('search content'),
+    'page callback' => 'ting_search_pages_content_feed',
+    'page arguments' => array(3),
+    'type' => MENU_CALLBACK,
+    'file' => 'ting_search.pages.inc',
+  );
+
   $items['ting/object/redirect'] = array(
     'title' => 'Redirect to object based on local ID (links from bibliotek.dk).',
     'page callback' => 'ting_search_pages_object_redirect',
@@ -84,6 +114,7 @@ function ting_search_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'ting_search.pages.inc',
   );
+
   $items['ting/cover'] = array(
     'title' => 'Display a photo of a Ting object',
     'page callback' => 'ting_search_cover',
@@ -266,8 +297,8 @@ function ting_search_cover_url(TingClientObject $object, $presetname) {
 }
 
 /**
-* Return a sorted array of ting collection objects
-*/
+ * Return a sorted array of ting collection objects
+ */
 function template_preprocess_ting_collection(&$variables) {
 	// preprocess the collection object here!
 
@@ -276,13 +307,12 @@ function template_preprocess_ting_collection(&$variables) {
 	
 	$sorted = array();
 	foreach ($collection->objects as $object) {
-		$type_key = $object->data->type['0']; // . " (" . $object->data->language['1'] . ")";			
+		$type_key = $object->data->type['0'];
 		if(trim($type_key) != "")
 			$sorted[$type_key][] = $object;
 	}
 	
 	ksort($sorted); // sort alphabetically by key
-//	dpm($sorted);
 	
 	$variables["sorted_collection"] = $sorted;
 
@@ -321,6 +351,31 @@ function template_preprocess_ting_collection(&$variables) {
 	}
 	
 	$variables["common_object"] = $common_object;
-	
 } 
+
+/**
+ * Preprocessor for rendering atom feeds.
+ */
+function template_preprocess_ting_atom_feed(&$variables) {
+  // Make sure we have the required feed attributes.
+  if (!isset($variables['feed']['encoding'])) {
+    $variables['feed']['encoding'] = 'utf-8';
+  }
+
+  if (!isset($variables['feed']['id'])) {
+    $variables['feed']['id'] = url($_GET['q'], array('absolute' => TRUE));
+  }
+
+  if (!isset($variables['feed']['title'])) {
+    $variables['feed']['title'] = t('Atom feed');
+  }
+
+  if (!isset($variables['feed']['updated'])) {
+    $variables['feed']['updated'] = gmdate('c');
+  }
+
+  if (!isset($variables['feed']['self_link'])) {
+    $variables['feed']['self_link'] = url($_GET['q'], array('absolute' => TRUE));
+  }
+}
 

@@ -1,0 +1,4 @@
+; $Id$
+name = DIBS
+description = An API module that makes it possible for other modules to receive payments via DIBS Payment Gateway
+core = 6.x

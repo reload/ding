@@ -83,3 +83,29 @@ function theme_alma_user_forms_loan_details($form) {
   return $output;
 }
 
+/**
+ * Theming of debt details form.
+ */
+function theme_alma_user_forms_debts_details($form) {
+  $header = array(
+    t('Select'),
+    t('Note'),
+    t('Date'),
+    t('Amount'),
+  );
+
+  $rows = array();
+  foreach ($form['debt_data']['#value']['debts'] as $key => $data) {
+    $rows[$data['id']] = array(
+      drupal_render($form['debts'][$data['id']]),
+      $data['note'],
+      $data['date'],
+      $data['amount_formatted'],
+    );
+  }
+
+  $output = theme('table', $header, $rows);
+  $output .= drupal_render($form);
+  return $output;
+}
+

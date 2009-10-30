@@ -10,6 +10,9 @@
  * Implementation of hook_default_page_manager_pages()
  */
 function alma_user_default_page_manager_pages() {
+  /**
+   * User library profile page.
+   */
   $page = new stdClass;
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
@@ -77,7 +80,8 @@ function alma_user_default_page_manager_pages() {
   $display->panel_settings = array();
   $display->cache = array();
   $display->title = '';
-  $display->hide_title = FALSE;
+  $display->hide_title = TRUE;
+  $display->title_pane = 150;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -180,8 +184,13 @@ function alma_user_default_page_manager_pages() {
     $display->panels['right'][2] = 'new-5';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
+
   $pages['user_library_profile'] = $page;
 
+
+  /**
+   * User library status page.
+   */
   $page = new stdClass;
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
@@ -335,6 +344,140 @@ function alma_user_default_page_manager_pages() {
   $page->default_handlers[$handler->name] = $handler;
   $pages['user_library_status'] = $page;
 
- return $pages;
+  /**
+   * User debts page.
+   */
+  $page = new stdClass;
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
+  $page->name = 'alma_user_debts';
+  $page->task = 'page';
+  $page->admin_title = 'User debts page';
+  $page->admin_description = 'Allow user to see and pay his dues.';
+  $page->path = 'user/%user/debts';
+  $page->access = array();
+  $page->menu = array();
+  $page->arguments = array(
+    'user' => array(
+      'id' => 1,
+      'identifier' => 'User being viewed',
+      'name' => 'uid',
+      'settings' => array(),
+    ),
+  );
+  $page->conf = array();
+  $page->default_handlers = array();
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_alma_user_debts_panel_context';
+  $handler->task = 'page';
+  $handler->subtask = 'alma_user_debts';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Panel',
+    'no_blocks' => FALSE,
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+  );
+  $display = new panels_display;
+  $display->layout = 'twocol_left_stacked';
+  $display->layout_settings = array();
+  $display->panel_settings = array();
+  $display->cache = array();
+  $display->title = '';
+  $display->hide_title = TRUE;
+  $display->title_pane = 136;
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'left';
+    $pane->type = 'profile';
+    $pane->subtype = 'alma_user_debts_details';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_uid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['left'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'right';
+    $pane->type = 'profile';
+    $pane->subtype = 'alma_user_loans_list';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_uid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['right'][0] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'right';
+    $pane->type = 'profile';
+    $pane->subtype = 'alma_user_reservations_list';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_uid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-3'] = $pane;
+    $display->panels['right'][1] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
+    $pane->panel = 'right';
+    $pane->type = 'relevant';
+    $pane->subtype = 'relevant_campaigns';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        '0' => 'empty',
+        '1' => 'empty',
+        '2' => 'empty',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $display->content['new-4'] = $pane;
+    $display->panels['right'][2] = 'new-4';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+
+  $pages['alma_user_debts'] = $page;
+  
+  return $pages;
 }
 

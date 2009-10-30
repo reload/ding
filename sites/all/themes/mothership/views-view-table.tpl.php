@@ -1,7 +1,8 @@
 <?php
-// $Id: views-view-table.tpl.php,v 1.8 2009/01/28 00:43:43 merlinofchaos Exp $
+// $Id$
 /**
- * @file views-view-table.tpl.php
+ * @file
+ * views-view-table.tpl.php
  * Template to display a view as a table.
  *
  * - $title : The title of this group of rows.  May be empty.
@@ -15,7 +16,8 @@
  * @ingroup views_templates
  */
 ?>
-<table>
+<!-- views-view-table.tpl.php -->
+<table class="<?php print $class; ?>">
   <?php if (!empty($title)) : ?>
     <caption><?php print $title; ?></caption>
   <?php endif; ?>
@@ -30,7 +32,7 @@
   </thead>
   <tbody>
     <?php foreach ($rows as $count => $row): ?>
-      <tr class="<?php print implode(' ', $row_classes[$count]); ?>">
+        <tr class="<?php print implode(' ', $row_classes[$count]); ?>">
         <?php foreach ($row as $field => $content): ?>
           <td class="<?php print $fields[$field]; ?>">
             <?php print $content; ?>
@@ -40,3 +42,4 @@
     <?php endforeach; ?>
   </tbody>
 </table>
+<!--/views-view-table.tpl.php -->
