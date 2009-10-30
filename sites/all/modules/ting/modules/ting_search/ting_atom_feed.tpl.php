@@ -9,8 +9,7 @@
 // Print the XML declaration in case PHP has short_open_tag enabled.
 print '<?xml version="1.0" encoding="'. $feed['encoding'] .'"?>'."\n";
 ?>
-<feed xmlns="http://www.w3.org/2005/Atom"
-      xmlns:dc="http://purl.org/dc/elements/1.1/">
+<feed xmlns="http://www.w3.org/2005/Atom">
   <title><?php print check_plain($feed['title']); ?></title>
 <?php if (!empty($feed['subtitle'])): ?>
   <subtitle><?php print check_plain($feed['subtitle']); ?></subtitle>
