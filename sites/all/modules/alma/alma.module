@@ -100,6 +100,7 @@ function alma_client_get_branches() {
     else {
       try {
         $branches = alma_client()->get_branches();
+        if (empty($branches)) { return array(); }
       } catch (Exception $e) {
         watchdog('alma_user', 'get_branches error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
         return array();
@@ -124,6 +125,7 @@ function alma_client_get_reservation_branches() {
 
   try {
     $branches = alma_client()->get_reservation_branches();
+    if (empty($branches)) { return array(); }
   } catch (Exception $e) {
     watchdog('alma_user', 'get_reservation_branches error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
     return array();
@@ -505,6 +507,7 @@ function alma_client_catalogue_record_detail($alma_id) {
 
   try {
     $data = alma_client()->catalogue_record_detail($alma_id);
+    if (empty($data)) { return array(); }
   } catch (Exception $e) {
     watchdog('alma_user', 'catalogue_record_detail error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
   }
@@ -530,6 +533,7 @@ function alma_client_get_availability($alma_ids) {
 
   try {
     $data = alma_client()->get_availability($alma_ids);
+    if (empty($data)) { return array(); }
   } catch (Exception $e) {
     watchdog('alma_user', 'get_availability error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
   }
