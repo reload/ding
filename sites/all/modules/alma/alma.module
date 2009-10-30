@@ -93,18 +93,22 @@ function alma_client_get_branches() {
   static $branches;
 
   if (!isset($branches)) {
-    if ($cache = cache_get('alma_branches') && !empty($cache->data)) {
-      $branches = $cache->data;
+    $cache = cache_get('get_branches', 'cache_alma_requests');
+    if ($cache && !empty($cache->data)) {
+      return $cache->data;
     }
     else {
       try {
         $branches = alma_client()->get_branches();
-        cache_set('alma_branches', $branches, 'cache', 1800);
       } catch (Exception $e) {
+        watchdog('alma_user', 'get_branches error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
         return array();
       }
     }
   }
+
+  // Cache output for 8 hours.
+  cache_set('get_branches', $branches, 'cache_alma_requests', $_SERVER['REQUEST_TIME'] + 28800);
   return $branches;
 }
 
@@ -112,11 +116,22 @@ function alma_client_get_branches() {
  * Get list of library branches where patrons can fetch their reservations.
  */
 function alma_client_get_reservation_branches() {
+  // Return data from cache if available.
+  $cache = cache_get('get_reservation_branches', 'cache_alma_requests');
+  if ($cache && !empty($cache->data)) {
+    return $cache->data;
+  }
+
   try {
-    return alma_client()->get_reservation_branches();
+    $branches = alma_client()->get_reservation_branches();
   } catch (Exception $e) {
+    watchdog('alma_user', 'get_reservation_branches error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
     return array();
   }
+
+  // Cache output for 8 hours.
+  cache_set('get_reservation_branches', $branches, 'cache_alma_requests', $_SERVER['REQUEST_TIME'] + 28800);
+  return $branches;
 }
 
 /**
