@@ -34,11 +34,14 @@ function dynamo_theme($existing, $type, $theme, $path) {
 
 function dynamo_preprocess_page(&$vars){
   //adds a class to the body with the last path of the url
-  // for use in the panels
   $body_classes = array($vars['body_classes']);
   $path = explode('/', $_SERVER['REQUEST_URI']);
-  $body_classes[] = mothership_id_safe('page-' . end($path));
- // Concatenate with spaces
+  
+  $body_classes[] = mothership_id_safe('ding-' . arg(0) . ' ' . arg(1));
+  $body_classes[] = mothership_id_safe('ding-' . end($path));
+
+  
+  // Concatenate with spaces
   $vars['body_classes'] = implode(' ', $body_classes);
 }
 
