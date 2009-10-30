@@ -20,8 +20,6 @@ Drupal.behaviors.almaAvailabilityGenericView = function () {
             .removeClass('waiting')
             .text(Drupal.t('unavailable'))
           .end()
-          .find('.alma-cart-buttons a')
-            .addClass('disabled');
       }
     });
   });
