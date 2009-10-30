@@ -2,7 +2,6 @@
 	Dynamo style.css
 	------------------------------------
 	fonts & sizes
-
 /*--------------------------------------*/
 body{
   font-size: 13px;
@@ -18,7 +17,7 @@ h1, h2, h3, h4, h5, h6{
 }
 h1{font-size: 21px; line-height: 20px; color: #050505;}
 h2{font-size: 17px; line-height: 20px;}
-h3{font-size: 17px; line-height: 17px;}
+h3{font-size: 17px; line-height: 20px;}
 h4{font-size: 14px; font-weight: bold;}
 h5{font-size: 14px; font-weight: bold; color: #333;}
 h6{font-size: 14px; font-weight: bold; color: #333;}
@@ -44,7 +43,6 @@ account
 #account{color:#fff;font-size:11px;}
 #account a{color:#fff;font-size:11px; text-decoration: underline;}
 #user-login-form label{font-size:9px; color:#000;}
-#search p{font-size:0.7em; color:#eccdd3;}
 	#edit-search-block-form-1-wrapper input{font-size:14px; color:#929292;}
 	#edit-search-block-form-1-wrapper p{font-size:9px; color:#dfa1ab;}
 
@@ -54,18 +52,15 @@ a, a:link, a:visited, a:active {text-decoration: none; color:#006a87;}
 a:hover, a:focus {text-decoration: underline; color:#006a87;}
 
 
-
 li a.active{}
 tr.odd{}
 tr.odd td{padding:5px;}
-tr.odd a{color:#000;}
+tr.odd a{}
 tr.even{}
 
 .meta{color:#999999;}
 .meta a,.meta a:link,.meta a:visited,.meta a:active {text-decoration: none; color:#006a87;} /*999*/
 .author a,.author a:link,.author a:visited,.author a:active {text-decoration: none; color:#006a87;}
-
-
 
 .comment,
 .taxonomy,
@@ -74,7 +69,8 @@ tr.even{}
 .view-event-list .libary-tag,
 .view .field-library-ref-nid,
 .view .created, 
-.view .name{
+.view .name
+{
 	font-size:10px; line-height:15px;
 }
 
@@ -122,7 +118,7 @@ tr.even{}
 	font-size:11px; line-height:20px; font-weight:bold;
 }
 
-.subject a{color:#fff; background-color: #b41630; padding:2px; text-transform: uppercase; font-size:8px}
+.subject a{color:#fff; background-color: #b41630; padding: 0 2px; text-transform: uppercase; font-size:9px; line-height:9px;}
 
 .view-article-list p{padding:10px 0 0 0;}
 .node-article .content {padding:10px 0 0 0;}
@@ -131,12 +127,11 @@ tr.even{}
 .pane-event_list .title{color:#000; font-weight:bold;}
 .pane-event_list li div.leaf{font-family: Georgia, serif; text-align: center;}
 	.pane-event_list li div.leaf .day{color:#fff; font-size:10px; line-height:15px;}
-	.pane-event_list li div.leaf .date{font-size:32px; line-height:26px;}
+	.pane-event_list li div.leaf .date{font-size:32px; line-height:26px; color:#000;}
 	.pane-event_list li div.leaf .month{font-size:11px; line-height:15px;}
 	.pane-event_list li div a{color:#666;}
-	.pane-event_list .view-event-list li div h4 a{color:#050505;line-height:8px;}
+	.pane-event_list .view-event-list li div h4 a{color:#050505;line-height:13px;}
 	.pane-event_list .view-event-list li div h4{line-height:8px;}
-
 
 
 .libary-openstatus{	font-size:10px; line-height:17px; text-transform: uppercase; color:#fff;}

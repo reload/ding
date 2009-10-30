@@ -37,11 +37,17 @@ form div.description{font-size:10px; line-height:12px; color:#999; padding:5px; 
 /* =====================================
 ting search block
 /*--------------------------------------*/
-#ting-search-form{padding:53px 0 0 0; background:transparent url(../images/search.png) no-repeat 0 0;}
+#ting-search-form{padding:55px 0 0 0; background:transparent url(../images/search.png) no-repeat 0 0;}
 	#ting-search-form .form-text{height:20px; width:468px; margin:0 10px 0 0; padding:4px 0 0 25px; color:#929292; background:#fff url(../images/magnifier.png) no-repeat 9px 5px; border: 1px solid #999; font-size:13px; float:left;}
 		#ting-search-form label{margin:3px 0 0 30px; font-size:13px; font-weight:normal;} 
-		#ting-search-form  .form-image-button{float:left; display:block; height:29px; width:94px; }
-		#edit-keys-wrapper{}
+ 		#ting-search-form #edit-keys-wrapper{margin:0;}
+		#ting-search-form .form-image-button{float:left; display:block; height:29px; width:94px; }
+    #ting-search-form div.example {display: block; color: #eccdd3; font-size:10px; color:#eccdd3;}
+    #ting-search-form div.example p {float: left;}
+    #ting-search-form div.example li {float: left;  margin-left: 0.5em;}
+    #ting-search-form div.example li a {color: #eccdd3;}
+    #ting-search-form div.example li a:hover {color: #fff;}
+
 
 
 /* =====================================

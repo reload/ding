@@ -169,7 +169,7 @@ ul.menu li.expanded ul.menu li.expanded a{display:block}
 .view-event-list .libary-tag div{display:inline;margin:0 5px 0 0;}
 .view-event-list li{background:transparent url(../images/bg-divider.png) no-repeat left top;  clear:both; padding:10px 0 10px 20px;}
 .view-event-list li.first{background:none;}
-.view-event-list span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px;}
+.view-event-list span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px; font-weight:normal;}
 
 .pane-library_feature_detail_list, 
 .page-taxonomy 
