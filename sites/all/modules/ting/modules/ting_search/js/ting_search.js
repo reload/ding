@@ -99,22 +99,35 @@ Drupal.tingSearch.contentPager = function() {
   });
 }
 
+Drupal.tingSearch.tabLoading = function (sender) {
+	if (Drupal.tingSearch.summary.hasOwnProperty(sender)) {
+		var tab = $('#ting-search-tabs li.' + sender);
+		tab.addClass('spinning').find('span.count').remove();
+    
+		var result = $("#" + sender + "-result");
+    result.addClass('loading');
+	}	
+}
+
 // Helper function to update the state of our tabs.
 Drupal.tingSearch.updateTabs = function (sender) {
   if (Drupal.tingSearch.summary.hasOwnProperty(sender)) {
     var tab = $('#ting-search-tabs li.' + sender);
     var count = Drupal.tingSearch.summary[sender].count;
+    var result = $("#" + sender + "-result");
+    
     if (count == 0) {
       // For no results, replace the contents of the results container
       // with the no results message.
-      $("#" + sender + "-result").html('<h4>' + Drupal.settings.tingResult.noResultsHeader + '</h4><p>' + Drupal.settings.tingResult.noResultsText + '</p>');
+      result.html('<h4>' + Drupal.settings.tingResult.noResultsHeader + '</h4><p>' + Drupal.settings.tingResult.noResultsText + '</p>');
     }
     else if (sender == 'content') {
       // If we have a non-zero result count for content, enable its tab.
       $("#ting-search-tabs").tabs("enable", 1);
     }
     tab.removeClass('spinning');
-
+    result.removeClass('loading');
+    
     if (tab.find('span.count').length) {
       tab.find('span.count em').text(count);
     }

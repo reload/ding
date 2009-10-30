@@ -110,9 +110,16 @@ Drupal.tingResult = function(searchResultElement, facetBrowserElement, result)
 	
 	this.doUrlSearch = function()
 	{
+			//Start loading
+			Drupal.tingSearch.tabLoading('ting');
 			var path = Drupal.settings.tingSearch.ting_url+'?query='+Drupal.settings.tingSearch.keys+((jQuery.url.attr('anchor') != null) ? '&'+jQuery.url.attr('anchor') : ''); 
 			jQuery.getJSON(path, function(data)
 			{
+				//Update tabs now that we have the result
+	      Drupal.tingSearch.summary.ting = { count: data.count, page: data.page };
+				Drupal.tingSearch.updateTabs('ting');
+	      
+				//Update search result and facet browser
 				Drupal.renderTingSearchResults(Drupal.searchResultElement, data);
 				Drupal.renderTingSearchResultPager(Drupal.searchResultElement, data);
 				Drupal.updateFacetBrowser(Drupal.facetBrowserElement, data);
