@@ -30,7 +30,7 @@ body.admin{background-position: 0 30px }
 		
 /* body */
 #pagebody{background:transparent url(../images/bg-page.png) repeat-y 0 0;}
-	#pagebody-inner{background:transparent url(../images/bg-page-top.png) no-repeat 0px 0px; padding:0 17px 0 17px; /*32*/ /*37*/}
+	#pagebody-inner{padding:0 17px 0 17px; /*32*/ /*37*/ /*background:transparent url(../images/bg-page-top.png) no-repeat 0px 0px;*/ }
 	#content-left{width:130px;float:left;}
 	#content{width:560px; float:left;}
 	body.no-sidebars #content{width:960px; float:left;}
