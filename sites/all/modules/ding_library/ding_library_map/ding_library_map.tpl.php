@@ -14,11 +14,19 @@ drupal_add_js(drupal_get_path('module', 'ding_library_map') .'/js/ding_library_m
 
 //setup map
 $mapId = 'library_map';
-$map = array('id' => $mapId, 'type' => 'map', 'zoom' => 12, 'minzoom' => 9, 'maxzoom' => 14, 'height' => '200px', 'width' => '100%', 'controltype' => 'Small', 'longitude' => '12.573448', 'latitude' => '55.680908', 'behavior' => array('extramarkerevents' => 1, 'nomousezoom' => 1));
+$map = array('id' => $mapId, 'type' => 'map', 'zoom' => 12, 'minzoom' => 9, 'maxzoom' => 14, 'height' => '200px', 'width' => '100%', 'controltype' => 'Small', 'behavior' => array('extramarkerevents' => 1, 'nomousezoom' => 1));
+if ($center = variable_get('ding_library_map_center', false)) {
+  $center = explode(',', $center, 2);
+  $variables = array(0 => 'latitude', 1 => 'longitude');
+  foreach ($variables as $index => $attribute) {
+	  if (isset($center[$index]) && is_numeric($center[$index])) {
+	    $map[$attribute] = trim($center[$index]);
+	  }
+  }
+}
 
 //add markers for libraries
-foreach ($nodes as $node)
-{
+foreach ($nodes as $node) {
 	$libraryId = ($node->ding_slug) ? $node->ding_slug : $node->nid;
 	$marker = array('latitude' => $node->location['latitude'], 
 									'longitude' => $node->location['longitude'], 

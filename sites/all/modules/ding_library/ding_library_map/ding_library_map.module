@@ -6,6 +6,24 @@
  * Displays library nodes on a map with additional information shown on mouse over
  */
 
+
+/**
+ * Implementation of hook_menu().
+ */
+function ding_library_map_menu() {
+  $items = array();
+
+  $items['admin/settings/ding_library_map'] = array(
+    'title' => 'Library map',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_library_map_admin_settings_form'),
+    'access arguments' => array('configure libraries'),
+    'file' => 'ding_library_map.admin.inc',
+  );
+
+  return $items;
+}
+
 /**
  * Implementation of hook_block.
  */
