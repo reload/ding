@@ -223,9 +223,13 @@ class AlmaClient {
     $doc = $this->request('patron/debts', array('borrCard' => $borr_card, 'pinCode' => $pin_code));
 
     $data = array(
-      'total_formatted' => $doc->getElementsByTagName('debts')->item(0)->getAttribute('totalDebtAmountFormatted'),
+      'total_formatted' => 0,
       'debts' => array(),
     );
+
+    if ($debts_attr = $doc->getElementsByTagName('debts')->item(0)) {
+      $data['total_formatted'] = $debts_attr->getAttribute('totalDebtAmountFormatted');
+    }
 
     foreach ($doc->getElementsByTagName('debt') as $item) {
       $id = $item->getAttribute('debtId');
