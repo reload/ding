@@ -772,6 +772,42 @@ function ding_content_views_default_views() {
   ));
   $handler->override_option('link_to_view', 0);
   $handler->override_option('inherit_panels_path', 0);
+  $handler = $view->new_display('feed', 'Feed', 'feed_1');
+  $handler->override_option('title', 'Blog feed');
+  $handler->override_option('style_plugin', 'rss');
+  $handler->override_option('style_options', array(
+    'mission_description' => FALSE,
+    'description' => '',
+  ));
+  $handler->override_option('row_plugin', 'node_rss');
+  $handler->override_option('row_options', array(
+    'relationship' => 'none',
+    'item_length' => 'default',
+  ));
+  $handler->override_option('path', 'blog/feed');
+  $handler->override_option('menu', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+    'name' => 'navigation',
+  ));
+  $handler->override_option('tab_options', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+  ));
+  $handler->override_option('displays', array(
+    'panel_pane_1' => 'panel_pane_1',
+    'panel_pane_2' => 'panel_pane_2',
+    'panel_pane_3' => 'panel_pane_3',
+    'panel_pane_4' => 'panel_pane_4',
+    'panel_pane_5' => 'panel_pane_5',
+    'panel_pane_6' => 'panel_pane_6',
+    'default' => 0,
+  ));
+  $handler->override_option('sitename_title', 0);
 
   $views[$view->name] = $view;
 

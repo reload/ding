@@ -240,6 +240,7 @@ function ding_event_views_default_views() {
       'wildcard' => 'all',
       'wildcard_substitution' => 'All',
       'title' => '',
+      'breadcrumb' => '',
       'default_argument_type' => 'fixed',
       'default_argument' => '',
       'validate_type' => 'node',
@@ -256,14 +257,22 @@ function ding_event_views_default_views() {
       'default_argument_php' => '',
       'validate_argument_node_type' => array(
         'library' => 'library',
+        'campaign' => 0,
         'article' => 0,
+        'feature' => 0,
+        'profile' => 0,
+        'topic' => 0,
+        'flexifield_link' => 0,
+        'flexifield_ting_refs' => 0,
+        'flexifield_text' => 0,
         'event' => 0,
         'page' => 0,
       ),
       'validate_argument_node_access' => 0,
       'validate_argument_nid_type' => 'nid',
       'validate_argument_vocabulary' => array(
-        '3' => 0,
+        '4' => 0,
+        '5' => 0,
         '1' => 0,
         '2' => 0,
       ),
@@ -272,6 +281,18 @@ function ding_event_views_default_views() {
       'restrict_user_roles' => 0,
       'user_roles' => array(),
       'validate_argument_php' => '',
+      'validate_user_argument_type' => 'uid',
+      'validate_user_roles' => array(
+        '2' => 0,
+        '4' => 0,
+        '5' => 0,
+        '6' => 0,
+      ),
+      'override' => array(
+        'button' => 'Override',
+      ),
+      'validate_argument_transform' => 0,
+      'validate_user_restrict_roles' => 0,
     ),
   ));
   $handler->override_option('filters', array(
@@ -788,6 +809,35 @@ function ding_event_views_default_views() {
   $handler->override_option('argument_input', array());
   $handler->override_option('link_to_view', 0);
   $handler->override_option('inherit_panels_path', 0);
+  $handler = $view->new_display('feed', 'Frontpage feed', 'feed_1');
+  $handler->override_option('title', 'Arrangementer feed');
+  $handler->override_option('style_plugin', 'rss');
+  $handler->override_option('style_options', array(
+    'mission_description' => FALSE,
+    'description' => '',
+  ));
+  $handler->override_option('row_plugin', 'node_rss');
+  $handler->override_option('row_options', array());
+  $handler->override_option('path', 'arrangementer/feed');
+  $handler->override_option('menu', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+    'name' => 'navigation',
+  ));
+  $handler->override_option('tab_options', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+  ));
+  $handler->override_option('displays', array(
+    'panel_pane_1' => 'panel_pane_1',
+    'panel_pane_2' => 'panel_pane_2',
+    'default' => 0,
+  ));
+  $handler->override_option('sitename_title', 0);
 
   $views[$view->name] = $view;
   return $views;
