@@ -48,7 +48,8 @@ function ding_content_default_page_manager_pages() {
   $display->panel_settings = array();
   $display->cache = array();
   $display->title = '';
-  $display->hide_title = FALSE;
+  $display->hide_title = TRUE;
+  $display->title_pane = 146;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -69,31 +70,12 @@ function ding_content_default_page_manager_pages() {
     $pane = new stdClass;
     $pane->pid = 'new-2';
     $pane->panel = 'middle';
-    $pane->type = 'views';
-    $pane->subtype = 'event_list';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'event_list-panel_pane_2';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array(
-      'nodes_per_page' => '7',
-      'pager_id' => '1',
-      'use_pager' => 0,
-      'offset' => '0',
-      'more_link' => 1,
-      'feed_icons' => 1,
-      'panel_args' => 0,
-      'link_to_view' => 0,
-      'args' => '',
-      'url' => '',
-      'display' => 'block_1',
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array(
-      'method' => 'simple',
-      'settings' => array(
-        'lifetime' => '120',
-      ),
-    );
+    $pane->configuration = array();
+    $pane->cache = array();
     $pane->style = array();
     $pane->css = array();
     $pane->extras = array();
@@ -147,6 +129,7 @@ function ding_content_default_page_manager_pages() {
     $display->panels['top'][0] = 'new-4';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
+
   $pages['front_panel'] = $page;
 
   /**
