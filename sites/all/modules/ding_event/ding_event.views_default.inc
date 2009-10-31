@@ -148,7 +148,7 @@ function ding_event_views_default_views() {
       'field' => 'field_entry_price_value',
       'relationship' => 'none',
     ),
-    'field_list_image_fid' => array(
+    'field_image_fid' => array(
       'label' => '',
       'alter' => array(
         'alter_text' => 0,
@@ -176,9 +176,9 @@ function ding_event_views_default_views() {
         'multiple_reversed' => FALSE,
       ),
       'exclude' => 0,
-      'id' => 'field_list_image_fid',
-      'table' => 'node_data_field_list_image',
-      'field' => 'field_list_image_fid',
+      'id' => 'field_image_fid',
+      'table' => 'node_data_field_image',
+      'field' => 'field_image_fid',
       'override' => array(
         'button' => 'Override',
       ),
@@ -355,9 +355,6 @@ function ding_event_views_default_views() {
     'inline' => array(),
     'separator' => '',
   ));
-  $handler = $view->new_display('block', 'Block', 'block_1');
-  $handler->override_option('block_description', 'Liste over kommende arrangementer');
-  $handler->override_option('block_caching', -1);
   $handler = $view->new_display('panel_pane', 'Events overview pane', 'panel_pane_1');
   $handler->override_option('fields', array(
     'title' => array(
@@ -490,7 +487,7 @@ function ding_event_views_default_views() {
       'field' => 'field_entry_price_value',
       'relationship' => 'none',
     ),
-    'field_list_image_fid' => array(
+    'field_image_fid' => array(
       'label' => '',
       'alter' => array(
         'alter_text' => 0,
@@ -518,9 +515,9 @@ function ding_event_views_default_views() {
         'multiple_reversed' => FALSE,
       ),
       'exclude' => 0,
-      'id' => 'field_list_image_fid',
-      'table' => 'node_data_field_list_image',
-      'field' => 'field_list_image_fid',
+      'id' => 'field_image_fid',
+      'table' => 'node_data_field_image',
+      'field' => 'field_image_fid',
       'override' => array(
         'button' => 'Override',
       ),
@@ -764,6 +761,31 @@ function ding_event_views_default_views() {
       'label' => 'Taksonomi: Term ID',
     ),
   ));
+  $handler->override_option('link_to_view', 0);
+  $handler->override_option('inherit_panels_path', 0);
+  $handler = $view->new_display('panel_pane', 'Frontpage events pane', 'panel_pane_2');
+  $handler->override_option('arguments', array());
+  $handler->override_option('title', '');
+  $handler->override_option('footer', '<a href="/arrangementer" class="more-link">flere…</a>');
+  $handler->override_option('footer_format', '1');
+  $handler->override_option('footer_empty', 0);
+  $handler->override_option('pane_title', 'Frontpage events list');
+  $handler->override_option('pane_description', '');
+  $handler->override_option('pane_category', array(
+    'name' => 'View panes',
+    'weight' => 0,
+  ));
+  $handler->override_option('allow', array(
+    'use_pager' => 0,
+    'items_per_page' => 0,
+    'offset' => 0,
+    'link_to_view' => 0,
+    'more_link' => 0,
+    'path_override' => 0,
+    'title_override' => 0,
+    'exposed_form' => FALSE,
+  ));
+  $handler->override_option('argument_input', array());
   $handler->override_option('link_to_view', 0);
   $handler->override_option('inherit_panels_path', 0);
 
