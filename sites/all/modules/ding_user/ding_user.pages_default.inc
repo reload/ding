@@ -9,7 +9,7 @@
 /**
  * Implementation of hook_default_page_manager_handlers()
  */
-function ding_panels_default_page_manager_handlers() {
+function ding_user_default_page_manager_handlers() {
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
