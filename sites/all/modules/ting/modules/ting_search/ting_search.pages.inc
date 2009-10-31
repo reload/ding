@@ -18,7 +18,7 @@ function ting_search_pages_redirect() {
 }
 
 /**
- * Redirec to object view based on local ID (used by bibliotek.dk).
+ * Redirect to object view based on local ID (used by bibliotek.dk).
  */
 function ting_search_pages_object_redirect($local_id) {
   module_load_include('client.inc', 'ting');
@@ -131,29 +131,29 @@ function ting_search_pages_content_js() {
   );
   if (isset($_REQUEST['query'])) {
     // Drupal's do_search() is hard-coded to 10 results per page.
-    $resultsPerPage = 10;
+    $max_results = 10;
     // Identifier used by pager_query().
     $element = 0;
     $query = trim($_REQUEST['query']);
 
-    $searchResult = do_search($query, 'node');
+    $search_result = do_search($query, 'node');
 
     $result = array(
       // do_search() calls pager_query() that populates these globals.
-      'count' => $searchResult ? $GLOBALS['pager_total_items'][$element] : 0,
+      'count' => $search_result ? $GLOBALS['pager_total_items'][$element] : 0,
       // pager_query() page numbers are zero-based.
-      'page' => $searchResult ? $GLOBALS['pager_page_array'][$element] + 1 : 0,
-      'resultsPerPage' => $resultsPerPage,
+      'page' => $search_result ? $GLOBALS['pager_page_array'][$element] + 1 : 0,
+      'resultsPerPage' => $max_results,
       'result_html' => '',
     );
-    foreach ($searchResult as $item) {
+    foreach ($search_result as $item) {
       if ($item->type == 'node') {
-        $node = node_load($item->sid);
+        $node = node_load($item->sid, NULL, TRUE);
         $result['result_html'] .= node_view($node, TRUE);
       }
     }
-    if ($searchResult) {
-      $result['result_html'] .= theme('pager', NULL, $resultsPerPage, $element);
+    if ($search_result) {
+      $result['result_html'] .= theme('pager', NULL, $max_results, $element);
     }
   }
 
@@ -207,13 +207,13 @@ function ting_search_pages_ting_feed($query) {
           $entry['categories'][] = array('term' => $term);
         }
 
-        $entries .= theme('ting_atom_entry', $entry);
+        $entries .= theme('atom_entry', $entry);
       }
+      // Cache the fetched data for 8 hours.
+      cache_set($cache_key, array('result_count' => $result_count, 'entries' => $entries), 'cache', time() + 28000);
     }
     catch (TingClientException $e) {
     }
-    // Cache the fetched data for 8 hours.
-    cache_set($cache_key, array('result_count' => $result_count, 'entries' => $entries), 'cache', time() + 28000);
   }
 
   $feed = array(
@@ -240,7 +240,7 @@ function ting_search_pages_ting_feed($query) {
 
   // Set the correct content type for Atom feeds.
   drupal_set_header('Content-Type: application/atom+xml; charset=utf-8');
-  print theme('ting_atom_feed', $feed);
+  print theme('atom_feed', $feed);
   return;
 }
 
@@ -248,5 +248,71 @@ function ting_search_pages_ting_feed($query) {
  * Generate Atom feed of content search results.
  */
 function ting_search_pages_content_feed($query) {
+  $entries = '';
+  $max_results = 10;
+  $result_count = 0;
+  $cache_key = 'ting_search_content_feed_entries:' . md5(drupal_strtolower($query));
+  $cache_data = cache_get($cache_key);
+
+  if ($cache_data) {
+    $result_count = $cache_data->data['result_count'];
+    $entries = $cache_data->data['entries'];
+  }
+  else {
+    $search_result = do_search($query, 'node');
+    // do_search() calls pager_query() that populates this global.
+    $result_count = (!empty($search_result)) ? $GLOBALS['pager_total_items'][0] : 0;
+
+    foreach($search_result as $item) {
+      $node = node_load($item->sid, NULL, TRUE);
+      $author = user_load($node->uid);
+
+      $entry = array(
+        'id' => url('node/' . $node->nid, array('absolute' => TRUE)),
+        'title' => $node->title,
+        'published' => gmdate('c', $node->created),
+        'updated' => gmdate('c', $node->changed),
+        'summary' => strip_tags($node->teaser),
+      );
+      $entry['alternate_link'] = $entry['id'];
+
+      if (!empty($author->display_name)) {
+        $entry['authors'][$author->uid]['name'] = $author->display_name;
+      }
+      else {
+        $entry['authors'][$author->uid]['name'] = $author->name;
+      }
+      $entry['authors'][$author->uid]['uri'] = url('user/' . $author->uid, array('absolute' => TRUE));
+
+      $entries .= theme('atom_entry', $entry);
+    }
+  }
+
+  $feed = array(
+    'title' => t('“@title” content search results feed', array('@title' => $query)),
+    'alternate_link' => url('ting/search/' . $query, array('absolute' => TRUE)),
+    'entries' => $entries,
+  );
+
+  // If data was received from cache, set the feeds update time to the
+  // cache creation time.
+  if ($cache_data) {
+    $feed['updated'] = gmdate('c', $cache_data->created);
+  }
+
+  if ($result_count > $max_results) {
+    $feed['subtitle'] = t('First @max of @count items found.', array('@max' => $max_results, '@count' => $result_count));
+  }
+  elseif ($result_count > 0) {
+    $feed['subtitle'] = format_plural($result_count, 'One item found', '@count items found.', array('@count' => $result_count));
+  }
+  else {
+    $feed['subtitle'] = t('No items found.');
+  }
+
+  // Set the correct content type for Atom feeds.
+  drupal_set_header('Content-Type: application/atom+xml; charset=utf-8');
+  print theme('atom_feed', $feed);
+  return;
 }
 
