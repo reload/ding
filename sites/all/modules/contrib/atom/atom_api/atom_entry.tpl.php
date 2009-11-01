@@ -20,7 +20,7 @@
 <?php endif; ?>
     <updated><?php print check_plain($entry['updated']); ?></updated>
 
-<?php foreach (array_filter($entry['authors']) as $author): ?>
+<?php foreach ($entry['authors'] as $author): ?>
     <author>
   <?php if (!empty($author['name'])): ?>
       <name><?php print check_plain($author['name']); ?></name>

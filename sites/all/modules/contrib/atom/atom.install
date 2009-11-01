@@ -1,0 +1,14 @@
+<?php
+// $Id: atom.install,v 1.1.4.3 2008/03/31 21:47:19 deekayen Exp $
+
+/**
+ * Implementation of hook_uninstall().
+ *
+ */
+function atom_uninstall() {
+  variable_del('atom_feed_entries');
+  variable_del('atom_ad_location');
+  variable_del('atom_ad_code');
+  variable_del('atom_display_summary');
+  variable_del('atom_display_content');
+}

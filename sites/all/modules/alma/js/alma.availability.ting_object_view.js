@@ -16,6 +16,21 @@ Drupal.behaviors.almaAvailabilityTingObjectView = function () {
         $.each(this.holdings, function (holdingIndex, holdingData) {
           container.append('<li>' + Drupal.settings.alma.branches[holdingData.branch_id] + '</li>');
         });
+        if (dataItem.available_count > 0) {
+          $('#ting-item-' + dataItem.alma_id)
+            .find('.alma-status')
+              .addClass('available')
+              .removeClass('waiting')
+              .text(Drupal.t('available'))
+        }
+        else {
+          $('#ting-item-' + dataItem.alma_id)
+            .find('.alma-status')
+              .addClass('unavailable')
+              .removeClass('waiting')
+              .text(Drupal.t('unavailable'))
+            .end()
+        }
       });
     }
   });

@@ -48,7 +48,8 @@ function ding_content_default_page_manager_pages() {
   $display->panel_settings = array();
   $display->cache = array();
   $display->title = '';
-  $display->hide_title = FALSE;
+  $display->hide_title = TRUE;
+  $display->title_pane = 146;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -69,31 +70,12 @@ function ding_content_default_page_manager_pages() {
     $pane = new stdClass;
     $pane->pid = 'new-2';
     $pane->panel = 'middle';
-    $pane->type = 'views';
-    $pane->subtype = 'event_list';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'event_list-panel_pane_2';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array(
-      'nodes_per_page' => '7',
-      'pager_id' => '1',
-      'use_pager' => 0,
-      'offset' => '0',
-      'more_link' => 1,
-      'feed_icons' => 1,
-      'panel_args' => 0,
-      'link_to_view' => 0,
-      'args' => '',
-      'url' => '',
-      'display' => 'block_1',
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array(
-      'method' => 'simple',
-      'settings' => array(
-        'lifetime' => '120',
-      ),
-    );
+    $pane->configuration = array();
+    $pane->cache = array();
     $pane->style = array();
     $pane->css = array();
     $pane->extras = array();
@@ -147,6 +129,7 @@ function ding_content_default_page_manager_pages() {
     $display->panels['top'][0] = 'new-4';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
+
   $pages['front_panel'] = $page;
 
   /**
@@ -816,3 +799,1448 @@ function ding_content_default_page_manager_pages() {
 
   return $pages;
 }
+
+/**
+ * Implementation of hook_default_page_manager_handlers()
+ */
+function ding_content_default_page_manager_handlers() {
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'node_view_panel_context';
+  $handler->task = 'node_view';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'autogenerate_title' => TRUE,
+    'title' => 'Panel: Logged in user must have "access content", Node being viewed must be a "normal" library',
+    'no_blocks' => FALSE,
+    'css_id' => '',
+    'css' => '',
+    'css_cache_file' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        '0' => array(
+          'name' => 'perm',
+          'settings' => array(
+            'perm' => 'access content',
+          ),
+          'context' => 'logged-in-user',
+        ),
+        '1' => array(
+          'name' => 'library_page_type',
+          'settings' => array(
+            'library_page_type' => 'normal',
+          ),
+          'context' => 'argument_nid_1',
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display;
+  $display->layout = 'threecol_left_stacked';
+  $display->layout_settings = array();
+  $display->panel_settings = array();
+  $display->cache = array();
+  $display->title = '';
+  $display->hide_title = FALSE;
+  $display->title_pane = 0;
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'left';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'article_list-panel_pane_4';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        '0' => 'argument_nid_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['left'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'middle';
+    $pane->type = 'views';
+    $pane->subtype = 'event_list';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'nodes_per_page' => '10',
+      'pager_id' => '1',
+      'use_pager' => 0,
+      'offset' => '0',
+      'more_link' => 0,
+      'feed_icons' => 0,
+      'panel_args' => 0,
+      'link_to_view' => 0,
+      'args' => '',
+      'url' => '',
+      'display' => 'block_1',
+      'context' => array(
+        '0' => 'argument_nid_1.nid',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['middle'][0] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'middle';
+    $pane->type = 'library';
+    $pane->subtype = 'library_feature_list';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_nid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'ding_box',
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-3'] = $pane;
+    $display->panels['middle'][1] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
+    $pane->panel = 'right';
+    $pane->type = 'library';
+    $pane->subtype = 'library_location';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_nid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-4'] = $pane;
+    $display->panels['right'][0] = 'new-4';
+    $pane = new stdClass;
+    $pane->pid = 'new-5';
+    $pane->panel = 'right';
+    $pane->type = 'library';
+    $pane->subtype = 'library_hours';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_nid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'ding_box',
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-5'] = $pane;
+    $display->panels['right'][1] = 'new-5';
+    $pane = new stdClass;
+    $pane->pid = 'new-6';
+    $pane->panel = 'right';
+    $pane->type = 'relevant';
+    $pane->subtype = 'relevant_campaigns';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        '0' => 'argument_nid_1',
+        '1' => 'empty',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $display->content['new-6'] = $pane;
+    $display->panels['right'][2] = 'new-6';
+    $pane = new stdClass;
+    $pane->pid = 'new-7';
+    $pane->panel = 'top';
+    $pane->type = 'library';
+    $pane->subtype = 'library_title';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_nid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'display_header_image' => TRUE,
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-7'] = $pane;
+    $display->panels['top'][0] = 'new-7';
+  $handler->conf['display'] = $display;
+  $handlers['node_view_panel_context'] = $handler;
+
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'node_view_panel_context_2';
+  $handler->task = 'node_view';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = 1;
+  $handler->conf = array(
+    'autogenerate_title' => TRUE,
+    'title' => 'Panel: Logged in user must have "access content", Node being viewed must be a "portal" library',
+    'no_blocks' => FALSE,
+    'css_id' => '',
+    'css' => '',
+    'css_cache_file' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        '0' => array(
+          'name' => 'perm',
+          'settings' => array(
+            'perm' => 'access content',
+          ),
+          'context' => 'logged-in-user',
+        ),
+        '1' => array(
+          'name' => 'library_page_type',
+          'settings' => array(
+            'library_page_type' => 'portal',
+          ),
+          'context' => 'argument_nid_1',
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display;
+  $display->layout = 'threecol_left_stacked_right';
+  $display->layout_settings = array();
+  $display->panel_settings = array();
+  $display->cache = array();
+  $display->title = '';
+  $display->hide_title = FALSE;
+  $display->title_pane = 0;
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'left';
+    $pane->type = 'library_portal';
+    $pane->subtype = 'library_portal_navigation';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_nid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['left'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'middle';
+    $pane->type = 'node_body';
+    $pane->subtype = 'node_body_title';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_nid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['middle'][0] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'right';
+    $pane->type = 'library';
+    $pane->subtype = 'library_location';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_nid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '300',
+      ),
+    );
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-3'] = $pane;
+    $display->panels['right'][0] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
+    $pane->panel = 'right';
+    $pane->type = 'library';
+    $pane->subtype = 'library_hours';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_nid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '60',
+      ),
+    );
+    $pane->style = array(
+      'style' => 'ding_box',
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-4'] = $pane;
+    $display->panels['right'][1] = 'new-4';
+    $pane = new stdClass;
+    $pane->pid = 'new-5';
+    $pane->panel = 'right';
+    $pane->type = 'relevant';
+    $pane->subtype = 'relevant_campaigns';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        '0' => 'argument_nid_1',
+        '1' => 'empty',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $display->content['new-5'] = $pane;
+    $display->panels['right'][2] = 'new-5';
+    $pane = new stdClass;
+    $pane->pid = 'new-6';
+    $pane->panel = 'top';
+    $pane->type = 'library';
+    $pane->subtype = 'library_title';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'display_header_image' => TRUE,
+      'context' => 'argument_nid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '300',
+      ),
+    );
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-6'] = $pane;
+    $display->panels['top'][0] = 'new-6';
+  $handler->conf['display'] = $display;
+  $handlers['node_view_panel_context_2'] = $handler;
+
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'node_view_panel_context_3';
+  $handler->task = 'node_view';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = 2;
+  $handler->conf = array(
+    'autogenerate_title' => TRUE,
+    'title' => 'Panel: Logged in user must have "access content", Node being viewed can be type "Page"',
+    'no_blocks' => FALSE,
+    'css_id' => '',
+    'css' => '',
+    'css_cache_file' => '',
+    'contexts' => array(),
+    'relationships' => array(
+      '0' => array(
+        'context' => 'argument_nid_1',
+        'name' => 'related_library',
+        'id' => 2,
+        'identifier' => 'Library node',
+        'keyword' => 'related_library',
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        '0' => array(
+          'name' => 'perm',
+          'settings' => array(
+            'perm' => 'access content',
+          ),
+          'context' => 'logged-in-user',
+        ),
+        '1' => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'page' => 'page',
+            ),
+          ),
+          'context' => 'argument_nid_1',
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display;
+  $display->layout = 'threecol_left_stacked_right';
+  $display->layout_settings = array();
+  $display->panel_settings = array();
+  $display->cache = array();
+  $display->title = '';
+  $display->hide_title = FALSE;
+  $display->title_pane = 0;
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'left';
+    $pane->type = 'library_portal';
+    $pane->subtype = 'library_portal_navigation';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'relationship_related_library_2',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'default_menu' => 'menu-organisation',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['left'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'middle';
+    $pane->type = 'node_content';
+    $pane->subtype = 'node_content';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'links' => 0,
+      'page' => 1,
+      'no_extras' => 1,
+      'override_title' => 0,
+      'override_title_text' => '',
+      'teaser' => 0,
+      'identifier' => '',
+      'link' => 0,
+      'leave_node_title' => 0,
+      'context' => 'argument_nid_1',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['middle'][0] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'right';
+    $pane->type = 'library';
+    $pane->subtype = 'library_location';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'relationship_related_library_2',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-3'] = $pane;
+    $display->panels['right'][0] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
+    $pane->panel = 'right';
+    $pane->type = 'library';
+    $pane->subtype = 'library_hours';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'relationship_related_library_2',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'ding_box',
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-4'] = $pane;
+    $display->panels['right'][1] = 'new-4';
+    $pane = new stdClass;
+    $pane->pid = 'new-5';
+    $pane->panel = 'right';
+    $pane->type = 'block';
+    $pane->subtype = 'tagadelic-2';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'ding_box',
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $display->content['new-5'] = $pane;
+    $display->panels['right'][2] = 'new-5';
+    $pane = new stdClass;
+    $pane->pid = 'new-6';
+    $pane->panel = 'right';
+    $pane->type = 'relevant';
+    $pane->subtype = 'relevant_campaigns';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        '0' => 'argument_nid_1',
+        '1' => 'relationship_related_library_2',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 3;
+    $display->content['new-6'] = $pane;
+    $display->panels['right'][3] = 'new-6';
+    $pane = new stdClass;
+    $pane->pid = 'new-7';
+    $pane->panel = 'top';
+    $pane->type = 'library';
+    $pane->subtype = 'library_title';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'display_header_image' => FALSE,
+      'context' => 'relationship_related_library_2',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-7'] = $pane;
+    $display->panels['top'][0] = 'new-7';
+  $handler->conf['display'] = $display;
+  $handlers['node_view_panel_context_3'] = $handler;
+
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'node_view_panel_context_4';
+  $handler->task = 'node_view';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = -6;
+  $handler->conf = array(
+    'autogenerate_title' => TRUE,
+    'title' => 'Panel: Logged in user must have "access content", Node being viewed can be type "Article"',
+    'no_blocks' => FALSE,
+    'css_id' => '',
+    'css' => '',
+    'css_cache_file' => '',
+    'contexts' => array(),
+    'relationships' => array(
+      '0' => array(
+        'context' => 'argument_nid_1',
+        'name' => 'related_library',
+        'id' => 2,
+        'identifier' => 'Library node',
+        'keyword' => 'related_library',
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        '0' => array(
+          'name' => 'perm',
+          'settings' => array(
+            'perm' => 'access content',
+          ),
+          'context' => 'logged-in-user',
+        ),
+        '1' => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'article' => 'article',
+            ),
+          ),
+          'context' => 'argument_nid_1',
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display;
+  $display->layout = 'twocol_left_stacked';
+  $display->layout_settings = array();
+  $display->panel_settings = array();
+  $display->cache = array();
+  $display->title = '';
+  $display->hide_title = FALSE;
+  $display->title_pane = 0;
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'bottom';
+    $pane->type = 'node_comments';
+    $pane->subtype = 'node_comments';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'mode' => '4',
+      'order' => '2',
+      'comments_per_page' => '50',
+      'context' => 'argument_nid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['bottom'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'bottom';
+    $pane->type = 'node_comment_form';
+    $pane->subtype = 'node_comment_form';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_nid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-2'] = $pane;
+    $display->panels['bottom'][1] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'left';
+    $pane->type = 'node_content';
+    $pane->subtype = 'node_content';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'links' => 0,
+      'page' => 1,
+      'no_extras' => 0,
+      'override_title' => 0,
+      'override_title_text' => '',
+      'teaser' => 0,
+      'identifier' => '',
+      'link' => 0,
+      'leave_node_title' => 0,
+      'context' => 'argument_nid_1',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-3'] = $pane;
+    $display->panels['left'][0] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
+    $pane->panel = 'right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'blog_category_list-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'ding_box',
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-4'] = $pane;
+    $display->panels['right'][0] = 'new-4';
+    $pane = new stdClass;
+    $pane->pid = 'new-5';
+    $pane->panel = 'right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'article_list-panel_pane_5';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'ding_box',
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-5'] = $pane;
+    $display->panels['right'][1] = 'new-5';
+    $pane = new stdClass;
+    $pane->pid = 'new-6';
+    $pane->panel = 'right';
+    $pane->type = 'block';
+    $pane->subtype = 'comment-0';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'ding_box',
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $display->content['new-6'] = $pane;
+    $display->panels['right'][2] = 'new-6';
+    $pane = new stdClass;
+    $pane->pid = 'new-7';
+    $pane->panel = 'right';
+    $pane->type = 'block';
+    $pane->subtype = 'tagadelic-2';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'ding_box',
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 3;
+    $display->content['new-7'] = $pane;
+    $display->panels['right'][3] = 'new-7';
+    $pane = new stdClass;
+    $pane->pid = 'new-8';
+    $pane->panel = 'right';
+    $pane->type = 'relevant';
+    $pane->subtype = 'relevant_campaigns';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        '0' => 'argument_nid_1',
+        '1' => 'relationship_related_library_2',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 4;
+    $display->content['new-8'] = $pane;
+    $display->panels['right'][4] = 'new-8';
+    $pane = new stdClass;
+    $pane->pid = 'new-9';
+    $pane->panel = 'top';
+    $pane->type = 'library';
+    $pane->subtype = 'library_title';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'relationship_related_library_2',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-9'] = $pane;
+    $display->panels['top'][0] = 'new-9';
+  $handler->conf['display'] = $display;
+  $handlers['node_view_panel_context_4'] = $handler;
+
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'node_view_panel_context_5';
+  $handler->task = 'node_view';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = 4;
+  $handler->conf = array(
+    'autogenerate_title' => TRUE,
+    'title' => 'Panel: Logged in user must have "access content", Node being viewed can be type "Facilitet/service"',
+    'no_blocks' => FALSE,
+    'css_id' => '',
+    'css' => '',
+    'css_cache_file' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        '0' => array(
+          'name' => 'perm',
+          'settings' => array(
+            'perm' => 'access content',
+          ),
+          'context' => 'logged-in-user',
+        ),
+        '1' => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'feature' => 'feature',
+            ),
+          ),
+          'context' => 'argument_nid_1',
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display;
+  $display->layout = 'twocol_left_stacked';
+  $display->layout_settings = array();
+  $display->panel_settings = array();
+  $display->cache = array();
+  $display->title = '';
+  $display->hide_title = FALSE;
+  $display->title_pane = 0;
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'left';
+    $pane->type = 'node_content';
+    $pane->subtype = 'node_content';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'links' => 0,
+      'page' => 1,
+      'no_extras' => 0,
+      'override_title' => 0,
+      'override_title_text' => '',
+      'teaser' => 0,
+      'identifier' => '',
+      'link' => 0,
+      'leave_node_title' => 1,
+      'context' => 'argument_nid_1',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['left'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'right';
+    $pane->type = 'relevant';
+    $pane->subtype = 'relevant_campaigns';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        '0' => 'argument_nid_1',
+        '1' => 'empty',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['right'][0] = 'new-2';
+  $handler->conf['display'] = $display;
+  $handlers['node_view_panel_context_5'] = $handler;
+
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'node_view_panel_context_6';
+  $handler->task = 'node_view';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = -7;
+  $handler->conf = array(
+    'autogenerate_title' => TRUE,
+    'title' => 'Panel: Logged in user must have "access content", Node being viewed can be type "Event"',
+    'no_blocks' => FALSE,
+    'css_id' => '',
+    'css' => '',
+    'css_cache_file' => '',
+    'contexts' => array(),
+    'relationships' => array(
+      '0' => array(
+        'context' => 'argument_nid_1',
+        'name' => 'related_library',
+        'id' => 2,
+        'identifier' => 'Library node',
+        'keyword' => 'related_library',
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        '0' => array(
+          'name' => 'perm',
+          'settings' => array(
+            'perm' => 'access content',
+          ),
+          'context' => 'logged-in-user',
+        ),
+        '1' => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'event' => 'event',
+            ),
+          ),
+          'context' => 'argument_nid_1',
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display;
+  $display->layout = 'twocol_left_stacked';
+  $display->layout_settings = array();
+  $display->panel_settings = array();
+  $display->cache = array();
+  $display->title = '';
+  $display->hide_title = FALSE;
+  $display->title_pane = 0;
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'bottom';
+    $pane->type = 'similar_events';
+    $pane->subtype = 'similar_events_title';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_nid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['bottom'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'left';
+    $pane->type = 'node_content';
+    $pane->subtype = 'node_content';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'links' => 0,
+      'page' => 1,
+      'no_extras' => 0,
+      'override_title' => 0,
+      'override_title_text' => '',
+      'teaser' => 0,
+      'identifier' => '',
+      'link' => 0,
+      'leave_node_title' => 0,
+      'context' => 'argument_nid_1',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['left'][0] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'right';
+    $pane->type = 'library';
+    $pane->subtype = 'library_location';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'relationship_related_library_2',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-3'] = $pane;
+    $display->panels['right'][0] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
+    $pane->panel = 'right';
+    $pane->type = 'block';
+    $pane->subtype = 'tagadelic-2';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'ding_box',
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-4'] = $pane;
+    $display->panels['right'][1] = 'new-4';
+    $pane = new stdClass;
+    $pane->pid = 'new-5';
+    $pane->panel = 'right';
+    $pane->type = 'relevant';
+    $pane->subtype = 'relevant_campaigns';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        '0' => 'argument_nid_1',
+        '1' => 'relationship_related_library_2',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $display->content['new-5'] = $pane;
+    $display->panels['right'][2] = 'new-5';
+    $pane = new stdClass;
+    $pane->pid = 'new-6';
+    $pane->panel = 'top';
+    $pane->type = 'library';
+    $pane->subtype = 'library_title';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'relationship_related_library_2',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-6'] = $pane;
+    $display->panels['top'][0] = 'new-6';
+  $handler->conf['display'] = $display;
+  $handlers['node_view_panel_context_6'] = $handler;
+
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'term_view_panel_context';
+  $handler->task = 'term_view';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Taxonomy term view',
+    'no_blocks' => FALSE,
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+  );
+  $display = new panels_display;
+  $display->layout = 'twocol_left_stacked';
+  $display->layout_settings = array();
+  $display->panel_settings = array();
+  $display->cache = array();
+  $display->title = '';
+  $display->hide_title = FALSE;
+  $display->title_pane = 0;
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'left';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'taxonomy_term_view-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        '0' => 'argument_terms_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['left'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'right';
+    $pane->type = 'term_list';
+    $pane->subtype = 'term_list';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'title' => NULL,
+      'type' => 'related',
+      'list_type' => 'ol',
+      'context' => 'argument_terms_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['right'][0] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'blog_category_list-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-3'] = $pane;
+    $display->panels['right'][1] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
+    $pane->panel = 'right';
+    $pane->type = 'block';
+    $pane->subtype = 'tagadelic-2';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $display->content['new-4'] = $pane;
+    $display->panels['right'][2] = 'new-4';
+    $pane = new stdClass;
+    $pane->pid = 'new-5';
+    $pane->panel = 'right';
+    $pane->type = 'relevant';
+    $pane->subtype = 'relevant_campaigns';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        '0' => 'empty',
+        '1' => 'empty',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 3;
+    $display->content['new-5'] = $pane;
+    $display->panels['right'][3] = 'new-5';
+    $pane = new stdClass;
+    $pane->pid = 'new-6';
+    $pane->panel = 'top';
+    $pane->type = 'term_description';
+    $pane->subtype = 'term_description';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_terms_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-6'] = $pane;
+    $display->panels['top'][0] = 'new-6';
+  $handler->conf['display'] = $display;
+  $handlers['term_view_panel_context'] = $handler;
+
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'node_view_panel_context_7';
+  $handler->task = 'node_view';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = 5;
+  $handler->conf = array(
+    'autogenerate_title' => TRUE,
+    'title' => 'Panel: Logged in user must have "access content", Node being viewed can be type "Topic"',
+    'no_blocks' => 0,
+    'css_id' => '',
+    'css' => '',
+    'css_cache_file' => '',
+    'contexts' => array(),
+    'relationships' => array(
+      '0' => array(
+        'context' => 'argument_nid_1',
+        'name' => 'related_library',
+        'id' => 2,
+        'identifier' => 'Library node',
+        'keyword' => 'related_library',
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        '0' => array(
+          'name' => 'perm',
+          'settings' => array(
+            'perm' => 'access content',
+          ),
+          'context' => 'logged-in-user',
+        ),
+        '1' => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'topic' => 'topic',
+            ),
+          ),
+          'context' => 'argument_nid_1',
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display;
+  $display->layout = 'twocol_left_stacked';
+  $display->layout_settings = array();
+  $display->panel_settings = array();
+  $display->cache = array();
+  $display->title = '';
+  $display->hide_title = FALSE;
+  $display->title_pane = 0;
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'left';
+    $pane->type = 'node_content';
+    $pane->subtype = 'node_content';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'links' => 0,
+      'page' => 1,
+      'no_extras' => 0,
+      'override_title' => 0,
+      'override_title_text' => '',
+      'teaser' => 0,
+      'identifier' => '',
+      'link' => 0,
+      'leave_node_title' => 0,
+      'context' => 'argument_nid_1',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['left'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'right';
+    $pane->type = 'library';
+    $pane->subtype = 'library_location';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'relationship_related_library_2',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['right'][0] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'right';
+    $pane->type = 'block';
+    $pane->subtype = 'tagadelic-2';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'ding_box',
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-3'] = $pane;
+    $display->panels['right'][1] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
+    $pane->panel = 'right';
+    $pane->type = 'relevant';
+    $pane->subtype = 'relevant_campaigns';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        '0' => 'argument_nid_1',
+        '1' => 'relationship_related_library_2',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $display->content['new-4'] = $pane;
+    $display->panels['right'][2] = 'new-4';
+    $pane = new stdClass;
+    $pane->pid = 'new-5';
+    $pane->panel = 'top';
+    $pane->type = 'library';
+    $pane->subtype = 'library_title';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'relationship_related_library_2',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-5'] = $pane;
+    $display->panels['top'][0] = 'new-5';
+  $handler->conf['display'] = $display;
+  $handlers['node_view_panel_context_7'] = $handler;
+
+ return $handlers;
+}
+

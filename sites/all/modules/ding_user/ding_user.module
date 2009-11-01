@@ -96,9 +96,6 @@ function ding_user_user($op, &$edit, &$account, $category = NULL) {
         if ($ding_user_data) {
           $account->secure_pass = $ding_user_data['pass'];
           $account->display_name = $ding_user_data['display_name'];
-          // For backwards compatibility, we still set alma_name.
-          // TODO: Remove this when its no longer used.
-          $account->alma_name = $ding_user_data['display_name'];
         }
         else {
           // secure_pass = FALSE indicates that user doesn't have a row
@@ -109,6 +106,13 @@ function ding_user_user($op, &$edit, &$account, $category = NULL) {
       break;
     case 'delete':
       db_query('DELETE FROM {ding_user} WHERE uid=%d', $account->uid);
+      break;
+    case 'view':
+      if (isset($account->display_name) && !empty($account->display_name)) {
+        drupal_set_title(check_plain($account->display_name));
+      }
+      $account->name = $account->display_name;
+
       break;
   }
 }
@@ -123,15 +127,14 @@ function ding_user_perm() {
 }
 
 /**
- * Implementation of hook_popups().
+ * Implementation of hook_ctools_plugin_api().
  */
-function ding_user_popups() {
-  return array(
-    'user/*' => array(
-      'a[href~="/change_pass"]',
-    ),
-  );
+function ding_user_ctools_plugin_api($module, $api) {
+  if ($module == 'page_manager' && $api == 'pages_default') {
+    return array('version' => 1);
+  }
 }
+
 
 /**
  * Implementation of hook_form_alter().

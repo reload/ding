@@ -365,243 +365,6 @@ function ding_content_views_default_views() {
   $handler->override_option('style_options', array(
     'type' => 'ul',
   ));
-  $handler = $view->new_display('block', 'Block (deprecated)', 'block_1');
-  $handler->override_option('arguments', array(
-    'field_library_ref_nid' => array(
-      'default_action' => 'ignore',
-      'style_plugin' => 'default_summary',
-      'style_options' => array(),
-      'wildcard' => 'all',
-      'wildcard_substitution' => 'Alle',
-      'title' => '',
-      'default_argument_type' => 'fixed',
-      'default_argument' => '',
-      'validate_type' => 'node',
-      'validate_fail' => 'not found',
-      'break_phrase' => 0,
-      'not' => 0,
-      'id' => 'field_library_ref_nid',
-      'table' => 'node_data_field_library_ref',
-      'field' => 'field_library_ref_nid',
-      'relationship' => 'none',
-      'default_options_div_prefix' => '',
-      'default_argument_user' => 0,
-      'default_argument_fixed' => '',
-      'default_argument_php' => '',
-      'validate_argument_node_type' => array(
-        'library' => 'library',
-        'article' => 0,
-        'event' => 0,
-        'feature' => 0,
-        'page' => 0,
-      ),
-      'validate_argument_node_access' => 0,
-      'validate_argument_nid_type' => 'nid',
-      'validate_argument_vocabulary' => array(
-        '3' => 0,
-        '1' => 0,
-        '2' => 0,
-      ),
-      'validate_argument_type' => 'tid',
-      'user_argument_type' => '',
-      'restrict_user_roles' => 0,
-      'user_roles' => array(),
-      'validate_argument_php' => '',
-      'validate_user_argument_type' => 'uid',
-      'validate_user_roles' => array(
-        '2' => 0,
-        '3' => 0,
-        '4' => 0,
-        '5' => 0,
-        '6' => 0,
-      ),
-      'validate_argument_transform' => 0,
-      'validate_user_restrict_roles' => 0,
-    ),
-  ));
-  $handler->override_option('items_per_page', 3);
-  $handler->override_option('use_pager', '0');
-  $handler->override_option('use_more', 1);
-  $handler->override_option('style_options', array(
-    'grouping' => '',
-    'type' => 'ul',
-  ));
-  $handler->override_option('row_options', array(
-    'inline' => array(),
-    'separator' => '',
-  ));
-  $handler->override_option('block_description', '');
-  $handler->override_option('block_caching', -1);
-  $handler = $view->new_display('feed', 'Feed', 'feed_1');
-  $handler->override_option('arguments', array(
-    'field_library_ref_nid' => array(
-      'default_action' => 'ignore',
-      'style_plugin' => 'default_summary',
-      'style_options' => array(),
-      'wildcard' => 'all',
-      'wildcard_substitution' => 'Alle',
-      'title' => '',
-      'default_argument_type' => 'fixed',
-      'default_argument' => '',
-      'validate_type' => 'node',
-      'validate_fail' => 'not found',
-      'break_phrase' => 0,
-      'not' => 0,
-      'id' => 'field_library_ref_nid',
-      'table' => 'node_data_field_library_ref',
-      'field' => 'field_library_ref_nid',
-      'relationship' => 'none',
-      'default_options_div_prefix' => '',
-      'default_argument_user' => 0,
-      'default_argument_fixed' => '',
-      'default_argument_php' => '',
-      'validate_argument_node_type' => array(
-        'library' => 'library',
-        'article' => 0,
-        'event' => 0,
-        'feature' => 0,
-        'page' => 0,
-      ),
-      'validate_argument_node_access' => 0,
-      'validate_argument_nid_type' => 'nid',
-      'validate_argument_vocabulary' => array(
-        '3' => 0,
-        '1' => 0,
-        '2' => 0,
-      ),
-      'validate_argument_type' => 'tid',
-      'user_argument_type' => '',
-      'restrict_user_roles' => 0,
-      'user_roles' => array(),
-      'validate_argument_php' => '',
-      'validate_user_argument_type' => 'uid',
-      'validate_user_roles' => array(
-        '2' => 0,
-        '3' => 0,
-        '4' => 0,
-        '5' => 0,
-        '6' => 0,
-      ),
-      'validate_argument_transform' => 0,
-      'validate_user_restrict_roles' => 0,
-    ),
-  ));
-  $handler->override_option('style_plugin', 'rss');
-  $handler->override_option('style_options', array(
-    'mission_description' => FALSE,
-    'description' => '',
-  ));
-  $handler->override_option('row_plugin', 'node_rss');
-  $handler->override_option('row_options', array(
-    'item_length' => 'fulltext',
-  ));
-  $handler->override_option('path', 'artikler/feed.xml');
-  $handler->override_option('menu', array(
-    'type' => 'none',
-    'title' => '',
-    'description' => '',
-    'weight' => 0,
-    'name' => 'navigation',
-  ));
-  $handler->override_option('tab_options', array(
-    'type' => 'none',
-    'title' => '',
-    'description' => '',
-    'weight' => 0,
-  ));
-  $handler->override_option('displays', array(
-    'page_1' => 'page_1',
-    'default' => 0,
-    'block_1' => 0,
-  ));
-  $handler->override_option('sitename_title', FALSE);
-  $handler = $view->new_display('block', 'Title list block (deprecated)', 'block_4');
-  $handler->override_option('fields', array(
-    'title' => array(
-      'label' => '',
-      'alter' => array(
-        'alter_text' => 0,
-        'text' => '',
-        'make_link' => 0,
-        'path' => '',
-        'alt' => '',
-        'prefix' => '',
-        'suffix' => '',
-        'help' => '',
-        'trim' => 0,
-        'max_length' => '',
-        'word_boundary' => 1,
-        'ellipsis' => 1,
-        'strip_tags' => 0,
-        'html' => 0,
-      ),
-      'link_to_node' => 1,
-      'exclude' => 0,
-      'id' => 'title',
-      'table' => 'node',
-      'field' => 'title',
-      'override' => array(
-        'button' => 'Use default',
-      ),
-      'relationship' => 'none',
-    ),
-  ));
-  $handler->override_option('arguments', array(
-    'field_library_ref_nid' => array(
-      'default_action' => 'ignore',
-      'style_plugin' => 'default_summary',
-      'style_options' => array(),
-      'wildcard' => 'all',
-      'wildcard_substitution' => 'Alle',
-      'title' => '',
-      'default_argument_type' => 'fixed',
-      'default_argument' => '',
-      'validate_type' => 'node',
-      'validate_fail' => 'not found',
-      'break_phrase' => 0,
-      'not' => 0,
-      'id' => 'field_library_ref_nid',
-      'table' => 'node_data_field_library_ref',
-      'field' => 'field_library_ref_nid',
-      'relationship' => 'none',
-      'default_options_div_prefix' => '',
-      'default_argument_user' => 0,
-      'default_argument_fixed' => '',
-      'default_argument_php' => '',
-      'validate_argument_node_type' => array(
-        'library' => 'library',
-        'article' => 0,
-        'event' => 0,
-        'feature' => 0,
-        'page' => 0,
-      ),
-      'validate_argument_node_access' => 0,
-      'validate_argument_nid_type' => 'nid',
-      'validate_argument_vocabulary' => array(
-        '3' => 0,
-        '1' => 0,
-        '2' => 0,
-      ),
-      'validate_argument_type' => 'tid',
-      'user_argument_type' => '',
-      'restrict_user_roles' => 0,
-      'user_roles' => array(),
-      'validate_argument_php' => '',
-      'validate_user_argument_type' => 'uid',
-      'validate_user_roles' => array(
-        '2' => 0,
-        '3' => 0,
-        '4' => 0,
-        '5' => 0,
-        '6' => 0,
-      ),
-      'validate_argument_transform' => 0,
-      'validate_user_restrict_roles' => 0,
-    ),
-  ));
-  $handler->override_option('title', 'Seneste indlæg');
-  $handler->override_option('block_description', 'Simple list of latest articles');
-  $handler->override_option('block_caching', -1);
   $handler = $view->new_display('panel_pane', 'User blog pane', 'panel_pane_1');
   $handler->override_option('arguments', array(
     'uid' => array(
@@ -755,6 +518,7 @@ function ding_content_views_default_views() {
       'relationship' => 'none',
     ),
   ));
+  $handler->override_option('items_per_page', 5);
   $handler->override_option('pane_title', 'Frontpage blog');
   $handler->override_option('pane_description', '');
   $handler->override_option('pane_category', array(
@@ -1008,6 +772,42 @@ function ding_content_views_default_views() {
   ));
   $handler->override_option('link_to_view', 0);
   $handler->override_option('inherit_panels_path', 0);
+  $handler = $view->new_display('feed', 'Feed', 'feed_1');
+  $handler->override_option('title', 'Blog feed');
+  $handler->override_option('style_plugin', 'rss');
+  $handler->override_option('style_options', array(
+    'mission_description' => FALSE,
+    'description' => '',
+  ));
+  $handler->override_option('row_plugin', 'node_rss');
+  $handler->override_option('row_options', array(
+    'relationship' => 'none',
+    'item_length' => 'default',
+  ));
+  $handler->override_option('path', 'blog/feed');
+  $handler->override_option('menu', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+    'name' => 'navigation',
+  ));
+  $handler->override_option('tab_options', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+  ));
+  $handler->override_option('displays', array(
+    'panel_pane_1' => 'panel_pane_1',
+    'panel_pane_2' => 'panel_pane_2',
+    'panel_pane_3' => 'panel_pane_3',
+    'panel_pane_4' => 'panel_pane_4',
+    'panel_pane_5' => 'panel_pane_5',
+    'panel_pane_6' => 'panel_pane_6',
+    'default' => 0,
+  ));
+  $handler->override_option('sitename_title', 0);
 
   $views[$view->name] = $view;
 
