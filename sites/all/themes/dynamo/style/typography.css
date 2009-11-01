@@ -127,8 +127,8 @@ tr.even{}
 .pane-event_list .title{color:#000; font-weight:bold;}
 .pane-event_list li div.leaf{font-family: Georgia, serif; text-align: center;}
 	.pane-event_list li div.leaf .day{color:#fff; font-size:10px; line-height:15px;}
-	.pane-event_list li div.leaf .date{font-size:32px; line-height:26px; color:#000;}
-	.pane-event_list li div.leaf .month{font-size:11px; line-height:15px;}
+	.pane-event_list li div.leaf .date{font-size:28px; line-height:26px; color:#000;}
+	.pane-event_list li div.leaf .month{font-size:9px; line-height:15px; text-transform: uppercase;}
 	.pane-event_list li div a{color:#666;}
 	.pane-event_list .view-event-list li div h4 a{color:#050505;line-height:13px;}
 	.pane-event_list .view-event-list li div h4{line-height:8px;}
