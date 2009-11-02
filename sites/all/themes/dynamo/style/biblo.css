@@ -40,9 +40,6 @@
 
 
 /*calender pane*/
-
-
-
 .pane-event_list .panel-pane{margin:0 5px;}
 .pane-event_list h3{background:#d1d9d7; padding:3px 10px; margin:5px 10px 0 10px;}
 .pane-event_list .view-event-list{margin:10px 0 0 0;}
@@ -192,6 +189,7 @@ div.comment {width: auto; margin:0 0 10px 0; padding:5px 5px 5px 0;}
 	#comment-form .form-textarea{width:650px;}
 	#comment-form .form-buttons{text-align:right;}
 		#comment-form .form-button{display:inline;}
+		
 /*blog comments*/
 ul.item-list h3{margin:0 0 0 20px;}
 /*ul.item-list li{margin:0 0 0 20px;}*/
@@ -221,3 +219,6 @@ margin:0; padding:0;
 }
 .views-exposed-form  label{display:none;}
 .view-empty{margin:0 0 0 20px;}
+
+body.ding-faciliteter .panel-pane h2{margin:0 0 0 20px;}
+
