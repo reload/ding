@@ -873,27 +873,14 @@ function ding_content_default_page_manager_handlers() {
     $pane = new stdClass;
     $pane->pid = 'new-2';
     $pane->panel = 'middle';
-    $pane->type = 'views';
-    $pane->subtype = 'event_list';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'event_list-panel_pane_2';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'nodes_per_page' => '10',
-      'pager_id' => '1',
-      'use_pager' => 0,
-      'offset' => '0',
-      'more_link' => 0,
-      'feed_icons' => 0,
-      'panel_args' => 0,
-      'link_to_view' => 0,
-      'args' => '',
-      'url' => '',
-      'display' => 'block_1',
       'context' => array(
-        '0' => 'argument_nid_1.nid',
+        '0' => 'argument_nid_1',
       ),
-      'override_title' => 0,
-      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array();
