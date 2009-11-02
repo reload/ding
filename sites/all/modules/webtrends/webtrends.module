@@ -19,20 +19,9 @@ function webtrends_menu() {
   return $items;
 }
 
-function webtrends_include1_js() {
-  $domain = variable_get('webtrends_domain', FALSE);
-  $dcs_id = variable_get('webtrends_dcs_id', FALSE);
-
-  if (!$domain || !$dcs_id) {
-    return;
-  }
-
-  drupal_header('Content-Type: application/javascript');
-  drupal_header('Cache-Control: public');
-
-  return $output;
-}
-
+/**
+ * Implementation of hook_footer().
+ */
 function webtrends_footer() {
   $domain = variable_get('webtrends_domain', FALSE);
   $dcs_id = variable_get('webtrends_dcs_id', FALSE);
