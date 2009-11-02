@@ -148,7 +148,7 @@ function ding_event_views_default_views() {
       'field' => 'field_entry_price_value',
       'relationship' => 'none',
     ),
-    'field_list_image_fid' => array(
+    'field_image_fid' => array(
       'label' => '',
       'alter' => array(
         'alter_text' => 0,
@@ -176,9 +176,9 @@ function ding_event_views_default_views() {
         'multiple_reversed' => FALSE,
       ),
       'exclude' => 0,
-      'id' => 'field_list_image_fid',
-      'table' => 'node_data_field_list_image',
-      'field' => 'field_list_image_fid',
+      'id' => 'field_image_fid',
+      'table' => 'node_data_field_image',
+      'field' => 'field_image_fid',
       'override' => array(
         'button' => 'Override',
       ),
@@ -240,6 +240,7 @@ function ding_event_views_default_views() {
       'wildcard' => 'all',
       'wildcard_substitution' => 'All',
       'title' => '',
+      'breadcrumb' => '',
       'default_argument_type' => 'fixed',
       'default_argument' => '',
       'validate_type' => 'node',
@@ -256,14 +257,22 @@ function ding_event_views_default_views() {
       'default_argument_php' => '',
       'validate_argument_node_type' => array(
         'library' => 'library',
+        'campaign' => 0,
         'article' => 0,
+        'feature' => 0,
+        'profile' => 0,
+        'topic' => 0,
+        'flexifield_link' => 0,
+        'flexifield_ting_refs' => 0,
+        'flexifield_text' => 0,
         'event' => 0,
         'page' => 0,
       ),
       'validate_argument_node_access' => 0,
       'validate_argument_nid_type' => 'nid',
       'validate_argument_vocabulary' => array(
-        '3' => 0,
+        '4' => 0,
+        '5' => 0,
         '1' => 0,
         '2' => 0,
       ),
@@ -272,6 +281,18 @@ function ding_event_views_default_views() {
       'restrict_user_roles' => 0,
       'user_roles' => array(),
       'validate_argument_php' => '',
+      'validate_user_argument_type' => 'uid',
+      'validate_user_roles' => array(
+        '2' => 0,
+        '4' => 0,
+        '5' => 0,
+        '6' => 0,
+      ),
+      'override' => array(
+        'button' => 'Override',
+      ),
+      'validate_argument_transform' => 0,
+      'validate_user_restrict_roles' => 0,
     ),
   ));
   $handler->override_option('filters', array(
@@ -355,9 +376,6 @@ function ding_event_views_default_views() {
     'inline' => array(),
     'separator' => '',
   ));
-  $handler = $view->new_display('block', 'Block', 'block_1');
-  $handler->override_option('block_description', 'Liste over kommende arrangementer');
-  $handler->override_option('block_caching', -1);
   $handler = $view->new_display('panel_pane', 'Events overview pane', 'panel_pane_1');
   $handler->override_option('fields', array(
     'title' => array(
@@ -490,7 +508,7 @@ function ding_event_views_default_views() {
       'field' => 'field_entry_price_value',
       'relationship' => 'none',
     ),
-    'field_list_image_fid' => array(
+    'field_image_fid' => array(
       'label' => '',
       'alter' => array(
         'alter_text' => 0,
@@ -518,9 +536,9 @@ function ding_event_views_default_views() {
         'multiple_reversed' => FALSE,
       ),
       'exclude' => 0,
-      'id' => 'field_list_image_fid',
-      'table' => 'node_data_field_list_image',
-      'field' => 'field_list_image_fid',
+      'id' => 'field_image_fid',
+      'table' => 'node_data_field_image',
+      'field' => 'field_image_fid',
       'override' => array(
         'button' => 'Override',
       ),
@@ -590,6 +608,64 @@ function ding_event_views_default_views() {
     ),
   ));
   $handler->override_option('arguments', array(
+    'field_library_ref_nid' => array(
+      'default_action' => 'ignore',
+      'style_plugin' => 'default_summary',
+      'style_options' => array(),
+      'wildcard' => 'all',
+      'wildcard_substitution' => 'All',
+      'title' => '',
+      'breadcrumb' => '',
+      'default_argument_type' => 'fixed',
+      'default_argument' => '',
+      'validate_type' => 'node',
+      'validate_fail' => 'not found',
+      'break_phrase' => 0,
+      'not' => 0,
+      'id' => 'field_library_ref_nid',
+      'table' => 'node_data_field_library_ref',
+      'field' => 'field_library_ref_nid',
+      'validate_user_argument_type' => 'uid',
+      'validate_user_roles' => array(
+        '2' => 0,
+        '4' => 0,
+        '5' => 0,
+        '6' => 0,
+      ),
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+      'default_options_div_prefix' => '',
+      'default_argument_user' => 0,
+      'default_argument_fixed' => '',
+      'default_argument_php' => '',
+      'validate_argument_node_type' => array(
+        'library' => 'library',
+        'campaign' => 0,
+        'article' => 0,
+        'feature' => 0,
+        'profile' => 0,
+        'topic' => 0,
+        'flexifield_link' => 0,
+        'flexifield_ting_refs' => 0,
+        'flexifield_text' => 0,
+        'event' => 0,
+        'page' => 0,
+      ),
+      'validate_argument_node_access' => 0,
+      'validate_argument_nid_type' => 'nid',
+      'validate_argument_vocabulary' => array(
+        '4' => 0,
+        '5' => 0,
+        '1' => 0,
+        '2' => 0,
+      ),
+      'validate_argument_type' => 'tid',
+      'validate_argument_transform' => 0,
+      'validate_user_restrict_roles' => 0,
+      'validate_argument_php' => '',
+    ),
     'tid' => array(
       'default_action' => 'ignore',
       'style_plugin' => 'default_summary',
@@ -756,16 +832,87 @@ function ding_event_views_default_views() {
     'exposed_form' => FALSE,
   ));
   $handler->override_option('argument_input', array(
+    'field_library_ref_nid' => array(
+      'type' => 'context',
+      'context' => 'node.nid',
+      'context_optional' => 1,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Content: Bibliotek (field_library_ref)',
+    ),
     'tid' => array(
       'type' => 'panel',
       'context' => 'node.uid',
-      'panel' => '0',
+      'context_optional' => 0,
+      'panel' => '1',
       'fixed' => '',
       'label' => 'Taksonomi: Term ID',
     ),
   ));
   $handler->override_option('link_to_view', 0);
   $handler->override_option('inherit_panels_path', 0);
+  $handler = $view->new_display('panel_pane', 'Events list pane', 'panel_pane_2');
+  $handler->override_option('title', '');
+  $handler->override_option('footer', '<a href="/arrangementer" class="more-link">flere…</a>');
+  $handler->override_option('footer_format', '1');
+  $handler->override_option('footer_empty', 0);
+  $handler->override_option('pane_title', 'Frontpage events list');
+  $handler->override_option('pane_description', '');
+  $handler->override_option('pane_category', array(
+    'name' => 'View panes',
+    'weight' => 0,
+  ));
+  $handler->override_option('allow', array(
+    'use_pager' => 0,
+    'items_per_page' => 0,
+    'offset' => 0,
+    'link_to_view' => 0,
+    'more_link' => 0,
+    'path_override' => 0,
+    'title_override' => 0,
+    'exposed_form' => FALSE,
+  ));
+  $handler->override_option('argument_input', array(
+    'field_library_ref_nid' => array(
+      'type' => 'context',
+      'context' => 'node.nid',
+      'context_optional' => 1,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Content: Bibliotek (field_library_ref)',
+    ),
+  ));
+  $handler->override_option('link_to_view', 0);
+  $handler->override_option('inherit_panels_path', 0);
+  $handler = $view->new_display('feed', 'Frontpage feed', 'feed_1');
+  $handler->override_option('title', 'Arrangementer feed');
+  $handler->override_option('style_plugin', 'rss');
+  $handler->override_option('style_options', array(
+    'mission_description' => FALSE,
+    'description' => '',
+  ));
+  $handler->override_option('row_plugin', 'node_rss');
+  $handler->override_option('row_options', array());
+  $handler->override_option('path', 'arrangementer/feed');
+  $handler->override_option('menu', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+    'name' => 'navigation',
+  ));
+  $handler->override_option('tab_options', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+  ));
+  $handler->override_option('displays', array(
+    'panel_pane_1' => 'panel_pane_1',
+    'panel_pane_2' => 'panel_pane_2',
+    'default' => 0,
+  ));
+  $handler->override_option('sitename_title', 0);
 
   $views[$view->name] = $view;
   return $views;

@@ -38,25 +38,6 @@
 	.node-teaser-library .office-hours-week  .week-info a.prev{width:15px; height:20px;}
 	.node-teaser-library .office-hours-week  .week-info a.next{width:15px; height:20px}
 
-/*
-	.node-teaser-library .office-hours-week  .week-info .pil {text-indent: -9999em; margin:0 0 0 0}
-	.node-teaser-library .office-hours-week  .week-info a.prev{background:transparent url(../images/pil.png) no-repeat left top; display: block; width:15px; height:20px;}
-	.node-teaser-library .office-hours-week  .week-info a.next{background:transparent url(../images/pil.png) no-repeat left top; display: block; width:15px; height:20px}
-*/
-
-
-
-/* ==========================================================================
-	main library page (http://biblo.local/biblioteker/FOO)
-/*----------------------------------------------------------------------------*/
-/*article lists*/
-/*.panel-left .view-article-list li{background:transparent url(../images/bg-divider-small.png) no-repeat left top; padding:10px 20px 10px 20px; margin:0;}
-	.panel-left .view-article-list li.first{background:none; padding:0 20px ;}
-	.panel-left .view-article-list li li{background:none; padding:0px 10px 0px 0px; margin:0;}
-*/
-
-
-
 
 /*calender pane*/
 .pane-event_list .panel-pane{margin:0 5px;}
@@ -169,7 +150,7 @@ ul.menu li.expanded ul.menu li.expanded a{display:block}
 .view-event-list .libary-tag div{display:inline;margin:0 5px 0 0;}
 .view-event-list li{background:transparent url(../images/bg-divider.png) no-repeat left top;  clear:both; padding:10px 0 10px 20px;}
 .view-event-list li.first{background:none;}
-.view-event-list span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px;}
+.view-event-list span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px; font-weight:normal;}
 
 .pane-library_feature_detail_list, 
 .page-taxonomy 
@@ -208,6 +189,7 @@ div.comment {width: auto; margin:0 0 10px 0; padding:5px 5px 5px 0;}
 	#comment-form .form-textarea{width:650px;}
 	#comment-form .form-buttons{text-align:right;}
 		#comment-form .form-button{display:inline;}
+		
 /*blog comments*/
 ul.item-list h3{margin:0 0 0 20px;}
 /*ul.item-list li{margin:0 0 0 20px;}*/
@@ -226,6 +208,17 @@ ul.item-list h3{margin:0 0 0 20px;}
 
 
 /*filters*/
-.view-filters{}
-.views-exposed-form .views-exposed-widget{float:right;}
+.view-event-list .view-filters{float:right;}
+#content-main .view-filters form{margin:0;}
+.views-exposed-form .views-exposed-widget{float:left;}
+.views-exposed-form .views-exposed-widget .form-submit,
+.views-exposed-form .views-exposed-widget .form-button,
+#content form .views-exposed-form .form-item 
+{
+margin:0; padding:0;
+}
+.views-exposed-form  label{display:none;}
 .view-empty{margin:0 0 0 20px;}
+
+body.ding-faciliteter .panel-pane h2{margin:0 0 0 20px;}
+

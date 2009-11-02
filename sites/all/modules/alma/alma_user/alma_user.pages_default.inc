@@ -135,7 +135,9 @@ function alma_user_default_page_manager_pages() {
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'style' => 'ding_box',
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
@@ -154,7 +156,9 @@ function alma_user_default_page_manager_pages() {
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'style' => 'ding_box',
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 1;
