@@ -57,6 +57,15 @@ var gConvert=true;
 if ((typeof(gConvert)!="undefined")&&gConvert&&(document.cookie.indexOf(gFpc+"=")==-1)&&(document.cookie.indexOf("WTLOPTOUT=")==-1)){
   document.write("<SCR"+"IPT TYPE='text/javascript' SRC='"+"http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+"/"+gDcsId+"/wtid.js"+"'><\/SCR"+"IPT>");
 }
+
+// Callback for WebTrends analytics tool.
+function dcsAdSearch() {
+  if (typeof Drupal.settings.tingSearch != 'undefined') {
+    WT.oss = encodeURIComponent(Drupal.settings.tingSearch.keys);
+    // The result count is unknown when the page is loaded, so we just say 1.
+    WT.oss_r = 1;
+  }
+}
 EOT;
 
     file_check_directory($js_path, FILE_CREATE_DIRECTORY);
