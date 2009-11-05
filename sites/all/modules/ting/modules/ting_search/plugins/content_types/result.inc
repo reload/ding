@@ -40,12 +40,11 @@ function ting_search_result_content_type_render($subtype, $conf, $panel_args, $c
     ting_search_add_js();
 
     drupal_add_js(array('tingSearch' => array(
-      'result' => array(),
       'keys' => $keys,
       'ting_url' => url('ting/search/js'),
       'content_url' => url('ting/search/content/js'),
       'result_template' => theme('ting_result')
-    )), 'setting', 'footer');
+    )), 'setting', 'header');
     $block->content = theme('ting_search_result_page', $keys);
   }
   return $block;
