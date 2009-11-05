@@ -109,33 +109,6 @@ a.alternative:link, a.alternative:visited { color: #000; }
   color: #999;
 }
 
-/* Description for the search field */
-
-#ting-search-form div.example {
-  display: block;
-  clear: left;
-  color: #eccdd3;
-  font-size: 0.7em;
-}
-
-#ting-search-form div.example p {
-  float: left;
-  font-size: 100%;
-}
-
-#ting-search-form div.example li {
-  float: left;
-  margin-left: 0.5em;
-}
-
-#ting-search-form div.example li a {
-  color: #eccdd3;
-}
-
-#ting-search-form div.example li a:hover {
-  color: white;
-}
-
 /** kasperg: More compact tab titles **/
 #ting-search-tabs li { padding: 0; }
 

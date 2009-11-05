@@ -161,7 +161,6 @@ function dynamo_comment_form($form){
 }
 
 
-
 /**
  * office hours
  */
@@ -186,6 +185,7 @@ function dynamo_office_hours_format_day($name, $values, $day_number) {
 * panels
 */
 function dynamo_panels_pane($content, $pane, $display) {
+
   if (!empty($content->content)) {
     $idstr = $classstr = '';
     if (!empty($content->css_id)) {
@@ -196,8 +196,26 @@ function dynamo_panels_pane($content, $pane, $display) {
     } 
     //  $output = "<div class=\"panel-pane $classstr\"$idstr>\n";
     $output = "<div class=\"panel-pane pane-$pane->subtype $classstr \"$idstr>\n";
+
+
+
     if (!empty($content->title)) {
-      $output .= "<h3>$content->title</h3>\n";
+      if(
+        $pane->subtype == "event_list-panel_pane_1"  OR
+        $pane->subtype == "recommendation_list"
+      ){
+        $output .= "<h1>$content->title</h1>\n";        
+      }elseif( 
+        $pane->subtype == "topic_list" OR 
+        $pane->subtype == "node_content" OR 
+        $pane->subtype == "event_list" OR 
+        $pane->subtype == "library_feature_detail_list"
+        ){
+        $output .= "<h2>$content->title</h2>\n";
+      }else{
+        $output .= "<h3>$content->title</h3>\n";        
+      }
+
     }
 
     if (!empty($content->feeds)) {

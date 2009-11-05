@@ -49,5 +49,4 @@ ie stylesheets[if lt IE 7][all][] = style/ie6.css
 ;--------------------- scripts ----------------------------
 scripts[] = script/jquery.infieldlabel.min.js
 scripts[] = script/jquery.jcarousel.js
-scripts[] = script/jquery.dpassword.mini.js
 scripts[] = script.js

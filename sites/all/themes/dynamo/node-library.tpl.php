@@ -25,13 +25,11 @@ if($id_node){
     </div>
 
     <div class="vcard">
-
-      <h3 class="fn org"><?php print l($node->title, 'node/'.$node->nid); ?></h3>
+      <h2 class="fn org"><?php print l($node->title, 'node/'.$node->nid); ?></h2>
       <div class="adr">
         <div class="street-address"><?php print $node->location['street']; ?></div>
         <span class="postal-code"><?php print $node->location['postal_code']; ?></span>
         <span class="locality"><?php print $node->location['city']; ?></span>
-
       </div>
 
       <div class="link-card">
@@ -54,7 +52,6 @@ if($id_node){
       </div>
     </div>
 
-
   </div>
   
   <?php print $node->field_opening_hours['0']['view'];?>
@@ -63,7 +60,7 @@ if($id_node){
 <?php }else{ 
 //Content
 ?>
-<div class="<?php print $classes ?>">
+<div<?php print $id_node . $classes; ?>>
 
 	<h1><?php print $title;?></h1>
 		

@@ -30,16 +30,21 @@ function ting_search_result_content_type_render($subtype, $conf, $panel_args, $c
 
   $keys = trim($context->data);
   if (strlen($keys) > 0) {
+    // Add links to feeds.
+    drupal_set_html_head(
+      theme('atom_feed_link', t('Search feed for “@keys”', array('@keys' => $keys)), url('ting/search/feed/' . $keys)) .
+      theme('atom_feed_link', t('Content search feed for “@keys”', array('@keys' => $keys)), url('ting/search/content/feed/' . $keys))
+    );
+
     // Loads the JavaScript files.
     ting_search_add_js();
 
     drupal_add_js(array('tingSearch' => array(
-      'result' => array(),
       'keys' => $keys,
       'ting_url' => url('ting/search/js'),
       'content_url' => url('ting/search/content/js'),
       'result_template' => theme('ting_result')
-    )), 'setting', 'footer');
+    )), 'setting', 'header');
     $block->content = theme('ting_search_result_page', $keys);
   }
   return $block;

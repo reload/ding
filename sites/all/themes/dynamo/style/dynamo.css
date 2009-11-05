@@ -37,11 +37,16 @@ form div.description{font-size:10px; line-height:12px; color:#999; padding:5px; 
 /* =====================================
 ting search block
 /*--------------------------------------*/
-#ting-search-form{padding:53px 0 0 0; background:transparent url(../images/search.png) no-repeat 0 0;}
+#ting-search-form{padding:55px 0 0 0; background:transparent url(../images/search.png) no-repeat 0 0;}
 	#ting-search-form .form-text{height:20px; width:468px; margin:0 10px 0 0; padding:4px 0 0 25px; color:#929292; background:#fff url(../images/magnifier.png) no-repeat 9px 5px; border: 1px solid #999; font-size:13px; float:left;}
-		#ting-search-form label{margin:3px 0 0 30px; font-size:13px; font-weight:normal;} 
-		#ting-search-form  .form-image-button{float:left; display:block; height:29px; width:94px; }
-		#edit-keys-wrapper{}
+	#ting-search-form label{margin:3px 0 0 30px; font-size:13px; font-weight:normal;} 
+	#ting-search-form #edit-keys-wrapper{margin:0;}
+	#ting-search-form .form-image-button{float:left; display:block; height:29px; width:94px; }
+  #ting-search-form div.example {display: block; color: #eccdd3; font-size:10px; color:#eccdd3;}
+  #ting-search-form div.example p {float: left;}
+  #ting-search-form div.example li {float: left;  margin-left: 0.5em;}
+  #ting-search-form div.example li a {color: #eccdd3;}
+  #ting-search-form div.example li a:hover {color: #fff;}
 
 
 /* =====================================
@@ -52,19 +57,18 @@ Account block
 	#user-login-form{margin:20px 0 0 0; padding:24px 0 0 0;background:transparent url(../images/logind.png) no-repeat 0 0;}
 	#user-login-form .form-item-password{margin:0 0 3px 0;}
 	#user-login-form .form-text{height:16px; padding:1px 0 0 5px; margin:0; background-color: #fff; border-top: 1px solid #ddd; border-left: 1px solid #ddd; }
-		#user-login-form label{margin:1px 0 0 5px;}
+	#user-login-form label{margin:1px 0 0 5px;}
 
 	#edit-name-wrapper{width:215px;}
-		#edit-name-wrapper input{width:215px;}
+	  #edit-name-wrapper input{width:215px;}
 	#edit-pass-wrapper{width:155px; float:left;}
 		#edit-pass-wrapper input{width:155px;}
 	#edit-remember-me-wrapper{width:155px; float:left;}
 		#edit-remember-me-wrapper label{color:#fff; margin:0;}
 	#user-login-form .form-image-button{width:60px;height:20px; padding:0; margin:0px 0 0 8px; display:block; float:left;overflow:hidden; background:transparent url(../images/accountlogin.png) no-repeat right center;}
 
-
 	#user-login-form ul{clear:both;}
-		#user-login-form ul li{float:left; margin:0 10px 0 0;}
+	#user-login-form ul li{float:left; margin:0 10px 0 0;}
 
 /*user logged in*/
 #account-profile{width:251px;margin:5px 0 0 0; font-size:10px;}
@@ -174,8 +178,6 @@ Campaigns
 				.campaign-theme-blue{background:#006c8a;}
 
 .campaign-image{margin:10px; width:220px; overflow:hidden;}
-
-
 
 /**/
 

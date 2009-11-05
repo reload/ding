@@ -19,20 +19,9 @@ function webtrends_menu() {
   return $items;
 }
 
-function webtrends_include1_js() {
-  $domain = variable_get('webtrends_domain', FALSE);
-  $dcs_id = variable_get('webtrends_dcs_id', FALSE);
-
-  if (!$domain || !$dcs_id) {
-    return;
-  }
-
-  drupal_header('Content-Type: application/javascript');
-  drupal_header('Cache-Control: public');
-
-  return $output;
-}
-
+/**
+ * Implementation of hook_footer().
+ */
 function webtrends_footer() {
   $domain = variable_get('webtrends_domain', FALSE);
   $dcs_id = variable_get('webtrends_dcs_id', FALSE);
@@ -67,6 +56,15 @@ var gFpc="WT_FPC";
 var gConvert=true;
 if ((typeof(gConvert)!="undefined")&&gConvert&&(document.cookie.indexOf(gFpc+"=")==-1)&&(document.cookie.indexOf("WTLOPTOUT=")==-1)){
   document.write("<SCR"+"IPT TYPE='text/javascript' SRC='"+"http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+"/"+gDcsId+"/wtid.js"+"'><\/SCR"+"IPT>");
+}
+
+// Callback for WebTrends analytics tool.
+function dcsAdSearch() {
+  if (typeof Drupal.settings.tingSearch != 'undefined') {
+    WT.oss = encodeURIComponent(Drupal.settings.tingSearch.keys);
+    // The result count is unknown when the page is loaded, so we just say 1.
+    WT.oss_r = 1;
+  }
 }
 EOT;
 
