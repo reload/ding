@@ -21,7 +21,8 @@
 #library-info .opening-hours { background:  url(../img/opening-hours-background.png) no-repeat top left; margin: 8px 0 0 -7px; padding: 6px 0 0 7px; }
 #library-info .opening-hours dt,
 #library-info .opening-hours dd { margin: 0; padding: 0; }
-#library-info .opening-hours dt,
-#library-info .opening-hours dd { width: 50%; }
+#library-info .opening-hours dt { width: 40%; }
+#library-info .opening-hours dd { width: 60%; }
 #library-info .opening-hours dt { float: left; }
-#library-info .opening-hours dd { margin-left: 50%; }
+#library-info .opening-hours dd { margin-left: 40%; }
+*:first-child+html #library-info .opening-hours dd { margin-left: 20%; } /* IE7 margin fix */
