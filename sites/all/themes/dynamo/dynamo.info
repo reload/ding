@@ -44,8 +44,8 @@ stylesheets[all][]  = style/developer.css
 ;stylesheets[print][]  = style/print.css 
 
 ;------------------ conditional styles---------------------
-ie stylesheets[if lt IE 7][all][] = style/ie6.css
-
+ie stylesheets[if IE 7][all][] = style/ie7.css
+ie stylesheets[if IE 6][all][] = style/ie6.css
 ;--------------------- scripts ----------------------------
 scripts[] = script/jquery.infieldlabel.min.js
 scripts[] = script/jquery.jcarousel.js

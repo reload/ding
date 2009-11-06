@@ -38,13 +38,14 @@
 	.node-teaser-library .office-hours-week  .week-info a.prev{width:15px; height:20px;}
 	.node-teaser-library .office-hours-week  .week-info a.next{width:15px; height:20px}
 
-
 /*calender pane*/
 .pane-event_list-panel_pane_2 .panel-pane{margin:0 5px;}
-  .pane-event_list-panel_pane_2 h3{background:#d1d9d7; padding:3px 10px; margin:5px 10px 0 10px;}
-  .pane-event_list-panel_pane_2 {margin:10px 0 0 0;}
+  .pane-event_list-panel_pane_2 {margin:0px 0 0 0;}
+  .pane-event_list-panel_pane_2 h3{background:#d1d9d7; padding:0px 10px; margin:0px 10px 0 10px; font-size:11 px; text-transform: uppercase;  }
+
   .pane-event_list-panel_pane_2 .view-header{background:#d1d9d7; padding:3px 10px; margin:0 10px 0 14px;}
   .pane-event_list-panel_pane_2 li {padding:8px 0 6px 17px; background:transparent url(../images/bg-divider-verysmall.png) no-repeat left top;  clear:both;} 
+  .pane-event_list-panel_pane_2 li.first{background:none;}
   .pane-event_list-panel_pane_2 li .calendar-leafs .leaf{height:65px; width:55px; float:left; padding:2px 0 0 0; background:transparent url(../images/bg-calender.png) no-repeat 0 0; overflow:hidden;}
   .pane-event_list-panel_pane_2 li .calendar-leafs .leaf.today{background:transparent url(../images/bg-calender.png) no-repeat 0 -64px; ;}
   .pane-event_list-panel_pane_2 li .calendar-leafs .info{ width:150px; float:left; overflow:hidden;padding:0 0 0 4px}
@@ -57,7 +58,6 @@
   .pane-event_list-panel_pane_2 li div a{color:#666;}
   .pane-event_list-panel_pane_2 .view-event-list li div h4 a{color:#050505;line-height:13px;}
   .pane-event_list-panel_pane_2 .view-event-list li div h4{line-height:8px;}
-
   .pane-event_list-panel_pane_2 .more-link{padding:0 30px 0 0;}
 
 /*features pane*/
@@ -134,10 +134,10 @@ ul.menu li.leaf { padding:0 0 0 0; font-size:10px; list-style: none outside; mar
 ul.menu li.leaf a.active, ul.menu li.active-trail a{font-weight:bold; color:#006A87}
 ul.menu li.leaf a{font-weight:normal;}
 ul.menu li.collapsed{padding:0;}
-	ul.menu li.collapsed a{background:transparent url(../images/bullet_toggle_plus.png) no-repeat left 0px; padding:0 0 0 15px;}
+	ul.menu li.collapsed a{background:transparent url(../images/bullet_toggle_plus.gif) no-repeat left 0px; padding:0 0 0 15px;}
 
 ul.menu li.expanded{list-style: none inside}
-	ul.menu li.expanded a{background:transparent url(../images/bullet_toggle_minus.png) no-repeat left 0px; padding:0 0 0 15px;}
+	ul.menu li.expanded a{background:transparent url(../images/bullet_toggle_minus.gif) no-repeat left 0px; padding:0 0 0 15px;}
 
 ul.menu li.leaf a{background:none; padding:0;}
 
@@ -154,10 +154,10 @@ ul.menu li.expanded ul.menu li.expanded a{display:block}
 
 
 /*events*/
-.view-event-list .libary-tag div{display:inline;margin:0 5px 0 0;}
-.view-event-list li{background:transparent url(../images/bg-divider.png) no-repeat left top;  clear:both; padding:10px 0 10px 20px;}
-.view-event-list li.first{background:none;}
-.view-event-list span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px; font-weight:normal;}
+.pane-event_list-panel_pane_1 .view-event-list .libary-tag div{display:inline;margin:0 5px 0 0;}
+.pane-event_list-panel_pane_1 .view-event-list li{background:transparent url(../images/bg-divider.png) no-repeat left top;  clear:both; padding:10px 0 10px 20px;}
+.pane-event_list-panel_pane_1 .view-event-list li.first{background:none;}
+.pane-event_list-panel_pane_1 .view-event-list span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px; font-weight:normal;}
 
 .pane-library_feature_detail_list, 
 .page-taxonomy 

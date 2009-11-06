@@ -33,26 +33,43 @@ a img {border:none;}
 /* =======================================
  * Drupal6 overwrites
 * ------------------------------------- */
+
+/*
+ list
+------------------------------------- */
 ul, ul li, .item-list ul li{list-style: none; margin:0; padding:0;}
 ul, .item-list ul{margin:0; padding:0;}
+li{list-style: none}
 
-li.leaf{list-style: none}
+li.leaf,
+li.expanded,
+li.collapsed
+{
+  list-style: none outside none;
+}
 
 .block ul{padding:0;}
 .node ol {margin: 0 0 0 5px; }
 .node ul {margin: 0 0 10px 10px;}
 .node ul li {list-style: square inside}
 
-
-
 .breadcrumb {margin:0;}
 ul.breadcrumb li{display:inline; margin:0 0 0 10px;}
 
 
-/* =====================================
-	Style: drupal
-	drupal overwrites to add some sanity  
-* ------------------------------------- */
+/* 
+ tables
+------------------------------------- */
+tr.even, tr.odd {background-color:transparent; border-bottom:0px solid #CCCCCC; padding:0;}
+tbody {border-top: 0px solid #ccc;}
+tbody th {border-bottom: 0px solid #ccc;}
+thead th {border-bottom: 0px solid #ccc;  padding: 0;}
+td.active{background:transparent;}
+
+
+/* 
+drupal overwrites to add some sanity  
+------------------------------------- */
 /*messages*/
 div.messages{font-size:12px; line-height:18px; padding:10px; margin:10px; color:#036; background:#bdf; border:1px solid #ace;}
 div.warning{color:#840; background:#fe6;border-color:#ed5;}
@@ -66,8 +83,8 @@ div.messages a:hover,div.messages  a:focus {}
 .tabs ul li a{background-color: #ddd; color:#999; }
 .tabs ul li.active a{background-color: #fff; color:#000;}
 
+
 /*blocks edit*/
-/*TODO get this stuff outta the theme if ADMIN module can fix it ;)*/
 div.block.with-block-editing{position: relative;}
 div.block.with-block-editing div.edit{background-color: #eee; border: 1px solid #ddd; display: none; position: absolute; right: 0; top: 0; z-index: 40; padding: 0 2px; font-size: 9px;}
 div.block.with-block-editing:hover div.edit{display: block; background: #ccc;}
@@ -101,17 +118,3 @@ body.page-admin .block-region{background-color:#606; text-align:center; color:#f
 .draggable a:link, .draggable a:visited {color:#900; margin:0 10px;}
 .draggable a:hover{color: #900;}
 
-/* =====================================
-Views
-* ------------------------------------- */
-div.view div.views-admin-links{ background:#fff;}
-div.view div.views-admin-links ul li{float:left; margin:0 10px 0 0;}
-
-/* =====================================
-tables
-* ------------------------------------- */
-tr.even, tr.odd {background-color:transparent; border-bottom:0px solid #CCCCCC; padding:0;}
-tbody {border-top: 0px solid #ccc;}
-tbody th {border-bottom: 0px solid #ccc;}
-thead th {border-bottom: 0px solid #ccc;  padding: 0;}
-td.active{background:transparent;}

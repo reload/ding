@@ -1,13 +1,16 @@
 /*ie6 stuff*/
-#site-name a {}
-.campaign-theme-red{background:#900;}
-.campaign-theme-green{background:#090;}
-.campaign-theme-blue{background:#009;}
-
 #user-login-form .form-image-button{padding:0; margin:1px 0 0 0px}
 #edit-pass-wrapper input{width:155px;}
-
 #ting-search-form div.example{clear:none;}
+
+#pagebody {background:transparent url(../images/bg-page_ie6.gif) repeat-y scroll top center;}
+
+body.node-type-page .panel-left {margin:0 0 0 10px; }
+ul.menu li.leaf {margin :0 0 0 35px;}
+.panel-left ul.menu li ul li.first{padding:0 0 0 0;margin:0 0 0 35px; }
+
+
+
 /* ___________ IE6 IFRAME FIX ________ */
 .ui-datepicker-cover {
   display: none; /*sorry for IE5*/
