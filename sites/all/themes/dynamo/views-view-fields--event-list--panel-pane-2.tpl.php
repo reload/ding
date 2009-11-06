@@ -1,4 +1,4 @@
-<!-- views-view-fields  event-list  BLOCK.tpl.php-->
+<!-- views-view-fields panel-pane -->
 <?php 
   //converts the date value to time
   $date = strtotime($fields['field_datetime_value']->raw . 'Z');

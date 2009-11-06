@@ -15,6 +15,17 @@
 
 /*--------------------------------------*/
 
+
+tr.odd{background:#efefef;}
+tr.odd td{padding:5px;}
+tr.odd a{}
+tr.even{}
+tr.even td{padding:5px;}
+tr.even a{}
+
+
+
+
 /*forms and labels*/
 form{clear: both;}
 form div{position:relative }
@@ -180,20 +191,12 @@ Campaigns
 .campaign-image{margin:10px; width:220px; overflow:hidden;}
 
 /**/
-
-
 .view-user-comments-list .subject a,.view-user-comments-list .subject a:link,.view-user-comments-list .subject a:visited, .view-user-comments-list .subject a:active{background:none; color:#006a87; text-transform: none; font-size:10px;}
-
-
-
 
 /* =====================================
 basic elements
 /*--------------------------------------*/
-
 .content{margin:0 5px 0 0;}
-
-
 
 /* =====================================
 buttons
@@ -202,7 +205,6 @@ buttons
 	.button:hover{background: transparent url(../images/sprite-knapper-reservering.png) no-repeat right -120px}
 	.button a{font-size:10px; color:#fff; height:25px; margin:0 0 0 0; padding:5px 0 0 10px; display:block; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat left -60px;}
 	.button a:hover, .button-orange a:focus{text-decoration: none; color:#eee; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat left -180px;}
-
 
 .button-orange{background-position:right 0px}
 	.button-orange:hover{background-position:right -120px}
@@ -264,6 +266,11 @@ drupal Messages
 		color:#fff;
 		}
 	#messages-hide a:hover{background:#777 url(../images/status-error.png) no-repeat 5px 3px; }
+
+/* frontpage
+--------------------------------------*/
+.ting-search-carousel .search-controller li.active a {color:#fff;}
+.ting-search-carousel .subtitle {font-size:47px;padding:10px 0 10px 40px;}
 
 /* =====================================
 Cowboy small trix not "really" implementet yet
