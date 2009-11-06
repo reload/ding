@@ -24,8 +24,6 @@ tr.even td{padding:5px;}
 tr.even a{}
 
 
-
-
 /*forms and labels*/
 form{clear: both;}
 form div{position:relative }
@@ -273,6 +271,8 @@ drupal Messages
 .ting-search-carousel .search-controller li.active a {color:#fff;}
 .ting-search-carousel .subtitle {font-size:47px;padding:10px 0 10px 40px;}
 
+
+.panel-pane .view .feed-icon{margin:0 0 0 10px;}
 /* =====================================
 Cowboy small trix not "really" implementet yet
 /*--------------------------------------*/

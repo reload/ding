@@ -152,7 +152,8 @@ all content based on search results are in the search.css
 /*frontpage*/
 .panel-threecol-33-34-33-stacked .panel-top{width:960px; clear:both; height:240px; padding:0;}
 .panel-threecol-33-34-33-stacked .panel-content{clear:both}
-	.panel-threecol-33-34-33-stacked .panel-left{width:470px;float:left; min-height:300px; background:transparent url(../images/bg-divider-horizontalt.png) repeat-y right top; }
+	.panel-threecol-33-34-33-stacked .panel-left{width:470px;float:left; min-height:300px; background:transparent url(../images/bg-divider-horizontalt.png) repeat-y right top; 
+	border-right: 1px solid #eee;}
 	.panel-threecol-33-34-33-stacked .panel-middle {width:240px; float:left; background:transparent url(../images/bg-divider-horizontalt.png) repeat-y right top;}
 	.panel-threecol-33-34-33-stacked .panel-right{width:247px; margin:0 0 0 3px; float:left;}
 	.panel-threecol-33-34-33-stacked .panel-bottom{width:960px; clear:both;}
@@ -165,7 +166,7 @@ all content based on search results are in the search.css
 .panel-twocol-left-stacked .content-right{width:244px; float:left; overflow:hidden;}
 
 /*panel-threecol-left-stacked*/
-.panel-threecol-left-stacked .panel-left{width:470px; float:left; background: transparent url(../images/bg-divider-horizontalt.png) no-repeat right top;}
+.panel-threecol-left-stacked .panel-left{width:470px; float:left; background: transparent url(../images/bg-divider-horizontalt.png) repeat-y right top;}
 .panel-threecol-left-stacked .panel-middle{width:240px; float:left;}
 .panel-threecol-left-stacked .content-top{padding:0 0 30px 20px;}
 
