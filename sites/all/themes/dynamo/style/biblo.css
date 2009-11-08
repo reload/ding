@@ -41,7 +41,7 @@
 /*calender pane*/
 .pane-event_list-panel_pane_2 .panel-pane{margin:0 5px;}
   .pane-event_list-panel_pane_2 {margin:0px 0 0 0;}
-  .pane-event_list-panel_pane_2 h3{background:#d1d9d7; padding:0px 10px; margin:0px 10px 0 10px; font-size:11 px; text-transform: uppercase;  }
+  .pane-event_list-panel_pane_2 h3{background:#d1d9d7; padding:0px 10px; margin:0px 10px 0 10px; font-size:12px; text-transform: uppercase;  }
 
   .pane-event_list-panel_pane_2 .view-header{background:#d1d9d7; padding:3px 10px; margin:0 10px 0 14px;}
   .pane-event_list-panel_pane_2 li {padding:8px 0 6px 17px; background:transparent url(../images/bg-divider-verysmall.png) no-repeat left top;  clear:both;} 
