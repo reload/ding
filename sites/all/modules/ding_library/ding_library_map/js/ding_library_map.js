@@ -42,9 +42,9 @@ Drupal.dingLibraryMap = function(mapId, options)
 				info.hideInfo();
 			});
 			hideEvents = ['widthchange', 'heightchange', 'zoom', 'move'];
-			for (event in hideEvents)
+			for (e in hideEvents)
 			{
-				this.getMap().bind(event, function()
+				this.getMap().bind(e, function()
 				{
 					info.hideInfo();				
 				});			
