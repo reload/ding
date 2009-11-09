@@ -19,7 +19,7 @@ jQuery(function($) {$(function(){
 
   // Configure our tabs
   $("#ting-search-tabs")
-    .tabs()
+    .tabs( { select: Drupal.tingSearch.selectTab } )
     // Disable the website tab until we have some results.
     .tabs("disable", 1);
 
@@ -155,4 +155,20 @@ Drupal.tingSearch.updateSummary = function (element, result) {
   element.find('.count').text(result.count);
   element.find('.firstResult').text((result.page - 1) * result.resultsPerPage + 1);
   element.find('.lastResult').text(Math.min(result.count, result.page * result.resultsPerPage));
+}
+
+Drupal.tingSearch.selectTab = function (event, ui) {
+	window.location.href = $(ui.tab).attr('href');
+	
+	if (window.location.href.lastIndexOf('#ting-result') > -1)
+	{
+		//facet browser elements do not have dimensions before their tab is shown
+		//so wait bit before updating them  
+		window.setTimeout(function() {
+			Drupal.resetFacetBrowser('#ting-facet-browser');
+			Drupal.bindResizeEvent('#ting-facet-browser');
+			Drupal.bindSelectEvent("#ting-facet-browser", "#ting-search-result");
+			Drupal.resizeFacets('#ting-facet-browser');			
+		}, 250);
+	}
 }

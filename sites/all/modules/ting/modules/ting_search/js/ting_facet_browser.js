@@ -95,6 +95,20 @@ Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, res
 		this.resizeFacets(element);
 	}
 	
+	this.resetFacetBrowser = function(element)
+	{
+		element = jQuery(element);
+
+		var width = 0;
+		element.find('.jcarousel-item').each(function() {
+			width = width + $(this).width();
+		});
+		element.find('.jcarousel-list').width(width);
+		
+		resize = element.find('.resize');
+		(element.height() < Drupal.getFacetHeight(element)) ? resize.addClass('expand') : resize.addClass('contract');
+	}	
+	
 	this.resizeFacets = function(element)
 	{
 		setTimeout(function() { 
