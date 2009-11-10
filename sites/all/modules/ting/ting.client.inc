@@ -393,6 +393,11 @@ function ting_add_agency(TingClientAgentRequest $request)
 function ting_remove_supporting_types(TingClientSearchRequest $request)
 {
 	$supportingTypes = array('materialevurdering*', 'anmeldelse');
+	foreach ($supportingTypes as &$type)
+	{
+		$type = 'facet.type='.$type;
+	}
+	
 	$request->setQuery($request->getQuery().' NOT ('.implode(' OR ', $supportingTypes).')');
 	return $request;
 }
