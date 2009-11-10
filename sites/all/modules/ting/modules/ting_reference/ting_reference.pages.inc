@@ -57,14 +57,15 @@ function ting_reference_object_autocomplete_js() {
 	exit;
 }
 
-function ting_reference_autocomplete_format_items($items)
-{
-	$return = array();
-	foreach ($items as $id => $value)
-	{
-		$return[] = $value.'|'.$id;		
-	}
-	return implode("\n", $return);
+function ting_reference_autocomplete_format_items($items) {
+  $return = array();
+  foreach ($items as $id => $value) {
+    // jQuery Autocomplete uses pipe (0+007C) and does not provide a way to
+    // escape this character, so replace it with similar-looking character
+    // (U+00A6).
+    $return[] = str_replace('|', '¦', $value).'|'.$id;
+  }
+  return implode("\n", $return);
 }
 
 function ting_reference_collection_js() {
