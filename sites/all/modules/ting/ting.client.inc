@@ -180,7 +180,7 @@ function ting_execute($request)
 	try {
   	return ting_get_client()->execute($request);
 	} catch (TingClientException $e) {
-	  watchdog('ting client', 'Error performing request: '.$e->getMessage(), $request, WATCHDOG_ERROR, 'http://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
+	  watchdog('ting client', 'Error performing request: '.$e->getMessage(), var_export($request, true), WATCHDOG_ERROR, 'http://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
 		return false;
 	}
 }
@@ -393,6 +393,11 @@ function ting_add_agency(TingClientAgentRequest $request)
 function ting_remove_supporting_types(TingClientSearchRequest $request)
 {
 	$supportingTypes = array('materialevurdering*', 'anmeldelse');
+	foreach ($supportingTypes as &$type)
+	{
+		$type = 'facet.type='.$type;
+	}
+	
 	$request->setQuery($request->getQuery().' NOT ('.implode(' OR ', $supportingTypes).')');
 	return $request;
 }
