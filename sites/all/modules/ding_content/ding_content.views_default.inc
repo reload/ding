@@ -6,7 +6,7 @@
  */
 function ding_content_views_default_views() {
   /**
-   * View 'article_list'
+   * View 'article_list'.
    */
   $view = new view;
   $view->name = 'article_list';
@@ -810,9 +810,10 @@ function ding_content_views_default_views() {
   $handler->override_option('sitename_title', 0);
 
   $views[$view->name] = $view;
+  // End of 'article_list'.
 
   /**
-   * View 'ding_content_admin'
+   * View 'ding_content_admin'.
    */
   $view = new view;
   $view->name = 'ding_content_admin';
@@ -1148,10 +1149,11 @@ function ding_content_views_default_views() {
   ));
   
   $views[$view->name] = $view;
+  // End of 'ding_content_admin'.
 
 
   /**
-   * View 'topic_list'
+   * View 'topic_list'.
    */
   $view = new view;
   $view->name = 'topic_list';
@@ -1488,10 +1490,11 @@ function ding_content_views_default_views() {
   $handler->override_option('style_plugin', 'list');
 
   $views[$view->name] = $view;
+  // End of 'topic_list'.
 
 
   /**
-   * View 'recommendation_list'
+   * View 'recommendation_list'.
    */
   $view = new view;
   $view->name = 'recommendation_list';
@@ -1791,7 +1794,17 @@ function ding_content_views_default_views() {
     'type' => 'ul',
   ));
 
+  // NOTE: This is not part of the export.
+  // The term id (tid) is not necessarily the same on all sites, but the
+  // vocabulary id (vid) is (at least, quite a bit is based on this assumption).
+  foreach (taxonomy_get_term_by_name('anmeldelse') as $term) {
+    if ($term->vid == 1) {
+      $handler->options['filters']['tid']['value'] = array($term->tid => $term->tid+1);
+    }
+  }
+
   $views[$view->name] = $view;
+  // End of 'recommendation_list'.
 
 
   return $views;
