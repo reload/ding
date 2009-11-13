@@ -114,15 +114,21 @@ Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, res
 		setTimeout(function() { 
 			jQuery('.facets:first li', element).each(function(i, e)
 			{
+				//Locate the height of the tallest element in the row
 				facets = jQuery('.facets li:nth-child('+(i+1)+')');
-				facets.removeAttr('height').css('line-height', '');
-				heights = facets.map(function(i, e) { jQuery(e).attr('height', jQuery(e).innerHeight()); return jQuery(e).height(); });
+				facets.css({ paddingTop: '', paddingBottom: '' });
+				heights = facets.map(function(i, e) { return jQuery(e).height(); });
 				var maxHeight = Math.max.apply(Math, jQuery.makeArray(heights));
+				
+				//Find smallers element in the row then add the difference as top and 
+				//bottom padding to center the content vertically
 				facets.each(function(i, e)
 				{
 					if (jQuery(e).height() < maxHeight)
 					{
-						jQuery(e).css('line-height', maxHeight+'px');
+						padding = ((maxHeight-jQuery(e).height())/2);
+						jQuery(e).css({ paddingTop: padding+'px',
+														paddingBottom: padding+'px' });
 					}
 				})
 			});
@@ -146,7 +152,8 @@ Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, res
 	this.bindResizeEvent = function(element)
 	{
 		var element = jQuery(element);
-		var baseHeight = element.height();
+		console.log(element.outerHeight());
+		var baseHeight = element.outerHeight();
 		var headerHeight = jQuery('H4', element).height();
 		var resizeButton = jQuery('.resize', element);
 		
@@ -166,7 +173,7 @@ Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, res
 			{
 				jQuery('.resize', element).toggleClass('expand').toggleClass('contract');
 			});
-			jQuery('.resize', element).animate({ 'top': (baseHeight-10)+'px' }, 1000, 'swing' );
+			jQuery('.resize', element).animate({ 'top': (baseHeight)+'px' }, 1000, 'swing' );
 			jQuery('.jcarousel-prev, .jcarousel-next', element).animate({ 'top': (baseHeight/2)+'px' }, 1000, 'swing');
 		});
 	}
