@@ -25,15 +25,15 @@
 ?>
 
 <?php if ($help OR $messages) { ?>
-	<div id="drupal-messages">
-		<div id="messages-hide">
-			<a href="#">hide</a>	
-		</div>
-			
- 	  <?php print $help ?>
- 	  <?php print $messages ?>
+  <div id="drupal-messages">
+    <div id="messages-hide">
+      <a href="#"><?php print t('hide'); ?></a>
+    </div>
 
-		</div>
+    <?php print $help ?>
+    <?php print $messages ?>
+
+    </div>
 <?php } ?>
 
 <div id="container" class="clearfix">
@@ -58,13 +58,13 @@
               </div>
 
               <div id="account" class="left">
-                <?php print $account; ?>	
+                <?php print $account; ?>
               </div>  
 
             </div>
 
-        		<div id="navigation">
-        			<div id="navigation-inner">
+            <div id="navigation">
+              <div id="navigation-inner">
                 <?php if ($primary_links){ ?>
                   <?php print theme('links', $primary_links); ?>
                 <?php } ?>
@@ -84,29 +84,29 @@
               </div>
             <?php } ?>
 
-          	<div id="content">
+            <div id="content">
               <div id="content-inner">
 
-								<?php
-									/*if were in the user pages add the tabs in the top*/
-									if (arg(0) == 'user' && is_numeric(arg(1)) && $tabs){
-										print '<div class="tabs-user">' . $tabs . '</div>';
-									}
-								?>
+                <?php
+                  /*if were in the user pages add the tabs in the top*/
+                  if (arg(0) == 'user' && is_numeric(arg(1)) && $tabs){
+                    print '<div class="tabs-user">' . $tabs . '</div>';
+                  }
+                ?>
 
-								<div id="content-main">
-									<?php print $content; ?>	
-								</div>
+                <div id="content-main">
+                  <?php print $content; ?>
+                </div>
                 
-								<?php
-									if (arg(0) != 'user'  && $tabs){
-										print '<div class="tabs">' . $tabs . '</div>';
-									}
-								?>
+                <?php
+                  if (arg(0) != 'user'  && $tabs){
+                    print '<div class="tabs">' . $tabs . '</div>';
+                  }
+                ?>
 
 
               </div>
-          	</div>
+            </div>
 
             <?php if ($right) { ?>
               <div id="content-right">
