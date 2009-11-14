@@ -47,7 +47,7 @@ function alma_user_forms_alma_authenticate($form_state, $account, $explanation=N
 
   $form['pin_code'] = array(
     '#type' => 'password',
-    '#title' => t('Code'),
+    '#title' => t('PIN code'),
     '#required' => TRUE,
   );
 
