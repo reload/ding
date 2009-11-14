@@ -331,7 +331,7 @@ function alma_user_forms_reservation_details_validate($form, &$form_state) {
 
     $timestamp = strtotime($form_state['values']['new_expiry']);
 
-    if ($timestamp <= $SERVER['REQUEST_TIME']) {
+    if ($timestamp <= $_SERVER['REQUEST_TIME']) {
       form_set_error('new_expiry', t('Date must be later than today.'));
     }
     else {
