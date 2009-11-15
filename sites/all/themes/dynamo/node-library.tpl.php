@@ -43,7 +43,7 @@ if($id_node){
         <span class="type"><?php print t('Fax'); ?>:</span> <span><?php print $node->location['fax']; ?></span>
       </div>
       <div class="email">
-        <span class="type"><?php print t('Fax'); ?>:</span> <span><?php print $node->field_email['0']['view']; ?></span>
+        <span class="type"><?php print t('E-mail'); ?>:</span> <span><?php print $node->field_email['0']['view']; ?></span>
       </div>
       <div class="geo">
       	<?php print t('Position'); ?>:

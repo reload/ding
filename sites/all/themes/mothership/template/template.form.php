@@ -66,39 +66,20 @@ function mothership_checkbox($element) {
   return theme('form_element', $element, $checkbox);
 }
 
-function mothership_fieldset($element) {
-
-  $element['#attributes']['class'] .= '' . $element['#array_parents']['0'];
-
-  if (!empty($element['#collapsible'])) {
-    drupal_add_js('misc/collapse.js');
-
-    if (!isset($element['#attributes']['class'])) {
-      $element['#attributes']['class'] = '';
-    }
-
-    $element['#attributes']['class'] .= ' collapsible';
-    if (!empty($element['#collapsed'])) {
-      $element['#attributes']['class'] .= ' collapsed';
-    }
-  }
-
-  return '<fieldset'. drupal_attributes($element['#attributes']) .'>'. ($element['#title'] ? '<legend>'. $element['#title'] .'</legend>' : '') . (isset($element['#description']) && $element['#description'] ? '<div class="description">'. $element['#description'] .'</div>' : '') . (!empty($element['#children']) ? $element['#children'] : '') . (isset($element['#value']) ? $element['#value'] : '') ."</fieldset>\n";
-}
 
 function mothership_button($element) {
   // Override theme_button ads spans around it so we can tweak the shit out it
   //http://teddy.fr/blog/beautify-your-drupal-forms
   // Make sure not to overwrite classes.
   if (isset($element['#attributes']['class'])) {
-    $element['#attributes']['class'] = 'form-'. $element['#button_type'] .' '. $element['#attributes']['class'];
+    $element['#attributes']['class'] = 'form-' . $element['#button_type'] .' '. $element['#attributes']['class'];
   }
   else {
-    $element['#attributes']['class'] = 'form-'. $element['#button_type'];
+    $element['#attributes']['class'] = 'form-' . $element['#button_type'];
   }
 
   // We here wrap the output with a div + span tag
-  return '<div class="form-button"><span><input type="submit" ' . (empty($element['#name']) ? '' : 'name="'. $element['#name'] .'" ')  . 'id="' . $element['#id'] . '" value="'. check_plain($element['#value']) .'" ' . drupal_attributes($element['#attributes']) ." /></span></div>\n";
+  return '<div class="form-button ' . $element['#id'] .'"><span><input type="submit" ' . (empty($element['#name']) ? '' : 'name="'. $element['#name'] .'" ')  . 'id="' . $element['#id'] . '" value="'. check_plain($element['#value']) .'" ' . drupal_attributes($element['#attributes']) ." /></span></div>\n";
 }
 
 function mothership_image_button($element) {
@@ -118,3 +99,4 @@ function mothership_image_button($element) {
     (!empty($element['#title']) ? 'alt="'. check_plain($element['#title']) .'" title="'. check_plain($element['#title']) .'" ' : '' ) .
     "/></div>\n";
 }
+
