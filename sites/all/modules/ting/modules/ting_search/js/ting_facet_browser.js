@@ -152,7 +152,6 @@ Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, res
 	this.bindResizeEvent = function(element)
 	{
 		var element = jQuery(element);
-		console.log(element.outerHeight());
 		var baseHeight = element.outerHeight();
 		var headerHeight = jQuery('H4', element).height();
 		var resizeButton = jQuery('.resize', element);
