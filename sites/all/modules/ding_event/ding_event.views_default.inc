@@ -326,12 +326,18 @@ function ding_event_views_default_views() {
       'field' => 'type',
       'relationship' => 'none',
     ),
-    'date_filter' => array(
+    'date_filter_1' => array(
       'operator' => '>=',
       'value' => array(
-        'value' => NULL,
-        'min' => NULL,
-        'max' => NULL,
+        'value' => array(
+          'date' => '',
+        ),
+        'min' => array(
+          'date' => '',
+        ),
+        'max' => array(
+          'date' => '',
+        ),
         'default_date' => 'now',
         'default_to_date' => '',
       ),
@@ -343,14 +349,15 @@ function ding_event_views_default_views() {
       ),
       'date_fields' => array(
         'node_data_field_datetime.field_datetime_value' => 'node_data_field_datetime.field_datetime_value',
+        'node_data_field_datetime.field_datetime_value2' => 'node_data_field_datetime.field_datetime_value2',
       ),
       'date_method' => 'OR',
       'granularity' => 'day',
-      'form_type' => 'date_select',
+      'form_type' => 'date_text',
       'default_date' => 'now',
       'default_to_date' => '',
       'year_range' => '-3:+3',
-      'id' => 'date_filter',
+      'id' => 'date_filter_1',
       'table' => 'node',
       'field' => 'date_filter',
       'relationship' => 'none',
@@ -783,9 +790,15 @@ function ding_event_views_default_views() {
     'date_filter' => array(
       'operator' => '>=',
       'value' => array(
-        'value' => NULL,
-        'min' => NULL,
-        'max' => NULL,
+        'value' => array(
+          'date' => '',
+        ),
+        'min' => array(
+          'date' => '',
+        ),
+        'max' => array(
+          'date' => '',
+        ),
         'default_date' => 'now',
         'default_to_date' => '',
       ),
@@ -797,10 +810,11 @@ function ding_event_views_default_views() {
       ),
       'date_fields' => array(
         'node_data_field_datetime.field_datetime_value' => 'node_data_field_datetime.field_datetime_value',
+        'node_data_field_datetime.field_datetime_value2' => 'node_data_field_datetime.field_datetime_value2',
       ),
       'date_method' => 'OR',
       'granularity' => 'day',
-      'form_type' => 'date_select',
+      'form_type' => 'date_text',
       'default_date' => 'now',
       'default_to_date' => '',
       'year_range' => '-3:+3',
@@ -808,7 +822,7 @@ function ding_event_views_default_views() {
       'table' => 'node',
       'field' => 'date_filter',
       'override' => array(
-        'button' => 'Brug standard',
+        'button' => 'Use default',
       ),
       'relationship' => 'none',
     ),

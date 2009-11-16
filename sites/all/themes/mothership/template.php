@@ -5,8 +5,6 @@
  * template includes + preprocess
  */
 
-
-
 // Auto-rebuild the theme registry during theme development.
 if (theme_get_setting('mothership_rebuild_registry')) {
   drupal_rebuild_theme_registry();
@@ -15,13 +13,13 @@ if (theme_get_setting('mothership_rebuild_registry')) {
 /**
  * include template overwrites
  */
-    include_once './' . drupal_get_path('theme', 'mothership') . '/template/template.functions.php';
-    include_once './' . drupal_get_path('theme', 'mothership') . '/template/template.form.php';
-    include_once './' . drupal_get_path('theme', 'mothership') . '/template/template.cck.php';
-    include_once './' . drupal_get_path('theme', 'mothership') . '/template/template.table.php';
-    include_once './' . drupal_get_path('theme', 'mothership') . '/template/template.alternatives.php';
-    include_once './' . drupal_get_path('theme', 'mothership') . '/template/template.menu.php';
-    include_once './' . drupal_get_path('theme', 'mothership') . '/template/template.views.php';
+  include_once './' . drupal_get_path('theme', 'mothership') . '/template/template.functions.php';
+  include_once './' . drupal_get_path('theme', 'mothership') . '/template/template.form.php';
+  include_once './' . drupal_get_path('theme', 'mothership') . '/template/template.cck.php';
+  include_once './' . drupal_get_path('theme', 'mothership') . '/template/template.table.php';
+  include_once './' . drupal_get_path('theme', 'mothership') . '/template/template.alternatives.php';
+  include_once './' . drupal_get_path('theme', 'mothership') . '/template/template.menu.php';
+  include_once './' . drupal_get_path('theme', 'mothership') . '/template/template.views.php';
 
 /**
  * preprocess
@@ -29,7 +27,7 @@ if (theme_get_setting('mothership_rebuild_registry')) {
 function mothership_preprocess(&$vars, $hook) {
   if ($hook == "page") {
   // =======================================| page |========================================
-
+    
     // Add HTML tag name for title tag. so it can shift from a h1 to a div if its the frontpage
     $vars['site_name_element'] = $vars['is_front'] ? 'h1' : 'div';
 
@@ -37,47 +35,107 @@ function mothership_preprocess(&$vars, $hook) {
     //  <body> classes
     // ** ------------------------------------------------------------------------ **
 
-    $body_classes = array($vars['body_classes']);
-
-    //do we wanna kill all the goodies that comes with drupal?
-    if (theme_get_setting('mothership_cleanup_body_remove')) {
-      $body_classes = " ";
+    //lets add some more template files 
+    if($vars['node']->type){
+      $vars['template_files'][] = 'page-' . $vars['node']->type;      
     }
 
-    if (!$vars['is_front']) {
+    //BOdy classes
+    $body_classes = array($vars['body_classes']);
+
+    //do we wanna kill all the goodies that comes from drupal?
+    if (theme_get_setting('mothership_cleanup_body_remove')) {
+      //clean the body_classes
+      $body_classes = " ";
+      $body_classes = array(); 
+
+      //front
+      if (theme_get_setting('mothership_cleanup_body_front') ){
+        $body_classes[] = $vars['is_front'] ? 'front' : '';    
+      } 
+
+      if (theme_get_setting('mothership_cleanup_body_front_not') ){
+        $body_classes[] = $vars['is_front'] ? '' : 'not-front';    
+      } 
+
+      //logged-in
+      if (theme_get_setting('mothership_cleanup_body_loggedin') ){
+        $body_classes[] = $vars['logged_in'] ? 'logged-in' : '';
+      }
+
+      if (theme_get_setting('mothership_cleanup_body_loggedin_not') ){
+        $body_classes[] = $vars['logged_in'] ? '' : 'not-logged-in';
+      }
+
+
+      //node-type-[TYPE]
+      if (theme_get_setting('mothership_cleanup_body_nodetype') ){
+        // If on an individual node page, add the node type.
+        if (isset($vars['node']) && $vars['node']->type) {
+          $body_classes[] = 'node-type-'. $vars['node']->type;
+        }
+      }  
+
+      //layout
+      if (theme_get_setting('mothership_cleanup_body_layout') ){
+        // Add information about the number of sidebars.
+        if ($vars['layout'] == 'both') {
+          $body_classes[] = 'two-sidebars';
+        }
+        elseif ($vars['layout'] == 'none') {
+          $body_classes[] = 'no-sidebars';
+        }
+        else {
+          $body_classes[] = 'one-sidebar sidebar-'. $vars['layout'];
+        }
+      }
+
+    }
+
+    $path = drupal_get_path_alias($_GET['q']);
+    if($path){
       // Add unique path classes for each page
-      if (theme_get_setting('mothership_cleanup_body_path')) {
-
-//        $path = $_SERVER['REQUEST_URI'];
-        $path = drupal_get_path_alias($_GET['q']);
-        list($section, ) = explode('/', $path, 2);
-
-        $body_classes[] = mothership_id_safe('section-' . $section);
-        //add classes without ids
-        if( arg(0) == "user"  && is_numeric(arg(1))   ) {
-          $body_classes[] = mothership_id_safe('page-' . $path, 'remove-numbers');
-        }else{
-          $body_classes[] = mothership_id_safe('page-' . $path);          
-        }
-
+      if (theme_get_setting('mothership_cleanup_body_add_path')) {
+        $body_classes[] = mothership_id_safe('path-' . $path);          
       }
+    }
 
-      //add actions
-      if (theme_get_setting('mothership_cleanup_body_actions')) {
-        if (arg(0) == 'node') {
-          if (arg(1) == 'add') {
-            $body_classes[] = 'action-node-add';
-          }
-          elseif (is_numeric(arg(1)) && (arg(2) == 'edit' || arg(2) == 'delete')) {
-            $body_classes[] = 'function-node-' . arg(2); // Add 'action-node-edit' or 'action-node-delete'
-          }
+    $path_requist = explode('/', $_SERVER['REQUEST_URI']);
+    //pathlast
+    if (theme_get_setting('mothership_cleanup_body_add_last') AND !$vars['is_front']) {
+      $body_classes[] = mothership_id_safe('pathlast-' . end($path_requist) );
+    }
+
+    if (theme_get_setting('mothership_cleanup_body_pagearg_one') ){  
+      $body_classes[] = mothership_id_safe('page-' . $path_requist['1']);
+    }  
+    
+  
+    //adds class user-foobar without user id
+    if(arg(0) == "user"){
+      $body_classes[] = mothership_id_safe( $path, 'remove-numbers');
+    }
+
+    //class action-node
+    if (theme_get_setting('mothership_cleanup_body_actions')) {
+      if (arg(0) == 'node') {
+        if (arg(1) == 'add') {
+          $body_classes[] = 'action-node-add';
+        }
+        elseif (is_numeric(arg(1)) && (arg(2) == 'edit' || arg(2) == 'delete')) {
+          $body_classes[] = 'action-node-' . arg(2); // Add 'action-node-edit' or 'action-node-delete'
         }
       }
+    }
+     
 
+    //is the admin module active
+    if($vars['admin'] AND theme_get_setting('mothership_cleanup_body_admin')){
+      $body_classes[] = "adminmenu";
     }
 
     $vars['body_classes'] = implode(' ', $body_classes); // Concatenate with spaces
-
+//    kpr($vars['body_classes']);
     // ** ------------------------------------------------------------------------ **
     // style sheets load order & ie fix
     // kudos to al-steffen for figuring this out :)
@@ -168,9 +226,11 @@ function mothership_preprocess(&$vars, $hook) {
     if ($vars['teaser']) {
       if (theme_get_setting('mothership_cleanup_node_node')) {
         $classes[] = 'node-teaser';
+        $classes[] = 'node';
       }
       if (theme_get_setting('mothership_cleanup_node_content_type')) {
         $classes[] = 'node-teaser-' . $vars['type'];
+        $classes[] = 'node-' . $vars['type'];
       }
     }
     else{
@@ -181,9 +241,13 @@ function mothership_preprocess(&$vars, $hook) {
         $classes[] = 'node-' . $vars['type'];
       }
     }
-
+    //skinr
+    if( module_exists(skinr) ) {
+        $classes[] = $vars['skinr'];
+    }
+    
     $vars['classes'] = implode(' ', $classes);
-
+    
     // css id for the node
     if (theme_get_setting('mothership_cleanup_node_id')) {
       $id_node = array();
@@ -206,9 +270,6 @@ function mothership_preprocess(&$vars, $hook) {
 
     //-----------------------------------------------------
     //lets grap $links array and throw em into some vars we actually can use
-
-
-
 /*
     //comments
     if ($vars['node']->links['comment_comments']) {
@@ -291,6 +352,11 @@ function mothership_preprocess(&$vars, $hook) {
       if ($vars['logged_in']) {
         $classes[] = 'block-logged-in';
       }
+    }
+
+    //skinr
+    if( module_exists(skinr) ) {
+        $classes[] = $vars['skinr'];
     }
 
     // Render block classes.
@@ -385,4 +451,23 @@ function mothership_preprocess(&$vars, $hook) {
     $vars['classes'] = implode(' ', $classes);
     // =======================================| /COMMENT |========================================
   }
+  elseif ($hook == "comment_wrapper"){
+    // =======================================| COMMENTWRAPPER |========================================
+
+    $id_commentwrap = array();
+    $id_commentwrap[] = 'comments';
+    $vars['id_commentwrap'] = implode(' ', $id_commentwrap);
+    $vars['id_commentwrap'] =  mothership_id_safe($vars['id_commentwrap']);
+
+    $classes = array();  
+    //skinr
+    if( module_exists(skinr) ) {
+        $classes[] = $vars['skinr'];
+    }
+
+    $vars['classes'] = implode(' ', $classes);    
+    // =======================================| COMMENTWRAPPER |========================================
+  }
+
+
 }

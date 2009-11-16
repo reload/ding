@@ -116,7 +116,7 @@ function alma_user_profile_content_type_render($subtype, $conf, $panel_args, $co
           $block->content = t('You owe @amount for “%note”. !pay_link.', array(
             '@amount' => $data['total_formatted'],
             '%note' => trim($data['debts'][0]['note']),
-            '!pay_link' => l('Pay now', 'user'),
+            '!pay_link' => l(t('Pay now'), 'user/' . $account->uid . '/debts'),
           ));
         }
         elseif (count($data['debts']) > 1) {
@@ -125,7 +125,7 @@ function alma_user_profile_content_type_render($subtype, $conf, $panel_args, $co
             '%note' => trim($data['debts'][0]['note']),
             '!others_link' => l(format_plural(count($data['debts']) - 1, 'one other', '@count others'),
                                 'user/' . $account->uid . '/debts'),
-            '!pay_link' => l('Pay now', 'pay'),
+            '!pay_link' => l(t('Pay now'), 'user/' . $account->uid . '/debts'),
           ));
         }
         break;

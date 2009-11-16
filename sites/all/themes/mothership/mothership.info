@@ -30,8 +30,22 @@ features[] = secondary_links
 ;ie stylesheets[if IE6 ][all][] = ie6.css
 
 ;--------------------- settings ----------------------------
-settings[mothership_cleanup_body_path]    = 1
+settings[mothership_cleanup_body_remove] = 0
+settings[mothership_cleanup_body_front] = 0
+settings[mothership_cleanup_body_front_not] = 0
+settings[mothership_cleanup_body_loggedin] = 0
+settings[mothership_cleanup_body_loggedin_not] = 0
+settings[mothership_cleanup_body_pagearg_one] = 0
+settings[mothership_cleanup_body_nodetype] = 0
+settings[mothership_cleanup_body_layout] = 0
+
+
 settings[mothership_cleanup_body_actions] = 1
+settings[mothership_cleanup_body_path]    = 1
+settings[mothership_cleanup_body_add_path] =1
+settings[mothership_cleanup_body_add_last] = 1
+settings[mothership_cleanup_body_pagearg_one] = 0
+
 
 settings[mothership_cleanup_node_node] = 1
 settings[mothership_cleanup_node_sticky]  = 0
@@ -65,9 +79,10 @@ settings[mothership_cleanup_comment_front]  = 0
 settings[mothership_cleanup_comment_loggedin]  = 0
 settings[mothership_cleanup_comment_user]  = 0
 
+settings[mothership_cleanup_views_row_identify] = 1
 settings[mothership_cleanup_views_first_last]  = 1
 settings[mothership_cleanup_views_zebra] = 0
-settings[mothership_cleanup_views_row_ident] = 1
+settings[mothership_cleanup_views_row_count] = 1
 
 settings[mothership_item_list_first_last]  = 1
 settings[mothership_item_list_zebra]  = 1
@@ -85,9 +100,9 @@ settings[mothership_stylesheet_conditional]  = 1
 settings[mothership_cleanup_user_verified]  = 1
 
 ;--------------------- drupal.org packaging  ----------------------------
-; Information added by drupal.org packaging script on 2009-10-26
-version = "6.x-1.0-beta8"
+; Information added by drupal.org packaging script on 2009-11-16
+version = "6.x-1.1"
 core = "6.x"
 project = "mothership"
-datestamp = "1256559056"
+datestamp = "1258340476"
 
