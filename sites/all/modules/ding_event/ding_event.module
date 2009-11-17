@@ -6,6 +6,23 @@
  */
 
 /**
+ * Implementation of hook_menu().
+ */
+function ding_event_menu() {
+  $items = array();
+
+  $items['kultunaut_export'] = array(
+    'title' => 'KultuNaut event feed',
+    'page callback' => 'ding_event_pages_kultunaut_feed',
+    'access arguments' => TRUE,
+    'type' => MENU_CALLBACK,
+    'file' => 'ding_event.pages.inc',
+  );
+
+  return $items;
+}
+
+/**
  * Implementation of hook_cron().
  */
 function ding_event_cron() {
@@ -27,6 +44,14 @@ function ding_event_theme() {
       'arguments' => array('event_nids' => NULL),
       'template' => 'ding_event_similar_events',
       'preprocess functions' => array('ding_event_similar_events_preprocess'),
+    ),
+    'ding_event_kultunaut_feed' => array(
+      'arguments' => array('feed' => NULL),
+      'template' => 'ding_event_kultunaut_feed',
+    ),
+    'ding_event_kultunaut_activity' => array(
+      'arguments' => array('node' => NULL),
+      'template' => 'ding_event_kultunaut_activity',
     ),
   );
 }
