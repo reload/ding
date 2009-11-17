@@ -14,7 +14,7 @@ function ding_event_menu() {
   $items['kultunaut_export'] = array(
     'title' => 'KultuNaut event feed',
     'page callback' => 'ding_event_pages_kultunaut_feed',
-    'access arguments' => TRUE,
+    'access callback' => TRUE,
     'type' => MENU_CALLBACK,
     'file' => 'ding_event.pages.inc',
   );
