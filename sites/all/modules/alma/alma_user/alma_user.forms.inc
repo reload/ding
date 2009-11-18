@@ -207,6 +207,7 @@ function alma_user_forms_library_settings($form_state, $account) {
     '#default_value' => 6,
   );
 
+  /* Suspend/absent period not implemented yet.
   $form['suspend_start'] = array(
     '#type' => 'date_popup',
     '#title' => t('Suspend reservations from'),
@@ -217,7 +218,7 @@ function alma_user_forms_library_settings($form_state, $account) {
     '#type' => 'date_popup',
     '#title' => t('To'),
     '#date_format' => DATE_FORMAT_DATE,
-  );
+  );*/
 
   $form['submit'] = array(
     '#type' => 'submit',
