@@ -618,8 +618,8 @@ function template_preprocess_alma_user_status_block(&$variables) {
  */
 function template_preprocess_alma_user_personal_info(&$variables) {
   $variables['links'] = theme('item_list', array(
-    l('Edit contact information', 'user/' . $variables['account']->uid . '/edit_contact_info'),
-    l('Change PIN code', 'user/' . $variables['account']->uid . '/change_pin'),
+    l(t('Edit contact information'), 'user/' . $variables['account']->uid . '/edit'),
+    l(t('Change PIN code'), 'user/' . $variables['account']->uid . '/change_pin'),
   ));
 }
 
