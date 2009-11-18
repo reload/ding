@@ -18,6 +18,8 @@ function alma_user_install() {
  */
 function alma_user_uninstall() {
   drupal_uninstall_schema('alma_user');
+  variable_del('alma_user_credential_cache_duration');
+  variable_del('alma_user_pin_length');
 }
 
 /**

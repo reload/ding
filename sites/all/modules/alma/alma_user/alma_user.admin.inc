@@ -4,7 +4,9 @@
 /**
  * Alma user settings form.
  */
-function alma_user_admin_settings_form($form_state) {
+function alma_user_admin_settings_form(&$form_state) {
+  $form = array();
+
   $form['alma_user_credential_cache_duration'] = array(
     '#type' => 'select',
     '#title' => t('Credential cache duration'),
@@ -23,6 +25,26 @@ function alma_user_admin_settings_form($form_state) {
     '#default_value' => variable_get('alma_user_credential_cache_duration', 1800),
   );
 
+  $form['alma_user_pin_length'] = array(
+    '#type' => 'textfield',
+    '#title' => t('PIN code length'),
+    '#default_value' => variable_get('alma_user_pin_length', 4),
+    '#required' => TRUE,
+    '#size' => 4,
+  );
+
   return system_settings_form($form);
+}
+
+/**
+ * Validation for settings form.
+ */
+function alma_user_admin_settings_form_validate($form, &$form_state) {
+  // Force PIN length to be an integer.
+  $form_state['values']['alma_user_pin_length'] = intval($form_state['values']['alma_user_pin_length']);
+
+  if ($form_state['values']['alma_user_pin_length'] <= 0) {
+    form_set_error('alma_user_pin_length', t('PIN code length must be a number larger than zero.'));
+  }
 }
 

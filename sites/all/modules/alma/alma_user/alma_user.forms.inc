@@ -97,6 +97,7 @@ function alma_user_forms_alma_authenticate_submit($form, &$form_state) {
  * Change PIN code form.
  */
 function alma_user_forms_change_pin($form_state, $account) {
+  $pin_length = variable_get('alma_user_pin_length', 4);
   $form = array();
 
   $form['account'] = array(
@@ -108,24 +109,24 @@ function alma_user_forms_change_pin($form_state, $account) {
     '#type' => 'password',
     '#title' => t('Current PIN code'),
     '#required' => TRUE,
-    '#maxlength' => 4,
-    '#size' => 4,
+    '#maxlength' => $pin_length,
+    '#size' => $pin_length,
   );
 
   $form['new_pin'] = array(
     '#type' => 'password',
     '#title' => t('New PIN code'),
     '#required' => TRUE,
-    '#maxlength' => 4,
-    '#size' => 4,
+    '#maxlength' => $pin_length,
+    '#size' => $pin_length,
   );
 
   $form['new_pin_confirm'] = array(
     '#type' => 'password',
     '#title' => t('Repeat new PIN code'),
     '#required' => TRUE,
-    '#maxlength' => 4,
-    '#size' => 4,
+    '#maxlength' => $pin_length,
+    '#size' => $pin_length,
   );
 
   $form['submit'] = array(
@@ -140,6 +141,7 @@ function alma_user_forms_change_pin($form_state, $account) {
  * Validation for PIN code changing form.
  */
 function alma_user_forms_change_pin_validate($form, &$form_state) {
+  $pin_length = variable_get('alma_user_pin_length', 4);
   $creds = alma_user_get_credentials($form_state['values']['account']);
   if ($form_state['values']['current_pin'] != $creds['pin_code']) {
     form_set_error('current_pin', t('Please provide your current PIN code.'));
@@ -153,8 +155,8 @@ function alma_user_forms_change_pin_validate($form, &$form_state) {
     form_set_error('new_pin_confirm', t('Please input your new PIN code twice for confirmation.'));
   }
 
-  if (!ctype_digit($form_state['values']['new_pin']) || strlen($form_state['values']['new_pin']) != 4) {
-    form_set_error('new_pin', t('The new PIN code must be four numerical digits.'));
+  if (!ctype_digit($form_state['values']['new_pin']) || strlen($form_state['values']['new_pin']) != $pin_length) {
+    form_set_error('new_pin', t('The new PIN code must be @num numerical digits.', array('@num' => $pin_length)));
   }
 }
 
