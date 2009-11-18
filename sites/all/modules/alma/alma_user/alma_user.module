@@ -288,7 +288,7 @@ function alma_user_login_validate($form, &$form_state) {
 
   // Only try validation if we have 10 digits.
   if (strlen($card) == 10) {
-    $uid = alma_user_check_credentials($card, $form_state['values']['pass']);
+    $uid = alma_user_check_credentials($card, $form_state['values']['pass'], TRUE);
 
     if ($uid && $account = user_load($uid)) {
       global $user;
@@ -318,18 +318,25 @@ function alma_user_login_submit($form, &$form_state) {
  * Creates a new user if we do not have one already.
  *
  * @param string $borr_card
- *    User borrower card/ID
+ *    User borrower card/ID.
  * @param string $pin_code
- *    User pin code
+ *    User pin code.
+ * @param boolean $login
+ *    If this is a login check, we do some extra work to update our data.
  * @return
  *    User uid if credentials are valid, FALSE if not.
  */
-function alma_user_check_credentials($borr_card, $pin_code) {
+function alma_user_check_credentials($borr_card, $pin_code, $login=FALSE) {
   $data = alma_client_get_patron_info($borr_card, $pin_code);
 
   // Check if user exists.
   $uid = db_result(db_query("SELECT uid FROM {alma_user} WHERE alma_id = '%s';", $data['patron_id']));
   if ($uid) {
+    // When logging in a returning user, update his display name.
+    if ($login) {
+      db_query("UPDATE {ding_user} SET display_name = '%s' WHERE uid = %d AND pass = '';", $data['patron_name'], $uid);
+    }
+
     return $uid;
   }
   elseif (is_array($data) && !empty($data['patron_id'])) {
@@ -337,6 +344,7 @@ function alma_user_check_credentials($borr_card, $pin_code) {
     // User data to pass to user_save().
     $user_data = array(
       'name' => $random_name,
+      'display_name' => $data['patron_name'],
       'mail' => $data['mails'][0]['mail'],
       // Login via Drupal's standard login should not be possible.
       'pass' => microtime(TRUE) . mt_rand(),
@@ -357,7 +365,6 @@ function alma_user_check_credentials($borr_card, $pin_code) {
 
     // Store Alma user reference in our own table.
     db_query("INSERT INTO {alma_user} (uid, alma_id) VALUES (%d, '%s');", $user->uid, $data['patron_id']);
-    db_query("INSERT INTO {ding_user} (uid, display_name) VALUES (%d, '%s');", $user->uid, $data['patron_name']);
 
     return($user->uid);
   }
