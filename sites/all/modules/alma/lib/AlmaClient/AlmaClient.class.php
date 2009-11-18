@@ -76,9 +76,6 @@ class AlmaClient {
    *    List of branches, keyed by branch_id
    */
   public function get_branches() {
-    // Set a no branch option.
-    $branches = array(NULL => '- None -');
-
     $doc = $this->request('organisation/branches');
 
     foreach ($doc->getElementsByTagName('branch') as $branch) {
@@ -97,9 +94,6 @@ class AlmaClient {
    *    List of branches, keyed by branch_id
    */
   public function get_reservation_branches() {
-    // Set a no branch option.
-    $branches = array(NULL => '- None -');
-
     $doc = $this->request('reservation/branches');
 
     foreach ($doc->getElementsByTagName('branch') as $branch) {
