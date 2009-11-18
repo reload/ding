@@ -76,7 +76,7 @@ function dynamo_preprocess_node(&$variables) {
     // Find out the end time of the event. If there's no specified end
     // time, we’ll use the start time. If the event is in the past, we
     // create the alert box.
-    if (($end > 0 && date('Ymd', $end) < date('Ymd', $_SERVER['REQUEST_TIME']))) {
+    if (($end > 0 && format_date($end, 'custom', 'Ymd') < format_date($_SERVER['REQUEST_TIME'], 'custom', 'Ymd'))) {
       $variables['alertbox'] = '<div class="alert">' . t('NB! This event occurred in the past.') . '</div>';
     }
 

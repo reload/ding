@@ -14,7 +14,7 @@
 		<h2><?php print $fields['title']->content; ?></h2>
 
 		<div class="meta">
-		  <?php print date("l j M h:i", $date); ?>
+		  <?php print format_date($date, 'custom', 'l j M h:i'); ?>
 		  <span class="libary-tag"><?php print $fields['field_library_ref_nid']->content; ?></span>, 
 		  <span class="price"><?php print $fields['field_entry_price_value']->content; ?></span>
 		</div>    
@@ -32,5 +32,5 @@
 		
     <?php print $fields['edit_node']->content; ?>  
   </div>
-
 </div>
+

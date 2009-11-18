@@ -2,7 +2,7 @@
 <?php 
   //converts the date value to time
   $date = strtotime($fields['field_datetime_value']->raw . 'Z');
-  if( date('d-m-Y') == format_date($date,'custom', "d-m-Y") ){
+  if (format_date($_SERVER['REQUEST_TIME'], 'custom', 'd-m-Y') == format_date($date, 'custom', 'd-m-Y') ){
     $is_today = "today";
   }
 
@@ -31,4 +31,5 @@
     </span>
   </div>
 
-</div>  
+</div>
+

@@ -17,16 +17,13 @@
 		  $date = strtotime($node->field_datetime[0]['value']);
 		  $date2 = strtotime($node->field_datetime[0]['value2']);    
 
-		  if(date("Ymd", $date) == date("Ymd", $date2))
-		  {
+		  if (format_date($date, 'custom', 'Ymd') == format_date($date2, 'custom', 'Ymd')) {
 		  	print format_date($date, 'custom', "j. F Y");
 		  }
-		  elseif(date("Ym", $date) == date("Ym", $date2))
-		  {
+		  elseif (format_date($date, 'custom', 'Ym') == format_date($date2, 'custom', 'Ym')) {
 		  	print format_date($date, 'custom', "j.") . "-" . format_date($date2, 'custom', "j. F Y");
 		  }
-		  else
-		  {
+		  else {
 		  	print format_date($date, 'custom', "j. M.") . " - " . format_date($date2, 'custom', "j. M. Y");
 		  }
 		  
