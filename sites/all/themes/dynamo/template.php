@@ -65,8 +65,8 @@ function dynamo_preprocess_node(&$variables) {
   }
 
   if ($variables['type'] == 'event') {
-    $start = strtotime($node->field_datetime[0]['value']);
-    $end = strtotime($node->field_datetime[0]['value2']);
+    $start = strtotime($node->field_datetime[0]['value'] . 'Z');
+    $end = strtotime($node->field_datetime[0]['value2'] . 'Z');
 
     // If no end time is set, use the start time for comparison.
     if (2 > $end) {

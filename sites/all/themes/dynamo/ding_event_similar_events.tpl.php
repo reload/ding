@@ -14,8 +14,8 @@
     <h4><?php print l($node->title, 'node/' . $node->nid); ?></h4>
 
     	<?php 
-		  $date = strtotime($node->field_datetime[0]['value']);
-		  $date2 = strtotime($node->field_datetime[0]['value2']);    
+		  $date = strtotime($node->field_datetime[0]['value'] . 'Z');
+		  $date2 = strtotime($node->field_datetime[0]['value2'] . 'Z');
 
 		  if (format_date($date, 'custom', 'Ymd') == format_date($date2, 'custom', 'Ymd')) {
 		  	print format_date($date, 'custom', "j. F Y");

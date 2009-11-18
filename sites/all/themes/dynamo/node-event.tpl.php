@@ -21,9 +21,9 @@ if($id_node){
 
   <div class="content">
 
-  	<?php if($node->title){	?>	
+  	<?php if ($node->title): ?>
       <h3><?php print l($node->title, 'node/'.$node->nid); ?></h3>
-  	<?php } ?>
+  	<?php endif; ?>
 
   	<div class="meta">
       <?php print $field_datetime_rendered ?>

@@ -1,6 +1,6 @@
 <!-- views-view-fields panel-pane -->
 <?php 
-  //converts the date value to time
+  // Convert the date value to timestamp
   $date = strtotime($fields['field_datetime_value']->raw . 'Z');
   if (format_date($_SERVER['REQUEST_TIME'], 'custom', 'd-m-Y') == format_date($date, 'custom', 'd-m-Y') ){
     $is_today = "today";

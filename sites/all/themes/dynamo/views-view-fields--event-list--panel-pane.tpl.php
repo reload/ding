@@ -1,7 +1,7 @@
 <!-- views-view-fields  event-list  page.tpl.php-->
 <?php 
-  //converts the date value to time
-  $date = strtotime($fields['field_datetime_value']->raw);
+  // Convert the date value to timestamp
+  $date = strtotime($fields['field_datetime_value']->raw . 'Z');
 ?>
 <div class="node-teaser clearfix">
 
