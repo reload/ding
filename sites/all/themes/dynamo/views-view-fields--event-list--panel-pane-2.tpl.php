@@ -23,7 +23,7 @@
   </div>
 
   <div class="info">
-    <?php print $fields['field_library_ref_nid']->content; ?>
+    <span><?php print $fields['field_library_ref_nid']->content; ?></span>
     <h4><?php print $fields['title']->content; ?></h4>
     <span class="time">
 			<?php print format_date($date, 'custom', 'H:i');?> -

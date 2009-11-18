@@ -48,17 +48,25 @@
   .pane-event_list-panel_pane_2 li.first{background:none;}
   .pane-event_list-panel_pane_2 li .calendar-leafs .leaf{height:65px; width:55px; float:left; padding:2px 0 0 0; background:transparent url(../images/bg-calender.png) no-repeat 0 0; overflow:hidden;}
   .pane-event_list-panel_pane_2 li .calendar-leafs .leaf.today{background:transparent url(../images/bg-calender.png) no-repeat 0 -64px; ;}
-  .pane-event_list-panel_pane_2 li .calendar-leafs .info{ width:150px; float:left; overflow:hidden;padding:0 0 0 4px}
+  .pane-event_list-panel_pane_2 li .calendar-leafs .info{ width:150px; float:left; overflow:hidden; padding:0 0 0 4px}
   .pane-event_list-panel_pane_2 li .calendar-leafs  h4{padding:0 0 5px 0;}
   .pane-event_list-panel_pane_2 .title{color:#000; font-weight:bold;}
   .pane-event_list-panel_pane_2 li div.leaf{font-family: Georgia, serif; text-align: center;}
   .pane-event_list-panel_pane_2 li div.leaf .day{color:#fff; font-size:10px; line-height:15px;}
   .pane-event_list-panel_pane_2 li div.leaf .date{font-size:28px; line-height:26px; color:#000;}
   .pane-event_list-panel_pane_2 li div.leaf .month{font-size:9px; line-height:15px; text-transform: uppercase;}
-  .pane-event_list-panel_pane_2 li div a{color:#666;}
-  .pane-event_list-panel_pane_2 .view-event-list li div h4 a{color:#050505;line-height:13px;}
-  .pane-event_list-panel_pane_2 .view-event-list li div h4{line-height:8px;}
+
+  .pane-event_list-panel_pane_2 li div.info a{color:#666;}
+  .pane-event_list-panel_pane_2 li div.info h4{line-height:8px; padding:0; margin:0;}
+  .pane-event_list-panel_pane_2 li div.info h4 a{color:#050505; font-size:10px; line-height:12px;}
+  .pane-event_list-panel_pane_2 li div.info span{font-size:9px;}
+
   .pane-event_list-panel_pane_2 .more-link{padding:0 30px 0 0;}
+
+
+  .pane-event_list-panel_pane_2 .view-event-list span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px; font-weight:normal;}
+
+
 
 /*features pane*/
 .ding-box-pane .pane-library_feature_list ul.item-list{padding:8px 0 8px 12px;}	

@@ -270,7 +270,7 @@ drupal Messages
 --------------------------------------*/
 .ting-search-carousel .search-controller li.active a {color:#fff;}
 .ting-search-carousel .subtitle {font-size:47px;padding:10px 0 10px 40px;}
-
+.jcarousel-skin-ting-search-carousel .jcarousel-clip-horizontal {width:670px;}
 
 .panel-pane .view .feed-icon{margin:0 0 0 10px;}
 /* =====================================
@@ -280,6 +280,7 @@ Cowboy small trix not "really" implementet yet
 #pane-library_title{display:block;}
 .comment_filter{display:none;}
 .pane-library_list-panel_pane_1 >h3{display:none;}
+
 
 .node div.field-file-attachments span{}
 .node .field-file-attachments a{display:block; margin:0 0 10px 0;font-weight:normal}
