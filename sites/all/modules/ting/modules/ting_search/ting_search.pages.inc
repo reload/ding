@@ -63,7 +63,7 @@ function ting_search_pages_ting_js() {
   try {
     $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
     $resultsPerPage = 10;
-    $searchResult = ting_do_search($query, $page, $resultsPerPage, array('enrich' => true));
+    $searchResult = ting_do_search($query, $page, $resultsPerPage);
     $result = array(
       'page' => $page,
       'resultsPerPage' => $resultsPerPage,
