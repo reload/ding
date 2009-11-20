@@ -38,7 +38,7 @@
             <div class="left-column left">
               <div class="picture">
 
-                <?php $image_url = ting_search_cover_url($object, '180_x'); ?>
+                <?php $image_url = ting_covers_object_url($object, '180_x'); ?>
                 <?php if ($image_url) { ?>
                   <?php print theme('image', $image_url, '', '', null, false); ?>
                 <?php } ?>

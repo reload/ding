@@ -8,5 +8,6 @@ dependencies[] = jquery_ui
 dependencies[] = jquery_ui_theme
 dependencies[] = search
 dependencies[] = ting
+dependencies[] = ting_covers
 dependencies[] = transliteration
 

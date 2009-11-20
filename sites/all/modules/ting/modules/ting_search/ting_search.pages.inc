@@ -32,44 +32,6 @@ function ting_search_pages_object_redirect($local_id) {
 }
 
 /**
- * Return the URL of a photo of the object.
- */
-function ting_search_cover($preset, $object_id) {
-  module_load_include('client.inc', 'ting');
-
-  // $path is without the file_directory_path() prefix.
-  $path = ting_search_cover_path($object_id);
-
-  if (!file_exists(file_create_path($path))) {
-  	$object = ting_get_object_by_id($object_id, true);
-    if (!$object) {
-      drupal_not_found();
-      exit;
-    }
-
-    if ($object->additionalInformation->detailUrl) {
-      $source_url = $object->additionalInformation->detailUrl;
-    }
-    elseif ($object->additionalInformation->thumbnailUrl) {
-      $source_url =$object->additionalInformation->thumbnailUrl;
-    }
-    else {
-      drupal_not_found();
-      exit;
-    }
-
-    $result = drupal_http_request($source_url);
-    if ($result->code == 200) {
-      file_check_directory(file_create_path(dirname($path)), FILE_CREATE_DIRECTORY);
-      file_put_contents($path, $result->data);
-      file_save_data($result->data, $path, FILE_EXISTS_REPLACE);
-    }
-  }
-
-  drupal_goto(imagecache_create_url($preset, $path));
-}
-
-/**
  * JSON callback to search Ting.
  */
 function ting_search_pages_ting_js() {

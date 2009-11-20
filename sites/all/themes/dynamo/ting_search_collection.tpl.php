@@ -1,7 +1,7 @@
 	<li>
 
     <div class="picture">
-      <?php $image_url = ting_search_cover_url($collection->objects[0], '80_x'); ?>
+      <?php $image_url = ting_covers_collection_url($collection->objects[0], '80_x'); ?>
       <?php if ($image_url) { ?>
         <?php print l(theme('image', $image_url, '', '', null, false), $collection->url, array('html' => true)); ?>
       <?php } ?>

@@ -100,7 +100,7 @@
 				<div id="ting-item-<?php print $tingClientObject->data->localId; ?>" class="ting-item clearfix">
 
 		  		<div class="picture">
-						<?php $image_url = ting_search_cover_url($tingClientObject, '80_x'); ?>
+						<?php $image_url = ting_covers_object_url($tingClientObject, '80_x'); ?>
 						<?php if ($image_url) { ?>
 							<?php print theme('image', $image_url, '', '', null, false); ?>
 						<?php } ?>

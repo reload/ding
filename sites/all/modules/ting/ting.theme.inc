@@ -20,7 +20,7 @@ function theme_ting_object_title($ting_object, $display_image = FALSE) {
   $output = '';
   if ($ting_object) {
     if ($display_image) {
-      $image_url = ting_search_cover_url($ting_object, '80_x');
+      $image_url = ting_covers_object_url($ting_object, '80_x');
       if ($image_url) {
         $output .= theme('image', $image_url, '', '', NULL, FALSE) . $loan_title;
       }
