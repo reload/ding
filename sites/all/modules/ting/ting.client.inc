@@ -276,7 +276,7 @@ function ting_add_object_url(TingClientObject $object)
 function ting_add_additional_info($collection)
 {
 	//Add additional information info for cover images
-	$isbns = array();
+	$faust_numbers = array();
 
 	$addiVariables = array(	'wsdlUrl' => 'addi_wdsl_url',
 													'username' => 'addi_username',
@@ -291,7 +291,7 @@ function ting_add_additional_info($collection)
 			return $collection;
 		}
 	}
-	extract ($addiVariables);
+	extract($addiVariables);
 	$additionalInformationService = new AdditionalInformationService($wsdlUrl, $username, $group, $password);
 
 	$objects = (isset($collection->objects)) ? $collection->objects : $collection;
@@ -302,20 +302,20 @@ function ting_add_additional_info($collection)
 		{
 			foreach ($object->data->identifier as $identifier)
 			{
-				if ($identifier->type == TingClientObjectIdentifier::ISBN)
+				if ($identifier->type == TingClientObjectIdentifier::FAUST_NUMBER)
 				{
-					$isbns[] = $identifier->id;
+					$id_parts = explode('|', $identifier->id, 2);
+					$faust_numbers[] = $id_parts[0];
 				}
 			}
 		}
 	}
-
-	if (sizeof($isbns) > 0)
+	
+	if (sizeof($faust_numbers) > 0)
 	{
 		try
 		{
-			$additionalInformations = $additionalInformationService->getByIsbn($isbns);
-				
+			$additionalInformations = $additionalInformationService->getByFaustNumber($faust_numbers);
 			foreach ($additionalInformations as $id => $ai)
 			{
 				foreach ($objects as &$object)
@@ -324,8 +324,8 @@ function ting_add_additional_info($collection)
 					{
 						foreach ($object->data->identifier as $identifier)
 						{
-							if ($identifier->type == TingClientObjectIdentifier::ISBN &&
-							$identifier->id == $id)
+							if (($identifier->type == TingClientObjectIdentifier::FAUST_NUMBER) &&
+							    (strpos($id, $identifier->id) == 0))
 							{
 								$object->additionalInformation = $ai;
 							}
