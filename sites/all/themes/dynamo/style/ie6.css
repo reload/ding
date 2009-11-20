@@ -10,6 +10,10 @@ ul.menu li.leaf {margin :0 0 0 35px;}
 .panel-left ul.menu li ul li.first{padding:0 0 0 0;margin:0 0 0 35px; }
 
 
+.jcarousel-skin-ting-search-carousel .jcarousel-clip-horizontal {width:670px; background:#303;}
+.ting-search-carousel .subtitle {margin:10px 0 10px 10px; }
+
+
 
 /* ___________ IE6 IFRAME FIX ________ */
 .ui-datepicker-cover {

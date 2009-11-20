@@ -269,8 +269,9 @@ drupal Messages
 /* frontpage
 --------------------------------------*/
 .ting-search-carousel .search-controller li.active a {color:#fff;}
-.ting-search-carousel .subtitle {font-size:47px;padding:10px 0 10px 40px;}
 .jcarousel-skin-ting-search-carousel .jcarousel-clip-horizontal {width:670px;}
+.ting-search-carousel .subtitle {font-size:47px;margin:10px 0 10px 40px; float:left; overflow:hidden; width:200px;s}
+
 
 .panel-pane .view .feed-icon{margin:0 0 0 10px;}
 /* =====================================
