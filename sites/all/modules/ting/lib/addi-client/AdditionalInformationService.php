@@ -22,71 +22,102 @@ class AdditionalInformationService {
 	{
 		$isbn = str_replace('-', '', $isbn);
 		
-		$authInfo = array('authenticationUser' => $this->username,
-											'authenticationGroup' => $this->group,
-											'authenticationPassword' => $this->password);
-		
-		$isbnIdentifiers = array();
-		if (!is_array($isbn))
-		{
-			$isbn = array($isbn);
-		}
-		foreach ($isbn as $i)
-		{
-			$isbnIdentifiers[] = array('isbn' => $i);
-		}
-		
-		$client = new SoapClient($this->wsdlUrl);
-		
-		$startTime = explode(' ', microtime());	
-		$response = $client->additionalInformation(array(
-													'authentication' => $authInfo,
-													'identifier' => $isbnIdentifiers));
-		$stopTime = explode(' ', microtime());
-    $time = floatval(($stopTime[1]+$stopTime[0]) - ($startTime[1]+$startTime[0]));
-		watchdog('addi', 'Completed request ('.round($time, 3).'s): ISBN %isbns', array('%isbns' => implode(', ', $isbn)), WATCHDOG_INFO, 'http://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
-    
-		if ($response->requestStatus->statusEnum != 'ok')
-		{
-			throw new AdditionalInformationServiceException($response->requestStatus->statusEnum.': '.$response->requestStatus->errorText);
-		}
-		
-		if (!is_array($response->identifierInformation))
-		{
-			$response->identifierInformation = array($response->identifierInformation);	
-		}
-		
-		$additionalInformations = array();
-		foreach($response->identifierInformation as $info)
-		{
-			$thumbnailUrl = $detailUrl = NULL;
-			if (isset($info->identifierKnown) &&
-					$info->identifierKnown)
-			{
-				if (!is_array($info->image))
-				{
-					$info->image = array($info->image);
-				}
-				
-				foreach ($info->image as $image)
-				{
-					switch ($image->imageSize) {
-						case 'thumbnail':
-							$thumbnailUrl = $image->_; 
-							break;
-						case 'detail':
-							$detailUrl = $image->_; 
-							break;
-						default:
-							throw new AdditionalInformationServiceException('Unrecognized image size '.$image->imageSize);
-					}
-				}			
-	
-				$additionalInfo = new AdditionalInformation($thumbnailUrl, $detailUrl);
-				$additionalInformations[$info->identifier->isbn] = $additionalInfo;
-			}
-		}
-		return $additionalInformations;		
+    $identifiers = $this->collectIdentifiers('isbn', $isbn);
+    $response = $this->sendRequest($identifiers);
+    return $this->extractAdditionalInformation('isbn', $response);
 	}
+  
+  public function getByFaustNumber($faustNumber)
+  {
+    $identifiers = $this->collectIdentifiers('faust', $faustNumber);
+    $response = $this->sendRequest($identifiers);
+    return $this->extractAdditionalInformation('faust', $response);
+  }
+  
+  protected function collectIdentifiers($idName, $ids)
+  {
+    if (!is_array($ids))
+    {
+      $ids = array($ids);
+    }
+    $identifiers = array();
+    foreach ($ids as $i)
+    {
+      $identifiers[] = array($idName => $i);
+    }
+    return $identifiers;
+  }
+  
+  protected function sendRequest($identifiers)
+  {
+  	$ids = array();
+  	foreach ($identifiers as $i)
+  	{
+  		$ids = array_merge($ids, array_values($i));
+  	}
+  	
+    $authInfo = array('authenticationUser' => $this->username,
+                      'authenticationGroup' => $this->group,
+                      'authenticationPassword' => $this->password);
+    $client = new SoapClient($this->wsdlUrl);
+    
+    $startTime = explode(' ', microtime()); 
+    $response = $client->additionalInformation(array(
+                          'authentication' => $authInfo,
+                          'identifier' => $identifiers));
+    
+    $stopTime = explode(' ', microtime());
+    $time = floatval(($stopTime[1]+$stopTime[0]) - ($startTime[1]+$startTime[0]));
+    watchdog('addi', 'Completed request ('.round($time, 3).'s): Ids: %ids', array('%ids' => implode(', ', $ids)), WATCHDOG_DEBUG, 'http://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
+    
+    if ($response->requestStatus->statusEnum != 'ok')
+    {
+      throw new AdditionalInformationServiceException($response->requestStatus->statusEnum.': '.$response->requestStatus->errorText);
+    }
+        
+    if (!is_array($response->identifierInformation))
+    {
+      $response->identifierInformation = array($response->identifierInformation); 
+    }
+    
+    return $response;
+  }
+  
+  protected function extractAdditionalInformation($idName, $response)
+  {
+    $additionalInformations = array();
+    
+    foreach($response->identifierInformation as $info)
+    {
+      $thumbnailUrl = $detailUrl = NULL;
+      if (isset($info->identifierKnown) &&
+          $info->identifierKnown)
+      {
+        if (!is_array($info->image))
+        {
+          $info->image = array($info->image);
+        }
+        
+        foreach ($info->image as $image)
+        {
+          switch ($image->imageSize) {
+            case 'thumbnail':
+              $thumbnailUrl = $image->_; 
+              break;
+            case 'detail':
+              $detailUrl = $image->_; 
+              break;
+            default:
+            	// Do nothing other image sizes may appear but ignore them for now
+          }
+        }     
+  
+        $additionalInfo = new AdditionalInformation($thumbnailUrl, $detailUrl);
+        $additionalInformations[$info->identifier->$idName] = $additionalInfo;
+      }
+    }
+
+    return $additionalInformations;
+  }
 
 }
