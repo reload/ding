@@ -29,16 +29,19 @@ function ting_search_autocomplete_js() {
 			}
 				
 			$suggestions = ting_get_spell_suggestions($query);
-			foreach ($suggestions as $suggestion)
+			if (is_array($suggestions))
 			{
-				if (!isset($terms[strtolower($suggestion->word)]))
+				foreach ($suggestions as $suggestion)
 				{
-					$suggestScan = ting_do_scan($suggestion->word, 1);
-					if (($term = array_shift($suggestScan->terms)) &&
-							(strtolower($suggestion->word) == strtolower($term->name)))
+					if (!isset($terms[strtolower($suggestion->word)]))
 					{
-						$term->score = $term->count * $suggestion->weight;
-						$terms[$term->name] = $term;
+						$suggestScan = ting_do_scan($suggestion->word, 1);
+						if (($term = array_shift($suggestScan->terms)) &&
+								(strtolower($suggestion->word) == strtolower($term->name)))
+						{
+							$term->score = $term->count * $suggestion->weight;
+							$terms[$term->name] = $term;
+						}
 					}
 				}
 			}
