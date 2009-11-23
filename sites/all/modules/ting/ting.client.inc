@@ -158,9 +158,9 @@ function ting_get_spell_suggestions($word, $numResults = 10) {
 }
 
 /**
- * @param string $word The word to get spell suggestions for
+ * @param string $isbn ISBN number to get recommendations from
  * @param $numResults The number of results to return
- * @return array An array of TingClientSpellSuggestion objects
+ * @return array An array of TingClientObjectRecommendation objects
  */
 function ting_get_object_recommendations($isbn, $numResults = 10) {
 	$request = ting_get_request_factory()->getObjectRecommendationRequest();
