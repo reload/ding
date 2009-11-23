@@ -44,6 +44,9 @@ function ting_search_pages_ting_js() {
     drupal_not_found();
     exit;
   }
+  
+  //Wrap base query
+  $query = '('.$query.')';
 
   //Extend query with selected facets
   if (isset($_GET['facets']) && $_GET['facets']) {
@@ -53,7 +56,7 @@ function ting_search_pages_ting_js() {
     foreach ($facets as $facet) {
       $facet = explode(':', $facet, 2);
       if ($facet[0]) {
-        $facetArray[] = $facet[0].':"'.$facet[1].'"';
+        $facetArray[] = $facet[0].'="'.$facet[1].'"';
       }
     }
 
