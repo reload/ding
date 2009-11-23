@@ -211,7 +211,7 @@ Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, res
 					f = facets[f].split(':');
 					if (f.length > 1)
 					{
-						jQuery('[facet-group='+f[0]+'][facet='+f[1]+']', element).addClass('selected');
+						jQuery('[facet-group='+f[0]+'][facet='+f[1]+']:not(.hidden)', element).addClass('selected');
 					}
 				}
 			}
