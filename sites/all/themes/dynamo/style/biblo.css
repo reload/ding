@@ -78,7 +78,7 @@
 
 #event-similar h4 a{display:block; height:40px; overflow:hidden; font-size:11px; line-height:12px;}
 #event-similar img{height:120px; width:120px; display:block;}
-#event-similar div{height:100px; margin:0 0 20px 0; width:120px; overflow:hidden;  font-size:10px; line-height:12px;}
+#event-similar div{height:100px; margin:0 0 20px 0; width:120px; overflow:hidden;  font-size:11px; line-height:12px;}
 #event-similar .date{height:20px; font-weight:bold;}
 /* ==========================================================================
 	library Right bars
@@ -167,7 +167,7 @@ ul.menu li.expanded ul.menu li.expanded a{display:block}
 
 /*events*/
 .pane-event_list-panel_pane_1 .view-event-list .libary-tag div{display:inline;margin:0 5px 0 0;}
-.pane-event_list-panel_pane_1 .view-event-list li{background:transparent url(../images/bg-divider.png) no-repeat left top;  clear:both; padding:10px 0 10px 20px;}
+.pane-event_list-panel_pane_1 .view-event-list li{background:transparent url(../images/bg-divider.png) no-repeat left top; padding:10px 0 10px 20px;}
 .pane-event_list-panel_pane_1 .view-event-list li.first{background:none;}
 .pane-event_list-panel_pane_1 .view-event-list span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px; font-weight:normal;}
 

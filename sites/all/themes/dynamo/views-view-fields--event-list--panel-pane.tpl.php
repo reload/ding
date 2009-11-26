@@ -1,14 +1,14 @@
  <!-- views-view-fields  event-list  page.tpl.php  (panel pane)-->
 <?php 
 
-
   // Convert the date value to timestamp
   $date = strtotime($fields['field_datetime_value']->raw . 'Z');
 ?>
 <div class="node-teaser clearfix">
 
   <div class="picture">
-    <?php print $fields['field_image_fid']->content; ?>
+
+    <?php print $fields['field_list_image_fid']->content; ?>
   </div>
 
   <div class="info">
