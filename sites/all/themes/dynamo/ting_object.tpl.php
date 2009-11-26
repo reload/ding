@@ -53,7 +53,7 @@
                 <span class='date'>(<?php echo $object->data->date[0]; ?>)</span>
               </div>
               <p><?php print $object->data->description[0];?></p>
-              <div class="alma-status waiting">Afventer data…</div>
+              <div class="alma-status waiting"><?php print t('waiting for data'); ?></div>
             </div>
 
             <?php print theme('alma_cart_reservation_buttons', $object); ?>
@@ -79,31 +79,42 @@
           </div>
 
           <div class="ding-box-wide alma-availability">
-            <h3>Følgende biblioteker har <?php print $object->data->title[0];?> hjemme:</h3>
+            <h3>Følgende biblioteker har "<?php print $object->data->title[0];?>" hjemme:</h3>
             <ul class="library-list">
-              <li class="alma-status waiting even">Afventer data…</li>
+              <li class="alma-status waiting even"><?php print t('waiting for data'); ?></li>
             </ul>
           </div>
 
 
-          <div class="object-otherversions">
+
           <?php
           $collection = ting_get_collection_by_id($object->id);
           if($collection instanceof TingClientObjectCollection)
           {
             if(is_array($collection->types))
-            {
-              print '<h3>'. t('Also available as: ') . '</h3>';
-              foreach ($collection->types as $category) {
-                if($category == $object->data->type[0]) continue;
-                $material_links[] = '<span class="category"><a href="'.$collection->url.'#'.$category.'">'.t($category).'</a></span>';
-              }
-              echo implode(", ", $material_links);
-            }
 
+              /*do we have more than only this one type*/
+            if(count($collection->types) > 1)
+            {
+              print '<div class="ding-box-wide object-otherversions">';
+              {
+                print '<h3>'. t('Also available as: ') . '</h3>';  
+                print "<ul>";
+
+                foreach ($collection->types as $category) {
+                  if($category == $object->data->type[0]) continue;
+                  $material_links[] = '<li class="category"><a href="'.$collection->url.'#'.$category.'">'.t($category).'</a></li>';
+                }
+                echo implode(", ", $material_links);
+
+              }
+
+            }
+            print "</ul>";
+            print "</div>";
           }
           ?>
-          </div>
+          
 
           <?php
           $referenced_nodes = ting_reference_nodes($object);
@@ -119,8 +130,5 @@
     </div>
   </div>
 
-<?php # Hello morten, do we still need this empty div? ?>
-  <div class="content-right">
-  </div>
 </div>
 
