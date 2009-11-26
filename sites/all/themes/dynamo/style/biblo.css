@@ -34,9 +34,11 @@
 	.node-teaser-library .office-hours-week .week-info{background:#d1d9d7}
 	.node-teaser-library .office-hours-week .odd,	.node-teaser-library .office-hours-week .even{padding:0 5px;} 
 	.node-teaser-library .office-hours-week .day{width:90px; display:block; float:left; }
-	.node-teaser-library .office-hours-week  .week-info{padding:0 0px 0 5px; font-size:10px;}
-	.node-teaser-library .office-hours-week  .week-info a.prev{width:15px; height:20px;}
-	.node-teaser-library .office-hours-week  .week-info a.next{width:15px; height:20px}
+	.node-teaser-library .office-hours-week .week-info .pil{margin:0 5px; font-weight:bold;}
+	.node-teaser-library .office-hours-week	.week-info strong{margin:0 3px; font-weight:normal; }
+	.node-teaser-library .office-hours-week .week-info{padding:0 0 0 5px; font-size:10px;}
+	.node-teaser-library .office-hours-week .week-info a.prev{width:15px; height:20px;}
+	.node-teaser-library .office-hours-week .week-info a.next{width:15px; height:20px;}
 
 /*calender pane*/
 .pane-event_list-panel_pane_2 .panel-pane{margin:0 5px;}
@@ -66,8 +68,6 @@
 
 
 
-
-
 /*features pane*/
 .ding-box-pane .pane-library_feature_list ul.item-list{padding:8px 0 8px 12px;}	
 	.ding-box-pane .pane-library_feature_list ul.item-list li{width:95px; float:left; margin:0 ; padding:0 0 0 15px; background:transparent url(../images/ok.png) no-repeat left 3px; }
@@ -76,6 +76,10 @@
 #content .node-event .content .field-datetime {}
 #content .node-event .field-entry-price{font-weight:bold; display:inline;}
 
+#event-similar h4 a{display:block; height:40px; overflow:hidden; font-size:11px; line-height:12px;}
+#event-similar img{height:120px; width:120px; display:block;}
+#event-similar div{height:100px; margin:0 0 20px 0; width:120px; overflow:hidden;  font-size:11px; line-height:12px;}
+#event-similar .date{height:20px; font-weight:bold;}
 /* ==========================================================================
 	library Right bars
 /*----------------------------------------------------------------------------*/
@@ -163,7 +167,7 @@ ul.menu li.expanded ul.menu li.expanded a{display:block}
 
 /*events*/
 .pane-event_list-panel_pane_1 .view-event-list .libary-tag div{display:inline;margin:0 5px 0 0;}
-.pane-event_list-panel_pane_1 .view-event-list li{background:transparent url(../images/bg-divider.png) no-repeat left top;  clear:both; padding:10px 0 10px 20px;}
+.pane-event_list-panel_pane_1 .view-event-list li{background:transparent url(../images/bg-divider.png) no-repeat left top; padding:10px 0 10px 20px;}
 .pane-event_list-panel_pane_1 .view-event-list li.first{background:none;}
 .pane-event_list-panel_pane_1 .view-event-list span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px; font-weight:normal;}
 

@@ -31,12 +31,15 @@ function mothership_table($header, $rows, $attributes = array(), $caption = NULL
     foreach ($header as $cell) {
       // adds odd even, count and name for a th
       $zebra = $i % 2 ? 'even' : 'odd';
+      /*add classnames + a count*/
+      $zebra .= " count-" . $i . ' ' . mothership_id_safe($cell); 
       if (is_array($cell)) {
+        print_r($cell['data']);
         if (isset($cell['class'])) {
-          $cell['class'] .= " $zebra count-" . $i . " " . mothership_id_safe($cell['data']) ;
+          $cell['class'] .=  $zebra;
         }
         else {
-          $cell['class'] = $zebra ." count-" . $i . " " . mothership_id_safe($cell['data']) ;
+          $cell['class'] = $zebra;
         }
       }
       else {
@@ -54,8 +57,6 @@ function mothership_table($header, $rows, $attributes = array(), $caption = NULL
   else {
     $ts = array();
   }
-
-
 
   // Format the table rows:
   if (count($rows)) {
