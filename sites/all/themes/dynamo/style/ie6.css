@@ -1,4 +1,4 @@
-/*ie6 stuff*/
+/*ie6 <3 .... */
 #user-login-form .form-image-button{padding:0; margin:1px 0 0 0px}
 #edit-pass-wrapper input{width:155px;}
 #ting-search-form div.example{clear:none;}
@@ -9,11 +9,16 @@ body.node-type-page .panel-left {margin:0 0 0 10px; }
 ul.menu li.leaf {margin :0 0 0 35px;}
 .panel-left ul.menu li ul li.first{padding:0 0 0 0;margin:0 0 0 35px; }
 
+/*carousel*/
+.jcarousel-skin-ting-search-carousel .jcarousel-clip-horizontal {width:670px; height:200px;}
+.ting-search-carousel .subtitle {margin:10px 0 0px 10px; }
 
-.jcarousel-skin-ting-search-carousel .jcarousel-clip-horizontal {width:670px; background:#303;}
-.ting-search-carousel .subtitle {margin:10px 0 10px 10px; }
-
-
+.jcarousel-skin-ting-search-carousel .jcarousel-prev-horizontal {left:-250px}
+.jcarousel-skin-ting-search-carousel .jcarousel-next-horizontal {right:-40px}
+/*active skifter*/
+ul.search-results li{display:none;}
+  ul.search-results li.active{display:block;}
+  ul.search-results li .jcarousel-skin-ting-search-carousel li{display:block;}
 
 /* ___________ IE6 IFRAME FIX ________ */
 .ui-datepicker-cover {
