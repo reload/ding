@@ -92,15 +92,17 @@ Account block
 
 	/**/	
 	#account-profile .cart{width:60px; height:46px; padding:0 12px 0 0; height:60px;float:left; background:transparent url(../images/bg-account-cart.gif) no-repeat left top; text-align:center;}
-		#account-profile .cart div.count{font-size:25px; margin:6px 0 0 20px; height:20px; width:30px;}
+		#account-profile .cart div.count{font-size:25px; margin:6px 0 0 20px;}
 		#account-profile .cart a{display:block; font-size:9px; margin:5px 0 0 0;}
 
 	/* material status */	
 	#account-profile ul{width:177px; float:left; background:transparent url(../images/bg-account-divider.gif) no-repeat left top;}
 		#account-profile ul li{clear:both; background:transparent url(../images/bg-account-divider.gif) no-repeat left bottom;}
 		#account-profile ul li div{font-size:11px; float:left; overflow:hidden;}
-	#account-profile ul div.content{width:136px; }
-			#account-profile ul div.content span{float:right; padding:0 5px 0 0;}
+	#account-profile ul div.content{width:136px;}
+  			#account-profile ul div.content a{width:136px; display:block; cursor: pointer;}
+			#account-profile ul div.content span{ padding:0 5px 0 0; float:left;}
+			#account-profile ul div.content strong{float:right;}
 	#account-profile ul div.status{width:36px; height:24px; background:transparent url(../images/bg-account-status.gif) no-repeat left 0px; text-indent: -9999em;}
 		#account-profile ul div.status span{height:16px; width:16px; margin:1px 0 0 11px; display: block;}
 		#account-profile ul div.status span.ok{background:transparent url(../images/status-info.png) no-repeat left top; }
