@@ -68,8 +68,6 @@
 
 
 
-
-
 /*features pane*/
 .ding-box-pane .pane-library_feature_list ul.item-list{padding:8px 0 8px 12px;}	
 	.ding-box-pane .pane-library_feature_list ul.item-list li{width:95px; float:left; margin:0 ; padding:0 0 0 15px; background:transparent url(../images/ok.png) no-repeat left 3px; }
@@ -78,6 +76,10 @@
 #content .node-event .content .field-datetime {}
 #content .node-event .field-entry-price{font-weight:bold; display:inline;}
 
+#event-similar h4 a{display:block; height:40px; overflow:hidden; font-size:11px; line-height:12px;}
+#event-similar img{height:120px; width:120px; display:block;}
+#event-similar div{height:100px; margin:0 0 20px 0; width:120px; overflow:hidden;  font-size:10px; line-height:12px;}
+#event-similar .date{height:20px; font-weight:bold;}
 /* ==========================================================================
 	library Right bars
 /*----------------------------------------------------------------------------*/
