@@ -9,6 +9,7 @@
  * - $object: The TingClientObject instance we're rendering.
  */
 ?>
+<!-- ting_object.tpl -->
 <div id="ting-object">
 
   <div class="content-left">
@@ -17,15 +18,6 @@
 
       <ul>
         <li class="active"><a href="#">Materialer</a></li>
-        <li><a href="#">Forfatterportræt </a></li>
-        <li class="active"><a href="#">Anmeldelser </a></li>
-        <li class="active"><a href="#">Materialer</a></li>
-        <li><a href="#">Forfatterportræt </a></li>
-        <li class="active"><a href="#">Anmeldelser </a></li>
-        <li class="active"><a href="#">Materialer</a></li>
-        <li><a href="#">Forfatterportræt </a></li>
-        <li class="active"><a href="#">Anmeldelser </a></li>
-
       </ul>
 
     </div>
@@ -81,9 +73,9 @@
             <?php print theme('item_list',$object->data->publisher, t('Publisher'), 'span', array('class' => 'publisher'));?>
             <?php print theme('item_list',$object->data->format, t('Format'), 'span', array('class' => 'format'));?>
             <?php print theme('item_list',$object->data->language, t('Language'), 'span', array('class' => 'language'));?>
-            <?php print theme('item_list',$object->data->relation, t('Relation'), 'span', array('class' => 'relation'));?>
-            <?php print theme('item_list',$object->data->coverage, t('Coverage'), 'span', array('class' => 'coverage'));?>
-            <?php print theme('item_list',$object->data->rights, t('Rights'), 'span', array('class' => 'rights'));?>
+            <?php // print theme('item_list',$object->data->relation, t('Relation'), 'span', array('class' => 'relation'));?>
+            <?php // print theme('item_list',$object->data->coverage, t('Coverage'), 'span', array('class' => 'coverage'));?>
+            <?php // print theme('item_list',$object->data->rights, t('Rights'), 'span', array('class' => 'rights'));?>
           </div>
 
           <div class="ding-box-wide alma-availability">
