@@ -232,12 +232,10 @@ ul.item-list h3{margin:0 0 0 20px;}
 .views-exposed-form .views-exposed-widget{float:left;}
 .views-exposed-form .views-exposed-widget .form-submit,
 .views-exposed-form .views-exposed-widget .form-button,
-#content form .views-exposed-form .form-item 
-{
-margin:0; padding:0;
+#content form .views-exposed-form .form-item {
+  margin:0; padding:0;
 }
 .views-exposed-form  label{display:none;}
 .view-empty{margin:0 0 0 20px;}
-
 body.ding-faciliteter .panel-pane h2{margin:0 0 0 20px;}
 

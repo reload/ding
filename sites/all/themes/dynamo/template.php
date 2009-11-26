@@ -315,7 +315,7 @@ function dynamo_username($object) {
     // Prevent extremely long names of non-trusted users from breaking the
     // design.
     if (drupal_strlen($name) > 20 && empty($object->has_secure_role)) {
-      $name = drupal_substr($name, 0, 15) .'…';
+      $name = drupal_substr($name, 0, 100) .'…';
     }
 
     if (user_access('access user profiles')) {

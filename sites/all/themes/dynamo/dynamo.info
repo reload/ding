@@ -37,6 +37,7 @@ stylesheets[all][]  = style/typography.css
 stylesheets[all][]  = style/dynamo.css
 stylesheets[all][]  = style/biblo.css
 stylesheets[all][]  = style/search.css
+stylesheets[all][]  = style/ting.css
 stylesheets[all][]  = style/user.css
 
 stylesheets[all][]  = style/developer.css

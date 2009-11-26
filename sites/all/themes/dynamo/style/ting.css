@@ -1,0 +1,41 @@
+/* ===================================== 
+	Style: ting.css
+	styles for ting, collections etc
+* ------------------------------------- */
+
+
+
+
+#ting-collection .ting-overview { margin-bottom: 20px; }
+#ting-collection .ting-overview p { color: #646765; } /* default text color, morten?! */
+#ting-collection .ting-overview .creator { color: #878787; margin-bottom: 10px; }
+#ting-collection .ting-overview .byline { font-weight: normal; font-style: italic; }
+#ting-collection .ting-overview .terms .title { font-weight: normal; }
+#ting-collection .ting-overview .terms { font-size: 11px; color: #878787;}
+
+
+#ting-collection .ting-item .picture{float:left; margin:0 10px 10px 0;}
+
+#ting-collection .ting-overview .material-links { font-size: 11px; background-color: #E7ECEB; padding: 10px; margin-top: 15px; } 
+#ting-collection .ting-overview .material-links .title { display: block; font-weight: bold; color: #000; }
+
+#ting-collection .info h5 { font-size: 10px; display: inline; font-weight: bold; }
+#ting-collection .info .date { display: block; }
+#ting-collection .info .byline {font-style: italic; }
+#ting-collection .info .author {}
+#ting-collection .info ul.types { margin-top: 10px; }
+
+.ting-item{margin:10px 0 0 0; padding:10px 0; border-bottom: 1px solid #eee;}
+
+.ting-item .alma-status {background-color: #eee; text-align: center; width:100px; display:block; float:left;}
+
+.ting-item .alma-status.waiting,
+#content .alma-cart-buttons a.disabled {
+  color: #777;
+}
+
+.ting-item .alma-status.available { background-color: #71bf44;  color: white;}
+
+.ting-item .alma-status.unavailable {  background-color: #6B0046;  color: white;}
+
+

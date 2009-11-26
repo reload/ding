@@ -279,6 +279,7 @@ drupal Messages
 
 
 .panel-pane .view .feed-icon{margin:0 0 0 10px;}
+
 /* =====================================
 Cowboy small trix not "really" implementet yet
 /*--------------------------------------*/
@@ -291,6 +292,8 @@ Cowboy small trix not "really" implementet yet
 .node div.field-file-attachments span{}
 .node .field-file-attachments a{display:block; margin:0 0 10px 0;font-weight:normal}
 .node .field-file-attachments  a img{margin:0; padding:0 10px 0; background:transparent; }
+
+
 /* =====================================
 Crap from modules
 /*--------------------------------------*/
