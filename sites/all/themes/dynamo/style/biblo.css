@@ -34,9 +34,11 @@
 	.node-teaser-library .office-hours-week .week-info{background:#d1d9d7}
 	.node-teaser-library .office-hours-week .odd,	.node-teaser-library .office-hours-week .even{padding:0 5px;} 
 	.node-teaser-library .office-hours-week .day{width:90px; display:block; float:left; }
-	.node-teaser-library .office-hours-week  .week-info{padding:0 0px 0 5px; font-size:10px;}
-	.node-teaser-library .office-hours-week  .week-info a.prev{width:15px; height:20px;}
-	.node-teaser-library .office-hours-week  .week-info a.next{width:15px; height:20px}
+	.node-teaser-library .office-hours-week .week-info .pil{margin:0 5px; font-weight:bold;}
+	.node-teaser-library .office-hours-week	.week-info strong{margin:0 5px; font-weight:normal; }
+	.node-teaser-library .office-hours-week .week-info{padding:0 0px 0 5px; font-size:10px;}
+	.node-teaser-library .office-hours-week .week-info a.prev{width:15px; height:20px;}
+	.node-teaser-library .office-hours-week .week-info a.next{width:15px; height:20px;}
 
 /*calender pane*/
 .pane-event_list-panel_pane_2 .panel-pane{margin:0 5px;}
