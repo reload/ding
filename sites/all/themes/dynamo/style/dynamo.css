@@ -270,12 +270,16 @@ drupal Messages
 
 /* frontpage
 --------------------------------------*/
-  /*carousel*/
+
+/*carousel*/
   .ting-search-carousel .search-controller li.active a {color:#fff;}
   .jcarousel-skin-ting-search-carousel .jcarousel-clip-horizontal {width:670px;}
   .jcarousel-skin-ting-search-carousel .jcarousel-item {width:111px}
   .ting-search-carousel .search-results .info {width:100px;}
   .ting-search-carousel .subtitle {font-size:47px;margin:10px 0 0px 40px; float:left; overflow:hidden; width:200px;s}
+  .ting-search-carousel .search-controller li.active a {color:#fff;}
+
+
 
 
 .panel-pane .view .feed-icon{margin:0 0 0 10px;}
@@ -293,6 +297,8 @@ Cowboy small trix not "really" implementet yet
 .node .field-file-attachments a{display:block; margin:0 0 10px 0;font-weight:normal}
 .node .field-file-attachments  a img{margin:0; padding:0 10px 0; background:transparent; }
 
+body.ding-anbefalinger h1, body.ding-anbefalinger .pane-topic_list h2{margin:0 0 0 20px;}
+body.ding-taxonomy-term h3{margin:0 0 0 20px;}
 
 /* =====================================
 Crap from modules

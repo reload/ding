@@ -170,6 +170,8 @@ all content based on search results are in the search.css
 
 /*panel-threecol-left-stacked-right*/
 .panel-threecol-left-stacked-right .panel-left{width:220px;  margin:0 0 0 20px; float:left;}
+body.ding-arrangementer .panel-threecol-left-stacked-right .panel-left{width:130px;}
+
 .panel-threecol-left-stacked-right .panel-middle{width:470px; float:left;}
 
 #collection{}

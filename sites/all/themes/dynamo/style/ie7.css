@@ -2,5 +2,7 @@ ul.menu li.leaf {margin :0 0 0 35px;}
 .panel-left ul.menu li ul li.first{padding:0 0 0 0;margin:0 0 0 35px;}
 
 .jcarousel-skin-ting-search-carousel .jcarousel-prev-horizontal{left:-267px;}
-.jcarousel-skin-ting-search-carousel .jcarousel-next-horizontal{right:-25px;}
+.jcarousel-skin-ting-search-carousel .jcarousel-next-horizontal{}
 
+.jcarousel-skin-ting-search-carousel .jcarousel-clip-horizontal {width:670px; height:200px; }
+.ting-search-carousel .subtitle {font-size:47px;margin:20px 0 0px 20px; padding:0;float:left; overflow:hidden; width:200px;}
