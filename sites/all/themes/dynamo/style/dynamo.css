@@ -198,24 +198,6 @@ basic elements
 /*--------------------------------------*/
 .content{margin:0 5px 0 0;}
 
-/* =====================================
-buttons
-/*--------------------------------------*/
-.button{height:30px; display:block; padding:0 23px 0 0px; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat right 0px}
-	.button:hover{background: transparent url(../images/sprite-knapper-reservering.png) no-repeat right -120px}
-	.button a{font-size:10px; color:#fff; height:25px; margin:0 0 0 0; padding:5px 0 0 10px; display:block; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat left -60px;}
-	.button a:hover, .button-orange a:focus{text-decoration: none; color:#eee; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat left -180px;}
-
-.button-orange{background-position:right 0px}
-	.button-orange:hover{background-position:right -120px}
-	.button-orange a{background-position: left -60px;}
-	.button-orange a:hover, .button-orange a:focus{background-position: left -180px;}
-
-.button-green{background-position:right -30px}
-	.button-green:hover{background-position:right -150px}
-	.button-green a{background-position: left -90px;}
-	.button-green a:hover, .button-green a:focus{background-position: left -210px;}
-
 
 /* =====================================
 	node content styles

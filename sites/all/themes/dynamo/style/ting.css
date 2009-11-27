@@ -25,8 +25,10 @@
 #ting-collection .info .author {}
 #ting-collection .info ul.types { margin-top: 10px; }
 
-.ting-item{margin:10px 0 0 0; padding:10px 0; border-bottom: 1px solid #eee;}
 
+#ting-collection h2{margin: 10px 0; border-bottom: 1px solid #E7ECEB; color:#000; font-weight:bold;}
+
+.ting-item{margin:10px 0 0 0; padding:10px 0; border-bottom: 1px solid #eee;}
 
 .ting-item .content{}
 .ting-item .content .picture{float:left; width:85px;}
@@ -39,8 +41,48 @@
   .ting-item .alma-status.available {background-color: #71bf44;  color: white;}
   .ting-item .alma-status.unavailable{  background-color: #6B0046;  color: white;}
 
+/* 
+  buttons
+--------------------------------------*/
+
 ul.alma-cart-buttons li,
 ul.alma-cart-buttons li.first, 
 ul.alma-cart-buttons li.last{background:none;  border:none; float:left;  padding:0; margin:0; text-align:center;}
+/*
 ul.alma-cart-buttons li a{background:#ddd;margin:3px; padding:5px; border: 1px solid #ccc;  -moz-border-radius: 5px; -webkit-border-radius: 5px;}
 ul.alma-cart-buttons li a:hover{background:#999; text-decoration:none; color:#fff;}
+*/
+/* 
+  buttons
+--------------------------------------*/
+
+ul.buttons li,
+ul.buttons li.first, 
+ul.buttons li.last{ 
+  height:30px; display:block; padding:0 23px 0 0px; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat right 0px;
+}
+
+.ting-item ul.buttons li:hover,
+.ting-overview ul.buttons li:hover
+{
+  background: transparent url(../images/sprite-knapper-reservering.png) no-repeat right -120px
+}
+.ting-item ul.buttons li a,
+.ting-overview ul.buttons li a{
+  font-size:10px; font-weight:bold; color:#fff; height:25px; margin:0 0 0 0; padding:5px 0 0 10px; display:block; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat left -60px;
+}
+
+ul.buttons li a:hover, 
+ul.button-orange a:focus{
+  text-decoration: none; color:#eee; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat left -180px;
+}
+
+.button-orange{background-position:right 0px}
+	.button-orange:hover{background-position:right -120px}
+	.button-orange a{background-position: left -60px;}
+	.button-orange a:hover, .button-orange a:focus{background-position: left -180px;}
+
+.button-green{background-position:right -30px}
+	.button-green:hover{background-position:right -150px}
+	.button-green a{background-position: left -90px;}
+	.button-green a:hover, .button-green a:focus{background-position: left -210px;}

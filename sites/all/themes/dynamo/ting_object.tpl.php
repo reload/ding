@@ -105,7 +105,8 @@
                   if($category == $object->data->type[0]) continue;
                   $material_links[] = '<li class="category"><a href="'.$collection->url.'#'.$category.'">'.t($category).'</a></li>';
                 }
-                echo implode(", ", $material_links);
+               echo implode(" ", $material_links);
+               // echo implode(", ", $material_links);
 
               }
 

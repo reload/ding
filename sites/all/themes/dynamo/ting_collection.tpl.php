@@ -143,7 +143,6 @@
   						<div class="more">
   						  <?php print l(t('More information'), $tingClientObject->url, array('attributes' => array('class' => 'more-link')) ); ?>  
   						</div>
-  						
             
               <div class="alma-status waiting">Afventer data…</div>
 
