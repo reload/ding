@@ -1,9 +1,16 @@
 <?php
-// $Id: path_redirect.test,v 1.1.2.15 2009/04/25 20:54:46 davereid Exp $
+// $Id: path_redirect.test,v 1.1.2.16 2009/11/27 04:22:13 davereid Exp $
 
 /**
  * @file
  * Tests for the path_redirect module.
+ */
+
+/**
+ * @todo Add the following test conditions:
+ * - Case insensitive
+ * - Different URL schemas (e.g. ical://)
+ * - Page cache of path cleared when redirect saved
  */
 
 class PathRedirectUnitTest extends DrupalWebTestCase {
