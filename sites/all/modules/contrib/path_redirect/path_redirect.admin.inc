@@ -1,5 +1,5 @@
 <?php
-// $Id: path_redirect.admin.inc,v 1.1.2.44 2009/06/27 22:24:27 davereid Exp $
+// $Id: path_redirect.admin.inc,v 1.1.2.57 2009/11/27 05:59:17 davereid Exp $
 
 /**
  * @file
@@ -9,8 +9,8 @@
 /**
  * Render a list of redirects for the main admin page.
  */
-function path_redirect_admin() {
-  $multilanguage = (module_exists('locale') || db_result(db_query("SELECT rid FROM {path_redirect} WHERE language <> ''")));
+function path_redirect_list_redirects() {
+  $multilanguage = module_exists('locale');
   $languages = language_list();
 
   $header = array(
@@ -26,27 +26,27 @@ function path_redirect_admin() {
   $limit = 50;
 
   $redirects = pager_query('SELECT rid, path, redirect, query, fragment, language, type FROM {path_redirect}'. tablesort_sql($header), $limit);
-  while ($r = db_fetch_object($redirects)) {
-    $redirect = url($r->redirect, array('query' => $r->query, 'fragment' => $r->fragment, 'absolute' => TRUE, 'alias' => TRUE));
+  while ($redirect = db_fetch_object($redirects)) {
+    $redirect->redirect_url = url($redirect->redirect, array('query' => $redirect->query, 'fragment' => $redirect->fragment, 'absolute' => TRUE, 'alias' => TRUE));
+    $redirect->path_url = $redirect->path;
+    $redirect->path = parse_url($redirect->path);
     $row = array(
       'data' => array(
-        // @todo: Revise the following messy, confusing line.
-        l($r->path, preg_replace('/[\?\&].*/', '', $r->path), array('query' => strstr($r->path, '?') ? preg_replace('/.*\?/', '', $r->path) : NULL, 'language' => $r->language ? $languages[$r->language] : NULL)),
-        // @todo: Fix sorting on the redirect field
-        l($redirect, $redirect, array('external' => TRUE)),
-        $r->type,
-        l(t('Edit'), 'admin/build/path-redirect/edit/'. $r->rid, array('query' => drupal_get_destination())),
-        l(t('Delete'), 'admin/build/path-redirect/delete/'. $r->rid, array('query' => drupal_get_destination())),
+        l($redirect->path_url, $redirect->path['path'], $redirect->path),
+        l($redirect->redirect_url, $redirect->redirect_url, array('external' => TRUE)),
+        $redirect->type,
+        l(t('Edit'), 'admin/build/path-redirect/edit/'. $redirect->rid),
+        l(t('Delete'), 'admin/build/path-redirect/delete/'. $redirect->rid),
       ),
     );
     if ($multilanguage) {
-      array_splice($row['data'], 3, 0, module_invoke('locale', 'language_name', $r->language));
+      array_splice($row['data'], 3, 0, module_invoke('locale', 'language_name', $redirect->language));
     }
     $rows[] = $row;
   }
 
   if (empty($rows)) {
-    $rows[] = array(array('data' => t('No redirects available.'), 'colspan' => $multilanguage ? 5 : 4));
+    $rows[] = array(array('data' => t('No redirects available.'), 'colspan' => $multilanguage ? 6 : 5));
   }
 
   $output = theme('table', $header, $rows, array('class' => 'path-redirects'));
@@ -55,35 +55,21 @@ function path_redirect_admin() {
   return $output;
 }
 
-/**
- * Callback for add and edit pages.
- *
- * @return
- *   A form for drupal_get_form.
- */
-function path_redirect_edit($form_state, $rid = FALSE) {
-  if ($rid) {
-    $redirect = (array) path_redirect_load($rid);
-    drupal_set_title(check_plain($redirect['path']));
-    $output = path_redirect_edit_form($form_state, $redirect);
-  }
-  else {
-    drupal_set_title(t('Add redirect'));
-    $output = path_redirect_edit_form($form_state);
-  }
-  return $output;
-}
-
-function path_redirect_edit_form(&$form_state, $edit = array()) {
+function path_redirect_edit_form(&$form_state, $redirect = array()) {
   // Merge default values.
-  $edit += array(
+  $redirect += array(
     'rid' => NULL,
     'path' => isset($_GET['src']) ? urldecode($_GET['src']) : '',
     'redirect' => isset($_GET['dst']) ? urldecode($_GET['dst']) : '',
     'query' => NULL,
     'fragment' => NULL,
-    'language' => isset($_GET['language']) ? urldecode($_GET['language']) : '',
+    'language' => isset($_GET['language']) ? urldecode($_GET['language']) : NULL,
     'type' => path_redirect_var('default_status'),
+  );
+
+  $form['rid'] = array(
+    '#type' => 'value',
+    '#value' => $redirect['rid'],
   );
 
   $form['path'] = array(
@@ -92,7 +78,7 @@ function path_redirect_edit_form(&$form_state, $edit = array()) {
     '#description' => t("Enter an interal Drupal path or path alias to redirect (e.g. %example1 or %example2). Fragment anchors (e.g. %anchor) are <strong>not</strong> allowed.", array('%example1' => 'node/123', '%example2' => 'taxonomy/term/123', '%anchor' => '#anchor')),
     '#size' => 42,
     '#maxlength' => 255,
-    '#default_value' => $edit['path'],
+    '#default_value' => $redirect['path'],
     '#required' => TRUE,
     '#field_prefix' => url('', array('absolute' => TRUE)) . (variable_get('clean_url', 0) ? '' : '?q='),
     '#autocomplete_path' => db_table_exists('watchdog') ? 'js/path_redirect/autocomplete_404' : '',
@@ -110,7 +96,7 @@ function path_redirect_edit_form(&$form_state, $edit = array()) {
     '#type' => 'textfield',
     '#size' => 30,
     '#maxlength' => 255,
-    '#default_value' => $edit['redirect'],
+    '#default_value' => $redirect['redirect'],
     //'#required' => TRUE,
   );
 
@@ -122,7 +108,7 @@ function path_redirect_edit_form(&$form_state, $edit = array()) {
     '#type' => 'textfield',
     '#size' => 12,
     '#maxlength' => 255,
-    '#default_value' => $edit['query'],
+    '#default_value' => $redirect['query'],
   );
 
   $form['redirect'][] = array(
@@ -133,24 +119,22 @@ function path_redirect_edit_form(&$form_state, $edit = array()) {
     '#type' => 'textfield',
     '#size' => 12,
     '#maxlength' => 50,
-    '#default_value' => $edit['fragment'],
+    '#default_value' => $redirect['fragment'],
   );
 
   $form[] = array(
     '#value' => "<p> </p>", // little bit of extra space
   );
 
+  $languages = module_exists('locale') ? locale_language_list('name') : array();
   $form['language'] = array(
-    '#type' => 'value',
+    '#type' => 'select',
     '#title' => t('Language'),
-    '#options' => array('' => t('All languages')),
-    '#default_value' => $edit['language'],
+    '#options' => array('' => t('Language neutral')) + $languages,
+    '#default_value' => $redirect['language'],
     '#description' => t('A redirect set for a specific language will always be used when requesting this page in that language, and takes precedence over redirects set for <em>All languages</em>.'),
+    '#access' => $languages,
   );
-  if (module_exists('locale')) {
-    $form['language']['#type'] = 'select';
-    $form['language']['#options'] += locale_language_list('name');
-  }
 
   $form['advanced'] = array(
     '#type' => 'fieldset',
@@ -158,88 +142,53 @@ function path_redirect_edit_form(&$form_state, $edit = array()) {
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
-
-  $status_options = array();
-  $status_descriptions = array();
-  foreach (path_redirect_status_codes() as $code => $details) {
-    $status_options[$code] = $details['title'];
-    $status_descriptions[] = $details['title'] .': '. $details['description'];
-  }
   $form['advanced']['type'] = array(
     '#type' => 'select',
     '#title' => t('Redirect status'),
-    '#description' => theme('item_list', $status_descriptions) . t('You can find more information about HTTP redirect status codes at <a href="@link">@link</a>.', array('@link' => 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3')),
-    '#default_value' => $edit['type'],
-    '#options' => $status_options,
+    '#description' => t('You can find more information about HTTP redirect status codes at <a href="@status-codes">@status-codes</a>.', array('@status-codes' => 'http://en.wikipedia.org/wiki/List_of_HTTP_status_codes#3xx_Redirection')),
+    '#default_value' => $redirect['type'],
+    '#options' => path_redirect_status_code_options(),
   );
 
-  $form['rid'] = array('#type' => 'value', '#value' => $edit['rid']);
-  $form['submit'] = array('#type' => 'submit', '#value' => t('Save'));
-  $form['cancel'] = array('#value' => l(t('Cancel'), 'admin/build/path-redirect'));
-  $form['#redirect'] = 'admin/build/path-redirect';
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+  );
+  $form['cancel'] = array(
+    '#value' => l(t('Cancel'),
+    'admin/build/path-redirect'),
+  );
 
   return $form;
 }
 
-function path_redirect_edit_validate($form, &$form_state) {
-  if (strpos($form_state['values']['path'], '#') !== FALSE) {
-    // Check that the "from" path is valid and contains no # fragment
-    form_set_error('path', t('You cannot redirect from a fragment anchor.'));
-  }
-  //elseif (!valid_url($form_state['values']['path'])) {
-  //  //Make sure "from" has the form of a local Drupal path
-  //  form_set_error('path', t('The redirect <strong>from</strong> path does not appear valid. This must be a local Drupal path.'));
-  //}
-  elseif (($result = path_redirect_load(array('path' => $form_state['values']['path']))) && $form_state['values']['rid'] !== $result->rid) {
-    // The "from" path should not conflict with another redirect
-    form_set_error('path', t('The <strong>from</strong> path you entered is already redirected. You can <a href="@edit-page">edit this redirect</a> instead.', array('@edit-page' => url('admin/build/path-redirect/edit/'. $result->rid))));
-  }
-  elseif ($pid = db_result(db_query("SELECT pid FROM {url_alias} WHERE dst = '%s'", array(':dst' => $form_state['values']['path'])))) {
-    // A redirect's 'from' cannot match any values from url_alias, it will cause an infinite loop.
-    form_set_error('path', t('You cannot add an existing alias as a redirect as it will not work. You must <a href="@alias-delete">delete the alias</a> first.', array('@alias-delete' => url('admin/build/path/delete/' . $pid, array('query' => drupal_get_destination())))));
-  }
-  elseif (menu_get_item($form_state['values']['path'])) {
-    form_set_error('path', t('You cannot create a redirect from a currently valid path.'));
-  }
-
-  if (!valid_url($form_state['values']['redirect']) && !valid_url($form_state['values']['redirect'], TRUE) && $form_state['values']['redirect'] != '<front>') {
-    form_set_error('redirect', t('The redirect <strong>to</strong> path does not appear valid.'));
-  }
-
-  if ($form_state['values']['redirect'] == '<front>') {
-    $form_state['values']['redirect'] = variable_get('site_frontpage', 'node');
-  }
-
-  // check that there there are no redirect loops
-  if ($form_state['values']['path'] === $form_state['values']['redirect']) {
-    form_set_error('redirect', t('You are attempting to redirect the page to itself. This will result in an infinite loop.'));
-  }
-
-  // Allow spaces in "from" path
-  $form_state['values']['path'] = str_replace("+", " ", $form_state['values']['path']);
+function path_redirect_edit_form_validate($form, &$form_state) {
+  path_redirect_validate_redirect($form_state['values']);
 }
 
-function path_redirect_edit_submit($form, &$form_state) {
+function path_redirect_edit_form_submit($form, &$form_state) {
   path_redirect_save($form_state['values']);
-  drupal_set_message(t('Redirect has been saved.'));
+  drupal_set_message(t('The redirect has been saved.'));
+  $form_state['redirect'] = 'admin/build/path-redirect';
 }
 
-function path_redirect_delete_confirm($form_state, $rid) {
-  $form['rid'] = array(
+function path_redirect_delete_form($form_state, $redirect) {
+  $form['redirect'] = array(
     '#type' => 'value',
-    '#value' => $rid,
+    '#value' => $redirect,
   );
-  $redirect = path_redirect_load($rid);
-  return confirm_form($form,
-    t('Are you sure you want to delete the redirect from %path to %redirect?', array('%path' => $redirect->path, '%redirect' => $redirect->redirect)),
-    isset($_GET['destination']) ? $_GET['destination'] : 'admin/build/path-redirect');
+
+  return confirm_form(
+    $form,
+    t('Are you sure you want to delete the redirect from %path to %redirect?', array('%path' => $redirect['path'], '%redirect' => $redirect['redirect'])),
+    isset($_GET['destination']) ? $_GET['destination'] : 'admin/build/path-redirect'
+  );
 }
 
-function path_redirect_delete_confirm_submit($form, &$form_state) {
-  if ($form_state['values']['confirm']) {
-    path_redirect_delete($form_state['values']['rid']);
-    drupal_set_message(t('The redirect has been deleted.'));
-  }
+function path_redirect_delete_form_submit($form, &$form_state) {
+  path_redirect_delete($form_state['values']['redirect']['rid']);
+  drupal_set_message(t('The redirect has been deleted.'));
+  $form_state['redirect'] = 'admin/build/path-redirect';
 }
 
 /**
@@ -253,90 +202,44 @@ function path_redirect_settings_form() {
     '#title' => t('Display a warning message to users when they are redirected.'),
     '#default_value' => path_redirect_var('redirect_warning'),
   );
-
   $form['path_redirect_allow_bypass'] = array(
     '#type' => 'checkbox',
     '#title' => t('Allow users to bypass redirects by adding %code to the URL.', array('%code' => variable_get('clean_url', 0) ? '?redirect=no' : '&redirect=no')),
     '#default_value' => path_redirect_var('allow_bypass'),
   );
-
   $form['path_redirect_auto_redirect'] = array(
     '#type' => 'checkbox',
     '#title' => t('Automatically create redirects when URL aliases are changed.'),
     '#default_value' => path_redirect_var('auto_redirect'),
     '#access' => module_exists('path'),
   );
-
   $form['path_redirect_purge_inactive'] = array(
     '#type' => 'select',
     '#title' => t('Discard redirects that have not been accessed for'),
     '#default_value' => path_redirect_var('purge_inactive'),
     '#options' => array(0 => t('Never (do not discard)')) + drupal_map_assoc(array(604800, 1209600, 2419200, 4838400, 7257600, 9676800, 31536000), 'format_interval'),
   );
-
-  $status_options = array();
-  $status_descriptions = array();
-  foreach (path_redirect_status_codes() as $code => $details) {
-    $status_options[$code] = $details['title'];
-    $status_descriptions[] = $details['title'] .': '. $details['description'];
-  }
   $form['path_redirect_default_status'] = array(
     '#type' => 'select',
     '#title' => t('Default redirect status'),
-    '#description' => theme('item_list', $status_descriptions) . t('You can find more information about HTTP redirect status codes at <a href="@link">@link</a>.', array('@link' => 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3')),
+    '#description' => t('You can find more information about HTTP redirect status codes at <a href="@status-codes">@status-codes</a>.', array('@status-codes' => 'http://en.wikipedia.org/wiki/List_of_HTTP_status_codes#3xx_Redirection')),
     '#default_value' => path_redirect_var('default_status'),
-    '#options' => $status_options,
+    '#options' => path_redirect_status_code_options(),
   );
 
   return system_settings_form($form);
 }
 
-/**
- * Return an array of 300-range status codes.
- */
-function path_redirect_status_codes() {
+function path_redirect_status_code_options() {
   return array(
-    300 => array(
-      'title' => t('300 Multiple Choices'),
-      'description' => t('The request is ambiguous and needs clarification as to which resource was requested.'),
-    ),
-    301 => array(
-      'title' => t('301 Moved Permanently'),
-      'description' => t('Moved Permanently. The resource has permanently moved elsewhere, the response indicates where it has gone to. <strong>Recommended.</strong>'),
-    ),
-    302 => array(
-      'title' => t('302 Found'),
-      'description' => t("The resource has temporarily moved elsewhere, the response indicates where it is at present. <strong>This is Drupal's default redirect type.</strong>"),
-    ),
-    303 => array(
-      'title' => t('303 See Other'),
-      'description' => t('See Other/Redirect. A preferred alternative source should be used at present.'),
-    ),
-    304 => array(
-      'title' => t('304 Not Modified'),
-      'description' => t("The server has identified from the request information that the client's copy of the information is up-to-date and the requested information does not need to be sent again."),
-    ),
-    305 => array(
-      'title' => t('305 Use Proxy'),
-      'description' => t('The request must be sent through the indicated proxy server.'),
-    ),
-    307 => array(
-      'title' => t('307 Temporary Redirect'),
-      'description' => t('The resource has temporarily moved elsewhere, the response indicates where it is at present. Client should still use this URL.'),
-    ),
+    300 => t('300 Multiple Choices'),
+    301 => t('301 Moved Permanently'),
+    302 => t('302 Found'),
+    303 => t('303 See Other'),
+    304 => t('304 Not Modified'),
+    305 => t('305 Use Proxy'),
+    307 => t('307 Temporary Redirect'),
   );
-}
-
-/*
- * Extract part of the current Drupal path from a certain 'argument' onward.
- *
- * @todo Replace with drupal_get_path_segment in Drupal 7.
- */
-function path_redirect_get_path_segment($index = 0) {
-  $path = trim($_GET['q']);
-  $path = explode('/', $path, $index + 1);
-  $path = (count($path) > $index ? end($path) : '');
-  return $path;
 }
 
 /**
@@ -344,14 +247,15 @@ function path_redirect_get_path_segment($index = 0) {
  * current 404s on the site.
  */
 function path_redirect_js_autocomplete_404() {
-  $string = path_redirect_get_path_segment(3);
+  $args = func_get_args();
+  $string = implode('/', $args);
   $matches = array();
 
   // Get a list of 404s, sorted by the number of times each 404 was processed.
   $paths = db_query("SELECT message, COUNT(message) AS count FROM {watchdog} WHERE type = 'page not found' AND LOWER(message) LIKE '%%%s%%' GROUP BY message ORDER BY count DESC", drupal_strtolower($string));
   while ($path = db_result($paths)) {
     // If the 404 is now a valid path or already has a redirect, discard it.
-    if (!menu_get_item($path) && !path_redirect_load(array('path' => $path))) {
+    if (!menu_get_item($path) && !path_redirect_load_by_path($path, FALSE)) {
       $matches[$path] = check_plain($path);
     }
   }
@@ -494,7 +398,7 @@ function path_redirect_export_form_submit($form, $form_state) {
   $type = $form_state['values']['type'];
   $function = 'path_redirect_export_'. $type;
 
-  $filename = variable_get('site_name', 'Drupal') .' redirects '. format_date(REQUEST_TIME, 'custom', 'Y m d');
+  $filename = variable_get('site_name', 'Drupal') .' redirects '. format_date(time(), 'custom', 'Y m d');
   $filename = preg_replace(array('/^\W+|\W+$/', '/\W+/'), array('', '-'), drupal_strtolower($filename));
   $filename .= '.'. $type;
   drupal_set_header('Content-Disposition: attachment; filename='. $filename);
