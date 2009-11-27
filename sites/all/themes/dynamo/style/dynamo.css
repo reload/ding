@@ -249,10 +249,8 @@ buttons
 	.node-page .content{margin:10px 0 0 0;}		
 	.more-link a, a.more-link {background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0; }
 
-
 /*panels links*/
 div.more-link{padding:0 20px 0 0; }
-
 
 /* =====================================
 drupal Messages
@@ -280,8 +278,6 @@ drupal Messages
   .ting-search-carousel .search-controller li.active a {color:#fff;}
 
 
-
-
 .panel-pane .view .feed-icon{margin:0 0 0 10px;}
 
 /* =====================================
@@ -299,6 +295,7 @@ Cowboy small trix not "really" implementet yet
 
 body.ding-anbefalinger h1, body.ding-anbefalinger .pane-topic_list h2{margin:0 0 20px 20px;}
 body.ding-taxonomy-term h3{margin:0 0 20px 20px;}
+body.ding-taxonomy-term .node h3{margin:0;}
 
 /* =====================================
 Crap from modules

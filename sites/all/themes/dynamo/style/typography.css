@@ -6,10 +6,10 @@
 body{font-size: 13px; line-height:17px; color:#666}
 body, caption, th, td, input, textarea, select, option, legend, fieldset {font-family: Verdana, Arial, sans-serif;}
 h1, h2, h3, h4, h5, h6{font-weight: normal; color: #050505;}
-h1{font-size: 21px; line-height: 21px; color: #050505;}
-h2{font-size: 20px; line-height: 21px;}
-h3{font-size: 17px; line-height: 20px;}
-h4{font-size: 14px; font-weight: bold;}
+h1{font-size: 21px; line-height: 26px; color: #050505;}
+h2{font-size: 20px; line-height: 26px; color: #050505;}
+h3{font-size: 17px; line-height: 20px; color: #050505;}
+h4{font-size: 14px; font-weight: bold; color: #050505;}
 h5{font-size: 14px; font-weight: bold; color: #333;}
 h6{font-size: 14px; font-weight: bold; color: #333;}
 p {margin-bottom: 0.5em;}
