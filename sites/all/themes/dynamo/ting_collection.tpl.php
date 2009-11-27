@@ -11,6 +11,7 @@
  * - $common_object: TingClientObject holding information for the entire collection.
  */
 ?>
+<!--ting-collection-->
 <div id="ting-collection">
 	<div class="content-left">
 
@@ -65,28 +66,32 @@
 						?>
 					</div>
 					
-					<div class='material-links'>
-						<span class='title'><?php echo t('Go to material:'); ?></span>
-						<?php
-						foreach ($sorted_collection as $category => $objects) {
-							$material_links[] = '<span class="link"><a href="#'.$category.'">'.t($category).'</a></span>';
-						}
-						echo implode(", ", $material_links);
-						?>
-					</div>
-					
-				</div>
+          <?php 
+            /*only one collection ? dont print it*/
+            if(count($sorted_collection) > 1){ 
+            ?>
+  					<div class='material-links'>
+  						<span class='title'><?php echo t('Go to material:'); ?></span>
+  						<?php
+  						foreach ($sorted_collection as $category => $objects) {
+  							$material_links[] = '<span class="link"><a href="#'.$category.'">'.t($category).'</a></span>';
+  						}
+  						echo implode(", ", $material_links);
+  						?>
+					  </div>
+					<?php } ?>
 
-								
+				</div>
 
 
 				<?php
  				foreach ($sorted_collection as $category => $objects) {		
-					print '<h2>'.$category.'<a name="'.$category.'">&nbsp;</a></h2>';
- 					
+          if(count($sorted_collection) > 1){ 
+					  print '<h2>'.$category.'<a name="'.$category.'"></a></h2>';
+ 					}
+
 					foreach ($objects as $tingClientObject) {
-	
-				// now display all the materials
+				    // now display all the materials
 				?>
 
 				<div id="ting-item-<?php print $tingClientObject->data->localId; ?>" class="ting-item clearfix">
@@ -135,7 +140,10 @@
   						<?php //print theme('item_list', $tingClientObject->data->publisher, t('Publisher'), 'span', array('class' => 'publisher'));?>
   						<?php //print theme('item_list', $tingClientObject->data->language, t('Language'), 'span', array('class' => 'language'));?>
 
-  						<?php print l(t('More information'), $tingClientObject->url, array('attributes' => array('class' => 'more-link')) ); ?>
+  						<div class="more">
+  						  <?php print l(t('More information'), $tingClientObject->url, array('attributes' => array('class' => 'more-link')) ); ?>  
+  						</div>
+  						
             
               <div class="alma-status waiting">Afventer data…</div>
 
@@ -169,3 +177,4 @@
 
 </div>
 
+<!--/ting-collection-->

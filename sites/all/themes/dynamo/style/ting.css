@@ -27,15 +27,20 @@
 
 .ting-item{margin:10px 0 0 0; padding:10px 0; border-bottom: 1px solid #eee;}
 
-.ting-item .alma-status {background-color: #eee; text-align: center; width:100px; display:block; float:left;}
 
-.ting-item .alma-status.waiting,
-#content .alma-cart-buttons a.disabled {
-  color: #777;
-}
+.ting-item .content{}
+.ting-item .content .picture{float:left; width:85px;}
+.ting-item .content .info{float:left; width:410px;}
+.ting-item .cart{margin:5px 0;}
 
-.ting-item .alma-status.available { background-color: #71bf44;  color: white;}
+/*status*/
+.ting-item .alma-status{font-size:10px; text-align:center; line-height:10px; font-weight:bold;  padding:3px 0; margin:10px 0 0 0; background-color: #eee; width:100px; }
+  .ting-item .alma-status.waiting, #content .alma-cart-buttons a.disabled {color: #777;}
+  .ting-item .alma-status.available {background-color: #71bf44;  color: white;}
+  .ting-item .alma-status.unavailable{  background-color: #6B0046;  color: white;}
 
-.ting-item .alma-status.unavailable {  background-color: #6B0046;  color: white;}
-
-
+ul.alma-cart-buttons li,
+ul.alma-cart-buttons li.first, 
+ul.alma-cart-buttons li.last{background:none;  border:none; float:left;  padding:0; margin:0; text-align:center;}
+ul.alma-cart-buttons li a{background:#ddd;margin:3px; padding:5px; border: 1px solid #ccc;  -moz-border-radius: 5px; -webkit-border-radius: 5px;}
+ul.alma-cart-buttons li a:hover{background:#999; text-decoration:none; color:#fff;}

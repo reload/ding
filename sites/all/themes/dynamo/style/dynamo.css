@@ -228,7 +228,6 @@ buttons
 	.node .content a:hover,.node .content a:focus {text-decoration: underline; background:#C9D3D7; }
 	.subject a,.subject a:link, .subject a:visited,.subject a:active {text-decoration: none; color:#fff;}	
 
-
 	/*i know its evil to use important and i feel very dirty ...*/
 	.node .content table{width:99% !important; margin:10px 0 !important; border: 1px solid #eee;}
 	.node .content table td{border-bottom: 1px solid #eee; border-right: 1px solid #ddd; padding:2px 4px; background:#FBFBFB;}
@@ -245,10 +244,11 @@ buttons
 	.node .taxonomy{padding:10px 0;}
 	.node .taxonomy ul{margin:0;}
 	.node .taxonomy ul li{padding:0 5px 0 0;}
-
 	.node-page .content{margin:10px 0 0 0;}		
 	.more-link a, a.more-link {background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0; }
 
+
+.picture img, .image img{border: 1px dashed #999; background:#efefef;}
 /*panels links*/
 div.more-link{padding:0 20px 0 0; }
 
