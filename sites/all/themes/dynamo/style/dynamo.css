@@ -297,8 +297,8 @@ Cowboy small trix not "really" implementet yet
 .node .field-file-attachments a{display:block; margin:0 0 10px 0;font-weight:normal}
 .node .field-file-attachments  a img{margin:0; padding:0 10px 0; background:transparent; }
 
-body.ding-anbefalinger h1, body.ding-anbefalinger .pane-topic_list h2{margin:0 0 0 20px;}
-body.ding-taxonomy-term h3{margin:0 0 0 20px;}
+body.ding-anbefalinger h1, body.ding-anbefalinger .pane-topic_list h2{margin:0 0 20px 20px;}
+body.ding-taxonomy-term h3{margin:0 0 20px 20px;}
 
 /* =====================================
 Crap from modules
