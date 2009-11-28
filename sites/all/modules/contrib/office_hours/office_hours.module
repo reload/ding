@@ -11,10 +11,9 @@
  */
 function office_hours_menu() {
   $items = array();
-  $items['office_hours/js/change_week/%node/%/%/%'] = array(
+  $items['office_hours/get_week'] = array(
     'title' => 'Change week JavaScript callback',
-    'page callback' => 'office_hours_page_change_week_js',
-    'page arguments' => array(3, 4, 5, 6),
+    'page callback' => 'office_hours_page_get_week',
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
@@ -35,18 +34,6 @@ function office_hours_theme() {
     	'arguments' => array('element' => NULL),
       'file' => 'office_hours.theme.inc',
     ),
-    'office_hours_day' => array(
-    	'arguments' => array('element' => NULL),
-      'file' => 'office_hours.theme.inc',
-    ),
-    'office_hours_select' => array(
-    	'arguments' => array('element' => NULL),
-      'file' => 'office_hours.theme.inc',
-    ),
-    'office_hours_multiple_values' => array(
-      'arguments' => array('element' => NULL),
-      'file' => 'office_hours.theme.inc',
-    ),
     'office_hours_format_day' => array(
       'arguments' => array('name' => NULL, 'start' => NULL, 'end' => NULL),
       'file' => 'office_hours.theme.inc',
@@ -63,12 +50,19 @@ function office_hours_init() {
 
 /**
  * Implementation of hook_content_is_empty().
+ *
+ * @return boolean
+ *    TRUE if field item is considered empty.
  */
 function office_hours_content_is_empty($item, $field) {
-  // Check if one of the days have a start hour. If not, we consider
-  // the field to be empty.
+  // First check, we don't want rules without a scope.
+  if (!isset($item['scope']) || empty($item['scope'])) {
+    return TRUE;
+  }
+
+  // Check if one of the days have a start hour.
   foreach (_office_hours_day_names() as $name) {
-    if (!empty($item[$name . '_start'])) {
+    if (!empty($item[$name . '_open'])) {
       return FALSE;
     }
   }
@@ -100,81 +94,64 @@ function office_hours_field_settings($op, $field) {
   switch ($op) {
     case 'database columns':
       $columns = array();
+
       $columns['scope'] = array(
         'type' => 'varchar',
         'length' => '10',
-        'description' => t('Scope for this office hours record, one of "all", "odd", "even", or a ISO 8601 week number - like "2009W07"'),
+        'description' => t('Scope for this office hours record, one of "all", "odd", "even", "week" or "week_range".'),
       );
+
+      $columns['week_start'] = array(
+        'type' => 'varchar',
+        'length' => '10',
+        'description' => t('Week where this rule starts, specified as a ISO 8601 formatted week number ("2009W07").'),
+      );
+
+      $columns['week_end'] = array(
+        'type' => 'varchar',
+        'length' => '10',
+        'description' => t('Week where this rule ends, same format as week_start.'),
+      );
+
       foreach (_office_hours_day_names() as $abbr) {
         # Drupals db_type_map doesn't have time fields, so we override
         # it by selecting the field type for the individual databases.
-        $columns[$abbr . '_start'] = array(
+        $columns[$abbr . '_open'] = array(
           'type' => 'varchar',
           'pgsql_type' => 'time',
           'mysql_type' => 'time',
         );
-        $columns[$abbr . '_end'] = array(
+        $columns[$abbr . '_close'] = array(
           'type' => 'varchar',
           'pgsql_type' => 'time',
           'mysql_type' => 'time',
         );
       }
+
       return $columns;
-      break;
+
     case 'form':
-      $option_hour_list = date_hours();
       $form = array();
-      $form['granularity'] = array(
-        '#type' => 'select',
-        '#title' => t('Granularity of time'),
-        '#options' => array (
-          0 =>t('Hours'),
-          30=> t('Half hours'),
-          15=> t('Quarter hours')
-        ),
-        '#default_value' => $field['granularity'] ? $field['granularity'] : 0,
-        '#required' => FALSE,
-        '#description' => t('Allow inserting quarter hours, half hours, or only hours of the day'),
-      );
-      $form['limit_start'] = array(
-        '#type' => 'select',
-        '#title' => t('Limit widget start hours'),
-        '#options' => $option_hour_list,
-        '#default_value' => $field['limit_start']? $field['limit_start'] : FALSE,
-        '#required' => FALSE,
-        '#description' => t('Set the allowed start hours.'),
-      );
-      $form['limit_end'] = array(
-        '#type' => 'select',
-        '#title' => t('Limit widget end hours'),
-        '#options' => $option_hour_list,
-        '#default_value' => $field['limit_end'] ? $field['limit_end'] : FALSE,
-        '#required' => FALSE,
-        '#description' => t('Set the allowed end hours.'),
-      );
-      $form['validate_hours'] = array(
+
+      $form['allow_hours_past_midnight'] = array(
         '#type' => 'checkbox',
-        '#title' => t('Validate hours'),
+        '#title' => t('Allow hours past midnight'),
         '#required' => FALSE,
-        '#default_value' => isset($field['validate_hours']) ? $field['validate_hours'] : 0,
+        '#default_value' => isset($field['allow_past_midnight']) ? $field['allow_past_midnight'] : 0,
         '#description' => t('Please note that this will work as long as the opening hours are not through midnight.'),
       );
+
       $form['display_none_as_closed'] = array(
         '#type' => 'checkbox',
         '#title' => t('Display days as closed'),
         '#default_value' => isset($field['display_none_as_closed']) ? $field['display_none_as_closed'] : 0,
-        '#description' => t('Display days where no opening hours are defined as “Closed”. If not checked, those days will not be listed.'),
+        '#description' => t('Display days where no opening hours are displayed as “Closed”. Otherwise, they will not be listed at all.'),
       );
+
       return $form;
 
-    case 'validate':
-      if ($field['limit_end'] <= $field['limit_start'] && !empty($field['limit_end']) && !empty($field['limit_start'])) {
-        form_set_error('limit_end','Limit ending hours are earlier than start hours');
-      }
-      break;
-
     case 'save':
-      return array('granularity', 'limit_start', 'limit_end', 'validate_hours', 'display_none_as_closed');
+      return array('allow_hours_past_midnight', 'display_none_as_closed');
   }
 }
 
@@ -184,22 +161,23 @@ function office_hours_field_settings($op, $field) {
 function office_hours_field($op, &$node, $field, &$items, $teaser, $page) {
   switch ($op) {
     case 'load':
-      // The field is being loaded, determine its status and how long
-      // until it closes.
+      // Attach office hours data to node.
       $additions = array();
       $week = office_hours_resolve_week($node, $field);
-      $additions['seconds_to_closing'] = office_hours_opening_status($week);
-      $additions['status'] = ($additions['seconds_to_closing']) ? 'open' : 'closed';
       $additions['week_data'] = array_shift($week);
       $additions['week'] = $week;
       return array($field['field_name'] . '_processed' => $additions);
     case 'presave':
+      $days = _office_hours_day_names();
       // Unpack the array of start and end time, so they'll get stored
       // in the database.
       foreach ($items as $delta => $week) {
-        foreach($week as $day => $values) {
-          $items[$delta][$day . '_start'] = $values['start'];
-          $items[$delta][$day . '_end'] = $values['end'];
+        foreach($days as $day) {
+          if (isset($items[$delta][$day])) {
+            $items[$delta][$day . '_open'] = sprintf('%02u:%02u', $items[$delta][$day]['open']['hours'], $items[$delta][$day]['open']['minutes']);
+            $items[$delta][$day . '_close'] = sprintf('%02u:%02u', $items[$delta][$day]['close']['hours'], $items[$delta][$day]['close']['minutes']);
+            unset($items[$delta][$day]);
+          }
         }
       }
       break;
@@ -252,6 +230,7 @@ function office_hours_widget(&$form, &$form_state, $field, $items, $delta = 0) {
   $element = array(
     '#type' => $field['widget']['type'],
     '#default_value' => isset($items[$delta]) ? $items[$delta] : '',
+    '#field_settings' => content_fields($field['field_name'], $form['#node']->type),
   );
   return $element;
 }
@@ -271,32 +250,48 @@ function office_hours_views_api() {
  *
  * Returns the specified week for the specified field on the specified node.
  *
- * @param object $node
- *    The node object, loaded by the menu API.
+ * @param object $nids
+ *    Node IDs we wan't to get hours for.
  * @param string $field_name
  *    Name of our CCK field.
  * @param string $week
  *    ISO-8601 identifier for the week (ie. 2009W23).
  */
-function office_hours_page_change_week_js($node, $field_name, $year, $week) {
+function office_hours_page_get_week($nids, $field_name, $year, $week) {
   drupal_set_header('Content-Type: text/javascript; charset=utf-8');
   $output = array();
 
   // Sanitise our input.
   $field_name = preg_replace('/[^A-Za-z0-9_-]/', '', $field_name);
-  $week = preg_replace('/[^A-Za-z0-9_-]/', '', $week);
+  $year = preg_replace('/[^\d]/', '', $year);
+  $week = preg_replace('/[^\d]/', '', $week);
 
-  // Tack the week we want onto the node, so we have it available in the
-  // formatter without having to resort to global variables.
-  $node->display_year = $year;
-  $node->display_week = $week;
+  if (!empty($nids) && !empty($field_name)) {
+    if ($year < 2000 || $year > 3000) {
+      $year = format_date($_SERVER['REQUEST_TIME'], 'custom', 'Y');
+    }
 
-  $output['html'] = content_format($field_name, $node->$field_name, 'default', $node);
+    if ($week < 1 || $week > 53) {
+      $week = format_date($_SERVER['REQUEST_TIME'], 'custom', 'W');
+    }
+
+    foreach (explode(',', $nids) as $nid) {
+      $node = node_load($nid);
+
+      // Tack the week we want onto the node, so we have it available in the
+      // formatter without having to resort to global variables.
+      $node->display_year = $year;
+      $node->display_week = $week;
+
+      if ($node) {
+        $output['html'][$nid] = content_format($field_name, $node->$field_name, 'default', $node);
+      }
+    }
+  }
+
   $output['year'] = $year;
   $output['week'] = $week;
-  $output['nid'] = $node->nid;
-  print drupal_to_js($output);
-  exit;
+  drupal_json($output);
 }
 
 /**
@@ -316,6 +311,54 @@ function office_hours_node_is_open($node) {
     $fields = array();
   }
   return FALSE;
+}
+
+/**
+ * Parse user input time.
+ *
+ * @param string $input
+ *    User text input.
+ * @return array
+ *    Array with hours/minutes values if successful, empty array if not.
+ */
+function office_hours_parse_time_input($input) {
+  $result = array();
+  $matches = array();
+
+  // Strip spaces before trying to match.
+  $input = str_replace(' ', '', $input);
+
+  if (preg_match('/(\d{1,2})[:.](\d{2})/', $input, $matches)) {
+    if ($matches[1] < 24 && $matches[2] < 60) {
+      $result['hours'] = intval($matches[1]);
+      $result['minutes'] = intval($matches[2]);
+    }
+  }
+
+  return $result;
+}
+
+/**
+ * Sanitise user week input.
+ *
+ * @param string $input
+ *    User text input.
+ * @return mixed
+ *    Week in "2009W42" format or NULL if not valid.
+ */
+function office_hours_sanitise_week_input($input) {
+  $matches = array();
+
+  // Strip spaces before trying to match.
+  $input = str_replace(' ', '', $input);
+
+  if (preg_match('/(\d{4})W?(\d{2})/', $input, $matches)) {
+    if ($matches[1] > 2000 && $matches[2] < 54) {
+      return sprintf('%04uW%02u', intval($matches[1]), intval($matches[2]));
+    }
+  }
+
+  return NULL;
 }
 
 /**
@@ -347,37 +390,34 @@ function office_hours_resolve_week($node, $field, $week_spec = NULL) {
     'kind' => $week_kind,
   ));
 
+  // If we have no field data, just return the week data.
+  if (empty($node->$field['field_name'])) {
+    return $week;
+  }
+
+  $pick = array();
+
   // First, sort the values by specificity. Specific weeks, odd, even
   // and all into the
   foreach ($node->$field['field_name'] as $delta => $item) {
-    $values[$item['scope']][] = $item;
-  }
-
-  // Pick the most specific one available that matches the selected week.
-  if (isset($values[$week_num_year])) {
-    $pick = $values[$week_num_year];
-    // Store what level of specificity was used in the week data.
-    $week['#data']['specificity'] = 'precise';
-  }
-  elseif (isset($values[$week_kind])) {
-    $pick = $values[$week_kind];
-    $week['#data']['specificity'] = 'even_odd';
-  }
-  elseif (isset($values['all'])) {
-    $pick = $values['all'];
-    $week['#data']['specificity'] = 'all';
-  }
-  else {
-    $pick = array();
-    $week['#data']['specificity'] = 'none';
+    if (($item['scope'] == 'week_range' && $item['week_start'] <= $week_num_year && $item['week_end'] >= $week_num_year) ||
+      ($item['scope'] == 'week' && $item['week_start'] == $week_num_year) ||
+      ($item['scope'] == $week_kind) || # For even/odd.
+      ($item['scope'] == 'all')) {
+      $pick[$delta] = $item;
+      $week['#rule']['scope'] = $item['scope'];
+      $week['#rule']['week_start'] = $item['week_start'];
+      $week['#rule']['week_end'] = $item['week_end'];
+      break;
+    }
   }
 
   // Then sort the multiple values into days.
   foreach (_office_hours_day_names() as $day) {
     foreach ($pick as $delta => $row) {
-      if (!empty($row[$day . '_start'])) {
-        $week[$day][$delta]['start'] = $row[$day . '_start'];
-        $week[$day][$delta]['end'] = $row[$day . '_end'];
+      if (!empty($row[$day . '_open'])) {
+        $week[$day][$delta]['start'] = $row[$day . '_open'];
+        $week[$day][$delta]['end'] = $row[$day . '_close'];
       }
     }
     if ($field['display_none_as_closed'] && !isset($week[$day])) {
@@ -418,17 +458,12 @@ function office_hours_opening_status($week) {
 /**
  * Format a time string like 19:00:00.
  */
-function _office_hours_format_time($time) {
-  $output = '';
+function office_hours_format_time($time) {
   list($hours, $minutes, $seconds) = explode(':', $time);
 
   if (is_numeric($hours) && $hours >= 0 && $hours < 24) {
-    $output = $hours;
-    if (is_numeric($minutes) && $minutes > 0 && $minutes < 60) {
-      $output .= '.' . $minutes;
-    }
+    return sprintf('%02u:%02u', $hours, $minutes);
   }
-  return $output;
 }
 
 /**
