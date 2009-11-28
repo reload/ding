@@ -33,7 +33,7 @@ function office_hours_update_6000() {
   $ret = array();
   
   drupal_load('module', 'content');
-  $result = db_query("SELECT * FROM {". content_instance_tablename() ."} WHERE widget_type = 'office_hours'");
+  $result = db_query("SELECT * FROM {". content_instance_tablename() ."} WHERE widget_module = 'office_hours'");
   while ($field_instance = db_fetch_object($result)) {
 		$name = $field_instance->field_name;
   	$old = db_query("SELECT * FROM {content_".$name."}"); 
@@ -48,5 +48,48 @@ function office_hours_update_6000() {
   	$ret[] = update_sql("ALTER TABLE {content_".$name."} CHANGE `".$name."_endhours` `".$name."_endhours` INT( 4 ) NULL DEFAULT NULL");  
   }
   content_clear_type_cache(); 
-   return $ret;
+  return $ret;
 }
+
+/**
+ * Implementation of hook_update_N().
+ *
+ * This update is from an earlier, unreleased, state of the code and
+ * only intended for use in the DING! project.
+ */
+function office_hours_update_6190() {
+  $ret = array();
+
+  drupal_load('module', 'content');
+  $query = db_query("SELECT * FROM {". content_instance_tablename() ."} WHERE widget_module = 'office_hours'");
+  while ($row = db_fetch_array($query)) {
+    $dbinfo = content_database_info($row);
+
+    // Add the week_start and week_end fields.
+    db_add_field($ret, $dbinfo['table'], $row['field_name'] . '_week_start', array('type' => 'varchar', 'length' => '10'));
+    db_add_field($ret, $dbinfo['table'], $row['field_name'] . '_week_end', array('type' => 'varchar', 'length' => '10'));
+
+    // Rename the time values from _start to _open and from _end to _close.
+    // SQL Column renaming is not very standardised.
+    switch ($GLOBALS['db_type']) {
+      case 'mysql':
+      case 'mysqli':
+      case 'mysqlnd':
+        $sql = 'ALTER TABLE {%s} CHANGE COLUMN %s %s time;';
+        break;
+      case 'pgsql':
+        $sql = 'ALTER TABLE {%s} RENAME COLUMN %s TO %s;';
+        break;
+    }
+
+    foreach (_office_hours_day_names() as $day) {
+      $basename = $row['field_name'] . '_' . $day . '_';
+
+      $ret[] = update_sql(sprintf($sql, $dbinfo['table'], $basename . 'start', $basename . 'open'));
+
+      $ret[] = update_sql(sprintf($sql, $dbinfo['table'], $basename . 'end', $basename . 'close'));
+    }
+  }
+  return $ret;
+}
+
