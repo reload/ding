@@ -90,6 +90,12 @@ function office_hours_update_6190() {
       $ret[] = update_sql(sprintf($sql, $dbinfo['table'], $basename . 'end', $basename . 'close'));
     }
   }
+
+  // Brute force update of stored db_columns values. update_sql doesn't
+  // work for serialized values, so we'll use regular db_query.
+  db_query("UPDATE {" . content_field_tablename() . "} SET db_columns = '%s' WHERE module = 'office_hours';", serialize(office_hours_field_settings('database columns', array())));  
+
+  content_clear_type_cache(TRUE);
   return $ret;
 }
 
