@@ -9,6 +9,8 @@ Drupal.behaviors.almaCartButtons = function () {
       // Make sure we grab the click.
       event.preventDefault();
 
+      var $button = $(this);
+
       // If the dialog div doesn't exist, create it.
       if ($('#alma-cart-dialog').length == 0) {
         $("#content-main").append('<div id="alma-cart-dialog"></div>');
@@ -23,7 +25,7 @@ Drupal.behaviors.almaCartButtons = function () {
 
         if (data) {
           message = data.message;
-          if (data.status == 'success') {
+          if (data.status == 'success' && $button.hasClass('add-to-cart')) {
             buttons[Drupal.t('View cart…')] = function () { window.location = data.cart_link };
           }
         }
