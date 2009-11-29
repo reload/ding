@@ -12,9 +12,16 @@ Drupal.behaviors.almaAvailabilityTingObjectView = function () {
       // Iterate over each Alma item's data.
       $.each(data, function (dataIndex, dataItem) {
         var container = $('#ting-item-' + dataItem.alma_id + ' .alma-availability ul.library-list');
-        // Add a list item for each holding.
+        var uniqueHoldings = {}
+
+        // Find holdings, unique by library name.
         $.each(this.holdings, function (holdingIndex, holdingData) {
-          container.append('<li>' + Drupal.settings.alma.branches[holdingData.branch_id] + '</li>');
+          uniqueHoldings[holdingData.branch_id] = Drupal.settings.alma.branches[holdingData.branch_id];
+        });
+
+        // Add a list item for each holding.
+        $.each(uniqueHoldings, function (branchID, branchName) {
+          container.append('<li>' + branchName  + '</li>');
         });
         if (dataItem.available_count > 0) {
           $('#ting-item-' + dataItem.alma_id)
