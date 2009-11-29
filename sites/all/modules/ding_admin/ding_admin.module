@@ -25,6 +25,10 @@ function ding_admin_form_alter(&$form, $form_state, $form_id) {
     // Remove the preview button on the node form.
     unset($form['buttons']['preview']);
   }
+  // If there are no actions in the bulk operations, hide the selector.
+  elseif ($form_id == 'views_bulk_operations_form__1' && count($form['select']['operation']['#options']) < 2) {
+    $form['select']['#prefix'] = str_replace('>', ' style="display:none;">', $form['select']['#prefix']);
+  }
 }
 
 /**

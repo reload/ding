@@ -37,6 +37,11 @@ function theme_alma_user_forms_reservation_details($form) {
       $data['queue_no'],
     );
   }
+
+  if (empty($rows)) {
+    return t('No reservations found.');
+  }
+
   $header = array(
     t('Select'),
     t('Title'),
@@ -76,9 +81,14 @@ function theme_alma_user_forms_loan_details($form) {
         theme('ting_object_title', $ting_object, TRUE),
       );
     }
-
-    $output .= theme('table', $header, $rows, array(), $table_title);
+    if (!empty($rows)) {
+      $output .= theme('table', $header, $rows, array(), $table_title);
+    }
   }
+  if (empty($output)) {
+    return t('No loans found.');
+  }
+
   $output .= drupal_render($form);
   return $output;
 }

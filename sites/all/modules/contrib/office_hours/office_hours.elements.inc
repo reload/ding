@@ -19,20 +19,9 @@ function _office_hours_elements() {
       '#process' => array('office_hours_week_process'),
       '#element_validate' => array('office_hours_week_validate'),
     ),
-    'office_hours_day' => array(
-      '#input' => TRUE,
-      '#tree' => TRUE,
-      '#process' => array('office_hours_day_process'),
-      '#element_validate' => array('office_hours_day_validate'),
-    ),
-    'office_hours_select' => array(
-      '#input' => TRUE,
-      '#tree' => TRUE,
-      '#process' => array('office_hours_select_process'),
-      '#element_validate' => array('office_hours_select_validate'),
-    ),
   );
 
+  // TODO: What is this?
   if (function_exists('office_hours_week_hs_process')) {
     $elements['office_hours_week']['#process'][] = 'office_hours_week_hs_process';
   }
@@ -48,32 +37,58 @@ function _office_hours_elements() {
  */
 function office_hours_week_process($element, $edit, $form_state, $form) { 
   $values = $element['#value'];
-  $day_abbr = date_week_days_ordered(_office_hours_day_names());
-  $day_names = date_week_days_ordered(date_week_days(TRUE));
-
-  $element['#prefix'] = '<div class="oh-week element clear-block">';
-  $element['#suffix'] = '</div>';
+  $element['#day_abbr'] = date_week_days_ordered(_office_hours_day_names());
+  $element['#day_names'] = date_week_days_ordered(date_week_days(TRUE));
 
   $element['scope'] = array(
     '#type' => 'select',
     '#title' => t('Scope'),
-    '#description' => t('Select which weeks these hours apply to'),
     '#options' => array(
       'all' => t('Every week'),
       'odd' => t('Odd numbered weeks'),
       'even' => t('Even numbered weeks'),
+      'week' => t('Specific week'),
+      'week_range' => t('A range of weeks'),
     ),
     '#default_value' => $values['scope'],
   );
 
-  foreach ($day_abbr as $num => $day) {
+  $element['week_start'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Start week'),
+    '#default_value' => $values['week_start'],
+    '#attributes' => array('class' => 'week-start'),
+  );
+
+  $element['week_end'] = array(
+    '#type' => 'textfield',
+    '#title' => t('End week'),
+    '#default_value' => $values['week_end'],
+    '#attributes' => array('class' => 'week-end'),
+  );
+
+  foreach ($element['#day_abbr'] as $key => $day) {
     $element[$day] = array(
-      '#type' => 'office_hours_day',
-      '#title' => $day_names[$num],
-      '#default_start' => $values[$day . '_start'],
-      '#default_end' => $values[$day . '_end'],
-      '#day_name' => $day,
-      '#day_number' => 'day-' . $num,
+      '#tree' => TRUE,
+      '#prefix' => '<div class="oh-day oh-day-' . $day . ' clear-block">',
+      '#suffix' => '</div>',
+      '#day_name' => $element['#day_names'][$key],
+    );
+
+    $element[$day]['open'] = array(
+      '#type' => 'textfield',
+      '#size' => 4,
+      '#maxlength' => 8,
+      '#default_value' => office_hours_format_time($values[$day . '_open']),
+      '#attributes' => array('class' => 'open time'),
+    );
+
+    $element[$day]['close'] = array(
+      '#type' => 'textfield',
+      '#size' => 4,
+      '#maxlength' => 8,
+      '#default_value' => office_hours_format_time($values[$day . '_close']),
+      '#attributes' => array('class' => 'close time'),
     );
   }
   return $element;
@@ -83,98 +98,58 @@ function office_hours_week_process($element, $edit, $form_state, $form) {
  * Validate the week element.
  */
 function office_hours_week_validate($element, &$form_state) {
-}
+  $values = $element['#value'];
 
-/**
- * Process the office hour day element.
- */
-function office_hours_day_process($element) {
-  $day = $element['#day_name'];
+  foreach ($element['#day_abbr'] as $day) {
+    if (!empty($values[$day]['open']) && !empty($values[$day]['close'])) {
+      $open = office_hours_parse_time_input($values[$day]['open']);
+      $close = office_hours_parse_time_input($values[$day]['close']);
 
-  _form_set_class($element, array('oh-day ' . $day));
-
-  $element['start'] = array(
-    '#type' => 'office_hours_select',
-    '#title' => t('From'),
-    '#default_value' => $element['#default_start'],
-  );
-
-  $element['end'] = array(
-    '#type' => 'office_hours_select',
-    '#title' => t('To'),
-    '#default_value' => $element['#default_end'],
-  );
-
-  return $element;
-}
-
-/**
- * Validate the day element.
- */
-function office_hours_day_validate($element, &$form_state) {
-  $day = $element['#day_name'];
-  $start = $element['#value']['start'];
-  $end = $element['#value']['end'];
-  $values = array();
-  if (!empty($start['hours']) && !empty($end['hours'])) {
-    if (intval($start['hours']) > intval($end['hours']) || (intval($start['hours']) == intval($end['hours']) && (intval($start['minutes']) >= intval($end['minutes'])))) {
-      form_error($element, t('End hours cannot occur before start hours.'));
+      if (!empty($open) && !empty($close)) {
+        $values[$day]['open'] = $open;
+        $values[$day]['close'] = $close;
+      }
+      else {
+        form_error($element[$day]['open'], t('Please enter open and close times in HH:MM format.'));
+      }
     }
     else {
-      $values['start'] = sprintf('%02u:%02u', $start['hours'], $start['minutes']);
-      $values['end'] = sprintf('%02u:%02u', $end['hours'], $end['minutes']);
+      unset($values[$day]);
     }
   }
+
+  // For week_ranges, we need both start and end.
+  if ($values['scope'] == 'week_range') {
+    $values['week_start'] = office_hours_sanitise_week_input($values['week_start']);
+    $values['week_end'] = office_hours_sanitise_week_input($values['week_end']);
+
+    if (empty($values['week_start'])) {
+      form_error($element['week_start'], t('You need to input a start week when selecting a week range.'));
+    }
+
+    if (empty($values['week_end'])) {
+      form_error($element['week_end'], t('You need to input a end week when selecting a week range.'));
+    }
+
+    if ($values['week_end'] <= $values['week_start']) {
+      form_error($element['week_end'], t('You need to input a end week later than the start week.'));
+    }
+  }
+  // For a single week, we just need the start value.
+  elseif ($values['scope'] == 'week') {
+    $values['week_start'] = office_hours_sanitise_week_input($values['week_start']);
+    unset($values['week_end']);
+
+    if (empty($values['week_start'])) {
+      form_error($element['week_start'], t('You need to input a start week when defining a week range.'));
+    }
+  }
+  // For other scopes, remove the start and end values.
+  else {
+    unset($values['week_start'], $values['week_end']);
+  }
+
+  // Overwrite the values with our sanitised ones.
   form_set_value($element, $values, $form_state);
-}
-
-/**
- * Process the hours selector element.
- */
-function office_hours_select_process($element) {
-  $hours = date_hours();
-  $minutes = date_minutes('i', FALSE, 30);
-  $day = $element['#day_name'];
-
-
-  $element['hours'] = array(
-    '#type' => 'select',
-    '#options' => $hours,
-  );
-
-  $element['minutes'] = array(
-    '#type' => 'select',
-    '#options' => $minutes,
-  );
-
-  # Default values need a bit of special treatment here, since the value 
-  # that's coming from the database is a zerofilled string that does not 
-  # match the options, since they are cast to integer by Drupal.
-  if (!empty($element['#default_value'])) {
-    $end_val = explode(':', $element['#default_value']);
-    if (isset($end_val[0]) && !empty($end_val[0])) {
-      $element['hours']['#default_value'] = intval($end_val[0]);
-    }
-    if (isset($end_val[1]) && !empty($end_val[1])) {
-      $element['minutes']['#default_value'] = intval($end_val[1]);
-    }
-  }
-  return $element;
-}
-
-/**
- * Validate the hours selector element.
- */
-function office_hours_select_validate($element, &$form_state) {
-  $hours = intval($element['#value']['hours']);
-  $minutes = intval($element['#value']['minutes']);
-
-
-  if ($hours < 0 || $hours > 23) {
-    form_error($element, t('Hours should be between 0 and 23.'));
-  }
-  if ($minutes < 0 || $minutes > 59) {
-    form_error($element, t('Minutes should be between 0 and 59.'));
-  }
 }
 

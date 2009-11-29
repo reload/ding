@@ -160,27 +160,6 @@ function dynamo_comment_form($form){
 	return drupal_render($form);
 }
 
-
-/**
- * office hours
- */
-function dynamo_office_hours_format_day($name, $values, $day_number) {
-  $oddity = ($day_number % 2) ? 'odd' : 'even';
-  $output = '<div class="' . $oddity . '">';
-  $output .= '<span class="day">' . $name . '</span>';
-  if (is_array($values) && !empty($values)) {
-    foreach ($values as $val) {
-      $output .= '<span class="hours start">' . _office_hours_format_time($val['start']) . '</span>';
-      $output .= ' – <span class="hours end">' . _office_hours_format_time($val['end']) . '</span> ';
-    }
-  }
-  else {
-    $output .= ' <span class="closed">' . t('closed') . '</span>';
-  }
-  return $output . '</div>';
-}
-
-
 /*
 * panels
 */
