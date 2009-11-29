@@ -68,29 +68,17 @@ function dibs_theme() {
 function dibs_menu() {
   $items = array();
 
-  // Admin pages
-  $items['admin/dibs'] = array(
-    'title' => 'DIBS payment',
-    'description' => 'View transactions and configure DIBS gateway',
-    'page callback' => 'dibs_admin_overview',
-    'file' => 'dibs.admin.inc',
-    'weight' => 0,
-    'type' => MENU_NORMAL_ITEM,
-    'access callback' => 'dibs_admin_user_access',
-    'access arguments' => array('administer dibs settings', 'administer dibs transactions'),
-  );
-
   // Settings pages
-  $items['admin/dibs/settings'] = array(
+  $items['admin/settings/dibs'] = array(
     'page callback' => 'dibs_admin_settings_list',
-    'title' => 'Settings',
-    'description' => 'Configure DIBS payment gateway',
+    'title' => 'DIBS settings',
+    'description' => 'Configure DIBS payment gateway.',
     'weight' => 1,
     'type' => MENU_NORMAL_ITEM,
     'access arguments' => array('administer dibs settings'),
     'file' => 'dibs.admin.inc',
   );
-  $items['admin/dibs/settings/edit/%/%'] = array(
+  $items['admin/settings/dibs/edit/%/%'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('dibs_admin_settings_form', 4, 5),
     'title' => 'Change DIBS implementation settings',
@@ -101,16 +89,16 @@ function dibs_menu() {
 
   // Transaction pages
   /*
-  $items['admin/dibs/transactions'] = array(
+  $items['admin/reports/dibs-transactions'] = array(
     'page callback' => 'dibs_admin_transactions_list',
-    'title' => 'Transactions',
+    'title' => 'DIBS transactions',
     'description' => 'View DIBS payment transactions',
     'weight' => 2,
     'type' => MENU_NORMAL_ITEM,
     'access arguments' => array('administer dibs transactions'),
     'file' => 'dibs.admin.inc',
   );
-  $items['admin/dibs/transactions/view/%'] = array(
+  $items['admin/reports/dibs-transactions/view/%'] = array(
     'page callback' => 'dibs_admin_transactions_view',
     'page arguments' => array(4),
     'title' => 'View transaction',
@@ -306,7 +294,6 @@ function dibs_load_settings($module, $delta, $fallback = TRUE) {
         }
       }
     }
-    dd($settings);
     return $settings;
   }
   else {

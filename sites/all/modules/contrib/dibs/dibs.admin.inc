@@ -6,18 +6,6 @@
  * Admin functions for the DIBS module
  */
 
- /**
- * This function is called when user enter in admin/dibs
- * @return string
- */
-function dibs_admin_overview() {
-  $output = '';
-  $item = menu_get_item('admin/dibs');
-  $content = system_admin_menu_block($item);
-  $output = theme('admin_block_content', $content);
-  return $output;
-}
-
 /**
  * List of implementations of the DIBS module.
  * Link to edit settings for each implementation
@@ -46,7 +34,7 @@ function dibs_admin_settings_list() {
     foreach ((array)module_invoke($module, 'dibsapi') as $delta => $info) {
       $row = array(
         array('data' => $info['info'], 'class' => ''),
-        array('data' => l(t('edit'), 'admin/dibs/settings/edit/' . $module . '/' . $delta), 'class' => ''),
+        array('data' => l(t('edit'), 'admin/settings/dibs/edit/' . $module . '/' . $delta), 'class' => ''),
       );
       $rows[] = $row;
     }
@@ -444,6 +432,6 @@ function dibs_admin_settings_form_submit($form, &$form_state) {
   drupal_get_messages();
   drupal_set_message(t('The settings are now saved.'));
 
-  $form_state['redirect'] = 'admin/dibs/settings';
+  $form_state['redirect'] = 'admin/settings/dibs';
   return;
 }

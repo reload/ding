@@ -232,7 +232,6 @@ function dibs_frontend_redirect_form($form_state = array(), $settings, $data) {
   if (function_exists($func)) {
     $func($form, $data['api_delta']);
   }
-  dd($form);
   
   return $form;
 }
