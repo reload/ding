@@ -911,7 +911,6 @@ function ding_event_views_default_views() {
   $handler->override_option('link_to_view', 0);
   $handler->override_option('inherit_panels_path', '1');
   $handler = $view->new_display('panel_pane', 'Events list pane', 'panel_pane_2');
-  $handler->override_option('title', '');
   $handler->override_option('footer', '<a href="/arrangementer" class="more-link">flere…</a>');
   $handler->override_option('footer_format', '1');
   $handler->override_option('footer_empty', 0);
