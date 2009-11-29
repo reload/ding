@@ -20,9 +20,15 @@ function theme_alma_cart_item($item) {
  * @return string
  */
 function theme_alma_cart_reservation_buttons($object) {
+  // Leave out reservation buttons for some record types.
+  if ($object->data->type[0] == 'Tidsskrift' || $object->data->type[0] == 'Netdokument') {
+    return;
+  }
+
   jquery_ui_add('ui.dialog');
   jquery_ui_theme_load();
   drupal_add_js(drupal_get_path('module', 'alma_cart') . '/alma_cart.buttons.js');
+
   if (isset($object->data->localId) && !empty($object->data->localId)) {
     // TODO: Check if item is reserved/in basket already.
     $output = theme('item_list', array(
