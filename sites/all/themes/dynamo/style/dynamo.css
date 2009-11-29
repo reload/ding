@@ -121,7 +121,7 @@ ul.pager li{margin:0 10px 0 0;}
 /*-- search  --*/
 #pager a{margin:3px 0 0 0; cursor: pointer}
 	#pager a.hidden, .pager a.hidden{display:none;}
-	#pager a,#pager  a:link, #pager a:active {text-decoration: none; color:#666;}
+	#pager a,#pager  a:link, #pager a:active {text-decoration: none; color:#006A87;}
  	#pager a:visited{color:#050505}
 	#pager a:hover, #ting-result-pager a:focus { text-decoration: underline; color:#666; cursor: pointer;}
 	#ting-result-pager li.current a,#ting-result-pager li.current a:link,	#ting-result-pager li.current a:active,	#ting-result-pager li.current a:visited	{color:#000; font-weight:bold;}
