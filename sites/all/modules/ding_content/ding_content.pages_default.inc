@@ -184,7 +184,7 @@ function ding_content_default_page_manager_pages() {
   $display->cache = array();
   $display->title = 'Biblioteker';
   $display->hide_title = TRUE;
-  $display->title_pane = 0;
+  $display->title_pane = 8;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -235,12 +235,12 @@ function ding_content_default_page_manager_pages() {
     $pane = new stdClass;
     $pane->pid = 'new-3';
     $pane->panel = 'top';
-    $pane->type = 'block';
-    $pane->subtype = 'ding_library_map-0';
+    $pane->type = 'library_map';
+    $pane->subtype = 'library_map';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();

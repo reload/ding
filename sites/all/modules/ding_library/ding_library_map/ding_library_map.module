@@ -6,7 +6,6 @@
  * Displays library nodes on a map with additional information shown on mouse over
  */
 
-
 /**
  * Implementation of hook_menu().
  */
@@ -25,32 +24,64 @@ function ding_library_map_menu() {
 }
 
 /**
- * Implementation of hook_block.
+ * Render the map output.
  */
-function ding_library_map_block($op = 'list', $delta = 0, $edit = array()) {
-  switch ($op) {
-    case 'list':
-      $blocks = array();
-      $blocks[0] = array(
-        'info' => t('Ding library map'),
-        'cache' => BLOCK_CACHE_GLOBAL,
-      );
-      return $blocks;
-    case 'view':
-      return ding_library_map_block_view($delta);
-  }
+function ding_library_map_display() {
+  $module_path = drupal_get_path('module', 'ding_library_map');
+  $map_id = 'library-map';
+  drupal_add_css($module_path . '/css/ding_library_map.css');
+
+  drupal_add_js(array('dingLibraryMap' => array(
+    'fullDayNames' => array(
+      'mon' => t('Monday'),
+      'tue' => t('Tuesday'),
+      'wed' => t('Wednesday'),
+      'thu' => t('Thursday'),
+      'fri' => t('Friday'),
+      'sat' => t('Saturday'),
+      'sun' => t('Sunday'),
+    ),
+    'shortDayNames' => array(
+      'mon' => t('Mon'),
+      'tue' => t('Tue'),
+      'wed' => t('Wed'),
+      'thu' => t('Thu'),
+      'fri' => t('Fri'),
+      'sat' => t('Sat'),
+      'sun' => t('Sun'),
+    ),
+  )), 'setting', 'footer', TRUE);
+
+  drupal_add_js($module_path . '/js/jquery.scrollTo/jquery.scrollTo-min.js');
+  drupal_add_js($module_path . '/js/jquery.url/jquery.url.js');
+  drupal_add_js($module_path . '/js/ding_library_map.js');
+
+  $map = _ding_library_map_data();
+
+  drupal_add_js('$(function() { Drupal.dingLibraryMap("' . $map['id'] . '", Drupal.settings.dingLibraryMap) });', 'inline');
+
+  return '<div class="ding-library-map">' . theme('gmap', $map) . '</div>';
+}
+
+function ding_library_map_gmap($hook, &$map) {
+	if ($hook == 'pre_theme_map') {
+		foreach ($map['markers'] as $i => $marker) {
+			//If the marker text contain no actual content then reset it to avoid normal behavior
+			//e.g. showing an empty Google Map pop up
+			if ($marker['text'] != '<div class="gmap-popup"></div>') {
+				$map['marker'][$i]['text'] = NULL;
+			}
+		}
+	}
 }
 
 /**
- * Render the block output.
+ * Helper function to generate map data.
  *
- * @param integer $delta
- *    The block delta.
- * @return array
- *    Rendered block with subject and content.
+ * @TODO: This could do with a rewrite.
  */
-function ding_library_map_block_view($delta = 0) {
-  $nodes = db_query("SELECT location_instance.nid AS nid,
+function _ding_library_map_data() {
+  $query = db_query("SELECT location_instance.nid AS nid,
              location.latitude AS location_latitude,
              location.longitude AS location_longitude,
              location.latitude AS gmap_lat,
@@ -64,42 +95,38 @@ function ding_library_map_block_view($delta = 0) {
            			 (ding_library.library_show_on_map = 1)");
   
 	$libraries = array();
-	while ($node = db_fetch_object($nodes))
-	{
+	while ($node = db_fetch_object($query)) {
 		$libraries[] = node_load($node->nid);
-	}
-	
-  $block = array();
-  $block['subject'] = 'Library map';
-  $block['content'] = theme('ding_library_map', $libraries);
-  return $block;
-}
+  }
 
-function ding_library_map_gmap($hook, &$map) {
-	if ($hook == 'pre_theme_map')
-	{
-		foreach ($map['markers'] as $i => $marker)
-		{
-			//If the marker text contain no actual content then reset it to avoid normal behavior
-			//e.g. showing an empty Google Map pop up
-			if ($marker['text'] != '<div class="gmap-popup"></div>')
-			{
-				$map['marker'][$i]['text'] = NULL;
-			}
-		}
-	}
-}
+  $map = array('id' => 'library-map', 'type' => 'map', 'zoom' => 12, 'minzoom' => 9, 'maxzoom' => 14, 'height' => '200px', 'width' => '100%', 'controltype' => 'Small', 'behavior' => array('extramarkerevents' => 1, 'nomousezoom' => 1));
+  if ($center = variable_get('ding_library_map_center', false)) {
+    $center = explode(',', $center, 2);
+    $variables = array(0 => 'latitude', 1 => 'longitude');
+    foreach ($variables as $index => $attribute) {
+      if (isset($center[$index]) && is_numeric($center[$index])) {
+        $map[$attribute] = trim($center[$index]);
+      }
+    }
+  }
 
-/**
- * Implementation of hook_theme().
- */
-function ding_library_map_theme($existing, $type, $theme, $path) {  
-  return array(
-    'ding_library_map' => array(
-      'arguments' => array('nodes' => NULL),
-      'template' => 'ding_library_map'
-    ),
-  );
-}
+  //add markers for libraries
+  foreach ($libraries as $node) {
+    $libraryId = ($node->ding_slug) ? $node->ding_slug : $node->nid;
+    $marker = array('latitude' => $node->location['latitude'],
+                    'longitude' => $node->location['longitude'],
+                    'markername' => 'ding_library_map_'.$node->field_opening_hours_processed['status'],
+                    'name' => $node->title,
+                    'street' => $node->location['street'],
+                    'city' => $node->location['city'],
+                    'postal-code' => $node->location['postal_code'],
+                    'opening_hours' => $node->field_opening_hours_processed['week'],
+                    'state' => $node->field_opening_hours_processed['status'],
+                    'url' => url('biblioteker/'.$libraryId, array('absolute' => TRUE)),
+                    'text' => FALSE);
+    $map['markers'][] = $marker;
+  }
 
+  return $map;
+}
 

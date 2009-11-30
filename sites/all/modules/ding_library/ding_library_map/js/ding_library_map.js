@@ -72,14 +72,14 @@ Drupal.dingLibraryMap = function(mapId, options)
 				if (object.opening_hours[[days[day]]] &&
 						object.opening_hours[[days[day]]].length > 0)
 				{
-					startTime = object.opening_hours[[days[day]]][0].start;
-					endTime = object.opening_hours[[days[day]]][0].end;
+					startTime = object.opening_hours[[days[day]]][0].open;
+					endTime = object.opening_hours[[days[day]]][0].close;
 					
 					while (	(nextDay < days.length) &&
 									(object.opening_hours[[days[nextDay]]].length > 0) &&
 									(startTime != null) && (endTime != null) && 
-									(startTime == object.opening_hours[[days[nextDay]]][0].start) &&
-									(endTime == object.opening_hours[[days[nextDay]]][0].end)) {
+									(startTime == object.opening_hours[[days[nextDay]]][0].open) &&
+									(endTime == object.opening_hours[[days[nextDay]]][0].close)) {
 						sectionDays.push(days[nextDay]); //if following days have same hours as current day then add these days to section
 						nextDay++;
 					}
@@ -198,3 +198,4 @@ Drupal.dingLibraryMap = function(mapId, options)
 	this.resize(mapId, options);
 	this.goTo(mapId, options);		
 }
+
