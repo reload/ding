@@ -112,19 +112,24 @@ function _ding_library_map_data() {
 
   //add markers for libraries
   foreach ($libraries as $node) {
-    $libraryId = ($node->ding_slug) ? $node->ding_slug : $node->nid;
-    $marker = array('latitude' => $node->location['latitude'],
-                    'longitude' => $node->location['longitude'],
-                    'markername' => 'ding_library_map_'.$node->field_opening_hours_processed['status'],
-                    'name' => $node->title,
-                    'street' => $node->location['street'],
-                    'city' => $node->location['city'],
-                    'postal-code' => $node->location['postal_code'],
-                    'opening_hours' => $node->field_opening_hours_processed['week'],
-                    'state' => $node->field_opening_hours_processed['status'],
-                    'url' => url('biblioteker/'.$libraryId, array('absolute' => TRUE)),
-                    'text' => FALSE);
-    $map['markers'][] = $marker;
+    $status = $node->field_opening_hours_processed['status'];
+    if (empty($status)) {
+      $status = 'closed';
+    }
+
+    $map['markers'][] = array(
+      'latitude' => $node->location['latitude'],
+      'longitude' => $node->location['longitude'],
+      'markername' => 'ding_library_map_' . $status,
+      'name' => $node->title,
+      'street' => $node->location['street'],
+      'city' => $node->location['city'],
+      'postal-code' => $node->location['postal_code'],
+      'opening_hours' => $node->field_opening_hours_processed['week'],
+      'state' => $node->field_opening_hours_processed['status'],
+      'url' => url('node/' . $node->nid, array('absolute' => TRUE)),
+      'text' => FALSE
+    );
   }
 
   return $map;
