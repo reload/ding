@@ -284,6 +284,11 @@ function ding_library_load($node) {
  * the output filters.
  */
 function ding_library_view($node, $teaser = FALSE, $page = FALSE) {
+  if (!($teaser && $page)) {
+    drupal_add_js(drupal_get_path('module', 'ding_library') . '/ding_library.status.js');
+    drupal_add_js(array('dingLibraryNids' => array($node->nid)), 'setting');
+  }
+
   $node = node_prepare($node, $teaser);
   return $node;
 }
