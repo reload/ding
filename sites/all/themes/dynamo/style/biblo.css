@@ -35,7 +35,7 @@
 	.node-teaser-library .office-hours-week{width:175px; float:left;}
 	.node-teaser-library .office-hours-week .week-info{background:#d1d9d7}
 	.node-teaser-library .office-hours-week .odd,	.node-teaser-library .office-hours-week .even{padding:0 5px;} 
-	.node-teaser-library .office-hours-week .day{width:60px; display:block; float:left; }
+	.node-teaser-library .office-hours-week .day{width:70px; display:block; float:left; }
 	.node-teaser-library .office-hours-week .week-info .prev{margin:0 5px; font-weight:bold;}
 
 	.node-teaser-library .office-hours-week	.week-info strong{margin:0 3px; font-weight:normal; }

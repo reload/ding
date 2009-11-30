@@ -42,7 +42,7 @@ a:hover, a:focus {text-decoration: underline; color:#006a87;}
 
 li a.active{}
 
-.meta{color:#999999;}
+.meta{color:#999999; padding:2px 0 0 0;}
 .meta a,.meta a:link,.meta a:visited,.meta a:active {text-decoration: none; color:#006a87;} /*999*/
 .author a,.author a:link,.author a:visited,.author a:active {text-decoration: none; color:#006a87;}
 
