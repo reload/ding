@@ -14,3 +14,9 @@ Drupal.behaviors.dingLibraryStatus = function () {
   });
 };
 
+// Object to hold our globally accessible stuff.
+Drupal.dingLibraryStatus = {
+  // Refresh library status every 5 minutes.
+  'interval': setTimeout(Drupal.behaviors.dingLibraryStatus, 300000)
+}
+
