@@ -50,11 +50,10 @@ Drupal.dingLibraryMap = function(mapId, options) {
     };
 
     this.showInfo = function(object) {
-      //Add address attributes
-      attributes = ['name', 'street', 'postal-code', 'city'];
-      for (i in attributes) {
-        $('#library-info .'+attributes[i]).text(object[attributes[i]]);
-      }
+      // Add address attributes
+      $.each(['name', 'street', 'postal-code', 'city'], function (i, val) {
+        $('#library-info .' + val).text(object[val]);
+      });
 
       //Add opening hours
       section = $('#library-info .opening-hours').empty();
