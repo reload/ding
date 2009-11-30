@@ -8,33 +8,24 @@
 
 /**
  * Callback function to supply a list of content types.
- *
- * This is only required to make CTools know that we're providing 
- * multiple types here (since we have no single => TRUE in the array).
  */
-function ting_search_object_view_ctools_content_types() {
+function ding_panels_library_map_ctools_content_types() {
   return array(
-    'title' => t('Ting object view'),
+    'title' => t('Library map'),
     'single' => TRUE,
-    'description' => t('Provides the full display of a Ting object.'),
-    'required context' => new ctools_context_optional(t('Ting object'), 'ting_object'),
-    'category' => t('Ting'),
+    'description' => t('Provides a map of all our libraries.'),
+    'category' => t('Library page'),
   );
 }
 
 /**
  * Return the pane contents.
  */
-function ting_search_object_view_content_type_render($subtype, $conf, $panel_args, $context) {
+function ding_panels_library_map_content_type_render($subtype, $conf, $panel_args, $context) {
   $block = new stdClass();
-  $object = isset($context->data) ? drupal_clone($context->data) : NULL;
 
-  if ($object instanceOf TingClientObject) {
-    // If alma.module is present, use its JavaScript behaviors.
-    if (function_exists('alma_add_js')) {
-      alma_add_js('ting_object_view');
-    }
-    $block->content = theme('ting_object', $object);
+  if (function_exists('ding_library_map_display')) {
+    $block->content = ding_library_map_display();
   }
 
   return $block;
@@ -43,8 +34,8 @@ function ting_search_object_view_content_type_render($subtype, $conf, $panel_arg
 /**
  * Return the pane titles.
  */
-function ting_search_object_view_content_type_admin_title($subtype, $conf, $context) {
-  return t('“@s”: Ting object view', array('@s' => $context->identifier));
+function ding_panels_library_map_content_type_admin_title($subtype, $conf, $context) {
+  return t('Ding library map');
 }
 
 /**
@@ -53,7 +44,7 @@ function ting_search_object_view_content_type_admin_title($subtype, $conf, $cont
  * We're not actually doing anything here, but we need to have this hook 
  * for this content type to work.
  */
-function ting_search_object_view_content_type_edit_form(&$form, &$form_state) {
+function ding_panels_library_map_content_type_edit_form(&$form, &$form_state) {
   return $form;
 }
 
