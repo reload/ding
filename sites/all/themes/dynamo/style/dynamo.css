@@ -256,7 +256,7 @@ drupal Messages
 		-moz-border-radius: 5px; -webkit-border-radius: 5px; 
 		border: 1px solid #888;
 		color:#fff;
-		}
+	}
 	#messages-hide a:hover{background:#777 url(../images/status-error.png) no-repeat 5px 3px; }
 
 /* frontpage

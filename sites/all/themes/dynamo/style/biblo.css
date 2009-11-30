@@ -30,11 +30,14 @@
 	.node-teaser-library .vcard div{clear:both;}
 	.node-teaser-library .vcard  span.type{width:60px; display:block; float:left;}
 	.node-teaser-library .vcard .geo{display:none;}
+
+  /*opening hours*/
 	.node-teaser-library .office-hours-week{width:175px; float:left;}
 	.node-teaser-library .office-hours-week .week-info{background:#d1d9d7}
 	.node-teaser-library .office-hours-week .odd,	.node-teaser-library .office-hours-week .even{padding:0 5px;} 
-	.node-teaser-library .office-hours-week .day{width:90px; display:block; float:left; }
-	.node-teaser-library .office-hours-week .week-info .pil{margin:0 5px; font-weight:bold;}
+	.node-teaser-library .office-hours-week .day{width:60px; display:block; float:left; }
+	.node-teaser-library .office-hours-week .week-info .prev{margin:0 5px; font-weight:bold;}
+
 	.node-teaser-library .office-hours-week	.week-info strong{margin:0 3px; font-weight:normal; }
 	.node-teaser-library .office-hours-week .week-info{padding:0 0 0 5px; font-size:10px;}
 	.node-teaser-library .office-hours-week .week-info a.prev{width:15px; height:20px;}
