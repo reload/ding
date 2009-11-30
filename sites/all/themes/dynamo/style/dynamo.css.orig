@@ -1,0 +1,305 @@
+/* =====================================
+	dynamo.css
+	widgets and elements used throughout the site
+	------------------------------------
+	
+	------------------------------------
+	colors:
+	------------------------------------
+	blue:	 			#006A87
+	blue/gray:	#D1D9D7
+	black: 			#050505
+	gray:	 			#666666
+	red:	 			#B41630
+	------------------------------------
+
+/*--------------------------------------*/
+
+
+tr.odd{background:#efefef;}
+tr.odd td{padding:5px;}
+tr.odd a{}
+tr.even{}
+tr.even td{padding:5px;}
+tr.even a{}
+
+
+/*forms and labels*/
+form{clear: both;}
+form div{position:relative }
+#search label, #account label{position:absolute; top:0; left:0; color:#000;}
+form div.description{font-size:10px; line-height:12px; color:#999; padding:5px; width:400px;}
+
+#content form .form-item{margin:0 0 0 0; padding:10px 0; }
+
+
+/* =======================================
+	panels list etc
+/* ------------------------------------- */
+.panel-left ul li{background:transparent url(../images/bg-divider-small.png) no-repeat left top; padding:10px 5px 10px 20px; margin:0;}
+	.panel-left ul li.first{background:none; padding:0 5px 10px 20px}
+	.panel-left ul li ul li{background:none; padding:0px 10px 0px 0px; margin:0;}
+	.panel-left ul .node-teaser h3 {margin:0;}
+
+.taxonomy ul li{background:none;}
+
+/* =====================================
+ting search block
+/*--------------------------------------*/
+#ting-search-form{padding:55px 0 0 0; background:transparent url(../images/search.png) no-repeat 0 0;}
+	#ting-search-form .form-text{height:20px; width:468px; margin:0 10px 0 0; padding:4px 0 0 25px; color:#929292; background:#fff url(../images/magnifier.png) no-repeat 9px 5px; border: 1px solid #999; font-size:13px; float:left;}
+	#ting-search-form label{margin:3px 0 0 30px; font-size:13px; font-weight:normal;} 
+	#ting-search-form #edit-keys-wrapper{margin:0;}
+	#ting-search-form .form-image-button{float:left; display:block; height:29px; width:94px; }
+  #ting-search-form div.example {display: block; color: #eccdd3; font-size:10px; color:#eccdd3;}
+  #ting-search-form div.example p {float: left;}
+  #ting-search-form div.example li {float: left;  margin-left: 0.5em;}
+  #ting-search-form div.example li a {color: #eccdd3;}
+  #ting-search-form div.example li a:hover {color: #fff;}
+
+
+/* =====================================
+Account block
+/*--------------------------------------*/
+#user-login-form {text-align:left;}
+/*login form*/
+	#user-login-form{margin:20px 0 0 0; padding:24px 0 0 0;background:transparent url(../images/logind.png) no-repeat 0 0;}
+	#user-login-form .form-item-password{margin:0 0 3px 0;}
+	#user-login-form .form-text{height:16px; padding:1px 0 0 5px; margin:0; background-color: #fff; border-top: 1px solid #ddd; border-left: 1px solid #ddd; }
+	#user-login-form label{margin:1px 0 0 5px;}
+
+	#edit-name-wrapper{width:215px;}
+	  #edit-name-wrapper input{width:215px;}
+	#edit-pass-wrapper{width:155px; float:left;}
+		#edit-pass-wrapper input{width:155px;}
+	#edit-remember-me-wrapper{width:155px; float:left;}
+		#edit-remember-me-wrapper label{color:#fff; margin:0;}
+	#user-login-form .form-image-button{width:60px;height:20px; padding:0; margin:0px 0 0 8px; display:block; float:left;overflow:hidden; background:transparent url(../images/accountlogin.png) no-repeat right center;}
+
+	#user-login-form ul{clear:both;}
+	#user-login-form ul li{float:left; margin:0 10px 0 0;}
+
+/*user logged in*/
+#account-profile{width:251px;margin:5px 0 0 0; font-size:10px;}
+	#account-profile a{text-decoration:none; }
+	#account-profile a:hover{text-decoration:underline; font-weight:bold;}
+	#account-profile .user{margin:0 0 5px 0;}
+		#account-profile div.logout{margin:0 0 0 180px; }
+			#account-profile div.logout a{background:transparent url(../images/arrow.png) no-repeat left center; padding:0 0 0 5px; }
+		#account-profile h5{font-weight:normal; color:#fff; font-size:11px; line-height:11px;}
+		#account-profile .username {width:230px; height:20px; overflow:hidden; }
+		#account-profile .username a{font-size:12px; background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0;}
+
+	/**/	
+	#account-profile .cart{width:60px; height:46px; padding:0 12px 0 0; height:60px;float:left; background:transparent url(../images/bg-account-cart.gif) no-repeat left top; text-align:center;}
+		#account-profile .cart div.count{font-size:25px; margin:6px 0 0 20px;}
+		#account-profile .cart a{display:block; font-size:9px; margin:5px 0 0 0;}
+
+	/* material status */	
+	#account-profile ul{width:177px; float:left; background:transparent url(../images/bg-account-divider.gif) no-repeat left top;}
+		#account-profile ul li{clear:both; background:transparent url(../images/bg-account-divider.gif) no-repeat left bottom;}
+		#account-profile ul li div{font-size:11px; float:left; overflow:hidden;}
+	#account-profile ul div.content{width:136px;}
+  			#account-profile ul div.content a{width:136px; display:block; cursor: pointer;}
+			#account-profile ul div.content span{ padding:0 5px 0 0; float:left;}
+			#account-profile ul div.content strong{float:right;}
+	#account-profile ul div.status{width:36px; height:24px; background:transparent url(../images/bg-account-status.gif) no-repeat left 0px; text-indent: -9999em;}
+		#account-profile ul div.status span{height:16px; width:16px; margin:1px 0 0 11px; display: block;}
+		#account-profile ul div.status span.ok{background:transparent url(../images/status-info.png) no-repeat left top; }
+		#account-profile ul div.status span.warning{background:transparent url(../images/status-warning.png) no-repeat left top;}
+		#account-profile ul div.status span.default{background:transparent none}
+
+
+/* =======================================
+	pagers
+/* ------------------------------------- */
+ul.pager li{padding:0;}
+ul.pager li{margin:0 10px 0 0;}
+
+/* pagers */
+#pager, ul.pager{height:30px; margin:0 0 20px 0; padding:0 0 0 10px; clear:both; background:transparent url(../images/bg-pager.gif) no-repeat left top; font-size:10px;}
+/*-- search  --*/
+#pager a{margin:3px 0 0 0; cursor: pointer}
+	#pager a.hidden{display:none;}
+	#pager a,#pager  a:link, #pager a:active {text-decoration: none; color:#666;}
+ 	#pager a:visited{color:#050505}
+	#pager a:hover, #ting-result-pager a:focus { text-decoration: underline; color:#666; cursor: pointer;}
+	#ting-result-pager li.current a,#ting-result-pager li.current a:link,	#ting-result-pager li.current a:active,	#ting-result-pager li.current a:visited	{color:#000; font-weight:bold;}
+
+	#pager div.navwide, 
+	ul.pager li.pager-next,
+	ul.pager li.pager-last,
+	ul.pager li.pager-previous,
+	ul.pager li.pager-first	{width:54px; height:24px; padding:6px 2px 0 2px; font-size:9px; float:left; text-align:center; background:transparent url(../images/bg-pager-link-nav.gif) no-repeat left top;}
+	#pager div.nav, ul.pager li{width:30px; height:24px;font-size:10px; padding:6px 2px 0 2px; float:left; text-align:center; background:transparent url(../images/bg-pager-link.gif) no-repeat left top; clear:none;}	
+		#pager a.prev{background:transparent url(../images/arrow-pre.png) no-repeat left center; padding:0 0 0  5px;}
+		#pager a.next{background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0;}
+
+	#ting-result-pager ul{display:inline}
+	#ting-result-pager ul li{width:30px; height:24px; float:left; padding:3px 2px 0 2px; text-align:center; background:transparent url(../images/bg-pager-link.gif) no-repeat left top; }
+	#ting-result-pager ul li.current,
+	ul.pager li.pager-current{width:32px; height:28px; float:left; padding:3px 2px 0 2px;  background:transparent url(../images/bg-pager-link-active.gif) no-repeat left top;}
+
+
+/* =====================================
+Panels BOX css styles
+/*--------------------------------------*/
+.ding-box-pane{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden;}
+	.ding-box-pane h3{width:228px; padding:8px 0 4px 20px; margin:0;height:18px; font-size:11px; line-height:20px; font-weight:bold; background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; overflow:hidden;}
+	.ding-box-pane ul{width:228px; padding:8px 0px; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom;  overflow:hidden; }
+	.ding-box-pane .view .view-empty{width:228px; padding:8px 0 0 20px ; margin:0 0 0 0px; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom;  overflow:hidden; }
+	.ding-box-pane ul li{margin:0 0 0 10px; padding:0 0 0 10px; width:200px;}
+
+  .ding-box-pane .meta ul {background:none;}
+	.ding-box-pane .meta ul li{margin:0 0 0 0px; padding:0 0 0 0px; width:200px;}
+	.ding-box-pane{font-size:11px; line-height:20px; }
+
+	.ding-box-wide{width:514px; background:transparent url(../images/sprite-box.png) repeat-y -930px 0; overflow:hidden;}
+		.ding-box-wide h3{ width:514px; font-weight:bold;padding:8px 0 4px 20px; height:16px; font-size:11px; line-height:20px;  background:transparent url(../images/sprite-box.png) no-repeat -930px -0px; overflow:hidden;}
+		.ding-box-wide ul{width:514px; padding:0px 0 8px 0; margin:0; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -1444px bottom;  overflow:hidden;}
+		.ding-box-wide ul li,.ding-box-wide ul li.first{margin:0px 10px; font-size:10px; padding:2px 0 0 10px; list-style: none}
+
+	.ding-box-wide .odd{background:#f3f5f5;}
+	.ding-box-wide .even{background:#fff;}
+
+	.ding-box-pane .odd{background:#f3f5f5;}
+	.ding-box-pane .even{background:#fff;}
+
+.ding-box-pane h2 a{font-size:11px; font-weight:bold;}
+
+.panel-threecol-left-stacked .panel-middle .ding-box-pane{margin:0 0 0 10px;}
+
+/* box variants
+---------------------------*/
+.pane-tagadelic-2{width:228px; padding:8px 0 4px 20px; margin:0; background:transparent url(../images/sprite-box.png) no-repeat -0px -0px; overflow:hidden;}
+
+/* =====================================
+Campaigns 
+/*--------------------------------------*/
+.campaign-text{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden; margin:10px 0;}
+	.campaign-inner{width:228px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom; overflow:hidden;}
+		.campaign-type-text-only{width:228px; background:transparent url(../images/sprite-box.png) no-repeat -230px -60px; overflow:hidden;}
+			.campaign-theme{margin:7px 10px;}
+				.campaign	a,.campaign a:link,	.campaign a:visited, .campaign a:active {}
+				.campaign a:hover,.campaign a:focus {text-decoration: underline; color:#fff;}
+				.campaign-text a{background:transparent url(../images/campaignshade.png) no-repeat left top; text-decoration: none; color:#fff; padding:40px 10px; display:block; text-transform: uppercase; font: normal normal normal 15px/18px "Gill sans", sans-serif;}
+				/*colors*/
+				.campaign-theme-red{background:#C63D52; }
+				.campaign-theme-green{background:#899e99;}
+				.campaign-theme-blue{background:#006c8a;}
+
+.campaign-image{margin:10px; width:220px; overflow:hidden;}
+
+/**/
+.view-user-comments-list .subject a,.view-user-comments-list .subject a:link,.view-user-comments-list .subject a:visited, .view-user-comments-list .subject a:active{background:none; color:#006a87; text-transform: none; font-size:10px;}
+
+/* =====================================
+basic elements
+/*--------------------------------------*/
+.content{margin:0 5px 0 0;}
+
+/* =====================================
+buttons
+/*--------------------------------------*/
+.button{height:30px; display:block; padding:0 23px 0 0px; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat right 0px}
+	.button:hover{background: transparent url(../images/sprite-knapper-reservering.png) no-repeat right -120px}
+	.button a{font-size:10px; color:#fff; height:25px; margin:0 0 0 0; padding:5px 0 0 10px; display:block; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat left -60px;}
+	.button a:hover, .button-orange a:focus{text-decoration: none; color:#eee; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat left -180px;}
+
+.button-orange{background-position:right 0px}
+	.button-orange:hover{background-position:right -120px}
+	.button-orange a{background-position: left -60px;}
+	.button-orange a:hover, .button-orange a:focus{background-position: left -180px;}
+
+.button-green{background-position:right -30px}
+	.button-green:hover{background-position:right -150px}
+	.button-green a{background-position: left -90px;}
+	.button-green a:hover, .button-green a:focus{background-position: left -210px;}
+
+
+/* =====================================
+	node content styles
+/*--------------------------------------*/
+	.node .content p{}
+	.node .content img{margin:0 10px 10px 0; text-align:center; color:#aaa; background:#eee;}
+	.node .content ul{margin:0 0 15px 20px; padding:0 0 10px 0; clear:both;}
+	.node .content ul li{list-style: disc outside url();background:none; padding:5px 0; }
+	.node .content a,.node .content a:link, .node .content a:visited,.node .content a:active {text-decoration: none;}
+	.node .content a:hover,.node .content a:focus {text-decoration: underline; background:#C9D3D7; }
+	.subject a,.subject a:link, .subject a:visited,.subject a:active {text-decoration: none; color:#fff;}	
+
+
+	/*i know its evil to use important and i feel very dirty ...*/
+	.node .content table{width:99% !important; margin:10px 0 !important; border: 1px solid #eee;}
+	.node .content table td{border-bottom: 1px solid #eee; border-right: 1px solid #ddd; padding:2px 4px; background:#FBFBFB;}
+
+	.node .content hr{width:100%; height:1px; border: 0; background-color: #ddd; margin:9px 0;}
+
+/*node + list*/
+	.node .meta ul{margin:0 0 0 10px;}
+	.meta ul{display:inline;}
+	.meta ul li{display:inline}
+	.meta ul li {padding:0 5px 0 0;}
+	.view .meta ul li {padding:0 5px 0 0;}
+	.meta div.taxonomy{display:inline;}
+	.node .taxonomy{padding:10px 0;}
+	.node .taxonomy ul{margin:0;}
+	.node .taxonomy ul li{padding:0 5px 0 0;}
+
+	.node-page .content{margin:10px 0 0 0;}		
+	.more-link a, a.more-link {background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0; }
+
+
+/*panels links*/
+div.more-link{padding:0 20px 0 0; }
+
+
+/* =====================================
+drupal Messages
+/*--------------------------------------*/
+#drupal-messages{background:#333; padding:0 20px 20px;}
+	div.messages{margin:0; padding:20px;}
+	#messages-hide{}
+	#messages-hide a {background:#999 url(../images/status-error.png) no-repeat 5px 3px; 
+		float:right; margin:20px; padding:2px 10px 2px 30px;
+		-moz-border-radius: 5px; -webkit-border-radius: 5px; 
+		border: 1px solid #888;
+		color:#fff;
+		}
+	#messages-hide a:hover{background:#777 url(../images/status-error.png) no-repeat 5px 3px; }
+
+/* frontpage
+--------------------------------------*/
+<<<<<<< HEAD
+  /*carousel*/
+  .ting-search-carousel .search-controller li.active a {color:#fff;}
+  .jcarousel-skin-ting-search-carousel .jcarousel-clip-horizontal {width:670px;}
+  .jcarousel-skin-ting-search-carousel .jcarousel-item {width:111px}
+  .ting-search-carousel .search-results .info {width:100px;}
+  .ting-search-carousel .subtitle {font-size:47px;margin:10px 0 0px 40px; float:left; overflow:hidden; width:200px;s}
+=======
+.ting-search-carousel .search-controller li.active a {color:#fff;}
+.ting-search-carousel .subtitle {font-size:47px;margin:10px 0 10px 40px; float:left; overflow:hidden; width:200px;}
+>>>>>>> 82ae6842aea5bc4101febf2e7975b9d807e8e33c
+
+
+.panel-pane .view .feed-icon{margin:0 0 0 10px;}
+
+/* =====================================
+Cowboy small trix not "really" implementet yet
+/*--------------------------------------*/
+#block-ding_library_map-0 {width:690px; margin:0 0 0 20px;}
+#pane-library_title{display:block;}
+.comment_filter{display:none;}
+.pane-library_list-panel_pane_1 >h3{display:none;}
+
+
+.node div.field-file-attachments span{}
+.node .field-file-attachments a{display:block; margin:0 0 10px 0;font-weight:normal}
+.node .field-file-attachments  a img{margin:0; padding:0 10px 0; background:transparent; }
+
+
+/* =====================================
+Crap from modules
+/*--------------------------------------*/
+.dquo {margin:0 0 0 } /*typogrify module*/
