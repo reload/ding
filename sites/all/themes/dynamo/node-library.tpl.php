@@ -21,7 +21,7 @@ if($id_node){
   <div class="content">
   
     <div class="libary-openstatus <?php print $node->field_opening_hours_processed['status'];?>">
-        <?php print t($node->field_opening_hours_processed['status_local']);?>
+        <?php print $node->field_opening_hours_processed['status_local'];?>
     </div>
 
     <div class="vcard">
