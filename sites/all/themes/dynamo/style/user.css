@@ -18,6 +18,9 @@ body.page-user .panel-twocol-left-stacked .content-left{width:686px; margin:0 0 
 
 .pane-alma_user_personal_info  h3{}
 
+
+.pane-alma_user_reservations_details{margin:20px 0 0 0;}
+
 /* vcard*/
 .pane-alma_user_personal_info .vcard {margin: 0 0 0 0px;}
 .pane-alma_user_personal_info .vcard h4{clear:both;}
@@ -47,7 +50,7 @@ form#alma-user-forms-library-settings .container-inline-date{padding:10px 0 0 0;
 	
 /* user/[UID]/edit*/
 	/*	define the width*/
-body.page-user #content-main form{margin:20px 0 0 20px;}
+body.page-user #content-main form{}
 	#user-profile-form{margin:0 0 50px 0px; width:500px;}
 	#user-profile-form .form-item{margin:0 0 0 20px;}
 	
@@ -114,6 +117,8 @@ body.page-user #content-main form{margin:20px 0 0 20px;}
 	.form-button{padding:10px 0 0 0px;}
 
 #contact-mail-user{width:700px;}
+	
+	
 	
 /*låner tamtam*/
 form#alma-user-forms-loan-details table{width:660px;}

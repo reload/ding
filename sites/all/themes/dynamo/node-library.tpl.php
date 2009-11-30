@@ -35,16 +35,22 @@ if($id_node){
       <div class="link-card">
           <a href="/biblioteker?lat=<?php echo $node->location['latitude'] ?>&long=<?php echo $node->location['longitude'] ?>" id="biblo-<?php print $node->nid ?>">Se på kort</a>
       </div>
-      
+
+      <?php if($node->location['phone']){ ?>
       <div class="tel">
         <span class="type"><?php print t('Phone'); ?>:</span> <span><?php print $node->location['phone']; ?></span>
       </div>
+      <?php } ?>
+      <?php if($node->location['fax']){ ?>
       <div class="tel">
         <span class="type"><?php print t('Fax'); ?>:</span> <span><?php print $node->location['fax']; ?></span>
       </div>
+      <?php } ?>
+      <?php if($$node->field_email['0']['view']){ ?>
       <div class="email">
         <span class="type"><?php print t('E-mail'); ?>:</span> <span><?php print $node->field_email['0']['view']; ?></span>
       </div>
+      <?php } ?>
       <div class="geo">
       	<?php print t('Position'); ?>:
       	<span class="latitude"><?php echo $node->location['latitude'] ?></span>, 

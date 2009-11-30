@@ -31,8 +31,6 @@ if($id_node){
       <?php print $field_entry_price_rendered ?>
   	</div>
 	
-
-
 		<?php 
 			//field_teaser
 				if($node->field_teaser[0]['value']){

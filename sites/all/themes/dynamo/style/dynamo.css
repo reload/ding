@@ -241,7 +241,7 @@ basic elements
 	.more-link a, a.more-link {background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0; }
 
 
-.picture img, .image img{border: 1px dashed #999; background:#efefef;}
+.picture img, .image img{border: 1px solid #000; background:#efefef;}
 /*panels links*/
 div.more-link{padding:0 20px 0 0; }
 
