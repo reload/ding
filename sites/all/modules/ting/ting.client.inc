@@ -241,7 +241,10 @@ function ting_add_collection_info(TingClientObjectCollection $collection)
 	foreach ($collection->objects as &$object)
 	{
 		$object = ting_add_object_url($object);
-		$types = array_merge($types, $object->data->type);
+		if (isset($object->data->type) && is_array($object->data->type))
+		{
+  		$types = array_merge($types, $object->data->type);
+		}
 	}
 	$collection->types = array_unique($types);
 	return $collection;
