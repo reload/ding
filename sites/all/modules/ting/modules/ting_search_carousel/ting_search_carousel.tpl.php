@@ -1,8 +1,9 @@
+<?php $keys = array_keys($searches); ?>
 <div class="ting-search-carousel">
 	<ul class="search-results">
 		<?php foreach ($searches as $i => $search) :?>
 		  <?php if ($search['title']) : ?>
-				<li class="<?php echo ($i == 0) ? 'active' : ''; ?>">
+				<li class="<?php echo ($i == $keys[0]) ? 'active' : ''; ?>">
 					<div class="subtitle">
 						<?php echo $search['subtitle']; ?>
 					</div>							
@@ -16,7 +17,7 @@
 	<ul class="search-controller">
 		<?php foreach ($searches as $i => $search) : ?>
 		  <?php if ($search['title']) :?>
-				<li class="<?php echo ($i == 0) ? 'active' : ''; ?>">
+				<li class="<?php echo ($i == $keys[0]) ? 'active' : ''; ?>">
 					<a href="#"><?php echo $search['title'] ?></a>
 				</li>
 			<?php endif; ?>
