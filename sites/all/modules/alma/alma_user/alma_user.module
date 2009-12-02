@@ -332,12 +332,10 @@ function alma_user_check_credentials($borr_card, $pin_code, $login=FALSE) {
   // Check if user exists.
   $uid = db_result(db_query("SELECT uid FROM {alma_user} WHERE alma_id = '%s';", $data['patron_id']));
   if ($uid) {
-    // When logging in a returning user, update his display name.
-    if ($login) {
-      $account = user_load($uid);
-      if (!(isset($account->has_secure_role) && !$account->has_secure_role)) {
-        db_query("UPDATE {ding_user} SET display_name = '%s' WHERE uid = %d;", $data['patron_name'], $uid);
-      }
+    $account = user_load($uid);
+    // When logging in a returning normal user, update its display name.
+    if ($login && (!isset($account->has_secure_role) || !$account->has_secure_role)) {
+      db_query("UPDATE {ding_user} SET display_name = '%s' WHERE uid = %d;", $data['patron_name'], $uid);
     }
 
     return $uid;
