@@ -81,23 +81,22 @@ function ding_library_map_gmap($hook, &$map) {
  * @TODO: This could do with a rewrite.
  */
 function _ding_library_map_data() {
-  $query = db_query("SELECT location_instance.nid AS nid,
-             location.latitude AS location_latitude,
-             location.longitude AS location_longitude,
-             location.latitude AS gmap_lat,
-             location.longitude AS gmap_lon
-           FROM location location 
-           LEFT JOIN location_instance location_instance ON location.lid = location_instance.lid
-           LEFT JOIN node node ON location_instance.vid = node.vid
-           LEFT JOIN ding_library ding_library ON node.vid = ding_library.vid
-           WHERE (node.status <> 0) AND 
-           			 (node.type in ('library')) AND
-           			 (ding_library.library_show_on_map = 1)");
+  $query = db_query("
+    SELECT n.nid, n.title, l.street, l.city, l.postal_code, l.latitude, l.longitude
+    FROM location AS l
+    LEFT JOIN location_instance AS li ON (l.lid = li.lid)
+    LEFT JOIN node AS n ON (li.vid = n.vid)
+    LEFT JOIN ding_library dl ON (n.vid = dl.vid)
+    WHERE (n.status <> 0) AND (n.type = 'library') AND
+          (dl.library_show_on_map = 1);
+  ");
   
 	$libraries = array();
-	while ($node = db_fetch_object($query)) {
-		$libraries[] = node_load($node->nid);
+	while ($row = db_fetch_object($query)) {
+		$libraries[$row->nid] = $row;
   }
+
+  $oh_data = office_hours_bulk_load(implode(',', array_keys($libraries)), 'field_opening_hours');
 
   $map = array('id' => 'library-map', 'type' => 'map', 'zoom' => 12, 'minzoom' => 9, 'maxzoom' => 14, 'height' => '200px', 'width' => '100%', 'controltype' => 'Small', 'behavior' => array('extramarkerevents' => 1, 'nomousezoom' => 1));
   if ($center = variable_get('ding_library_map_center', false)) {
@@ -110,24 +109,21 @@ function _ding_library_map_data() {
     }
   }
 
-  //add markers for libraries
-  foreach ($libraries as $node) {
-    $status = $node->field_opening_hours_processed['status'];
-    if (empty($status)) {
-      $status = 'closed';
-    }
+  // Add marker for each library.
+  foreach ($libraries as $lib) {
+    $status = (!empty($oh_data['data'][$lib->nid]['status'])) ? $oh_data['data'][$lib->nid]['status'] : 'closed';
 
     $map['markers'][] = array(
-      'latitude' => $node->location['latitude'],
-      'longitude' => $node->location['longitude'],
+      'latitude' => $lib->latitude,
+      'longitude' => $lib->longitude,
       'markername' => 'ding_library_map_' . $status,
-      'name' => $node->title,
-      'street' => $node->location['street'],
-      'city' => $node->location['city'],
-      'postal-code' => $node->location['postal_code'],
-      'opening_hours' => $node->field_opening_hours_processed['week'],
-      'state' => $node->field_opening_hours_processed['status'],
-      'url' => url('node/' . $node->nid, array('absolute' => TRUE)),
+      'name' => $lib->title,
+      'street' => $lib->street,
+      'city' => $lib->city,
+      'postal-code' => $lib->postal_code,
+      'opening_hours' => $oh_data['data'][$lib->nid]['week'],
+      'state' => $status,
+      'url' => url('node/' . $lib->nid, array('absolute' => TRUE)),
       'text' => FALSE
     );
   }
