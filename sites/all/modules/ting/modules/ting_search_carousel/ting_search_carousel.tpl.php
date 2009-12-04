@@ -1,12 +1,14 @@
 <?php
 //determine first actual search - i.e. it has a title
 //system form can contain empty elements
-$found = false;
-$firstIndex = -1;
-while (!$found && ($search = next($searches)))
+$firstIndex = 0;
+foreach ($searches as $i => $searche)
 {
-  $firstIndex++;
-	$found = (bool) $search['title'];
+	if ($search['title'])
+	{
+		$firstIndex = $i;
+		break;
+	}
 }
 ?>
 <div class="ting-search-carousel">
