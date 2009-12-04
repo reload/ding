@@ -244,6 +244,7 @@ function office_hours_views_api() {
  * Page callback to change week via JavaScript.
  *
  * Returns the specified week for the specified field on the specified node.
+ * Just a simple wrapper for office_hours_bulk_load().
  *
  * @param object $nids
  *    Node IDs we wan't to get hours for.
@@ -253,7 +254,23 @@ function office_hours_views_api() {
  *    ISO-8601 identifier for the week (ie. 2009W23).
  */
 function office_hours_page_get_week($nids, $field_name, $year = NULL, $week = NULL) {
-  $output = array();
+  drupal_json(office_hours_bulk_load($nids, $field_name, $year, $week));
+}
+
+/**
+ * Helper function to load office hours data for several nodes.
+ *
+ * @param object $nids
+ *    Node IDs we wan't to get hours for.
+ * @param string $field_name
+ *    Name of our CCK field.
+ * @param string $week
+ *    ISO-8601 identifier for the week (ie. 2009W23).
+ * @return array
+ *    Office hours data, keyed by node id.
+ */
+function office_hours_bulk_load($nids, $field_name, $year = NULL, $week = NULL) {
+  $data = array();
 
   $nid_array = array_filter(explode(',', $nids), 'is_numeric');
   sort($nid_array, SORT_NUMERIC);
@@ -275,8 +292,8 @@ function office_hours_page_get_week($nids, $field_name, $year = NULL, $week = NU
     $year++;
   }
 
-  $output['year'] = $year;
-  $output['week'] = $week;
+  $data['year'] = $year;
+  $data['week'] = $week;
 
   if (!empty($nids) && !empty($field_name)) {
     $cache_key = implode(':', array(
@@ -286,28 +303,27 @@ function office_hours_page_get_week($nids, $field_name, $year = NULL, $week = NU
 
     // If available, serve cached data.
     if ($cache = cache_get($cache_key) && $cache->expire > $_SERVER['REQUEST_TIME']) {
-      drupal_json($cache->data);
-      return;
+      return $cache->data;
     }
 
     $field = content_fields($field_name);
     $items = office_hours_load_data($nid_array, $field);
 
     foreach ($nid_array as $nid) {
-      $output['data'][$nid] = office_hours_process_data($field, $items[$nid], $year . 'W' . $week);
+      $data['data'][$nid] = office_hours_process_data($field, $items[$nid], $year . 'W' . $week);
 
       // Only render HTML for a single node.
       if (count($nid_array) == 1) {
         // Create mock node and element for rendering our field.
         $node = new stdClass;
         $node->nid = $nid;
-        $node->{$field_name . '_processed'} = $output['data'][$nid];
+        $node->{$field_name . '_processed'} = $data['data'][$nid];
         $element = array(
           '#field_name' => $field_name,
           '#node' => $node,
         );
 
-        $output['html'][$nid] = theme('office_hours_formatter_default', $element);
+        $data['html'][$nid] = theme('office_hours_formatter_default', $element);
       }
     }
 
@@ -321,10 +337,9 @@ function office_hours_page_get_week($nids, $field_name, $year = NULL, $week = NU
       $expiry = strtotime(date('Y-m-d\TH') . ':' . $minutes);
     }
 
-    cache_set($cache_key, $output, 'cache', $expiry);
+    cache_set($cache_key, $data, 'cache', $expiry);
   }
-
-  drupal_json($output);
+  return $data;
 }
 
 /**
