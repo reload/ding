@@ -2,7 +2,7 @@
 //determine first actual search - i.e. it has a title
 //system form can contain empty elements
 $firstIndex = 0;
-foreach ($searches as $i => $searche)
+foreach ($searches as $i => $search)
 {
 	if ($search['title'])
 	{
