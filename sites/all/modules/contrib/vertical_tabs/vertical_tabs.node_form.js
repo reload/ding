@@ -1,4 +1,4 @@
-// $Id: vertical_tabs.node_form.js,v 1.1.2.8 2009/11/06 23:40:51 davereid Exp $
+// $Id: vertical_tabs.node_form.js,v 1.1.2.11 2009/12/04 05:17:42 davereid Exp $
 
 Drupal.verticalTabs = Drupal.verticalTabs || {};
 
@@ -16,10 +16,10 @@ Drupal.verticalTabs.book = function() {
 Drupal.verticalTabs.revision_information = function() {
   if ($('#edit-revision').length) {
     if ($('#edit-revision').attr('checked')) {
-      return Drupal.t('Create new revision');
+      return Drupal.t('New revision');
     }
     else {
-      return Drupal.t('Don\'t create new revision');
+      return Drupal.t('No revision');
     }
   }
   else {
@@ -28,12 +28,13 @@ Drupal.verticalTabs.revision_information = function() {
 }
 
 Drupal.verticalTabs.author = function() {
-  var name = $('#edit-name').val(), date = $('#edit-date').val();
+  var author = $('#edit-name').val() || Drupal.t('Anonymous');
+  var date = $('#edit-date').val();
   if (date) {
-    return Drupal.t('By @name on @date', { '@name': name, '@date': date });
+    return Drupal.t('By @name on @date', { '@name': author, '@date': date });
   }
   else {
-    return Drupal.t('By @name', { '@name': name });
+    return Drupal.t('By @name', { '@name': author });
   }
 }
 
@@ -41,6 +42,9 @@ Drupal.verticalTabs.options = function() {
   var vals = [];
   if ($('#edit-status').attr('checked')) {
     vals.push(Drupal.t('Published'));
+  }
+  else {
+    vals.push(Drupal.t('Not published'));
   }
   if ($('#edit-promote').attr('checked')) {
     vals.push(Drupal.t('Promoted to front page'));
@@ -64,7 +68,7 @@ Drupal.verticalTabs.menu = function() {
 }
 
 Drupal.verticalTabs.comment_settings = function() {
-  return $('.vertical-tabs-comment_settings input[checked]').parent().text().replace(/^\s*(.*)\s*$/, '$1');
+  return $('.vertical-tabs-comment_settings input:checked').parent().text();
 }
 
 Drupal.verticalTabs.attachments = function() {
