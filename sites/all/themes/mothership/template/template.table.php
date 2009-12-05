@@ -34,7 +34,6 @@ function mothership_table($header, $rows, $attributes = array(), $caption = NULL
       /*add classnames + a count*/
       $zebra .= " count-" . $i . ' ' . mothership_id_safe($cell); 
       if (is_array($cell)) {
-        print_r($cell['data']);
         if (isset($cell['class'])) {
           $cell['class'] .=  $zebra;
         }
