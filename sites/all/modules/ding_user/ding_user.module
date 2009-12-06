@@ -29,6 +29,13 @@ function ding_user_menu() {
   return $items;
 }
 
+/**
+ * Implementation of hook_menu_alter().
+ */
+function ding_user_menu_alter(&$items) {
+  // Change the password recovery page to be a callback, not shown in menus.
+  $items['user/password']['type'] = MENU_CALLBACK;
+}
 
 /**
  * Implementation of hook_user().

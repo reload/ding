@@ -2,7 +2,7 @@
 // $Id$
 
 /**
- * Alma admin password form.
+ * Change admin password form.
  */
 function ding_user_forms_change_pass($form_state, $account) {
   $form = array();
@@ -11,14 +11,6 @@ function ding_user_forms_change_pass($form_state, $account) {
     '#type' => 'value',
     '#value' => $account,
   );
-
-  if ($GLOBALS['user']->uid == $account->uid && !empty($account->secure_pass)) {
-    $form['secure_pass'] = array(
-      '#type' => 'password',
-      '#title' => t('Current password'),
-      '#required' => TRUE,
-    );
-  }
 
   $form['new_secure_pass'] = array(
     '#type' => 'password_confirm',
@@ -39,12 +31,6 @@ function ding_user_forms_change_pass($form_state, $account) {
  * Validation of the admin password form.
  */
 function ding_user_forms_change_pass_validate($form, &$form_state) {
-  if (isset($form['secure_pass'])) {
-    if (!ding_user_check_password($form_state['values']['secure_pass'], $form_state['values']['account'])) {
-      form_set_error('secure_pass', t('Please enter your current password.'));
-    }
-  }
-
   if (drupal_strlen($form_state['values']['new_secure_pass']) < 8) {
     form_set_error('new_secure_pass', t('The new password must be a least 8 characters long.'));
   }
