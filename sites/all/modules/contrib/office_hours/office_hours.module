@@ -41,13 +41,6 @@ function office_hours_theme() {
 }
 
 /**
- * Implementation of hook_init().
- */
-function office_hours_init() {
-    drupal_add_css(drupal_get_path('module', 'office_hours') .'/office_hours.css');
-}
-
-/**
  * Implementation of hook_content_is_empty().
  *
  * @return boolean
