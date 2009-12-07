@@ -23,13 +23,8 @@ function alma_item_availability_page($input) {
  *    Input string, one or more Alma item IDs, comma-separated.
  */
 function alma_item_details_page($input) {
-  // Split input on commas, filter out bogus values.
-  $numbers = array_filter(explode(',', $input), is_numeric);
-  $items = array();
-
-  foreach ($numbers as $alma_id) {
-    $items[$alma_id] = alma_client_catalogue_record_detail($alma_id);
-  }
+  $details = alma_client_catalogue_record_detail($input);
+  $items = (!empty($details['records'])) ? $details['records'] : array();
 
   // We are returning JavaScript, so tell the browser.
   drupal_set_header('Content-Type: application/json; charset=utf-8');

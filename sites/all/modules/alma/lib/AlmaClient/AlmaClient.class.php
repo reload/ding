@@ -424,59 +424,74 @@ class AlmaClient {
   }
 
   /**
-   * Get details about a catalogue record.
+   * Get details about one or more catalogue record.
    */
-  function catalogue_record_detail($alma_id) {
+  public function catalogue_record_detail($alma_ids) {
     $params = array(
-      'catalogueRecordKey' => $alma_id,
+      'catalogueRecordKey' => $alma_ids,
     );
     $doc = $this->request('catalogue/detail', $params);
-    $details = $doc->getElementsByTagName('detailCatalogueRecord')->item(0);
     $data = array(
       'request_status' => $doc->getElementsByTagName('status')->item(0)->getAttribute('value'),
-      'alma_id' => $details->getAttribute('id'),
-      'target_audience' => $details->getAttribute('targetAudience'),
-      'show_reservation_button' => ($details->getAttribute('showReservationButton') == 'yes') ? TRUE : FALSE,
-      'reservation_count' => $details->getAttribute('nofReservations'),
-      'loan_count_year' => $details->getAttribute('nofLoansYear'),
-      'loan_count_total' => $details->getAttribute('nofLoansTotal'),
-      'available_count' => $details->getAttribute('nofAvailableForLoan'),
-      'title_series' => $details->getAttribute('titleSeries'),
-      'title_original' => $details->getAttribute('titleOriginal'),
-      'resource_type' => $details->getAttribute('resourceType'),
-      'publication_year' => $details->getAttribute('publicationYear'),
-      'media_class' => $details->getAttribute('mediaClass'),
-      'extent' => $details->getAttribute('extent'),
-      'edition' => $details->getAttribute('edition'),
-      'category' => $details->getAttribute('category'),
+      'records' => array(),
     );
 
-    foreach ($doc->getElementsByTagName('author') as $item) {
-      $data['authors'][] = $item->getAttribute('value');
+    foreach ($doc->getElementsByTagName('detailCatalogueRecord') as $elem) {
+      $record = AlmaClient::process_catalogue_record_details($elem);
+      $data['records'][$record['alma_id']] = $record;
     }
 
-    foreach ($doc->getElementsByTagName('description') as $item) {
-      $data['descriptions'][] = $item->getAttribute('value');
+    return $data;
+  }
+
+  /**
+   * Helper function for processing the catalogue records.
+   */
+  private static function process_catalogue_record_details($elem) {
+    $record = array(
+      'alma_id' => $elem->getAttribute('id'),
+      'target_audience' => $elem->getAttribute('targetAudience'),
+      'show_reservation_button' => ($elem->getAttribute('showReservationButton') == 'yes') ? TRUE : FALSE,
+      'reservation_count' => $elem->getAttribute('nofReservations'),
+      'loan_count_year' => $elem->getAttribute('nofLoansYear'),
+      'loan_count_total' => $elem->getAttribute('nofLoansTotal'),
+      'available_count' => $elem->getAttribute('nofAvailableForLoan'),
+      'title_series' => $elem->getAttribute('titleSeries'),
+      'title_original' => $elem->getAttribute('titleOriginal'),
+      'resource_type' => $elem->getAttribute('resourceType'),
+      'publication_year' => $elem->getAttribute('publicationYear'),
+      'media_class' => $elem->getAttribute('mediaClass'),
+      'extent' => $elem->getAttribute('extent'),
+      'edition' => $elem->getAttribute('edition'),
+      'category' => $elem->getAttribute('category'),
+    );
+
+    foreach ($elem->getElementsByTagName('author') as $item) {
+      $record['authors'][] = $item->getAttribute('value');
     }
 
-    foreach ($doc->getElementsByTagName('isbn') as $item) {
-      $data['isbns'][] = $item->getAttribute('value');
+    foreach ($elem->getElementsByTagName('description') as $item) {
+      $record['descriptions'][] = $item->getAttribute('value');
     }
 
-    foreach ($doc->getElementsByTagName('language') as $item) {
-      $data['languages'][] = $item->getAttribute('value');
+    foreach ($elem->getElementsByTagName('isbn') as $item) {
+      $record['isbns'][] = $item->getAttribute('value');
     }
 
-    foreach ($doc->getElementsByTagName('note') as $item) {
-      $data['notes'][] = $item->getAttribute('value');
+    foreach ($elem->getElementsByTagName('language') as $item) {
+      $record['languages'][] = $item->getAttribute('value');
     }
 
-    foreach ($doc->getElementsByTagName('title') as $item) {
-      $data['titles'][] = $item->getAttribute('value');
+    foreach ($elem->getElementsByTagName('note') as $item) {
+      $record['notes'][] = $item->getAttribute('value');
     }
 
-    foreach ($doc->getElementsByTagName('holding') as $item) {
-      $data['holdings'][] = array(
+    foreach ($elem->getElementsByTagName('title') as $item) {
+      $record['titles'][] = $item->getAttribute('value');
+    }
+
+    foreach ($elem->getElementsByTagName('holding') as $item) {
+      $record['holdings'][] = array(
         'status' => $item->getAttribute('status'),
         'ordered_count' => $item->getAttribute('nofOrdered'),
         'checked_out_count' => $item->getAttribute('nofCheckedOut'),
@@ -491,13 +506,13 @@ class AlmaClient {
         'available_count' => $item->getAttribute('nofAvailableForLoan'),
       );
     }
-    return $data;
+    return $record;
   }
 
   /**
    * Get availability data for one or more records.
    */
-  function get_availability($alma_ids) {
+  public function get_availability($alma_ids) {
     $data = array();
     $doc = $this->request('catalogue/availability', array('catalogueRecordKey' => $alma_ids));
     foreach ($doc->getElementsByTagName('catalogueRecord') as $record) {
@@ -509,8 +524,16 @@ class AlmaClient {
   /**
    * Pay debts.
    */
-  function add_payment($debt_ids) {
-    $doc = $this->request('patron/payments/add', array('debts' => $debt_ids));
+  public function add_payment($debt_ids, $order_id = NULL) {
+    $params = array(
+      'debts' => $debt_ids,
+    );
+
+    if (!empty($order_id)) {
+      $params['orderid'] = $order_id;
+    }
+
+    $doc = $this->request('patron/payments/add', $params);
     return TRUE;
   }
 }

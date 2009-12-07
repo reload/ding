@@ -520,26 +520,26 @@ function alma_client_user_has_reservation($borr_card, $pin_code, $item_id) {
 /**
  * Get details about a catalogue record.
  *
- * @param string $alma_id
- *    ID for the record.
+ * @param string $alma_ids
+ *    ID for the records, comma-separated.
  * @return array
  *    Information about the record.
  */
-function alma_client_catalogue_record_detail($alma_id) {
+function alma_client_catalogue_record_detail($alma_ids) {
   // Return data from cache if available.
-  $cache = cache_get('catalogue_record_detail:' . $alma_id, 'cache_alma_requests');
+  //$cache = cache_get('catalogue_record_detail:' . $alma_ids, 'cache_alma_requests');
   if ($cache && !empty($cache->data)) {
     return $cache->data;
   }
 
   try {
-    $data = alma_client()->catalogue_record_detail($alma_id);
+    $data = alma_client()->catalogue_record_detail($alma_ids);
     if (empty($data)) { return array(); }
   } catch (Exception $e) {
     watchdog('alma_user', 'catalogue_record_detail error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
   }
   // Cache output for 8 hours.
-  cache_set('catalogue_record_detail:' . $alma_id, $data, 'cache_alma_requests', $_SERVER['REQUEST_TIME'] + 28800);
+  cache_set('catalogue_record_detail:' . $alma_ids, $data, 'cache_alma_requests', $_SERVER['REQUEST_TIME'] + 28800);
   return $data;
 }
 
@@ -575,9 +575,9 @@ function alma_client_get_availability($alma_ids) {
  * @param string $debt_ids
  *    IDs for the debts, comma-separated.
  */
-function alma_client_add_payment($debt_ids) {
+function alma_client_add_payment($debt_ids, $order_id = NULL) {
   try {
-    $data = alma_client()->add_payment($debt_ids);
+    $data = alma_client()->add_payment($debt_ids, $order_id);
   } catch (Exception $e) {
     watchdog('alma_user', 'add_payment error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
   }
