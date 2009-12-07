@@ -9,12 +9,13 @@ function ting_search_carousel_result_ahah($search, $start, $numResults) {
 	
 	//retrive all searches to determine which to perform
   $searches = variable_get('ting_search_carousel_searches', array());
-	if (!isset($searches[$search]))
+  $search_keys = array_keys($searches);
+	if (!isset($searches[$search_keys[$search]]))
 	{
 		drupal_not_found();
 		exit;
 	}
-	$search = $searches[$search];
+	$search = $searches[$search_keys[$search]];
 
 	//define a carousel search with valid collections and the highest checked search
 	//result index so far
