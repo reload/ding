@@ -68,19 +68,20 @@ function ding_event_default_page_manager_pages() {
   $display->cache = array();
   $display->title = 'Arrangementer';
   $display->hide_title = FALSE;
+  $display->title_pane = 8;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'categories';
-    $pane->subtype = 'categories_title';
+    $pane->subtype = 'categories';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'vocabulary' => '4',
       'override_title' => 0,
       'override_title_text' => '',
-      'vocabulary' => '4',
     );
     $pane->cache = array();
     $pane->style = array();
@@ -128,6 +129,7 @@ function ding_event_default_page_manager_pages() {
     $display->panels['right'][0] = 'new-3';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
+
   $pages['events_overview'] = $page;
 
  return $pages;

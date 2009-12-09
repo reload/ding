@@ -15,20 +15,10 @@
 function ding_event_categories_ctools_content_types() {
   return array(
     'title' => t('Event categories'),
+    'description' => t('Provides a selector for event categories.'),
+    'single' => TRUE,
+    'category' => t('Ting'),
   );
-}
-
-/**
- * Callback function to supply a list of content types.
- */
-function ding_event_categories_content_type_content_types() {
-  $types = array(
-    'categories_title' => array(
-      'title' => t('Event categories'),
-      'description' => t('Provides a selector for event categories.'),
-    ),
-  );
-  return $types;
 }
 
 /**
@@ -44,13 +34,18 @@ function ding_event_categories_content_type_render($subtype, $conf, $panel_args,
     // category. This will not work on node pages or other things that
     // work with a number, but the panel base path is not readily
     // available when rendering this menu.
-    $base_path = preg_replace('/\/\d+\/*$/', '', $_GET['q']);
+    $base_path = preg_replace('/(?:\/\d+\/?)+$/', '', $_GET['q']);
+    $query = array();
+
+    if (isset($_GET['library'])) {
+      $query['library'] = intval($_GET['library']);
+    }
 
     // Add all-link, removing the category.
-    $links['all'] = l(t('All'), $base_path);
+    $links['all'] = l(t('All'), $base_path, array('query' => $query));
 
     foreach (taxonomy_get_tree($conf['vocabulary'], 0, -1, 1) as $term) {
-      $links[] = l($term->name, $base_path . '/' . $term->tid);
+      $links[] = l($term->name, $base_path . '/' . $term->tid, array('query' => $query));
     }
 
     if (!empty($links)) {

@@ -259,14 +259,14 @@ function ding_library_default_page_manager_pages() {
   $display->cache = array();
   $display->title = '';
   $display->hide_title = TRUE;
-  $display->title_pane = 0;
+  $display->title_pane = 12;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'categories';
-    $pane->subtype = 'categories_title';
+    $pane->subtype = 'categories';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -285,7 +285,7 @@ function ding_library_default_page_manager_pages() {
     $pane->pid = 'new-2';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
-    $pane->subtype = 'event_list-panel_pane_1';
+    $pane->subtype = 'event_list-panel_pane_3';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -383,6 +383,7 @@ function ding_library_default_page_manager_pages() {
     $display->panels['top'][0] = 'new-6';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
+
   $pages['library_events'] = $page;
 
   $page = new stdClass;
