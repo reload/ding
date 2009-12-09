@@ -1,5 +1,5 @@
 <?php
-// $Id: pathauto.inc,v 1.54 2009/10/22 00:11:35 greggles Exp $
+// $Id: pathauto.inc,v 1.56 2009/12/03 16:12:45 greggles Exp $
 
 /**
  * @file
@@ -117,14 +117,14 @@ define('PREG_CLASS_ALNUM',
  */
 function _pathauto_alias_exists($alias, $src, $language = '') {
   $alias_pid = db_result(db_query_range("SELECT pid FROM {url_alias} WHERE dst = '%s' AND src <> '%s' AND language = '%s'", array($alias, $src, $language), 0, 1));
-  if (function_exists('path_redirect_delete')) {
+  if (function_exists('path_redirect_delete_multiple')) {
     // Delete from path_redirect the exact same alias to the same node.
-    path_redirect_delete(array('path' => $alias, 'redirect' => $src));
+    path_redirect_delete_multiple(NULL, array('source' => $alias, 'redirect' => $src));
 
     // If there still is this alias used in path_redirect, then create a different alias
-    $redirect_rid = db_result(db_query_range("SELECT rid FROM {path_redirect} WHERE path = '%s'", $alias, 0, 1));
+    $redirects = path_redirect_load_multiple(NULL, array('source' => $alias));
   }
-  if ($alias_pid || !empty($redirect_rid)) {
+  if ($alias_pid || !empty($redirects)) {
     return TRUE;
   }
   else {
@@ -453,7 +453,7 @@ function _pathauto_set_alias($src, $dst, $entity_type, $entity_id, $pid = NULL, 
         && function_exists('path_redirect_save')) {
       if (!empty($old_alias)) {
         $redirect = array(
-          'path' => $old_alias,
+          'source' => $old_alias,
           'redirect' => $src,
         );
         path_redirect_save($redirect);
