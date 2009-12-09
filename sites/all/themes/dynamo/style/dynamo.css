@@ -155,15 +155,16 @@ ul.pager li{margin:0 10px 0 0;}
 /* =====================================
 Panels BOX css styles
 /*--------------------------------------*/
-.ding-box-pane{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0px 0; overflow:hidden;}
+.ding-box-pane{width:228px; background:transparent url(../images/sprite-box.png) repeat-y 0 0; overflow:hidden;}
 	.ding-box-pane h3{width:228px; padding:8px 0 4px 20px; margin:0;height:18px; font-size:11px; line-height:20px; font-weight:bold; background:transparent url(../images/sprite-box.png) no-repeat -230px -30px; overflow:hidden;}
-	.ding-box-pane ul{width:228px; padding:8px 0px; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom;  overflow:hidden; }
+	.ding-box-pane ul{width:228px; padding:8px 0px; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom; overflow:hidden;}
+	.ding-box-pane .pane-library_hours{width:228px; padding:0 0 8px 0px; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom; overflow:hidden;}
 	.ding-box-pane .view .view-empty{width:228px; padding:8px 0 0 20px ; margin:0 0 0 0px; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -700px bottom;  overflow:hidden; }
 	.ding-box-pane ul li{margin:0 0 0 10px; padding:0 0 0 10px; width:200px;}
 
   .ding-box-pane .meta ul {background:none;}
 	.ding-box-pane .meta ul li{margin:0 0 0 0px; padding:0 0 0 0px; width:200px;}
-	.ding-box-pane{font-size:11px; line-height:20px; }
+	.ding-box-pane{font-size:11px; line-height:20px; margin:0 0 10px 0;}
 
 	.ding-box-wide{width:514px; background:transparent url(../images/sprite-box.png) repeat-y -930px 0; overflow:hidden;}
 		.ding-box-wide h3{ width:514px; font-weight:bold;padding:8px 0 4px 20px; height:16px; font-size:11px; line-height:20px;  background:transparent url(../images/sprite-box.png) no-repeat -930px -0px; overflow:hidden;}
@@ -287,9 +288,9 @@ Cowboy small trix not "really" implementet yet
 .node .field-file-attachments  a img{margin:0; padding:0 10px 0; background:transparent; }
 
 body.ding-anbefalinger h1, body.ding-anbefalinger .pane-topic_list h2{margin:0 0 20px 20px;}
-body.ding-taxonomy-term h3{margin:0 0 20px 20px;}
+body.ding-taxonomy-term .panel-left h3{margin:0 0 20px 20px;}
 body.ding-taxonomy-term .node h3{margin:0;}
-
+body.ding-taxonomy-term .view-taxonomy-term-view {margin:0 0 0 0px;}
 /* =====================================
 Crap from modules
 /*--------------------------------------*/
