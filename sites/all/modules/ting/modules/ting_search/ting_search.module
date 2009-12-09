@@ -44,6 +44,10 @@ function ting_search_theme() {
       'arguments' => array('object' => NULL),
       'template' => 'ting_object',
     ),
+    'ting_object_title' => array(
+      'arguments' => array('object' => NULL, 'display_image' => NULL),
+      'template' => 'ting-object-title',
+    ),
   );
 }
 
