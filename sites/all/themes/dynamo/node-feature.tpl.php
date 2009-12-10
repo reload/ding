@@ -11,7 +11,7 @@ if($id_node){
   $id_node = ' id="' . $id_node . '"';  
 }
 ?>
-
+<!-- node-feature.tpl-->
 <?php if ($page == 0){ ?>
 <div<?php print $id_node . $classes; ?>>
   <?php 

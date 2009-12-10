@@ -1,12 +1,14 @@
 /*profiler */
 .tab{clear:both; padding:20px;}
 /*user profile*/
-body.page-user .panel-twocol-left-stacked .content-left{width:686px; margin:0 0 0 20px;}
+body.page-user {}
+
+body.page-user .panel-left .view{left:0;}
 
 	body.section-user	.panel-twocol-left-stacked .content-right{}
 
 .node-profile .field-image{width:120px; height:120px;background:#eee;}
-#contact-mail-user{margin:0 0 0 20px;}
+/*#contact-mail-user{margin:0 0 0 20px;}*/
 .contact{padding: 3px 10px; margin:0 20px 0 0;}
 
 
@@ -50,9 +52,9 @@ form#alma-user-forms-library-settings .container-inline-date{padding:10px 0 0 0;
 	
 /* user/[UID]/edit*/
 	/*	define the width*/
-body.page-user #content-main form{}
+body.page-user #content-main form{margin:0 0 30px 0;}
 	#user-profile-form{margin:0 0 50px 0px; width:500px;}
-	#user-profile-form .form-item{margin:0 0 0 20px;}
+/*	#user-profile-form .form-item{margin:0 0 0 20px;}*/
 	
 	#user-profile-form .account legend{font-weight:bold;font-weight:bold; width:500px; padding:0 0 10px 0;}
 	#user-profile-form fieldset{width:500px; margin:20px 0; padding:5px 0 5px 0px;  color:#666; background:#f8f8f8;  border-bottom: 1px solid #ccc;}

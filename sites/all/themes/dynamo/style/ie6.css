@@ -20,6 +20,12 @@ ul.search-results li{display:none;}
   ul.search-results li.active{display:block;}
   ul.search-results li .jcarousel-skin-ting-search-carousel li{display:block;}
 
+
+#content-inner{margin:0 0px 0 0px;}
+.panel-left .view{position:relative;left:0px; }
+.ting-search-carousel{position:relative; left:0px;}
+
+
 /* ___________ IE6 IFRAME FIX ________ */
 .ui-datepicker-cover {
   display: none; /*sorry for IE5*/

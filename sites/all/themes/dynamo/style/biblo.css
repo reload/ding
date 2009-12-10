@@ -8,17 +8,21 @@
 		blogs 
 		events at a library
 /*--------------------------------------*/
-.node-teaser .content{width:535px; margin:0 5px 0 0; float:left;}
+.node-teaser .content{width:510px; margin:0 5px 0 0; float:left;}
 .node-teaser .picture, .view-event-list .picture{	width:120px; height:120px; margin:0 20px 0 0; float:left; background:#eee;}
 
+
+.panel-pane .node-teaser .content{width:540px; margin:0; float:left; padding:0;}
+.panel-pane .node-teaser .picture{	width:120px; height:120px; margin:0 20px 0 0; float:left; background:#eee;}
 /* ==========================================================================
 	library overview (http://biblo.local/biblioteker)
 /*----------------------------------------------------------------------------*/
 .ding-library-map {width:680px;}
-.node-teaser-library{padding:13px 0 10px 0px;} /*background:transparent url(../images/bg-divider.png) no-repeat left top;*/
-	li.first .node-teaser-library{background: none; padding:10px 0 10px 0px;}
-	.node-teaser-library .picture{width:120px; height:120px; margin:0 20px 0 0; float:left; background:#eee;}
-	.node-teaser-library .content{width:355px; margin:0 5px 0 0; float:left;}
+.view-library-list .node-teaser-library{width:680px;}
+.view-library-list .node-teaser-library .picture{width:120px; height:120px; margin:0 20px 0 0; float:left; background:#eee;}
+.view-library-list .node-teaser-library .content{width:360px; margin:0 5px 0 0; float:left;}
+
+	li.first .node-teaser-library{background: none; padding:10px 0}
 		.node-teaser-library .content h3{padding:0 0 5px 0;}
 		.node-teaser-library .content .link-card{padding:0 0 3px 0;}
 		/*lib status*/
@@ -33,20 +37,20 @@
 
   /*opening hours*/
 	.node-teaser-library .office-hours-week{width:175px; float:left;}
-	.node-teaser-library .office-hours-week .week-info{background:#d1d9d7}
-	.node-teaser-library .office-hours-week .odd,	.node-teaser-library .office-hours-week .even{padding:0 5px;} 
-	.node-teaser-library .office-hours-week .day{width:70px; display:block; float:left; }
-	.node-teaser-library .office-hours-week	.week-info strong{margin:0 5px; font-weight:normal; }
-	.node-teaser-library .office-hours-week .week-info{padding:0 0 0 5px; font-size:10px;}
-	.node-teaser-library .office-hours-week .week-info a.prev{margin:0; font-weight:bold;}
-	.node-teaser-library .office-hours-week .week-info a.prev{width:15px; height:20px;}
-	.node-teaser-library .office-hours-week .week-info a.next{width:15px; height:20px;}
+  	.node-teaser-library .office-hours-week .week-info{background:#d1d9d7}
+  	.node-teaser-library .office-hours-week .odd,	.node-teaser-library .office-hours-week .even{padding:0 5px;} 
+  	.node-teaser-library .office-hours-week .day{width:70px; display:block; float:left; }
+  	.node-teaser-library .office-hours-week	.week-info strong{margin:0 5px; font-weight:normal; }
+  	.node-teaser-library .office-hours-week .week-info{padding:0 0 0 5px; font-size:10px;}
+  	.node-teaser-library .office-hours-week .week-info a.prev{margin:0; font-weight:bold;}
+  	.node-teaser-library .office-hours-week .week-info a.prev{width:15px; height:20px;}
+  	.node-teaser-library .office-hours-week .week-info a.next{width:15px; height:20px;}
   /*opening hours lib page*/
 	.pane-library_hours .office-hours-week .day{width:100px; display:block; float:left; }
+
 /*calender pane*/
 .pane-event_list-panel_pane_2 .panel-pane{margin:0 5px;}
-  .pane-event_list-panel_pane_2 {margin:0px 0 0 0;}
-  .pane-event_list-panel_pane_2 h3{background:#d1d9d7; padding:0px 10px; margin:0px 10px 0 10px; font-size:12px; text-transform: uppercase;  }
+  .pane-event_list-panel_pane_2 h3{background:#d1d9d7; padding:0px 10px;margin:0 0 0 10px; font-size:12px; text-transform: uppercase;  }
 
   .pane-event_list-panel_pane_2 .view-header{background:#d1d9d7; padding:3px 10px; margin:0 10px 0 14px;}
   .pane-event_list-panel_pane_2 li {padding:8px 0 6px 17px; background:transparent url(../images/bg-divider-verysmall.png) no-repeat left top;  clear:both;} 
@@ -68,7 +72,6 @@
   .pane-event_list-panel_pane_2 li div.info span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px; font-weight:normal; font-size:10px;}
 
   .pane-event_list-panel_pane_2 .more-link{padding:0 30px 0 0;}
-
 
 
 /*features pane*/
@@ -170,27 +173,28 @@ ul.menu li.expanded ul.menu li.expanded a{display:block}
 
 /*events*/
 .pane-event_list-panel_pane_1 .view-event-list .libary-tag div{display:inline;margin:0 5px 0 0;}
-.pane-event_list-panel_pane_1 .view-event-list li{background:transparent url(../images/bg-divider.png) no-repeat left top; padding:10px 0 10px 20px;}
-.pane-event_list-panel_pane_1 .view-event-list li.first{background:none;}
-.pane-event_list-panel_pane_1 .view-event-list span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px; font-weight:normal;}
+.pane-event_list-panel_pane_1 .view-event-list ul{clear:both;}
+  .pane-event_list-panel_pane_1 .view-event-list li{background:transparent url(../images/bg-divider.png) no-repeat left top; padding:10px 0}
+  .pane-event_list-panel_pane_1 .view-event-list li.first{background:none;}
+    .pane-event_list-panel_pane_1 .view-event-list span.time{background:transparent url(../images/ur.png) no-repeat 0 2px; padding:0 0 0 14px; font-weight:normal;}
 
-.pane-library_feature_detail_list, 
-.page-taxonomy 
-.node-teaser{width:700px; margin:0 0 0 0;}
-.panel-left .pane-node_body_title{margin:20px 0 0 20px;}
 
 .event-info {margin:0 0 20px 0;}
+.content .event-info{margin:0;}
 	.event-info .event-date{margin:0 10px 0 0;}
 	.event-info .event-price{font-weight:bold;}
 
 
 .content .field-teaser{margin:10px 0;}
 
+/*faciliteter*/
+.pane-library_feature_detail_list .content{width:530px;}
+
 /*medarbjedere*/
-.pane-library_staff_list-panel_pane_1  h3{margin:0 0 0 20px;}
 .panel-left .view-library-staff-list ul{padding:0 0 0 10px;}
-.panel-left .view-library-staff-list ul li,.panel-left .view-library-staff-list ul li.first{width:150px; height:200px; float:left; background:none; padding:10px;}
+.panel-left .view-library-staff-list ul li,.panel-left .view-library-staff-list ul li.first{width:145px; height:170px; float:left; background:none; padding:10px;}
 	.view-library-staff-list li .field-image-fid{width:120px; height:120px; background:#ddd;}
+
 /* =======================================
 	comment
 /* ------------------------------------- */
@@ -212,10 +216,6 @@ div.comment {width: auto; margin:0 0 10px 0; padding:5px 5px 5px 0;}
 	#comment-form .form-buttons{text-align:right;}
 		#comment-form .form-button{display:inline;}
 		
-/*blog comments*/
-ul.item-list h3{margin:0 0 0 20px;}
-/*ul.item-list li{margin:0 0 0 20px;}*/
-
 
 /*panels node*/
 .page-comment .comment,
@@ -223,13 +223,14 @@ ul.item-list h3{margin:0 0 0 20px;}
 .pane-node_content, 
 .pane-node_comments,
 .pane-node_comment_form{
-	margin:0 20px 20px 20px;
+	margin:0 20px 20px 0px;
 }
 
 .content-top .pane-node_content{margin:0 20px 20px 0;}
 
+body.node-type-article h2.panel-title{display:none;}
 
-/*filters*/
+/*vieews filters*/
 .view-event-list .view-filters{float:right;}
 #content-main .view-filters form{margin:0;}
 .views-exposed-form .views-exposed-widget{float:left;}
@@ -239,6 +240,6 @@ ul.item-list h3{margin:0 0 0 20px;}
   margin:0; padding:0;
 }
 .views-exposed-form  label{display:none;}
-.view-empty{margin:0 0 0 20px;}
-body.ding-faciliteter .panel-pane h2{margin:0 0 0 20px;}
+.view-empty{margin:20px 0; clear:both; font-weight:bold;}
+
 

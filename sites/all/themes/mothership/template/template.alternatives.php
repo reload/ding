@@ -37,11 +37,14 @@ function mothership_item_list($items = array(), $title = NULL, $type = 'ul', $at
 
   }
 
-
   if (!empty($items)) {
     $output .= "<$type". drupal_attributes($attributes) .'>';
     $num_items = count($items);
+
     foreach ($items as $i => $item) {
+   
+
+      
       $attributes = array();
       $children = array();
       if (is_array($item)) {
@@ -65,8 +68,7 @@ function mothership_item_list($items = array(), $title = NULL, $type = 'ul', $at
         $data .= theme_item_list($children, NULL, $type, $attributes); // Render nested list
       }
 
-//      $mothership_cleanup_itemlist = theme_get_setting('mothership_cleanup_itemlist');
-    // zebra stribes
+      // zebra stribes
       if (theme_get_setting('mothership_item_list_zebra')) {
         if ($i & 1) {
           $attributes['class'] = empty($attributes['class']) ? 'odd' : ($attributes['class'] .' odd');
@@ -75,15 +77,22 @@ function mothership_item_list($items = array(), $title = NULL, $type = 'ul', $at
           $attributes['class'] = empty($attributes['class']) ? 'even' : ($attributes['class'] .' even');
         }
       }
-      //removed first / last fromt the item list?
+      
+       
+      
+      //first + last the in the item list
       if (theme_get_setting('mothership_item_list_first_last')) {
+
+
         if ($i == 0) {
           $attributes['class'] .= ' first';
         }
         if ($i == $num_items - 1) {
           $attributes['class'] .= ' last';
         }
+
       }
+
 
       //is it a li or a span or a div ?
       if ($item_type == "ul" OR $item_type == "ol") {
@@ -102,9 +111,12 @@ function mothership_item_list($items = array(), $title = NULL, $type = 'ul', $at
     }
     $output .= "</$type>";
   }
+
+
   if (isset($title)) {
     $output .= '</div>';
   }
+
   return $output;
 }
 

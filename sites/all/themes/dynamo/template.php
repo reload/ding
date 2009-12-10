@@ -39,7 +39,7 @@ function dynamo_preprocess_page(&$vars){
   
   $body_classes[] = mothership_id_safe('ding-' . arg(0) . ' ' . arg(1));
   $body_classes[] = mothership_id_safe('ding-' . end($path));
-
+  $body_classes[] = mothership_id_safe('ding-' . arg(2));
   
   // Concatenate with spaces
   $vars['body_classes'] = implode(' ', $body_classes);
@@ -163,8 +163,8 @@ function dynamo_comment_form($form){
 /*
 * panels
 */
-function dynamo_panels_pane($content, $pane, $display) {
 
+function dynamo_panels_pane($content, $pane, $display) {
   if (!empty($content->content)) {
     $idstr = $classstr = '';
     if (!empty($content->css_id)) {
@@ -176,47 +176,61 @@ function dynamo_panels_pane($content, $pane, $display) {
     //  $output = "<div class=\"panel-pane $classstr\"$idstr>\n";
     $output = "<div class=\"panel-pane pane-$pane->subtype $classstr \"$idstr>\n";
 
+      if (!empty($content->title)) {
 
-
-    if (!empty($content->title)) {
-      if(
-        $pane->subtype == "event_list-panel_pane_1"  OR
-        $pane->subtype == "recommendation_list"
-      ){
-        $output .= "<h1>$content->title</h1>\n";        
-      }elseif( 
-        $pane->subtype == "topic_list" OR 
-        $pane->subtype == "node_content" OR 
-        $pane->subtype == "event_list" OR 
-        $pane->subtype == "library_feature_detail_list"
+        if($pane->subtype == "event_list-panel_pane_1"  OR $pane->subtype == "recommendation_list"){
+          $output .= "<h1>$content->title</h1>\n";        
+        }elseif( 
+          $pane->subtype == "topic_list" OR 
+          $pane->subtype == "event_list" OR 
+          $pane->subtype == "library_feature_detail_list" OR
+          $pane->subtype == "node_content"
         ){
-        $output .= "<h2>$content->title</h2>\n";
-      }else{
-        $output .= "<h3>$content->title</h3>\n";        
+          $output .= '<h2 class="panel-title">'. $content->title .'</h2>';
+        }else{
+          $output .= "<h3>$content->title</h3>\n";        
+        }
+
+
+/*
+        if(
+          $pane->subtype == "event_list-panel_pane_1"  OR
+          $pane->subtype == "recommendation_list"
+        ){
+          $output .= "<h1>$content->title</h1>\n";        
+        }elseif( 
+          $pane->subtype == "topic_list" OR 
+          $pane->subtype == "event_list" OR 
+          $pane->subtype == "library_feature_detail_list" OR
+          $pane->subtype == "node_content"
+        ){
+          $output .= '<h2 class="panel-title">'. $content->title .'</h2>';
+        }else{
+          $output .= "<h3>$content->title</h3>\n";        
+        }
+*/
       }
 
-    }
-
-    if (!empty($content->feeds)) {
-      $output .= "<div class=\"feed\">" . implode(' ', $content->feeds) . "</div>\n";
-    }
-
-    //  $output .= "<div class=\"content\">$content->content</div>\n";
-    $output .= $content->content;
-
-    if (!empty($content->links)) {
-      $output .= "<div class=\"links\">" . theme('links', $content->links) . "</div>\n";
-    }
-
-    if (!empty($content->more)) {
-      if (empty($content->more['title'])) {
-        $content->more['title'] = t('more');
+      if (!empty($content->feeds)) {
+        $output .= "<div class=\"feed\">" . implode(' ', $content->feeds) . "</div>\n";
       }
-      $output .= "<div class=\"panels more-link\">" . l($content->more['title'], $content->more['href']) . "</div>\n";
-    }
-    if (user_access('view pane admin links') && !empty($content->admin_links)) {
-      $output .= "<div class=\"admin-links panel-hide\">" . theme('links', $content->admin_links) . "</div>\n";
-    }
+
+      //  $output .= "<div class=\"content\">$content->content</div>\n";
+      $output .= $content->content;
+
+      if (!empty($content->links)) {
+        $output .= "<div class=\"links\">" . theme('links', $content->links) . "</div>\n";
+      }
+
+      if (!empty($content->more)) {
+        if (empty($content->more['title'])) {
+          $content->more['title'] = t('more');
+        }
+        $output .= "<div class=\"panels more-link\">" . l($content->more['title'], $content->more['href']) . "</div>\n";
+      }
+      if (user_access('view pane admin links') && !empty($content->admin_links)) {
+        $output .= "<div class=\"admin-links panel-hide\">" . theme('links', $content->admin_links) . "</div>\n";
+      }
 
 
     $output .= "</div>\n";

@@ -20,14 +20,13 @@ if($id_node){
 
   <div class="content">
 
-  	<?php if($node->title){	?>	
-      <h3><?php print l($node->title, 'node/'.$node->nid); ?></h3>
-  	<?php } ?>
-
-
     <div class="subject">
       <?php print return_terms_from_vocabulary($node, "1"); ?> 
     </div>
+
+  	<?php if($node->title){	?>	
+      <h3><?php print l($node->title, 'node/'.$node->nid); ?></h3>
+  	<?php } ?>
 
   	<div class="meta">
   		<span class="time">
@@ -69,9 +68,6 @@ if($id_node){
 ?>
 
 <div<?php print $id_node . $classes; ?>>
-
-
-
   <div class="subject">
     <?php print return_terms_from_vocabulary($node, "1"); ?> 
   </div>
