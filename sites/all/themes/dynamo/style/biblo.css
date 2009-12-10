@@ -140,16 +140,15 @@
 /* =======================================
 	pages
 /* ------------------------------------- */
-body.node-type-page .panel-left{width:180px;}
-
-body.node-type-page .panel-threecol-left-stacked-right .panel-middle {width:515px; background:transparent url(../images/bg-divider-horizontalt.png) no-repeat left top;}
 
 ul.menu{list-style-position:inside; font-size:12px;}
 ul.menu li{list-style: none inside; margin:0; padding: 0 0 0 0px; background:none;}
 ul.menu li.leaf { padding:0 0 0 0; font-size:10px; list-style: none outside; margin:0 0 0 20px;}
 
+ul.menu li.leaf > a.active, ul.menu li > a.active,
+li.active-trail > a
+{font-weight:bold; color:#006A87;} 
 
-ul.menu li.leaf a.active, ul.menu li.active-trail a{font-weight:bold; color:#006A87}
 ul.menu li.leaf a{font-weight:normal;}
 ul.menu li.collapsed{padding:0;}
 	ul.menu li.collapsed a{background:transparent url(../images/bullet_toggle_plus.gif) no-repeat left 0px; padding:0 0 0 15px;}
@@ -159,13 +158,13 @@ ul.menu li.expanded{list-style: none inside}
 
 ul.menu li.leaf a{background:none; padding:0;}
 
-ul.menu li ul{margin:0 0 5px 0; padding:0 0 5px 0;}	
+ul.menu li ul{}	
 	ul.menu li ul li{list-style-type: none;}
 
-ul.menu li.expanded ul.menu li.expanded{margin:0 0 0 20px;	}
+ul.menu li.expanded ul.menu li.expanded{margin:0 0 0 0px}
 ul.menu li.expanded ul.menu li.expanded a{display:block}
 
-.panel-left ul.menu li.first{background:none; padding:0 5px 10px 0px}		
+.panel-left ul.menu li.first{background:none;}		
 /**/
 .view-blog-category-list ul li div{display:inline;}
 .view-blog-category-list ul li div.node-count{font-size:10px;}
@@ -241,5 +240,7 @@ body.node-type-article h2.panel-title{display:none;}
 }
 .views-exposed-form  label{display:none;}
 .view-empty{margin:20px 0; clear:both; font-weight:bold;}
+
+.panel .view-event-list .view-empty{margin:20px 0 20px 20px;}
 
 

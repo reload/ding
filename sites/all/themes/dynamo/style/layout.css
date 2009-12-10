@@ -208,6 +208,12 @@ all content based on search results are in the search.css
 
 body.ding-arrangementer .panel-threecol-left-stacked-right .panel-left{width:130px;}
 
+body.node-type-page .panel-threecol-left-stacked-right .content-left{width:680px; }
+body.node-type-page .panel-threecol-left-stacked-right .content-middle{width:680px; }
+  body.node-type-page .panel-threecol-left-stacked-right .panel-left{width:180px;}
+  body.node-type-page .panel-threecol-left-stacked-right .panel-middle {width:480px; padding:0 0 0 20px; background:transparent url(../images/bg-divider-horizontalt.png) no-repeat 10px top;}
+
+
 
 /* =====================================
 nav tabs for the events & 
