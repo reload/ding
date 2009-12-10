@@ -14,6 +14,7 @@
 
 .panel-pane .node-teaser .content{width:540px; margin:0; float:left; padding:0;}
 .panel-pane .node-teaser .picture{	width:120px; height:120px; margin:0 20px 0 0; float:left; background:#eee;}
+
 /* ==========================================================================
 	library overview (http://biblo.local/biblioteker)
 /*----------------------------------------------------------------------------*/
@@ -194,6 +195,9 @@ ul.menu li.expanded ul.menu li.expanded a{display:block}
 .panel-left .view-library-staff-list ul li,.panel-left .view-library-staff-list ul li.first{width:145px; height:170px; float:left; background:none; padding:10px;}
 	.view-library-staff-list li .field-image-fid{width:120px; height:120px; background:#ddd;}
 
+
+.panel-middle .pane-topic_list{margin:0 0 0 20px;}
+.panel-middle .pane-topic_list h2{}
 /* =======================================
 	comment
 /* ------------------------------------- */
@@ -224,6 +228,8 @@ div.comment {width: auto; margin:0 0 10px 0; padding:5px 5px 5px 0;}
 .pane-node_comment_form{
 	margin:0 20px 20px 0px;
 }
+
+
 
 .content-top .pane-node_content{margin:0 20px 20px 0;}
 
