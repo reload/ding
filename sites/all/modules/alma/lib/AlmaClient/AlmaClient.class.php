@@ -106,10 +106,13 @@ class AlmaClient {
   /**
    * Get patron information from Alma.
    */
-  public function get_patron_info($borr_card, $pin_code) {
-    $doc = $this->request('patron/information', array('borrCard' => $borr_card, 'pinCode' => $pin_code));
+  public function get_patron_info($borr_card, $pin_code, $extended = FALSE) {
+    $path = ($extended) ? 'patron/informationExtended' : 'patron/information';
+    $info_node = ($extended) ? 'patronInformationExtended' : 'patronInformation';
 
-    $info = $doc->getElementsByTagName('patronInformation')->item(0);
+    $doc = $this->request($path, array('borrCard' => $borr_card, 'pinCode' => $pin_code));
+
+    $info = $doc->getElementsByTagName($info_node)->item(0);
 
     $data = array(
       'patron_id' => $info->getAttribute('patronId'),
@@ -146,6 +149,14 @@ class AlmaClient {
         'sms' => (bool) ($phone->getElementsByTagName('sms')->item(0)->getAttribute('useForSms') == 'yes'),
       );
     }
+
+    foreach ($info->getElementsByTagName('patronBlock') as $block) {
+      $data['blocks'][] = array(
+        'code' => $block->getAttribute('code'),
+        'is_system' => (bool) ($block->getElementsByTagName('isSystemBlock') == 'yes'),
+      );
+    }
+
     return $data;
   }
 

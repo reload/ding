@@ -170,12 +170,15 @@ function alma_client_get_reservation_branches($optional=TRUE) {
  *    number printed on their library card or their CPR-code.
  * @param string $pin_code
  *    Library patron's four digit PIN code.
+ * @param boolean $extended
+ *    Whether to use the extended information callback, returning DDE
+ *    Libra extension data like block codes.
  * @return array
  *    The patron information as an array.
  */
-function alma_client_get_patron_info($borr_card, $pin_code) {
+function alma_client_get_patron_info($borr_card, $pin_code, $extended = FALSE) {
   try {
-    return alma_client()->get_patron_info($borr_card, $pin_code);
+    return alma_client()->get_patron_info($borr_card, $pin_code, $extended);
   }
   catch (AlmaClientBorrCardNotFound $e) {
     watchdog('alma_user', 'get_patron_info error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));

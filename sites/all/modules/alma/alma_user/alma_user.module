@@ -205,7 +205,7 @@ function alma_user_form_alter(&$form, $form_state, $form_id) {
         // Store the patron information for validation purposes.
         $form['alma_user_patron_info'] = array(
           '#type' => 'value',
-          '#value' => alma_client_get_patron_info($creds['borr_card'], $creds['pin_code']),
+          '#value' => alma_client_get_patron_info($creds['borr_card'], $creds['pin_code'], TRUE),
         );
 
         // Add our own validation and submit handling.
@@ -327,7 +327,16 @@ function alma_user_login_submit($form, &$form_state) {
  *    User uid if credentials are valid, FALSE if not.
  */
 function alma_user_check_credentials($borr_card, $pin_code, $login=FALSE) {
-  $data = alma_client_get_patron_info($borr_card, $pin_code);
+  $data = alma_client_get_patron_info($borr_card, $pin_code, $login);
+
+  if ($login && isset($data['blocks']) && !empty($data['blocks'])) {
+    $block_codes = alma_user_block_codes();
+    foreach ($data['blocks'] as $block) {
+      drupal_set_message(t('Login failed, account is blocked: %message.', array('%message' => $block_codes[$block['code']])), 'error');
+    }
+    return FALSE;
+  }
+
 
   // Check if user exists.
   $uid = db_result(db_query("SELECT uid FROM {alma_user} WHERE alma_id = '%s';", $data['patron_id']));
@@ -622,5 +631,23 @@ function template_preprocess_alma_user_personal_info(&$variables) {
     l(t('Edit contact information'), 'user/' . $variables['account']->uid . '/edit'),
     l(t('Change PIN code'), 'user/' . $variables['account']->uid . '/change_pin'),
   ));
+}
+
+/**
+ * Get list of Alma block codes with their descriptions.
+ */
+function alma_user_block_codes() {
+  return array(
+    'a' => 'Forkert adresse',
+    'c' => 'CPR-nr. fejl jf. folkeregister',
+    'd' => 'Låneren død jf. folkeregister',
+    'f' => 'Forældre-forbud',
+    'g' => 'Låneforbud',
+    'o' => 'Oprettet under nødudlån - låner skal i',
+    's' => 'Blokeret af selvbetjeningsterminal',
+    'u' => 'ukendt adresse i folkeregister',
+    'v' => 'Lånerkort/sygesik. væk',
+    'x' => 'Forsvundet jf. folkeregistret',
+  );
 }
 
