@@ -102,7 +102,7 @@ body.admin{background-position: 0 30px }
 	#navigation li.first{margin:0 20px 0 0;}
 	#navigation li a{margin:0; padding:6px 10px 0 0; height:30px; display: block; float:left; }
 	#navigation li.active {background:url(../images/menu-left.png) no-repeat left top; }
-	#navigation li.active a{color:#eee; background: url(../images/menu-right.png) no-repeat right top;}
+	#navigation li.active a{color:#eee; background: url(../images/menu-right.png) no-repeat right top; font-weight:normal;}
 	#navigation a {color:#fff;}
 
 /* left navigation */	
@@ -173,7 +173,7 @@ all content based on search results are in the search.css
 .panel-left ul.item-list li,
 .panel-left .pane-library_feature_detail_list ul li
 {
-  background:transparent url(../images/bg-divider.png) no-repeat -20px top; padding:10px 0px 10px 20px; margin:0;
+  background:transparent url(../images/bg-divider.png) no-repeat -20px top; padding:10px 20px 10px 20px; margin:0;
 }
 
 .panel-left .view  ul li.first{background:none; padding:0 0 10px 20px}
@@ -184,6 +184,7 @@ all content based on search results are in the search.css
 .panel-threecol-33-34-33-stacked .panel-top{width:960px; clear:both; height:240px; padding:0;}
 .panel-threecol-33-34-33-stacked .panel-content{clear:both}
 	.panel-threecol-33-34-33-stacked .panel-left{width:470px;float:left; min-height:300px; background:transparent url(../images/bg-divider-horizontalt.png) repeat-y right top; border-right: 1px solid #eee;}
+  .panel-threecol-33-34-33-stacked .panel-left .view-article-list{width:489px;}
 	.panel-threecol-33-34-33-stacked .panel-middle {width:240px; float:left; background:transparent url(../images/bg-divider-horizontalt.png) repeat-y right top;}
 	.panel-threecol-33-34-33-stacked .panel-right{width:246px; margin:0 0 0 3px; float:left;}
 	.panel-threecol-33-34-33-stacked .panel-bottom{width:960px; clear:both;}
@@ -192,11 +193,13 @@ all content based on search results are in the search.css
 .panel-twocol-left-stacked .content-left{width:680px; margin:0 15px 0 0;} 
 	.panel-twocol-left-stacked .panel-top{padding:0 0 20px 0px; background:transparent url(../images/bg-divider.png) no-repeat left bottom; }
 	.panel-twocol-left-stacked .panel-left{width:680px;}
+	
 	.panel-twocol-left-stacked .panel-bottom{width:680px;}
 
 /*panel-threecol-left-stacked*/
 .panel-threecol-left-stacked .content-left{width:680px; margin:0 15px 0 0;}
 .panel-threecol-left-stacked .panel-left{width:450px; float:left; background: transparent url(../images/bg-divider-horizontalt.png) repeat-y right top;}
+.panel-threecol-left-stacked .panel-left .view-article-list{width:469px;}
 .panel-threecol-left-stacked .panel-middle{width:230px; float:left;}
 .panel-threecol-left-stacked .content-top{}
 .panel-threecol-left-stacked .panel-middle .ding-box-pane{margin:0 0 0 10px;}

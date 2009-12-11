@@ -188,7 +188,9 @@ ul.menu li.expanded ul.menu li.expanded a{display:block}
 .content .field-teaser{margin:10px 0;}
 
 /*faciliteter*/
-.pane-library_feature_detail_list .content{width:530px;}
+.pane-library_feature_detail_list{}
+.pane-library_feature_detail_list .node-teaser .content{width:535px;}
+.panel-left .pane-library_feature_detail_list ul.item-list{width:715px;}
 
 /*medarbjedere*/
 .panel-left .view-library-staff-list ul{padding:0 0 0 10px;}

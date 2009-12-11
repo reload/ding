@@ -18,6 +18,8 @@
  *   data including the contexts and all of the other panes being displayed.
  */
 ?>
+<!--panels-pane.tpl-->
+
 <div class="<?php print $classes; ?>" <?php print $id; ?>>
   <?php if ($admin_links): ?>
     <div class="admin-links panel-hide">
@@ -51,3 +53,4 @@
     </div>
   <?php endif; ?>
 </div>
+<!--/panels-pane.tpl-->

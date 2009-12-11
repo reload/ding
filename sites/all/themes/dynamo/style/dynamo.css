@@ -104,6 +104,12 @@ Panels BOX css styles
 	.ding-box-wide .odd{background:#f3f5f5;}
 	.ding-box-wide .even{background:#fff;}
 
+	.ding-box-wide ul.item-list li {padding:2px 0 0 10px; margin:0 10px; background:#fff;}
+	.ding-box-wide ul.item-list li.odd{background:#f3f5f5;}
+	.ding-box-wide ul.item-list li.even{background:#fff;}
+
+
+
 	.ding-box-pane .odd{background:#f3f5f5;}
 	.ding-box-pane .even{background:#fff;}
 
@@ -192,7 +198,7 @@ div.more-link{padding:0 20px 0 0; }
   .ting-search-carousel .search-controller li.active a {color:#fff;}
 
 
-.panel-pane .view .feed-icon{margin:0 0 0 10px;}
+.view .feed-icon{margin:0 0 0 10px;}
 
 /* =====================================
 Cowboy small trix not "really" implementet yet
