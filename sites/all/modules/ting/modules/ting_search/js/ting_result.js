@@ -112,7 +112,19 @@ Drupal.tingResult = function(searchResultElement, facetBrowserElement, result)
 	{
 			//Start loading
 			Drupal.tingSearch.tabLoading('ting');
-			var path = Drupal.settings.tingSearch.ting_url+'?query='+Drupal.settings.tingSearch.keys+((jQuery.url.attr('anchor') != null) ? '&'+jQuery.url.attr('anchor') : ''); 
+			
+			//Encode query and anchor values to make IE handle them correctly in the AJAX request
+			query = encodeURIComponent(Drupal.settings.tingSearch.keys);
+
+			vars = Drupal.getAnchorVars();
+			anchorArray = new Array();
+			for (v in vars)
+			{
+				anchorArray.push(v+'='+encodeURIComponent(vars[v]));
+			}
+			anchorString = anchorArray.join('&');
+			
+			var path = Drupal.settings.tingSearch.ting_url+'?query='+query+((anchorString) ? '&'+anchorString : '');
 			jQuery.getJSON(path, function(data)
 			{
 				//Update tabs now that we have the result
