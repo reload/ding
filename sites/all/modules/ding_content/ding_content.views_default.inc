@@ -657,6 +657,7 @@ function ding_content_views_default_views() {
       'relationship' => 'none',
     ),
   ));
+  $handler->override_option('title', 'Seneste indlæg');
   $handler->override_option('items_per_page', 5);
   $handler->override_option('use_pager', '0');
   $handler->override_option('pane_title', 'Sidebar blog posts');
