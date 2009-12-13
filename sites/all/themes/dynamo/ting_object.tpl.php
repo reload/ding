@@ -89,30 +89,21 @@
 
           <?php
           $collection = ting_get_collection_by_id($object->id);
-          if($collection instanceof TingClientObjectCollection)
-          {
-            if(is_array($collection->types))
-
-              /*do we have more than only this one type*/
-            if(count($collection->types) > 1)
-            {
+          if ($collection instanceof TingClientObjectCollection && is_array($collection->types)) {
+            // Do we have more than only this one type?
+            if (count($collection->types) > 1) {
               print '<div class="ding-box-wide object-otherversions">';
-              {
-                print '<h3>'. t('Also available as: ') . '</h3>';  
-                print "<ul>";
-
-                foreach ($collection->types as $category) {
-                  if($category == $object->data->type[0]) continue;
+              print '<h3>'. t('Also available as: ') . '</h3>';  
+              print "<ul>";
+              foreach ($collection->types as $category) {
+                if ($category != $object->data->type[0]) {
                   $material_links[] = '<li class="category"><a href="'.$collection->url.'#'.$category.'">'.t($category).'</a></li>';
                 }
-               echo implode(" ", $material_links);
-               // echo implode(", ", $material_links);
-
               }
-
+              print implode(' ', $material_links);
+              print "</ul>";
+              print "</div>";
             }
-            print "</ul>";
-            print "</div>";
           }
           ?>
           
