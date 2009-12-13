@@ -10,11 +10,13 @@ ul.menu li.leaf {margin :0 0 0 35px;}
 .panel-left ul.menu li ul li.first{padding:0 0 0 0;margin:0 0 0 35px; }
 
 /*carousel*/
-.jcarousel-skin-ting-search-carousel .jcarousel-clip-horizontal {width:670px; height:200px;}
+.jcarousel-skin-ting-search-carousel { width:724px; }
+.jcarousel-skin-ting-search-carousel .jcarousel-clip-horizontal {width:666px; height:180px;}
+.jcarousel-skin-ting-search-carousel .jcarousel-item { padding: 0; }
 .ting-search-carousel .subtitle {margin:10px 0 0px 10px; }
 
-.jcarousel-skin-ting-search-carousel .jcarousel-prev-horizontal {left:-250px}
-.jcarousel-skin-ting-search-carousel .jcarousel-next-horizontal {right:-40px}
+.jcarousel-skin-ting-search-carousel .jcarousel-prev-horizontal {left:-275px}
+.jcarousel-skin-ting-search-carousel .jcarousel-next-horizontal {right:-45px}
 /*active skifter*/
 ul.search-results li{display:none;}
   ul.search-results li.active{display:block;}
