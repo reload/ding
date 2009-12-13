@@ -13,6 +13,8 @@ ul.menu li.leaf {margin :0 0 0 35px;}
 .jcarousel-skin-ting-search-carousel { width:724px; }
 .jcarousel-skin-ting-search-carousel .jcarousel-clip-horizontal {width:666px; height:180px;}
 .jcarousel-skin-ting-search-carousel .jcarousel-item { padding: 0; }
+.jcarousel-skin-ting-search-carousel .jcarousel-item a:hover .info { text-decoration: none; cursor: pointer; }
+
 .ting-search-carousel .subtitle {margin:10px 0 0px 10px; }
 
 .jcarousel-skin-ting-search-carousel .jcarousel-prev-horizontal {left:-275px}
