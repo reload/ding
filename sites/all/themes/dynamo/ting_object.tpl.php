@@ -52,7 +52,7 @@
                 ?>
                 <span class='date'>(<?php echo $object->data->date[0]; ?>)</span>
               </div>
-              <p><?php print $object->data->description[0];?></p>
+              <p><?php print $object->data->abstract[0];?></p>
               <div class="alma-status waiting"><?php print t('waiting for data'); ?></div>
             </div>
 
@@ -63,9 +63,9 @@
           <div class="object-information clearfix">
             <?php 
             //we printed the first part up above so remove that 
-            unset($object->data->description[0]);
+            unset($object->data->abstract[0]);
             ?>
-            <div class="description"><?php print implode(' ; ', format_danmarc2($object->data->description)) ?></div>
+            <div class="abstract"><?php print implode(' ; ', format_danmarc2($object->data->abstract)) ?></div>
 
             <?php print theme('item_list',$object->data->type, t('Type'), 'span', array('class' => 'type'));?>
             <?php print theme('item_list',$object->data->identifier, t('Identifier'), 'span', array('class' => 'identifier'));?>

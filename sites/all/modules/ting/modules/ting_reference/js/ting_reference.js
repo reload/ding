@@ -37,7 +37,7 @@ Drupal.behaviors.showTingPreview = function(context)
 												'.title[href]': 'collection.url',
 												'.creator em': function(arg) { return (arg.context.objects[0].data.creator) ? arg.context.objects[0].data.creator.join(', ') : ''; },
 												'.publication_date em': function(arg) { return (arg.context.objects[0].data.date) ? arg.context.objects[0].data.date.join(', ') : ''; },
-												'.description p': function(arg) { return (arg.context.objects[0].data.description) ? arg.context.objects[0].data.description.join('</p><p>') : ''; },
+												'.abstract p': function(arg) { return (arg.context.objects[0].data.abstract) ? arg.context.objects[0].data.abstract.join('</p><p>') : ''; },
 												'.picture': function(arg) { return (arg.context.objects[0].additionalInformation) ? '<img src="'+arg.context.objects[0].additionalInformation.thumbnailUrl+'"/>' : ''; }
 											});
 											

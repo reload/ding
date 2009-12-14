@@ -150,7 +150,7 @@ function ting_search_pages_ting_feed($query) {
         $entry = array(
           'id' => url('ting/collection/' . $collection->objects[0]->id, array('absolute' => TRUE)),
           'title' => $data->title[0],
-          'summary' => $data->description[0],
+          'summary' => $data->abstract[0],
           'published' => gmdate('c', strtotime($data->date[0])),
           'authors' => array(),
           'categories' => array(),

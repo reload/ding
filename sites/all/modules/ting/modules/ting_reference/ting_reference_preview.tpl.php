@@ -26,10 +26,10 @@
 				<li class="reserved">Lydbog</li>-->
 			</ul>
 		</div>
-		<?php if ($collection->objects[0]->data->description) : ?>
-		<div class="description">
+		<?php if ($collection->objects[0]->data->abstract) : ?>
+		<div class="abstract">
 			<p>
-				<?php echo implode('</p><p>'.$collection->objects[0]->data->description) ?>
+				<?php echo implode('</p><p>'.$collection->objects[0]->data->abstract) ?>
 			</p>
 		</div>
 		<?php endif; ?>

@@ -294,12 +294,10 @@ function template_preprocess_ting_collection(&$variables) {
 		
 	// Try to fetch a danish book
 	$common_object = null;
-	if(array_key_exists($preferred_typekey, $sorted)) {
-		foreach($sorted[$preferred_typekey] as $object)
-		{	
-			if($object->data->language[0] == $preferred_language)
-			{
-				if(!empty($object->data->description[0])) {
+	if (array_key_exists($preferred_typekey, $sorted)) {
+		foreach ($sorted[$preferred_typekey] as $object) {
+			if ($object->data->language[0] == $preferred_language) {
+				if (!empty($object->data->abstract[0])) {
 					$common_object = $object;
 					break;
 				}			
@@ -307,13 +305,12 @@ function template_preprocess_ting_collection(&$variables) {
 		}
 	}
 	
-	// just get a material with a description
-	if(!$common_object) {
-		foreach($sorted as $objects)
-		{
+	// just get a material with an abstract.
+	if (!$common_object) {
+		foreach ($sorted as $objects) {
 			$common_object = $objects[0];
 			
-			if(empty($common_object->data->description[0])) {
+			if (empty($common_object->data->abstract[0])) {
 				continue;
 			}
 			break;

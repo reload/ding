@@ -155,7 +155,7 @@ function theme_ting_reference_formatter_default($element) {
   // For now we reuse the existing search result template and just replace the
   // description with the one supplied by the editor.
   if ($element['#item']['description']) {
-    $collection->objects[0]->data->description = array($element['#item']['description']);
+    $collection->objects[0]->data->abstract = array($element['#item']['description']);
   }
   if (!$collection) {
     return t('Object not found.');

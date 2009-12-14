@@ -33,10 +33,10 @@
         <?php endif; ?>
       </div>
 
-      <?php if ($collection->objects[0]->data->description) : ?>
-      <div class="description">
+      <?php if ($collection->objects[0]->data->abstract) : ?>
+      <div class="abstract">
         <p>
-          <?php echo $collection->objects[0]->data->description[0] ?>
+          <?php echo $collection->objects[0]->data->abstract[0] ?>
         </p>
       </div>
       <?php endif; ?>

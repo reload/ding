@@ -51,7 +51,7 @@
 						<span class='date'>(<?php echo $common_object->data->date[0]; ?>)</span> 
 					</div>		 			
 
-					<p><?php print $common_object->data->description[0];?></p>
+					<p><?php print $common_object->data->abstract[0];?></p>
 
 					<div class='terms'>
 						<?php //print theme('item_list', $tingClientObject->data->subject, t('Terms:'), 'span', array('class' => 'subject'));?>	
@@ -109,36 +109,14 @@
 
 				  		<span class='date'><?php echo $tingClientObject->data->date[0]; ?></span> 
   						<em><?php echo t('by'); ?></em>
-  						<?php echo l($tingClientObject->data->creator[0], 'search/ting/'.$tingClientObject->data->creator[0], array("attributes"=>array('class' => 'author alternative'))); ?>		
+  						<?php echo l($tingClientObject->data->creator[0], 'search/ting/'.$tingClientObject->data->creator[0], array("attributes"=>array('class' => 'author alternative'))); ?>
 						
-  						<div class='language'><?php echo t('Language: ') . $tingClientObject->data->language[1]; ?></div>
+  						<div class='language'><?php echo t('Language') . ': ' . $tingClientObject->data->language[1]; ?></div>
   						<?php
-  						for ($i=1; $i<count($tingClientObject->data->creator); $i++)
-  						{
+  						for ($i = 1; $i < count($tingClientObject->data->creator); $i++) {
   							if($extradesc = $tingClientObject->data->creator[$i]) { print "<p>".$extradesc."</p>"; }
   						}
-
-  						for ($i=1; $i<count($tingClientObject->data->description); $i++)
-  						{
-  							if($extradesc = $tingClientObject->data->description[$i]) { print "<p>".$extradesc."</p>"; }
-  						}
   						?>
-		
-						
-						
-  					<?php
-  				//	echo "<pre>";
-  				//	print_r($collection);
-  				//	echo "</pre>"; ?>
-						
-  					<?php //print theme('item_list', format_danmarc2($tingClientObject->data->description), t('Description'), 'span', array('class' => 'description'));?>
-
-  						<?php //print theme('item_list', $tingClientObject->data->subject, t('Terms'), 'span', array('class' => 'subject'));?>
-  						<?php //print theme('item_list', $tingClientObject->data->type, t('Type'), 'span', array('class' => 'type'));?>
-  						<?php //print theme('item_list', $tingClientObject->data->format, t('Format'), 'span', array('class' => 'format'));?>
-  						<?php //print theme('item_list', $tingClientObject->data->source, t('Source'), 'span', array('class' => 'source'));?>
-  						<?php //print theme('item_list', $tingClientObject->data->publisher, t('Publisher'), 'span', array('class' => 'publisher'));?>
-  						<?php //print theme('item_list', $tingClientObject->data->language, t('Language'), 'span', array('class' => 'language'));?>
 
   						<div class="more">
   						  <?php print l(t('More information'), $tingClientObject->url, array('attributes' => array('class' => 'more-link')) ); ?>  
@@ -177,3 +155,4 @@
 </div>
 
 <!--/ting-collection-->
+
