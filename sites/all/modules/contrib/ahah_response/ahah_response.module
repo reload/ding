@@ -1,5 +1,5 @@
 <?php
-// $Id: ahah_response.module,v 1.1 2008/12/20 22:43:58 effulgentsia Exp $
+// $Id: ahah_response.module,v 1.1.2.1 2009/11/20 00:00:33 effulgentsia Exp $
 
 /**
  * @file
@@ -56,5 +56,7 @@ function template_preprocess_ahah_response(&$aVars) {
  * Theme function for converting a PHP structure into javascript code embedded in script tags.
  */
 function theme_ahah_response_settings_js($aSettings) {
-  return (is_array($aSettings) && !empty($aSettings)) ? ('<script type="text/javascript">jQuery.extend(Drupal.settings, '. drupal_to_js($aSettings) .');</script>') : '';
+  // Must jQuery.extend() with the deep parameter; otherwise can clobber
+  // important settings.
+  return (is_array($aSettings) && !empty($aSettings)) ? ('<script type="text/javascript">jQuery.extend(true, Drupal.settings, '. drupal_to_js($aSettings) .');</script>') : '';
 }
