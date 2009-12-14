@@ -135,3 +135,17 @@ iframe.pc-booking { width: 100%; height: 100%; min-height: 600px;}
 /* kasperg: Dim facet browser links when loading */
 #ting-search-results .loading #ting-facet-browser li { color: #999; }
 
+/* staff list i panel-middle (portal libraries) */
+.panel-middle .view-library-staff-list ul{padding:0 0 0 10px;}
+.panel-middle .view-library-staff-list ul li,.panel-left .view-library-staff-list ul li.first{width:145px; height:170px; float:left; background:none; padding:10px;}
+.view-library-staff-list li .field-image-fid{width:120px; height:120px; background:#ddd;}
+.panel-middle .view-library-staff-list ul {
+  padding:0 0 0 10px;
+  margin-right: -40px; /* make room for pictures in 3 "columns" (not real columns, just floated divs that line up like columns) */
+}
+.panel-middle .view, .panel-middle .pane-library_feature_detail_list ul.item-list {
+  left:-20px;
+  position:relative;
+}
+
+
