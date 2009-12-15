@@ -1461,7 +1461,7 @@ function ding_content_default_page_manager_handlers() {
   $display->cache = array();
   $display->title = '';
   $display->hide_title = FALSE;
-  $display->title_pane = 0;
+  $display->title_pane = 14;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -1521,7 +1521,7 @@ function ding_content_default_page_manager_handlers() {
       'teaser' => 0,
       'identifier' => '',
       'link' => 0,
-      'leave_node_title' => 0,
+      'leave_node_title' => 1,
       'context' => 'argument_nid_1',
     );
     $pane->cache = array();
