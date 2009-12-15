@@ -26,63 +26,40 @@
 #ting-collection .info ul.types { margin-top: 10px; }
 
 
-#ting-collection h2{margin: 10px 0; border-bottom: 1px solid #E7ECEB; color:#000; font-weight:bold;}
+#ting-collection h2{margin: 10px 0; border-bottom: 1px solid #E7ECEB; color:#790f21;}
 
 .ting-item{margin:10px 0 0 0; padding:10px 0; border-bottom: 1px solid #eee;}
 
-.ting-item .content{}
-.ting-item .content .picture{float:left; width:85px;}
-.ting-item .content .info{float:left; width:410px;}
-.ting-item .cart{margin:5px 0;}
+.ting-item .content{width:410px;float:left;}
+  .ting-item .content .picture{float:left; width:85px;}
+  .ting-item .content .info{float:left; width:300px;}
+.ting-item .cart{width:95px; float:left;}
+  /*status*/
+  .ting-item .alma-status{font-size:10px; text-align:center; line-height:10px; font-weight:bold;  padding:3px 0; margin:10px 0 0 0; background-color: #eee; width:100px; }
+    .ting-item .alma-status.waiting, #content .alma-cart-buttons a.disabled {color: #777;}
+    .ting-item .alma-status.available {background-color: #71bf44;  color: white;}
+    .ting-item .alma-status.unavailable{  background-color: #6B0046;  color: white;}
 
-/*status*/
-.ting-item .alma-status{font-size:10px; text-align:center; line-height:10px; font-weight:bold;  padding:3px 0; margin:10px 0 0 0; background-color: #eee; width:100px; }
-  .ting-item .alma-status.waiting, #content .alma-cart-buttons a.disabled {color: #777;}
-  .ting-item .alma-status.available {background-color: #71bf44;  color: white;}
-  .ting-item .alma-status.unavailable{  background-color: #6B0046;  color: white;}
+
 
 /* 
   buttons
 --------------------------------------*/
-
-ul.alma-cart-buttons li,
-ul.alma-cart-buttons li.first, 
-ul.alma-cart-buttons li.last{background:none;  border:none; float:left;  padding:0; margin:0; text-align:center;}
-/*
-ul.alma-cart-buttons li a{background:#ddd;margin:3px; padding:5px; border: 1px solid #ccc;  -moz-border-radius: 5px; -webkit-border-radius: 5px;}
-ul.alma-cart-buttons li a:hover{background:#999; text-decoration:none; color:#fff;}
-*/
-/* 
-  buttons
---------------------------------------*/
-
-ul.buttons li,
-ul.buttons li.first, 
-ul.buttons li.last{ 
-  height:30px; display:block; padding:0 23px 0 0px; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat right 0px;
-}
-
-.ting-item ul.buttons li:hover,
-.ting-overview ul.buttons li:hover
-{
-  background: transparent url(../images/sprite-knapper-reservering.png) no-repeat right -120px
+.ting-item ul.buttons li{background:none;  border:none; float:left;  padding:0; margin:0; text-align:center; min-width:90px; 
+  display:block; padding:0 11px 0 0; width:auto; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat right 0px;
 }
 .ting-item ul.buttons li a,
-.ting-overview ul.buttons li a{
-  font-size:10px; font-weight:bold; color:#fff; height:25px; margin:0 0 0 0; padding:5px 0 0 10px; display:block; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat left -60px;
+.ting-overview ul.buttons li a
+{
+  font-size:9px; line-height:10px; text-transform:uppercase; margin:0; padding:10px 0 10px 10px; color:#fff; 
+  background: transparent url(../images/sprite-knapper-reservering.png) no-repeat left -60px;
 }
 
-ul.buttons li a:hover, 
-ul.button-orange a:focus{
-  text-decoration: none; color:#eee; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat left -180px;
-}
+.ting-item ul.buttons li:hover{background: transparent url(../images/sprite-knapper-reservering.png) no-repeat right -120px}
+.ting-item ul.buttons li a:hover{text-decoration: none; color:#FC6; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat left -180px;}
 
-.button-orange{background-position:right 0px}
-	.button-orange:hover{background-position:right -120px}
-	.button-orange a{background-position: left -60px;}
-	.button-orange a:hover, .button-orange a:focus{background-position: left -180px;}
-
-.button-green{background-position:right -30px}
-	.button-green:hover{background-position:right -150px}
-	.button-green a{background-position: left -90px;}
-	.button-green a:hover, .button-green a:focus{background-position: left -210px;}
+/*green*/
+.ting-item ul.buttons li.last{background-position:right -30px}
+.ting-item ul.buttons li.last:hover{background-position:right -150px}
+	.ting-item ul.buttons li.last a{background-position: left -90px;}
+	.ting-item ul.buttons li.last a:hover, .button-green a:focus{color:#008000;background-position: left -210px;}

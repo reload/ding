@@ -204,7 +204,14 @@ div.more-link{padding:0 20px 0 0; }
   .ting-search-carousel .search-controller li.active a {color:#fff;}
 
 
+.view-footer{margin:10px 0 10px 20px;}
 .view .feed-icon{margin:0 0 0 10px;}
+.view-empty{margin:20px 0; clear:both; font-weight:bold;}
+.panel-middle .view-empty{margin:20px 0 20px 20px;}
+.panel .view-event-list .view-empty{margin:20px 0 20px 20px;}
+
+
+
 
 /* =====================================
 Cowboy small trix not "really" implementet yet
