@@ -105,9 +105,10 @@
   					</div>
 
   				  <div class="info">
+				  		<span class='date'><?php echo $tingClientObject->data->date[0]; ?></span> 
   						<h3><?php print l($tingClientObject->data->title['0'], $tingClientObject->url, array("attributes"=>array('class' => 'alternative'))); ?></h3>
 
-				  		<span class='date'><?php echo $tingClientObject->data->date[0]; ?></span> 
+
   						<em><?php echo t('by'); ?></em>
   						<?php echo l($tingClientObject->data->creator[0], 'search/ting/'.$tingClientObject->data->creator[0], array("attributes"=>array('class' => 'author alternative'))); ?>
 						
