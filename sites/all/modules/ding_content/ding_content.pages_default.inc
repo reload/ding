@@ -1956,8 +1956,8 @@ function ding_content_default_page_manager_handlers() {
   $display->panel_settings = array();
   $display->cache = array();
   $display->title = '';
-  $display->hide_title = FALSE;
-  $display->title_pane = 0;
+  $display->hide_title = TRUE;
+  $display->title_pane = 8;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -1995,7 +1995,9 @@ function ding_content_default_page_manager_handlers() {
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'style' => 'ding_box',
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
@@ -2013,7 +2015,9 @@ function ding_content_default_page_manager_handlers() {
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'style' => 'ding_box',
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 1;
@@ -2031,7 +2035,9 @@ function ding_content_default_page_manager_handlers() {
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'style' => 'ding_box',
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 2;
