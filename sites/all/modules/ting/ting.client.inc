@@ -90,6 +90,24 @@ function ting_get_collection_by_id($object_id, $enrich = false) {
 }
 
 /**
+ * Return the possible sort keys and their corresponding labels.
+ *
+ * @return
+ *   A key/value array of sort keys and labels.
+ */
+function ting_search_sort_options() {
+  return array(
+    '' => t('Relevance'),
+    'title_ascending' => t('Title – A → Z'),
+    'title_descending' => t('Title – Z → A'),
+    'creator_ascending' => t('Author – A → Z'),
+    'creator_descending' => t('Author – Z → A'),
+    'date_descending' => t('Year of publication – newest first'),
+    'date_ascending' => t('Year of publication – oldest first'),
+  );
+}
+
+/**
  * Performs a search agains the 
  *
  * @param string $query
@@ -103,6 +121,7 @@ function ting_get_collection_by_id($object_id, $enrich = false) {
  *    - facets: Array of facet names for which to return results. Default: facet.subject, facet.creator, facet.type, facet.date, facet.language
  *    - numFacets: The number of terms to include with each facet. Default: 10
  *    - enrich: Whether to include additional information and cover images with each object. Default: false
+ *    - sort: The key to sort the results by. Default: "" (corresponds to relevance). The possible values are defined by the sortType type in the XSD.
  *    - supportingTypes: Whether to include supporting types such as reviews. Default: false
  * @return TingClientSearchResult
  *    The search result
@@ -117,6 +136,7 @@ function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = arra
 	$request = (!isset($options['supportingTypes']) || !$options['supportingTypes']) ? ting_remove_supporting_types($request) : $request;
 	$request->setFacets((isset($options['facets'])) ? $options['facets'] : array('facet.subject', 'facet.creator', 'facet.type', 'facet.date', 'facet.language'));
 	$request->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((sizeof($request->getFacets()) == 0) ? 0 : 10));
+  $request->setSort((isset($options['sort'])) ? $options['sort'] : '');
 
 	$searchResult = ting_execute($request);
 

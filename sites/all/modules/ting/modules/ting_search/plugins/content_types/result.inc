@@ -51,6 +51,14 @@ function ting_search_result_content_type_render($subtype, $conf, $panel_args, $c
 }
 
 /**
+ * Preprocess hook for ting_result.
+ */
+function template_preprocess_ting_result(&$vars) {
+  module_load_include('client.inc', 'ting');
+  $vars['sort_options'] = ting_search_sort_options();
+}
+
+/**
  * Return the pane titles.
  */
 function ting_search_result_content_type_admin_title($subtype, $conf, $context) {

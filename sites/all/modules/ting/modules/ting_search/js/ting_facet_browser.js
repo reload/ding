@@ -195,7 +195,15 @@ Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, res
 		{
 			facets += jQuery(e).attr('facet-group')+':'+jQuery(e).attr('facet')+';';
 		});
-		(facets.length > 0) ? Drupal.setAnchorVars({ 'facets': facets }) : Drupal.setAnchorVars({ });
+		var sort = Drupal.getAnchorVars().sort;
+		var vars = {};
+		if (facets.length > 0) {
+			vars.facets = facets;
+		}
+		if (sort) {
+			vars.sort = sort;
+		}
+		Drupal.setAnchorVars(vars);
 	}
 	
 	this.updateSelectedFacetsFromUrl = function(element)
