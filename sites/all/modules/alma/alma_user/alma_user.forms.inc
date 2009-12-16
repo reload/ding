@@ -254,7 +254,17 @@ function alma_user_forms_library_settings_validate($form, &$form_state) {
  * Submit handler for user library settings.
  */
 function alma_user_forms_library_settings_submit($form, &$form_state) {
-  db_query("UPDATE {alma_user} SET preferred_branch = '%s' WHERE uid = %d LIMIT 1;", $form_state['values']['preferred_branch'], $form_state['values']['account']->uid);
+  $creds = alma_user_get_credentials($form_state['values']['account']);
+
+  $info = alma_client_get_patron_info($creds['borr_card'], $creds['pin_code'], TRUE);
+
+  if ($form_state['values']['preferred_branch'] != $form_state['values']['account']->preferred_branch) { 
+    // Update the preferred branch in the database.
+    db_query("UPDATE {alma_user} SET preferred_branch = '%s' WHERE uid = %d LIMIT 1;", $form_state['values']['preferred_branch'], $form_state['values']['account']->uid);
+
+    // And save the new choice to Alma.
+    alma_client_change_patron_preferences($creds['borr_card'], $creds['pin_code'], $form_state['values']['preferred_branch']);
+  }
 }
 
 /**
