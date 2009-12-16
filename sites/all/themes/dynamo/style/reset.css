@@ -15,10 +15,10 @@ a img {border:none;}
 .clearfix:after {content: "."; display: block; height: 0;  clear: both; visibility: hidden;}
 .clearfix {display:inline-block;} /*ie7 dosnt validate - but fixes the prob ...*/
 .clearfix {display:block;} /*opera & safari */
-/*ie6 and no IE mac*/
-/* Hides from IE-mac \*/
-* html .clearfix {height: 1%;}
-/* End hide from IE-mac */
+* html .clearfix {height: 1%;}/* IE6 */
+* html .clearfix {zoom: 1; } /* IE6 */
+*:first-child+html .clearfix { zoom: 1; } /* IE7 */
+
 
 /* ----- content blocks ----- */
 /*TODO is both left & inline nesessary - min- height? is it 1% instead*/
