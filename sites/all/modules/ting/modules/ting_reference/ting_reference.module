@@ -200,7 +200,8 @@ function ting_reference_widget(&$form, &$form_state, $field, $items, $delta = 0)
   $element['search'] = array (
     '#type' => 'textfield',
     '#title' => t('Search'),
-  	'#attributes' => array('class' => 'form-autocomplete ting-reference-autocomplete')
+    '#maxlength' => NULL,
+    '#attributes' => array('class' => 'form-autocomplete ting-reference-autocomplete')
   );
   $element['preview'] = array (
     '#value' => '<div class="ting-reference-preview"></div>',
