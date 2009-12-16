@@ -148,3 +148,27 @@ msgstr "“@s”: Ting søgeresultat"
 msgid "Showing !firstResult-!lastResult of !count results"
 msgstr "Viser resultat !firstResult-!lastResult af !count resultater"
 
+msgid "Sorted by"
+msgstr "Sorteret efter"
+
+msgid "Relevance"
+msgstr "Relevans"
+
+msgid "Title – A → Z"
+msgstr "Titel – A → Å"
+
+msgid "Title – Z → A"
+msgstr "Titel – Å → A"
+
+msgid "Author – A → Z"
+msgstr "Forfatter – A → Å"
+
+msgid "Author – Z → A"
+msgstr "Forfatter – Å → A"
+
+msgid "Year of publication – newest first"
+msgstr "Udgivelsesår – nyeste først"
+
+msgid "Year of publication – oldest first"
+msgstr "Udgivelsesår – ældste først"
+

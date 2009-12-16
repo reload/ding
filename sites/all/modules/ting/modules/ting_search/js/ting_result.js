@@ -146,8 +146,22 @@ Drupal.tingResult = function(searchResultElement, facetBrowserElement, result)
 		anchorVars.page = pageNumber;
 		Drupal.setAnchorVars(anchorVars);
 	}
-	
+
+	this.updateSortUrl = function(sort)
+	{
+		anchorVars = Drupal.getAnchorVars();
+		anchorVars.sort = sort;
+		Drupal.setAnchorVars(anchorVars);
+	}
+
 	this.renderTingSearchResults(searchResultElement, result);
 	this.renderTingSearchResultPager(searchResultElement, result);
+
+	jQuery('#edit-ting-search-sort').val(Drupal.getAnchorVars().sort);
+	jQuery('#edit-ting-search-sort').change(function()
+	{
+		Drupal.updateSortUrl(jQuery(this).val());
+		Drupal.doUrlSearch(facetBrowserElement, searchResultElement);
+	});
 }
 

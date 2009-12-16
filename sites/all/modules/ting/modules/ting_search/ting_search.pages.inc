@@ -63,10 +63,16 @@ function ting_search_pages_ting_js() {
     $query .= ' AND '.implode(' AND ', $facetArray);
   }
 
+  $options = array();
+
+  if (isset($_GET['sort'])) {
+    $options['sort'] = $_GET['sort'];
+  }
+
   try {
     $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
     $resultsPerPage = 10;
-    $searchResult = ting_do_search($query, $page, $resultsPerPage);
+    $searchResult = ting_do_search($query, $page, $resultsPerPage, $options);
     $result = array(
       'page' => $page,
       'resultsPerPage' => $resultsPerPage,
