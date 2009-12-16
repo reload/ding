@@ -3,39 +3,6 @@ Drupal.tingResult = function(searchResultElement, facetBrowserElement, result)
 	this.searchResultElement = searchResultElement;
 	this.facetBrowserElement = facetBrowserElement;
 	
-	this.getAnchorVars = function()
-	{
-		anchorValues = {};
-		
-		anchor = jQuery.url.attr('anchor');
-		anchor = (anchor == null) ? '' : anchor;
-		
-		anchor = anchor.split('&');
-		for(a in anchor)
-		{
-			keyValue = anchor[a].split('=');
-			if (keyValue.length > 1)
-			{
-				anchorValues[keyValue[0]] = keyValue[1];
-			}
-		}
-		
-		return anchorValues;
-	}
-	
-	this.setAnchorVars = function(vars)
-	{
-		anchorArray = new Array();
-		for (v in vars)
-		{
-			anchorArray.push(v+'='+vars[v]);
-		}
-		anchorString = anchorArray.join('&');
-		
-		url = window.location.href;
-		window.location.href = url.substring(0, url.lastIndexOf('#'))+'#'+anchorString;		
-	}
-
 	this.renderTingSearchResults = function(element, result)
 	{
 		jQuery(element).find('ul,ol').html(result.result_html);
@@ -113,19 +80,10 @@ Drupal.tingResult = function(searchResultElement, facetBrowserElement, result)
 			//Start loading
 			Drupal.tingSearch.tabLoading('ting');
 			
-			//Encode query and anchor values to make IE handle them correctly in the AJAX request
-			query = encodeURIComponent(Drupal.settings.tingSearch.keys);
-
-			vars = Drupal.getAnchorVars();
-			anchorArray = new Array();
-			for (v in vars)
-			{
-				anchorArray.push(v+'='+encodeURIComponent(vars[v]));
-			}
-			anchorString = anchorArray.join('&');
+			var vars = Drupal.getAnchorVars();
+			vars.query = Drupal.settings.tingSearch.keys;
 			
-			var path = Drupal.settings.tingSearch.ting_url+'?query='+query+((anchorString) ? '&'+anchorString : '');
-			jQuery.getJSON(path, function(data)
+			jQuery.getJSON(Drupal.settings.tingSearch.ting_url, vars, function(data)
 			{
 				//Update tabs now that we have the result
 	      Drupal.tingSearch.summary.ting = { count: data.count, page: data.page };
@@ -151,6 +109,7 @@ Drupal.tingResult = function(searchResultElement, facetBrowserElement, result)
 	{
 		anchorVars = Drupal.getAnchorVars();
 		anchorVars.sort = sort;
+		delete anchorVars.page;
 		Drupal.setAnchorVars(anchorVars);
 	}
 
