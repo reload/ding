@@ -1,8 +1,17 @@
 ul.menu li.leaf {margin :0 0 0 35px;}
 .panel-left ul.menu li ul li.first{padding:0 0 0 0;margin:0 0 0 35px;}
 
-.jcarousel-skin-ting-search-carousel .jcarousel-prev-horizontal{left:-267px;}
-.jcarousel-skin-ting-search-carousel .jcarousel-next-horizontal{}
+/*carousel*/
+.ting-search-carousel .search-results {}
+.ting-search-carousel {left:-20px}
+.ting-search-carousel .subtitle {
+float:left;
+padding:0 0 0 20px;
+margin:15px 0 0 15px;
+width:220px;
+height:200px;
+overflow:hidden;
 
-.jcarousel-skin-ting-search-carousel .jcarousel-clip-horizontal {width:670px; height:200px; }
-.ting-search-carousel .subtitle {font-size:47px;margin:20px 0 0px 20px; padding:0;float:left; overflow:hidden; width:200px;}
+}
+
+.jcarousel-skin-ting-search-carousel{background:#FFD; width:670px;}

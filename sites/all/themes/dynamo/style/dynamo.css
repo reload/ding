@@ -194,7 +194,7 @@ div.more-link{padding:0 20px 0 0; }
 /* frontpage
 --------------------------------------*/
 /*carousel*/
-.ting-search-carousel{position:relative; left:-20px;}
+.ting-search-carousel{position:relative; left:-21px; width:961px;}
 
   .ting-search-carousel .search-controller li.active a {color:#fff;}
   .jcarousel-skin-ting-search-carousel .jcarousel-clip-horizontal {width:670px;}
