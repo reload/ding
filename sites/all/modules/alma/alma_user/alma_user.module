@@ -337,7 +337,6 @@ function alma_user_check_credentials($borr_card, $pin_code, $login=FALSE) {
     return FALSE;
   }
 
-
   // Check if user exists.
   $uid = db_result(db_query("SELECT uid FROM {alma_user} WHERE alma_id = '%s';", $data['patron_id']));
   if ($uid) {
@@ -345,6 +344,10 @@ function alma_user_check_credentials($borr_card, $pin_code, $login=FALSE) {
     // When logging in a returning normal user, update its display name.
     if ($login && (!isset($account->has_secure_role) || !$account->has_secure_role)) {
       db_query("UPDATE {ding_user} SET display_name = '%s' WHERE uid = %d;", $data['patron_name'], $uid);
+    }
+
+    if (isset($data['preferences']['patron_branch'])) {
+      db_query("UPDATE {alma_user} SET preferred_branch = '%s' WHERE uid = %d;", $data['preferences']['patron_branch'], $uid);
     }
 
     return $uid;
@@ -373,8 +376,10 @@ function alma_user_check_credentials($borr_card, $pin_code, $login=FALSE) {
     // Saves the user and returns the user UID.
     $user = user_save(NULL, $user_data);
 
+    $branch = (isset($data['preferences']['patron_branch'])) ? $data['preferences']['patron_branch'] : '';
+
     // Store Alma user reference in our own table.
-    db_query("INSERT INTO {alma_user} (uid, alma_id) VALUES (%d, '%s');", $user->uid, $data['patron_id']);
+    db_query("INSERT INTO {alma_user} (uid, alma_id, preferred_branch) VALUES (%d, '%s', '%s');", $user->uid, $data['patron_id'], $branch);
 
     return($user->uid);
   }

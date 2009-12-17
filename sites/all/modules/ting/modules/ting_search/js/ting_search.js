@@ -38,7 +38,9 @@ Drupal.tingSearch = {
 
 // Get search data from Ting
 Drupal.tingSearch.getTingData = function(url, keys) {
-  $.getJSON(url, {'query': keys}, function (result) {
+  var vars = Drupal.getAnchorVars();
+  vars.query = keys;
+  $.getJSON(url, vars, function (result) {
     if (result.count > 0) {
       Drupal.tingSearch.summary.ting = { count: result.count, page: result.page };
       $("#ting-search-spinner").hide("normal");
@@ -172,3 +174,30 @@ Drupal.tingSearch.selectTab = function (event, ui) {
 		}, 250);
 	}
 }
+
+Drupal.getAnchorVars = function() {
+  anchorValues = {};
+
+  anchor = jQuery.url.attr('anchor');
+  anchor = (anchor == null) ? '' : anchor;
+
+  anchor = anchor.split('&');
+  for (a in anchor) {
+    keyValue = anchor[a].split('=');
+    if (keyValue.length > 1) {
+      anchorValues[keyValue[0]] = keyValue[1];
+    }
+  }
+
+  return anchorValues;
+}
+
+Drupal.setAnchorVars = function(vars) {
+  anchorArray = new Array();
+  for (v in vars) {
+    anchorArray.push(v+'='+vars[v]);
+  }
+  anchorString = anchorArray.join('&');
+  window.location.hash = '#'+anchorString;
+}
+

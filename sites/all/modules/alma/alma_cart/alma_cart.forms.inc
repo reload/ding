@@ -51,7 +51,7 @@ function alma_cart_forms_cart_details(&$form_state, $account) {
     '#date_format' => DATE_FORMAT_DATE,
     '#date_year_range' => '-0:+2',
     // Default expiry is one year from now.
-    '#default_value' => intval(date('Y', $_SERVER['REQUEST_TIME'])) + 1 . date('-m-d', $_SERVER['REQUEST_TIME']),
+    '#default_value' => date('Y-m-d', $_SERVER['REQUEST_TIME'] + 90 * 86400),
   );
 
   $form['pickup_branch'] = array(

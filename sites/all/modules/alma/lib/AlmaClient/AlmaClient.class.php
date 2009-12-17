@@ -150,6 +150,12 @@ class AlmaClient {
       );
     }
 
+    if ($prefs = $info->getElementsByTagName('patronPreferences')->item(0)) {
+      $data['preferences'] = array(
+        'patron_branch' => $prefs->getAttribute('patronBranch'),
+      );
+    }
+
     foreach ($info->getElementsByTagName('patronBlock') as $block) {
       $data['blocks'][] = array(
         'code' => $block->getAttribute('code'),
@@ -536,15 +542,35 @@ class AlmaClient {
    * Pay debts.
    */
   public function add_payment($debt_ids, $order_id = NULL) {
-    $params = array(
-      'debts' => $debt_ids,
-    );
+    $params = array('debts' => $debt_ids);
 
     if (!empty($order_id)) {
       $params['orderid'] = $order_id;
     }
 
     $doc = $this->request('patron/payments/add', $params);
+    return TRUE;
+  }
+
+  /**
+   * Change user’s preferred branch.
+   *
+   * @param string $borr_card
+   *    Library patron's borrowing card number. Either just an arbitrary
+   *    number printed on their library card or their CPR-code.
+   * @param string $pin_code
+   *    Library patron's current four digit PIN code.
+   * @param string $branch_code
+   *    New preferred branch.
+   */
+  public function change_patron_preferences($borr_card, $pin_code, $branch_code) {
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'patronBranch' => $branch_code,
+    );
+
+    $doc = $this->request('patron/preferences/change', $params);
     return TRUE;
   }
 }
