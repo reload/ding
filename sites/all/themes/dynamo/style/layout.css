@@ -100,7 +100,7 @@ body.admin{background-position: 0 30px }
 #navigation{margin:0; overflow:hidden; height:30px; font-family: "Gill Sans",  sans-serif; text-transform: uppercase;}
 	#navigation li {padding:0 0px 0 10px; margin:0 20px; height:30px; list-style: none; float:left; position: relative;}
 	#navigation li.first{margin:0 20px 0 0;}
-	#navigation li a{margin:0; padding:6px 10px 0 0; height:30px; display: block; float:left; }
+	#navigation li a{margin:0; padding:6px 10px 0 0; height:30px; display: block; float:left; font-weight:normal;}
 	#navigation li.active {background:url(../images/menu-left.png) no-repeat left top; }
 	#navigation li.active a{color:#eee; background: url(../images/menu-right.png) no-repeat right top; font-weight:normal;}
 	#navigation a {color:#fff;}
@@ -122,7 +122,7 @@ body.admin{background-position: 0 30px }
 	body.no-sidebars #content{width:960px; float:left;}
 	body.sidebar-right #content{width:730px; float:left;}
 	#content-right{width:230px;float:left;}
-  #content-inner{min-height:500px; height:auto !important; height:500px; margin:0 12px 0 20px;}
+  #content-inner{min-height:500px; height:auto !important; height:500px; margin:0 0 0 20px;}
 
 /* 
 footer 
@@ -169,6 +169,9 @@ all content based on search results are in the search.css
 {
   width:700px;
 }
+
+.panel-left .view-taxonomy-term-view{width:720px;}
+
 .panel-left .view ul li,
 .panel-left ul.item-list li,
 .panel-left .pane-library_feature_detail_list ul li
@@ -186,14 +189,13 @@ all content based on search results are in the search.css
 	.panel-threecol-33-34-33-stacked .panel-left{width:470px;float:left; min-height:300px; background:transparent url(../images/bg-divider-horizontalt.png) repeat-y right top; border-right: 1px solid #eee;}
   .panel-threecol-33-34-33-stacked .panel-left .view-article-list{width:489px;}
 	.panel-threecol-33-34-33-stacked .panel-middle {width:240px; float:left; background:transparent url(../images/bg-divider-horizontalt.png) repeat-y right top;}
-	.panel-threecol-33-34-33-stacked .panel-right{width:246px; margin:0 0 0 3px; float:left;}
+	.panel-threecol-33-34-33-stacked .panel-right{width:229px; float:left;}
 	.panel-threecol-33-34-33-stacked .panel-bottom{width:960px; clear:both;}
 
 /*panel-twocol-left-stacked  */
 .panel-twocol-left-stacked .content-left{width:680px; margin:0 15px 0 0;} 
 	.panel-twocol-left-stacked .panel-top{padding:0 0 20px 0px; background:transparent url(../images/bg-divider.png) no-repeat left bottom; }
 	.panel-twocol-left-stacked .panel-left{width:680px;}
-	
 	.panel-twocol-left-stacked .panel-bottom{width:680px;}
 
 /*panel-threecol-left-stacked*/
