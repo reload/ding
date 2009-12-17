@@ -7,7 +7,8 @@ body.page-user .panel-left .view{left:0;}
 
 	body.section-user	.panel-twocol-left-stacked .content-right{}
 
-.node-profile .field-image{width:120px; height:120px;background:#eee;}
+.node-profile .field-image{width:120px; height:120px; margin:0 20px 20px 0; float:left;}
+
 /*#contact-mail-user{margin:0 0 0 20px;}*/
 .contact{padding: 3px 10px; margin:0 20px 0 0;}
 

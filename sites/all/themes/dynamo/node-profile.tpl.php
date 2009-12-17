@@ -12,7 +12,7 @@ if($id_node){
 }
 ?>
 
-<!-- node.tpl-->
+<!-- node-profile .tpl-->
 <?php if ($page == 0){ ?>
 <div<?php print $id_node . $classes; ?>>
 
@@ -80,7 +80,7 @@ if($id_node){
 		<?php print $content ?>
 	</div>
 
-	<?php print l(t('contact'), 'user/' . $node->uid . '/contact', $options= array('attributes' => array('class' =>'contact')) );?>	
+	<?php // print l(t('contact'), 'user/' . $node->uid . '/contact', $options= array('attributes' => array('class' =>'contact')) );?>	
 		
 
 
