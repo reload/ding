@@ -50,3 +50,42 @@ Drupal.almaAvailability.get_availability = function (callback) {
   }
 }
 
+/**
+ * Availability information for all pages.
+ *
+ * Try to find Ting items and stuff availability data into them.
+ */
+Drupal.almaAvailability.updateStatus = function (data, textStatus) {
+  $.each(data, function(itemId, itemData) {
+    var $item = $('#ting-item-' + itemId);
+    if (!itemData.show_reservation_button) {
+      $item.find('.alma-status')
+        .addClass('unreservable')
+        .removeClass('waiting')
+        .text(Drupal.t('not reservable'))
+      .end()
+      .find('ul.alma-cart-buttons > li > a')
+        .addClass('disabled');
+    }
+    else if (itemData.available_count > 0) {
+      $item.find('.alma-status')
+        .addClass('available')
+        .removeClass('waiting')
+        .text(Drupal.t('available'));
+    }
+    else if (itemData.reservation == 0) {
+      $item.find('.alma-status')
+        .addClass('unavailable')
+        .removeClass('waiting')
+        .text(Drupal.t('unavailable'));
+    }
+    else {
+      $item.find('.alma-status')
+        .addClass('unavailable')
+        .addClass('reserved')
+        .removeClass('waiting')
+        .text(Drupal.t('reserved'));
+    }
+  });
+}
+

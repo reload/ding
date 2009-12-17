@@ -691,12 +691,12 @@ function alma_add_js($page_type) {
   $path = drupal_get_path('module', 'alma') . '/js';
   switch ($page_type) {
     case 'ting_object_view':
-      drupal_add_js($path . '/alma.availability.js');
-      drupal_add_js($path . '/alma.availability.ting_object_view.js');
+      drupal_add_js($path . '/alma.availability.js', 'module', 'footer', TRUE);
+      drupal_add_js($path . '/alma.availability.ting_object_view.js', 'module', 'footer', TRUE);
       break;
     case 'ting_collection_view':
-      drupal_add_js($path . '/alma.availability.js');
-      drupal_add_js($path . '/alma.availability.generic_view.js');
+      drupal_add_js($path . '/alma.availability.js', 'module', 'footer', TRUE);
+      drupal_add_js('$(function(){Drupal.almaAvailability.get_details(Drupal.almaAvailability.updateStatus)});', 'inline', 'footer', TRUE);
       break;
   }
 }
