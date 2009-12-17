@@ -163,6 +163,14 @@ class AlmaClient {
       );
     }
 
+    foreach ($info->getElementsByTagName('absentPeriod') as $period) {
+      $data['absent_periods'][] = array(
+        'id' => $period->getAttribute('absentId'),
+        'from_date' => $period->getAttribute('absentFromDate'),
+        'to_date' => $period->getAttribute('absentToDate'),
+      );
+    }
+
     return $data;
   }
 
@@ -571,6 +579,81 @@ class AlmaClient {
     );
 
     $doc = $this->request('patron/preferences/change', $params);
+    return TRUE;
+  }
+
+  /**
+   * Add an Alma absent period.
+   *
+   * @param string $borr_card
+   *    Library patron's borrowing card number. Either just an arbitrary
+   *    number printed on their library card or their CPR-code.
+   * @param string $pin_code
+   *    Library patron's current four digit PIN code.
+   * @param string $from_date
+   *    Absent period start date.
+   * @param string $to_date
+   *    Absent period start date.
+   */
+  public function add_absent_period($borr_card, $pin_code, $from_date, $to_date) {
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'absentFromDate' => $from_date,
+      'absentToDate' => $to_date,
+    );
+
+    $doc = $this->request('patron/absentPeriod/add', $params);
+    return TRUE;
+  }
+
+  /**
+   * Change existing absent period.
+   *
+   * @param string $borr_card
+   *    Library patron's borrowing card number. Either just an arbitrary
+   *    number printed on their library card or their CPR-code.
+   * @param string $pin_code
+   *    Library patron's current four digit PIN code.
+   * @param string $absent_id
+   *    ID for existing period.
+   * @param string $from_date
+   *    Absent period start date.
+   * @param string $to_date
+   *    Absent period start date.
+   */
+  public function change_absent_period($borr_card, $pin_code, $absent_id, $from_date, $to_date) {
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'absentId' => $absent_id,
+      'absentFromDate' => $from_date,
+      'absentToDate' => $to_date,
+    );
+
+    $doc = $this->request('patron/absentPeriod/change', $params);
+    return TRUE;
+  }
+
+  /**
+   * Remove existing absent period.
+   *
+   * @param string $borr_card
+   *    Library patron's borrowing card number. Either just an arbitrary
+   *    number printed on their library card or their CPR-code.
+   * @param string $pin_code
+   *    Library patron's current four digit PIN code.
+   * @param string $absent_id
+   *    ID for existing period.
+   */
+  public function remove_absent_period($borr_card, $pin_code, $absent_id) {
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'absentId' => $absent_id,
+    );
+
+    $doc = $this->request('patron/absentPeriod/remove', $params);
     return TRUE;
   }
 }

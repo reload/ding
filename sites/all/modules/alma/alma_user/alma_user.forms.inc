@@ -180,6 +180,9 @@ function alma_user_forms_change_pin_submit($form, &$form_state) {
  * User library settings form.
  */
 function alma_user_forms_library_settings($form_state, $account) {
+  $creds = alma_user_get_credentials($account);
+  $info = alma_client_get_patron_info($creds['borr_card'], $creds['pin_code'], TRUE);
+  $account->alma_info = $info;
   $form = array();
 
   $form['account'] = array(
@@ -207,18 +210,19 @@ function alma_user_forms_library_settings($form_state, $account) {
     '#default_value' => 6,
   );
 
-  /* Suspend/absent period not implemented yet.
   $form['suspend_start'] = array(
     '#type' => 'date_popup',
     '#title' => t('Suspend reservations from'),
     '#date_format' => DATE_FORMAT_DATE,
+    '#default_value' => (isset($info['absent_periods'][0])) ? $info['absent_periods'][0]['from_date'] : '',
   );
 
   $form['suspend_end'] = array(
     '#type' => 'date_popup',
     '#title' => t('To'),
     '#date_format' => DATE_FORMAT_DATE,
-  );*/
+    '#default_value' => (isset($info['absent_periods'][0])) ? $info['absent_periods'][0]['to_date'] : '',
+  );
 
   $form['submit'] = array(
     '#type' => 'submit',
@@ -233,10 +237,10 @@ function alma_user_forms_library_settings($form_state, $account) {
  */
 function alma_user_forms_library_settings_validate($form, &$form_state) {
   if (!empty($form_state['values']['suspend_start']) && !empty($form_state['values']['suspend_end'])) {
-    $start = strtotime($form_state['values']['suspend_start']);
-    $end = strtotime($form_state['values']['suspend_end']);
+    $start = date_make_date($form_state['values']['suspend_start']);
+    $end = date_make_date($form_state['values']['suspend_end']);
 
-    if ($start < $_SERVER['REQUEST_TIME']) {
+    if ($start <= new DateTime()) {
       form_set_error('suspend_start', t('Start date must later than today'));
     }
 
@@ -257,6 +261,26 @@ function alma_user_forms_library_settings_submit($form, &$form_state) {
   $creds = alma_user_get_credentials($form_state['values']['account']);
 
   $info = alma_client_get_patron_info($creds['borr_card'], $creds['pin_code'], TRUE);
+
+  if (isset($form_state['values']['suspend'])) {
+    $start = date_format_date($form_state['values']['suspend']['start'], 'custom', DATE_FORMAT_DATE);
+    $end = date_format_date($form_state['values']['suspend']['end'], 'custom', DATE_FORMAT_DATE);
+  }
+
+  if (isset($info['absent_periods']) && !empty($info['absent_periods'])) {
+    if (isset($start) && isset($end)) {
+      // Update the current period.
+      alma_client_change_absent_period($creds['borr_card'], $creds['pin_code'], $info['absent_periods'][0]['id'], $start, $end);
+    }
+    else {
+      // If either date field had no valid value, remove the absent period.
+      alma_client_remove_absent_period($creds['borr_card'], $creds['pin_code'], $info['absent_periods'][0]['id']);
+    }
+  }
+  elseif (isset($start) && isset($end)) {
+    // Create a new absent period.
+    alma_client_add_absent_period($creds['borr_card'], $creds['pin_code'], $start, $end);
+  }
 
   if ($form_state['values']['preferred_branch'] != $form_state['values']['account']->preferred_branch) { 
     // Update the preferred branch in the database.
