@@ -192,6 +192,10 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
         $form['account']['roles']['#weight'] = 1;
       }
       break;
+    case 'comment_form':
+      $account = user_load($GLOBALS['user']->uid);
+      $form['_author']['#value'] = (!empty($account->display_name)) ? $account->display_name : $account->name;
+      break;
   }
 }
 
