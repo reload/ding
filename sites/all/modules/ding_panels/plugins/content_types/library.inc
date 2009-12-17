@@ -162,10 +162,9 @@ function _ding_panels_library_features_by_library($node, $subtype = '') {
   // First, get the feature with a nice bit of SQL.
   $query = db_query("
     SELECT n.nid, n.title
-    FROM content_field_feature_ref AS fr
-    LEFT JOIN node AS n ON ( n.nid = fr.field_feature_ref_nid )
-    WHERE fr.field_feature_ref_nid IS NOT NULL
-    AND fr.nid = %d
+    FROM {content_field_feature_ref} AS fr
+    INNER JOIN {node} AS n ON (n.nid = fr.field_feature_ref_nid)
+    WHERE n.type = 'feature' AND fr.nid = %d
     ORDER BY fr.delta ASC;
   ", $node->nid);
 
