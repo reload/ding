@@ -16,7 +16,7 @@ body.page-user .panel-left .view{left:0;}
 .pane-alma_user_debts_notice{color:#840; background:#fe6;border-color:#ed5; padding:10px;}
 
 /* user/[UID]/profile */
-.panel-twocol-left-stacked .content-right .panel-pane .record-list{margin:0 0 0 10px;}
+.panel-twocol-left-stacked .content-right .panel-pane .record-list{margin:0 0 0 0px;}
 /*.panel-twocol-left-stacked .content-right .panel-pane h3{margin:0 0 0 10px;}*/
 
 .pane-alma_user_personal_info  h3{}
@@ -108,7 +108,7 @@ body.page-user #content-main form{margin:0 0 30px 0;}
 
 		#alma-user-forms-reservation-details .container-inline-date,
 		#alma-user-forms-reservation-details #edit-new-pickup-branch-wrapper{	width:400px; 		}
-		#alma-user-forms-reservation-details .form-button{float:left; margin:0 10px 0 0;}
+		#alma-user-forms-reservation-details .form-button{float:left; margin:0 10px 20px 0;}
 		
 
 	#alma-user-forms-reservation-details .container-inline-date{padding:10px 0;}
@@ -122,23 +122,28 @@ body.page-user #content-main form{margin:0 0 30px 0;}
 #contact-mail-user{width:700px;}
 	
 	
-	
+table thead th{background:#ddd; font-weight:bold; padding:3px; border-bottom: 1px solid #ccc;}	
 /*låner tamtam*/
-form#alma-user-forms-loan-details table{width:660px;}
-	form#alma-user-forms-loan-details table caption{font-weight: bold; color:#006A87; background:#D1D9D7; padding:3px 10px; margin:20px 0 10px 0; text-align:left;}
-	form#alma-user-forms-loan-details table thead th{background:#eee; font-weight:bold; padding:3px;}
+#alma-user-forms-loan-details td .form-item, #alma-user-forms-reservation-details td .form-item  {margin:0;padding:0;}
+form#alma-user-forms-loan-details table{width:660px; font-size:11px;}
+	form#alma-user-forms-loan-details table caption{color:#790f21; padding:3px 10px 0 0; font-size:17px; line-height:17px; margin:20px 0 10px 0; text-align:left;}
 	  form#alma-user-forms-loan-details table thead th.count-0 {width:100px;}
 	form#alma-user-forms-loan-details table thead th.count-1{width:560px;}
 	form#alma-user-forms-loan-details table tbody td{border-bottom: 1px solid #D1D9D7; padding:5px;}
-	form#alma-user-forms-loan-details table tbody td img{float:left; margin:0 10px 0 0 ;}
+	form#alma-user-forms-loan-details table tbody td img{float:left; margin:0 10px 0 0 ; width:20px; height:20; overflow:hidden;}
 	form#alma-user-forms-loan-details table .form-item-checkbox{display:inline;} 
-	
-form#alma-user-forms-reservation-details table{width:660px;}
-	form#alma-user-forms-reservation-details table thead th{background:#eee; font-weight:bold; padding:3px;}
+
+  #alma-user-forms-loan-details .form-button{ margin:0 0 0 550px;}
+
+.pane-alma_user_reservations_details h3, .pane-alma_user_loans_details h3{color:#790f21; margin:0px 0 10px 0;}
+
+form#alma-user-forms-reservation-details table{width:660px;  font-size:11px;}
 	form#alma-user-forms-reservation-details table tbody td{border-bottom: 1px solid #eee; padding:5px;}	
-	form#alma-user-forms-reservation-details table tbody td img{float:left; margin:0 10px 0 0 ;}
+	form#alma-user-forms-reservation-details table tbody td img{float:left; margin:0 10px 0 0; width:20px; height:20; overflow:hidden;}
 	form#alma-user-forms-reservation-details table thead th.count-0	{width:50px;}
 	form#alma-user-forms-reservation-details table thead th.count-1	{width:380px;}  
 	form#alma-user-forms-reservation-details table thead th.count-2	{width:100px;}  	
 	form#alma-user-forms-reservation-details table thead th.count-3	{width:100px;}  	
 	form#alma-user-forms-reservation-details table thead th.count-4	{width:30px;}  			
+
+#alma-user-forms-reservation-details .edit-remove{margin:0 20px 0 280px;}
