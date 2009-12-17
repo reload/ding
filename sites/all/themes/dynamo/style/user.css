@@ -122,7 +122,7 @@ body.page-user #content-main form{margin:0 0 30px 0;}
 #contact-mail-user{width:700px;}
 	
 	
-table thead th{background:#ddd; font-weight:bold; padding:3px; border-bottom: 1px solid #ccc;}	
+
 /*låner tamtam*/
 #alma-user-forms-loan-details td .form-item, #alma-user-forms-reservation-details td .form-item  {margin:0;padding:0;}
 form#alma-user-forms-loan-details table{width:660px; font-size:11px;}

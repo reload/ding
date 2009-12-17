@@ -6,13 +6,12 @@
 #ting-search-sidebar{width:244px; float:right;}
 #ting-search-sidebar .campaign{padding:0 0 10px 8px; width:215px; overflow:hidden; }
 
-#ting-search-tabs{padding:0px 0 0 17px;}
 	#ting-search-tabs li{margin-left:3px;  padding:1px 3px 3px 5px;  display:inline; 	border: 1px solid #ccc; background: #fff;font-size:11px; text-transform: uppercase;}
 	#ting-search-tabs li.active{border-top: 1px solid #ccc; border-left: 1px solid #ccc;  border-right: 1px solid #ccc; border-bottom: 1px solid #f3f5f4; background: #f3f5f4;}
 	#ting-search-tabs li a{color: #000;}
 	#ting-search-tabs li .count-value{color: #900;}
 
-#ting-result, #content-result{background:transparent url(../images/bg-search.jpg) no-repeat left top; margin:0px 0 0 20px; padding: 10px 0 0 5px;}
+#ting-result, #content-result{background:transparent url(../images/bg-search.jpg) no-repeat left top; padding: 10px 0 0 5px;}
 
 
 /*facet browser*/
@@ -62,7 +61,7 @@
 #content-result .meta .time{padding:0 5px 0 0;}
 /*libary & teasers */
 #content-result{padding:20px 0 0 0px; }
-	#content-result .node-teaser{padding:10px 0 10px 10px; width:670px; background:transparent url(../images/bg-divider.png) no-repeat left top;}
+	#content-result .node-teaser{padding:10px 0 20px 10px; width:670px; background:transparent url(../images/bg-divider.png) no-repeat left bottom;}
 	#content-result .node-teaser .picture{margin:10px 10px 0 0;}
 	#content-result .node-teaser .content{width:505px;}
 	#content-result .node-teaser .content h3{margin:10px 0 0 0;}

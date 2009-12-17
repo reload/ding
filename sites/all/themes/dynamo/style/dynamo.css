@@ -16,6 +16,7 @@
 
 /*--------------------------------------*/
 /*table colors */
+table thead th{background:#ddd; font-weight:bold; padding:3px; border-bottom: 1px solid #ccc;}	
 tr.odd{background:#efefef;}
 tr.odd td{padding:5px;}
 tr.odd a{}
@@ -49,19 +50,19 @@ ul.pager li{margin:0 10px 0 0;}
 #pager, ul.pager{height:30px; margin:0 0 20px 0; padding:0 0 0 10px; clear:both; background:transparent url(../images/bg-pager.gif) no-repeat left top; font-size:10px;}
 /*-- search  --*/
 #pager a{margin:3px 0 0 0; cursor: pointer}
-	#pager a.hidden, .pager a.hidden{display:none;}
 	#pager a,#pager  a:link, #pager a:active {text-decoration: none; color:#006A87;}
  	#pager a:visited{color:#050505}
 	#pager a:hover, #ting-result-pager a:focus { text-decoration: underline; color:#666; cursor: pointer;}
 	#ting-result-pager li.current a,#ting-result-pager li.current a:link,	#ting-result-pager li.current a:active,	#ting-result-pager li.current a:visited	{color:#000; font-weight:bold;}
 	#pager a.prev{background:transparent url(../images/arrow-pre.png) no-repeat left center; padding:0 0 0  5px;}
 	#pager a.next{background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0;}
-  #pager div.nav{width:30px; height:24px;font-size:10px; padding:6px 2px 0 2px; float:left; text-align:center; background:transparent url(../images/bg-pager-link.gif) no-repeat left top; clear:none;}	
-/*
-.panel-left .view ul li, 
-.panel-left ul.item-list li, 
-.panel-left .pane-library_feature_detail_list ul li 
-*/
+
+  #pager div.nav a, 
+  #pager div.navwide a{
+    display:block;
+  }	
+	#pager div.nav a.hidden, .pager div.nav a.hidden{display:none;}
+
   body.page-arrangementer .panel-middle .view-event-list ul.pager li,
 	#pager div.navwide, 
   #pager div.nav, 
@@ -187,7 +188,6 @@ basic elements
 	.node-page .content{margin:10px 0 0 0;}		
 	.more-link a, a.more-link {background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0; }
 
-
 /*panels links*/
 div.more-link{padding:0 20px 0 0; }
 
@@ -204,8 +204,7 @@ div.more-link{padding:0 20px 0 0; }
   .ting-search-carousel .subtitle {font-size:47px;margin:10px 0 0px 40px; float:left; overflow:hidden; width:200px;}
   .ting-search-carousel .search-controller li.active a {color:#fff;}
 
-
-.view-footer{margin:10px 0 10px 20px;}
+.view-footer{margin:10px 0 10px 20px; clear:both;;}
 .view .feed-icon{margin:0 0 0 10px;}
 .view-empty{margin:20px 0; clear:both; font-weight:bold;}
 .panel-middle .view-empty{margin:20px 0 20px 20px;}
@@ -233,3 +232,6 @@ body.ding-taxonomy-term .node h3{margin:0;}
 Crap from modules
 /*--------------------------------------*/
 .dquo {margin:0 0 0 } /*typogrify module*/
+
+/*i feel dirty*/
+.ui-dialog-content {width:250px !important;}

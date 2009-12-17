@@ -198,6 +198,9 @@ all content based on search results are in the search.css
 	.panel-twocol-left-stacked .panel-left{width:680px;}
 	.panel-twocol-left-stacked .panel-bottom{width:680px;}
 
+body.ding-ting-search 	.panel-twocol-left-stacked .panel-left{width:695px;}
+
+
 /*panel-threecol-left-stacked*/
 .panel-threecol-left-stacked .content-left{width:680px; margin:0 15px 0 0;}
 .panel-threecol-left-stacked .panel-left{width:450px; float:left; background: transparent url(../images/bg-divider-horizontalt.png) repeat-y right top;}
