@@ -33,10 +33,12 @@ class AlmaClient {
    *    are required for all request related to library patrons.
    * @param array $params
    *    Query string parameters in the form of key => value.
+   * @param boolean $check_status
+   *    Check the status element, and throw an exception if it is not ok.
    * @return DOMDocument
    *    A DOMDocument object with the response.
    */
-  public function request($method, $params = array()) {
+  public function request($method, $params = array(), $check_status = TRUE) {
     // For use with a non-Drupal-system, we should have a way to swap
     // the HTTP client out.
     $request = drupal_http_request(url($this->base_url . $method, array('query' => $params)));
@@ -47,7 +49,7 @@ class AlmaClient {
       // faster in most cases.
       $doc = new DOMDocument();
       $doc->loadXML($request->data);
-      if ($doc->getElementsByTagName('status')->item(0)->getAttribute('value') == 'ok') {
+      if (!$check_status || $doc->getElementsByTagName('status')->item(0)->getAttribute('value') == 'ok') {
         return $doc;
       }
       else {
@@ -455,7 +457,7 @@ class AlmaClient {
     $params = array(
       'catalogueRecordKey' => $alma_ids,
     );
-    $doc = $this->request('catalogue/detail', $params);
+    $doc = $this->request('catalogue/detail', $params, FALSE);
     $data = array(
       'request_status' => $doc->getElementsByTagName('status')->item(0)->getAttribute('value'),
       'records' => array(),
