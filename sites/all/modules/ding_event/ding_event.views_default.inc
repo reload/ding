@@ -334,13 +334,13 @@ function ding_event_views_default_views() {
     'date_filter_1' => array(
       'operator' => '>=',
       'value' => array(
-        'value' => array(
-          'date' => '',
-        ),
         'min' => array(
           'date' => '',
         ),
         'max' => array(
+          'date' => '',
+        ),
+        'value' => array(
           'date' => '',
         ),
         'default_date' => 'now',
@@ -354,7 +354,6 @@ function ding_event_views_default_views() {
       ),
       'date_fields' => array(
         'node_data_field_datetime.field_datetime_value' => 'node_data_field_datetime.field_datetime_value',
-        'node_data_field_datetime.field_datetime_value2' => 'node_data_field_datetime.field_datetime_value2',
       ),
       'date_method' => 'OR',
       'granularity' => 'day',
