@@ -6,6 +6,9 @@
 Drupal.behaviors.almaAvailabilityTingObjectView = function () {
   // Use get_details to load detailed data for each item on the page.
   Drupal.almaAvailability.get_details(function (data, textStatus) {
+    // Update the standard status messages.
+    Drupal.almaAvailability.updateStatus(data);
+
     // Inject data into the list of library that has the item available. 
     if ($("#ting-object .alma-availability").length > 0) {
       $("#ting-object .alma-availability ul.library-list").empty();
@@ -23,21 +26,6 @@ Drupal.behaviors.almaAvailabilityTingObjectView = function () {
         $.each(uniqueHoldings, function (branchID, branchName) {
           container.append('<li>' + branchName  + '</li>');
         });
-        if (dataItem.available_count > 0) {
-          $('#ting-item-' + dataItem.alma_id)
-            .find('.alma-status')
-              .addClass('available')
-              .removeClass('waiting')
-              .text(Drupal.t('available'))
-        }
-        else {
-          $('#ting-item-' + dataItem.alma_id)
-            .find('.alma-status')
-              .addClass('unavailable')
-              .removeClass('waiting')
-              .text(Drupal.t('unavailable'))
-            .end()
-        }
       });
     }
   });
