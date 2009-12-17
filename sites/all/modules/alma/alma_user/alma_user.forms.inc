@@ -414,6 +414,13 @@ function alma_user_forms_loan_details($form_state, $account, $records) {
     '#tree' => TRUE,
   );
 
+  $form['renew_all'] = array(
+    '#type' => 'submit',
+    '#value' => t('Renew all'),
+    '#attributes' => array('class' => 'renew-all-button'),
+  );
+
+
   foreach ($records as $loan) {
     if ($loan['is_renewable']) {
       $form['loans'][$loan['id']] = array(
@@ -441,10 +448,21 @@ function alma_user_forms_loan_details($form_state, $account, $records) {
 function alma_user_forms_loan_details_submit($form, $form_state) {
   $selected = array();
 
-  foreach ($form_state['values']['loans'] as $key => $value) {
-    if ($value) {
-      $selected[] = $key;
-    }
+  switch ($form_state['clicked_button']['#parents'][0]) {
+    case 'renew':
+      foreach ($form_state['values']['loans'] as $key => $value) {
+        if ($value) {
+          $selected[] = $key;
+        }
+      }
+      break;
+    case 'renew_all':
+      foreach ($form_state['values']['loan_data'] as $loan) {
+        if ($loan['is_renewable']) {
+          $selected[] = $loan['id'];
+        }
+      }
+      break;
   }
 
   $creds = alma_user_get_credentials($form_state['values']['account']);
