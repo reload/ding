@@ -60,7 +60,10 @@ function vertical_tabs_add_core_support(&$form, $form_id) {
     $fieldsets['comment_settings'] = 'comment';
     $fieldsets['attachments'] = 'upload';
     $fieldsets['path'] = 'path';
-    $fieldsets['taxonomy'] = 'taxonomy';
+    // HACK: Quit messing with my taxonomy fieldsets.
+    // The configuration for vertical_tabs has changed to require
+    // the pre-alpha form module, so we'll add a hard override.
+    #$fieldsets['taxonomy'] = 'taxonomy';
     $group = 'additional_settings';
   }
   elseif ($form_id == 'node_type_form') {
