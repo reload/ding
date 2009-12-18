@@ -183,6 +183,9 @@ function ding_library_form_alter(&$form, $form_state, $form_id) {
       '#type' => 'value',
       '#value' => FALSE,
     );
+
+    // HACK: Prevent users from deleting library location.
+    drupal_add_js('jQuery(document).ready(function() { jQuery("#edit-locations-0-delete-location-wrapper").hide(); });', 'inline');
   }
 }
 
