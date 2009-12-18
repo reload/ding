@@ -67,7 +67,7 @@ body.admin{background-position: 0 30px }
 /*user logged in*/
 #account-profile{width:251px;margin:5px 0 0 0; font-size:10px;}
 	#account-profile a{text-decoration:none; }
-	#account-profile a:hover{text-decoration:underline; font-weight:bold;}
+	#account-profile a:hover{text-decoration:underline;}
 	#account-profile .user{margin:0 0 5px 0;}
 		#account-profile div.logout{margin:0 0 0 180px; }
 			#account-profile div.logout a{background:transparent url(../images/arrow.png) no-repeat left center; padding:0 0 0 5px; }
@@ -198,8 +198,8 @@ all content based on search results are in the search.css
 	.panel-twocol-left-stacked .panel-left{width:680px;}
 	.panel-twocol-left-stacked .panel-bottom{width:680px;}
 
-body.ding-ting-search 	.panel-twocol-left-stacked .panel-left{width:695px;}
-
+body.ding-ting-search .panel-twocol-left-stacked .panel-left{width:695px;}
+body.ding-status      .panel-twocol-left-stacked .panel-left{width:695px;}
 
 /*panel-threecol-left-stacked*/
 .panel-threecol-left-stacked .content-left{width:680px; margin:0 15px 0 0;}

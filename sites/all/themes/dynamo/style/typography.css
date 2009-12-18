@@ -31,14 +31,14 @@ code, tt, pre { padding: 1px; background-color: #efefef;  font-family: "Bitstrea
 account
 * ------------------------------------- */
 #account{color:#fff;font-size:11px;}
-#account a{color:#fff;font-size:11px; text-decoration: underline;}
+#account a{color:#fff;font-size:11px;}
 #user-login-form label{font-size:9px; color:#000;}
 	#edit-search-block-form-1-wrapper input{font-size:14px; color:#929292;}
 	#edit-search-block-form-1-wrapper p{font-size:9px; color:#dfa1ab;}
 
 /*-- links --*/
 a, a:link, a:visited, a:active {text-decoration: none; color:#006a87;}
-a:hover, a:focus {text-decoration: underline; color:#006a87;}
+a:hover{text-decoration: underline !important}
 
 li a.active{}
 
