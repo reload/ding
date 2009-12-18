@@ -35,25 +35,22 @@ function draggable_checkboxes_theme() {
 function draggable_checkboxes_process($element) {
   foreach($element['#checkbox_options'] as $value => $title) {
     $element[$value] = array(
-      '#weight' => $element['#value'][$value],
-    );
-    $element[$value]['nid'] = array(
-      '#type' => 'value',
-      '#value' => $value,
-    );
-
-    $element[$value]['check'] = array(
-      '#type' => 'checkbox',
-      '#title' => $title,
-      '#prefix' => '<td class="check">',
-      '#suffix' => '</td>',
-    );
-
-    $element[$value]['weight'] = array(
-      '#type' => 'weight',
-      '#attributes' => array('class' => 'draggable-weight'),
-      '#prefix' => '<td class="weight">',
-      '#suffix' => '</td>',
+      'nid' => array(
+        '#type' => 'value',
+        '#value' => $value,
+      ),
+      'check' => array(
+        '#type' => 'checkbox',
+        '#title' => $title,
+        '#prefix' => '<td class="check">',
+        '#suffix' => '</td>',
+      ),
+      'weight' => array(
+        '#type' => 'weight',
+        '#attributes' => array('class' => 'draggable-weight'),
+        '#prefix' => '<td class="weight">',
+        '#suffix' => '</td>',
+      ),
     );
 
     // If #value or #default_value is provided, set it on our two elements.
@@ -63,12 +60,19 @@ function draggable_checkboxes_process($element) {
       // it's checked.
       $element[$value]['check']['#value'] = $value;
       $element[$value]['weight']['#value'] = $element['#value'][$value];
+      $element[$value]['#weight'] = $element['#value'][$value];
     }
     elseif (isset($element['#default_value'][$value]) && is_numeric($element['#default_value'][$value])) {
       $element[$value]['check']['#default_value'] = $value;
       $element[$value]['weight']['#default_value'] = $element['#default_value'][$value];
+      $element[$value]['#weight'] = $element['#default_value'][$value];
+    }
+    else {
+      // Make sure unchecked fields come last.
+      $element[$value]['#weight'] = 90;
     }
   }
+
   // Finally, remove #value and #default_value from the main element, 
   // since it causes troubles in form_set_value.
   unset($element['#value']);
@@ -87,7 +91,8 @@ function draggable_checkboxes_preprocess_draggable_checkboxes($vars) {
   $vars['checkboxes'] = array();
 
   foreach ($vars['element']['#checkbox_options'] as $nid => $title) {
-    $vars['checkboxes'][$nid] = $vars['element'][$nid]['#children'];
+    $vars['checkboxes'][$vars['element'][$nid]['#weight'] . '-' . $nid] = $vars['element'][$nid]['#children'];
   }
+  ksort($vars['checkboxes']);
 }
 
