@@ -3,7 +3,6 @@
 /**
  * Javascript helpers for Alma cart interaction buttons.
  */
-
 Drupal.behaviors.almaCartButtons = function () {
   $("ul.alma-cart-buttons a").click(function (event) {
       // Make sure we grab the click.

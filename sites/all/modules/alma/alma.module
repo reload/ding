@@ -529,8 +529,12 @@ function alma_client_user_has_reservation($borr_card, $pin_code, $item_id) {
  *    Information about the record.
  */
 function alma_client_catalogue_record_detail($alma_ids) {
+  if (empty($alma_ids)) {
+    return array();
+  }
+
   // Return data from cache if available.
-  //$cache = cache_get('catalogue_record_detail:' . $alma_ids, 'cache_alma_requests');
+  $cache = cache_get('catalogue_record_detail:' . $alma_ids, 'cache_alma_requests');
   if ($cache && !empty($cache->data)) {
     return $cache->data;
   }
@@ -699,5 +703,55 @@ function alma_add_js($page_type) {
       drupal_add_js('$(function(){Drupal.almaAvailability.get_details(Drupal.almaAvailability.updateStatus)});', 'inline', 'footer', TRUE);
       break;
   }
+}
+
+/**
+ * Calculate the time to wait for a reservation.
+ *
+ * @param array $records
+ *    The records array from a alma_client_catalogue_record_detail request.
+ * @return array
+ *    Wait time, keyed by Alma ID.
+ */
+function alma_calculate_wait_time($records) {
+  $wait = array();
+
+  foreach ($records as $record) {
+    if ($record['available_count'] > 0) {
+      $wait[$record['alma_id']] = t('A couple of days');
+    }
+    else {
+      $total = 0;
+
+      foreach ($record['holdings'] as $holding) {
+        $total += $holding['total_count'];
+      }
+
+      if ($total > 0 && $record['reservation_count'] > 0) {
+        $days = $total / $record['reservation_count'] * 30;
+
+        if ($days < 9) {
+          $wait[$record['alma_id']] = t('About a week');
+        }
+        elseif ($days < 16) {
+          $wait[$record['alma_id']] = t('About two weeks');
+        }
+        elseif ($days < 35) {
+          $wait[$record['alma_id']] = t('About a month');
+        }
+        elseif ($days < 65) {
+          $wait[$record['alma_id']] = t('About two months');
+        }
+        else {
+          $wait[$record['alma_id']] = t('More than two months');
+        }
+      }
+      else {
+        $wait[$record['alma_id']] = t('Unknown');
+      }
+    }
+  }
+
+  return $wait;
 }
 

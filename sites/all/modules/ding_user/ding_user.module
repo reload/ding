@@ -1,7 +1,6 @@
 <?php
 // $Id$
 
-
 /**
  * Implementation of hook_menu().
  */
@@ -142,7 +141,6 @@ function ding_user_ctools_plugin_api($module, $api) {
     return array('version' => 1);
   }
 }
-
 
 /**
  * Implementation of hook_form_alter().
