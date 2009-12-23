@@ -105,7 +105,7 @@ Panels BOX css styles
 	.ding-box-pane .meta ul li{margin:0 0 0 0px; padding:0 0 0 0px; width:200px;}
 	.ding-box-pane{font-size:11px; line-height:20px; margin:0 0 10px 0;}
 
-	.ding-box-wide{width:514px; background:transparent url(../images/sprite-box.png) repeat-y -930px 0; overflow:hidden;}
+	.ding-box-wide{width:514px; background:transparent url(../images/sprite-box.png) repeat-y -1444px 0; overflow:hidden;}
 		.ding-box-wide h3{ width:514px; font-weight:bold;padding:8px 0 4px 20px; height:16px; font-size:11px; line-height:20px;  background:transparent url(../images/sprite-box.png) no-repeat -930px -0px; overflow:hidden;}
 		.ding-box-wide ul{width:514px; padding:0px 0 8px 0; margin:0; min-height:30px; background:transparent url(../images/sprite-box.png) no-repeat -1444px bottom;  overflow:hidden;}
 		.ding-box-wide ul li,.ding-box-wide ul li.first{margin:0px 10px; font-size:10px; padding:2px 0 0 10px; list-style: none}
