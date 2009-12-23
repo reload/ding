@@ -183,6 +183,9 @@ function ding_library_form_alter(&$form, $form_state, $form_id) {
       '#type' => 'value',
       '#value' => FALSE,
     );
+
+    // HACK: Prevent users from deleting library location.
+    drupal_add_js('jQuery(document).ready(function() { jQuery("#edit-locations-0-delete-location-wrapper").hide(); });', 'inline');
   }
 }
 
@@ -221,10 +224,11 @@ function ding_library_update($node) {
     ding_library_insert($node);
   }
   else {
-    if (empty($node->branch_id)) {
-      $node->branch_id = NULL;
-    }
     drupal_write_record('ding_library', $node, array('nid', 'vid'));
+    if (empty($node->branch_id)) {
+      // drupal_write_record() does not support updating a column to NULL.
+      db_query('UPDATE {ding_library} SET branch_id = NULL WHERE nid = %d AND vid = %d', $node->nid, $node->vid);
+    }
     if ($node->library_page_type == 'portal') {
       // Check if this library already has a menu.
       if (db_result(db_query("SELECT menu_name FROM {menu_custom} WHERE menu_name = 'ding_library_%d' LIMIT 1", $node->nid))) {

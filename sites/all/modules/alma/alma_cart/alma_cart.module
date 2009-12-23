@@ -114,12 +114,13 @@ function theme_alma_cart_forms_cart_details($form) {
   $header = array(t('Select'), t('Title'), t('Wait time'));
   $rows = array();
   $output = '';
+  $wait = $form['wait_time']['#value'];
 
   foreach ($form['cart_data']['#value'] as $item) {
     $rows[] = array(
       drupal_render($form['cart'][$item['alma_id']]),
       theme('alma_cart_item', $item),
-      '~0.25E-3 millenia', // TODO: Wait time not implemented yet.
+      (isset($wait[$item['alma_id']])) ? $wait[$item['alma_id']] : t('Unknown'),
     );
   }
 

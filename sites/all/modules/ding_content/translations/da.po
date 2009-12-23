@@ -119,6 +119,9 @@ msgstr "redigér emne"
 msgid "delete topic"
 msgstr "slet emne"
 
+msgid "edit advanced node properties"
+msgstr "rediger avancerede egenskaber for indholdselementer"
+
 #: ding_content.module:0
 msgid "ding_content"
 msgstr "ding_content"

@@ -29,9 +29,18 @@ function alma_cart_forms_cart_details(&$form_state, $account) {
 
   // Fetch the cart data from the database.
   $query = db_query("SELECT * FROM {alma_cart} WHERE uid = %d;", $account->uid);
+  $alma_ids = array();
   while ($row = db_fetch_array($query)) {
     $form['cart_data']['#value'][$row['alma_id']] = $row;
+    $alma_ids[] = $row['alma_id'];
   }
+
+  $details = alma_client_catalogue_record_detail(implode(',', $alma_ids));
+
+  $form['wait_time'] = array(
+    '#type' => 'value',
+    '#value' => alma_calculate_wait_time($details['records']),
+  );
 
   $form['cart'] = array(
     // Set as tree to get all of our checkboxes as an subarray of values
