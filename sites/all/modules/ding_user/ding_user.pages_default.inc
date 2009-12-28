@@ -13,114 +13,6 @@ function ding_user_default_page_manager_handlers() {
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'user_view_panel_context';
-  $handler->task = 'user_view';
-  $handler->subtask = '';
-  $handler->handler = 'panel_context';
-  $handler->weight = -9;
-  $handler->conf = array(
-    'autogenerate_title' => TRUE,
-    'title' => 'Panel: Logged in user must have "access user profiles"',
-    'no_blocks' => FALSE,
-    'css_id' => '',
-    'css' => '',
-    'css_cache_file' => '',
-    'contexts' => array(),
-    'relationships' => array(),
-    'access' => array(
-      'plugins' => array(
-        '0' => array(
-          'name' => 'perm',
-          'settings' => array(
-            'perm' => 'access user profiles',
-          ),
-          'context' => 'logged-in-user',
-        ),
-      ),
-      'logic' => 'and',
-    ),
-  );
-  $display = new panels_display;
-  $display->layout = 'twocol_left_stacked';
-  $display->layout_settings = array();
-  $display->panel_settings = array();
-  $display->cache = array();
-  $display->title = '';
-  $display->hide_title = TRUE;
-  $display->title_pane = 101;
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass;
-    $pane->pid = 'new-1';
-    $pane->panel = 'right';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'user_comments_list-panel_pane_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'use_pager' => 0,
-      'pager_id' => '',
-      'items_per_page' => '10',
-      'context' => array(
-        '0' => 'argument_uid_1',
-      ),
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'style' => 'ding_box',
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-1'] = $pane;
-    $display->panels['right'][0] = 'new-1';
-    $pane = new stdClass;
-    $pane->pid = 'new-2';
-    $pane->panel = 'right';
-    $pane->type = 'relevant';
-    $pane->subtype = 'relevant_campaigns';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => array(
-        '0' => 'empty',
-        '1' => 'empty',
-      ),
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $display->content['new-2'] = $pane;
-    $display->panels['right'][1] = 'new-2';
-    $pane = new stdClass;
-    $pane->pid = 'new-3';
-    $pane->panel = 'top';
-    $pane->type = 'user_profile';
-    $pane->subtype = 'user_profile';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => 'argument_uid_1',
-      'override_title' => 1,
-      'override_title_text' => '%title',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-3'] = $pane;
-    $display->panels['top'][0] = 'new-3';
-  $handler->conf['display'] = $display;
-  $handlers['user_view_panel_context'] = $handler;
-
-  $handler = new stdClass;
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
   $handler->name = 'user_view_panel_context_2';
   $handler->task = 'user_view';
   $handler->subtask = '';
@@ -128,8 +20,8 @@ function ding_user_default_page_manager_handlers() {
   $handler->weight = -10;
   $handler->conf = array(
     'autogenerate_title' => TRUE,
-    'title' => 'Panel: Logged in user must have "access user profiles", User being viewed can be one of "biblioteksmedarbejder, lokalredaktør, redaktør (KDB), super-admin"',
-    'no_blocks' => FALSE,
+    'title' => 'Staff user profile',
+    'no_blocks' => 0,
     'css_id' => '',
     'css' => '',
     'css_cache_file' => '',
@@ -178,7 +70,7 @@ function ding_user_default_page_manager_handlers() {
   $display->cache = array();
   $display->title = '';
   $display->hide_title = FALSE;
-  $display->title_pane = 0;
+  $display->title_pane = 15;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -274,6 +166,247 @@ function ding_user_default_page_manager_handlers() {
     $display->panels['top'][0] = 'new-4';
   $handler->conf['display'] = $display;
   $handlers['user_view_panel_context_2'] = $handler;
+
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'user_view_panel_context_3';
+  $handler->task = 'user_view';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = -9;
+  $handler->conf = array(
+    'title' => 'Personal profile',
+    'no_blocks' => FALSE,
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        '0' => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              '0' => 2,
+            ),
+          ),
+          'context' => 'argument_uid_1',
+        ),
+        '1' => array(
+          'name' => 'compare_users',
+          'settings' => array(
+            'equality' => '1',
+          ),
+          'context' => array(
+            '0' => 'argument_uid_1',
+            '1' => 'logged-in-user',
+          ),
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display;
+  $display->layout = 'twocol_left_stacked';
+  $display->layout_settings = array();
+  $display->panel_settings = array();
+  $display->cache = array();
+  $display->title = '';
+  $display->hide_title = TRUE;
+  $display->title_pane = 0;
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'left';
+    $pane->type = 'profile';
+    $pane->subtype = 'alma_user_personal_info';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_uid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['left'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'left';
+    $pane->type = 'profile';
+    $pane->subtype = 'alma_user_library_settings';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_uid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-2'] = $pane;
+    $display->panels['left'][1] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'right';
+    $pane->type = 'profile';
+    $pane->subtype = 'alma_user_loans_list';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_uid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'ding_box',
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-3'] = $pane;
+    $display->panels['right'][0] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
+    $pane->panel = 'right';
+    $pane->type = 'profile';
+    $pane->subtype = 'alma_user_reservations_list';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_uid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'ding_box',
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-4'] = $pane;
+    $display->panels['right'][1] = 'new-4';
+  $handler->conf['display'] = $display;
+  $handlers['user_view_panel_context_3'] = $handler;
+
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'user_view_panel_context';
+  $handler->task = 'user_view';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = -8;
+  $handler->conf = array(
+    'autogenerate_title' => TRUE,
+    'title' => 'Normal user profile',
+    'no_blocks' => 0,
+    'css_id' => '',
+    'css' => '',
+    'css_cache_file' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        '0' => array(
+          'name' => 'perm',
+          'settings' => array(
+            'perm' => 'access user profiles',
+          ),
+          'context' => 'logged-in-user',
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display;
+  $display->layout = 'twocol_left_stacked';
+  $display->layout_settings = array();
+  $display->panel_settings = array();
+  $display->cache = array();
+  $display->title = '';
+  $display->hide_title = TRUE;
+  $display->title_pane = 101;
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'user_comments_list-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'use_pager' => 0,
+      'pager_id' => '',
+      'items_per_page' => '10',
+      'context' => array(
+        '0' => 'argument_uid_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'ding_box',
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['right'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'right';
+    $pane->type = 'relevant';
+    $pane->subtype = 'relevant_campaigns';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        '0' => 'empty',
+        '1' => 'empty',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-2'] = $pane;
+    $display->panels['right'][1] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'top';
+    $pane->type = 'user_profile';
+    $pane->subtype = 'user_profile';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_uid_1',
+      'override_title' => 1,
+      'override_title_text' => '%title',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-3'] = $pane;
+    $display->panels['top'][0] = 'new-3';
+  $handler->conf['display'] = $display;
+  $handlers['user_view_panel_context'] = $handler;
 
   return $handlers;
 }
