@@ -1,3 +1,11 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Template to render a Ting collection of books.
+ */
+?>
   <li>
 
     <div class="picture">
@@ -55,3 +63,4 @@
     </div>
 
   </li>
+

@@ -25,8 +25,7 @@ function ting_search_pages_object_redirect($local_id) {
 
   $object = ting_get_object_by_local_id($local_id);
   if (!$object) {
-    drupal_not_found();
-    exit;
+    return drupal_not_found();
   }
   drupal_goto($object->url);
 }
@@ -39,10 +38,8 @@ function ting_search_pages_ting_js() {
   
   //Get users base query
   $query = $_REQUEST['query'];
-  if (!$query)
-  {
-    drupal_not_found();
-    exit;
+  if (!$query) {
+    return drupal_not_found();
   }
   
   //Wrap base query

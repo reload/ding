@@ -1,3 +1,11 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Template to render a Ting collection of books.
+ */
+?>
 	<li>
 		<h3 class="title">
  			<a class="title" href="<?php echo url('ting/collection') ?>"><?php echo implode(', ', $collection->objects[0]->data->title) ?></a>

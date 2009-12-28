@@ -179,8 +179,8 @@ function ting_search_add_js() {
   $basePath = drupal_get_path('module', 'ting');
 
   //Add Pure JS templating engine
-  drupal_add_js($basePath . '/js/pure/js/pure.js', 'module', 'footer', TRUE);
-  //drupal_add_js($path . '/js/pure/js/purePacked.js', 'module', 'footer', TRUE);
+  drupal_add_js($basePath . '/js/pure/js/pure.js');
+  //drupal_add_js($path . '/js/pure/js/purePacked.js');
 
 
   $path = drupal_get_path('module', 'ting_search');
@@ -196,7 +196,7 @@ function ting_search_add_js() {
   jquery_ui_add('ui.tabs');
   jquery_ui_theme_load();
 
-  drupal_add_js($path . '/js/ting_search.js', 'module');
+  drupal_add_js($path . '/js/ting_search.js');
   drupal_add_js($path . '/js/ting_result.js', 'module', 'footer', TRUE);
   drupal_add_js($path . '/js/ting_facet_browser.js', 'module', 'footer', TRUE);
   drupal_add_css($path . '/css/ting_facet_browser.css', 'module');
@@ -216,7 +216,6 @@ function ting_search_add_js() {
   foreach ($facets as $facet) {
     drupal_add_js(array('tingResult' => array('facetNames' => array($facet => t($facet)))), 'setting');
   }
-   
 }
 
 function ting_search_render_pager_template() {
@@ -268,7 +267,6 @@ function ting_search_form_submit($form, &$form_state) {
  */
 function template_preprocess_ting_collection(&$variables) {
 	// preprocess the collection object here!
-
 	// group by type and language
 	$collection = $variables["collection"];
 	
