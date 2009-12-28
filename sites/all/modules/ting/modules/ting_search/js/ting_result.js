@@ -14,7 +14,7 @@ Drupal.tingResult = function (searchResultElement, facetBrowserElement, result) 
 	
 	this.renderTingSearchResultPager = function (element, result) {
 		//currentPage = ($.url.attr('page')) ? $.url.attr('page') : 1;
-    var anchorVars, currentPage, totalPages, startPage, endPage, pages, p, paging, pager, $p, pageNumberClasses;
+    var anchorVars, currentPage, totalPages, startPage, endPage, pages, p, paging, pager, pageNumberClasses;
 		anchorVars = Drupal.getAnchorVars();
 		currentPage = (anchorVars.page !== null) ? parseInt(anchorVars.page) : 1;
 		totalPages = Math.ceil(result.count / result.resultsPerPage);
