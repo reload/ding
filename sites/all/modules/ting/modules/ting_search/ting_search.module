@@ -177,15 +177,16 @@ function ting_search_ctools_plugin_directory($module, $plugin) {
  */
 function ting_search_add_js() {
   $basePath = drupal_get_path('module', 'ting');
+
   //Add Pure JS templating engine
-  drupal_add_js($basePath . '/js/pure/js/pure.js', 'module', 'footer', TRUE);
+  drupal_add_js($basePath . '/js/pure/js/pure.js');
+  //drupal_add_js($path . '/js/pure/js/purePacked.js');
 
 
   $path = drupal_get_path('module', 'ting_search');
   //Add base Prototype files for enhanced OOP
   drupal_add_js($path . '/js/prototype/object.js', 'module', 'footer', TRUE);
   drupal_add_js($path . '/js/prototype/enumerable.js', 'module', 'footer', TRUE);
-  //drupal_add_js($path . '/js/pure/js/purePacked.js', 'module', 'footer', TRUE);
 
   //Add jQuery Url plugin
   drupal_add_js($path . '/js/jquery.url/jquery.url.js', 'module', 'footer', TRUE);
@@ -195,31 +196,26 @@ function ting_search_add_js() {
   jquery_ui_add('ui.tabs');
   jquery_ui_theme_load();
 
-  drupal_add_js($path . '/js/ting_search.js', 'module');
+  drupal_add_js($path . '/js/ting_search.js');
   drupal_add_js($path . '/js/ting_result.js', 'module', 'footer', TRUE);
   drupal_add_js($path . '/js/ting_facet_browser.js', 'module', 'footer', TRUE);
   drupal_add_css($path . '/css/ting_facet_browser.css', 'module');
 
   drupal_add_js(array('tingResult' => array(
-                      'pagerTemplate' => ting_search_render_pager_template(),
-                      'pagesInPager' => 5,
-                      'resizeButtonText' => t('Show more facet terms'),
-                      'noResultsHeader' => t('No results found'),
-                      'noResultsText' => t('Sorry, we could not find any results for your search. Please try again with different keywords or ask a librarian.'),
-                    )),
-                'setting');
+    'pagerTemplate' => ting_search_render_pager_template(),
+    'pagesInPager' => 5,
+    'resizeButtonText' => t('Show more facet terms'),
+    'noResultsHeader' => t('No results found'),
+    'noResultsText' => t('Sorry, we could not find any results for your search. Please try again with different keywords or ask a librarian.'),
+  )), 'setting');
   
   $facets = array('facet.creator', 'facet.subject', 'facet.type', 'facet.date', 
                   'facet.language', 'facet.geographic', 'facet.period', 'facet.form',
                   'facet.fiction', 'facet.nonFiction', 'facet.music', 'facet.dk5', 
                   'dc.type');
   foreach ($facets as $facet) {
-    drupal_add_js(array('tingResult' => array(
-                          'facetNames' => array(
-                            $facet => t($facet)))),
-                  'setting');
+    drupal_add_js(array('tingResult' => array('facetNames' => array($facet => t($facet)))), 'setting');
   }
-   
 }
 
 function ting_search_render_pager_template() {
@@ -271,7 +267,6 @@ function ting_search_form_submit($form, &$form_state) {
  */
 function template_preprocess_ting_collection(&$variables) {
 	// preprocess the collection object here!
-
 	// group by type and language
 	$collection = $variables["collection"];
 	

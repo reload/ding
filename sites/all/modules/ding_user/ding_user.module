@@ -34,6 +34,12 @@ function ding_user_menu() {
 function ding_user_menu_alter(&$items) {
   // Change the password recovery page to be a callback, not shown in menus.
   $items['user/password']['type'] = MENU_CALLBACK;
+
+  // Change the title of the view profile tab.
+  $items['user/%user/view']['title'] = 'Profile';
+
+  // Hide the edit user tab.
+  $items['user/%user/edit']['type'] = MENU_CALLBACK;
 }
 
 /**
