@@ -75,7 +75,7 @@ function ding_breadcrumbs_set_library($library) {
   $piece = array_shift($path_copy);
   $index = array_search($piece, $path);
   if ($index > 1) {
-    $trail[] = _ding_breadcrumbs_get_name($path, $piece, $index);
+    $trail[] = check_plain(_ding_breadcrumbs_get_name($path, $piece, $index));
   }
 
   drupal_set_breadcrumb($trail);
