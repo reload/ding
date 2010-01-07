@@ -31,17 +31,31 @@ foreach ($includes as $include) {
  * @return mixed
  *    Object, if found - boolean FALSE if not.
  */
-function ting_get_object_by_id($object_id, $enrich = false) {
-	$request = ting_get_request_factory()->getObjectRequest();
-	$request->setObjectId($object_id);
-	$request = ting_add_agency($request);
-  $object = ting_execute($request);
+function ting_get_object_by_id($object_id, $enrich = FALSE) {
+  static $cache = array();
 
-	if ($object) {
-		$object = ting_add_object_url($object);
-		$object = ($enrich) ? array_shift(ting_add_additional_info(array($object))) : $object;
-	}
-	return ($object) ? $object : false;
+  if (isset($cache[$object_id])) {
+    $object = $cache[$object_id];
+  }
+  else {
+    $request = ting_get_request_factory()->getObjectRequest();
+    $request->setObjectId($object_id);
+    $request = ting_add_agency($request);
+    $object = ting_execute($request);
+
+    if ($object) {
+      $object = ting_add_object_url($object);
+    }
+  }
+
+  if ($object && $enrich && empty($object->enriched)) {
+    $object = array_shift(ting_add_additional_info(array($object)));
+    $object->enriched = TRUE;
+  }
+
+  $cache[$object_id] = $object;
+
+  return $object;
 }
 
 /**
@@ -76,17 +90,31 @@ function ting_get_object_by_local_id($local_id, $enrich = false) {
  * @return mixed
  *    Collection object, if found - boolean FALSE if not.
  */
-function ting_get_collection_by_id($object_id, $enrich = false) {
-	$request = ting_get_request_factory()->getCollectionRequest();
-	$request->setObjectId($object_id);
-  $request = ting_add_agency($request);
-	$collection = ting_execute($request);
+function ting_get_collection_by_id($object_id, $enrich = FALSE) {
+  static $cache = array();
 
-	if ($collection) {
-		$collection = ting_add_collection_info($collection);
-		$collection = ($enrich) ? ting_add_additional_info($collection) : $collection;
-	}
-	return ($collection) ? $collection : false;
+  if (isset($cache[$object_id])) {
+    $collection = $cache[$object_id];
+  }
+  else {
+    $request = ting_get_request_factory()->getCollectionRequest();
+    $request->setObjectId($object_id);
+    $request = ting_add_agency($request);
+    $collection = ting_execute($request);
+
+    if ($collection) {
+      $collection = ting_add_collection_info($collection);
+    }
+  }
+
+  if ($collection && $enrich && empty($collection->enriched)) {
+    $collection = ting_add_additional_info($collection);
+    $collection->enriched = TRUE;
+  }
+
+  $cache[$object_id] = $collection;
+
+  return $collection;
 }
 
 /**
@@ -290,14 +318,12 @@ function ting_sort_objects($collection)
 	return $collection;
 }
 
-function ting_add_object_url(TingClientObject $object)
-{
+function ting_add_object_url(TingClientObject $object) {
 	$object->url = url('ting/object/'.$object->id, array('absolute' => true));
 	return $object;
 }
 
-function ting_add_additional_info($collection)
-{
+function ting_add_additional_info($collection) {
 	//Add additional information info for cover images
 	$faust_numbers = array();
 
@@ -424,3 +450,4 @@ function ting_remove_supporting_types(TingClientSearchRequest $request)
 	$request->setQuery($request->getQuery().' NOT ('.implode(' OR ', $supportingTypes).')');
 	return $request;
 }
+
