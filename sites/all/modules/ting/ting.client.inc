@@ -44,7 +44,7 @@ function ting_get_object_by_id($object_id, $enrich = FALSE) {
     $object = ting_execute($request);
 
     if ($object) {
-      $object = ting_add_object_url($object);
+      $object = ting_add_object_info($object);
     }
   }
 
@@ -74,7 +74,7 @@ function ting_get_object_by_local_id($local_id, $enrich = false) {
 	$object = ting_execute($request);
 
 	if ($object) {
-		$object = ting_add_object_url($object);
+		$object = ting_add_object_info($object);
 		$object = ($enrich) ? array_shift(ting_add_additional_info(array($object))) : $object;
 	}
 	return ($object) ? $object : false;
@@ -288,7 +288,7 @@ function ting_add_collection_info(TingClientObjectCollection $collection)
 	$types = array();
 	foreach ($collection->objects as &$object)
 	{
-		$object = ting_add_object_url($object);
+		$object = ting_add_object_info($object);
 		if (isset($object->data->type) && is_array($object->data->type))
 		{
   		$types = array_merge($types, $object->data->type);
@@ -318,8 +318,17 @@ function ting_sort_objects($collection)
 	return $collection;
 }
 
-function ting_add_object_url(TingClientObject $object) {
+function ting_add_object_info(TingClientObject $object) {
 	$object->url = url('ting/object/'.$object->id, array('absolute' => true));
+
+  if ($object->data->type[0] == 'Netdokument') {
+    foreach ($object->data->identifier as $identifier) {
+      if ($identifier->type == TingClientObjectIdentifier::URL) {
+        $object->url = ting_rewrite_download_url($identifier->id);
+      }
+    }
+  }
+
 	return $object;
 }
 
@@ -449,5 +458,24 @@ function ting_remove_supporting_types(TingClientSearchRequest $request)
 	
 	$request->setQuery($request->getQuery().' NOT ('.implode(' OR ', $supportingTypes).')');
 	return $request;
+}
+
+/**
+ * Rewrite the download URL of external restricted-access ressources.
+ *
+ * This allow access to the ressources through the library's proxy server.
+ *
+ * Only URLs refererring to sites specified on the Ting settings page are
+ * modified; other URLs are returned unmodified.
+ */
+function ting_rewrite_download_url($url) {
+  $host = parse_url($url, PHP_URL_HOST);
+  if (in_array($host, variable_get('restricted_access_proxy_hostnames', array()))) {
+    $prefix = variable_get('restricted_access_proxy_prefix', '');
+    if ($prefix) {
+      $url = $prefix . $url;
+    }
+  }
+  return $url;
 }
 

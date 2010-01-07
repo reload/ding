@@ -46,7 +46,7 @@ function ting_admin_settings_form($form_state) {
     '#required' => TRUE,
     '#default_value' => variable_get('ting_recommendation_server', ''),
   );
-	
+
   $form['addi'] = array(
     '#type' => 'fieldset',
     '#title' => t('Additional Information settings'),
@@ -81,8 +81,38 @@ function ting_admin_settings_form($form_state) {
     '#required' => TRUE,
     '#default_value' => variable_get('addi_password', ''),
   );
-  
-    
+
+  $form['proxy'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Proxy service'),
+  	'#description' => t('Restricted-access resources referenced by Ting may be accessed through the library\'s proxy server'),
+    '#tree' => FALSE,
+  );
+  $form['proxy']['restricted_access_proxy_prefix'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Proxy server URL prefix',
+    '#default_value' => variable_get('restricted_access_proxy_prefix', ''),
+    '#description' => t('E.g. <em>http://proxy.example.com/?url=</em>.'),
+  );
+  $form['proxy']['restricted_access_proxy_hostnames'] = array(
+    '#type' => 'textarea',
+    '#title' => 'Hostnames',
+    '#rows' => 15,
+    '#default_value' => implode("\n", variable_get('restricted_access_proxy_hostnames', array())),
+    '#value_callback' => 'ting_admin_settings_hostnames_value',
+    '#description' => t('Enter one hostname per line, e.g. <em>magazine.example.com</em>. Do not include the <em>http://</em> prefix.'),
+  );
+
   return system_settings_form($form);
+}
+
+/**
+ * Value callback for restricted_access_proxy_hostnames field defined in
+ * ting_admin_settings_form().
+ */
+function ting_admin_settings_hostnames_value($form, $edit = FALSE) {
+  if ($edit !== FALSE) {
+    return array_filter(array_map('trim', explode("\n", $edit)));
+  }
 }
 
