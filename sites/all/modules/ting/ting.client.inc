@@ -104,6 +104,7 @@ function ting_get_collection_by_id($object_id, $enrich = FALSE) {
 
     if ($collection) {
       $collection = ting_add_collection_info($collection);
+      $collection = ting_sort_objects($collection);
     }
   }
 

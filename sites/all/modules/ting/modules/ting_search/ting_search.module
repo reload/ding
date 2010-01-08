@@ -282,25 +282,8 @@ function template_preprocess_ting_collection(&$variables) {
 	$variables["sorted_collection"] = $sorted;
 
 
-	// show the common descriptor
-	// TODO: Move this to admin settings
-	$preferred_typekey = "Bog";
-	$preferred_language = "dan";
-		
-	// Try to fetch a danish book
-	$common_object = null;
-	if (array_key_exists($preferred_typekey, $sorted)) {
-		foreach ($sorted[$preferred_typekey] as $object) {
-			if ($object->data->language[0] == $preferred_language) {
-				if (!empty($object->data->abstract[0])) {
-					$common_object = $object;
-					break;
-				}			
-			}
-		}
-	}
-	
-	// just get a material with an abstract.
+  // Show the common descriptor. The collection is sorted in ting_sort_objects()
+  // so that books in Danish appear first.
 	if (!$common_object) {
 		foreach ($sorted as $objects) {
 			$common_object = $objects[0];
