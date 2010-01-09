@@ -30,7 +30,6 @@ function ting_covers_object($preset, $object_id) {
     $result = drupal_http_request($source_url);
     if ($result->code == 200) {
       file_check_directory(file_create_path(dirname($path)), FILE_CREATE_DIRECTORY);
-      file_put_contents($path, $result->data);
       file_save_data($result->data, $path, FILE_EXISTS_REPLACE);
     }
   }
