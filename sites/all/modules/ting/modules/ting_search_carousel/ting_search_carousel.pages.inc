@@ -35,27 +35,25 @@ function ting_search_carousel_result_ahah($search, $start, $numResults) {
   //the try to retrieve som more
   $resultsPerPage = 10;
   $page = ceil($carouselSearch->lastIndex / $resultsPerPage);
-  while ((sizeof($carouselSearch->collections) < ($start+$numResults)) 
-				 && $carouselSearch->more)
-	{
-		$result = ting_do_search($search['query'], ++$page, $resultsPerPage, array('facets' => array(), 'enrich' => true));
-    
-		if (sizeof($result->collections) > 0)
-		{
-			foreach ($result->collections as $collection)
-			{
-				if ($collection->objects[0]->additionalInformation->thumbnailUrl ||
-	         	$collection->objects[0]->additionalInformation->detailUrl)
-				{
-					$carouselSearch->collections[] = $collection;
-				}
+  while ((sizeof($carouselSearch->collections) < ($start + $numResults)) && $carouselSearch->more) {
+    $result = ting_do_search($search['query'], ++$page, $resultsPerPage, array('facets' => array(), 'enrich' => TRUE, 'allObjects' => FALSE));
+
+    if (sizeof($result->collections) > 0)	{
+      foreach ($result->collections as $collection) {
+        foreach ($collection->objects as $object) {
+          if ($object->additionalInformation->thumbnailUrl ||
+              $objects->additionalInformation->detailUrl) {
+
+            $carouselSearch->collections[] = $collection;
+            break;
+          }
+        }
 				$carouselSearch->lastIndex++;
-			}
-		}
-		else
-		{
-			$carouselSearch->more = false;
-		}
+      }
+    }
+    else {
+      $carouselSearch->more = FALSE;
+    }
 		
 	  //cache the updated search after each query as retrieving the requested number 
 	  //of collections with cover images might take a few requests
