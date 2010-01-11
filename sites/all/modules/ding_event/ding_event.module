@@ -150,8 +150,10 @@ function ding_event_get_similar($node, $count = 5) {
 
   // Boost events that happen on the same library.
   foreach ($node->field_library_ref as $ref) {
-    foreach ($data['libraries'][$ref['nid']] as $nid) {
-      $events[$nid] += 4;
+    if (isset($data['libraries'][$ref['nid']])) {
+      foreach ($data['libraries'][$ref['nid']] as $nid) {
+        $events[$nid] += 4;
+      }
     }
   }
 
