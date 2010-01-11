@@ -36,7 +36,7 @@ function ting_search_carousel_result_ahah($search, $start, $numResults) {
   $resultsPerPage = 10;
   $page = ceil($carouselSearch->lastIndex / $resultsPerPage);
   while ((sizeof($carouselSearch->collections) < ($start + $numResults)) && $carouselSearch->more) {
-    $result = ting_do_search($search['query'], ++$page, $resultsPerPage, array('facets' => array(), 'enrich' => TRUE, 'allObjects' => FALSE));
+    $result = ting_do_search($search['query'], ++$page, $resultsPerPage, array('facets' => array(), 'enrich' => TRUE, 'allObjects' => TRUE));
 
     if (sizeof($result->collections) > 0)	{
       foreach ($result->collections as $collection) {
