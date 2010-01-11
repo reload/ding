@@ -67,7 +67,7 @@ function ding_breadcrumbs_set_library($library) {
       $trail[] = l($library->title, 'node/' . $library->nid);
     }
     else {
-      $trail[] = l(implode(_ding_breadcrumbs_get_name($path, $piece, $index), '/', array_slice($path, 0, $index)));
+      $trail[] = l(_ding_breadcrumbs_get_name($path, $piece, $index), implode('/', array_slice($path, 0, $index)));
     }
   }
 
