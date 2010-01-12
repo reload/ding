@@ -39,7 +39,7 @@ function ding_user_menu_alter(&$items) {
   $items['user/%user/view']['title'] = 'Profile';
 
   // Hide the edit user tab.
-  $items['user/%user/edit']['type'] = MENU_CALLBACK;
+  $items['user/%user_category/edit']['type'] = MENU_CALLBACK;
 }
 
 /**
