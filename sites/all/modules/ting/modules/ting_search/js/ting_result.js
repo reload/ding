@@ -13,65 +13,56 @@ Drupal.tingResult = function (searchResultElement, facetBrowserElement, result) 
 	};
 	
 	this.renderTingSearchResultPager = function (element, result) {
-		//currentPage = ($.url.attr('page')) ? $.url.attr('page') : 1;
-    var anchorVars, currentPage, totalPages, startPage, endPage, pages, p, paging, pager, pageNumberClasses;
+    var anchorVars, morePages, currentPage, $pager, pageNumberClasses;
 		anchorVars = Drupal.getAnchorVars();
+    morePages = (result.collectionCount >= result.resultsPerPage);
 		currentPage = (anchorVars.page !== null) ? parseInt(anchorVars.page) : 1;
-		totalPages = Math.ceil(result.count / result.resultsPerPage);
 
-		if (totalPages > 1) {
-			startPage = Math.max(1, (currentPage - Math.ceil((Drupal.settings.tingResult.pagesInPager - 1) / 2)));
-			endPage = Math.min(totalPages, (currentPage + Math.ceil((Drupal.settings.tingResult.pagesInPager - 1) / 2)));
+    // Don't bother with a pager if there is nothing to paginate to.
+    if (morePages || currentPage > 1) {
+      $pager = $(Drupal.settings.tingResult.pagerTemplate);
 
-			pages = [];
-			for (p = startPage; p <= endPage; p++) {
-				pages.push(p);
-			}
-			
-			paging = {	first: 1,
-									current: currentPage,
-									last: totalPages,
-									pages: pages }
-						
-			pager = $(Drupal.settings.tingResult.pagerTemplate).mapDirective({
-				'.prev[class]+' : function(arg) { return (arg.context.current == arg.context.first) ? 'hidden' : ''; },
-				'.first' : 'first',
-				'.first[class]+' : function(arg) { return ($.inArray(arg.context.first, arg.context.pages) > -1) ? 'hidden' : ''; },
-				'.last' : 'last',
-				'.last[class]+' : function(arg) { return ($.inArray(arg.context.last, arg.context.pages) > -1) ? 'hidden' : ''; },
-				'.next[class]+' : function(arg) { return (arg.context.current == arg.context.last) ? 'hidden' : ''; },
-				'li': 'page <- pages',
-				'li[class]': function(arg) { return (arg.item == arg.context.current) ? 'current' : ''; },
-				'li a': 'page'
-			});
-			
-			$p.compile(pager, 'search-result-pager');
-			pager = $p.render('search-result-pager', paging);
-			
+      // If we're on the first page, remove the previous  and first page
+      // links from the template.
+      if (currentPage < 2) {
+        $pager.find('a.prev').parent().remove();
+        $pager.find('a.first').parent().remove();
+      }
+
+      // If there's no more pages, remove the next link.
+      if (!morePages) {
+        $pager.find('a.next').parent().remove();
+      }
+
 			pageNumberClasses = {
         '.first': 1,
 				'.prev': currentPage - 1,
-				'.next': currentPage + 1,
-				'.last': totalPages
+				'.next': currentPage + 1
       };
 			
-			pager = $(pager);
 			$.each(pageNumberClasses, function(i, e) {
 				var page = pageNumberClasses[i];
-				pager.find(i).click(function() {
+        $pager.find(i).click(function() {
 					Drupal.updatePageUrl(page);
 					Drupal.doUrlSearch(facetBrowserElement, searchResultElement);
 					return false;
 				});
 			});
-			$(pager).find('ul a').click(function() {
+
+			$($pager).find('ul a').click(function() {
 				Drupal.updatePageUrl($(this).text());
 				Drupal.doUrlSearch(facetBrowserElement, searchResultElement);
 				return false;
 			});
 			
+      // Kasper: What is the purpose of this?
 			element = $(element);
-			(element.next().size() > 0) ? element.next().replaceWith(pager) : element.after(pager);
+      if (element.next().size() > 0) {
+			  element.next().replaceWith($pager);
+      }
+      else {
+        element.after($pager);
+      }
 		}
 	};
 	

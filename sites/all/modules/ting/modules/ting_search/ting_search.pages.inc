@@ -73,7 +73,8 @@ function ting_search_pages_ting_js() {
     $result = array(
       'page' => $page,
       'resultsPerPage' => $resultsPerPage,
-      'count' => $searchResult->numTotalObjects,
+      'count' => (integer) $searchResult->numTotalObjects,
+      'collectionCount' => (integer) $searchResult->numTotalCollections,
       'result_html' => '',
       'facets' => $searchResult->facets,
     );
