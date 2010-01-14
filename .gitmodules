@@ -1,3 +1,6 @@
 [submodule "sites/all/modules/ting/lib/ting-dbc-php5-client"]
 	path = sites/all/modules/ting/lib/ting-dbc-php5-client
 	url = git://github.com/kdb/ting-dbc-php5-client.git
+[submodule "sites/all/modules/ding_campaign"]
+	path = sites/all/modules/ding_campaign
+	url = git://github.com/mikl/ding-campaign.git
