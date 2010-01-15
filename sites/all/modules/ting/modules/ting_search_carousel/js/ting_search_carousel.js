@@ -75,18 +75,25 @@ Drupal.tingSearchCarousel.activeIndex = function(carousel) {
   return searches.index(searches.parent().find('.active').get(0));
 };
 
+/**
+ * Switch between the carousel tabs.
+ */
 Drupal.tingSearchCarousel.setActiveCarousel = function(carousel, index) {
-  $(carousel).find('.search-controller li').removeClass('active');
-  $(carousel).find('.search-controller li:eq('+index+')').addClass('active');
+  $carousel = $(carousel);
+  $carousel.find('.search-controller li').removeClass('active');
+  $carousel.find('.search-controller li:eq(' + index + ')').addClass('active');
 
-  $(carousel).find('.search-results > li:eq('+index+') ul:not(:has(li))').each(function(i) {
+  $carousel.find('.search-results > li:eq(' + index + ') ul:not(:has(li))').each(function(i) {
     Drupal.tingSearchCarousel.initCarousel(this);
   });
 
-  $(carousel).find('.search-results > li').removeClass('active');
-  $(carousel).find('.search-results > li:eq('+index+')').addClass('active');
+  $carousel.find('.search-results > li').removeClass('active');
+  $carousel.find('.search-results > li:eq(' + index + ')').addClass('active');
 };
 
+/**
+ * Set the loading class to make the spinner appear.
+ */
 Drupal.tingSearchCarousel.setLoading = function(carousel, loading) {
   $(carousel).parents('.ting-search-carousel').find('.search-results').each(function() {
     (loading) ? $(this).addClass('loading') : $(this).removeClass('loading');
