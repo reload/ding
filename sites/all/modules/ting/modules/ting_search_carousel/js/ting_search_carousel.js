@@ -46,7 +46,7 @@ Drupal.tingSearchCarousel.itemLoad = function(carousel, state) {
         Drupal.tingSearchCarousel.setLoading(carousel.container, true);
       }
 
-      jQuery.get('/ting_search_carousel/results/ahah/'+index+'/'+start+'/'+Drupal.settings.tingSearchCarousel.resultsPerPage, function(data, status) {
+      jQuery.get(Drupal.settings.basePath + 'ting_search_carousel/results/ahah/' + index + '/' + start + '/' + Drupal.settings.tingSearchCarousel.resultsPerPage, function(data, status) {
         Drupal.tingSearchCarousel.setLoading(carousel.container, false);
 
         //add new items
