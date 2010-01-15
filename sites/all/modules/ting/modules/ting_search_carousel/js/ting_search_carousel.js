@@ -1,3 +1,8 @@
+// $Id$
+
+/**
+ * Behaviour to set up the search carousel.
+ */
 Drupal.behaviors.tingSearchCarousel = function(context) {
   $('.ting-search-carousel').each(function() {
     var carousel = $(this);
@@ -28,9 +33,9 @@ Drupal.tingSearchCarousel.initCarousel = function(resultList) {
 };
 
 Drupal.tingSearchCarousel.itemLoad = function(carousel, state) {
-  //Only consider more search results when user presses next. Previous posts have already been loaded
-  //HACK: jCarousel triggers 'prev' when clicking next button the first time.
-  //    Handle this by keeping track of previous state.
+  // Only consider more search results when user presses next. Previous posts have already been loaded
+  // HACK: jCarousel triggers 'prev' when clicking next button the first time.
+  // Handle this by keeping track of previous state.
   if (state != 'prev' || Drupal.tingSearchCarousel.prevState == 'init') {
     var start = (state != 'init') ? carousel.last : 0;
 
@@ -46,10 +51,11 @@ Drupal.tingSearchCarousel.itemLoad = function(carousel, state) {
 
         //add new items
         var size = start;
-        $('<ul>'+data+'</ul>').find('li').each(function(i) {
-          carousel.add(start+i, $(this).html());
+        $('<ul>' + data + '</ul>').find('li').each(function(i) {
+          carousel.add(start + i, $(this).html());
           size++;
         });
+
         //update size with number of added items;
         (size > start) ? carousel.size(size) : carousel.inTail = true;
 
