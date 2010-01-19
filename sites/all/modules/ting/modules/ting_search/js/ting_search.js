@@ -10,7 +10,7 @@
  *
  * This is _not_ a Drupal.behavior, since those take a lot longer to load.
  */
-jQuery(function($) {$(function(){
+$(function () {
   $("#search :text")
     // Put the search keys into the main searchbox.
     .val(Drupal.settings.tingSearch.keys)
@@ -28,7 +28,7 @@ jQuery(function($) {$(function(){
 
   Drupal.tingSearch.getContentData(Drupal.settings.tingSearch.content_url,
                                    Drupal.settings.tingSearch.keys);
-})});
+});
 
 // Container object
 Drupal.tingSearch = {
@@ -57,7 +57,7 @@ Drupal.tingSearch.getTingData = function(url, keys) {
     }
     Drupal.tingSearch.updateTabs("ting");
   });
-}
+};
 
 // Get search data from Drupal's content search
 Drupal.tingSearch.getContentData = function(url, keys, show) {
@@ -66,7 +66,7 @@ Drupal.tingSearch.getContentData = function(url, keys, show) {
   // If we get new search keys via the keys parameter, they'll get
   // attached to the object here
   if (keys) {
-    params.query = keys
+    params.query = keys;
   }
 
   $.getJSON(url, params, function (data) {
@@ -81,7 +81,7 @@ Drupal.tingSearch.getContentData = function(url, keys, show) {
       // Redo the click event bindings for the contentPager, since we'll
       // have a new pager from the result HTML.
       Drupal.tingSearch.contentPager();
-		  Drupal.tingSearch.updateSummary($('#content-search-summary'), data);
+      Drupal.tingSearch.updateSummary($('#content-search-summary'), data);
 
       // If the show parameter is specified, show our results.
       if (show) {
@@ -89,7 +89,7 @@ Drupal.tingSearch.getContentData = function(url, keys, show) {
       }
     }
   });
-}
+};
 
 // Redirect clicks on the pager to reload the content search.
 Drupal.tingSearch.contentPager = function() {
@@ -99,25 +99,27 @@ Drupal.tingSearch.contentPager = function() {
     Drupal.tingSearch.getContentData(this.href, false, true);
     return false;
   });
-}
+};
 
 Drupal.tingSearch.tabLoading = function (sender) {
-	if (Drupal.tingSearch.summary.hasOwnProperty(sender)) {
-		var tab = $('#ting-search-tabs li.' + sender);
-		tab.addClass('spinning').find('span.count').remove();
-    
-		var result = $("#" + sender + "-result");
+  if (Drupal.tingSearch.summary.hasOwnProperty(sender)) {
+    var result, tab;
+    tab = $('#ting-search-tabs li.' + sender);
+    tab.addClass('spinning').find('span.count').remove();
+
+    result = $("#" + sender + "-result");
     result.addClass('loading');
-	}	
-}
+  }
+};
 
 // Helper function to update the state of our tabs.
 Drupal.tingSearch.updateTabs = function (sender) {
   if (Drupal.tingSearch.summary.hasOwnProperty(sender)) {
-    var tab = $('#ting-search-tabs li.' + sender);
-    var count = Drupal.tingSearch.summary[sender].count;
-    var result = $("#" + sender + "-result");
-    
+    var tab, count, result;
+    tab = $('#ting-search-tabs li.' + sender);
+    count = Drupal.tingSearch.summary[sender].count;
+    result = $("#" + sender + "-result");
+
     if (count == 0) {
       // For no results, replace the contents of the results container
       // with the no results message.
@@ -129,7 +131,7 @@ Drupal.tingSearch.updateTabs = function (sender) {
     }
     tab.removeClass('spinning');
     result.removeClass('loading');
-    
+
     if (tab.find('span.count').length) {
       tab.find('span.count em').text(count);
     }
@@ -151,29 +153,28 @@ Drupal.tingSearch.updateTabs = function (sender) {
         .tabs("disable", 0);
     }
   }
-}
+};
 
 Drupal.tingSearch.updateSummary = function (element, result) {
   element.find('.count').text(result.count);
   element.find('.firstResult').text((result.page - 1) * result.resultsPerPage + 1);
   element.find('.lastResult').text(Math.min(result.count, result.page * result.resultsPerPage));
-}
+};
 
 Drupal.tingSearch.selectTab = function (event, ui) {
-	window.location.href = $(ui.tab).attr('href');
-	
-	if (window.location.href.lastIndexOf('#ting-result') > -1)
-	{
-		//facet browser elements do not have dimensions before their tab is shown
-		//so wait bit before updating them  
-		window.setTimeout(function() {
-			Drupal.resetFacetBrowser('#ting-facet-browser');
-			Drupal.bindResizeEvent('#ting-facet-browser');
-			Drupal.bindSelectEvent("#ting-facet-browser", "#ting-search-result");
-			Drupal.resizeFacets('#ting-facet-browser');			
-		}, 250);
-	}
-}
+  window.location.href = $(ui.tab).attr('href');
+
+  if (window.location.href.lastIndexOf('#ting-result') > -1) {
+    //facet browser elements do not have dimensions before their tab is shown
+    //so wait bit before updating them
+    window.setTimeout(function() {
+      Drupal.resetFacetBrowser('#ting-facet-browser');
+      Drupal.bindResizeEvent('#ting-facet-browser');
+      Drupal.bindSelectEvent("#ting-facet-browser", "#ting-search-result");
+      Drupal.resizeFacets('#ting-facet-browser');
+    }, 250);
+  }
+};
 
 Drupal.getAnchorVars = function() {
   anchorValues = {};
@@ -190,14 +191,14 @@ Drupal.getAnchorVars = function() {
   }
 
   return anchorValues;
-}
+};
 
 Drupal.setAnchorVars = function(vars) {
   anchorArray = new Array();
   for (v in vars) {
-    anchorArray.push(v+'='+vars[v]);
+    anchorArray.push(v + '=' + vars[v]);
   }
   anchorString = anchorArray.join('&');
-  window.location.hash = '#'+anchorString;
-}
+  window.location.hash = '#' + anchorString;
+};
 
