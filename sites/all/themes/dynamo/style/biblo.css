@@ -160,9 +160,10 @@ ul.menu li.leaf a{font-weight:normal;}
 ul.menu li.collapsed{padding:0;}
 	ul.menu li.collapsed a{background:transparent url(../images/bullet_toggle_plus.gif) no-repeat left 0px; padding:0 0 0 15px;}
 
-ul.menu li.expanded{list-style: none inside}
+ul.menu li.expanded{list-style: none inside;}
 	ul.menu li.expanded a{background:transparent url(../images/bullet_toggle_minus.gif) no-repeat left 0px; padding:0 0 0 15px;}
 
+ul.menu li.expanded ul.menu {margin:0 0 0 10px;}
 ul.menu li.leaf a{background:none; padding:0;}
 
 ul.menu li ul{}	

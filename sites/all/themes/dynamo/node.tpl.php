@@ -15,7 +15,6 @@ if($id_node){
 
 <!-- node.tpl!-->
 <?php if ($page == 0){ ?>
-teaser:
 <div <?php print $id_node . $classes; ?>>
 
   <div class="picture"><?php print $list_image; ?></div>
@@ -67,7 +66,7 @@ teaser:
 <?php }else{ 
 //Content
 ?>
-NODE!!
+
 <div<?php print $id_node . $classes; ?>>
   <div class="subject">
     <?php print return_terms_from_vocabulary($node, "1"); ?> 
