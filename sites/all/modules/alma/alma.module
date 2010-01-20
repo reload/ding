@@ -685,10 +685,7 @@ function alma_add_js($page_type) {
   if (!$called) {
     // On all pages, add branch info, etc.
     $branches = alma_client_get_branches();
-    drupal_add_js(array('alma' => array(
-      'branches' => $branches,
-      'base_url' => url('<front>') . 'alma',
-    )), 'setting');
+    drupal_add_js(array('alma' => array('branches' => $branches)), 'setting');
     $called = TRUE;
   }
 

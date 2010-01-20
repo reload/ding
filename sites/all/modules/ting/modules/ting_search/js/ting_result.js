@@ -7,11 +7,42 @@ Drupal.tingResult = function (searchResultElement, facetBrowserElement, result) 
   this.searchResultElement = searchResultElement;
   this.facetBrowserElement = facetBrowserElement;
 
+  /**
+   * Render the search results.
+   */
   this.renderTingSearchResults = function (element, result) {
-    $(element).find('ul,ol').html(result.result_html);
+    var $element = $(element);
+    $element.find('ul,ol').html(result.result_html);
     Drupal.tingSearch.updateSummary($('#ting-search-summary'), result);
+
+    // If possible, look up availability from Alma.
+    if (Drupal.hasOwnProperty('almaAvailability')) {
+      Drupal.almaAvailability.id_list = result.alma_ids;
+      Drupal.almaAvailability.get_availability(function (data, textStatus) {
+        $list = $element.find('ul.ting-search-collection-types');
+
+        // For each Alma ID, find the associated type indicators and set
+        // their status according to the data from Alma.
+        $.each(data, function (almaID, available) {
+          var $type = $list.find('.ting-object-' + almaID);
+          // If it already has the available class, don't touch it.
+          if (!$type.hasClass('available')) {
+            if (available) {
+              $type.addClass('available');
+              $type.removeClass('unavailable');
+            }
+            else {
+              $type.addClass('unavailable');
+            }
+          }
+        });
+      });
+    }
   };
 
+  /**
+   * Render the search results pager.
+   */
   this.renderTingSearchResultPager = function (element, result) {
     var anchorVars, morePages, currentPage, $pager, pageNumberClasses;
     anchorVars = Drupal.getAnchorVars();
@@ -66,6 +97,9 @@ Drupal.tingResult = function (searchResultElement, facetBrowserElement, result) 
     }
   };
 
+  /**
+   * Perform search based on the #-anchor in the URL.
+   */
   this.doUrlSearch = function() {
       //Start loading
       Drupal.tingSearch.tabLoading('ting');
@@ -87,6 +121,11 @@ Drupal.tingResult = function (searchResultElement, facetBrowserElement, result) 
       });
   };
 
+  /**
+   * Update the #-anchor in the URL.
+   *
+   * Sets the current page and search parameters.
+   */
   this.updatePageUrl = function(pageNumber) {
     var anchorVars = Drupal.getAnchorVars();
     anchorVars.page = pageNumber;

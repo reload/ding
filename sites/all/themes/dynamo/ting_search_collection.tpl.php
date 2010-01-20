@@ -17,11 +17,7 @@
 
     <div class="record">
       <div class="types">
-        <ul>
-        <?php foreach ($collection->types as $type) { ?>
-          <li><?php echo $type; ?></li>
-        <?php } ?>
-        </ul>
+        <?php print $type_list; ?>
       </div>
 
       <h3>

@@ -202,11 +202,24 @@ function alma_user_form_alter(&$form, $form_state, $form_id) {
       // When we have credentials available, make library patron
       // information available for altering.
       if (is_array($creds) && !empty($creds)) {
+        $patron = alma_client_get_patron_info($creds['borr_card'], $creds['pin_code'], TRUE);
+
         // Store the patron information for validation purposes.
         $form['alma_user_patron_info'] = array(
           '#type' => 'value',
-          '#value' => alma_client_get_patron_info($creds['borr_card'], $creds['pin_code'], TRUE),
+          '#value' => $patron,
         );
+
+        // Copy the standard mail field, hide it and use the new
+        // alma_mail field to edit the e-mail-address registered in Alma.
+        $form['account']['alma_mail'] = $form['account']['mail'];
+        $form['account']['mail']['#type'] = 'value';
+
+        // Use the e-mail-address from Alma as the default value for our
+        // new e-mail-address field.
+        if (isset($patron['mails'][0])) {
+          $form['account']['alma_mail']['#default_value'] = $patron['mails'][0]['mail'];
+        }
 
         // Add our own validation and submit handling.
         $form['#validate'][] = 'alma_user_profile_validate';
@@ -227,6 +240,8 @@ function alma_user_form_alter(&$form, $form_state, $form_id) {
  * Validation for the user profile form.
  */
 function alma_user_profile_validate($form, &$form_state) {
+  $patron = $form_state['values']['alma_user_patron_info'];
+
   if (strlen($form_state['values']['alma_user_phone']) > 0) {
     $number = preg_replace('/\D+/', '', $form_state['values']['alma_user_phone']);
     if (strlen($number) != 8 && $number > 20000000) {
@@ -235,6 +250,25 @@ function alma_user_profile_validate($form, &$form_state) {
     else {
       // If processed number was valid, set it as the correct value.
       form_set_value($form['account']['alma_user_phone'], $number, $form_state);
+    }
+  }
+
+  // Check if Alma e-mail-address has changed.
+  $new_mail = trim($form_state['values']['alma_mail']);
+  if ($new_mail != $patron['mails'][0]['mail']) {
+    if (!filter_var($new_mail, FILTER_VALIDATE_EMAIL)) {
+      form_set_error('account][alma_mail', t('Please enter a valid e-mail-address.'));
+    }
+    else {
+      // Store the new mail as a new value, so we can test for it in the
+      // submit handler.
+      $form_state['values']['new_mail'] = $new_mail;
+
+      // If no Drupal users has this e-mail-address yet, also update
+      // Drupal's records.
+      if (!db_result(db_query("SELECT uid FROM {users} WHERE mail = '%s' AND uid != %d;", $form_state['values']['new_mail'], $form['_account']['#value']->uid))) {
+        $form_state['values']['mail'] = $new_mail;
+      }
     }
   }
 }
@@ -247,9 +281,12 @@ function alma_user_profile_submit($form, &$form_state) {
   $creds = alma_user_get_credentials($account);
   $patron = $form_state['values']['alma_user_patron_info'];
 
-  if ($form_state['values']['mail'] != $account->mail) {
+  if (isset($form_state['values']['new_mail'])) {
     if (!empty($patron['mails'])) {
-      alma_client_change_email_address($creds['borr_card'], $creds['pin_code'], $patron['mails'][0]['id'], $form_state['values']['mail']);
+      alma_client_change_email_address($creds['borr_card'], $creds['pin_code'], $patron['mails'][0]['id'], $form_state['values']['new_mail']);
+    }
+    else {
+      alma_client_add_email_address($creds['borr_card'], $creds['pin_code'], $form_state['values']['new_mail']);
     }
   }
 
