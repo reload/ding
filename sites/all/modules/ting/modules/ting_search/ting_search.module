@@ -198,6 +198,7 @@ function ting_search_add_js() {
 
   drupal_add_js($path . '/js/ting_search.js');
   drupal_add_js($path . '/js/ting_result.js', 'module', 'footer', TRUE);
+  drupal_add_js(drupal_get_path('module', 'alma') . '/js/alma.availability.js', 'module', 'footer', TRUE);
   drupal_add_js($path . '/js/ting_facet_browser.js', 'module', 'footer', TRUE);
   drupal_add_css($path . '/css/ting_facet_browser.css', 'module');
 

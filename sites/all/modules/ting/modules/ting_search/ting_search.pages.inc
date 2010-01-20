@@ -70,6 +70,7 @@ function ting_search_pages_ting_js() {
     $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
     $resultsPerPage = 10;
     $searchResult = ting_do_search($query, $page, $resultsPerPage, $options);
+
     $result = array(
       'page' => $page,
       'resultsPerPage' => $resultsPerPage,
@@ -77,9 +78,15 @@ function ting_search_pages_ting_js() {
       'collectionCount' => (integer) $searchResult->numTotalCollections,
       'result_html' => '',
       'facets' => $searchResult->facets,
+      'alma_ids' => array(),
     );
+
     foreach ($searchResult->collections as &$collection) {
       $result['result_html'] .= theme('ting_search_collection', $collection);
+
+      foreach ($collection->objects as $object) {
+        $result['alma_ids'][] = $object->data->localId;
+      }
     }
   }
   catch (TingClientException $e) {
