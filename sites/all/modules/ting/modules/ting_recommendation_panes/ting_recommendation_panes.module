@@ -65,6 +65,9 @@ function ting_recommendation_panes_ctools_plugin_directory($module, $plugin) {
   }
 }
 
+/**
+ * Load TingClientObjects for each recommendation.
+ */
 function ting_recommendation_panes_get_recommended_objects($objects) {
   $identifiers = ting_recommendation_panes_extract_identifers($objects);
 
@@ -74,10 +77,15 @@ function ting_recommendation_panes_get_recommended_objects($objects) {
     $recommendedObjects = $cache->data;
   }
   else {
-    $numResults = 12;
+    $numResults = 24;
 
     $localIds = array();
     foreach ($identifiers as $id) {
+      // Don't get more than 24 local ids..
+      if (count($localIds) >= 24) {
+        break;
+      }
+
       try {
         $recommendations = ting_get_object_recommendations($id, $numResults);
         foreach ($recommendations as $recommendation) {
@@ -94,9 +102,19 @@ function ting_recommendation_panes_get_recommended_objects($objects) {
     arsort($localIds);
 
     $recommendedObjects = array();
+    $agency = variable_get('ting_agency', -1);
+
     foreach(array_keys($localIds) as $localId) {
-      if ($recommendedObject = ting_get_object_by_local_id($localId, false)) {
-        $recommendedObjects[] = $recommendedObject;
+      $ting_object = ting_get_object_by_local_id($localId, false);
+
+      // Only show objects belonging to our own library.
+      if ($ting_object && $ting_object->data->ownerId == $agency) {
+        $recommendedObjects[] = $ting_object;
+
+        // Don't get more than 10 valid objects.
+        if (count($recommededObjects) >= 10) {
+          break;
+        }
       }
     }
 
