@@ -19,7 +19,9 @@ Drupal.behaviors.almaAvailabilityTingObjectView = function () {
 
         // Find holdings, unique by library name.
         $.each(this.holdings, function (holdingIndex, holdingData) {
-          uniqueHoldings[holdingData.branch_id] = Drupal.settings.alma.branches[holdingData.branch_id];
+          if (parseInt(holdingData.available_count) > 0) {
+            uniqueHoldings[holdingData.branch_id] = Drupal.settings.alma.branches[holdingData.branch_id];
+          }
         });
 
         // Add a list item for each holding.
