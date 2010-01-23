@@ -19,6 +19,7 @@ Drupal.tingResult = function (searchResultElement, facetBrowserElement, result) 
     if (Drupal.hasOwnProperty('almaAvailability')) {
       Drupal.almaAvailability.id_list = result.alma_ids;
       Drupal.almaAvailability.get_availability(function (data, textStatus) {
+        if (!data) { return; }
         $list = $element.find('ul.ting-search-collection-types');
 
         // For each Alma ID, find the associated type indicators and set
