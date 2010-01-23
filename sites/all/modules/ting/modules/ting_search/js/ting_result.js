@@ -48,7 +48,7 @@ Drupal.tingResult = function (searchResultElement, facetBrowserElement, result) 
     var anchorVars, morePages, currentPage, $pager, pageNumberClasses;
     anchorVars = Drupal.getAnchorVars();
     morePages = (result.collectionCount >= result.resultsPerPage);
-    currentPage = (anchorVars.page !== null) ? parseInt(anchorVars.page) : 1;
+    currentPage = (anchorVars.page && !isNaN(parseInt(anchorVars.page))) ? parseInt(anchorVars.page) : 1;
 
     // Don't bother with a pager if there is nothing to paginate to.
     if (morePages || currentPage > 1) {
