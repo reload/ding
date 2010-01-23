@@ -172,8 +172,9 @@ Drupal.tingFacetBrowser = function(facetBrowserElement, searchResultElement, res
   };
 
   this.bindSelectEvent = function(facetBrowserElement, searchResultElement) {
-    $('.facets li', facetBrowserElement).unbind('click');
-    $('.facets li:not(.hidden)', facetBrowserElement).click(function() {
+    var $facetBrowser = $(facetBrowserElement);
+    $facetBrowser.find('.facets li').unbind('click');
+    $facetBrowser.find('.facets li:not(.hidden)').click(function() {
       $(this).toggleClass('selected');
       Drupal.updateSelectedUrl(facetBrowserElement);
       Drupal.doUrlSearch(facetBrowserElement, searchResultElement);
