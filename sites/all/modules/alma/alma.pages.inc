@@ -10,6 +10,11 @@
 function alma_item_availability_page($input) {
   $data = alma_client_get_availability($input);
 
+  // Make sure we return an array if something goes wrong.
+  if (!is_array($data)) {
+    $data = array();
+  }
+
   // We are returning JavaScript, so tell the browser.
   drupal_set_header('Content-Type: application/json; charset=utf-8');
   echo json_encode($data);
