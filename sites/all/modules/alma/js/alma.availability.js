@@ -8,7 +8,7 @@
 Drupal.almaAvailability = {
   id_matcher: /ting-item-(\d+)/,
   id_list: []
-}
+};
 
 /**
  * Helper function to find and store all ting item ids.
@@ -24,14 +24,14 @@ Drupal.almaAvailability.find_ids = function () {
  */
 Drupal.almaAvailability.get_details = function (callback) {
   // If the id_list is empty, try and find ids again.
-  if (Drupal.almaAvailability.id_list.length == 0) {
+  if (Drupal.almaAvailability.id_list.length === 0) {
     Drupal.almaAvailability.find_ids();
   }
 
   if (Drupal.almaAvailability.id_list.length > 0) {
     $.getJSON(Drupal.settings.basePath + 'alma/item/' + Drupal.almaAvailability.id_list.join(',') + '/details', {}, callback);
   }
-}
+};
 
 /**
  * Get availability for all ting items found.
@@ -41,14 +41,14 @@ Drupal.almaAvailability.get_details = function (callback) {
  */
 Drupal.almaAvailability.get_availability = function (callback) {
   // If the id_list is empty, try and find ids again.
-  if (Drupal.almaAvailability.id_list.length == 0) {
+  if (Drupal.almaAvailability.id_list.length === 0) {
     Drupal.almaAvailability.find_ids();
   }
 
   if (Drupal.almaAvailability.id_list.length > 0) {
     $.getJSON(Drupal.settings.basePath + 'alma/item/' + Drupal.almaAvailability.id_list.join(',') + '/availability', {}, callback);
   }
-}
+};
 
 /**
  * Availability information for all pages.
@@ -73,7 +73,7 @@ Drupal.almaAvailability.updateStatus = function (data, textStatus) {
         .removeClass('waiting')
         .text(Drupal.t('available'));
     }
-    else if (itemData.reservation == 0) {
+    else if (itemData.reservation === 0) {
       $item.find('.alma-status')
         .addClass('unavailable')
         .removeClass('waiting')
@@ -87,5 +87,5 @@ Drupal.almaAvailability.updateStatus = function (data, textStatus) {
         .text(Drupal.t('reserved'));
     }
   });
-}
+};
 
