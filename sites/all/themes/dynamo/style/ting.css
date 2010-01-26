@@ -38,10 +38,11 @@
 .ting-item ul.buttons li{background:none;  border:none; float:left;  padding:0; margin:0; text-align:center; min-width:90px; 
   display:block; padding:0 11px 0 0; width:auto; background: transparent url(../images/sprite-knapper-reservering.png) no-repeat right 0px;
 }
+
 .ting-item ul.buttons li a,
 .ting-overview ul.buttons li a
 {
-  font-size:9px; line-height:10px; text-transform:uppercase; margin:0; padding:10px 0 10px 10px; color:#fff; 
+  font-size:8px; font-weight:bold; line-height:10px; text-transform:normal; margin:0; padding:10px 0 10px 10px; color:#fff; 
   background: transparent url(../images/sprite-knapper-reservering.png) no-repeat left -60px;
 }
 
