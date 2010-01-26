@@ -20,5 +20,5 @@ Drupal.behaviors.addTingAutocomplete = function (context) {
           .submit();
       });
   });
-}
+};
 

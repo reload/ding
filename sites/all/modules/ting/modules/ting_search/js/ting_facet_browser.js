@@ -1,7 +1,5 @@
 // $Id$
 
-var $, $p, Drupal;
-
 /**
  * Ting facet browser configuration function.
  */

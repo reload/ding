@@ -20,7 +20,7 @@ Drupal.tingResult = function (searchResultElement, facetBrowserElement, result) 
       Drupal.almaAvailability.id_list = result.alma_ids;
       Drupal.almaAvailability.get_availability(function (data, textStatus) {
         if (!data) { return; }
-        $list = $element.find('ul.ting-search-collection-types');
+        var $list = $element.find('ul.ting-search-collection-types');
 
         // For each Alma ID, find the associated type indicators and set
         // their status according to the data from Alma.
@@ -48,7 +48,7 @@ Drupal.tingResult = function (searchResultElement, facetBrowserElement, result) 
     var anchorVars, morePages, currentPage, $pager, pageNumberClasses;
     anchorVars = Drupal.getAnchorVars();
     morePages = (result.collectionCount >= result.resultsPerPage);
-    currentPage = (anchorVars.page && !isNaN(parseInt(anchorVars.page))) ? parseInt(anchorVars.page) : 1;
+    currentPage = (anchorVars.page && !isNaN(parseInt(anchorVars.page, 10))) ? parseInt(anchorVars.page, 10) : 1;
 
     // Don't bother with a pager if there is nothing to paginate to.
     if (morePages || currentPage > 1) {
