@@ -48,6 +48,13 @@ function alma_menu() {
 }
 
 /**
+ * Implementation of hook_fluch_caches().
+ */
+function alma_fluch_caches() {
+  return array('cache_alma_requests');
+}
+
+/**
  * Implementation of hook_requirements().
  */
 function alma_requirements($phase) {
