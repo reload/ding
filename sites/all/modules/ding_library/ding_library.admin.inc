@@ -101,6 +101,7 @@ function _ding_library_admin_ordering_field($row) {
 
   $field['library_weight'] = array(
     '#type' => 'weight',
+    '#delta' => 50,
     '#default_value' => (is_null($row->library_weight)) ? 0 : $row->library_weight,
   );
 
