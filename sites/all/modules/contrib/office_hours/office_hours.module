@@ -285,8 +285,8 @@ function office_hours_bulk_load($nids, $field_name, $year = NULL, $week = NULL) 
     $year++;
   }
 
-  $data['year'] = $year;
-  $data['week'] = $week;
+  $data['year'] = (integer) $year;
+  $data['week'] = (integer) $week;
 
   if (!empty($nids) && !empty($field_name)) {
     $cache_key = implode(':', array(
@@ -492,8 +492,8 @@ function office_hours_resolve_week($field, $items, $week_spec = NULL) {
   $week_kind = ($week_num % 2) ? 'odd' : 'even';
   $values = array();
   $week = array('#data' => array(
-    'number' => $week_num,
-    'year' => $week_year,
+    'number' => (integer) $week_num,
+    'year' => (integer) $week_year,
     'year_and_number' => $week_num_year,
     'kind' => $week_kind,
   ));
