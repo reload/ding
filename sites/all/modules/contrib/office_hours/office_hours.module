@@ -303,7 +303,9 @@ function office_hours_bulk_load($nids, $field_name, $year = NULL, $week = NULL) 
     $items = office_hours_load_data($nid_array, $field);
 
     foreach ($nid_array as $nid) {
-      $data['data'][$nid] = office_hours_process_data($field, $items[$nid], $year . 'W' . $week);
+      // Correctly format week spec for our helper functions.
+      $week_spec = sprintf('%04uW%02u', $data['year'], $data['week']);
+      $data['data'][$nid] = office_hours_process_data($field, $items[$nid], $week_spec);
 
       // Only render HTML for a single node.
       if (count($nid_array) == 1) {
