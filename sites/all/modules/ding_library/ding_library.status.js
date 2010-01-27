@@ -6,7 +6,8 @@
  */
 
 Drupal.behaviors.dingLibraryStatus = function () {
-  $.getJSON(Drupal.settings.officeHours[1].callback + '/' + Drupal.settings.dingLibraryNids.join(',') + '/' + Drupal.settings.officeHours[1].field_name, {}, function (response, textStatus) {
+  var settings = Drupal.settings.officeHours['node' + Drupal.settings.dingLibraryNids[0]];
+  $.getJSON(settings.callback + '/' + Drupal.settings.dingLibraryNids.join(',') + '/' + settings.field_name, {}, function (response, textStatus) {
     $.each(response.data, function (nid, hoursData) {
       $('#node-' + nid + ' .libary-openstatus')
         .text(hoursData.status_local);

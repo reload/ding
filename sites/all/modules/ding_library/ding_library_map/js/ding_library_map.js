@@ -10,7 +10,7 @@ Drupal.dingLibraryMap = function(mapId, options) {
 
   this.getMap = function() {
     return Drupal.gmap.getMap(this.mapId);
-  }
+  };
 
   this.info = function(mapId, options) {
     this.fullDayNames = options.fullDayNames;
@@ -37,19 +37,18 @@ Drupal.dingLibraryMap = function(mapId, options) {
         info.showInfo(object);
       });
 
-      //triggers for hiding info: mouseout, resize, zoom, move
       $('#library-info').bind('mouseleave', function() {
         info.hideInfo();
       });
-      hideEvents = ['widthchange', 'heightchange', 'zoom', 'move'];
-      for (e in hideEvents) {
-        this.getMap().bind(e, function() {
-          info.hideInfo();
-        });
-      }
+
+      // Triggers for hiding info: mouseout, resize, zoom, move.
+      this.getMap().bind('widthchange heightchange zoom move', function() {
+        info.hideInfo();
+      });
     };
 
     this.showInfo = function(object) {
+      var day, days, section, sectionDays, nextDay, startTime, endTime, startDay, endDay;
       // Add address attributes
       $.each(['name', 'street', 'postal-code', 'city'], function (i, val) {
         $('#library-info .' + val).text(object[val]);
@@ -71,7 +70,7 @@ Drupal.dingLibraryMap = function(mapId, options) {
 
           while ( (nextDay < days.length) &&
                   (object.opening_hours[[days[nextDay]]].length > 0) &&
-                  (startTime != null) && (endTime != null) &&
+                  (startTime !== null) && (endTime !== null) &&
                   (startTime == object.opening_hours[[days[nextDay]]][0].open) &&
                   (endTime == object.opening_hours[[days[nextDay]]][0].close)) {
             sectionDays.push(days[nextDay]); //if following days have same hours as current day then add these days to section
@@ -87,8 +86,8 @@ Drupal.dingLibraryMap = function(mapId, options) {
             sectionDays = this.fullDayNames[sectionDays.shift()]; //use full day name for section spanning a single day
           }
 
-          startTime = (startTime != null) ? startTime.substr(0, startTime.lastIndexOf(':')) : '';
-          endTime = (endTime != null) ? endTime.substr(0, endTime.lastIndexOf(':')) : '';
+          startTime = (startTime !== null) ? startTime.substr(0, startTime.lastIndexOf(':')) : '';
+          endTime = (endTime !== null) ? endTime.substr(0, endTime.lastIndexOf(':')) : '';
 
           //add section to opening hours container
           section.append('<dt>'+sectionDays+'</dt>');
@@ -106,7 +105,7 @@ Drupal.dingLibraryMap = function(mapId, options) {
       //Add click handler
       $('#library-info').unbind('click').click(function() {
         window.location = object.url;
-      })
+      });
 
       //Position and show info
       point = this.getMap().map.fromLatLngToContainerPixel(object.marker.getLatLng());
@@ -139,9 +138,10 @@ Drupal.dingLibraryMap = function(mapId, options) {
     };
 
     this.resizeMap = function(size) {
+      var resize, center;
       this.hideInfo();
-      var resize = this;
-      var center = this.getMap().map.getCenter();
+      resize = this;
+      center = this.getMap().map.getCenter();
       $('.gmap-'+this.mapId+'-gmap').animate({ 'height' : size+'px' }, 1000, 'swing', function() {
         resize.getMap().map.checkResize();
         resize.getMap().map.panTo(center);
@@ -154,10 +154,11 @@ Drupal.dingLibraryMap = function(mapId, options) {
   this.goTo = function(mapId, options) {
 
     this.init = function() {
-      var map = this.getMap();
+      var map, lat, long;
+      map = this.getMap();
 
-      var lat = jQuery.url.param('lat');
-      var long = jQuery.url.param('long');
+      lat = $.url.param('lat');
+      long = $.url.param('long');
       if (lat && long) {
         map.bind('ready', function() {
           map.map.setCenter(new GLatLng(lat, long), 14);
@@ -179,5 +180,5 @@ Drupal.dingLibraryMap = function(mapId, options) {
   this.info(mapId, options);
   this.resize(mapId, options);
   this.goTo(mapId, options);
-}
+};
 
