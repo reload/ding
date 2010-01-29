@@ -30,7 +30,7 @@ function alma_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
     case 'transaction_cancel':
       break;
     case 'transaction_accept':
-      alma_client_add_payment(implode(',', $transaction['params']['selected_debts']));
+      alma_client_add_payment(implode(',', $transaction['params']['selected_debts']), $transaction['payment_order_id']);
       drupal_set_message(t('Your payment of @amount was received.', array('@amount' => $transaction['payment_price'])));
       return drupal_goto('user/' . $GLOBALS['user']->uid . '/status');
 
