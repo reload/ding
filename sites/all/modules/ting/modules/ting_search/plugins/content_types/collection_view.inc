@@ -30,6 +30,12 @@ function ting_search_collection_view_content_type_render($subtype, $conf, $panel
   $collection = isset($context->data) ? drupal_clone($context->data) : NULL;
 
   if ($collection instanceOf TingClientObjectCollection) {
+    // When viewing a Ting collection, redirect a single-item collection to
+    // the object view for the item in question.
+    if (count($collection->objects) == 1 && arg(0) == 'ting' && arg(1) == 'collection') {
+      return drupal_goto('ting/object/' . $collection->objects[0]->id);
+    }
+
     // If alma.module is present, use its JavaScript behaviors.
     if (function_exists('alma_add_js')) {
       alma_add_js('ting_collection_view');
