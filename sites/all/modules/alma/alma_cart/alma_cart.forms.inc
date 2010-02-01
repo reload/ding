@@ -54,13 +54,14 @@ function alma_cart_forms_cart_details(&$form_state, $account) {
     );
   }
 
+  $interest_period = (isset($account->interest_period) && $account->interest_period > 10) ? $account->interest_period : ALMA_USER_DEFAULT_INTEREST_PERIOD;
+
   $form['expiry'] = array(
     '#type' => 'date_popup',
     '#title' => t('Not interested after'),
     '#date_format' => DATE_FORMAT_DATE,
     '#date_year_range' => '-0:+2',
-    // Default expiry is six months from now.
-    '#default_value' => date('Y-m-d', $_SERVER['REQUEST_TIME'] + 182.625 * 86400),
+    '#default_value' => date('Y-m-d', $_SERVER['REQUEST_TIME'] + $interest_period * 86400),
   );
 
   $form['pickup_branch'] = array(

@@ -4,5 +4,5 @@ description = Provides a shopping cart for reserving books in Alma.
 package = Axiell
 php = 5.2
 core = 6.x
-dependencies[] = alma
+dependencies[] = alma_user
 

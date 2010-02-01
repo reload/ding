@@ -197,17 +197,18 @@ function alma_user_forms_library_settings($form_state, $account) {
     '#default_value' => $account->preferred_branch,
   );
 
-  $period_options = array();
-  foreach (range(1, 25, 2) as $num) {
-    $period_options[$num] = format_plural($num, '1 month', '@count months');
-  }
-
   $form['interest_period'] = array(
     '#type' => 'select',
     '#title' => t('Period of interest'),
     '#description' => t('How long are you willing to wait for a reservation?'),
-    '#options' => $period_options,
-    '#default_value' => 6,
+    '#options' => array(
+      '30' => t('A month'),
+      '60' => t('Two months'),
+      '90' => t('Three months'),
+      '183' => t('Six months'),
+      '365' => t('A year'),
+    ),
+    '#default_value' => (isset($account->interest_period) && $account->interest_period > 10) ? $account->interest_period : ALMA_USER_DEFAULT_INTEREST_PERIOD,
   );
 
   $form['suspend_start'] = array(
@@ -282,12 +283,16 @@ function alma_user_forms_library_settings_submit($form, &$form_state) {
     alma_client_add_absent_period($creds['borr_card'], $creds['pin_code'], $start, $end);
   }
 
-  if ($form_state['values']['preferred_branch'] != $form_state['values']['account']->preferred_branch) { 
+  if ($form_state['values']['preferred_branch'] != $form_state['values']['account']->preferred_branch) {
     // Update the preferred branch in the database.
     db_query("UPDATE {alma_user} SET preferred_branch = '%s' WHERE uid = %d LIMIT 1;", $form_state['values']['preferred_branch'], $form_state['values']['account']->uid);
 
     // And save the new choice to Alma.
     alma_client_change_patron_preferences($creds['borr_card'], $creds['pin_code'], $form_state['values']['preferred_branch']);
+  }
+
+  if ($form_state['values']['interest_period'] != $form_state['values']['account']->interest_period) {
+    db_query('UPDATE {alma_user} SET interest_period = %d WHERE uid = %d LIMIT 1;', $form_state['values']['interest_period'], $form_state['values']['account']->uid);
   }
 }
 

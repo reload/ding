@@ -1,6 +1,9 @@
 <?php
 // $Id$
 
+// Default interest period is ~six months.
+define('ALMA_USER_DEFAULT_INTEREST_PERIOD', 183);
+
 /**
  * Implementation of hook_menu().
  */
@@ -82,6 +85,7 @@ function alma_user_user($op, &$edit, &$account, $category = NULL) {
         $data = db_fetch_array(db_query("SELECT * FROM {alma_user} WHERE uid = %d LIMIT 1;", $account->uid));
         $account->alma_id = $data['alma_id'];
         $account->preferred_branch = $data['preferred_branch'];
+        $account->interest_period = $data['interest_period'];
       }
       break;
     case 'delete':
