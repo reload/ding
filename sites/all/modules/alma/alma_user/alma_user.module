@@ -226,7 +226,7 @@ function alma_user_form_alter(&$form, $form_state, $form_id) {
         }
 
         // Add our own validation and submit handling.
-        $form['#validate'][] = 'alma_user_profile_validate';
+        array_unshift($form['#validate'], 'alma_user_profile_validate');
         $form['#submit'][] = 'alma_user_profile_submit';
 
         $form['account']['alma_user_phone'] = array(
