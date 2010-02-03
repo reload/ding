@@ -517,8 +517,33 @@ class AlmaClient {
       $record['titles'][] = $item->getAttribute('value');
     }
 
+    if ($record['media_class'] != 'periodical') {
+      $record['holdings'] = AlmaClient::process_catalogue_record_holdings($elem);
+    }
+    // Periodicals are nested holdings, which we want to keep that way.
+    else {
+      foreach ($elem->getElementsByTagName('compositeHoldings') as $holdings) {
+        foreach ($holdings->childNodes as $year_holdings) {
+          $year = $year_holdings->getAttribute('value');
+          foreach ($year_holdings->childNodes as $issue_holdings) {
+            $issue = $issue_holdings->getAttribute('value');
+            $record['holdings'][$year][$issue] = AlmaClient::process_catalogue_record_holdings($issue_holdings);
+          }
+        }
+      }
+    }
+
+    return $record;
+  }
+
+  /**
+   * Helper function for processing the catalogue record holdings.
+   */
+  private static function process_catalogue_record_holdings($elem) {
+    $holdings = array();
+
     foreach ($elem->getElementsByTagName('holding') as $item) {
-      $record['holdings'][] = array(
+      $holdings[] = array(
         'status' => $item->getAttribute('status'),
         'ordered_count' => $item->getAttribute('nofOrdered'),
         'checked_out_count' => $item->getAttribute('nofCheckedOut'),
@@ -533,7 +558,8 @@ class AlmaClient {
         'available_count' => $item->getAttribute('nofAvailableForLoan'),
       );
     }
-    return $record;
+
+    return $holdings;
   }
 
   /**
