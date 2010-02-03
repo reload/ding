@@ -527,7 +527,28 @@ class AlmaClient {
           $year = $year_holdings->getAttribute('value');
           foreach ($year_holdings->childNodes as $issue_holdings) {
             $issue = $issue_holdings->getAttribute('value');
-            $record['holdings'][$year][$issue] = AlmaClient::process_catalogue_record_holdings($issue_holdings);
+            $holdings = AlmaClient::process_catalogue_record_holdings($issue_holdings);
+            $record['holdings'][$year][$issue] = $holdings;
+            $issue_list = array(
+              'available_count' => 0,
+              'branches' => array(),
+              'reservable' => $holdings[0]['reservable'],
+            );
+
+            // Also create an array with the totals for each issue.
+            foreach ($holdings as $holding) {
+              if ($holding['available_count'] > 0) {
+                $issue_list['available_count'] += (int) $holding['available_count'];
+                if (isset($issue_list['branches'][$holding['branch_id']])) {
+                  $issue_list['branches'][$holding['branch_id']] += (int) $holding['available_count'];
+                }
+                else {
+                  $issue_list['branches'][$holding['branch_id']] = (int) $holding['available_count'];
+                }
+              }
+            }
+
+            $record['issues'][$year][$issue] = $issue_list;
           }
         }
       }
@@ -544,6 +565,8 @@ class AlmaClient {
 
     foreach ($elem->getElementsByTagName('holding') as $item) {
       $holdings[] = array(
+        'reservable' => $item->getAttribute('reservable'),
+        'available_count' => $item->getAttribute('nofAvailableForLoan'),
         'status' => $item->getAttribute('status'),
         'ordered_count' => $item->getAttribute('nofOrdered'),
         'checked_out_count' => $item->getAttribute('nofCheckedOut'),
@@ -555,7 +578,6 @@ class AlmaClient {
         'department_id' => $item->getAttribute('departmentId'),
         'branch_id' => $item->getAttribute('branchId'),
         'organisation_id' => $item->getAttribute('organisationId'),
-        'available_count' => $item->getAttribute('nofAvailableForLoan'),
       );
     }
 

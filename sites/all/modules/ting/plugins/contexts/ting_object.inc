@@ -14,7 +14,7 @@
 function ting_ting_object_ctools_contexts() {
   $args = array();
   $args['ting_object'] = array(
-    'title' => t("Ting object"),
+    'title' => t('Ting object'),
     'description' => t('An object from the Ting database – books, CD-ROMs, magazines, etc.'),
     'context' => 'ting_ting_object_create',
     'settings form' => 'ting_ting_object_context_settings_form',

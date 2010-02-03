@@ -80,7 +80,8 @@ function alma_cart_page_add_to_cart($item_id) {
 /**
  * Reserve an item immediately.
  */
-function alma_cart_page_reserve_item($item_id) {
+function alma_cart_page_reserve_item($item_id, $reservable = NULL) {
+  if (is_null($reservable)) { $reservable = $item_id; }
   module_load_include('client.inc', 'ting');
   $is_ahah = alma_cart_detect_ahah();
   // Get object, enrich if not ahah. 
@@ -99,7 +100,7 @@ function alma_cart_page_reserve_item($item_id) {
     // TODO: What happens if there's not a preferred branch selected?
   }
 
-  $reservation_exists = alma_client_user_has_reservation($creds['borr_card'], $creds['pin_code'], $item_id);
+  $reservation_exists = alma_client_user_has_reservation($creds['borr_card'], $creds['pin_code'], $reservable);
 
   // If client wants JSON (usually AJAX requests), let's give it to them.
   if ($is_ahah) {
@@ -118,7 +119,7 @@ function alma_cart_page_reserve_item($item_id) {
     }
     else {
       $reservation = alma_client_add_reservation($creds['borr_card'], $creds['pin_code'], array(
-        'id' => $object->data->localId,
+        'id' => $reservable,
         'pickup_branch' => $account->preferred_branch,
       ));
 
