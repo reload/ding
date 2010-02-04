@@ -1,4 +1,4 @@
-x/**
+/**
  * Her kan i give den gas drenge.
  */
 
@@ -134,3 +134,23 @@ iframe.pc-booking { width: 100%; height: 100%; min-height: 600px;}
   background-color: #f85f26;
   color:#fff;
 }
+
+/* mikl: Periodical reservation view */
+#periodical-issue-list .item-list h3 {
+  margin: 10px 0;
+}
+
+#periodical-issue-list .year ul li {
+  clear: left;
+  padding: 10px 0;
+}
+
+#periodical-issue-list .year div.title,
+#periodical-issue-list .alma-cart-buttons {
+  float: left;
+}
+
+#periodical-issue-list .year .alma-cart-buttons li {
+  padding: 0 5px;
+}
+
