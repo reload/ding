@@ -603,7 +603,7 @@ class AlmaClient {
     $params = array('debts' => $debt_ids);
 
     if (!empty($order_id)) {
-      $params['orderid'] = $order_id;
+      $params['orderId'] = $order_id;
     }
 
     $doc = $this->request('patron/payments/add', $params);
