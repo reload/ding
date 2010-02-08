@@ -82,14 +82,22 @@ function dynamo_preprocess_node(&$variables) {
 
     // More human-friendly date formatting – try only to show the stuff
     // that’s different when displaying a date range.
-    if(date("Ymd", $date) == date("Ymd", $end)) {
+    if(date("Ymd", $start) == date("Ymd", $end)) {
       $variables['event_date'] = format_date($start, 'custom', "j. F Y");
+      $variables['event_time'] = format_date($start, 'custom', "H:i");
     }
-    elseif(date("Ym", $date) == date("Ym", $end)) {
-      $variables['event_date'] = format_date($start, 'custom', "j.") . "–" . format_date($end, 'custom', "j. F Y");
+    elseif(date("Ym", $start) == date("Ym", $end)) {
+      $variables['event_date'] = format_date($start, 'custom', "j.") . " – " . format_date($end, 'custom', "j. F Y");
+      $variables['event_time'] = format_date($start, 'custom', "H:i") . " – " . format_date($end, 'custom', "H:i");
     }
     else {
       $variables['event_date'] = format_date($start, 'custom', "j. M.") . " – " . format_date($end, 'custom', "j. M. Y");
+      $variables['event_time'] = format_date($start, 'custom', "H:i") . " – " . format_date($end, 'custom', "H:i");
+    }
+
+    // Validate event time
+    if (format_date($start, 'custom', "Hi") == '0000') {
+      unset($variables['event_time']);
     }
 
     // Display free if the price is zero.
