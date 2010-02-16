@@ -1,5 +1,5 @@
 <?php
-// $Id: pathauto.inc,v 1.56 2009/12/03 16:12:45 greggles Exp $
+// $Id: pathauto.inc,v 1.56.2.1 2010/02/10 21:45:09 greggles Exp $
 
 /**
  * @file
@@ -215,7 +215,7 @@ function pathauto_cleanstring($string, $clean_slash = TRUE) {
     }
   }
 
-  // Reduce to the subset of ASCII96 letters and numbers
+  // Reduce strings to letters and numbers
   if (variable_get('pathauto_reduce_ascii', FALSE)) {
     $pattern = '/[^a-zA-Z0-9\/]+/ ';
     $output = preg_replace($pattern, $separator, $output);
