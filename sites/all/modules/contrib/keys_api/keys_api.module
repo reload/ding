@@ -1,11 +1,16 @@
 <?php
-// $Id: keys_api.module,v 1.5.4.2 2008/10/16 17:10:57 greenskin Exp $
+// $Id: keys_api.module,v 1.5.4.3 2010/01/06 18:21:56 greenskin Exp $
+
+/**
+ * Implementation of hook_init().
+ */
+function keys_api_init() {
+  drupal_set_message(t('Keys API is deprecated. Please fully uninstall and remove the keys_api module and install !link. Keep track of the API Keys you want to continue using as they will need to be re-entered into the !link.', array('!link' => l(t('Keys 2.0'), 'http://drupal.org/project/keys'))), 'warning');
+}
 
 /**
  * Implementation of hook_help().
  */
-
-// function keys_api_help($path, $args) {
 function keys_api_help($path, $args = null) {
   switch ($path) {
     case 'admin/help#keys_api':
@@ -31,11 +36,11 @@ function keys_api_menu() {
     'page arguments' => array('keys_manage_settings'),
     'access arguments' => array('administer keys'),
   );
-  $items['admin/settings/keys/delete_key'] = array(
-    'type' => MENU_CALLBACK,
-    'page callback' => 'keys_manage_delete_key',
-    'access arguments' => array('administer keys'),
-  );
+  // $items['admin/settings/keys/delete_key'] = array(
+  //   'type' => MENU_CALLBACK,
+  //   'page callback' => 'keys_manage_delete_key',
+  //   'access arguments' => array('administer keys'),
+  // );
 
   return $items;
 }
@@ -118,7 +123,7 @@ function keys_manage_get_keys() {
   $theaders = array('Domain Name', 'Service', 'API Key', '');
   while ($data = db_fetch_object($result)) {
     $rows[] = array(
-      'data' => array($data->domain_name, $data->service, $data->api_key, t("<a href='#' onclick='deleteItem(\"row$x\");'>delete</a>")),
+      'data' => array($data->domain_name, $data->service, $data->api_key),
       'class' => "key row$x",
     );
     $x++;
@@ -151,8 +156,8 @@ function keys_services_list() {
 
 function keys_manage_delete_key() {
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    db_query("DELETE FROM {keys_manage} WHERE domain_name = '%s' AND service = '%s'", $_POST['name'], $_POST['service']);
-    print keys_manage_get_keys();
+    // db_query("DELETE FROM {keys_manage} WHERE domain_name = '%s' AND service = '%s'", $_POST['name'], $_POST['service']);
+    // print keys_manage_get_keys();
   }
   exit();
 }
