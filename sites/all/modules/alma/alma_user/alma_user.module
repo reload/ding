@@ -156,6 +156,10 @@ function alma_user_theme($existing, $type, $theme, $path) {
       'arguments' => array('form' => NULL),
       'file' => 'alma_user.theme.inc',
     ),
+    'alma_user_list_item' => array(
+      'arguments' => array('item' => NULL),
+      'file' => 'alma_user.theme.inc',
+    ),
   );
 }
 

@@ -28,10 +28,9 @@ function theme_alma_user_forms_reservation_details($form) {
 
   $rows = array();
   foreach ($form['reservation_data']['#value'] as $key => $data) {
-    $ting_object = ting_get_object_by_local_id($data['record_id']);
     $rows[] = array(
       drupal_render($form['reservations'][$data['id']]),
-      theme('ting_object_title', $ting_object, TRUE),
+      theme('alma_user_list_item', $data),
       $data['valid_to'],
       $branches[$data['pickup_branch']],
       $data['queue_no'],
@@ -74,11 +73,9 @@ function theme_alma_user_forms_loan_details($form) {
     $rows = array();
 
     foreach ($group as $loan) {
-      $ting_object = ting_get_object_by_local_id($loan['record_id']);
-
       $rows[] = array(
         drupal_render($form['loans'][$loan['id']]),
-        theme('ting_object_title', $ting_object, TRUE),
+        theme('alma_user_list_item', $loan),
       );
     }
     if (!empty($rows)) {
@@ -116,6 +113,37 @@ function theme_alma_user_forms_debts_details($form) {
 
   $output = theme('table', $header, $rows);
   $output .= drupal_render($form);
+  return $output;
+}
+
+/**
+ * Render label for reservation or loan in a list.
+ */
+function theme_alma_user_list_item($item) {
+  // First try looking up the title and book data from Ting.
+  if (intval($item['id']) > 0) {
+    $ting_object = ting_get_object_by_local_id($item['record_id']);
+    if ($ting_object) {
+      return theme('ting_object_title', $ting_object, TRUE);
+    }
+  }
+
+  // If Ting data is not available, get it from Alma instead.
+  $data = alma_client_catalogue_record_detail($item['record_id']);
+  $details = $data['records'][$item['record_id']];
+
+  $output = '<span class="title">' . $details['titles'][0] . '</span> ';
+
+  if (!empty($details['authors'])) {
+    $output .= '<span class="byline">' . t('by') . '</span> ';
+    $output .= implode(', ', $details['authors']);
+  }
+
+  // Remote loans have negative IDs (undocumented Axiell "feature").
+  if (intval($item['id']) < 0) {
+    $output .= ' <span class="remote">(' . t('remote loan') . ')</span>';
+  }
+
   return $output;
 }
 
