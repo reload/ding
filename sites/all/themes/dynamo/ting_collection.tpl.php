@@ -120,11 +120,11 @@
   						?>
 
   						<div class="more">
-  						  <?php print l(t('More information'), $tingClientObject->url, array('attributes' => array('class' => 'more-link')) ); ?>  
+                <?php print l(t('More information'), $tingClientObject->url, array('attributes' => array('class' => 'more-link')) ); ?>
   						</div>
-            
-              <div class="alma-status waiting">Afventer data…</div>
-
+              <?php if ($tingClientObject->data->type[0] != 'Netdokument') { ?>
+                <div class="alma-status waiting">Afventer data…</div>
+              <?php } ?>
   					</div>
 
           </div>
