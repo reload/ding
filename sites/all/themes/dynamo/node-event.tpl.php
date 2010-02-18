@@ -66,7 +66,10 @@ if($id_node){
 
 	<div class="content">
 		<div class="event-info">
-      <span class="event-date"><?php print $event_date; ?></span>
+                  <span class="event-date"><?php print $event_date; ?></span>
+                  <?php if($event_time){	?>
+                    <span class="time"><?php print $event_time; ?></span>
+                  <?php } ?>
 			<span class="event-price"><?php print $event_price; ?></span>
 		</div>
 		<?php print $content ?>
