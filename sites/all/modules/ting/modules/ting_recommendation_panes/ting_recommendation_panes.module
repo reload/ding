@@ -112,7 +112,7 @@ function ting_recommendation_panes_get_recommended_objects($objects) {
         $recommendedObjects[] = $ting_object;
 
         // Don't get more than 10 valid objects.
-        if (count($recommededObjects) >= 10) {
+        if (count($recommendedObjects) >= 10) {
           break;
         }
       }
