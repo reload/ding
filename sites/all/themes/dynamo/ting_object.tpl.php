@@ -80,13 +80,14 @@
             <?php // print theme('item_list',$object->data->rights, t('Rights'), 'span', array('class' => 'rights'));?>
           </div>
 
-          <div class="ding-box-wide alma-availability">
-            <h3>Følgende biblioteker har "<?php print $object->data->title[0];?>" hjemme:</h3>
-            <ul class="library-list">
-              <li class="alma-status waiting even"><?php print t('waiting for data'); ?></li>
-            </ul>
-          </div>
-
+          <?php if ($object->data->type[0] != 'Netdokument') { ?>
+            <div class="ding-box-wide alma-availability">
+              <h3>Følgende biblioteker har "<?php print $object->data->title[0];?>" hjemme:</h3>
+              <ul class="library-list">
+                <li class="alma-status waiting even"><?php print t('waiting for data'); ?></li>
+              </ul>
+            </div>
+          <?php } ?>
 
 
           <?php
