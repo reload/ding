@@ -46,7 +46,7 @@ if($id_node){
         <span class="type"><?php print t('Fax'); ?>:</span> <span><?php print $node->location['fax']; ?></span>
       </div>
       <?php } ?>
-      <?php if($$node->field_email['0']['view']){ ?>
+      <?php if($node->field_email['0']['view']){ ?>
       <div class="email">
         <span class="type"><?php print t('E-mail'); ?>:</span> <span><?php print $node->field_email['0']['view']; ?></span>
       </div>
