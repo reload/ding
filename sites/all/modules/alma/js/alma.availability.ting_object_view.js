@@ -30,6 +30,13 @@ Drupal.behaviors.almaAvailabilityTingObjectView = function () {
         });
       });
     }
+    else {
+      // Remove container as no data was received (when displaying one ting object only)
+      var container = $('.alma-availability ul.library-list');
+      if (container.length == 1) {
+        container.parent().remove();
+      }
+    }
   });
 }
 
