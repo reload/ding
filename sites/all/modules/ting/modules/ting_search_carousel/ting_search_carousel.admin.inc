@@ -104,6 +104,7 @@ function ting_search_carousel_form_ahah($form_state) {
   // Delta is assigned to the count of current elements, so it'll be the 
   // next in the zero-based list.
   $delta = count(element_children($form['ting_search_carousel_searches']));
+  $delta++;
 
   $form['ting_search_carousel_searches'][$delta] = array(
     '#type' => 'ting_search_carousel_search',
