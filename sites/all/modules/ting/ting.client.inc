@@ -323,7 +323,7 @@ function ting_add_object_info(TingClientObject $object) {
   if ($object->data->type[0] == 'Netdokument') {
     foreach ($object->data->identifier as $identifier) {
       if ($identifier->type == TingClientObjectIdentifier::URL) {
-        $object->url = ting_rewrite_download_url($identifier->id);
+        $object->online_url = ting_rewrite_download_url($identifier->id);
       }
     }
   }

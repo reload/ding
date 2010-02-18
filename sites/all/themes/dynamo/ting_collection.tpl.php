@@ -120,20 +120,11 @@
   						?>
 
   						<div class="more">
-                                                  <?php
-                                                  if ($tingClientObject->data->type[0] == 'Netdokument') { // Maybe this should be moved to theme function
-                                                    $link_text = t('Goto').' '.strtolower(t($category));
-                                                  }
-                                                  else {
-                                                    $link_text = t('More information');
-                                                  }
-  						  print l($link_text, $tingClientObject->url, array('attributes' => array('class' => 'more-link')) );
-                                                  ?>
+                <?php print l(t('More information'), $tingClientObject->url, array('attributes' => array('class' => 'more-link')) ); ?>
   						</div>
-
-                                        <?php if ($tingClientObject->data->type[0] != 'Netdokument') { // This only works if category do not change ?>
-                                        <div class="alma-status waiting">Afventer data…</div>
-                                        <?php } ?>
+              <?php if ($tingClientObject->data->type[0] != 'Netdokument') { ?>
+                <div class="alma-status waiting">Afventer data…</div>
+              <?php } ?>
   					</div>
 
           </div>

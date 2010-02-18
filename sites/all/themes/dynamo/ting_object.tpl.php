@@ -53,7 +53,9 @@
                 <span class='date'>(<?php echo $object->data->date[0]; ?>)</span>
               </div>
               <p><?php print $object->data->abstract[0];?></p>
-              <div class="alma-status waiting"><?php print t('waiting for data'); ?></div>
+               <?php if ($object->data->type[0] != 'Netdokument') { ?>
+                 <div class="alma-status waiting"><?php print t('waiting for data'); ?></div>
+               <?php } ?>
             </div>
 
             <?php print theme('alma_cart_reservation_buttons', $object); ?>

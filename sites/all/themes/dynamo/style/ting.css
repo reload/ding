@@ -52,10 +52,19 @@
 /*green button*/
 .ting-item ul.buttons li.last{background-position:right -30px}
 .ting-item ul.buttons li.last:hover{background-position:right -150px}
-	.ting-item ul.buttons li.last a{background-position: left -90px;}
-	.ting-item ul.buttons li.last a:hover, .button-green a:focus{color:#008000;background-position: left -210px;}
-	
+.ting-item ul.buttons li.last a{background-position: left -90px;}
+.ting-item ul.buttons li.last a:hover, .button-green a:focus{color:#008000;background-position: left -210px;}	
+
+/* view online button*/
+.ting-item ul.orange-button li a.view-online,
+.ting-overview ul.orange-button li a.view-online {background-position: 0 -60px;}
+.ting-item ul.orange-button li.first {background-position: 100% 0%;}
+.ting-item ul.orange-button li.first:hover {background-position: right -120px; }
+.ting-item ul.orange-button li a.view-online:hover {color:#FC6; background-position: left -180px;}
+
 /*
+
+
   recommendations - others did loan ...
 ------------------------------------*/	
 body.ding-ting-object .pane-recommendation_list, body.ding-ting-collection .pane-recommendation_list{margin:0 0 0 150px;}
