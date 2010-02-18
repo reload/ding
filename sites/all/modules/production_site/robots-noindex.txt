@@ -1,4 +1,0 @@
-# Use mod_rewrite to serve this file as http://example.org/robots.txt on non-production sites.
-User-agent: *
-Disallow: /
-
