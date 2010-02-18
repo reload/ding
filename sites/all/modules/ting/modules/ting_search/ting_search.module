@@ -132,6 +132,8 @@ function ting_search_block($op = 'list', $delta = 0, $edit = array()) {
         array(
           'info' => t('Ting search box – for page header'),
           'cache' => BLOCK_NO_CACHE,
+          'status' => 1,
+          'region' => 'search',
         ),
       );
     case 'view':
