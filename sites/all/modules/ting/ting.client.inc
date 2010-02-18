@@ -225,12 +225,11 @@ function ting_get_object_recommendations($isbn, $numResults = 10) {
  * @param $request The request
  * @return mixed Result of the request or false if an error occurs 
  */
-function ting_execute($request)
-{
+function ting_execute($request) {
 	try {
   	return ting_get_client()->execute($request);
 	} catch (TingClientException $e) {
-	  watchdog('ting client', 'Error performing request: '.$e->getMessage(), var_export($request, true), WATCHDOG_ERROR, 'http://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
+	  watchdog('ting client', 'Error performing request: '.$e->getMessage(), NULL, WATCHDOG_ERROR, 'http://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
 		return false;
 	}
 }
@@ -284,8 +283,7 @@ function ting_get_request_factory() {
 	return $requestFactory;
 }
 
-function ting_add_collection_info(TingClientObjectCollection $collection)
-{
+function ting_add_collection_info(TingClientObjectCollection $collection) {
 	$collection->url = url('ting/collection/' . $collection->objects[0]->id, array('absolute' => true));
 	$types = array();
 	foreach ($collection->objects as &$object)
@@ -300,8 +298,7 @@ function ting_add_collection_info(TingClientObjectCollection $collection)
 	return $collection;
 }
 
-function ting_sort_objects($collection)
-{
+function ting_sort_objects($collection) {
 	usort($collection->objects, 'ting_compare_objects');
 	$collection->objects = array_reverse($collection->objects);
 
@@ -412,8 +409,7 @@ function ting_add_additional_info($collection) {
 	return $collection;
 }
 
-function ting_compare_objects($o1, $o2, $criterias = NULL)
-{
+function ting_compare_objects($o1, $o2, $criterias = NULL) {
 	$criterias = ($criterias) ? $criterias : array(	'language' => array('Dansk', 'Engelsk'),
 																									'type' => array('Bog', 'DVD'));
 	foreach ($criterias as $attribute => $values)
@@ -441,8 +437,7 @@ function ting_compare_objects($o1, $o2, $criterias = NULL)
 	return 0;
 }
 
-function ting_add_agency(TingClientAgentRequest $request)
-{
+function ting_add_agency(TingClientAgentRequest $request) {
 	if ($agency = variable_get('ting_agency', false))
 	{
 		$request->setAgency($agency);
@@ -450,8 +445,7 @@ function ting_add_agency(TingClientAgentRequest $request)
 	return $request;
 }
 
-function ting_remove_supporting_types(TingClientSearchRequest $request)
-{
+function ting_remove_supporting_types(TingClientSearchRequest $request) {
 	$supportingTypes = array('materialevurdering*', 'anmeldelse');
 	foreach ($supportingTypes as &$type)
 	{
