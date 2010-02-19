@@ -20,7 +20,6 @@
   <ul>
     <li><span class="available marker">&#x25A0;</span>Hjemme</li>
     <li><span class="out marker">&#x25A0;</span>Udlånt</li>
-    <li><span class="reserved marker">&#x25A0;</span>Udlånt med reservation</li>
   </ul>
 </div>
 <div id="ting-search-result">
