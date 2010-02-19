@@ -67,7 +67,7 @@ function theme_alma_user_forms_loan_details($form) {
       $table_title = t('Overdue loans');
     }
     else {
-      $table_title = t('Due in @count days, @date', array('@date' => $date, '@count' => ceil((strtotime($date) - $_SERVER['REQUEST_TIME']) / 86400)));
+      $table_title = t('Due in @count days, @date', array('@date' => date('d/m/y', strtotime($date)), '@count' => ceil((strtotime($date) - $_SERVER['REQUEST_TIME']) / 86400)));
     }
     $rows = array();
 
