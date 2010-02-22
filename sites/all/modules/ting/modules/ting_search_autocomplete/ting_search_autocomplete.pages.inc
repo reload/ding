@@ -24,6 +24,7 @@ function ting_search_autocomplete_js() {
 			$scanResults = ting_do_scan($query, 10);
 			foreach ($scanResults->terms as $term)
 			{
+        $term->name = html_entity_decode($term->name);
 				$term->score = $term->count;
 				$terms[strtolower($term->name)] = $term;
 			}
@@ -50,13 +51,12 @@ function ting_search_autocomplete_js() {
 			$terms = array_reverse($terms);
 		
 			$items = array();
-			foreach ($terms as $term)
-			{
+			foreach ($terms as $term) {
 				$items[$term->name] = t('!ord !resultater', 
-																array('!ord' => '<span class="term">'.$term->name.'</span>',
+																array('!ord' => '<span class="term">'. check_plain($term->name) .'</span>',
 																			'!resultater' => '<span class="count">'.format_plural($term->count, t('(1 resultat)'), t('(@count resultater)')))).'</span>';
 			}
-			
+
 			$items = array_slice($items, 0, 10);
 			cache_set(md5($query), $items, 'cache_ting_search_autocomplete', CACHE_TEMPORARY);
 		}
