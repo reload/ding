@@ -60,7 +60,9 @@ function ting_search_pages_ting_js() {
     $query .= ' AND '.implode(' AND ', $facetArray);
   }
 
-  $options = array();
+  $options = array(
+    'allObjects' => TRUE,
+  );
 
   if (isset($_GET['sort'])) {
     $options['sort'] = $_GET['sort'];
