@@ -1,26 +1,26 @@
 <?php
 /*
-adad a class="" if we have anything in the $classes var
-this is so we can have a cleaner output - no reason to have an empty <div class="" id="">
+ad a class="" if we have anything in the $classes var
+this is so we can have a cleaner output - no reason to have an empty <div class="" id=""> 
 */
-if ($classes) {
+if($classes){
    $classes = ' class="' . $classes . ' clearfix"';
 }
 
-if ($id_node) {
-  $id_node = ' id="' . $id_node . '"';
+if($id_node){
+  $id_node = ' id="' . $id_node . '"';  
 }
 ?>
 
-<?php if ($page == 0) { ?>
+<?php if ($page == 0){ ?>
 <!--node-lib-->
 <div<?php print $id_node . $classes; ?>>
 
   <div class="picture"><?php print $list_image; ?></div>
 
   <div class="content">
-
-    <div class="libary-openstatus <?php print $node->field_opening_hours_processed['status']; ?>">
+  
+    <div class="libary-openstatus <?php print $node->field_opening_hours_processed['status'];?>">
         <?php print $node->field_opening_hours_processed['status_local'];?>
     </div>
 
@@ -33,74 +33,71 @@ if ($id_node) {
       </div>
 
       <div class="link-card">
-          <a href="/biblioteker?lat=<?php print $node->location['latitude']; ?>&amp;long=<?php print $node->location['longitude']; ?>" id="biblo-<?php print $node->nid ?>">Se på kort</a>
+          <a href="/biblioteker?lat=<?php echo $node->location['latitude'] ?>&long=<?php echo $node->location['longitude'] ?>" id="biblo-<?php print $node->nid ?>">Se på kort</a>
       </div>
 
-      <?php if ($node->location['phone']) { ?>
+      <?php if($node->location['phone']){ ?>
       <div class="tel">
         <span class="type"><?php print t('Phone'); ?>:</span> <span><?php print $node->location['phone']; ?></span>
       </div>
       <?php } ?>
-      <?php if ($node->location['fax']) { ?>
+      <?php if($node->location['fax']){ ?>
       <div class="tel">
         <span class="type"><?php print t('Fax'); ?>:</span> <span><?php print $node->location['fax']; ?></span>
       </div>
       <?php } ?>
-<<<<<<< Updated upstream:sites/all/themes/dynamo/node-library.tpl.php
       <?php if($node->field_email['0']['view']){ ?>
-=======
-      <?php if ($node->field_email['0']['view']) { ?>
->>>>>>> Stashed changes:sites/all/themes/dynamo/node-library.tpl.php
       <div class="email">
         <span class="type"><?php print t('E-mail'); ?>:</span> <span><?php print $node->field_email['0']['view']; ?></span>
       </div>
       <?php } ?>
       <div class="geo">
       	<?php print t('Position'); ?>:
-      	<span class="latitude"><?php print $node->location['latitude']; ?></span>,
- 				<span class="longitude"><?php print $node->location['longitude']; ?></span>
+      	<span class="latitude"><?php echo $node->location['latitude'] ?></span>, 
+ 				<span class="longitude"><?php echo $node->location['longitude'] ?></span>
       </div>
     </div>
 
   </div>
-
-  <?php print $node->field_opening_hours['0']['view']; ?>
+  
+  <?php print $node->field_opening_hours['0']['view'];?>
 </div>
 
-<?php } else {
+<?php }else{ 
 //Content
 ?>
 <div<?php print $id_node . $classes; ?>>
 
-	<h1><?php print $title; ?></h1>
-
+	<h1><?php print $title;?></h1>
+		
 	<div class="meta">
-  	<?php if ($picture) { ?>
+  	<?php if ($picture) { ;?>
 			<span class="author-picture">
-		  		<?php print $picture; ?>
+		  		<?php print $picture; ?>  
 			</span>
 		<?php } ?>
 
 
 		<span class="time">
-			<?php print format_date($node->created, 'custom', "j F Y"); ?>
-		</span>
+			<?php print format_date($node->created, 'custom', "j F Y") ?> 
+		</span>	
 		<span class="author">
 			af <?php print theme('username', $node); ?>
-		</span>
+		</span>	
+
 
 
 		<?php if (count($taxonomy)){ ?>
 		  <div class="taxanomy">
-	   	  <?php print $terms ?>
-		  </div>
+	   	  <?php print $terms ?> 
+		  </div>  
 		<?php } ?>
 	</div>
 
 	<div class="content">
 		<?php print $content ?>
 	</div>
-
+		
 	<?php if ($links){ ?>
     <?php  print $links; ?>
 	<?php } ?>
