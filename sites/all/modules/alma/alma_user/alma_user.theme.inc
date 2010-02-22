@@ -31,6 +31,7 @@ function theme_alma_user_forms_reservation_details($form) {
     $rows[] = array(
       drupal_render($form['reservations'][$data['id']]),
       theme('alma_user_list_item', $data),
+      $data['create_date'],
       $data['valid_to'],
       $branches[$data['pickup_branch']],
       $data['queue_no'],
@@ -44,6 +45,7 @@ function theme_alma_user_forms_reservation_details($form) {
   $header = array(
     t('Select'),
     t('Title'),
+    t('Reserved'),
     t('Valid to'),
     t('Pickup branch'),
     t('Queue number'),
@@ -59,7 +61,7 @@ function theme_alma_user_forms_reservation_details($form) {
  */
 function theme_alma_user_forms_loan_details($form) {
   module_load_include('client.inc', 'ting');
-  $header = array(t('Select'), t('Title'));
+  $header = array(t('Select'), t('Title'), t('Loan date'));
   $groups = array();
 
   foreach ($form['loan_data']['#grouped'] as $date => $group) {
@@ -75,6 +77,7 @@ function theme_alma_user_forms_loan_details($form) {
       $rows[] = array(
         drupal_render($form['loans'][$loan['id']]),
         theme('alma_user_list_item', $loan),
+        $loan['loan_date'],
       );
     }
     if (!empty($rows)) {
