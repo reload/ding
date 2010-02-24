@@ -120,3 +120,18 @@ li a.active{}
 {
   font-size:14px;
 }
+
+/* Feed icon */
+.feed-icon span {
+  margin-left: 2px;
+  position: relative;
+  top: -13px;
+}
+
+.feed-icon a:hover span {
+  text-decoration: underline;
+}
+
+.feed-icon a:hover {
+  text-decoration: none !important;
+}
