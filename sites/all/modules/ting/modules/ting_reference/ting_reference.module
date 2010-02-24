@@ -43,11 +43,12 @@ function ting_reference_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'ting_reference.pages.inc',
   );
-  $items['ting_reference/collection/js'] = array(
+  $items['ting_reference/preview/js/%/%'] = array(
     'title' => 'Ting reference collection',
     'description' => 'Returns a Ting collection as a javascript object',
     'access arguments' => array('search content'),
     'page callback' => 'ting_reference_collection_js',
+    'page arguments' => array(3, 4),
     'type' => MENU_CALLBACK,
     'file' => 'ting_reference.pages.inc',
   );
@@ -138,25 +139,7 @@ function ting_reference_field_formatter_info() {
  * Theme function for 'default' userreference field formatter.
  */
 function theme_ting_reference_formatter_default($element) {
-  module_load_include('client.inc', 'ting');
-
-  $collection = null;
-  if ($element['#item']['ting_ref_type'] == 'object') {
-    $object = ting_get_object_by_id($element['#item']['ting_object_id']);
-    if ($object) {
-      // FIXME: We currently use the collection template for displaying the object.
-      $collection = new TingClientObjectCollection(array($object));
-      $collection->url = $object->url;
-    }
-  }
-  else {
-    $collection = ting_get_collection_by_id($element['#item']['ting_object_id']);
-  }
-  // For now we reuse the existing search result template and just replace the
-  // description with the one supplied by the editor.
-  if ($element['#item']['description']) {
-    $collection->objects[0]->data->abstract = array($element['#item']['description']);
-  }
+  $collection = _ting_reference_get_collection($element['#item']['ting_ref_type'], $element['#item']['ting_object_id'], $element['#item']['description']);
   if (!$collection) {
     return t('Object not found.');
   }
@@ -189,22 +172,26 @@ function ting_reference_widget(&$form, &$form_state, $field, $items, $delta = 0)
   $element['#prefix'] = '<div class="form-item form-ting-reference">';
   $element['#suffix'] = '</div>';
 
+  $ting_object_id = isset($items[$delta]['ting_object_id']) ? $items[$delta]['ting_object_id'] : '';
+  $ting_ref_type = !empty($items[$delta]['ting_ref_type']) ? $items[$delta]['ting_ref_type'] : 'collection';
+
   $element['ting_ref_type'] = array (
     '#type' => 'radios',
     '#title' => 'Reference type',
-    '#default_value' => !empty($items[$delta]['ting_ref_type']) ? $items[$delta]['ting_ref_type'] : 'collection',
+    '#default_value' => $ting_ref_type,
     '#options' => array('collection' => t('Ting collection'), 'object' => t('Ting object')),
     '#attributes' => array('class' => 'ting-reference-type-radio'),
 	);
-	
+
   $element['search'] = array (
     '#type' => 'textfield',
     '#title' => t('Search'),
     '#maxlength' => NULL,
     '#attributes' => array('class' => 'form-autocomplete ting-reference-autocomplete')
   );
+  $collection = _ting_reference_get_collection($ting_ref_type, $ting_object_id);
   $element['preview'] = array (
-    '#value' => '<div class="ting-reference-preview"></div>',
+    '#value' => '<div class="ting-reference-preview">' . ($collection ? theme('ting_reference_preview', $collection) : t('Object not found.')) . '</div>',
   );
   $element['reset'] = array (
     '#type' => 'button',
@@ -214,7 +201,7 @@ function ting_reference_widget(&$form, &$form_state, $field, $items, $delta = 0)
   $element['ting_object_id'] = array (
     '#type' => 'hidden',
     '#title' => 'Ting object id',
-    '#default_value' => isset($items[$delta]['ting_object_id']) ? $items[$delta]['ting_object_id'] : '',
+    '#default_value' => $ting_object_id,
   	'#attributes' => array('class' => 'ting-object-id')
   );
   $element['description'] = array (
@@ -235,23 +222,21 @@ function _ting_reference_add_css_js() {
   if (!isset($assetsLoaded)) {
     $basePath = drupal_get_path('module', 'ting');
     //Added modified version of jQuery autocomplete as default plugin uses q parameter
-    drupal_add_js($basePath.'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.min.js', 'module', 'footer', TRUE);
-    drupal_add_js($basePath.'/js/pure/js/pure.js', 'module', 'footer', TRUE);
-    drupal_add_css($basePath.'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.css', 'module');
+    drupal_add_js($basePath .'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.min.js', 'module', 'footer', TRUE);
+    drupal_add_css($basePath .'/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.css', 'module');
 
     $path = drupal_get_path('module', 'ting_reference');
-    drupal_add_js($path.'/js/ting_reference.js', 'module', 'footer', TRUE);
+    drupal_add_js($path .'/js/ting_reference.js', 'module', 'footer', TRUE);
     drupal_add_js(array(
       'tingReference' => array(
         'autocomplete' => array(
           'collection' => url('ting_reference/autocomplete/collection/js'), 
           'object' => url('ting_reference/autocomplete/object/js'),
         ),
-        'referenceTemplate' => ting_reference_render_collection_template(),
-        'previewUrl' => url('ting_reference/collection/js'),
+        'previewUrl' => url('ting_reference/preview/js'),
       ),
     ), 'setting', 'footer', TRUE);
-    drupal_add_css($path.'/css/ting_reference.css', 'module');
+    drupal_add_css($path .'/css/ting_reference.css', 'module');
 
     $assetsLoaded = true;
   }
@@ -274,22 +259,34 @@ function ting_reference_form_alter(&$form, $form_state, $form_id) {
   }
 }
 
-function ting_reference_render_collection_template() {
-  module_load_include('php', 'ting', 'lib/ting-dbc-php5-client/lib/result/object/TingClientObject');
-  module_load_include('php', 'ting', 'lib/ting-dbc-php5-client/lib/result/object/TingClientObjectCollection');
-  module_load_include('php', 'ting', 'lib/ting-dbc-php5-client/lib/result/object/data/TingClientDublinCoreData');
-  
-  $object = new TingClientObject();
-  $object->id = 'id';
+/**
+ * @param $ref_type
+ *   Either "object" or "collection":
+ * @param $object_id
+ *   A Ting collection or object id.
+ * @return
+ *   A TingClientObjectCollection instance, or NULL.
+ */
+function _ting_reference_get_collection($ref_type, $object_id, $description = FALSE) {
+  module_load_include('client.inc', 'ting');
 
-  $data = new TingClientDublinCoreData();
-  foreach ($data as $attribute => $value) {
-    $data->$attribute = array($attribute);
+  if ($ref_type == 'object') {
+    $object = ting_get_object_by_id($object_id);
+    if ($object) {
+      // FIXME: We currently use the collection template for displaying the object.
+      $collection = new TingClientObjectCollection(array($object));
+      $collection->url = $object->url;
+    }
   }
-  $object->data = $data;
-
-  $collection = new TingClientObjectCollection(array($object));
-  return theme('ting_reference_preview', $collection);
+  else {
+    $collection = ting_get_collection_by_id($object_id);
+  }
+  // For now we reuse the existing search result template and just replace the
+  // description with the one supplied by the editor.
+  if ($description) {
+    $collection->objects[0]->data->abstract = array($description);
+  }
+  return $collection;
 }
 
 /**

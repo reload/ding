@@ -24,54 +24,18 @@ Drupal.behaviors.addTingReferenceAutocomplete = function(context)
 
 }
 
-Drupal.behaviors.showTingPreview = function(context)
-{
-	jQuery('input.ting-object-id').change(function()
-	{
-		var input = jQuery(this);
-		jQuery.getJSON(	Drupal.settings.tingReference.previewUrl, 
-										{ id: jQuery(this).val() },
-										function(data) {
-											collections = jQuery(Drupal.settings.tingReference.referenceTemplate).mapDirective({
-												'.title': function(arg) { return (arg.context.objects[0].data.title) ? arg.context.objects[0].data.title.join(', ') : ''; },
-												'.title[href]': 'collection.url',
-												'.creator em': function(arg) { return (arg.context.objects[0].data.creator) ? arg.context.objects[0].data.creator.join(', ') : ''; },
-												'.publication_date em': function(arg) { return (arg.context.objects[0].data.date) ? arg.context.objects[0].data.date.join(', ') : ''; },
-												'.abstract p': function(arg) { return (arg.context.objects[0].data.abstract) ? arg.context.objects[0].data.abstract.join('</p><p>') : ''; },
-												'.picture': function(arg) { return (arg.context.objects[0].additionalInformation) ? '<img src="'+arg.context.objects[0].additionalInformation.thumbnailUrl+'"/>' : ''; }
-											});
-											
-											types = jQuery('.types', collections).mapDirective({
-												'li': [ 'type <- collection.types',
-																'type']
-											});
-									
-											subjects = jQuery('.subjects', collections).mapDirective({
-												'li': [	'subject <- collection.objects.0.data.subject', //Only render subjects from first object in collection
-																'subject']
-											});
-									
-											$('.types', collections).replaceWith(jQuery(types));
-											$('.subjects', collections).replaceWith(jQuery(subjects));
-											$p.compile(collections, 'ting-preview');
-									
-											input.parents('.form-ting-reference').find('.ting-reference-preview').html($p.render('ting-preview', data));											
-										});
-	});
-}
-
-Drupal.behaviors.initPreview = function(context)
-{
-	jQuery('.ting-object-id').each(function(i, e)
-	{
-		if (jQuery(e).val().length > 0)
-		{
-			if (jQuery(e).parents('.form-ting-reference').find('.ting-reference-preview').children().size() < 1)
-			{
-				jQuery(e).change();
-			}
-		}	
-	});
+Drupal.behaviors.initPreview = function(context) {
+  jQuery('input.ting-object-id').change(function() {
+    var input = jQuery(this);
+    var refType = input.parents('.form-ting-reference').find('input.ting-reference-type-radio:checked').val();
+    jQuery.getJSON(
+      Drupal.settings.tingReference.previewUrl + '/' + refType + '/' + Drupal.encodeURIComponent(input.val()), 
+      null,
+      function(data) {
+        input.parents('.form-ting-reference').find('.ting-reference-preview').html(data);
+      }
+    );
+  });
 
 	jQuery('.ting-reference-reset').click(function(event) {
     jQuery(event.target).parents('.form-ting-reference').find('.ting-reference-preview').html('');

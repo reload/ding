@@ -68,15 +68,11 @@ function ting_reference_autocomplete_format_items($items) {
   return implode("\n", $return);
 }
 
-function ting_reference_collection_js() {
-	$collection = false;
-
-	if (isset($_REQUEST['id']))
-	{	
-		module_load_include('client.inc', 'ting');
-		$object = ting_get_object_by_id($_REQUEST['id']);
-		$collection = new TingClientObjectCollection(array($object));
-	}
-	
-	($collection) ? drupal_json($collection) : drupal_not_found();
+/**
+ * JSON callback Ting reference preview on node edit page.
+ */
+function ting_reference_collection_js($ref_type, $object_id) {
+  $collection = _ting_reference_get_collection($ref_type, $object_id);
+  $output = theme('ting_reference_preview', $collection);
+  drupal_json($output);
 }
