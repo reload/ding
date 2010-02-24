@@ -87,7 +87,7 @@ function ting_search_pages_ting_js() {
       $result['result_html'] .= theme('ting_search_collection', $collection);
 
       foreach ($collection->objects as $object) {
-        $result['alma_ids'][] = $object->data->localId;
+        $result['alma_ids'][] = $object->localId;
       }
     }
   }
@@ -158,16 +158,18 @@ function ting_search_pages_ting_feed($query) {
     try {
       $search_result = ting_do_search($query, 1, 10);
       $result_count = $search_result->numTotalObjects;
-      foreach ($search_result->collections as &$collection) {
-        $data = $collection->objects[0]->data;
+      foreach ($search_result->collections as $collection) {
         $entry = array(
-          'id' => url('ting/collection/' . $collection->objects[0]->id, array('absolute' => TRUE)),
-          'title' => $data->title[0],
-          'summary' => $data->abstract[0],
-          'published' => gmdate('c', strtotime($data->date[0])),
+          'id' => url($collection->url, array('absolute' => TRUE)),
+          'title' => $collection->title,
+          'summary' => $collection->abstract,
           'authors' => array(),
           'categories' => array(),
         );
+
+        if ($collection->date) {
+          $entry['published'] = $collection->date . '-01-01T12:00:00Z';
+        }
 
         // Since we don't have any content, we must provide an alternate link.
         $entry['alternate_link'] = $entry['id'];
@@ -177,12 +179,12 @@ function ting_search_pages_ting_feed($query) {
         // required attribute per Atom spec).
         $entry['updated'] = $entry['published'];
 
-        foreach ($data->creator as $name) {
-          $entry['authors'][] = array('name' => $name);
+        foreach ($collection->creators as $creator) {
+          $entry['authors'][] = array('name' => $creator);
         }
 
-        foreach ($data->subject as $term) {
-          $entry['categories'][] = array('term' => $term);
+        foreach ($collection->subjects as $subject) {
+          $entry['categories'][] = array('term' => $subject);
         }
 
         $entries .= theme('atom_entry', $entry);

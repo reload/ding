@@ -52,11 +52,11 @@ function ting_ting_object_create($empty, $data = NULL, $conf = FALSE) {
   if (!empty($data)) {
     $context->data     = $data;
     $context->argument = $object_id;
-    if (!empty($data->data->creator)) {
-      $context->title  = t('@title by @author', array('@title' => $data->data->title[0], '@author' => implode(', ', $data->data->creator)));
+    if (!empty($data->creators_string)) {
+      $context->title  = t('@title by @author', array('@title' => $data->title, '@author' => $data->creators_string));
     }
     else {
-      $context->title  = check_plain($data->data->title[0]);
+      $context->title  = check_plain($data->title);
     }
 
     return $context;

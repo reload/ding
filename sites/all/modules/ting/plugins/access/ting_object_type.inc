@@ -29,12 +29,12 @@ function ting_ting_object_type_ctools_access() {
 function ting_ting_object_type_type_ctools_access_check($conf, $context) {
   // As far as I know there should always be a context at this point,
   // but this is safe.
-  if (empty($context) || empty($context->data) || !isset($context->data->data->type)) {
+  if (empty($context) || empty($context->data) || !isset($context->data->type)) {
     return FALSE;
   }
 
   // Permit access of object has one of the allowed types.
-  if (array_intersect($conf['ting_object_type'], $context->data->data->type)) {
+  if (in_array($context->data->type, $conf['ting_object_type'])) {
     return TRUE;
   }
   else {

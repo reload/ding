@@ -3,41 +3,37 @@
   </div>
   <div class="info">
 		<h3 class="title">
-			<a class="title" href="<?php echo url('ting/collection') ?>"><?php echo implode(', ', $collection->objects[0]->data->title) ?></a>
+      <?php print l($collection->title, $collection->url); ?>
 		</h3>
 		<div class="meta">
-			<?php if ($collection->objects[0]->data->creator) : ?>
+			<?php if ($collection->creators_string) : ?>
 				<span class="creator">
-					<?php echo t('By %creator_name%', array('%creator_name%' => implode(', ', $collection->objects[0]->data->creator))) ?>
+					<?php print t('By %creator_name%', array('%creator_name%' => $collection->creators_string)); ?>
 				</span>
 			<?php endif; ?>
-			<?php if ($collection->objects[0]->data->date) : ?>
+			<?php if ($collection->date) : ?>
 				<span class="publication_date">
-					<?php echo t('(%publication_date%)', array('%publication_date%' => implode(', ', $collection->objects[0]->data->date))) /* TODO: Improve date handling, localizations etc. */ ?>
+					<?php echo t('(%publication_date%)', array('%publication_date%' => $collection->date)); ?>
 				</span>
 			<?php endif; ?>
 		</div>
 		<div class="types">
 			<h4><? echo t('Material types:') ?></h4>
-			<?php foreach ($collection->objects[0]->data->type as $type) ?>
+			<?php foreach ($collection->types as $type) ?>
 			<ul>
 				<li class="available"><?php echo $type; ?></li>
-				<!--<li class="out">CD</li>
-				<li class="reserved">Lydbog</li>-->
 			</ul>
 		</div>
-		<?php if ($collection->objects[0]->data->abstract) : ?>
+		<?php if ($collection->abstract) : ?>
 		<div class="abstract">
-			<p>
-				<?php echo implode('</p><p>'.$collection->objects[0]->data->abstract) ?>
-			</p>
+      <?php print check_plain($collection->abstract); ?>
 		</div>
 		<?php endif; ?>
-		<?php if ($collection->objects[0]->data->subject) : ?>
+		<?php if ($collection->subjects) : ?>
 			<div class="subjects">
 				<h4><?php echo t('Subjects:') ?></h4>
 				<ul>
-					<?php foreach ($collection->objects[0]->data->subject as $subject) : ?>
+					<?php foreach ($collection->subjects as $subject) : ?>
 						<li><?php echo $subject ?></li>
 					<?php endforeach; ?>
 				</ul>	

@@ -21,7 +21,7 @@ function theme_alma_cart_item($item) {
  */
 function theme_alma_cart_reservation_buttons($object) {
   // Leave out reservation buttons for some record types.
-  if ($object->data->type[0] == 'Tidsskrift') {
+  if ($object->type == 'Tidsskrift') {
     return;
   }
 
@@ -29,18 +29,18 @@ function theme_alma_cart_reservation_buttons($object) {
   jquery_ui_theme_load();
   drupal_add_js(drupal_get_path('module', 'alma_cart') . '/alma_cart.buttons.js');
 
-  if ($object->data->type[0] == 'Netdokument') {
+  if ($object->type == 'Netdokument') {
     $output = theme('item_list', array(
       l(t('View on-line'),  $object->online_url, array('attributes' => array('class' => 'view-online'))),
     ), NULL, 'ul', array('class' => 'buttons orange-button'));
     return $output;
   }
 
-  if (isset($object->data->localId) && !empty($object->data->localId)) {
+  if (!empty($object->localId)) {
     // TODO: Check if item is reserved/in basket already.
     $output = theme('item_list', array(
-      l(t('Reserve now'), 'alma/cart/reserve/' . $object->data->localId, array('attributes' => array('class' => 'reserve-now'))),
-      l(t('Add to cart'), 'alma/cart/add/'  . $object->data->localId, array('attributes' => array('class' => 'add-to-cart'))),
+      l(t('Reserve now'), 'alma/cart/reserve/' . $object->localId, array('attributes' => array('class' => 'reserve-now'))),
+      l(t('Add to cart'), 'alma/cart/add/'  . $object->localId, array('attributes' => array('class' => 'add-to-cart'))),
     ), NULL, 'ul', array('class' => 'buttons alma-cart-buttons'));
     return $output;
   }

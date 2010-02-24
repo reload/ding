@@ -275,7 +275,7 @@ function _ting_reference_get_collection($ref_type, $object_id, $description = FA
     if ($object) {
       // FIXME: We currently use the collection template for displaying the object.
       $collection = new TingClientObjectCollection(array($object));
-      $collection->url = $object->url;
+      $collection = ting_add_collection_info($collection);
     }
   }
   else {
@@ -284,7 +284,7 @@ function _ting_reference_get_collection($ref_type, $object_id, $description = FA
   // For now we reuse the existing search result template and just replace the
   // description with the one supplied by the editor.
   if ($description) {
-    $collection->objects[0]->data->abstract = array($description);
+    $collection->abstract = $description;
   }
   return $collection;
 }

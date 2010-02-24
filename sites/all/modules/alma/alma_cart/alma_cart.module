@@ -78,12 +78,12 @@ function alma_cart_add_ting_object($object) {
   // Create an array of the item to save.
   $cart_item = array(
     'uid' => $GLOBALS['user']->uid,
-    'alma_id' => $object->data->localId,
+    'alma_id' => $object->localId,
     'ting_id' => $object->id,
     'created' => $_SERVER['REQUEST_TIME'],
-    'title' => $object->data->title[0],
-    'author' => $object->data->creator[0],
-    'type' => $object->data->type[0],
+    'title' => $object->title,
+    'author' => $object->creator[0],
+    'type' => $object->type,
     'thumbnail_url' => $object->additionalInformation->thumbnailUrl,
   );
 

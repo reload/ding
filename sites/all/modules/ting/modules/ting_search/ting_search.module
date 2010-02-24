@@ -275,31 +275,12 @@ function template_preprocess_ting_collection(&$variables) {
 
   $sorted = array();
   foreach ($collection->objects as $object) {
-    $type_key = $object->data->type['0'];
-    if (trim($type_key) != "") {
-      $sorted[$type_key][] = $object;
-    }
+    $sorted[$object->type][] = $object;
   }
-
-  ksort($sorted); // sort alphabetically by key
+  // By coincidence, the default type, "Bog", appears alphabetically first.
+  ksort($sorted);
 
   $variables["sorted_collection"] = $sorted;
-
-
-  // Show the common descriptor. The collection is sorted in ting_sort_objects()
-  // so that books in Danish appear first.
-  if (!$common_object) {
-    foreach ($sorted as $objects) {
-      $common_object = $objects[0];
-
-      if (empty($common_object->data->abstract[0])) {
-        continue;
-      }
-      break;
-    }
-  }
-
-  $variables["common_object"] = $common_object;
 }
 
 /**
@@ -308,16 +289,11 @@ function template_preprocess_ting_collection(&$variables) {
 function template_preprocess_ting_search_collection(&$variables) {
   // Mapping type names to Alma ids.
   $type_map = array();
-
   foreach ($variables['collection']->objects as $object) {
-    $type_name = $object->data->type[0];
-
-    if (!isset($type_map[$type_name]  )) {
-      $type_map[$type_name] = array($object->data->localId);
+    if (!isset($type_map[$object->type]  )) {
+      $type_map[$object->type] = array();
     }
-    else {
-      $type_map[$type_name][] = $object->data->localId;
-    }
+    $type_map[$object->type][] = $object->localId;
   }
 
   $links = array();

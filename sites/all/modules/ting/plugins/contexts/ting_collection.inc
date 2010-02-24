@@ -49,9 +49,8 @@ function ting_ting_collection_create($empty, $data = NULL, $conf = FALSE) {
   }
 
   if (!empty($data)) {
-    $first = $data->objects[0]->data;
     $context->data     = $data;
-    $context->title    = t('@title by @author', array('@title' => $first->title[0], '@author' => implode(', ', $first->creator)));
+    $context->title    = t('@title by @author', array('@title' => $data->title, '@author' => $data->creators_string));
     $context->argument = $collection_id;
 
     return $context;

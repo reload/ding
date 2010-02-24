@@ -17,7 +17,7 @@ function alma_cart_page_add_to_cart($item_id) {
   $creds = alma_user_get_credentials($account, !$is_ahah);
 
   // First, let's check if this is in the cart already :)
-  $cart_item_exists = (boolean) db_result(db_query("SELECT created FROM {alma_cart} WHERE uid = %d AND alma_id = '%s';", $account->uid, $object->data->localId));
+  $cart_item_exists = (boolean) db_result(db_query("SELECT created FROM {alma_cart} WHERE uid = %d AND alma_id = '%s';", $account->uid, $object->localId));
   $reservation_exists = alma_client_user_has_reservation($item_id);
 
   // If client wants JSON (usually AJAX requests), let's give it to them.
@@ -33,19 +33,19 @@ function alma_cart_page_add_to_cart($item_id) {
       $reply['status'] = 'error';
       $reply['error_type'] = 'already-in-cart';
       $reply['title'] = t('Already in cart');
-      $reply['message'] = t('@item is already in your cart.', array('@item' => $object->data->title[0]));
+      $reply['message'] = t('@item is already in your cart.', array('@item' => $object->title);
     }
     elseif ($reservation_exists) {
       $reply['status'] = 'error';
       $reply['error_type'] = 'reservation-exists';
       $reply['title'] = t('Reservation exists');
-      $reply['message'] = t('@item is already reserved.', array('@item' => $object->data->title[0]));
+      $reply['message'] = t('@item is already reserved.', array('@item' => $object->title));
     }
     else {
       if (alma_cart_add_ting_object($object) == SAVED_NEW) {
         $reply['status'] = 'success';
         $reply['title'] = t('Success');
-        $reply['message'] = t('@item is now in your cart.', array('@item' => $object->data->title[0]));
+        $reply['message'] = t('@item is now in your cart.', array('@item' => $object->title));
         $reply['cart_link'] = url('user/' . $account->uid . '/cart');
       }
       else {
@@ -64,12 +64,12 @@ function alma_cart_page_add_to_cart($item_id) {
 
   // For regular requests, we present forms, etc.
   if ($cart_item_exists) {
-    drupal_set_message(t('@item is already in your cart.', array('@item' => $object->data->title[0])) , 'warning');
+    drupal_set_message(t('@item is already in your cart.', array('@item' => $object->title)) , 'warning');
     return drupal_goto('user/' . $account->uid . '/cart');
   }
 
   if ($reservation_exists) {
-    drupal_set_message(t('@item is already reserved.', array('@item' => $object->data->title[0])), 'warning');
+    drupal_set_message(t('@item is already reserved.', array('@item' => $object->title)), 'warning');
     return drupal_goto('user/' . $account->uid . '/status');
   }
 
@@ -115,7 +115,7 @@ function alma_cart_page_reserve_item($item_id, $reservable = NULL) {
       $reply['status'] = 'error';
       $reply['error_type'] = 'reservation-exists';
       $reply['title'] = t('Reservation exists');
-      $reply['message'] = t('@item is already reserved.', array('@item' => $object->data->title[0]));
+      $reply['message'] = t('@item is already reserved.', array('@item' => $object->title));
     }
     else {
       $reservation = alma_client_add_reservation($creds['borr_card'], $creds['pin_code'], array(
@@ -126,7 +126,7 @@ function alma_cart_page_reserve_item($item_id, $reservable = NULL) {
       if ($reservation) {
         $reply['status'] = 'success';
         $reply['title'] = t('Success');
-        $reply['message'] = t('Reservation for @item added.', array('@item' => $object->data->title[0]));
+        $reply['message'] = t('Reservation for @item added.', array('@item' => $object->title));
         $reply['cart_link'] = url('user/' . $account . '/status');
       }
       else {
@@ -146,7 +146,7 @@ function alma_cart_page_reserve_item($item_id, $reservable = NULL) {
   // For regular requests.
   $creds = alma_user_get_credentials($account);
   if ($reservation_exists) {
-    drupal_set_message(t('@item is already reserved.', array('@item' => $object->data->title[0])), 'warning');
+    drupal_set_message(t('@item is already reserved.', array('@item' => $object->title)), 'warning');
     return drupal_goto('user/' . $account->uid . '/status');
   }
 
@@ -168,8 +168,8 @@ function alma_cart_page_reserve_item($item_id, $reservable = NULL) {
 function alma_cart_confirm_form(&$form_state, $account, $object, $action) {
   // Question keyed by action.
   $questions = array(
-    'add' => t('Add %book to your cart?', array('%book' => $object->data->title[0])),
-    'reserve' => t('Reserve %book immediately?', array('%book' => $object->data->title[0])),
+    'add' => t('Add %book to your cart?', array('%book' => $object->title)),
+    'reserve' => t('Reserve %book immediately?', array('%book' => $object->title)),
   );
 
   // Destination URL keyed by action.
@@ -217,14 +217,14 @@ function alma_cart_confirm_form_submit($form, &$form_state) {
       $creds = alma_user_get_credentials($form_state['values']['account'], FALSE);
       if ($creds) {
         $reservation = alma_client_add_reservation($creds['borr_card'], $creds['pin_code'], array(
-          'id' => $form_state['values']['object']->data->localId,
+          'id' => $form_state['values']['object']->localId,
           'pickup_branch' => $form_state['values']['account']->preferred_branch,
         ));
         if ($reservation) {
-          drupal_set_message(t('@item is now on your reservation list.', array('@item' => $form_state['values']['object']->data->title[0])));
+          drupal_set_message(t('@item is now on your reservation list.', array('@item' => $form_state['values']['object']->title)));
         }
         else {
-          drupal_set_message(t('Reservation of @item failed.', array('@item' => $form_state['values']['object']->data->title[0])));
+          drupal_set_message(t('Reservation of @item failed.', array('@item' => $form_state['values']['object']->title)));
         }
       }
       break;
