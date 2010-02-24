@@ -472,3 +472,15 @@ function format_danmarc2($string){
 
 	return $string;
 }
+
+/**
+ * Implementation of theme rss feed icon
+ * 
+ * @param string $url
+ * @return string 
+ */
+function dynamo_feed_icon($url) {
+  if ($image = theme('image', 'sites/all/themes/dynamo/images/feed.png', t('RSS feed'), t('RSS feed'))) {
+    return '<a href="'. check_url($url) .'" class="feed-icon">'. $image .'<span>'. t('RSS') .'</span></a>';
+  }
+}
