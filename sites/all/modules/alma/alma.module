@@ -103,7 +103,7 @@ function alma_client() {
 function alma_client_get_branches($optional=TRUE, $reset=FALSE) {
   static $branches;
 
-  if (!isset($branches)) {
+  if (!isset($branches) || $reset) {
     $cache = ($reset) ? FALSE : cache_get('get_branches', 'cache_alma_requests');
     if ($cache && !empty($cache->data)) {
       $branches = $cache->data;
