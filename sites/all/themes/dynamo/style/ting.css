@@ -28,7 +28,7 @@
 .ting-item .cart{width:95px; float:left;}
   /*status*/
   .ting-item .alma-status{font-size:10px; text-align:center; line-height:10px; padding:3px 0; margin:10px 0 0 0; background-color: #eee; width:100px; }
-    .ting-item .alma-status.waiting, #content .alma-cart-buttons a.disabled {color: #777;}
+    .ting-item .alma-status.waiting, #content .alma-cart-buttons a.disabled {color: #777; cursor:default; text-decoration:none !important;}
     .ting-item .alma-status.available {background-color: #71bf44;  color: white;}
     .ting-item .alma-status.unavailable{  background-color: #6B0046;  color: white;}
 
