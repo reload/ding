@@ -13,12 +13,13 @@ Drupal.behaviors.almaAvailabilityTingObjectView = function () {
     if ($("#ting-object .alma-availability").length > 0) {
       $("#ting-object .alma-availability ul.library-list").empty();
       // Iterate over each Alma item's data.
-      $.each(data, function (dataIndex, dataItem) {
-        var container = $('#ting-item-' + dataItem.alma_id + ' .alma-availability ul.library-list');
-        var uniqueHoldings = {}
+      $.each(data, function (itemIndex, itemData) {
+        var container, uniqueHoldings;
+        container = $('#ting-item-' + itemData.alma_id + ' .alma-availability ul.library-list');
+        uniqueHoldings = {};
 
         // Find holdings, unique by library name.
-        $.each(this.holdings, function (holdingIndex, holdingData) {
+        $.each(itemData.holdings, function (holdingIndex, holdingData) {
           // If the total count for the library is bigger than the
           // number that library has checked out, it is interpreted as
           // if the item is available.
@@ -39,10 +40,10 @@ Drupal.behaviors.almaAvailabilityTingObjectView = function () {
     else {
       // Remove container as no data was received (when displaying one ting object only)
       var container = $('.alma-availability ul.library-list');
-      if (container.length == 1) {
+      if (container.length === 1) {
         container.parent().remove();
       }
     }
   });
-}
+};
 
