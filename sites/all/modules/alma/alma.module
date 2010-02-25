@@ -95,14 +95,16 @@ function alma_client() {
  *
  * @param boolean $optional
  *    If true, add a "none" option to the branch list.
+ * @param boolean $reset
+ *    Optional. If TRUE reset the cached data and reload.
  * @return array
  *    Array of branch names, keyed by their ID.
  */
-function alma_client_get_branches($optional=TRUE) {
+function alma_client_get_branches($optional=TRUE, $reset=FALSE) {
   static $branches;
 
   if (!isset($branches)) {
-    $cache = cache_get('get_branches', 'cache_alma_requests');
+    $cache = ($reset) ? FALSE : cache_get('get_branches', 'cache_alma_requests');
     if ($cache && !empty($cache->data)) {
       $branches = $cache->data;
     }
@@ -135,12 +137,14 @@ function alma_client_get_branches($optional=TRUE) {
  *
  * @param boolean $optional
  *    If true, add a "none" option to the branch list.
+ * @param boolean $reset
+ *    Optional. If TRUE reset the cached data and reload.
  * @return array
  *    Array of branch names, keyed by their ID.
  */
-function alma_client_get_reservation_branches($optional=TRUE) {
+function alma_client_get_reservation_branches($optional=TRUE, $reset=FALSE) {
   // Return data from cache if available.
-  $cache = cache_get('get_reservation_branches', 'cache_alma_requests');
+  $cache = ($reset) ? FALSE : cache_get('get_reservation_branches', 'cache_alma_requests');
   if ($cache && !empty($cache->data)) {
     $branches = $cache->data;
   }

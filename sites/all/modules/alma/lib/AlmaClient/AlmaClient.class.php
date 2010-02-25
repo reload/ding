@@ -78,6 +78,7 @@ class AlmaClient {
    *    List of branches, keyed by branch_id
    */
   public function get_branches() {
+    $branches = array();
     $doc = $this->request('organisation/branches');
 
     foreach ($doc->getElementsByTagName('branch') as $branch) {
@@ -96,6 +97,7 @@ class AlmaClient {
    *    List of branches, keyed by branch_id
    */
   public function get_reservation_branches() {
+    $branches = array();
     $doc = $this->request('reservation/branches');
 
     foreach ($doc->getElementsByTagName('branch') as $branch) {
