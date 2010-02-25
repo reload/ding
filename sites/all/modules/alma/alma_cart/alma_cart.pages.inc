@@ -33,7 +33,7 @@ function alma_cart_page_add_to_cart($item_id) {
       $reply['status'] = 'error';
       $reply['error_type'] = 'already-in-cart';
       $reply['title'] = t('Already in cart');
-      $reply['message'] = t('@item is already in your cart.', array('@item' => $object->title);
+      $reply['message'] = t('@item is already in your cart.', array('@item' => $object->title));
     }
     elseif ($reservation_exists) {
       $reply['status'] = 'error';
