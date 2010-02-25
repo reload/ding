@@ -15,7 +15,11 @@ Drupal.almaAvailability = {
  */
 Drupal.almaAvailability.find_ids = function () {
   $("div.ting-item").each(function () {
-    Drupal.almaAvailability.id_list.push(Drupal.almaAvailability.id_matcher.exec(this.id)[1]);
+    var match = Drupal.almaAvailability.id_matcher.exec(this.id);
+
+    if (match) {
+      Drupal.almaAvailability.id_list.push(match[1]);
+    }
   });
 };
 
@@ -87,5 +91,34 @@ Drupal.almaAvailability.updateStatus = function (data, textStatus) {
         .text(Drupal.t('reserved'));
     }
   });
+};
+
+/**
+ * Format a holding as readable text.
+ */
+Drupal.almaAvailability.formatHolding = function (item, holding) {
+  var output = Drupal.settings.alma.branches[holding.branch_id];
+
+  if (holding.department_id && Drupal.settings.alma.departments[holding.department_id]) {
+    output += ' → ' + Drupal.settings.alma.departments[holding.department_id];
+  }
+
+  if (holding.location_id && Drupal.settings.alma.locations[holding.location_id]) {
+    output += ' → ' + Drupal.settings.alma.locations[holding.location_id];
+  }
+
+  if (holding.sublocation_id && Drupal.settings.alma.sublocations[holding.sublocation_id]) {
+    output += ' → ' + Drupal.settings.alma.sublocations[holding.sublocation_id];
+  }
+
+  if (holding.collection_id && Drupal.settings.alma.collections[holding.collection_id]) {
+    output += ' → ' + Drupal.settings.alma.collections[holding.collection_id];
+  }
+
+  if (holding.shelf_mark) {
+    output += holding.shelf_mark;
+  }
+
+  return output;
 };
 
