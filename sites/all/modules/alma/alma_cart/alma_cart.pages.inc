@@ -18,7 +18,7 @@ function alma_cart_page_add_to_cart($item_id) {
 
   // First, let's check if this is in the cart already :)
   $cart_item_exists = (boolean) db_result(db_query("SELECT created FROM {alma_cart} WHERE uid = %d AND alma_id = '%s';", $account->uid, $object->data->localId));
-  $reservation_exists = alma_client_user_has_reservation($item_id);
+  $reservation_exists = alma_client_user_has_reservation($creds['borr_card'], $creds['pin_code'], $reservable);
 
   // If client wants JSON (usually AJAX requests), let's give it to them.
   if ($is_ahah) {
@@ -127,7 +127,7 @@ function alma_cart_page_reserve_item($item_id, $reservable = NULL) {
         $reply['status'] = 'success';
         $reply['title'] = t('Success');
         $reply['message'] = t('Reservation for @item added.', array('@item' => $object->data->title[0]));
-        $reply['cart_link'] = url('user/' . $account . '/status');
+        $reply['cart_link'] = url('user/' . $account->uid . '/status');
       }
       else {
         $reply['status'] = 'error';

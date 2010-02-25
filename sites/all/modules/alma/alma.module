@@ -514,15 +514,15 @@ function alma_client_change_pin($borr_card, $pin_code, $new_pin) {
 function alma_client_user_has_reservation($borr_card, $pin_code, $item_id) {
   try {
     $reservations = alma_client()->get_reservations($borr_card, $pin_code);
-  } catch (Exception $e) {
+    foreach ($reservations as $res) {
+      if ($res['record_id'] == $item_id) {
+        return TRUE;
+      }
+    }
+  }
+  catch (Exception $e) {
     watchdog('alma_user', 'get_reservations error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
   }
-
-  foreach ($reservations as $res) {
-    if ($res['record_id'] == $item_id) {
-      return TRUE;
-    }
-  } 
 
   return FALSE;
 }
