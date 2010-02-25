@@ -21,35 +21,35 @@
       </div>
 
       <h3>
-        <?php print l(implode(', ', $collection->objects[0]->data->title), $collection->url, $options= array('attributes' => array('class' =>'title')) );?> 
+        <?php print l($collection->title, $collection->url, array('attributes' => array('class' =>'title'))) ;?> 
       </h3>
 
       <div class="meta">
-        <?php if ($collection->objects[0]->data->creator) : ?>
+        <?php if ($collection->creators_string) : ?>
           <span class="creator">
-            <?php echo t('By %creator_name%', array('%creator_name%' => implode(', ', $collection->objects[0]->data->creator))) ?>
+            <?php echo t('By %creator_name%', array('%creator_name%' => $collection->creators_string)) ?>
           </span>
         <?php endif; ?>
-        <?php if ($collection->objects[0]->data->date) : ?>
+        <?php if ($collection->date) : ?>
           <span class="publication_date">
-            <?php echo t('(%publication_date%)', array('%publication_date%' => implode(', ', $collection->objects[0]->data->date))) /* TODO: Improve date handling, localizations etc. */ ?>
+            <?php echo t('(%publication_date%)', array('%publication_date%' => $collection->date)) /* TODO: Improve date handling, localizations etc. */ ?>
           </span>
         <?php endif; ?>
       </div>
 
-      <?php if ($collection->objects[0]->data->abstract) : ?>
+      <?php if ($collection->abstract) : ?>
       <div class="abstract">
         <p>
-          <?php echo $collection->objects[0]->data->abstract[0] ?>
+          <?php print check_plain($collection->abstract); ?>
         </p>
       </div>
       <?php endif; ?>
 
-      <?php if ($collection->objects[0]->data->subject) : ?>
+      <?php if ($collection->subjects) : ?>
         <div class="subjects">
           <h4><?php echo t('Subjects:') ?></h4>
           <ul>
-            <?php foreach ($collection->objects[0]->data->subject as $subject) : ?>
+            <?php foreach ($collection->subjects as $subject) : ?>
               <li><?php echo $subject ?></li>
             <?php endforeach; ?>
           </ul>

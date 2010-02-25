@@ -8,7 +8,6 @@
  * Available variables:
  * - $collection: The TingClientObjectCollection instance we're rendering.
  * - $sorted_collection: Array of TingClientObject instances sorted by type.
- * - $common_object: TingClientObject holding information for the entire collection.
  */
 ?>
 <!--ting-collection-->
@@ -16,85 +15,68 @@
 	<div class="content-left">
 
 		<div class="tab-navigation">
-
 			<ul>
 				<li class="active"><a href="#">Materialer</a></li>
 			</ul>
-
 		</div>
 
 		<div class="tab-navigation-main">
 			<div class="tab-navigation-main-inner">
-				<?php
-				// material types retrieved from preprocess hook...
-				// $common_object is fetched from the preprocess hook
-				?>
-				
 				<div class="ting-overview clearfix">
-			    	<?php 
-					// 	TODO set false to true ?
-					//print theme('image', $tingClientObject->additionalInformation->detailUrl, '', '', null, false);
-		 			?>
-		 			
-	   				<h1><?php print $common_object->data->title['0'];?></h1>
+          <h1><?php print check_plain($collection->title); ?></h1>
 	
-					<div class='creator'>
-						<span class='byline'><?php echo ucfirst(t('by')); ?></span>
-            <?php
-            foreach ($common_object->data->creator as $i => $creator) {
-              if ($i) {
-                print ', ';
-              }
-              print l($creator, 'search/ting/' . $creator, array('attributes' => array('class' => 'author')));
-            }
-            ?>
-						<span class='date'>(<?php echo $common_object->data->date[0]; ?>)</span> 
-					</div>		 			
+          <?php if ($collection->creators) { ?>
+            <div class='creator'>
+              <span class='byline'><?php echo ucfirst(t('by')); ?></span>
+              <?php
+                $creators = array();
+                foreach ($collection->creators as $i => $creator) {
+                  $creators[] = l($creator, 'search/ting/' . $creator, array('attributes' => array('class' => 'author')));
+                }
+                print implode(', ', $creators);
+              ?>
+              <span class='date'>(<?php print $collection->date; ?>)</span> 
+            </div>
+          <?php } ?>
 
-					<p><?php print $common_object->data->abstract[0];?></p>
+					<p><?php print check_plain($collection->abstract); ?></p>
 
 					<div class='terms'>
-						<?php //print theme('item_list', $tingClientObject->data->subject, t('Terms:'), 'span', array('class' => 'subject'));?>	
 						<span class='title'><?php echo t('Terms:'); ?></span>
 						<?php
-						foreach ($common_object->data->subject as $term) {
-							if(!empty($term)) {
-								$terms[] = "<span class='term'>".l($term, 'search/ting/'.$term)."</span>";
-							}
-						}
-						echo implode(", ", $terms);
+              $subjects = array();
+              foreach ($collection->subjects as $subject) {
+                $subjects[] = "<span class='term'>". l($subject, 'search/ting/'. $subject) ."</span>";
+              }
+              print implode(', ', $subjects);
 						?>
 					</div>
-					
-          <?php 
-            /*only one collection ? dont print it*/
-            if(count($sorted_collection) > 1){ 
-            ?>
+
+          <?php  if (count($sorted_collection) > 1) { ?>
   					<div class='material-links'>
   						<span class='title'><?php echo t('Go to material:'); ?></span>
   						<?php
-  						foreach ($sorted_collection as $category => $objects) {
-  							$material_links[] = '<span class="link"><a href="#'.$category.'">'.t($category).'</a></span>';
-  						}
-  						echo implode(", ", $material_links);
+                foreach ($sorted_collection as $type => $objects) {
+                  $material_links[] = '<span class="link"><a href="#'.$type.'">'.t($type).'</a></span>';
+                }
+                print implode(", ", $material_links);
   						?>
 					  </div>
 					<?php } ?>
-
 				</div>
 
 
 				<?php
- 				foreach ($sorted_collection as $category => $objects) {		
+ 				foreach ($sorted_collection as $type => $objects) {		
           if(count($sorted_collection) > 1){ 
-					  print '<h2>'.$category.'<a name="'.$category.'"></a></h2>';
+					  print '<h2>'.$type.'<a name="'.$type.'"></a></h2>';
  					}
 
 					foreach ($objects as $tingClientObject) {
 				    // now display all the materials
 				?>
 
-				<div id="ting-item-<?php print $tingClientObject->data->localId; ?>" class="ting-item clearfix">
+				<div id="ting-item-<?php print $tingClientObject->localId; ?>" class="ting-item clearfix">
 
           <div class="content clearfix">
   		  		<div class="picture">
@@ -105,24 +87,23 @@
   					</div>
 
   				  <div class="info">
-				  		<span class='date'><?php echo $tingClientObject->data->date[0]; ?></span> 
-  						<h3><?php print l($tingClientObject->data->title['0'], $tingClientObject->url, array("attributes"=>array('class' => 'alternative'))); ?></h3>
-
+				  		<span class='date'><?php print $tingClientObject->record['dc:date'][''][0]; ?></span> 
+  						<h3><?php print l($tingClientObject->title, $tingClientObject->url, array('attributes' => array('class' => 'alternative'))); ?></h3>
 
   						<em><?php echo t('by'); ?></em>
-  						<?php echo l($tingClientObject->data->creator[0], 'search/ting/'.$tingClientObject->data->creator[0], array("attributes"=>array('class' => 'author alternative'))); ?>
-						
-  						<div class='language'><?php echo t('Language') . ': ' . $tingClientObject->data->language[1]; ?></div>
+  						<?php echo l($tingClientObject->creators[0], 'search/ting/'. $tingClientObject->creators[0], array('attributes' => array('class' => 'author alternative'))); ?>
+	
+  						<div class='language'><?php echo t('Language') . ': ' . $tingClientObject->language; ?></div>
   						<?php
-  						for ($i = 1; $i < count($tingClientObject->data->creator); $i++) {
-  							if($extradesc = $tingClientObject->data->creator[$i]) { print "<p>".$extradesc."</p>"; }
+  						for ($i = 1; $i < count($tingClientObject->creators); $i++) {
+  							if($extradesc = $tingClientObject->creators[$i]) { print "<p>".$extradesc."</p>"; }
   						}
   						?>
 
   						<div class="more">
                 <?php print l(t('More information'), $tingClientObject->url, array('attributes' => array('class' => 'more-link')) ); ?>
   						</div>
-              <?php if ($tingClientObject->data->type[0] != 'Netdokument') { ?>
+              <?php if ($tingClientObject->type != 'Netdokument') { ?>
                 <div class="alma-status waiting">Afventer data…</div>
               <?php } ?>
   					</div>

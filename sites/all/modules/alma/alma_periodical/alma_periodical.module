@@ -25,9 +25,9 @@ function template_preprocess_ting_periodical(&$variables) {
   jquery_ui_add('ui.dialog');
   jquery_ui_theme_load();
   drupal_add_js(drupal_get_path('module', 'alma_cart') . '/alma_cart.buttons.js');
-  $variables['title'] = check_plain($variables['object']->data->title[0]);
-  $data = alma_client_catalogue_record_detail($variables['object']->data->localId);
-  $details = $data['records'][$variables['object']->data->localId];
+  $variables['title'] = check_plain($variables['object']->title);
+  $data = alma_client_catalogue_record_detail($variables['object']->localId);
+  $details = $data['records'][$variables['object']->localId];
 
   foreach ($details['issues'] as $year => $issue_list) {
     $items = array();

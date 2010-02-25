@@ -108,7 +108,7 @@ function ting_recommendation_panes_get_recommended_objects($objects) {
       $ting_object = ting_get_object_by_local_id($localId, false);
 
       // Only show objects belonging to our own library.
-      if ($ting_object && $ting_object->data->ownerId == $agency) {
+      if ($ting_object && $ting_object->ownerId == $agency) {
         $recommendedObjects[] = $ting_object;
 
         // Don't get more than 10 valid objects.
@@ -137,18 +137,12 @@ function ting_recommendation_panes_extract_identifers($objects) {
     //if passing a single value then extract ids depending on type
     switch (get_class($objects)) {
       case 'TingClientObject':
-        //get id from the object
-        $id = array();
-        if (isset($objects->data->identifier)) {
-          foreach ($objects->data->identifier as $i)
-          {
-            if ($i->type == TingClientObjectIdentifier::ISBN) {
-              $id = array($i->id);
-              break;
-            }
-          }
+        if (!empty($objects->record['dc:identifier']['dkdcplus:ISBN'])) {
+          return $objects->record['dc:identifier']['dkdcplus:ISBN'];
         }
-        return $id;
+        else {
+          return array();
+        }
       break;
       case 'TingClientObjectCollection':
         //get ids from each of the objects in the collection

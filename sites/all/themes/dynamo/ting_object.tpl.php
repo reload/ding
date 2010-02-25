@@ -24,7 +24,7 @@
 
     <div class="tab-navigation-main">
       <div class="tab-navigation-main-inner">
-        <div id="ting-item-<?php print $object->data->localId; ?>" class="ting-item ting-item-full">
+        <div id="ting-item-<?php print $object->localId; ?>" class="ting-item ting-item-full">
           <div class="ting-overview clearfix">
 
             <div class="left-column left">
@@ -39,23 +39,35 @@
             </div>
 
             <div class="right-column left">
-              <h2><?php print $object->data->title[0];?></h2>
+              <h2><?php print check_plain($object->record['dc:title'][''][0]); ?></h2>
+              <?php foreach (array_diff(array_keys($object->record['dc:title']), array('')) as $type) { ?>
+                <?php foreach ($object->record['dc:title'][$type] as $title) { ?>
+                  <h2><?php print check_plain($title); ?></h2>
+                <?php } ?>
+              <?php } ?>
+              <?php if (!empty($object->record['dcterms:alternative'][''])) { ?>
+                <?php foreach ($object->record['dcterms:alternative'][''] as $title) { ?>
+                  <h2>(<?php print check_plain($title); ?>)</h2>
+                <?php } ?>
+              <?php } ?>
               <div class='creator'>
                 <span class='byline'><?php echo ucfirst(t('by')); ?></span>
                 <?php
-                foreach ($object->data->creator as $i => $creator) {
-                  if ($i) {
-                    print ', ';
+                  foreach ($object->creators as $i => $creator) {
+                    if ($i) {
+                      print ', ';
+                    }
+                    print l($creator, 'search/ting/' . $creator, array('attributes' => array('class' => 'author')));
                   }
-                  print l($creator, 'search/ting/' . $creator, array('attributes' => array('class' => 'author')));
-                }
                 ?>
-                <span class='date'>(<?php echo $object->data->date[0]; ?>)</span>
+                <?php if (!empty($object->date)) { ?>
+                  <span class='date'>(<?php print $object->date; ?>)</span>
+                <?php } ?>
               </div>
-              <p><?php print $object->data->abstract[0];?></p>
-               <?php if ($object->data->type[0] != 'Netdokument') { ?>
-                 <div class="alma-status waiting"><?php print t('waiting for data'); ?></div>
-               <?php } ?>
+              <p><?php print check_plain($object->record['dcterms:abstract'][''][0]); ?></p>
+              <?php if ($object->type != 'Netdokument') { ?>
+                <div class="alma-status waiting"><?php print t('waiting for data'); ?></div>
+              <?php } ?>
             </div>
 
             <?php print theme('alma_cart_reservation_buttons', $object); ?>
@@ -65,16 +77,21 @@
           <div class="object-information clearfix">
             <?php 
             //we printed the first part up above so remove that 
-            unset($object->data->abstract[0]);
+            unset($object->record['dcterms:abstract'][''][0]);
             ?>
-            <div class="abstract"><?php print implode(' ; ', format_danmarc2($object->data->abstract)) ?></div>
+            <div class="abstract"><?php print implode(' ; ', format_danmarc2((array)$object->record['dcterms:abstract'][''])) ?></div>
 
-            <?php print theme('item_list',$object->data->type, t('Type'), 'span', array('class' => 'type'));?>
-            <?php print theme('item_list',$object->data->identifier, t('Identifier'), 'span', array('class' => 'identifier'));?>
-            <?php print theme('item_list',$object->data->subject, t('Subject'), 'span', array('class' => 'subject'));?>
-            <?php print theme('item_list',$object->data->publisher, t('Publisher'), 'span', array('class' => 'publisher'));?>
-            <?php print theme('item_list',$object->data->format, t('Format'), 'span', array('class' => 'format'));?>
-            <?php print theme('item_list',$object->data->language, t('Language'), 'span', array('class' => 'language'));?>
+            <?php print theme('item_list',$object->record['dc:type']['dkdcplus:BibDK-Type'], t('Type'), 'span', array('class' => 'type'));?>
+            <?php print theme('item_list',$object->record['dc:format'][''], t('Format'), 'span', array('class' => 'format'));?>
+            <?php print theme('item_list',$object->record['dc:source'][''], t('Original title'), 'span', array('class' => 'format'));?>
+            <?php print theme('item_list',$object->record['dc:identifier']['dkdcplus:ISBN'], t('ISBN no.'), 'span', array('class' => 'identifier'));?>
+            <?php print theme('item_list',array(l($object->record['dc:identifier']['dcterms:URI'][0], $object->record['dc:identifier/dcterms:URI'][0])), t('Host publication'), 'span', array('class' => 'identifier'));?>
+            <?php print theme('item_list',$object->record['dc:language'][''], t('Language'), 'span', array('class' => 'language'));?>
+            <?php print theme('item_list',$object->record['dc:language']['oss:spoken'], t('Speech'), 'span', array('class' => 'language'));?>
+            <?php print theme('item_list',$object->record['dc:language']['oss:subtitles'], t('Subtitles'), 'span', array('class' => 'language'));?>
+            <?php print theme('item_list',$object->record['dc:subject']['dkdcplus:DBCS'], t('Subject'), 'span', array('class' => 'subject'));?>
+            <?php print theme('item_list',$object->record['dc:publisher'][''], t('Publisher'), 'span', array('class' => 'publisher'));?>
+            <?php print theme('item_list',$object->record['dc:rights'][''], t('Rettigheder'), 'span', array('class' => 'language'));?>
             <?php // print theme('item_list',$object->data->relation, t('Relation'), 'span', array('class' => 'relation'));?>
             <?php // print theme('item_list',$object->data->coverage, t('Coverage'), 'span', array('class' => 'coverage'));?>
             <?php // print theme('item_list',$object->data->rights, t('Rights'), 'span', array('class' => 'rights'));?>
@@ -88,9 +105,9 @@
               print '<div class="ding-box-wide object-otherversions">';
               print '<h3>'. t('Also available as: ') . '</h3>';  
               print "<ul>";
-              foreach ($collection->types as $category) {
-                if ($category != $object->data->type[0]) {
-                  $material_links[] = '<li class="category"><a href="'.$collection->url.'#'.$category.'">'.t($category).'</a></li>';
+              foreach ($collection->types as $type) {
+                if ($type != $object->type) {
+                  $material_links[] = '<li class="category">' . l($type, $collection->url). '</li>';
                 }
               }
               print implode(' ', $material_links);
@@ -111,9 +128,9 @@
           }
           ?>
 
-          <?php if ($object->data->type[0] != 'Netdokument') { ?>
+          <?php if ($object->type[0] != 'Netdokument') { ?>
             <div class="ding-box-wide alma-availability">
-              <h3>Følgende biblioteker har "<?php print $object->data->title[0];?>" hjemme:</h3>
+              <h3>Følgende biblioteker har "<?php print check_plain($object->title); ?>" hjemme:</h3>
               <ul class="library-list">
                 <li class="alma-status waiting even"><?php print t('waiting for data'); ?></li>
               </ul>

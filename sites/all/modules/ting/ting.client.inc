@@ -104,7 +104,6 @@ function ting_get_collection_by_id($object_id, $enrich = FALSE) {
 
     if ($collection) {
       $collection = ting_add_collection_info($collection);
-      $collection = ting_sort_objects($collection);
     }
   }
 
@@ -176,7 +175,6 @@ function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = arra
 		if (isset($options['enrich']) && $options['enrich']) {
 			$collection = ting_add_additional_info($collection);
 		}
-		$collection = ting_sort_objects($collection);
 	}
 
 	return $searchResult;
@@ -284,47 +282,77 @@ function ting_get_request_factory() {
 }
 
 function ting_add_collection_info(TingClientObjectCollection $collection) {
-	$collection->url = url('ting/collection/' . $collection->objects[0]->id, array('absolute' => true));
-	$types = array();
-	foreach ($collection->objects as &$object)
-	{
-		$object = ting_add_object_info($object);
-		if (isset($object->data->type) && is_array($object->data->type))
-		{
-  		$types = array_merge($types, $object->data->type);
-		}
-	}
-	$collection->types = array_unique($types);
-	return $collection;
-}
+  $types = array();
+  $subject_count = array();
+  $common_object = NULL;
+  // Sort by type and language with most probable results first, then use the
+  // abstract of the first object with an abtract.
+  usort($collection->objects, 'ting_compare_objects');
+  foreach ($collection->objects as $object) {
+    $object = ting_add_object_info($object);
+    $types[] = $object->type;
+    foreach ($object->subjects as $subject) {
+      if (!isset($subject_count[$subject])) {
+        $subject_count[$subject] = 0;
+      }
+      $subject_count[$subject]++;
+    }
+    if (!$common_object && $object->abstract) {
+      $common_object = $object;
+    }
+  }
+  $collection->types = array_unique($types);
+  asort($subject_count);
+  // All subjects from all objects with the most common ones first.
+  $collection->subjects = array_keys($subject_count);
+  if (!$common_object) {
+    $common_object = $collection->objects[0];
+  }
 
-function ting_sort_objects($collection) {
-	usort($collection->objects, 'ting_compare_objects');
-	$collection->objects = array_reverse($collection->objects);
+  $collection->id = $common_object->id;
+  $collection->title = $common_object->title;
+  $collection->abstract = $common_object->abstract;
+  $collection->creators = $common_object->creators;
+  $collection->creators_string = $common_object->creators_string;
+  $collection->date = $common_object->date;
 
-	foreach ($collection->objects as $i => $object)
-	{
-		if (isset($object->additionalInformation->detailUrl) ||
-		isset($object->additionalInformation->thumbnailUrl))
-		{
-			$object = array_shift(array_slice($collection->objects, $i, 1));
-			unset($collection->objects[$i]);
-			array_unshift($collection->objects, $object);
-			break;
-		}
-	}
+  $collection->url = url('ting/collection/' . $collection->id, array('absolute' => true));
 
-	return $collection;
+  return $collection;
 }
 
 function ting_add_object_info(TingClientObject $object) {
-	$object->url = url('ting/object/'.$object->id, array('absolute' => true));
+  $object->type = $object->record['dc:type']['dkdcplus:BibDK-Type'][0];
+  $object->language = $object->record['dc:language'][''][0];
 
-  if ($object->data->type[0] == 'Netdokument') {
-    foreach ($object->data->identifier as $identifier) {
-      if ($identifier->type == TingClientObjectIdentifier::URL) {
-        $object->online_url = ting_rewrite_download_url($identifier->id);
+  $object->title = $object->record['dc:title'][''][0];
+  $object->abstract = $object->record['dcterms:abstract'][''][0];
+  $object->date = $object->record['dc:date'][''][0];
+
+  $object->creators = array();
+  if (!empty($object->record['dc:creator'])) {
+    foreach ($object->record['dc:creator'] as $type => $dc_creator) {
+      if ($type != 'oss:sort') {
+        $object->creators = array_merge($object->creators, $dc_creator);
       }
+    }
+  }
+  $object->creators_string = implode(', ', $object->creators);
+
+  $object->subjects = array();
+  if (!empty($object->record['dc:subject'])) {
+    foreach ($object->record['dc:subject'] as $type => $dc_subject) {
+      if (in_array($type, array('dkdcplus:DBCF', 'dkdcplus:DBCS', 'dkdcplus:DBCM', 'dkdcplus:DBCO', 'dkdcplus:DBCN'))) {
+        $object->subjects = array_merge($object->subjects, $dc_subject);
+      }
+    }
+  }
+
+	$object->url = url('ting/object/'.$object->id, array('absolute' => TRUE));
+
+  if ($object->type == 'Netdokument') {
+    foreach ($object->record['dc:identifier']['dcterms:URI'] as $url) {
+      $object->online_url = ting_rewrite_download_url($url);
     }
   }
 
@@ -353,88 +381,75 @@ function ting_add_additional_info($collection) {
 
 	$objects = (isset($collection->objects)) ? $collection->objects : $collection;
 
-	foreach($objects as $object)
-	{
-		if (isset($object->data->identifier))
-		{
-			foreach ($object->data->identifier as $identifier)
-			{
-				if ($identifier->type == TingClientObjectIdentifier::FAUST_NUMBER)
-				{
-					$id_parts = explode('|', $identifier->id, 2);
-					$faust_numbers[] = $id_parts[0];
-				}
-			}
-		}
-	}
+  foreach ($objects as $object) {
+    if ($object->localId) {
+      $faust_numbers[] = $object->localId;
+    }
+  }
 	
-	if (sizeof($faust_numbers) > 0)
-	{
-		try
-		{
-			$additionalInformations = $additionalInformationService->getByFaustNumber($faust_numbers);
-			foreach ($additionalInformations as $id => $ai)
-			{
-				foreach ($objects as &$object)
-				{
-					if (isset($object->data->identifier))
-					{
-						foreach ($object->data->identifier as $identifier)
-						{
-							if (($identifier->type == TingClientObjectIdentifier::FAUST_NUMBER) &&
-							    (strpos($id, $identifier->id) == 0))
-							{
-								$object->additionalInformation = $ai;
-							}
-						}
-					}
-				}
-			}
-		}
-		catch (AdditionalInformationServiceException $e)
-		{
-			watchdog('TingClient', 'Error retrieving additional information and covers: '.$e->getMessage(), $isbns, WATCHDOG_ERROR);
-		}
-	}
+  if (sizeof($faust_numbers) > 0) {
+    try {
+      $additionalInformations = $additionalInformationService->getByFaustNumber($faust_numbers);
+      foreach ($additionalInformations as $faust_number => $ai) {
+        foreach ($objects as &$object) {
+          if ($faust_number == $object->localId) {
+            $object->additionalInformation = $ai;
+          }
+        }
+      }
+    }
+    catch (AdditionalInformationServiceException $e) {
+      watchdog('TingClient', 'Error retrieving additional information and covers: '.$e->getMessage(), $isbns, WATCHDOG_ERROR);
+    }
+  }
 
-	if (isset($collection->objects))
-	{
-		$collection->objects = $objects;
-	}
-	else
-	{
+  if (isset($collection->objects)) {
+    $collection->objects = $objects;
+  }
+  else {
 		$collection = $objects;
-	}
+  }
 
-	return $collection;
+  return $collection;
 }
 
-function ting_compare_objects($o1, $o2, $criterias = NULL) {
-	$criterias = ($criterias) ? $criterias : array(	'language' => array('Dansk', 'Engelsk'),
-																									'type' => array('Bog', 'DVD'));
-	foreach ($criterias as $attribute => $values)
-	{
-		foreach ($values as $value)
-		{
-			$o1Check = (isset($o1->data->$attribute) && is_array($o1->data->$attribute)) ? in_array($value, $o1->data->$attribute) : false;
-			$o2Check = (isset($o2->data->$attribute) && is_array($o2->data->$attribute)) ? in_array($value, $o2->data->$attribute) : false;
-			if ($o1Check && !$o2Check)
-			{
-				return 1;
-			}
-			else if (!$o1Check && $o2Check)
-			{
-				return -1;
-			}
-			else if ($o1Check && $o2Check && (sizeof($criterias) > 1))
-			{
-				array_shift($criterias);
-				return ting_compare_objects($o1, $o2, $criterias);
-			}
-		}
-	}
-		
-	return 0;
+/**
+ * Callback for usort().
+ *
+ * Sorts objects according to "ORDER BY language_value, type_value", with
+ * language_value being Danish=1, English=2, Other=3, and type_value being
+ * Book=1, DVD=2, Other=3.
+ */
+function ting_compare_objects($o1, $o2) {
+  $criteria = array(
+    array(array('dc:language', 'dcterms:ISO639-2'), array('dan', 'eng')),
+    array(array('dc:type', 'dkdcplus:BibDK-Type'), array('Bog', 'DVD')),
+  );
+  foreach ($criteria as $criterion) {
+    list($keys, $values) = $criterion;
+    list($key1, $key2) = $keys;
+    $i1 = !empty($o1->record[$key1][$key2]) ? array_search($o1->record[$key1][$key2][0], $values) : FALSE;
+    $i2 = !empty($o2->record[$key1][$key2]) ? array_search($o2->record[$key1][$key2][0], $values) : FALSE;
+    if ($i1 !== FALSE && $i2 !== FALSE) {
+      // Both objects has one of the specified values for this criteria (e.g.
+      // when comparing "Bog" to "DVD").
+      if ($i1 != $i2) {
+        // The values were identical; move on to next criteria.
+        return $i1 - $i2;
+      }
+    }
+    elseif ($i1 !== FALSE) {
+      // Only the first object has one of the specified values (e.g. when
+      // comparing "Bog" to "VHS").
+      return -1;
+    }
+    elseif ($i2 !== FALSE) {
+      // Only the last object has one of the specified values (e.g. when
+      // comparing "Bog" to "Bog").
+      return 1;
+    }
+  }
+  return 0;
 }
 
 function ting_add_agency(TingClientAgentRequest $request) {

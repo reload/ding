@@ -13,14 +13,13 @@ function ting_reference_collection_autocomplete_js() {
 	if ($string && (strlen($string) > 0))
 	{
 		$searchResult = ting_do_search($string, 1, 10, array('facets' => array()));
-		foreach ($searchResult->collections as $collection)
-		{
-			$object = array_shift($collection->objects);
-			$items[$object->id] = t('!author: !title (!manifestations)', 
-															array('!author' => $object->data->creator[0],
-																		'!title' => $object->data->title[0],
-																		'!manifestations' => format_plural(sizeof($collection->objects), '1 manifestation', '@count manifestations')));
-		}
+    foreach ($searchResult->collections as $collection) {
+      $items[$collection->id] = t('!author: !title (!manifestations)', array(
+        '!author' => $collection->creators_string,
+        '!title' => $collection->title,
+        '!manifestations' => format_plural(count($collection->objects), '1 manifestation', '@count manifestations'),
+      ));
+    }
 	}
 	
 	echo ting_reference_autocomplete_format_items($items);
@@ -40,19 +39,18 @@ function ting_reference_object_autocomplete_js() {
 	{
 		$searchResult = ting_do_search($string, 1, 10, array('useCollections' => 'false', 'facets' => array()));
 		
-		foreach ($searchResult->collections as $collection)
-		{
+		foreach ($searchResult->collections as $collection) {
 			$object = array_shift($collection->objects);
-			$items[$object->id] = t('!author: !title (!type, !year, !id)', 
-															array('!author' => $object->data->creator[0],
-																		'!title' => $object->data->title[0],
-																		'!type' => $object->data->type[0],
-																		'!year' => $object->data->date[0],
-																		'!id' => $object->data->identifier[0]));
+      $items[$object->id] = t('!author: !title (!type, !year, !id)',  array(
+        '!author' => $object->creators[0],
+        '!title' => $object->title,
+        '!type' => $object->type,
+        '!year' => $object->record['dc:date'][''][0],
+        '!id' => $object->localId,
+      ));
 		}
 	}
 
-	
 	echo ting_reference_autocomplete_format_items($items);
 	exit;
 }
