@@ -566,12 +566,12 @@ class AlmaClient {
     foreach ($elem->getElementsByTagName('holding') as $item) {
       $holdings[] = array(
         'reservable' => $item->getAttribute('reservable'),
-        'available_count' => $item->getAttribute('nofAvailableForLoan'),
+        'available_count' => (int) $item->getAttribute('nofAvailableForLoan'),
         'status' => $item->getAttribute('status'),
-        'ordered_count' => $item->getAttribute('nofOrdered'),
-        'checked_out_count' => $item->getAttribute('nofCheckedOut'),
-        'reference_count' => $item->getAttribute('nofReference'),
-        'total_count' => $item->getAttribute('nofTotal'),
+        'ordered_count' => (int) $item->getAttribute('nofOrdered'),
+        'checked_out_count' => (int) $item->getAttribute('nofCheckedOut'),
+        'reference_count' => (int) $item->getAttribute('nofReference'),
+        'total_count' => (int) $item->getAttribute('nofTotal'),
         'collection_id' => $item->getAttribute('collectionId'),
         'sublocation_id' => $item->getAttribute('subLocationId'),
         'location_id' => $item->getAttribute('locationId'),
