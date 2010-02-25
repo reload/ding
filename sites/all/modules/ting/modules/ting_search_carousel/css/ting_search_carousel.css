@@ -36,7 +36,6 @@
 .ting-search-carousel .search-results img { margin: 0 auto; }
 .ting-search-carousel .search-results .creator,
 .ting-search-carousel .search-results .title { font-size: 10px; line-height: 1.25; color: #fff; text-align: center; } 
-.ting-search-carousel .search-results .title { font-style: italic; }
 
 
 .ting-search-carousel .search-controller { background:#f3f5f5; border-top: 1px solid #c2c4c4;margin:0 0 0 2px; width:958px; height:20px; }
