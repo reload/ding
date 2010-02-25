@@ -19,7 +19,13 @@ Drupal.behaviors.almaAvailabilityTingObjectView = function () {
 
         // Find holdings, unique by library name.
         $.each(this.holdings, function (holdingIndex, holdingData) {
-          if (parseInt(holdingData.available_count) > 0) {
+          // If the total count for the library is bigger than the
+          // number that library has checked out, it is interpreted as
+          // if the item is available.
+          // This because available_count is really the number available
+          // for reservation, and doesn't count things that can be
+          // loaned, but not reserved (14 day loans, etc.).
+          if (holdingData.total_count > holdingData.checked_out_count) {
             uniqueHoldings[holdingData.branch_id] = Drupal.settings.alma.branches[holdingData.branch_id];
           }
         });
