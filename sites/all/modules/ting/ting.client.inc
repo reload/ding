@@ -316,7 +316,8 @@ function ting_add_collection_info(TingClientObjectCollection $collection) {
   $collection->creators_string = $common_object->creators_string;
   $collection->date = $common_object->date;
 
-  $collection->url = url('ting/collection/' . $collection->id, array('absolute' => true));
+  // For single-object collections, we skip the collection page.
+  $collection->url = count($collection->objects) == 1 ? $collection->objects[0]->url : url('ting/collection/' . $collection->id, array('absolute' => true));
 
   return $collection;
 }
