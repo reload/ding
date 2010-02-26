@@ -377,9 +377,8 @@ function alma_user_check_credentials($borr_card, $pin_code, $login=FALSE) {
   if ($login && isset($data['blocks']) && !empty($data['blocks'])) {
     $block_codes = alma_user_block_codes();
     foreach ($data['blocks'] as $block) {
-      drupal_set_message(t('Login failed, account is blocked: %message.', array('%message' => $block_codes[$block['code']])), 'error');
+      drupal_set_message(t('Your account is blocked: %message.', array('%message' => $block_codes[$block['code']])), 'warning');
     }
-    return FALSE;
   }
 
   // Check if user exists.
