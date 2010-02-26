@@ -113,6 +113,9 @@
             <?php if (!empty($object->record['dc:subject']['dkdcplus:DK5'])) { ?>
               <?php print theme('item_list', $object->record['dc:subject']['dkdcplus:DK5'], t('Classification'), 'span', array('class' => 'subject'));?>
             <?php } ?>
+            <?php if (!empty($object->record['dcterms:spatial'][''])) { ?>
+              <?php print theme('item_list', $object->record['dcterms:spatial'][''], NULL, 'span', array('class' => 'spatial')); ?>
+            <?php } ?>
 
             <?php if (!empty($object->record['dc:contributor']['oss:dkind'])) { ?>
               <?php print theme('item_list', $object->record['dc:contributor']['oss:dkind'], t('Reader'), 'span', array('class' => 'contributor'));?>
@@ -152,9 +155,15 @@
             <?php if (!empty($object->record['dc:identifier']['dkdcplus:ISBN'])) { ?>
               <?php print theme('item_list', $object->record['dc:identifier']['dkdcplus:ISBN'], t('ISBN no.'), 'span', array('class' => 'identifier'));?>
             <?php } ?>
-            <?php if (!empty($object->record['dc:identifier']['dcterms:URI'][0])) { ?>
-              <?php print theme('item_list', array(l($object->record['dc:identifier']['dcterms:URI'][0], $object->record['dc:identifier']['dcterms:URI'][0])), t('Host publication'), 'span', array('class' => 'identifier'));?>
-            <?php } ?>
+            <?php
+              if (!empty($object->record['dc:identifier']['dcterms:URI'])) {
+                $uris = array();
+                foreach ($object->record['dc:identifier']['dcterms:URI'] as $uri) {
+                  $uris[] = l($uri, $uri);
+                }
+              }
+              print theme('item_list', $uris, t('Host publication'), 'span', array('class' => 'identifier'));
+            ?>
             <?php if (!empty($object->record['dkdcplus:version'][''])) { ?>
               <?php print theme('item_list', $object->record['dkdcplus:version'][''], t('Version'), 'span', array('class' => 'version'));?>
             <?php } ?>
