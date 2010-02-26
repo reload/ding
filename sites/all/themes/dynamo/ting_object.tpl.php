@@ -40,25 +40,29 @@
 
             <div class="right-column left">
               <h2><?php print check_plain($object->record['dc:title'][''][0]); ?></h2>
-              <?php foreach (array_diff(array_keys($object->record['dc:title']), array('')) as $type) { ?>
-                <?php foreach ($object->record['dc:title'][$type] as $title) { ?>
-                  <h2><?php print check_plain($title); ?></h2>
-                <?php } ?>
+              <?php
+                $titles = array();
+                foreach (array_diff_key($object->record['dc:title'], array('' => 1)) as $type => $dc_title) {
+                  $titles = array_merge($titles, $dc_title);
+                }
+              ?>
+              <?php if (!empty($titles)) { ?>
+                <h2><?php print check_plain(implode(', ', $titles)); ?></h2>
               <?php } ?>
               <?php if (!empty($object->record['dcterms:alternative'][''])) { ?>
                 <?php foreach ($object->record['dcterms:alternative'][''] as $title) { ?>
                   <h2>(<?php print check_plain($title); ?>)</h2>
                 <?php } ?>
               <?php } ?>
+
               <div class='creator'>
                 <span class='byline'><?php echo ucfirst(t('by')); ?></span>
                 <?php
+                  $creators = array();
                   foreach ($object->creators as $i => $creator) {
-                    if ($i) {
-                      print ', ';
-                    }
-                    print l($creator, 'search/ting/' . $creator, array('attributes' => array('class' => 'author')));
+                    $creators[] = l($creator, 'search/ting/' . $creator, array('attributes' => array('class' => 'author')));
                   }
+                  print implode(', ', $creators);
                 ?>
                 <?php if (!empty($object->date)) { ?>
                   <span class='date'>(<?php print $object->date; ?>)</span>
@@ -76,25 +80,93 @@
 
           <div class="object-information clearfix">
             <?php 
-            //we printed the first part up above so remove that 
-            unset($object->record['dcterms:abstract'][''][0]);
+              //we printed the first part up above so remove that 
+              unset($object->record['dcterms:abstract'][''][0]);
             ?>
             <div class="abstract"><?php print implode(' ; ', format_danmarc2((array)$object->record['dcterms:abstract'][''])) ?></div>
 
-            <?php print theme('item_list',$object->record['dc:type']['dkdcplus:BibDK-Type'], t('Type'), 'span', array('class' => 'type'));?>
-            <?php print theme('item_list',$object->record['dc:format'][''], t('Format'), 'span', array('class' => 'format'));?>
-            <?php print theme('item_list',$object->record['dc:source'][''], t('Original title'), 'span', array('class' => 'format'));?>
-            <?php print theme('item_list',$object->record['dc:identifier']['dkdcplus:ISBN'], t('ISBN no.'), 'span', array('class' => 'identifier'));?>
-            <?php print theme('item_list',array(l($object->record['dc:identifier']['dcterms:URI'][0], $object->record['dc:identifier/dcterms:URI'][0])), t('Host publication'), 'span', array('class' => 'identifier'));?>
-            <?php print theme('item_list',$object->record['dc:language'][''], t('Language'), 'span', array('class' => 'language'));?>
-            <?php print theme('item_list',$object->record['dc:language']['oss:spoken'], t('Speech'), 'span', array('class' => 'language'));?>
-            <?php print theme('item_list',$object->record['dc:language']['oss:subtitles'], t('Subtitles'), 'span', array('class' => 'language'));?>
-            <?php print theme('item_list',$object->record['dc:subject']['dkdcplus:DBCS'], t('Subject'), 'span', array('class' => 'subject'));?>
-            <?php print theme('item_list',$object->record['dc:publisher'][''], t('Publisher'), 'span', array('class' => 'publisher'));?>
-            <?php print theme('item_list',$object->record['dc:rights'][''], t('Rettigheder'), 'span', array('class' => 'language'));?>
-            <?php // print theme('item_list',$object->data->relation, t('Relation'), 'span', array('class' => 'relation'));?>
-            <?php // print theme('item_list',$object->data->coverage, t('Coverage'), 'span', array('class' => 'coverage'));?>
-            <?php // print theme('item_list',$object->data->rights, t('Rights'), 'span', array('class' => 'rights'));?>
+            <?php print theme('item_list', array($object->type), t('Type'), 'span', array('class' => 'type')); ?>
+            <?php if (!empty($object->record['dc:format'][''])) { ?>
+              <?php print theme('item_list', $object->record['dc:format'][''], t('Format'), 'span', array('class' => 'format'));?>
+            <?php } ?>
+            <?php if (!empty($object->record['dcterms:isPartOf'][''])) { ?>
+              <?php print theme('item_list', $object->record['dcterms:isPartOf'][''], t('Available in'), 'span', array('class' => 'is-part-of'));?>
+            <?php } ?>
+
+
+            <?php if (!empty($object->language)) { ?>
+              <?php print theme('item_list', array($object->language), t('Language'), 'span', array('class' => 'language'));?>
+            <?php } ?>
+            <?php if (!empty($object->record['dc:language']['oss:spoken'])) { ?>
+              <?php print theme('item_list', $object->record['dc:language']['oss:spoken'], t('Speech'), 'span', array('class' => 'language'));?>
+            <?php } ?>
+            <?php if (!empty($object->record['dc:language']['oss:subtitles'])) { ?>
+              <?php print theme('item_list', $object->record['dc:language']['oss:subtitles'], t('Subtitles'), 'span', array('class' => 'language'));?>
+            <?php } ?>
+
+            <?php if (!empty($object->record['dc:subject']['oss:genre'])) { ?>
+              <?php print theme('item_list', $object->record['dc:subject']['oss:genre'], t('Genre'), 'span', array('class' => 'subject'));?>
+            <?php } ?>
+            <?php if (!empty($object->subjects)) { ?>
+              <?php print theme('item_list', $object->subjects, t('Subjects'), 'span', array('class' => 'subject'));?>
+            <?php } ?>
+            <?php if (!empty($object->record['dc:subject']['dkdcplus:DK5'])) { ?>
+              <?php print theme('item_list', $object->record['dc:subject']['dkdcplus:DK5'], t('Classification'), 'span', array('class' => 'subject'));?>
+            <?php } ?>
+
+            <?php if (!empty($object->record['dc:contributor']['oss:dkind'])) { ?>
+              <?php print theme('item_list', $object->record['dc:contributor']['oss:dkind'], t('Reader'), 'span', array('class' => 'contributor'));?>
+            <?php } ?>
+            <?php if (!empty($object->record['dc:contributor']['oss:act'])) { ?>
+              <?php print theme('item_list', $object->record['dc:contributor']['oss:act'], t('Actor'), 'span', array('class' => 'contributor'));?>
+            <?php } ?>
+            <?php if (!empty($object->record['dc:contributor']['oss:mus'])) { ?>
+              <?php print theme('item_list', $object->record['dc:contributor']['oss:mus'], t('Musician'), 'span', array('class' => 'contributor'));?>
+            <?php } ?>
+
+            <?php if (!empty($object->record['dcterms:hasPart']['oss:track'])) { ?>
+              <?php print theme('item_list', $object->record['dcterms:hasPart']['oss:track'], t('Contains'), 'span', array('class' => 'contains'));?>
+            <?php } ?>
+
+            <?php if (!empty($object->record['dcterms:isReferencedBy'][''])) { ?>
+              <?php print theme('item_list', $object->record['dcterms:isReferencedBy'][''], t('Referenced by'), 'span', array('class' => 'referenced-by'));?>
+            <?php } ?>
+
+
+            <?php if (!empty($object->record['dc:description'])) { ?>
+              <?php foreach ($object->record['dc:description'] as $type => $dc_description) { ?>
+                <?php print theme('item_list', $dc_description, t('Description'), 'span', array('class' => 'description'));?>
+              <?php } ?>
+            <?php } ?>
+
+            <?php if (!empty($object->record['dc:source'][''])) { ?>
+              <?php print theme('item_list', $object->record['dc:source'][''], t('Original title'), 'span', array('class' => 'titles'));?>
+            <?php } ?>
+            <?php if (!empty($object->record['dcterms:replaces'][''])) { ?>
+              <?php print theme('item_list', $object->record['dcterms:replaces'][''], t('Previous title'), 'span', array('class' => 'titles'));?>
+            <?php } ?>
+            <?php if (!empty($object->record['dcterms:isReplacedBy'][''])) { ?>
+              <?php print theme('item_list', $object->record['dcterms:isReplacedBy'][''], t('Later title'), 'span', array('class' => 'titles'));?>
+            <?php } ?>
+
+            <?php if (!empty($object->record['dc:identifier']['dkdcplus:ISBN'])) { ?>
+              <?php print theme('item_list', $object->record['dc:identifier']['dkdcplus:ISBN'], t('ISBN no.'), 'span', array('class' => 'identifier'));?>
+            <?php } ?>
+            <?php if (!empty($object->record['dc:identifier']['dcterms:URI'][0])) { ?>
+              <?php print theme('item_list', array(l($object->record['dc:identifier']['dcterms:URI'][0], $object->record['dc:identifier']['dcterms:URI'][0])), t('Host publication'), 'span', array('class' => 'identifier'));?>
+            <?php } ?>
+            <?php if (!empty($object->record['dkdcplus:version'][''])) { ?>
+              <?php print theme('item_list', $object->record['dkdcplus:version'][''], t('Version'), 'span', array('class' => 'version'));?>
+            <?php } ?>
+            <?php if (!empty($object->record['dcterms:extent'][''])) { ?>
+              <?php print theme('item_list', $object->record['dcterms:extent'][''], t('Extent'), 'span', array('class' => 'version'));?>
+            <?php } ?>
+            <?php if (!empty($object->record['dc:publisher'][''])) { ?>
+              <?php print theme('item_list', $object->record['dc:publisher'][''], t('Publisher'), 'span', array('class' => 'publisher'));?>
+            <?php } ?>
+            <?php if (!empty($object->record['dc:rights'][''])) { ?>
+              <?php print theme('item_list', $object->record['dc:rights'][''], t('Rettigheder'), 'span', array('class' => 'rights'));?>
+            <?php } ?>
           </div>
 
           <?php
@@ -107,7 +179,7 @@
               print "<ul>";
               foreach ($collection->types as $type) {
                 if ($type != $object->type) {
-                  $material_links[] = '<li class="category">' . l($type, $collection->url). '</li>';
+                  $material_links[] = '<li class="category">' . l($type, $collection->url, array('fragment' => $type)). '</li>';
                 }
               }
               print implode(' ', $material_links);
