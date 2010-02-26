@@ -23,35 +23,65 @@ function theme_alma_user_record_list($records) {
  * Theming of reservation details form.
  */
 function theme_alma_user_forms_reservation_details($form) {
+  $output = '';
   $branches = alma_client_get_branches();
   module_load_include('client.inc', 'ting');
 
-  $rows = array();
-  foreach ($form['reservation_data']['#value'] as $key => $data) {
-    $rows[] = array(
-      drupal_render($form['reservations'][$data['id']]),
-      theme('alma_user_list_item', $data),
-      $data['create_date'],
-      $data['valid_to'],
-      $branches[$data['pickup_branch']],
-      $data['queue_no'],
+  if (!empty($form['reservation_data']['#grouped']['fetchable'])) {
+    $header = array(
+      t('Reservation number'),
+      t('Title'),
+      t('Reserved'),
+      t('Valid to'),
+      t('Pickup branch'),
     );
+
+    $rows = array();
+
+    foreach ($form['reservation_data']['#grouped']['fetchable'] as $item) {
+      $rows[] = array(
+        $item['id'],
+        theme('alma_user_list_item', $item),
+        $item['create_date'],
+        $item['valid_to'],
+        $branches[$item['pickup_branch']],
+      );
+    }
+
+    $output .= theme('table', $header, $rows, array('id' => 'reservations-fetchable'), t('Reservations ready for pickup'));
   }
 
-  if (empty($rows)) {
+  if (!empty($form['reservation_data']['#grouped']['active'])) {
+    $header = array(
+      t('Select'),
+      t('Reservation number'),
+      t('Title'),
+      t('Reserved'),
+      t('Valid to'),
+      t('Pickup branch'),
+      t('Queue number'),
+    );
+    $rows = array();
+
+    foreach ($form['reservation_data']['#grouped']['active'] as $item) {
+      $rows[] = array(
+        drupal_render($form['reservations'][$item['id']]),
+        $item['id'],
+        theme('alma_user_list_item', $item),
+        $item['create_date'],
+        $item['valid_to'],
+        $branches[$item['pickup_branch']],
+        $item['queue_no'],
+      );
+    }
+
+    $output .= theme('table', $header, $rows, array('id' => 'reservations-active'), t('Active reservations'));
+  }
+
+  if (empty($output)) {
     return t('No reservations found.');
   }
 
-  $header = array(
-    t('Select'),
-    t('Title'),
-    t('Reserved'),
-    t('Valid to'),
-    t('Pickup branch'),
-    t('Queue number'),
-  );
-
-  $output = theme('table', $header, $rows);
   $output .= drupal_render($form);
   return $output;
 }

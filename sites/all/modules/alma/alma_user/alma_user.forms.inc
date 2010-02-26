@@ -309,6 +309,7 @@ function alma_user_forms_reservation_details($form_state, $account, $records) {
 
   $form['reservation_data'] = array(
     '#type' => 'value',
+    '#grouped' => array(),
     '#value' => array(),
   );
 
@@ -318,15 +319,10 @@ function alma_user_forms_reservation_details($form_state, $account, $records) {
 
   foreach ($records as $reservation) {
     $form['reservation_data']['#value'][$reservation['id']] = $reservation;
+    $form['reservation_data']['#grouped'][$reservation['status']][$reservation['id']] = $reservation;
     if ($reservation['status'] == 'active') {
       $form['reservations'][$reservation['id']] = array(
         '#type' => 'checkbox',
-      );
-    }
-    else {
-      // If not selectable, output an empty column.
-      $form['reservations'][$reservation['id']] = array(
-        '#value' => '&nbsp;',
       );
     }
   }
