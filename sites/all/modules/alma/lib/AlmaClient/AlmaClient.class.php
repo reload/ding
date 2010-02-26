@@ -78,6 +78,7 @@ class AlmaClient {
    *    List of branches, keyed by branch_id
    */
   public function get_branches() {
+    $branches = array();
     $doc = $this->request('organisation/branches');
 
     foreach ($doc->getElementsByTagName('branch') as $branch) {
@@ -96,6 +97,7 @@ class AlmaClient {
    *    List of branches, keyed by branch_id
    */
   public function get_reservation_branches() {
+    $branches = array();
     $doc = $this->request('reservation/branches');
 
     foreach ($doc->getElementsByTagName('branch') as $branch) {
@@ -103,6 +105,82 @@ class AlmaClient {
     }
 
     return $branches;
+  }
+
+  /**
+   * Get department names from Alma.
+   *
+   * Formats the list of branches in an array usable for form API selects.
+   *
+   * @return array
+   *    List of departments, keyed by department id.
+   */
+  public function get_departments() {
+    $departments = array();
+    $doc = $this->request('organisation/departments');
+
+    foreach ($doc->getElementsByTagName('department') as $department) {
+      $departments[$department->getAttribute('id')] = $department->getElementsByTagName('name')->item(0)->nodeValue;
+    }
+
+    return $departments;
+  }
+
+  /**
+   * Get location names from Alma.
+   *
+   * Formats the list of branches in an array usable for form API selects.
+   *
+   * @return array
+   *    List of locations, keyed by location id.
+   */
+  public function get_locations() {
+    $locations = array();
+    $doc = $this->request('organisation/locations');
+
+    foreach ($doc->getElementsByTagName('location') as $location) {
+      $locations[$location->getAttribute('id')] = $location->getElementsByTagName('name')->item(0)->nodeValue;
+    }
+
+    return $locations;
+  }
+
+  /**
+   * Get sublocation names from Alma.
+   *
+   * Formats the list of branches in an array usable for form API selects.
+   *
+   * @return array
+   *    List of sublocations, keyed by sublocation id.
+   */
+  public function get_sublocations() {
+    $sublocations = array();
+    $doc = $this->request('organisation/subLocations');
+
+    foreach ($doc->getElementsByTagName('subLocation') as $sublocation) {
+      $sublocations[$sublocation->getAttribute('id')] = $sublocation->getElementsByTagName('name')->item(0)->nodeValue;
+    }
+
+    return $sublocations;
+  }
+
+  /**
+   * Get collection names from Alma.
+   *
+   * Formats the list of branches in an array usable for form API selects.
+   *
+   * @return array
+   *    List of collections, keyed by collection id.
+   */
+  public function get_collections() {
+    $collections = array();
+    $doc = $this->request('organisation/collections');
+
+    foreach ($doc->getElementsByTagName('collection') as $collection) {
+      $collections[$collection->getAttribute('id')] = $collection->getElementsByTagName('name')->item(0)->nodeValue;
+    }
+
+    return $collections;
   }
 
   /**
@@ -566,7 +644,6 @@ class AlmaClient {
     foreach ($elem->getElementsByTagName('holding') as $item) {
       $holdings[] = array(
         'reservable' => $item->getAttribute('reservable'),
-        'available_count' => (int) $item->getAttribute('nofAvailableForLoan'),
         'status' => $item->getAttribute('status'),
         'ordered_count' => (int) $item->getAttribute('nofOrdered'),
         'checked_out_count' => (int) $item->getAttribute('nofCheckedOut'),
@@ -578,6 +655,8 @@ class AlmaClient {
         'department_id' => $item->getAttribute('departmentId'),
         'branch_id' => $item->getAttribute('branchId'),
         'organisation_id' => $item->getAttribute('organisationId'),
+        'available_count' => (int) $item->getAttribute('nofAvailableForLoan'),
+        'shelf_mark' => $item->getAttribute('shelfMark'),
       );
     }
 
