@@ -9,7 +9,7 @@ Drupal.behaviors.almaAvailabilityTingObjectView = function () {
     // Update the standard status messages.
     Drupal.almaAvailability.updateStatus(data);
 
-    // Inject data into the list of library that has the item available. 
+    // Inject data into the list of library that has the item available.
     if ($("#ting-object .alma-availability").length > 0) {
       $("#ting-object .alma-availability ul.library-list").empty();
       // Iterate over each Alma item's data.
@@ -29,15 +29,20 @@ Drupal.behaviors.almaAvailabilityTingObjectView = function () {
             container.append('<li>' + Drupal.almaAvailability.formatHolding(itemData, holdingData)  + '</li>');
           }
         });
+        // If holding is empty remove container
+        if (itemData.holdings.length === 0) {
+          container.parent().remove();
+        }
       });
     }
     else {
-      // Remove container as no data was received (when displaying one ting object only)
-      var container = $('.alma-availability ul.library-list');
-      if (container.length === 1) {
-        container.parent().remove();
-      }
+      // Remove container as no item is available
+      $('.alma-availability ul.library-list').parent().remove();
     }
   });
+  // Remove container as no ting id's where found
+  if (Drupal.almaAvailability.id_list.length === 0) {
+    $('.alma-availability ul.library-list').parent().remove();
+  }
 };
 
