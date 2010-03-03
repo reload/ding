@@ -93,6 +93,7 @@ function theme_alma_user_forms_loan_details($form) {
   module_load_include('client.inc', 'ting');
   $header = array(t('Select'), t('Title'), t('Loan date'));
   $groups = array();
+  $output = '';
 
   foreach ($form['loan_data']['#grouped'] as $date => $group) {
     if ($date == 'overdue') {
@@ -111,7 +112,7 @@ function theme_alma_user_forms_loan_details($form) {
       );
     }
     if (!empty($rows)) {
-      $output = drupal_render($form['renew_all']);
+      $output .= drupal_render($form['renew_all']);
       $output .= theme('table', $header, $rows, array(), $table_title);
     }
   }
