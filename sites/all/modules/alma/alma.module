@@ -452,6 +452,16 @@ function alma_client_get_debts($borr_card, $pin_code) {
  *    Data for the reservation we're adding.
  */
 function alma_client_add_reservation($borr_card, $pin_code, $reservation) {
+  // If reservation does not have a valid_to date, use the default
+  // interest period from alma_user, if available.
+  if (!isset($reservation['valid_to']) && function_exists('alma_user_user')) {
+    $account = user_load($GLOBALS['user']->uid);
+    $period = (isset($account->interest_period) && $account->interest_period > 10) ? $account->interest_period : ALMA_USER_DEFAULT_INTEREST_PERIOD;
+
+    if ($period > 0) {
+      $reservation['valid_to'] = date('Y-m-d', $_SERVER['REQUEST_TIME'] + $period * 86400);
+    }
+  }
   try {
     return alma_client()->add_reservation($borr_card, $pin_code, $reservation);
   }
