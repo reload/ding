@@ -32,17 +32,25 @@ function template_preprocess_ting_periodical(&$variables) {
   foreach ($details['issues'] as $year => $issue_list) {
     $items = array();
 
-    foreach ($issue_list as $issue_name => $issue) {
-      $output = '<div class="title">' . $issue_name . '</div>';
-      $output .= theme('item_list', array(
+    // Special case for when there’s only one issue per year.
+    if (count($issue_list) == 1) {
+      $variables['issues'][$year] = theme('item_list', array(
         l(t('Reserve now'), 'alma/cart/reserve/' . $details['alma_id'] . '/' . $issue['reservable'], array('attributes' => array('class' => 'reserve-now'))),
-        //l(t('Add to cart'), 'alma/cart/add/'  . $issue['reservable'], array('attributes' => array('class' => 'add-to-cart'))),
-      ), NULL, 'ul', array('class' => 'buttons alma-cart-buttons'));
-
-      $items[] = $output;
+      ), $year);
     }
+    else {
+      foreach ($issue_list as $issue_name => $issue) {
+        $output = '<div class="title">' . $issue_name . '</div>';
+        $output .= theme('item_list', array(
+          l(t('Reserve now'), 'alma/cart/reserve/' . $details['alma_id'] . '/' . $issue['reservable'], array('attributes' => array('class' => 'reserve-now'))),
+          //l(t('Add to cart'), 'alma/cart/add/'  . $issue['reservable'], array('attributes' => array('class' => 'add-to-cart'))),
+        ), NULL, 'ul', array('class' => 'buttons alma-cart-buttons'));
 
-    $variables['issues'][$year] = theme('item_list', $items, $year);
+        $items[] = $output;
+      }
+
+      $variables['issues'][$year] = theme('item_list', $items, $year);
+    }
   }
 }
 

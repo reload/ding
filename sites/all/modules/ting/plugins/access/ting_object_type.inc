@@ -51,7 +51,9 @@ function ting_ting_object_type_type_ctools_access_settings(&$form, &$form_state,
     '#title' => t('Ting object type'),
     '#options' => array(
       // TODO: Expand this list. Can we get it from somewhere dynamically?
-      'Tidsskrift' => t('Periodical'),
+      'Tidsskrift' => t('Periodical magazine'),
+      'Periodikum' => t('Periodical'),
+      'Årbog' => t('Yearbook'),
     ),
     '#default_value' => (isset($conf['ting_object_type'])) ? $conf['ting_object_type'] : array(),
     '#description' => t('Pick the allowed object types.'),

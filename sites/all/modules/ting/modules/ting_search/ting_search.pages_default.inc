@@ -102,7 +102,6 @@ function ting_search_default_page_manager_pages() {
   $pages['search_results'] = $page;
 
   /** Object view page **/
-
   $page = new stdClass;
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
@@ -146,6 +145,8 @@ function ting_search_default_page_manager_pages() {
           'settings' => array(
             'ting_object_type' => array(
               'Tidsskrift' => 'Tidsskrift',
+              'Periodikum' => 'Periodikum',
+              'Årbog' => 'Årbog',
             ),
           ),
           'context' => 'argument_object_id_1',
@@ -159,8 +160,6 @@ function ting_search_default_page_manager_pages() {
   $display->panel_settings = array();
   $display->cache = array();
   $display->title = '';
-  $display->hide_title = FALSE;
-  $display->title_pane = 18;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -205,6 +204,8 @@ function ting_search_default_page_manager_pages() {
     $pane->position = 0;
     $display->content['new-2'] = $pane;
     $display->panels['right'][0] = 'new-2';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $handler = new stdClass;
@@ -229,8 +230,6 @@ function ting_search_default_page_manager_pages() {
   $display->panel_settings = array();
   $display->cache = array();
   $display->title = '%object_id:title_full';
-  $display->hide_title = FALSE;
-  $display->title_pane = 15;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -297,6 +296,8 @@ function ting_search_default_page_manager_pages() {
     $pane->position = 0;
     $display->content['new-3'] = $pane;
     $display->panels['right'][0] = 'new-3';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
 
