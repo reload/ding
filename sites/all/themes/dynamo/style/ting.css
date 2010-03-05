@@ -74,4 +74,65 @@ body.ding-ting-object .pane-recommendation_list, body.ding-ting-collection .pane
 .pane-recommendation_list ul.ting-recommendation li a{color:#006A87; display:inline;}
 .pane-recommendation_list ul.ting-recommendation li a .title{font-weight:bold; color:#000; display:inline; margin:0 5px 0 0 ;}
 
+.pane-periodical_view h1 {
+  padding: 0 16px;
+}
 
+#periodical-issue-list .year ul li {
+  clear: left;
+  padding: 10px 0;
+}
+
+#periodical-issue-list .year .alma-cart-buttons li {
+  padding: 0 5px;
+}
+
+#periodical-issue-list .year {
+  padding: 0 16px;
+}
+
+#periodical-issue-list .year div.title,
+#periodical-issue-list .alma-cart-buttons{
+  display: inline-block;
+  font-weight: normal;
+}
+
+#periodical-issue-list .expanded {
+  padding-bottom: 12px;
+  cursor: pointer;
+}
+
+#periodical-issue-list .year h3 {
+  font-size: 12px;
+  color: #006a87;
+  margin: 0;
+  padding-left: 15px;
+  background:transparent url(../images/bullet_toggle_plus.gif) 0% 50% no-repeat;
+}
+
+#periodical-issue-list .year h3:hover {
+  text-decoration: underline;
+}
+
+#periodical-issue-list .expanded h3 {
+  font-weight: bold;
+  background: url(../images/bullet_toggle_minus.gif) 0% 50% no-repeat;
+}
+
+#periodical-issue-list .expanded ul {
+  margin-left: 15px;
+}
+
+#periodical-issue-list .expanded ul li {
+  background: transparent;
+  padding: 0;
+}
+
+#periodical-issue-list .expanded h3+ul>li {
+  list-style: disc;
+  overflow: hidden;
+}
+
+#periodical-issue-list a {
+    color: #006a87;
+}
