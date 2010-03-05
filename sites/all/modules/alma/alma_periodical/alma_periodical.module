@@ -34,9 +34,10 @@ function template_preprocess_ting_periodical(&$variables) {
 
     // Special case for when there’s only one issue per year.
     if (count($issue_list) == 1) {
+      $issue = array_shift($issue_list);
       $variables['issues'][$year] = theme('item_list', array(
         l(t('Reserve now'), 'alma/cart/reserve/' . $details['alma_id'] . '/' . $issue['reservable'], array('attributes' => array('class' => 'reserve-now'))),
-      ), $year);
+      ), $year, 'ul', array('class' => 'buttons alma-cart-buttons'));
     }
     else {
       foreach ($issue_list as $issue_name => $issue) {
