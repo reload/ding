@@ -150,7 +150,7 @@ body.ding-blog .panel-pane .node-teaser .content{width:700px; margin:0; float:le
 
 ul.menu{list-style-position:inside; font-size:12px;}
 ul.menu li{list-style: none inside; margin:0; padding: 0 0 0 0px; background:none;}
-ul.menu li.leaf { padding:0 0 0 0; font-size:10px; list-style: none outside; margin:0 0 0 20px;}
+ul.menu li.leaf { padding:0 0 0 0; list-style: none outside; margin:0 0 0 15px;}
 
 ul.menu li.leaf > a.active, ul.menu li > a.active,
 li.active-trail > a
