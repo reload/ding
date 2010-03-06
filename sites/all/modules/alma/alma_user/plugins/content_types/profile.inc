@@ -83,22 +83,26 @@ function alma_user_profile_content_type_render($subtype, $conf, $panel_args, $co
         $block->title = t('Your profile');
         $block->content = theme('alma_user_personal_info', $account, $data);
         break;
+
       case 'alma_user_library_settings':
         module_load_include('forms.inc', 'alma_user');
         $block->title = t('Your library');
         $block->content = drupal_get_form('alma_user_forms_library_settings', $account);
         break;
+
       case 'alma_user_reservations_list':
         $list = alma_client_get_reservations($alma_creds['borr_card'], $alma_creds['pin_code']);
         $block->title = t('Your reservations');
         $block->content = theme('alma_user_record_list', $list);
         break;
+
       case 'alma_user_reservations_details':
         module_load_include('forms.inc', 'alma_user');
         $list = alma_client_get_reservations($alma_creds['borr_card'], $alma_creds['pin_code']);
         $block->title = t('Your reservations');
         $block->content = drupal_get_form('alma_user_forms_reservation_details', $account, $list);
         break;
+
       case 'alma_user_loans_list':
         $list = alma_client_get_loans($alma_creds['borr_card'], $alma_creds['pin_code']);
         $block->title = t('Your loans');
@@ -110,7 +114,6 @@ function alma_user_profile_content_type_render($subtype, $conf, $panel_args, $co
         $block->title = t('Your loans');
         $block->content = drupal_get_form('alma_user_forms_loan_details', $account, $list);
         break;
-
 
       case 'alma_user_debts_notice':
         $data = alma_client_get_debts($alma_creds['borr_card'], $alma_creds['pin_code']);
@@ -131,6 +134,7 @@ function alma_user_profile_content_type_render($subtype, $conf, $panel_args, $co
           ));
         }
         break;
+
       case 'alma_user_debts_details':
         module_load_include('forms.inc', 'alma_user');
         $data = alma_client_get_debts($alma_creds['borr_card'], $alma_creds['pin_code']);

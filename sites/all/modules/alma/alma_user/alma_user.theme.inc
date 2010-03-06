@@ -11,9 +11,7 @@ function theme_alma_user_record_list($records) {
   $items = array();
 
   foreach ($records as $rec) {
-    // Load the object from Ting to get the title.
-    $object = ting_get_object_by_local_id($rec['record_id']);
-    $items[] = theme('ting_object_title', $object);
+    $items[] = theme('alma_user_list_item', $rec);
   }
 
   return theme('item_list', $items, NULL, 'ul', array('class' => 'record-list'));
