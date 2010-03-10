@@ -262,7 +262,7 @@ class AlmaClient {
 
     $reservations = array();
     foreach ($doc->getElementsByTagName('reservation') as $item) {
-      $reservations[] = array(
+      $reservation = array(
         'id' => $item->getAttribute('id'),
         'status' => $item->getAttribute('status'),
         'pickup_branch' => $item->getAttribute('reservationPickUpBranch'),
@@ -274,6 +274,13 @@ class AlmaClient {
         'record_id' => $item->getElementsByTagName('catalogueRecord')->item(0)->getAttribute('id'),
         'record_available' => $item->getElementsByTagName('catalogueRecord')->item(0)->getAttribute('isAvailable'),
       );
+
+      if ($reservation['status'] == 'fetchable') {
+        $reservation['pickup_number'] = (integer) $item->getAttribute('pickUpNo');
+        $reservation['pickup_expire_date'] = $item->getAttribute('pickUpExpireDate');
+      }
+
+      $reservations[] = $reservation;
     }
     usort($reservations, 'AlmaClient::reservation_sort');
     return $reservations;

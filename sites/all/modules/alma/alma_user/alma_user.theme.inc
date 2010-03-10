@@ -27,10 +27,9 @@ function theme_alma_user_forms_reservation_details($form) {
 
   if (!empty($form['reservation_data']['#grouped']['fetchable'])) {
     $header = array(
-      t('Reservation number'),
+      t('Pickup number'),
       t('Title'),
-      t('Reserved'),
-      t('Valid to'),
+      t('Expiry date'),
       t('Pickup branch'),
     );
 
@@ -38,10 +37,9 @@ function theme_alma_user_forms_reservation_details($form) {
 
     foreach ($form['reservation_data']['#grouped']['fetchable'] as $item) {
       $rows[] = array(
-        $item['id'],
+        $item['pickup_number'],
         theme('alma_user_list_item', $item),
-        $item['create_date'],
-        $item['valid_to'],
+        $item['pickup_expire_date'],
         $branches[$item['pickup_branch']],
       );
     }
