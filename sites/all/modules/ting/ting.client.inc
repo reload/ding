@@ -242,8 +242,8 @@ function ting_get_client() {
 
 	if (!isset($client))
 	{
-		$client = new TingClient(new TingClientDrupal6HttpRequestAdapter(),
-		new TingClientDrupalWatchDogLogger());
+		$logger = (variable_get('ting_enable_logging', false)) ? new TingClientDrupalWatchDogLogger() : new TingClientVoidLogger();
+		$client = new TingClient(new TingClientDrupal6HttpRequestAdapter(), $logger);
 	}
 
 	return $client;
