@@ -46,7 +46,12 @@ function ting_admin_settings_form($form_state) {
     '#required' => TRUE,
     '#default_value' => variable_get('ting_recommendation_server', ''),
   );
-
+  $form['ting']['ting_enable_logging'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable logging'),
+    '#default_value' => variable_get('ting_enable_logging', false),
+  );
+  
   $form['addi'] = array(
     '#type' => 'fieldset',
     '#title' => t('Additional Information settings'),
@@ -81,7 +86,12 @@ function ting_admin_settings_form($form_state) {
     '#required' => TRUE,
     '#default_value' => variable_get('addi_password', ''),
   );
-
+  $form['addi']['addi_enable_logging'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable logging'),
+    '#default_value' => variable_get('addi_enable_logging', false),
+  );
+  
   $form['proxy'] = array(
     '#type' => 'fieldset',
     '#title' => t('Proxy service'),
