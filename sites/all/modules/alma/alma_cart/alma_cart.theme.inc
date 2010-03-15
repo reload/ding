@@ -35,8 +35,12 @@ function theme_alma_cart_reservation_buttons($object) {
     ), NULL, 'ul', array('class' => 'buttons orange-button'));
     return $output;
   }
-
-  if (!empty($object->localId)) {
+  // For all the object types we don’t want to provide reservation
+  // buttons for.
+  elseif (in_array($object->type, array('Artikel'))) {
+    return;
+  }
+  elseif (!empty($object->localId)) {
     // TODO: Check if item is reserved/in basket already.
     $output = theme('item_list', array(
       l(t('Reserve now'), 'alma/cart/reserve/' . $object->localId, array('attributes' => array('class' => 'reserve-now'))),
