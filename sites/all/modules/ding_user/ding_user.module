@@ -159,7 +159,7 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
     case 'user_login':
     case 'user_login_block':
       // If we have secure pages enabled, redirect login posts to SSL.
-      if (variable_get('securepages_enable', FALSE)) {
+      if (function_exists('securepages_init')) {
         $form['#action'] = 'https://' . $_SERVER['HTTP_HOST'] . url($_GET['q'], array('query' => drupal_get_destination()));
       }
 
