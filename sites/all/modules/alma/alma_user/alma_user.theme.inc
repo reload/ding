@@ -37,7 +37,7 @@ function theme_alma_user_forms_reservation_details($form) {
 
     foreach ($form['reservation_data']['#grouped']['fetchable'] as $item) {
       $rows[] = array(
-        theme('alma_user_list_item', $item),
+        array('data' => theme('alma_user_list_item', $item), 'class' => 'title'),
         $item['pickup_number'],
         $item['pickup_expire_date'],
         $branches[$item['pickup_branch']],
@@ -63,7 +63,7 @@ function theme_alma_user_forms_reservation_details($form) {
       $rows[] = array(
         drupal_render($form['reservations'][$item['id']]),
         $item['id'],
-        theme('alma_user_list_item', $item),
+        array('data' => theme('alma_user_list_item', $item), 'class' => 'title'),
         $item['create_date'],
         $item['valid_to'],
         $branches[$item['pickup_branch']],
