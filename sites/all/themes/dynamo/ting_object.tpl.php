@@ -174,7 +174,7 @@
               <?php print theme('item_list', $object->record['dc:publisher'][''], t('Publisher'), 'span', array('class' => 'publisher'));?>
             <?php } ?>
             <?php if (!empty($object->record['dc:rights'][''])) { ?>
-              <?php print theme('item_list', $object->record['dc:rights'][''], t('Rettigheder'), 'span', array('class' => 'rights'));?>
+              <?php print theme('item_list', $object->record['dc:rights'][''], t('Rights'), 'span', array('class' => 'rights'));?>
             <?php } ?>
           </div>
 
