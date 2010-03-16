@@ -234,6 +234,8 @@ function ting_search_render_pager_template() {
 function ting_search_form(&$form_state) {
   $form = array();
 
+  $form['#action'] = url('ting/search');
+
   $form['keys'] = array(
     '#type' => 'textfield',
     '#title' => t('Enter your search terms here'),
