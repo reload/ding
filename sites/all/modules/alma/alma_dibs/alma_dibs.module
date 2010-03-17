@@ -33,8 +33,6 @@ function alma_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
       ), WATCHDOG_NOTICE);
       break;
     case 'transaction_accept':
-      dd('accept');
-      dd($transaction);
       if ($transaction['payment_status'] == 1) {
         drupal_set_message(t('Your payment of @amount was received.', array('@amount' => $transaction['payment_price'])));
         watchdog('alma_dibs', 'Confirmation for DIBS transaction %transaction, order %order was displayed.', array(
@@ -54,15 +52,13 @@ function alma_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
       }
       break;
     case 'transaction_callback':
-      // Tell Alma that the debt it paid.
-      //alma_client_add_payment(implode(',', $transaction['params']['selected_debts']), $transaction['payment_order_id']);
+      // Tell Alma that the debt was paid.
+      alma_client_add_payment(implode(',', $transaction['params']['selected_debts']), $transaction['payment_order_id']);
 
       watchdog('alma_dibs', 'DIBS has verified transaction %transaction, order %order.', array(
         '%transaction' => $transaction['payment_transaction_id'],
         '%order' => $transaction['payment_order_id'],
       ), WATCHDOG_NOTICE);
-      dd('callback');
-      dd($transaction);
       break;
   }
 }
