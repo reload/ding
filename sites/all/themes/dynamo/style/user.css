@@ -137,13 +137,30 @@ form#alma-user-forms-loan-details table{width:660px; font-size:11px;}
 
 .pane-alma_user_reservations_details h3, .pane-alma_user_loans_details h3{color:#790f21; margin:0px 0 10px 0;}
 
-form#alma-user-forms-reservation-details table{width:660px;  font-size:11px;}
-	form#alma-user-forms-reservation-details table tbody td{border-bottom: 1px solid #eee; padding:5px;}	
-	form#alma-user-forms-reservation-details table tbody td img{float:left; margin:0 10px 0 0; width:20px; height:20; overflow:hidden;}
+/*
+
 	form#alma-user-forms-reservation-details table thead th.count-0	{width:50px;}
+  form#alma-user-forms-reservation-details table thead th.count-0.titel	{width:380px;}
 	form#alma-user-forms-reservation-details table thead th.count-1	{width:380px;}  
 	form#alma-user-forms-reservation-details table thead th.count-2	{width:100px;}  	
 	form#alma-user-forms-reservation-details table thead th.count-3	{width:100px;}  	
 	form#alma-user-forms-reservation-details table thead th.count-4	{width:30px;}  			
+*/
+form#alma-user-forms-reservation-details table{width:660px;  font-size:11px;}
+form#alma-user-forms-reservation-details table tbody td{border-bottom: 1px solid #eee; padding:5px;}	
+form#alma-user-forms-reservation-details table tbody td img{float:left; margin:0 10px 0 0; width:20px; height:20; overflow:hidden;}
 
 #alma-user-forms-reservation-details .edit-remove{margin:0 20px 0 280px;}
+
+  #reservations-fetchable th.count-0 {width:380px;}
+  #reservations-fetchable th.count-1 {width:50px;}
+  #reservations-fetchable th.count-2 {width:100px;}
+  #reservations-fetchable th.count-3 {width:100px;}      
+  
+  #reservations-active th.count-0 {width:50px;}      
+  #reservations-active th.count-1 {width:100px;}      
+  #reservations-active th.count-2 {width:200px;}
+  #reservations-active th.count-3 {width:0px;}      
+  #reservations-active th.count-4 {width:50px;}      
+  #reservations-active th.count-5 {width:50px;}  
+  #reservations-active th.count-6 {width:50px;}  
