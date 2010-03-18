@@ -45,19 +45,21 @@ else{
 
 		<ul>
 	    <li>
+
 	      <div class="content">
-          
 					<?php print l('<span>'.t("Loans") . '</span> <strong>' . $user_status['loan_count'] . '</strong>', 'user/'. $user->uid . '/status', array('html' => TRUE)); ?>
 				</div>
-				<div class="status"><span class="<?php print $loan_status ?>">!</span></div>
+        <?php if($loan_status != "default"){ ?>
+				  <div class="status"><span class="<?php print $loan_status ?>">!</span></div>
+        <?php } ?>
 	    </li>
 	    <li>
 				<div class="content">
 	        <?php print l('<span>'.t("Reservations") . '</span> <strong>' . $user_status['reservation_count'] . '</strong>', 'user/'. $user->uid . '/status', array('html' => TRUE)); ?>
 				</div>
-				
-				<div class="status"><span class="<?php print $reservation_status ?>">ok</span></div>
-
+        <?php if($reservation_status  != "default"){ ?>				
+				  <div class="status"><span class="<?php print $reservation_status ?>">ok</span></div>
+        <?php } ?>
 
 	    </li>
 	</ul>
