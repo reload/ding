@@ -188,6 +188,13 @@ basic elements
 	.node-page .content{margin:10px 0 0 0;}		
 	.more-link a, a.more-link {background:transparent url(../images/arrow.png) no-repeat right center; padding:0 5px 0 0; }
 
+
+	.node-teaser .taxonomy{padding:10px 0;}
+	.node-teaser .taxonomy ul{margin:0;}
+	.node-teaser .taxonomy ul.links li{padding:0 5px 0 0; }
+	.node-teaser .taxonomy ul.links li a{display:inline;}
+
+
 /*panels links*/
 div.more-link{padding:0 20px 0 0; }
 

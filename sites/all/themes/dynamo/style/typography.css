@@ -21,6 +21,7 @@ h3 a, h3 a:link,h3 a:visited,h3 a:active
 }
 h4 a, h4 a:link,h4 a:visited,h4 a:active{font-size:12px; line-height:15px; color:#050505;}
 
+.content-left h3{padding:5px 0 10px 0;}
 /*-- form --*/
 textarea{font-size: 11px;}
 

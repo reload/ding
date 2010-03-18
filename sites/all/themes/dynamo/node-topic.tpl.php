@@ -95,6 +95,7 @@ if($id_node){
         </div>
       <?php } else if ($field['type'] == 'flexifield_ting_refs') { ?>
         <div class="topic-field-ting-refs">
+
           <?php print $field['view'] ?>
 	      </div>
       <?php } else { ?>

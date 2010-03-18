@@ -78,7 +78,7 @@ if($id_node){
 	</div>
 
 	<div class="content">
-		<?php print $content ?>
+		<?php  print $content ?>
 	</div>
 
 	<?php if (count($taxonomy)){ ?>

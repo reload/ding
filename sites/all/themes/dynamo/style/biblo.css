@@ -21,6 +21,8 @@ body.page-biblioteker .panel-left .view ul.pager li{padding:0;}
 body.page-biblioteker .node ul{margin:0;}
 
 body.ding-blog .panel-pane .node-teaser .content{width:700px; margin:0; float:left; padding:0; overflow:hidden;}
+
+body.ding-ting-object .panel-pane .node-teaser .content{width:370px; }
 /* ==========================================================================
 	library overview (http://biblo.local/biblioteker)
 /*----------------------------------------------------------------------------*/

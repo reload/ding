@@ -155,18 +155,24 @@
             <?php if (!empty($object->record['dc:identifier']['dkdcplus:ISBN'])) { ?>
               <?php print theme('item_list', $object->record['dc:identifier']['dkdcplus:ISBN'], t('ISBN no.'), 'span', array('class' => 'identifier'));?>
             <?php } ?>
+
             <?php
               if (!empty($object->record['dc:identifier']['dcterms:URI'])) {
                 $uris = array();
                 foreach ($object->record['dc:identifier']['dcterms:URI'] as $uri) {
                   $uris[] = l($uri, $uri);
                 }
+                print theme('item_list', $uris, t('Host publication'), 'span', array('class' => 'identifier'));                
               }
-              print theme('item_list', $uris, t('Host publication'), 'span', array('class' => 'identifier'));
             ?>
+
+
             <?php if (!empty($object->record['dkdcplus:version'][''])) { ?>
               <?php print theme('item_list', $object->record['dkdcplus:version'][''], t('Version'), 'span', array('class' => 'version'));?>
             <?php } ?>
+
+
+
             <?php if (!empty($object->record['dcterms:extent'][''])) { ?>
               <?php print theme('item_list', $object->record['dcterms:extent'][''], t('Extent'), 'span', array('class' => 'version'));?>
             <?php } ?>
