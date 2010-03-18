@@ -150,7 +150,7 @@ form#alma-user-forms-reservation-details table{width:660px;  font-size:11px;}
 form#alma-user-forms-reservation-details table tbody td{border-bottom: 1px solid #eee; padding:5px;}	
 form#alma-user-forms-reservation-details table tbody td img{float:left; margin:0 10px 0 0; width:20px; height:20; overflow:hidden;}
 
-#alma-user-forms-reservation-details .edit-remove{margin:0 20px 0 280px;}
+#alma-user-forms-reservation-details .edit-remove{float:right;}
 
   #reservations-fetchable th.count-0 {width:380px;}
   #reservations-fetchable th.count-1 {width:50px;}
