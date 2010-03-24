@@ -50,7 +50,9 @@ function ding_user_forms_change_pass_validate($form, &$form_state) {
 function ding_user_forms_change_pass_submit($form, &$form_state) {
   $account = $form_state['values']['account'];
 
-  if (empty($account->secure_pass)) {
+  // If there is not a secure pass set on the user object, we assume that
+  // it is because the user has no record in ding_user. Create one.
+  if (!isset($account->secure_pass) || !$account->secure_pass || empty($account->secure_pass)) {
     db_query("INSERT INTO {ding_user} (uid, pass) VALUES (%d, '%s');", $account->uid, user_hash_password($form_state['values']['new_secure_pass']));
   }
   else {
