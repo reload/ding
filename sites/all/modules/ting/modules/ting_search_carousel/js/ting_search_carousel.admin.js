@@ -22,7 +22,7 @@ Drupal.tingSearchCarouselAdmin.remove = function () {
 
 Drupal.tingSearchCarouselAdmin.sort = function () {
   $('#ting-search-carousels').sortable({
-	items: '.form-item',
+	items: '.fieldset-content > *',
 	handle: '.sort',
 	axis: 'y',
 	update: function(event, ui) { Drupal.tingSearchCarouselAdmin.updateIndexes(ui.item.parents('#ting-search-carousels')); }
