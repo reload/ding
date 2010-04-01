@@ -1,5 +1,5 @@
 <?php
-// $Id: pathauto.admin.inc,v 1.20.2.1 2010/02/10 21:45:09 greggles Exp $
+// $Id: pathauto.admin.inc,v 1.20.2.7 2010/03/15 18:25:21 davereid Exp $
 
 /**
  * @file
@@ -9,19 +9,153 @@
  */
 
 /**
- * Form builder; Configure the Pathauto system.
+ * Form builder; Configure the URL alias patterns.
  *
  * @ingroup forms
  * @see system_settings_form()
  */
-function pathauto_admin_settings() {
+function pathauto_patterns_form() {
   _pathauto_include();
 
-  // Make sure they have token
-  if (!function_exists('token_get_list')) {
-    drupal_set_message(t('It appears that the <a href="@token_link">Token module</a> is not installed. Please ensure that you have it installed so that Pathauto can work properly. You may need to disable Pathauto and re-enable it to get Token enabled.', array('@token_link' => 'http://drupal.org/project/token')), 'error');
-    return;
+  // Call the hook on all modules - an array of 'settings' objects is returned
+  $all_settings = module_invoke_all('pathauto', 'settings');
+  $modulelist = '';
+  $indexcount = 0;
+  foreach ($all_settings as $settings) {
+    $items = '';
+    $module = $settings->module;
+    $modulelist[] = $module;
+    $patterndescr = $settings->patterndescr;
+    $patterndefault = $settings->patterndefault;
+    $groupheader = $settings->groupheader;
+    $supportsfeeds = isset($settings->supportsfeeds) ? $settings->supportsfeeds : NULL;
+    variable_set('pathauto_' . $module . '_supportsfeeds', $supportsfeeds);
+
+    $form[$module] = array(
+      '#type' => 'fieldset',
+      '#title' => $groupheader,
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+    );
+
+    // Prompt for the default pattern for this module
+    $variable = 'pathauto_' . $module . '_pattern';
+    $description = '';
+    if (!count($_POST)) {
+      $error = _pathauto_check_pattern(variable_get($variable, $patterndefault), $settings->token_type);
+      if ($error) {
+        $form[$module]['#collapsed'] = FALSE;
+        $description = $error;
+      }
+    }
+    $form[$module][$variable] = array(
+      '#type' => 'textfield',
+      '#title' => $patterndescr,
+      '#default_value' => variable_get($variable, $patterndefault),
+      '#description' => $description,
+      '#size' => 65,
+      '#maxlength' => 1280,
+    );
+
+    // If the module supports a set of specialized patterns, set
+    // them up here
+    if (isset($settings->patternitems)) {
+      foreach ($settings->patternitems as $itemname => $itemlabel) {
+        $variable = 'pathauto_' . $module . '_' . $itemname . '_pattern';
+        $description = '';
+        if (!count($_POST)) {
+          $error = _pathauto_check_pattern(variable_get($variable, $patterndefault), $settings->token_type);
+          if ($error) {
+            $form[$module]['#collapsed'] = FALSE;
+            $description = $error;
+          }
+        }
+
+        $form[$module][$variable] = array('#type' => 'textfield',
+          '#title' => $itemlabel,
+          '#default_value' => variable_get($variable, ''),
+          '#description' => $description,
+          '#size' => 65,
+          '#maxlength' => 1280);
+      }
+    }
+
+    // Display the user documentation of placeholders supported by
+    // this module, as a description on the last pattern
+    $doc = "<dl>\n";
+    foreach ($settings->placeholders as $name => $description) {
+      $doc .= '<dt>' . $name . '</dt>';
+      $doc .= '<dd>' . $description . '</dd>';
+    }
+    $doc .= "</dl>\n";
+    $form[$module]['token_help'] = array(
+      '#title' => t('Replacement patterns'),
+      '#type' => 'fieldset',
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#description' => t('Use -raw replacements for text to avoid problems with HTML entities.'),
+    );
+    $form[$module]['token_help']['help'] = array(
+      '#value' => $doc,
+    );
+
+    // If the module supports bulk updates, offer the update action here
+    if ($settings->bulkname) {
+      $variable = 'pathauto_' . $module . '_bulkupdate';
+      if (variable_get($variable, FALSE)) {
+        variable_set($variable, FALSE);
+        $function = $module . '_pathauto_bulkupdate';
+        call_user_func($function);
+      }
+      $form[$module][$variable] = array(
+        '#type' => 'checkbox',
+        '#title' => $settings->bulkname,
+        '#default_value' => FALSE,
+        '#description' => $settings->bulkdescr,
+      );
+    }
+
+    // If the module supports feeds, offer to generate aliases for them
+    if ($supportsfeeds) {
+      $variable = 'pathauto_' . $module . '_applytofeeds';
+      $current = variable_get($variable, $supportsfeeds);
+      // This checks for the old style from 2.0 and earlier. TODO: At some point we can drop that.
+      if (is_numeric($current)) {
+        $current = $supportsfeeds;
+      }
+
+      $form[$module][$variable] = array(
+        '#type' => 'textfield',
+        '#title' => t('Internal feed alias text (leave blank to disable)'),
+        '#size' => 65,
+        '#maxlength' => 1280,
+        '#default_value' => $current,
+        '#description' => t('The text to use for aliases for RSS feeds. Examples are "0/feed" (used throughout Drupal core) and "feed" (used by some contributed Drupal modules, like Views).'),
+      );
+    }
+
   }
+
+  if (isset($do_index_bulkupdate) && $do_index_bulkupdate) {
+    drupal_set_message(format_plural($indexcount,
+      'Bulk generation of index aliases completed, one alias generated.',
+      'Bulk generation of index aliases completed, @count aliases generated.'));
+  }
+
+  // Keep track of which modules currently support pathauto
+  variable_set('pathauto_modulelist', $modulelist);
+
+  return system_settings_form($form);
+}
+
+/**
+ * Form builder; Configure the Pathauto settings.
+ *
+ * @ingroup forms
+ * @see system_settings_form()
+ */
+function pathauto_settings_form() {
+  _pathauto_include();
 
   // Default words to ignore
   $ignore_words = array(
@@ -31,15 +165,12 @@ function pathauto_admin_settings() {
   );
 
   // Generate the form - settings applying to all patterns first
-  $group_weight = -20;
   $form['general'] = array(
     '#type' => 'fieldset',
-    '#weight' => $group_weight,
     '#title' => t('General settings'),
     '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
+    '#collapsed' => FALSE,
   );
-  $group_weight++;
 
   $form['general']['pathauto_verbose'] = array(
     '#type' => 'checkbox',
@@ -73,7 +204,7 @@ function pathauto_admin_settings() {
     '#size' => 3,
     '#maxlength' => 3,
     '#default_value' => variable_get('pathauto_max_length', 100),
-    '#description' => t('Maximum length of aliases to generate. 100 is recommended. See <a href="@pathauto-help">Pathauto help</a> for details.', array('@pathauto-help' => url('admin/help/pathauto'))),
+    '#description' => t('Maximum length of aliases to generate. 100 is the recommended length. @max is the maximum possible length. See <a href="@pathauto-help">Pathauto help</a> for details.', array('@pathauto-help' => url('admin/help/pathauto'), '@max' => _pathauto_get_schema_alias_maxlength())),
   );
 
   $form['general']['pathauto_max_component_length'] = array(
@@ -82,7 +213,7 @@ function pathauto_admin_settings() {
     '#size' => 3,
     '#maxlength' => 3,
     '#default_value' => variable_get('pathauto_max_component_length', 100),
-    '#description' => t('Maximum text length of any component in the alias (e.g., [title]). 100 is recommended. See <a href="@pathauto-help">Pathauto help</a> for details.', array('@pathauto-help' => url('admin/help/pathauto'))),
+    '#description' => t('Maximum text length of any component in the alias (e.g., [title]). 100 is the recommended length. @max is the maximum possible length. See <a href="@pathauto-help">Pathauto help</a> for details.', array('@pathauto-help' => url('admin/help/pathauto'), '@max' => _pathauto_get_schema_alias_maxlength())),
   );
 
   $form['general']['pathauto_max_bulk_update'] = array(
@@ -122,7 +253,7 @@ function pathauto_admin_settings() {
   $transliteration_help = t('When a pattern includes certain characters (such as those with accents) should Pathauto attempt to transliterate them into the ASCII-96 alphabet? Transliteration is handled by the Transliteration module.');
   if (!module_exists('transliteration')) {
     $disable_transliteration = TRUE;
-    $transliteration_help .= ' <strong>'. t("This option is disabled on your site because the Transliteration module either isn't installed, or isn't installed properly.") .'</strong>';
+    $transliteration_help .= ' <strong>' . t("This option is disabled on your site because the Transliteration module either isn't installed, or isn't installed properly.") . '</strong>';
     // Make sure we don't try to use Transliteration if it isn't available
     variable_set('pathauto_transliterate', FALSE);
   }
@@ -151,19 +282,21 @@ function pathauto_admin_settings() {
 
   $form['punctuation'] = array(
     '#type' => 'fieldset',
-    '#weight' => $group_weight,
-    '#title' => t('Punctuation settings'),
+    '#title' => t('Punctuation'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
-  $group_weight++;
 
   $punctuation = pathauto_punctuation_chars();
   foreach ($punctuation as $name => $details) {
-    $form['punctuation']['pathauto_punctuation_'. $name ] = array(
+    $details['default'] = PATHAUTO_PUNCTUATION_REMOVE;
+    if ($details['value'] == variable_get('pathauto_separator', '-')) {
+      $details['default'] = PATHAUTO_PUNCTUATION_REPLACE;
+    }
+    $form['punctuation']['pathauto_punctuation_' . $name] = array(
       '#type' => 'select',
       '#title' => $details['name'],
-      '#default_value' => variable_get('pathauto_punctuation_'. $name, PATHAUTO_PUNCTUATION_REMOVE),
+      '#default_value' => variable_get('pathauto_punctuation_' . $name, $details['default']),
       '#options' => array(
         PATHAUTO_PUNCTUATION_REMOVE => t('Remove'),
         PATHAUTO_PUNCTUATION_REPLACE => t('Replace by separator'),
@@ -171,136 +304,6 @@ function pathauto_admin_settings() {
       ),
     );
   }
-
-  // Call the hook on all modules - an array of 'settings' objects is returned
-  $all_settings = module_invoke_all('pathauto', 'settings');
-  $modulelist = '';
-  $indexcount = 0;
-  foreach ($all_settings as $settings) {
-    $items = '';
-    $module = $settings->module;
-    $modulelist[] = $module;
-    $patterndescr = $settings->patterndescr;
-    $patterndefault = $settings->patterndefault;
-    $groupheader = $settings->groupheader;
-    $supportsfeeds = isset($settings->supportsfeeds) ? $settings->supportsfeeds : NULL;
-    variable_set('pathauto_'. $module .'_supportsfeeds', $supportsfeeds);
-
-    $form[$module] = array(
-      '#type' => 'fieldset',
-      '#title' => $groupheader,
-      '#weight' => $group_weight,
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-    );
-    $group_weight++;
-
-    // Prompt for the default pattern for this module
-    $variable = 'pathauto_'. $module .'_pattern';
-    $description = '';
-    if (!count($_POST)) {
-      $error = _pathauto_check_pattern(variable_get($variable, $patterndefault), $settings->token_type);
-      if ($error) {
-        $form[$module]['#collapsed'] = FALSE;
-        $description = $error;
-      }
-    }
-    $form[$module][$variable] = array(
-      '#type' => 'textfield',
-      '#title' => $patterndescr,
-      '#default_value' => variable_get($variable, $patterndefault),
-      '#description' => $description,
-      '#size' => 65,
-      '#maxlength' => 1280,
-    );
-
-    // If the module supports a set of specialized patterns, set
-    // them up here
-    if (isset($settings->patternitems)) {
-      foreach ($settings->patternitems as $itemname => $itemlabel) {
-        $variable = 'pathauto_'. $module .'_'. $itemname .'_pattern';
-        $description = '';
-        if (!count($_POST)) {
-          $error = _pathauto_check_pattern(variable_get($variable, $patterndefault), $settings->token_type);
-          if ($error) {
-            $form[$module]['#collapsed'] = FALSE;
-            $description = $error;
-          }
-        }
-
-        $form[$module][$variable] = array('#type' => 'textfield',
-          '#title' => $itemlabel,
-          '#default_value' => variable_get($variable, ''),
-          '#description' => $description,
-          '#size' => 65,
-          '#maxlength' => 1280);
-      }
-    }
-
-    // Display the user documentation of placeholders supported by
-    // this module, as a description on the last pattern
-    $doc = "<dl>\n";
-    foreach ($settings->placeholders as $name => $description) {
-      $doc .= '<dt>'. $name .'</dt>';
-      $doc .= '<dd>'. $description .'</dd>';
-    }
-    $doc .= "</dl>\n";
-    $form[$module]['token_help'] = array(
-      '#title' => t('Replacement patterns'),
-      '#type' => 'fieldset',
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-      '#description' => t('Use -raw replacements for text to avoid problems with HTML entities.'),
-    );
-    $form[$module]['token_help']['help'] = array(
-      '#value' => $doc,
-    );
-
-    // If the module supports bulk updates, offer the update action here
-    if ($settings->bulkname) {
-      $variable = 'pathauto_'. $module .'_bulkupdate';
-      if (variable_get($variable, FALSE)) {
-        variable_set($variable, FALSE);
-        $function = $module .'_pathauto_bulkupdate';
-        call_user_func($function);
-      }
-      $form[$module][$variable] = array(
-        '#type' => 'checkbox',
-        '#title' => $settings->bulkname,
-        '#default_value' => FALSE,
-        '#description' => $settings->bulkdescr,
-      );
-    }
-
-    // If the module supports feeds, offer to generate aliases for them
-    if ($supportsfeeds) {
-      $variable = 'pathauto_'. $module .'_applytofeeds';
-      $current = variable_get($variable, $supportsfeeds);
-      // This checks for the old style from 2.0 and earlier. TODO: At some point we can drop that.
-      if (is_numeric($current)) {
-        $current = $supportsfeeds;
-      }
-
-      $form[$module][$variable] = array(
-        '#type' => 'textfield',
-        '#title' => t('Internal feed alias text (leave blank to disable)'),
-        '#size' => 65,
-        '#maxlength' => 1280,
-        '#default_value' => $current,
-        '#description' => t('The text to use for aliases for RSS feeds. Examples are "0/feed" (used throughout Drupal core) and "feed" (used by some contributed Drupal modules, like Views).'),
-      );
-    }
-
-  }
-
-  if (isset($do_index_bulkupdate) && $do_index_bulkupdate) {
-    drupal_set_message(format_plural($indexcount,
-      'Bulk generation of index aliases completed, one alias generated.',
-      'Bulk generation of index aliases completed, @count aliases generated.'));
-  }
-
-  // Keep track of which modules currently support pathauto
-  variable_set('pathauto_modulelist', $modulelist);
 
   return system_settings_form($form);
 }
@@ -370,9 +373,9 @@ function _pathauto_check_pattern($pattern, $type) {
 }
 
 /**
- * Validate pathauto_admin_settings form submissions.
+ * Validate pathauto_settings_form form submissions.
  */
-function pathauto_admin_settings_validate($form, &$form_state) {
+function pathauto_settings_form_validate($form, &$form_state) {
   _pathauto_include();
 
   // Validate that the separator is not set to be removed per http://drupal.org/node/184119
@@ -381,7 +384,7 @@ function pathauto_admin_settings_validate($form, &$form_state) {
   $punctuation = pathauto_punctuation_chars();
   foreach ($punctuation as $name => $details) {
     if ($details['value'] == $separator) {
-      $action = $form_state['values']['pathauto_punctuation_'. $name];
+      $action = $form_state['values']['pathauto_punctuation_' . $name];
       if ($action == PATHAUTO_PUNCTUATION_REMOVE) {
         drupal_set_message(t('You have configured the @name to be the separator and to be removed when encountered in strings. This can cause problems with your patterns and especially with the catpath and termpath patterns. You should probably set the action for @name to be "replace by separator".', array('@name' => $details['name'])), 'error');
       }
@@ -405,7 +408,6 @@ function pathauto_admin_delete() {
    10) where dst like 'pattern' - DON'T DO
   */
 
-  $form = array();
   $form['delete'] = array(
     '#type' => 'fieldset',
     '#title' => t('Choose aliases to delete'),
@@ -435,7 +437,7 @@ function pathauto_admin_delete() {
   }
 
   // Warn them and give a button that shows we mean business
-  $form['warning'] = array('#value' => '<p>'. t('<strong>Note:</strong> there is no confirmation. Be sure of your action before clicking the "Delete aliases now!" button.<br />You may want to make a backup of the database and/or the url_alias table prior to using this feature.') .'</p>');
+  $form['warning'] = array('#value' => '<p>' . t('<strong>Note:</strong> there is no confirmation. Be sure of your action before clicking the "Delete aliases now!" button.<br />You may want to make a backup of the database and/or the url_alias table prior to using this feature.') . '</p>');
   $form['buttons']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Delete aliases now!'),
@@ -486,6 +488,6 @@ function _pathauto_warn_wysiwygs() {
     }
   }
   if ($wysiwyg_problem) {
-    return '<strong> '. t('You appear to be using a "WYSIWYG" editor which can cause problems if that editor runs on the Pathauto administrative settings page. Please be sure to disable these editors for all text boxes on this page. See the "WYSIWYG Conflicts" section of the README.txt file for more information.') .'</strong>';
+    return '<strong> ' . t('You appear to be using a "WYSIWYG" editor which can cause problems if that editor runs on the Pathauto administrative settings page. Please be sure to disable these editors for all text boxes on this page. See the "WYSIWYG Conflicts" section of the README.txt file for more information.') . '</strong>';
   }
 }
