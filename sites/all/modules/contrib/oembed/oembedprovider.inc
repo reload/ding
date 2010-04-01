@@ -1,5 +1,5 @@
 <?php
-// $Id: oembedprovider.inc,v 1.1 2009/08/14 14:21:35 voxpelli Exp $
+// $Id: oembedprovider.inc,v 1.2 2010/02/21 12:12:35 voxpelli Exp $
 
 /**
  * @file
@@ -13,7 +13,7 @@
  *  Optional. The response format to use.
  *  Defaults to $_GET['format'] or 'json', in that order.
  */
-function _oembedprovider_handle_request($format='') {
+function _oembedprovider_handle_request($format = '') {
   if (empty($format)) {
     $format = empty($_GET['format']) ? 'json' : $_GET['format'];
   }
