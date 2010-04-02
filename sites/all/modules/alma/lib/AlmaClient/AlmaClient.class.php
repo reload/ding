@@ -301,8 +301,9 @@ class AlmaClient {
 
     $loans = array();
     foreach ($doc->getElementsByTagName('loan') as $item) {
-      $loans[] = array(
-        'id' => $item->getAttribute('id'),
+      $id = $item->getAttribute('id');
+      $loans[$id] = array(
+        'id' => $id,
         'branch' => $item->getAttribute('loanBranch'),
         'loan_date' => $item->getAttribute('loanDate'),
         'due_date' => $item->getAttribute('loanDueDate'),
@@ -311,7 +312,7 @@ class AlmaClient {
         'record_available' => $item->getElementsByTagName('catalogueRecord')->item(0)->getAttribute('isAvailable'),
       );
     }
-    usort($loans, 'AlmaClient::loan_sort');
+    uasort($loans, 'AlmaClient::loan_sort');
     return $loans;
   }
 
