@@ -360,25 +360,14 @@ function ting_add_object_info(TingClientObject $object) {
 	return $object;
 }
 
+/**
+ * Add additional information info for cover images.
+ *
+ * @param object $collection
+ * @return object
+ */
 function ting_add_additional_info($collection) {
-	//Add additional information info for cover images
 	$faust_numbers = array();
-
-	$addiVariables = array(	'wsdlUrl' => 'addi_wdsl_url',
-													'username' => 'addi_username',
-													'group' => 'addi_group',
-													'password' => 'addi_password');
-	foreach ($addiVariables as $name => &$setting)
-	{
-		$setting = variable_get($setting, false);
-		if (!$name)
-		{
-			watchdog('TingClient', 'Additional Information service setting '.$name.' not set', array(), WATCHDOG_WARNING);
-			return $collection;
-		}
-	}
-	extract($addiVariables);
-	$additionalInformationService = new AdditionalInformationService($wsdlUrl, $username, $group, $password);
 
 	$objects = (isset($collection->objects)) ? $collection->objects : $collection;
 
@@ -389,18 +378,12 @@ function ting_add_additional_info($collection) {
   }
 	
   if (sizeof($faust_numbers) > 0) {
-    try {
-      $additionalInformations = $additionalInformationService->getByFaustNumber($faust_numbers);
-      foreach ($additionalInformations as $faust_number => $ai) {
-        foreach ($objects as &$object) {
-          if ($faust_number == $object->localId) {
-            $object->additionalInformation = $ai;
-          }
+    foreach (ting_get_additional_info($faust_numbers) as $faust_number => $ai) {
+      foreach ($objects as &$object) {
+        if ($faust_number == $object->localId) {
+          $object->additionalInformation = $ai;
         }
       }
-    }
-    catch (AdditionalInformationServiceException $e) {
-      watchdog('TingClient', 'Error retrieving additional information and covers: '.$e->getMessage(), $isbns, WATCHDOG_ERROR);
     }
   }
 
@@ -412,6 +395,44 @@ function ting_add_additional_info($collection) {
   }
 
   return $collection;
+}
+
+/**
+ * Get additional info for a number of FAUST numbers.
+ *
+ * @param array $faust_numbers
+ *    Array of the FAUST numbers to look up.
+ * @return array
+ *    Additional info keyed by FAUST number.
+ */
+function ting_get_additional_info($faust_numbers) {
+  $addiVariables = array(
+    'wsdlUrl' => 'addi_wdsl_url',
+    'username' => 'addi_username',
+    'group' => 'addi_group',
+    'password' => 'addi_password',
+  );
+
+	foreach ($addiVariables as $name => &$setting) {
+		$setting = variable_get($setting, false);
+		if (!$name) {
+			watchdog('TingClient', 'Additional Information service setting '.$name.' not set', array(), WATCHDOG_WARNING);
+			return $collection;
+		}
+	}
+
+	extract($addiVariables);
+
+	$additionalInformationService = new AdditionalInformationService($wsdlUrl, $username, $group, $password);
+
+  try {
+    return $additionalInformationService->getByFaustNumber($faust_numbers);
+  }
+  catch (AdditionalInformationServiceException $e) {
+    watchdog('TingClient', 'Error retrieving additional information and covers: '.$e->getMessage(), $isbns, WATCHDOG_ERROR);
+  }
+
+  return array();
 }
 
 /**
