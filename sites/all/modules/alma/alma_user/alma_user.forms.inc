@@ -422,6 +422,8 @@ function alma_user_forms_reservation_details_submit($form, &$form_state) {
  * Loan details form.
  */
 function alma_user_forms_loan_details($form_state, $account, $records) {
+  $grouped = _alma_user_forms_group_loans($records);
+  $renew_buttons = FALSE;
   $form = array();
 
   $form['account'] = array(
@@ -431,7 +433,7 @@ function alma_user_forms_loan_details($form_state, $account, $records) {
 
   $form['loan_data'] = array(
     '#type' => 'value',
-    '#grouped' => _alma_user_forms_group_loans($records),
+    '#grouped' => $grouped,
     '#value' => $records,
   );
 
@@ -439,30 +441,28 @@ function alma_user_forms_loan_details($form_state, $account, $records) {
     '#tree' => TRUE,
   );
 
-  $form['renew_all'] = array(
-    '#type' => 'submit',
-    '#value' => t('Renew all'),
-    '#attributes' => array('class' => 'renew-all-button'),
-  );
-
-
   foreach ($records as $loan) {
-    if ($loan['is_renewable']) {
+    if ($loan['is_renewable'] && !in_array($loan['id'], $grouped['overdue'])) {
+      $renew_buttons = TRUE;
       $form['loans'][$loan['id']] = array(
         '#type' => 'checkbox',
       );
     }
-    else {
-      $form['loans'][$loan['id']] = array(
-        '#value' => t('Not renewable'),
-      );
-    }
   }
 
-  $form['renew'] = array(
-    '#type' => 'submit',
-    '#value' => t('Renew selected'),
-  );
+
+  if ($renew_buttons) {
+    $form['renew'] = array(
+      '#type' => 'submit',
+      '#value' => t('Renew selected'),
+    );
+
+    $form['renew_all'] = array(
+      '#type' => 'submit',
+      '#value' => t('Renew all'),
+      '#attributes' => array('class' => 'renew-all-button'),
+    );
+  }
 
   return $form;
 }
@@ -502,10 +502,10 @@ function _alma_user_forms_group_loans($records) {
 
   foreach ($records as $loan) {
     if ($loan['due_date'] <= date('Y-m-d')) {
-      $groups['overdue'][] = $loan;
+      $groups['overdue'][$loan['id']] = $loan['id'];
     }
     else {
-      $groups[$loan['due_date']][] = $loan;
+      $groups[$loan['due_date']][$loan['id']] = $loan['id'];
     }
   }
   return $groups;

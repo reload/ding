@@ -50,7 +50,7 @@ function theme_alma_user_forms_reservation_details($form) {
   if (!empty($form['reservation_data']['#grouped']['active'])) {
     $header = array(
       t('Select'),
-      t('Reservation number'),
+      '',
       t('Title'),
       t('Reserved'),
       t('Valid to'),
@@ -60,14 +60,47 @@ function theme_alma_user_forms_reservation_details($form) {
     $rows = array();
 
     foreach ($form['reservation_data']['#grouped']['active'] as $item) {
+      $cells = array();
+
+      $cells['checkbox'] = array(
+        'class' => 'checkbox',
+        'data' => drupal_render($form['reservations'][$item['id']]),
+      );
+
+      $image_url = ting_covers_faust_url($item['record_id'], '80_x');
+      $cells['image'] = array(
+        'class' => 'image',
+        'data' => ($image_url) ? theme('image', $image_url, '', '', NULL, FALSE) : '',
+      );
+
+      $cells['title'] = array(
+        'class' => 'title',
+        'data' => theme('alma_user_list_item', $item) . ' (<span class="reservation-number">' . t('Res. no @num', array('@num' => $item['id'])) . '</span>)',
+      );
+
+      $cells['create_date'] = array(
+        'class' => 'create_date',
+        'data' => $item['create_date'],
+      );
+
+      $cells['valid_to'] = array(
+        'class' => 'valid_to',
+        'data' => $item['valid_to'],
+      );
+
+      $cells['pickup_branch'] = array(
+        'class' => 'pickup_branch',
+        'data' => $branches[$item['pickup_branch']],
+      );
+
+      $cells['queue_no'] = array(
+        'class' => 'queue_no',
+        'data' => $item['queue_no'],
+      );
+
       $rows[] = array(
-        drupal_render($form['reservations'][$item['id']]),
-        $item['id'],
-        array('data' => theme('alma_user_list_item', $item), 'class' => 'title'),
-        $item['create_date'],
-        $item['valid_to'],
-        $branches[$item['pickup_branch']],
-        $item['queue_no'],
+        'data' => $cells,
+        'class' => 'active-reservations',
       );
     }
 
@@ -87,26 +120,62 @@ function theme_alma_user_forms_reservation_details($form) {
  */
 function theme_alma_user_forms_loan_details($form) {
   module_load_include('client.inc', 'ting');
-  $header = array(t('Select'), t('Title'), t('Loan date'));
   $groups = array();
   $output = '';
 
   foreach ($form['loan_data']['#grouped'] as $date => $group) {
+    // Overdue loans get preferential treatment. No checkboxes here.
     if ($date == 'overdue') {
       $table_title = t('Overdue loans');
+      $header = array('', t('Title'), t('Loan date'), t('Due date'));
+      $checkbox = FALSE;
     }
+    // The normal loans get grouped by due date.
     else {
       $table_title = t('Due in @count days, @date', array('@date' => date('d/m/y', strtotime($date)), '@count' => ceil((strtotime($date) - $_SERVER['REQUEST_TIME']) / 86400)));
+      $header = array(t('Select'), '', t('Title'), t('Loan date'), t('Due date'));
+      $checkbox = TRUE;
     }
-    $rows = array();
 
-    foreach ($group as $loan) {
+    $rows = array();
+    foreach ($group as $loan_id) {
+      $loan = $form['loan_data']['#value'][$loan_id];
+      $cells = array();
+
+      if ($checkbox) {
+        $cells['checkbox'] = array(
+          'class' => 'checkbox',
+          'data' => drupal_render($form['loans'][$loan_id]),
+        );
+      }
+
+      $image_url = ting_covers_faust_url($loan['record_id'], '80_x');
+      $cells['image'] = array(
+        'class' => 'image',
+        'data' => ($image_url) ? theme('image', $image_url, '', '', NULL, FALSE) : '',
+      );
+
+      $cells['title'] = array(
+        'class' => 'title',
+        'data' => theme('alma_user_list_item', $loan) . ' (<span class="material-number">' . t('Mat. no @num', array('@num' => $loan['record_id'])) . '</span>)',
+      );
+
+      $cells['loan_date'] = array(
+        'class' => 'loan_date',
+        'data' => $loan['loan_date'],
+      );
+
+      $cells['due_date'] = array(
+        'class' => 'due_date',
+        'data' => $loan['due_date'],
+      );
+
       $rows[] = array(
-        drupal_render($form['loans'][$loan['id']]),
-        theme('alma_user_list_item', $loan),
-        $loan['loan_date'],
+        'data' => $cells,
+        'class' => ($checkbox) ? 'selectable' : 'immutable',
       );
     }
+
     if (!empty($rows)) {
       $output .= drupal_render($form['renew_all']);
       $output .= theme('table', $header, $rows, array(), $table_title);
@@ -154,7 +223,7 @@ function theme_alma_user_list_item($item) {
   if (intval($item['id']) > 0) {
     $ting_object = ting_get_object_by_local_id($item['record_id']);
     if ($ting_object) {
-      return theme('ting_object_title', $ting_object, TRUE);
+      return theme('ting_object_title', $ting_object);
     }
   }
 
