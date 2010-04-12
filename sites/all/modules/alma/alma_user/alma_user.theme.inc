@@ -27,21 +27,45 @@ function theme_alma_user_forms_reservation_details($form) {
 
   if (!empty($form['reservation_data']['#grouped']['fetchable'])) {
     $header = array(
+      '',
       t('Title'),
       t('Pickup number'),
-      t('Expiry date'),
+      t('Pickup by'),
       t('Pickup branch'),
     );
 
     $rows = array();
 
     foreach ($form['reservation_data']['#grouped']['fetchable'] as $item) {
-      $rows[] = array(
-        array('data' => theme('alma_user_list_item', $item), 'class' => 'title'),
-        $item['pickup_number'],
-        $item['pickup_expire_date'],
-        $branches[$item['pickup_branch']],
+      $cells = array();
+
+      $image_url = ting_covers_faust_url($item['record_id'], '80_x');
+      $cells['image'] = array(
+        'class' => 'image',
+        'data' => ($image_url) ? theme('image', $image_url, '', '', NULL, FALSE) : '',
       );
+
+      $cells['title'] = array(
+        'class' => 'title',
+        'data' => theme('alma_user_list_item', $item) . ' (<span class="reservation-number">' . t('Res. no @num', array('@num' => $item['id'])) . '</span>)',
+      );
+
+      $cells['pickup_number'] = array(
+        'class' => 'pickup_number',
+        'data' => $item['pickup_number'],
+      );
+
+      $cells['pickup_expire_date'] = array(
+        'class' => 'pickup_expire_date',
+        'data' => $item['pickup_expire_date'],
+      );
+
+      $cells['pickup_branch'] = array(
+        'class' => 'pickup_branch',
+        'data' => $branches[$item['pickup_branch']],
+      );
+
+      $rows[] = $cells;
     }
 
     $output .= theme('table', $header, $rows, array('id' => 'reservations-fetchable'), t('Reservations ready for pickup'));
