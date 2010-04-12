@@ -499,10 +499,14 @@ function alma_user_forms_loan_details_submit($form, $form_state) {
  */
 function _alma_user_forms_group_loans($records) {
   $groups = array();
+  $today = date('Y-m-d', $_SERVER['REQUEST_TIME']);
 
   foreach ($records as $loan) {
-    if ($loan['due_date'] <= date('Y-m-d')) {
+    if ($loan['due_date'] < $today) {
       $groups['overdue'][$loan['id']] = $loan['id'];
+    }
+    elseif ($loan['due_date'] == $today) {
+      $groups['due'][$loan['id']] = $loan['id'];
     }
     else {
       $groups[$loan['due_date']][$loan['id']] = $loan['id'];

@@ -132,7 +132,12 @@ function theme_alma_user_forms_loan_details($form) {
     }
     // The normal loans get grouped by due date.
     else {
-      $table_title = t('Due in @count days, @date', array('@date' => date('d/m/y', strtotime($date)), '@count' => ceil((strtotime($date) - $_SERVER['REQUEST_TIME']) / 86400)));
+      if ($date == 'due') {
+        $table_title = t('Due today');
+      }
+      else {
+        $table_title = t('Due in @count days, @date', array('@date' => date('d/m/y', strtotime($date)), '@count' => ceil((strtotime($date) - $_SERVER['REQUEST_TIME']) / 86400)));
+      }
       $header = array(t('Select'), '', t('Title'), t('Loan date'), t('Due date'));
       $checkbox = TRUE;
     }
