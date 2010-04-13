@@ -117,8 +117,10 @@ function alma_get_organisation($reset=FALSE) {
       'collections' => alma_client_get_collections(TRUE),
     );
 
-    // Cache output for 24 hours.
-    cache_set('alma_get_organisation', $organisation, 'cache_alma_requests', $_SERVER['REQUEST_TIME'] + 86400);
+    // Cache output for 24 hours if we got all the data correctly.
+    if ($organisation['branches'] && $organisation['departments'] && $organisation['locations'] && $organisation['sublocations'] && $organisation['collections']) {
+      cache_set('alma_get_organisation', $organisation, 'cache_alma_requests', $_SERVER['REQUEST_TIME'] + 86400);
+    }
   }
 
   return $organisation;
