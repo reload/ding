@@ -3,4 +3,5 @@ name = Ding! page
 description = Controls the more CMS-oriented page content type.
 package = Ding!
 core = 6.x
+dependencies[] = ding_base
 

@@ -21,6 +21,7 @@ function theme_alma_user_record_list($records) {
  * Theming of reservation details form.
  */
 function theme_alma_user_forms_reservation_details($form) {
+  $date_format = variable_get('date_format_date_short', 'Y-m-d');
   $output = '';
   $branches = alma_client_get_branches();
   module_load_include('client.inc', 'ting');
@@ -57,7 +58,7 @@ function theme_alma_user_forms_reservation_details($form) {
 
       $cells['pickup_expire_date'] = array(
         'class' => 'pickup_expire_date',
-        'data' => $item['pickup_expire_date'],
+        'data' => alma_format_date($loan['pickup_expire_date'], $date_format),
       );
 
       $cells['pickup_branch'] = array(
@@ -104,12 +105,12 @@ function theme_alma_user_forms_reservation_details($form) {
 
       $cells['create_date'] = array(
         'class' => 'create_date',
-        'data' => $item['create_date'],
+        'data' => alma_format_date($item['create_date'], $date_format),
       );
 
       $cells['valid_to'] = array(
         'class' => 'valid_to',
-        'data' => $item['valid_to'],
+        'data' => alma_format_date($item['valid_to'], $date_format),
       );
 
       $cells['pickup_branch'] = array(
@@ -143,6 +144,7 @@ function theme_alma_user_forms_reservation_details($form) {
  * Theming of loan details form.
  */
 function theme_alma_user_forms_loan_details($form) {
+  $date_format = variable_get('date_format_date_short', 'Y-m-d');
   module_load_include('client.inc', 'ting');
   $groups = array();
   $output = '';
@@ -191,12 +193,12 @@ function theme_alma_user_forms_loan_details($form) {
 
       $cells['loan_date'] = array(
         'class' => 'loan_date',
-        'data' => $loan['loan_date'],
+        'data' => alma_format_date($loan['loan_date'], $date_format),
       );
 
       $cells['due_date'] = array(
         'class' => 'due_date',
-        'data' => $loan['due_date'],
+        'data' => alma_format_date($loan['due_date'], $date_format),
       );
 
       $rows[] = array(

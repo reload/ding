@@ -944,3 +944,24 @@ function alma_calculate_wait_time($records) {
   return $wait;
 }
 
+/**
+ * Format a date from Alma.
+ *
+ * @param string $datestring
+ *    Date in ISO 8601 format (eg. 2010-04-10).
+ * @param string $date_format
+ *    The format (in date() style) to use when formatting the date.
+ * @return string
+ *    Formatted date or original $datestring on failure.
+ */
+function alma_format_date($datestring, $date_format) {
+  if ($datestring) {
+    $timestamp = strtotime($datestring);
+
+    if ($timestamp > 1) {
+      return format_date($timestamp, 'custom', $date_format);
+    }
+  }
+  return $datestring;
+}
+
