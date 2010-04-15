@@ -108,7 +108,6 @@ body.page-user #content-main form{margin:0 0 30px 0;}
 
 		#alma-user-forms-reservation-details .container-inline-date,
 		#alma-user-forms-reservation-details #edit-new-pickup-branch-wrapper{	width:400px; 		}
-		#alma-user-forms-reservation-details .form-button{float:left; margin:0 10px 20px 0;}
 		
 
 	#alma-user-forms-reservation-details .container-inline-date{padding:10px 0;}
@@ -148,7 +147,15 @@ body.page-user #content-main form{margin:0 0 30px 0;}
 #alma-user-forms-reservation-details table tbody td{border-bottom: 1px solid #eee; padding:5px;}
 #alma-user-forms-reservation-details td.image img{ width:20px; overflow:hidden;}
 
-#alma-user-forms-reservation-details .edit-remove{float:right;}
+#alma-user-forms-reservation-details .date-clear-block,
+#alma-user-forms-reservation-details #edit-new-pickup-branch-wrapper {
+  clear: none;
+  float: left;
+}
+
+#alma-user-forms-reservation-details .update-controls { margin-top: 10px; }
+#alma-user-forms-reservation-details .date-clear-block { width: 250px; }
+#alma-user-forms-reservation-details #edit-new-pickup-branch-wrapper { width: 400px; }
 
   #reservations-fetchable th.count-0 {width:380px;}
   #reservations-fetchable th.count-1 {width:50px;}

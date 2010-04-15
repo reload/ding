@@ -136,6 +136,13 @@ function theme_alma_user_forms_reservation_details($form) {
     return t('No reservations found.');
   }
 
+  $output .= drupal_render($form['remove']);
+
+  $output .= '<div class="update-controls clear-block">';
+  $output .= drupal_render($form['new_expiry']);
+  $output .= drupal_render($form['new_pickup_branch']);
+  $output .= '</div>';
+
   $output .= drupal_render($form);
   return $output;
 }

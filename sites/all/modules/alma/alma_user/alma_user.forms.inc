@@ -327,13 +327,18 @@ function alma_user_forms_reservation_details($form_state, $account, $records) {
     }
   }
 
+  $form['remove'] = array(
+    '#type' => 'submit',
+    '#value' => t('Delete selected reservations'),
+    '#attributes' => array('class' => 'cancel-button'),
+  );
+
   $form['new_expiry'] = array(
     '#type' => 'date_popup',
-    '#title' => t('Not interested after'),
+    '#title' => t('Valid to'),
     '#date_format' => DATE_FORMAT_DATE,
     '#date_year_range' => '-0:+2',
   );
-
 
   $form['new_pickup_branch'] = array(
     '#type' => 'select',
@@ -342,15 +347,9 @@ function alma_user_forms_reservation_details($form_state, $account, $records) {
     '#default_value' => $account->preferred_branch,
   );
 
-  $form['remove'] = array(
-    '#type' => 'submit',
-    '#value' => t('Cancel selected'),
-    '#attributes' => array('class' => 'cancel-button'),
-  );
-
   $form['update'] = array(
     '#type' => 'submit',
-    '#value' => t('Update selected'),
+    '#value' => t('Save changes for selected reservations'),
     '#attributes' => array('class' => 'update-button'),
   );
 
