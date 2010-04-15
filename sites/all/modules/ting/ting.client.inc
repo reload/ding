@@ -431,6 +431,10 @@ function ting_get_additional_info($faust_numbers) {
   catch (AdditionalInformationServiceException $e) {
     watchdog('TingClient', 'Error retrieving additional information and covers: '.$e->getMessage(), $isbns, WATCHDOG_ERROR);
   }
+  // TODO: SoapFault should probably be catched within the Ting client.
+  catch (SoapFault $e) {
+    watchdog('TingClient', 'Error retrieving additional information and covers: '.$e->getMessage(), $isbns, WATCHDOG_ERROR);
+  }
 
   return array();
 }
