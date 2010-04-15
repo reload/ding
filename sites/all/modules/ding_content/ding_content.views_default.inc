@@ -862,15 +862,110 @@ function ding_content_views_default_views() {
     'weight' => 0,
   ));
   $handler->override_option('displays', array(
-    'panel_pane_1' => 'panel_pane_1',
     'panel_pane_2' => 'panel_pane_2',
     'panel_pane_3' => 'panel_pane_3',
     'panel_pane_4' => 'panel_pane_4',
     'panel_pane_5' => 'panel_pane_5',
     'panel_pane_6' => 'panel_pane_6',
     'default' => 0,
+    'panel_pane_1' => 0,
   ));
   $handler->override_option('sitename_title', 0);
+  $handler = $view->new_display('feed', 'User blog feed', 'feed_2');
+  $handler->override_option('arguments', array(
+    'uid' => array(
+      'default_action' => 'not found',
+      'style_plugin' => 'default_summary',
+      'style_options' => array(),
+      'wildcard' => 'all',
+      'wildcard_substitution' => 'Alle',
+      'title' => '',
+      'breadcrumb' => '',
+      'default_argument_type' => 'fixed',
+      'default_argument' => '',
+      'validate_type' => 'none',
+      'validate_fail' => 'not found',
+      'break_phrase' => 0,
+      'not' => 0,
+      'id' => 'uid',
+      'table' => 'users',
+      'field' => 'uid',
+      'validate_user_argument_type' => 'uid',
+      'validate_user_roles' => array(
+        '2' => 0,
+        '3' => 0,
+        '5' => 0,
+        '6' => 0,
+      ),
+      'override' => array(
+        'button' => 'Brug standard',
+      ),
+      'relationship' => 'none',
+      'default_options_div_prefix' => '',
+      'default_argument_user' => 0,
+      'default_argument_fixed' => '',
+      'validate_argument_node_type' => array(
+        'campaign' => 0,
+        'article' => 0,
+        'feature' => 0,
+        'profile' => 0,
+        'topic' => 0,
+        'flexifield_link' => 0,
+        'flexifield_ting_refs' => 0,
+        'flexifield_text' => 0,
+        'event' => 0,
+        'library' => 0,
+        'page' => 0,
+      ),
+      'validate_argument_node_access' => 0,
+      'validate_argument_nid_type' => 'nid',
+      'validate_argument_vocabulary' => array(
+        '4' => 0,
+        '5' => 0,
+        '1' => 0,
+        '2' => 0,
+      ),
+      'validate_argument_type' => 'tid',
+      'validate_argument_transform' => 0,
+      'validate_user_restrict_roles' => 0,
+    ),
+  ));
+  $handler->override_option('title', 'User blog feed');
+  $handler->override_option('style_plugin', 'rss');
+  $handler->override_option('style_options', array(
+    'mission_description' => FALSE,
+    'description' => '',
+  ));
+  $handler->override_option('row_plugin', 'node_rss');
+  $handler->override_option('row_options', array(
+    'relationship' => 'none',
+    'item_length' => 'default',
+  ));
+  $handler->override_option('path', 'profil/feed');
+  $handler->override_option('menu', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+    'name' => 'navigation',
+  ));
+  $handler->override_option('tab_options', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+  ));
+  $handler->override_option('displays', array(
+    'panel_pane_1' => 'panel_pane_1',
+    'default' => 0,
+    'panel_pane_2' => 0,
+    'panel_pane_3' => 0,
+    'panel_pane_4' => 0,
+    'panel_pane_5' => 0,
+    'panel_pane_6' => 0,
+  ));
+  $handler->override_option('sitename_title', 0);
+
 
   $views[$view->name] = $view;
   // End of 'article_list'.
