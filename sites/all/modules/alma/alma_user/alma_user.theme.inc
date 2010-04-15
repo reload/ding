@@ -58,7 +58,7 @@ function theme_alma_user_forms_reservation_details($form) {
 
       $cells['pickup_expire_date'] = array(
         'class' => 'pickup_expire_date',
-        'data' => alma_format_date($loan['pickup_expire_date'], $date_format),
+        'data' => alma_format_date($item['pickup_expire_date'], $date_format),
       );
 
       $cells['pickup_branch'] = array(
