@@ -213,8 +213,6 @@ function ding_user_default_page_manager_handlers() {
   $display->panel_settings = array();
   $display->cache = array();
   $display->title = '';
-  $display->hide_title = TRUE;
-  $display->title_pane = 0;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -258,45 +256,29 @@ function ding_user_default_page_manager_handlers() {
     $pane = new stdClass;
     $pane->pid = 'new-3';
     $pane->panel = 'right';
-    $pane->type = 'profile';
-    $pane->subtype = 'alma_user_loans_list';
+    $pane->type = 'relevant';
+    $pane->subtype = 'relevant';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => 'argument_uid_1',
+      'campaign_count' => 3,
+      'context' => array(
+        '0' => 'empty',
+        '1' => 'empty',
+        '2' => 'empty',
+      ),
       'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array(
-      'style' => 'ding_box',
-    );
+    $pane->style = array();
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
     $display->content['new-3'] = $pane;
     $display->panels['right'][0] = 'new-3';
-    $pane = new stdClass;
-    $pane->pid = 'new-4';
-    $pane->panel = 'right';
-    $pane->type = 'profile';
-    $pane->subtype = 'alma_user_reservations_list';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => 'argument_uid_1',
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'style' => 'ding_box',
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $display->content['new-4'] = $pane;
-    $display->panels['right'][1] = 'new-4';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
   $handlers['user_view_panel_context_3'] = $handler;
 
