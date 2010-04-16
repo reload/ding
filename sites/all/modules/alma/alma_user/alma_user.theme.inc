@@ -28,6 +28,7 @@ function theme_alma_user_forms_reservation_details($form) {
 
   if (!empty($form['reservation_data']['#grouped']['fetchable'])) {
     $header = array(
+      t('Select'),
       '',
       t('Title'),
       t('Pickup number'),
@@ -39,6 +40,11 @@ function theme_alma_user_forms_reservation_details($form) {
 
     foreach ($form['reservation_data']['#grouped']['fetchable'] as $item) {
       $cells = array();
+
+      $cells['checkbox'] = array(
+        'class' => 'checkbox',
+        'data' => drupal_render($form['reservations'][$item['id']]),
+      );
 
       $image_url = ting_covers_faust_url($item['record_id'], '80_x');
       $cells['image'] = array(
@@ -155,12 +161,12 @@ function theme_alma_user_forms_loan_details($form) {
   module_load_include('client.inc', 'ting');
   $groups = array();
   $output = '';
+  $header = array(t('Select'), '', t('Title'), t('Loan date'), t('Due date'));
 
   foreach ($form['loan_data']['#grouped'] as $date => $group) {
     // Overdue loans get preferential treatment. No checkboxes here.
     if ($date == 'overdue') {
       $table_title = t('Overdue loans');
-      $header = array('', t('Title'), t('Loan date'), t('Due date'));
       $checkbox = FALSE;
     }
     // The normal loans get grouped by due date.
@@ -171,7 +177,6 @@ function theme_alma_user_forms_loan_details($form) {
       else {
         $table_title = t('Due in @count days, @date', array('@date' => date('d/m/y', strtotime($date)), '@count' => ceil((strtotime($date) - $_SERVER['REQUEST_TIME']) / 86400)));
       }
-      $header = array(t('Select'), '', t('Title'), t('Loan date'), t('Due date'));
       $checkbox = TRUE;
     }
 
@@ -180,10 +185,16 @@ function theme_alma_user_forms_loan_details($form) {
       $loan = $form['loan_data']['#value'][$loan_id];
       $cells = array();
 
-      if ($checkbox) {
+      if ($checkbox && isset($form['loans'][$loan_id])) {
         $cells['checkbox'] = array(
           'class' => 'checkbox',
           'data' => drupal_render($form['loans'][$loan_id]),
+        );
+      }
+      else {
+        $cells['checkbox'] = array(
+          'class' => 'checkbox empty',
+          'data' => '–',
         );
       }
 
@@ -215,7 +226,6 @@ function theme_alma_user_forms_loan_details($form) {
     }
 
     if (!empty($rows)) {
-      $output .= drupal_render($form['renew_all']);
       $output .= theme('table', $header, $rows, array(), $table_title);
     }
   }
