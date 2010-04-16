@@ -161,7 +161,9 @@ function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = arra
 	$request->setStart($resultsPerPage * ($page - 1) + 1);
 	$request->setNumResults($resultsPerPage);
   
-	$request = (!isset($options['supportingTypes']) || !$options['supportingTypes']) ? ting_remove_supporting_types($request) : $request;
+  // FIXME: SupportingTypes removal temporarily disabled due to issues
+  // with Ting 0.12.
+	//$request = (!isset($options['supportingTypes']) || !$options['supportingTypes']) ? ting_remove_supporting_types($request) : $request;
 	$request->setFacets((isset($options['facets'])) ? $options['facets'] : array('facet.subject', 'facet.creator', 'facet.type', 'facet.date', 'facet.language'));
 	$request->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((sizeof($request->getFacets()) == 0) ? 0 : 10));
   $request->setSort((isset($options['sort'])) ? $options['sort'] : '');
