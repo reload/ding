@@ -41,10 +41,18 @@ function theme_alma_user_forms_reservation_details($form) {
     foreach ($form['reservation_data']['#grouped']['fetchable'] as $item) {
       $cells = array();
 
-      $cells['checkbox'] = array(
-        'class' => 'checkbox',
-        'data' => drupal_render($form['reservations'][$item['id']]),
-      );
+      if (isset($form['reservations'][$item['id']])) {
+        $cells['checkbox'] = array(
+          'class' => 'checkbox',
+          'data' => drupal_render($form['reservations'][$item['id']]),
+        );
+      }
+      else {
+        $cells['checkbox'] = array(
+          'class' => 'checkbox empty',
+          'data' => '–',
+        );
+      }
 
       $image_url = ting_covers_faust_url($item['record_id'], '80_x');
       $cells['image'] = array(
@@ -93,10 +101,18 @@ function theme_alma_user_forms_reservation_details($form) {
     foreach ($form['reservation_data']['#grouped']['active'] as $item) {
       $cells = array();
 
-      $cells['checkbox'] = array(
-        'class' => 'checkbox',
-        'data' => drupal_render($form['reservations'][$item['id']]),
-      );
+      if (isset($form['reservations'][$item['id']])) {
+        $cells['checkbox'] = array(
+          'class' => 'checkbox',
+          'data' => drupal_render($form['reservations'][$item['id']]),
+        );
+      }
+      else {
+        $cells['checkbox'] = array(
+          'class' => 'checkbox empty',
+          'data' => '–',
+        );
+      }
 
       $image_url = ting_covers_faust_url($item['record_id'], '80_x');
       $cells['image'] = array(

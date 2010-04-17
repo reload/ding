@@ -300,6 +300,7 @@ function alma_user_forms_library_settings_submit($form, &$form_state) {
  * Reservation details form.
  */
 function alma_user_forms_reservation_details($form_state, $account, $records) {
+  $cancel_fetchable = (boolean) variable_get('alma_user_cancel_fetchable_reservable', TRUE);
   $form = array();
 
   $form['account'] = array(
@@ -320,9 +321,12 @@ function alma_user_forms_reservation_details($form_state, $account, $records) {
   foreach ($records as $reservation) {
     $form['reservation_data']['#value'][$reservation['id']] = $reservation;
     $form['reservation_data']['#grouped'][$reservation['status']][$reservation['id']] = $reservation;
-    $form['reservations'][$reservation['id']] = array(
+
+    if ($reservation['status'] == 'active' || ($cancel_fetchable && $reservation['status'] == 'fetchable')) {
+      $form['reservations'][$reservation['id']] = array(
         '#type' => 'checkbox',
       );
+    }
   }
 
   $form['remove'] = array(
