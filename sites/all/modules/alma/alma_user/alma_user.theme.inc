@@ -167,7 +167,6 @@ function theme_alma_user_forms_loan_details($form) {
     // Overdue loans get preferential treatment. No checkboxes here.
     if ($date == 'overdue') {
       $table_title = t('Overdue loans');
-      $checkbox = FALSE;
     }
     // The normal loans get grouped by due date.
     else {
@@ -177,7 +176,6 @@ function theme_alma_user_forms_loan_details($form) {
       else {
         $table_title = t('Due in @count days, @date', array('@date' => date('d/m/y', strtotime($date)), '@count' => ceil((strtotime($date) - $_SERVER['REQUEST_TIME']) / 86400)));
       }
-      $checkbox = TRUE;
     }
 
     $rows = array();
@@ -185,7 +183,7 @@ function theme_alma_user_forms_loan_details($form) {
       $loan = $form['loan_data']['#value'][$loan_id];
       $cells = array();
 
-      if ($checkbox && isset($form['loans'][$loan_id])) {
+      if (isset($form['loans'][$loan_id])) {
         $cells['checkbox'] = array(
           'class' => 'checkbox',
           'data' => drupal_render($form['loans'][$loan_id]),

@@ -439,7 +439,7 @@ function alma_user_forms_loan_details($form_state, $account, $records) {
   );
 
   foreach ($records as $loan) {
-    if ($loan['is_renewable'] && !in_array($loan['id'], $grouped['overdue'])) {
+    if ($loan['is_renewable']) {
       $renew_buttons = TRUE;
       $form['loans'][$loan['id']] = array(
         '#type' => 'checkbox',
