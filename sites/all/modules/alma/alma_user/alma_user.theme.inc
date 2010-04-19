@@ -36,6 +36,39 @@ function theme_alma_user_forms_reservation_details($form) {
       t('Pickup branch'),
     );
 
+        $colgroups = array(
+      array(
+        array(
+          'class' => 'col-selection',
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-image',
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-title',
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-pickup-number',
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-pickup-by',
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-pickup-branch',
+        ),
+      ),
+    );
+    
     $rows = array();
 
     foreach ($form['reservation_data']['#grouped']['fetchable'] as $item) {
@@ -83,7 +116,7 @@ function theme_alma_user_forms_reservation_details($form) {
       $rows[] = $cells;
     }
 
-    $output .= theme('table', $header, $rows, array('id' => 'reservations-fetchable'), t('Reservations ready for pickup'));
+    $output .= theme('table', $header, $rows, array('id' => 'reservations-fetchable', 'colgroups' => $colgroups), t('Reservations ready for pickup'));
   }
 
   if (!empty($form['reservation_data']['#grouped']['active'])) {
@@ -96,8 +129,46 @@ function theme_alma_user_forms_reservation_details($form) {
       t('Pickup branch'),
       t('Queue number'),
     );
-    $rows = array();
+    
+    $colgroups = array(
+      array(
+        array(
+          'class' => 'col-selection', 
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-image',
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-title', 
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-reservation', 
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-valied-to', 
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-pickup-branch', 
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-queue-number', 
+        ),
+      ),
+    );
 
+    $rows = array();
     foreach ($form['reservation_data']['#grouped']['active'] as $item) {
       $cells = array();
 
@@ -151,21 +222,26 @@ function theme_alma_user_forms_reservation_details($form) {
       );
     }
 
-    $output .= theme('table', $header, $rows, array('id' => 'reservations-active'), t('Active reservations'));
+    $output .= theme('table', $header, $rows, array('id' => 'reservations-active', 'colgroups' => $colgroups), t('Active reservations'));
   }
 
   if (empty($output)) {
     return t('No reservations found.');
   }
 
-  $output .= drupal_render($form['remove']);
-
   $output .= '<div class="update-controls clear-block">';
   $output .= drupal_render($form['new_expiry']);
   $output .= drupal_render($form['new_pickup_branch']);
   $output .= '</div>';
 
+  // fisk
+  $output .= '<div class="update-controls-button clear-block">';
+  $output .= drupal_render($form['update']);
+  $output .= drupal_render($form['remove']);
+  $output .= '</div>';
+  
   $output .= drupal_render($form);
+
   return $output;
 }
 
@@ -178,6 +254,34 @@ function theme_alma_user_forms_loan_details($form) {
   $groups = array();
   $output = '';
   $header = array(t('Select'), '', t('Title'), t('Loan date'), t('Due date'));
+
+  $colgroups = array(
+    array(
+      array(
+        'class' => 'col-selection',
+      ),
+    ),
+    array(
+      array(
+        'class' => 'col-image',
+      ),
+    ),
+    array(
+      array(
+        'class' => 'col-title',
+      ),
+    ),
+    array(
+      array(
+        'class' => 'col-loan-date',
+      ),
+    ),
+    array(
+      array(
+        'class' => 'col-due-date',
+      ),
+    ),
+  );
 
   foreach ($form['loan_data']['#grouped'] as $date => $group) {
     // Overdue loans get preferential treatment. No checkboxes here.
@@ -240,7 +344,7 @@ function theme_alma_user_forms_loan_details($form) {
     }
 
     if (!empty($rows)) {
-      $output .= theme('table', $header, $rows, array(), $table_title);
+      $output .= theme('table', $header, $rows, array('colgroups' => $colgroups), $table_title);
     }
   }
   if (empty($output)) {

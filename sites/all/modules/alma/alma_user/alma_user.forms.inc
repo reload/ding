@@ -410,6 +410,7 @@ function alma_user_forms_reservation_details_submit($form, &$form_state) {
         }
       }
       break;
+      
     case 'cancel-button':
       $creds = alma_user_get_credentials($form_state['values']['account']);
       foreach ($selected as $id) {
