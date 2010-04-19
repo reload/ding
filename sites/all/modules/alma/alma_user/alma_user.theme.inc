@@ -143,7 +143,7 @@ function theme_alma_user_forms_reservation_details($form) {
       ),
       array(
         array(
-          'class' => 'col-title', 
+          'class' => 'col-title-res',
         ),
       ),
       array(
