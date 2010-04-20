@@ -95,11 +95,6 @@ function alma_cart_page_reserve_item($item_id, $reservable = NULL) {
   // Get creds, redirect if not ahah.
   $creds = alma_user_get_credentials($account, !$is_ahah);
 
-
-  if (!isset($account->preferred_branch)) {
-    // TODO: What happens if there's not a preferred branch selected?
-  }
-
   $reservation_exists = alma_client_user_has_reservation($creds['borr_card'], $creds['pin_code'], $reservable);
 
   // If client wants JSON (usually AJAX requests), let's give it to them.
@@ -110,6 +105,15 @@ function alma_cart_page_reserve_item($item_id, $reservable = NULL) {
       $reply['error_type'] = 'not-logged-in';
       $reply['title'] = t('Not logged in');
       $reply['message'] = t('You have to log in to make reservations.');
+    }
+    elseif (!isset($account->preferred_branch) || !$account->preferred_branch) {
+      $reply['status'] = 'error';
+      $reply['error_type'] = 'no-preferred-branch';
+      $reply['title'] = t('Preferred branch not set');
+      $reply['message'] = t('To make quick reservations, you need to have a preferred branch set. You can set one up at your !profile_settings.', 
+        array('!profile_settings' => l(t('profile settings page'), 'user/' . $account->uid . '/profile')
+      ));
+
     }
     elseif ($reservation_exists) {
       $reply['status'] = 'error';
@@ -124,9 +128,13 @@ function alma_cart_page_reserve_item($item_id, $reservable = NULL) {
       ));
 
       if ($reservation) {
+        $branch_names = alma_client_get_branches(FALSE);
         $reply['status'] = 'success';
         $reply['title'] = t('Success');
-        $reply['message'] = t('Reservation for @item added.', array('@item' => $object->title));
+        $reply['message'] = t('You have reserved @item and will be notified when its ready for pickup at @branch.', array(
+          '@item' => $object->title,
+          '@branch' => $branch_names[$account->preferred_branch],
+        ));
         $reply['cart_link'] = url('user/' . $account . '/status');
       }
       else {

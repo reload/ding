@@ -11,11 +11,6 @@ Drupal.behaviors.almaCartButtons = function () {
       var $button = $(this);
 
       if (!$button.hasClass('disabled')) {
-        // If the dialog div doesn't exist, create it.
-        if ($('#alma-cart-dialog').length === 0) {
-          $("#content-main").append('<div id="alma-cart-dialog"></div>');
-        }
-
         // Make the request back to Drupal.
         $.post(this.href, {}, function (data) {
           var buttons, $count, message;
@@ -40,10 +35,14 @@ Drupal.behaviors.almaCartButtons = function () {
             message = Drupal.t('An error occurred.');
           }
 
-          $('#alma-cart-dialog')
-            .text(message)
-            .dialog({'title': data.title, 'buttons': buttons, 'autoOpen': false})
-            .dialog("open");
+          $('<div>' + message + '</div>')
+            .dialog({
+              'title': data.title,
+              'buttons': buttons,
+              'close': function (event, ui) {
+                $(this).dialog('destroy').remove();
+              }
+            });
         }, 'json');
       }
 
