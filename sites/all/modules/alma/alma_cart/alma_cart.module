@@ -111,17 +111,45 @@ function alma_cart_user_count($account) {
  * hooks and overriding theme functions.
  */
 function theme_alma_cart_forms_cart_details($form) {
-  $header = array(t('Select'), t('Title'), t('Wait time'));
+  $header = array(t('Select'), '', t('Title'), t('Wait time'));
   $rows = array();
   $output = '';
   $wait = $form['wait_time']['#value'];
 
   foreach ($form['cart_data']['#value'] as $item) {
-    $rows[] = array(
-      drupal_render($form['cart'][$item['alma_id']]),
-      theme('alma_cart_item', $item),
-      (isset($wait[$item['alma_id']])) ? $wait[$item['alma_id']] : t('Unknown'),
+    $cells = array();
+
+    if (isset($form['cart'][$item['alma_id']])) {
+      $cells['checkbox'] = array(
+        'class' => 'checkbox',
+        'data' => drupal_render($form['cart'][$item['alma_id']]),
+      );
+    }
+    else {
+      $cells['checkbox'] = array(
+        'class' => 'checkbox empty',
+        'data' => '–',
+      );
+    }
+
+    $image_url = ting_covers_faust_url($item['alma_id'], '80_x');
+    $cells['image'] = array(
+      'class' => 'image',
+      'data' => ($image_url) ? theme('image', $image_url, '', '', NULL, FALSE) : '',
     );
+
+    $cells['title'] = array(
+      'class' => 'title',
+      'data' => theme('alma_cart_item', $item),
+    );
+
+
+    $cells['wait'] = array(
+      'class' => 'wait',
+      'data' => (isset($wait[$item['alma_id']])) ? $wait[$item['alma_id']] : t('Unknown'),
+    );
+
+    $rows[] = $cells;
   }
 
   if (empty($rows)) {
