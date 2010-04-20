@@ -362,7 +362,9 @@ class AlmaClient {
     $params = array(
       'borrCard' => $borr_card,
       'pinCode' => $pin_code,
-      'reservable' => $reservation['id'],
+      // Axiell requires URLs to be ISO-8859-1. If you're having strange
+      // bugs, you could ostensibly blame this conversion.
+      'reservable' => utf8_decode($reservation['id']),
       'reservationPickUpBranch' => $reservation['pickup_branch'],
       'reservationValidFrom' => $reservation['valid_from'],
       'reservationValidTo' => $reservation['valid_to'],
