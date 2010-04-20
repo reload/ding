@@ -116,7 +116,10 @@ function alma_user_default_page_manager_pages() {
     );
     $pane->cache = array();
     $pane->style = array();
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => 'reservation',
+      'css_class' => '',
+    );
     $pane->extras = array();
     $pane->position = 1;
     $display->content['new-2'] = $pane;
