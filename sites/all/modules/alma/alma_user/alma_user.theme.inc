@@ -359,6 +359,7 @@ function theme_alma_user_forms_loan_details($form) {
  * Theming of debt details form.
  */
 function theme_alma_user_forms_debts_details($form) {
+  $date_format = variable_get('date_format_date_short', 'Y-m-d');
   $header = array(
     t('Select'),
     t('Note'),
@@ -393,7 +394,7 @@ function theme_alma_user_forms_debts_details($form) {
       ),
       array (
         'class' => 'date',
-        'data' => $data['date'],
+        'data' => alma_format_date($data['date'], $date_format),
       ),
       array (
         'class' => 'amount',
