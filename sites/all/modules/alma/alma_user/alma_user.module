@@ -62,6 +62,9 @@ function alma_user_block($op = 'list', $delta = 0, $edit = array()) {
 
     // If user is not logged in, display the login form.
     if (!$user->uid) {
+      jquery_ui_add('ui.dialog');
+      jquery_ui_theme_load();
+      drupal_add_js(drupal_get_path('module', 'alma_user') . '/alma_user.login.js');
       $block['content'] = drupal_get_form('user_login_block');
     }
     else {
