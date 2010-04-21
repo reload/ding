@@ -391,7 +391,10 @@ function theme_alma_user_forms_debts_details($form) {
         'class' => 'note',
         'data' => $data['note']
       ),
-      $data['date'],
+      array (
+        'class' => 'date',
+        'data' => $data['date'],
+      ),
       array (
         'class' => 'amount',
         'data' => $data['amount_formatted'],
