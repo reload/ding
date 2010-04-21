@@ -387,12 +387,15 @@ function theme_alma_user_forms_debts_details($form) {
   foreach ($form['debt_data']['#value']['debts'] as $key => $data) {
     $rows[$data['id']] = array(
       drupal_render($form['debts'][$data['id']]),
-      $data['note'],
+      array (
+        'class' => 'note',
+        'data' => $data['note']
+      ),
       $data['date'],
       array (
         'class' => 'amount',
         'data' => $data['amount_formatted'],
-        ),
+      ),
     );
   }
 
