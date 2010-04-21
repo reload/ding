@@ -366,17 +366,37 @@ function theme_alma_user_forms_debts_details($form) {
     t('Amount'),
   );
 
+  $colgroups = array(
+    array(
+      array(
+        'class' => 'col-selection',
+      ),
+      array(
+        'class' => 'col-note',
+      ),
+      array(
+        'class' => 'col-date',
+      ),
+      array(
+        'class' => 'col-amount',
+      ),
+    ),
+  );
+
   $rows = array();
   foreach ($form['debt_data']['#value']['debts'] as $key => $data) {
     $rows[$data['id']] = array(
       drupal_render($form['debts'][$data['id']]),
       $data['note'],
       $data['date'],
-      $data['amount_formatted'],
+      array (
+        'class' => 'amount',
+        'data' => $data['amount_formatted'],
+        ),
     );
   }
 
-  $output = theme('table', $header, $rows);
+  $output = theme('table', $header, $rows, array('colgroups' => $colgroups));
   $output .= drupal_render($form);
   return $output;
 }

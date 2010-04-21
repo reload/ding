@@ -139,20 +139,33 @@ iframe.pc-booking { width: 100%; height: 100%; min-height: 600px;}
 
 /* Jesper K: alma låner status side */
 .pane-alma_user_reservations_details .col-selection,
-.pane-alma_user_loans_details .col-selection { width: 35px; }
+.pane-alma_user_loans_details .col-selection,
+.pane-alma_user_debts_details .col-selection { width: 35px; }
+
 .pane-alma_user_reservations_details .col-image,
 .pane-alma_user_loans_details .col-image { width: 35px; }
 
-/* Dates*/
 .pane-alma_user_reservations_details .col-reservation,
 .pane-alma_user_reservations_details .col-valied-to,
 .pane-alma_user_reservations_details .col-pickup-by,
 .pane-alma_user_loans_details .col-loan-date,
-.pane-alma_user_loans_details .col-due-date { width: 70px;}
+.pane-alma_user_loans_details .col-due-date,
+.pane-alma_user_debts_details .col-date { width: 70px;}
 
 .pane-alma_user_reservations_details .col-pickup-branch { width: 100px;}
 .pane-alma_user_reservations_details .col-queue-number { width: 70px;}
 .pane-alma_user_reservations_details .col-pickup-number { width: 30px;}
+
+.pane-alma_user_debts_details .col-amount { width: 60px;}
+.pane-alma_user_debts_details td.amount {
+  text-align: right;
+  padding-right: 4px;
+}
+
+#alma-user-forms-debts-details td .form-item {
+  margin:0;
+  padding:0;
+}
 
 .pane-alma_user_reservations_details td.queue_no {
   text-align: right;
