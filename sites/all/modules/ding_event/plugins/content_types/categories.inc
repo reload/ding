@@ -39,6 +39,9 @@ function ding_event_categories_content_type_render($subtype, $conf, $panel_args,
 
     if (isset($_GET['library'])) {
       $query['library'] = intval($_GET['library']);
+      if ($query['library'] <= 0) {
+        $query['library'] = 'All';
+      }
     }
 
     // Add all-link, removing the category.
