@@ -97,12 +97,7 @@ function ding_content_default_page_manager_pages() {
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array(
-      'method' => 'simple',
-      'settings' => array(
-        'lifetime' => '120',
-      ),
-    );
+    $pane->cache = array();
     $pane->style = array();
     $pane->css = array();
     $pane->extras = array();
@@ -220,12 +215,7 @@ function ding_content_default_page_manager_pages() {
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array(
-      'method' => 'simple',
-      'settings' => array(
-        'lifetime' => '120',
-      ),
-    );
+    $pane->cache = array();
     $pane->style = array();
     $pane->css = array();
     $pane->extras = array();
@@ -1014,6 +1004,9 @@ function ding_content_default_page_manager_handlers() {
   $handler->conf['display'] = $display;
   $handlers['node_view_panel_context_3'] = $handler;
 
+   /**
+   * Panel 'node_view'.
+   */
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
@@ -1128,12 +1121,7 @@ function ding_content_default_page_manager_handlers() {
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array(
-      'method' => 'simple',
-      'settings' => array(
-        'lifetime' => '300',
-      ),
-    );
+    $pane->cache = array();
     $pane->style = array();
     $pane->css = array();
     $pane->extras = array();
@@ -1152,12 +1140,7 @@ function ding_content_default_page_manager_handlers() {
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array(
-      'method' => 'simple',
-      'settings' => array(
-        'lifetime' => '60',
-      ),
-    );
+    $pane->cache = array();
     $pane->style = array(
       'style' => 'ding_box',
     );
@@ -1201,12 +1184,7 @@ function ding_content_default_page_manager_handlers() {
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array(
-      'method' => 'simple',
-      'settings' => array(
-        'lifetime' => '300',
-      ),
-    );
+    $pane->cache = array();
     $pane->style = array();
     $pane->css = array();
     $pane->extras = array();
