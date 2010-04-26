@@ -48,5 +48,6 @@
 /* admin rules */
 #ting-search-carousels .ui-sortable-helper { padding: 5px; background: #F8F8F8; width: 600px !important; }
 #edit-new-search-carousel-button { margin: 10px 0; }
+#add-another-fields { background:#FFFFFF none repeat scroll 0 0; border:1px solid #CCCCCC; padding:0.1em 0.6em; }
 
 .sort-hidden { display: none; }

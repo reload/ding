@@ -158,6 +158,7 @@ function ting_search_carousel_search_element_process($element, $form_state) {
   $element['query'] = array(
     '#type' => 'textfield',
     '#title' => t('Query'),
+    '#maxlength' => 2048,
     '#description' => t('The query to display search results for'),
   	'#default_value' => $element['#value']['query'],
   );

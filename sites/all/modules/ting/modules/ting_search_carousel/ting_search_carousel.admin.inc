@@ -48,14 +48,14 @@ function ting_search_carousel_admin_form($form_state) {
     $form['ting_search_carousel_searches'][0] = array(
       '#type' => 'ting_search_carousel_search'
     );
-  }  
- 
+  }
+
   $form['new_search_carousel_button'] = array(
     '#type' => 'button',
     '#value' => 'Add another',
     '#ahah' => array(
       'path' => 'admin/settings/ting_search_carousel/form/ahah',
-      'wrapper' => 'ting-search-carousels',
+      'wrapper' => 'add-another-fields',
       'method' => 'append',
       'effect' => 'slide'
     ),
@@ -120,7 +120,9 @@ function ting_search_carousel_form_ahah($form_state) {
   $form = form_builder($_POST['form_id'], $form, $form_state);
   
   // Render and return the new field.
-  drupal_json(array('data' => drupal_render($form['ting_search_carousel_searches'][$key]), 'status' => TRUE));
+  drupal_json(array(
+    'data' => drupal_render($form['ting_search_carousel_searches'][$key]),
+    'status' => TRUE));
   exit();
 }
 
@@ -158,7 +160,12 @@ function theme_ting_search_carousel_admin_form($form) {
     $rows[] = array('data' => $row, 'class' => 'draggable');
   }
   $output = theme('table', $header, $rows, array('id' => 'ting-search-carousel-admin-sort'));
+  
+  // Add placeholder for ahah objects
+  $output .= '<div id="add-another-fields" class="clear-block"></div>';
+
   $output .= drupal_render($form);
+
   return $output;
 }
 
