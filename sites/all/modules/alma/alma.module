@@ -117,8 +117,10 @@ function alma_get_organisation($reset=FALSE) {
       'collections' => alma_client_get_collections(TRUE),
     );
 
-    // Cache output for 24 hours.
-    cache_set('alma_get_organisation', $organisation, 'cache_alma_requests', $_SERVER['REQUEST_TIME'] + 86400);
+    // Cache output for 24 hours if we got all the data correctly.
+    if ($organisation['branches'] && $organisation['departments'] && $organisation['locations'] && $organisation['sublocations'] && $organisation['collections']) {
+      cache_set('alma_get_organisation', $organisation, 'cache_alma_requests', $_SERVER['REQUEST_TIME'] + 86400);
+    }
   }
 
   return $organisation;
@@ -940,5 +942,26 @@ function alma_calculate_wait_time($records) {
   }
 
   return $wait;
+}
+
+/**
+ * Format a date from Alma.
+ *
+ * @param string $datestring
+ *    Date in ISO 8601 format (eg. 2010-04-10).
+ * @param string $date_format
+ *    The format (in date() style) to use when formatting the date.
+ * @return string
+ *    Formatted date or original $datestring on failure.
+ */
+function alma_format_date($datestring, $date_format) {
+  if ($datestring) {
+    $timestamp = strtotime($datestring);
+
+    if ($timestamp > 1) {
+      return format_date($timestamp, 'custom', $date_format);
+    }
+  }
+  return $datestring;
 }
 

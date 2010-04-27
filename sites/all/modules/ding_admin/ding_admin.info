@@ -3,4 +3,5 @@ name = Ding! admin
 description = Tweaks and overrides for the admin interface.
 package = Ding!
 core = 6.x
+dependencies[] = ding_base
 

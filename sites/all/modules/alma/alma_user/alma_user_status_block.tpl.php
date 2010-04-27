@@ -24,7 +24,7 @@
       <?php print l(t("Loans") . ' <span class="count">' . $user_status['loan_count'] . '</span>', 'user/'. $user->uid . '/status', array('html' => TRUE)); ?>
     </li>
     <li class="reservations">
-      <?php print l(t("Reservations") . ' <span class="count">' . $user_status['reservation_count'] . '</span>', 'user/'. $user->uid . '/status', array('html' => TRUE)); ?>
+      <?php print l(t("Reservations") . ' <span class="count">' . $user_status['reservation_count'] . '</span>', 'user/'. $user->uid . '/status', array('html' => TRUE, 'fragment' => 'reservation')); ?>
     </li>
   </ul>
 <?php else: ?>

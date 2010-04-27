@@ -68,7 +68,9 @@ function ting_search_carousel_theme() {
       'arguments' => array('collection' => NULL),
   		'template' => 'ting_search_carousel_collection'
     ),
-    
+    'ting_search_carousel_admin_form' => array(
+      'arguments' => array('form' => NULL),
+    ),
   );
 }
 
@@ -109,9 +111,9 @@ function ting_search_carousel_elements() {
   $types['ting_search_carousel_search'] = array(
     '#input' => TRUE,
     '#process' => array('ting_search_carousel_search_element_process'),
-    '#element_validate' => array('ting_search_carousel_search_element_validate'),
+    '#element_validate' => array('ting_search_carousel_search_element_validate'),    
     '#default_value' => array(
-      'delta' => 0,
+      'sort' => 0,
       'title' => '',
   		'subtitle' => '',
   		'query' => '',
@@ -133,11 +135,13 @@ function ting_search_carousel_search_element_process($element, $form_state) {
     $element['#value'] += $element['#default_value'];
   }
 
-  $element['delta'] = array(
-    '#type' => 'value',
-    '#value' => (isset($element['#delta'])) ? $element['#delta'] : $element['#value']['delta'],
+  $element['sort'] = array(
+    '#type' => 'weight',
+    '#delta' => 10,
+    '#default_value' => (isset($element['#sort'])) ? $element['#sort'] : $element['#value']['sort'],
+    '#attributes' => array('class' => 'sort-hidden'),
   );
-
+  
   $element['title'] = array(
     '#type' => 'textfield',
     '#title' => t('Title'),
@@ -154,11 +158,9 @@ function ting_search_carousel_search_element_process($element, $form_state) {
   $element['query'] = array(
     '#type' => 'textfield',
     '#title' => t('Query'),
+    '#maxlength' => 2048,
     '#description' => t('The query to display search results for'),
   	'#default_value' => $element['#value']['query'],
-  );
-  $element['sort'] = array (
-    '#value' => '<div class="sort">'.t('Move').'</div>',
   );
   $element['remove'] = array(
     '#type' => 'button',

@@ -5,8 +5,7 @@
  * Rendering of Alma cart item.
  */
 function theme_alma_cart_item($item) {
-  $output = theme('image', $item['thumbnail_url'], '', $item['title'], array('class' => 'cart-item-thumbnail'), FALSE);
-  $output .= '<span class="title">' . l($item['title'], 'ting/object/' . $item['ting_id'])  . '</span> ';
+  $output = '<span class="title">' . l($item['title'], 'ting/object/' . $item['ting_id'])  . '</span> ';
   $output .= t('by');
   $output .= ' <span class="author">' . $item['author'] . '</span>';
   $output .= ' <span class="type">' . $item['type'] . '</span>';

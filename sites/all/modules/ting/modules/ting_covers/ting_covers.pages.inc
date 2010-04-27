@@ -21,13 +21,13 @@ function ting_covers_object($preset, $object_id) {
       $source_url = $object->additionalInformation->detailUrl;
     }
     elseif ($object->additionalInformation->thumbnailUrl) {
-      $source_url =$object->additionalInformation->thumbnailUrl;
+      $source_url = $object->additionalInformation->thumbnailUrl;
     }
     else {
       ting_covers_goto_default($preset);
     }
     
-    $path = _ting_covers_pages_fetch_image($path, $source_url);
+    $path = _ting_covers_pages_fetch_or_redirect($path, $source_url, $preset);
   }
 
   drupal_goto(imagecache_create_url($preset, $path));
@@ -60,12 +60,7 @@ function ting_covers_collection($preset, $object_id) {
 	    }
     }
         
-    //no cover found
-    if (!$source_url) {
-      ting_covers_goto_default($preset);
-    }
-
-    $path = _ting_covers_pages_fetch_image($path, $source_url);
+    $path = _ting_covers_pages_fetch_or_redirect($path, $source_url, $preset);
   }
 
   drupal_goto(imagecache_create_url($preset, $path));
@@ -92,15 +87,34 @@ function ting_covers_faust($preset, $faust_number) {
       }
     }
 
-    // No cover found, redirect to default image.
-    if (!$source_url) {
-      //ting_covers_goto_default($preset);
-    }
-
-    $path = _ting_covers_pages_fetch_image($path, $source_url);
+    $path = _ting_covers_pages_fetch_or_redirect($path, $source_url, $preset);
   }
 
   return drupal_goto(imagecache_create_url($preset, $path));
+}
+
+/**
+ * Helper function to fetch image or redirect.
+ *
+ * @param string $path
+ *    Path to save fetched image to.
+ * @param string $source_url
+ *    URL to fetch image from.
+ * @param string $preset
+ *    Name of imagecache preset to use for redirect.
+ * @return string
+ *    Image path if user was not redirected.
+ */
+function _ting_covers_pages_fetch_or_redirect($path, $source_url, $preset) {
+  if ($source_url && filter_var($source_url, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED)) {
+    $path = _ting_covers_pages_fetch_image($path, $source_url);
+
+    if ($path) {
+      return $path;
+    }
+  }
+
+  ting_covers_goto_default($preset);
 }
 
 /**

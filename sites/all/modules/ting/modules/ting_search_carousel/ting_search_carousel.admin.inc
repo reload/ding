@@ -12,14 +12,11 @@ function ting_search_carousel_admin_page() {
     _admin_init_theme();
   }
   
-  $path = drupal_get_path('module', 'ting_search_carousel');
-  drupal_add_js($path . '/js/ting_search_carousel.admin.js');
-  drupal_add_css($path . '/css/ting_search_carousel.css');
-  
-  jquery_ui_add(array('ui.draggable', 'ui.sortable'));
-  
+  drupal_add_js(drupal_get_path('module', 'ting_search_carousel'). '/js/ting_search_carousel.admin.js');
+  drupal_add_css(drupal_get_path('module', 'ting_search_carousel'). '/css/ting_search_carousel.css');
   return drupal_get_form('ting_search_carousel_admin_form');
 }
+
 
 /**
  * Ting search carousel admin form.
@@ -32,14 +29,15 @@ function ting_search_carousel_admin_form($form_state) {
     '#title' => t('Searches'),
     '#attributes' => array('id' => 'ting-search-carousels'),
     '#tree' => TRUE,
+    '#theme' => 'ting_search_carousel_admin_form',
   );
-  	
+  
   $searches = variable_get('ting_search_carousel_searches', array());
   if ($searches) {
-    foreach ($searches as $delta => $search) {
+    foreach ($searches as $key => $search) {
     	if ($search['title'])
     	{
-	      $form['ting_search_carousel_searches'][$delta] = array(
+	      $form['ting_search_carousel_searches'][$key] = array(
 	        '#type' => 'ting_search_carousel_search',
 	        '#value' => $search
 	      );
@@ -50,14 +48,14 @@ function ting_search_carousel_admin_form($form_state) {
     $form['ting_search_carousel_searches'][0] = array(
       '#type' => 'ting_search_carousel_search'
     );
-  }  
- 
+  }
+
   $form['new_search_carousel_button'] = array(
     '#type' => 'button',
     '#value' => 'Add another',
     '#ahah' => array(
       'path' => 'admin/settings/ting_search_carousel/form/ahah',
-      'wrapper' => 'ting-search-carousels',
+      'wrapper' => 'add-another-fields',
       'method' => 'append',
       'effect' => 'slide'
     ),
@@ -79,8 +77,13 @@ function ting_search_carousel_admin_form($form_state) {
     ),
     '#default_value' => variable_get('ting_search_carousel_cache_duration', 604800),
   );
-  
-  return system_settings_form($form);    
+
+  // Get systemet form elements
+  $form = system_settings_form($form);
+
+  // Override submit, need to sort data before save
+  $form['#submit'] = array('ting_search_carousel_search_submit');
+  return $form;
 }
 
 /*
@@ -89,10 +92,6 @@ function ting_search_carousel_admin_form($form_state) {
   $name is the form fields array key... e.g. the name for $form['title'] is "title"
 */ 
 function ting_search_carousel_form_ahah($form_state) {
-  // Use the admin module's theme if available.
-  if (function_exists('_admin_init_theme')) {
-    _admin_init_theme();
-  }
   
   $form_state = array('submitted' => FALSE);
   $form_build_id = $_POST['form_build_id'];
@@ -103,12 +102,12 @@ function ting_search_carousel_form_ahah($form_state) {
   
   // Delta is assigned to the count of current elements, so it'll be the 
   // next in the zero-based list.
-  $delta = count(element_children($form['ting_search_carousel_searches']));
-  $delta++;
+  $key = count(element_children($form['ting_search_carousel_searches']));
+  $key++;
 
-  $form['ting_search_carousel_searches'][$delta] = array(
+  $form['ting_search_carousel_searches'][$key] = array(
     '#type' => 'ting_search_carousel_search',
-    '#delta' => $delta,
+    '#sort' => 10,
   );
   form_set_cache($form_build_id, $form, $form_state);
   
@@ -121,6 +120,65 @@ function ting_search_carousel_form_ahah($form_state) {
   $form = form_builder($_POST['form_id'], $form, $form_state);
   
   // Render and return the new field.
-  drupal_json(array('data' => drupal_render($form['ting_search_carousel_searches'][$delta]), 'status' => TRUE));
+  drupal_json(array(
+    'data' => drupal_render($form['ting_search_carousel_searches'][$key]),
+    'status' => TRUE));
   exit();
+}
+
+
+function ting_search_carousel_search_submit($form, &$form_state) {
+  // Sort searches, before saveing (preformance).
+  usort($form_state['values']['ting_search_carousel_searches'], "ting_search_carousel_usort_cmp");
+
+  // Return control to system settings form submit.
+  system_settings_form_submit($form, &$form_state);
+}
+
+/**
+ * Theme function for the admin form, enables drag and drop of form elements.
+ *
+ * @param array $form
+ * @return string
+ */
+function theme_ting_search_carousel_admin_form($form) {
+  drupal_add_tabledrag('ting-search-carousel-admin-sort', 'order', 'sibling', 'sort');
+
+  $header = array('', 'Searches', 'sort');
+  foreach (element_children($form) as $key) {
+    // Add class to group weight fields for drag and drop.
+    $form[$key]['sort']['#attributes']['class'] = 'sort';
+
+    // Get sort element
+    $sort = $form[$key]['sort'];
+    unset($form[$key]['sort']);
+
+    // Build rows
+    $row = array('');
+    $row[] = drupal_render($form[$key]);
+    $row[] = drupal_render($sort);
+    $rows[] = array('data' => $row, 'class' => 'draggable');
+  }
+  $output = theme('table', $header, $rows, array('id' => 'ting-search-carousel-admin-sort'));
+  
+  // Add placeholder for ahah objects
+  $output .= '<div id="add-another-fields" class="clear-block"></div>';
+
+  $output .= drupal_render($form);
+
+  return $output;
+}
+
+/**
+ * Custom sort function, to sort form by weight (sort col.)
+ *
+ * @param array $a
+ * @param array $b
+ * @return <type>
+ */
+function ting_search_carousel_usort_cmp($a, $b) {
+    if ($a['sort'] == $b['sort']) {
+        return 0;
+    }
+    return ($a['sort'] < $b['sort']) ? -1 : 1;
 }

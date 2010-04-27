@@ -5,6 +5,7 @@ package = Ding!
 core = 6.x
 dependencies[] = auto_nodetitle
 dependencies[] = content_profile
+dependencies[] = ding_base
 dependencies[] = flexifield
 dependencies[] = link
 dependencies[] = ting_reference

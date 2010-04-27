@@ -21,30 +21,102 @@ function theme_alma_user_record_list($records) {
  * Theming of reservation details form.
  */
 function theme_alma_user_forms_reservation_details($form) {
+  $date_format = variable_get('date_format_date_short', 'Y-m-d');
   $output = '';
   $branches = alma_client_get_branches();
   module_load_include('client.inc', 'ting');
 
   if (!empty($form['reservation_data']['#grouped']['fetchable'])) {
     $header = array(
+      t('Select'),
+      '',
       t('Title'),
       t('Pickup number'),
-      t('Expiry date'),
+      t('Pickup by'),
       t('Pickup branch'),
     );
 
+        $colgroups = array(
+      array(
+        array(
+          'class' => 'col-selection',
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-image',
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-title',
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-pickup-number',
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-pickup-by',
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-pickup-branch',
+        ),
+      ),
+    );
+    
     $rows = array();
 
     foreach ($form['reservation_data']['#grouped']['fetchable'] as $item) {
-      $rows[] = array(
-        array('data' => theme('alma_user_list_item', $item), 'class' => 'title'),
-        $item['pickup_number'],
-        $item['pickup_expire_date'],
-        $branches[$item['pickup_branch']],
+      $cells = array();
+
+      if (isset($form['reservations'][$item['id']])) {
+        $cells['checkbox'] = array(
+          'class' => 'checkbox',
+          'data' => drupal_render($form['reservations'][$item['id']]),
+        );
+      }
+      else {
+        $cells['checkbox'] = array(
+          'class' => 'checkbox empty',
+          'data' => '–',
+        );
+      }
+
+      $image_url = ting_covers_faust_url($item['record_id'], '80_x');
+      $cells['image'] = array(
+        'class' => 'image',
+        'data' => ($image_url) ? theme('image', $image_url, '', '', NULL, FALSE) : '',
       );
+
+      $cells['title'] = array(
+        'class' => 'title',
+        'data' => theme('alma_user_list_item', $item) . ' (<span class="reservation-number">' . t('Res. no @num', array('@num' => $item['id'])) . '</span>)',
+      );
+
+      $cells['pickup_number'] = array(
+        'class' => 'pickup_number',
+        'data' => $item['pickup_number'],
+      );
+
+      $cells['pickup_expire_date'] = array(
+        'class' => 'pickup_expire_date',
+        'data' => alma_format_date($item['pickup_expire_date'], $date_format),
+      );
+
+      $cells['pickup_branch'] = array(
+        'class' => 'pickup_branch',
+        'data' => $branches[$item['pickup_branch']],
+      );
+
+      $rows[] = $cells;
     }
 
-    $output .= theme('table', $header, $rows, array('id' => 'reservations-fetchable'), t('Reservations ready for pickup'));
+    $output .= theme('table', $header, $rows, array('id' => 'reservations-fetchable', 'colgroups' => $colgroups), t('Reservations ready for pickup'));
   }
 
   if (!empty($form['reservation_data']['#grouped']['active'])) {
@@ -57,15 +129,61 @@ function theme_alma_user_forms_reservation_details($form) {
       t('Pickup branch'),
       t('Queue number'),
     );
-    $rows = array();
+    
+    $colgroups = array(
+      array(
+        array(
+          'class' => 'col-selection', 
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-image',
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-title-res',
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-reservation', 
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-valied-to', 
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-pickup-branch', 
+        ),
+      ),
+      array(
+        array(
+          'class' => 'col-queue-number', 
+        ),
+      ),
+    );
 
+    $rows = array();
     foreach ($form['reservation_data']['#grouped']['active'] as $item) {
       $cells = array();
 
-      $cells['checkbox'] = array(
-        'class' => 'checkbox',
-        'data' => drupal_render($form['reservations'][$item['id']]),
-      );
+      if (isset($form['reservations'][$item['id']])) {
+        $cells['checkbox'] = array(
+          'class' => 'checkbox',
+          'data' => drupal_render($form['reservations'][$item['id']]),
+        );
+      }
+      else {
+        $cells['checkbox'] = array(
+          'class' => 'checkbox empty',
+          'data' => '–',
+        );
+      }
 
       $image_url = ting_covers_faust_url($item['record_id'], '80_x');
       $cells['image'] = array(
@@ -80,12 +198,12 @@ function theme_alma_user_forms_reservation_details($form) {
 
       $cells['create_date'] = array(
         'class' => 'create_date',
-        'data' => $item['create_date'],
+        'data' => alma_format_date($item['create_date'], $date_format),
       );
 
       $cells['valid_to'] = array(
         'class' => 'valid_to',
-        'data' => $item['valid_to'],
+        'data' => alma_format_date($item['valid_to'], $date_format),
       );
 
       $cells['pickup_branch'] = array(
@@ -104,14 +222,26 @@ function theme_alma_user_forms_reservation_details($form) {
       );
     }
 
-    $output .= theme('table', $header, $rows, array('id' => 'reservations-active'), t('Active reservations'));
+    $output .= theme('table', $header, $rows, array('id' => 'reservations-active', 'colgroups' => $colgroups), t('Active reservations'));
   }
 
   if (empty($output)) {
     return t('No reservations found.');
   }
 
+  $output .= '<div class="update-controls clear-block">';
+  $output .= drupal_render($form['new_expiry']);
+  $output .= drupal_render($form['new_pickup_branch']);
+  $output .= '</div>';
+
+  // fisk
+  $output .= '<div class="update-controls-button clear-block">';
+  $output .= drupal_render($form['update']);
+  $output .= drupal_render($form['remove']);
+  $output .= '</div>';
+  
   $output .= drupal_render($form);
+
   return $output;
 }
 
@@ -119,22 +249,53 @@ function theme_alma_user_forms_reservation_details($form) {
  * Theming of loan details form.
  */
 function theme_alma_user_forms_loan_details($form) {
+  $date_format = variable_get('date_format_date_short', 'Y-m-d');
   module_load_include('client.inc', 'ting');
   $groups = array();
   $output = '';
+  $header = array(t('Select'), '', t('Title'), t('Loan date'), t('Due date'));
+
+  $colgroups = array(
+    array(
+      array(
+        'class' => 'col-selection',
+      ),
+    ),
+    array(
+      array(
+        'class' => 'col-image',
+      ),
+    ),
+    array(
+      array(
+        'class' => 'col-title',
+      ),
+    ),
+    array(
+      array(
+        'class' => 'col-loan-date',
+      ),
+    ),
+    array(
+      array(
+        'class' => 'col-due-date',
+      ),
+    ),
+  );
 
   foreach ($form['loan_data']['#grouped'] as $date => $group) {
     // Overdue loans get preferential treatment. No checkboxes here.
     if ($date == 'overdue') {
       $table_title = t('Overdue loans');
-      $header = array('', t('Title'), t('Loan date'), t('Due date'));
-      $checkbox = FALSE;
     }
     // The normal loans get grouped by due date.
     else {
-      $table_title = t('Due in @count days, @date', array('@date' => date('d/m/y', strtotime($date)), '@count' => ceil((strtotime($date) - $_SERVER['REQUEST_TIME']) / 86400)));
-      $header = array(t('Select'), '', t('Title'), t('Loan date'), t('Due date'));
-      $checkbox = TRUE;
+      if ($date == 'due') {
+        $table_title = t('Due today');
+      }
+      else {
+        $table_title = t('Due in @count days, @date', array('@date' => date('d/m/y', strtotime($date)), '@count' => ceil((strtotime($date) - $_SERVER['REQUEST_TIME']) / 86400)));
+      }
     }
 
     $rows = array();
@@ -142,10 +303,16 @@ function theme_alma_user_forms_loan_details($form) {
       $loan = $form['loan_data']['#value'][$loan_id];
       $cells = array();
 
-      if ($checkbox) {
+      if (isset($form['loans'][$loan_id])) {
         $cells['checkbox'] = array(
           'class' => 'checkbox',
           'data' => drupal_render($form['loans'][$loan_id]),
+        );
+      }
+      else {
+        $cells['checkbox'] = array(
+          'class' => 'checkbox empty',
+          'data' => '–',
         );
       }
 
@@ -162,12 +329,12 @@ function theme_alma_user_forms_loan_details($form) {
 
       $cells['loan_date'] = array(
         'class' => 'loan_date',
-        'data' => $loan['loan_date'],
+        'data' => alma_format_date($loan['loan_date'], $date_format),
       );
 
       $cells['due_date'] = array(
         'class' => 'due_date',
-        'data' => $loan['due_date'],
+        'data' => alma_format_date($loan['due_date'], $date_format),
       );
 
       $rows[] = array(
@@ -177,8 +344,7 @@ function theme_alma_user_forms_loan_details($form) {
     }
 
     if (!empty($rows)) {
-      $output .= drupal_render($form['renew_all']);
-      $output .= theme('table', $header, $rows, array(), $table_title);
+      $output .= theme('table', $header, $rows, array('colgroups' => $colgroups), $table_title);
     }
   }
   if (empty($output)) {
@@ -193,6 +359,7 @@ function theme_alma_user_forms_loan_details($form) {
  * Theming of debt details form.
  */
 function theme_alma_user_forms_debts_details($form) {
+  $date_format = variable_get('date_format_date_short', 'Y-m-d');
   $header = array(
     t('Select'),
     t('Note'),
@@ -200,17 +367,43 @@ function theme_alma_user_forms_debts_details($form) {
     t('Amount'),
   );
 
+  $colgroups = array(
+    array(
+      array(
+        'class' => 'col-selection',
+      ),
+      array(
+        'class' => 'col-note',
+      ),
+      array(
+        'class' => 'col-date',
+      ),
+      array(
+        'class' => 'col-amount',
+      ),
+    ),
+  );
+
   $rows = array();
   foreach ($form['debt_data']['#value']['debts'] as $key => $data) {
     $rows[$data['id']] = array(
       drupal_render($form['debts'][$data['id']]),
-      $data['note'],
-      $data['date'],
-      $data['amount_formatted'],
+      array (
+        'class' => 'note',
+        'data' => $data['note']
+      ),
+      array (
+        'class' => 'date',
+        'data' => alma_format_date($data['date'], $date_format),
+      ),
+      array (
+        'class' => 'amount',
+        'data' => $data['amount_formatted'],
+      ),
     );
   }
 
-  $output = theme('table', $header, $rows);
+  $output = theme('table', $header, $rows, array('colgroups' => $colgroups));
   $output .= drupal_render($form);
   return $output;
 }

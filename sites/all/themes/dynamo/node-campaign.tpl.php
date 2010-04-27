@@ -1,8 +1,8 @@
-<?php if ($node->campaign_type == "image-only") { ?>		
+<?php if ($node->campaign_type == "image-only"): ?>
 	<div class="campaign-image campaign-type-<?php print $node->campaign_type;  ?> clearfix">
 		<?php print l($node->field_campaign_image['0']['view'], $node->field_campaign_link['0']['display_url'], $options= array('html'=>TRUE)); ?>
 	</div>
-<?php }else{ ?>
+<?php else: ?>
 	<div class="campaign-text clearfix">
 		<div class="campaign-inner">
 			<div class="campaign-type-<?php print $node->campaign_type;?>">
@@ -12,5 +12,5 @@
 			</div>
 		</div>
 </div>
+<?php endif; ?>
 
-<?php } ?>
