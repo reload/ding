@@ -481,16 +481,23 @@ function format_danmarc2($string){
  */
 function dynamo_feed_icon($url) {
   if ($image = theme('image', 'sites/all/themes/dynamo/images/feed.png', t('RSS feed'), t('RSS feed'))) {
-    // Transform query string in to drupal arguments -- ?library=1 <-> /1
+    // Transform view expose query string in to drupal style arguments -- ?library=1 <-> /1
     if ($pos = strpos($url, '?')) {
-      $parts = split('=', substr($url, $pos));
+      $base = substr($url, 0, $pos);
       $parm = '';
-      for ($i = 0; $i < count($parts); $i++) {
-        if ($i % 2) {
-          $parm .= '/' .$parts[$i];
+      foreach ($_GET as $key => $value) {
+        if ($key != 'q') {
+          $parm .= '/' . strtolower($value);
         }
       }
-      $url = substr($url, 0, $pos).$parm;
+
+      // Extra fix for event arrangementer?library=x, as it wants taks. id/lib. id
+      if (isset($_GET['library'])) {
+        if (arg(1) == '') {
+          $parm = '/all'.$parm;
+        }
+      }
+      $url = $base.$parm;
     }
     return '<a href="'. check_url($url) .'" class="feed-icon">'. $image .'<span>'. t('RSS') .'</span></a>';
   }
@@ -513,7 +520,7 @@ function dynamo_table($header, $rows, $attributes = array(), $caption = NULL) {
     drupal_add_js('misc/tableheader.js');
     // Add 'sticky-enabled' class to the table to identify it for JS.
     // This is needed to target tables constructed by this function.
-    $attributes['class'][] = 'sticky-enabled';
+    array_push($attributes['class'], 'sticky-enabled');
   }
 
   $output = '<table' . drupal_attributes($attributes) . ">\n";
