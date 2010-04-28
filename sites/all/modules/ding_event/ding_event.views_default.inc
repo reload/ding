@@ -1531,10 +1531,9 @@ function ding_event_views_default_views() {
       ),
       'date_fields' => array(
         'node_data_field_datetime.field_datetime_value' => 'node_data_field_datetime.field_datetime_value',
-        'node_data_field_datetime.field_datetime_value2' => 'node_data_field_datetime.field_datetime_value2',
       ),
       'date_method' => 'OR',
-      'granularity' => 'hour',
+      'granularity' => 'day',
       'form_type' => 'date_select',
       'default_date' => 'now',
       'default_to_date' => '',
