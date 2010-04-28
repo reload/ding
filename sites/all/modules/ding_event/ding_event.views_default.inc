@@ -6,7 +6,7 @@
  */
 function ding_event_views_default_views() {
   $views = array();
-
+  
   $view = new view;
   $view->name = 'event_list';
   $view->description = 'List of coming events';
@@ -1483,6 +1483,71 @@ function ding_event_views_default_views() {
       'relationship' => 'none',
     ),
   ));
+  $handler->override_option('filters', array(
+    'status' => array(
+      'operator' => '=',
+      'value' => '1',
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'status',
+      'table' => 'node',
+      'field' => 'status',
+      'relationship' => 'none',
+    ),
+    'type' => array(
+      'operator' => 'in',
+      'value' => array(
+        'event' => 'event',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'type',
+      'table' => 'node',
+      'field' => 'type',
+      'relationship' => 'none',
+    ),
+    'date_filter' => array(
+      'operator' => '>=',
+      'value' => array(
+        'value' => NULL,
+        'min' => NULL,
+        'max' => NULL,
+        'default_date' => 'now',
+        'default_to_date' => '',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'date_fields' => array(
+        'node_data_field_datetime.field_datetime_value' => 'node_data_field_datetime.field_datetime_value',
+        'node_data_field_datetime.field_datetime_value2' => 'node_data_field_datetime.field_datetime_value2',
+      ),
+      'date_method' => 'OR',
+      'granularity' => 'hour',
+      'form_type' => 'date_select',
+      'default_date' => 'now',
+      'default_to_date' => '',
+      'year_range' => '-3:+3',
+      'id' => 'date_filter',
+      'table' => 'node',
+      'field' => 'date_filter',
+      'override' => array(
+        'button' => 'Brug standard',
+      ),
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('footer', '<a href="/arrangementer" class="more-link">Flere arrangementer</a>');
   $handler->override_option('footer_format', '1');
   $handler->override_option('footer_empty', 0);
@@ -1661,10 +1726,10 @@ function ding_event_views_default_views() {
     'name' => 'navigation',
   ));
   $handler->override_option('displays', array(
-    'panel_pane_3' => 'panel_pane_3',
     'panel_pane_2' => 'panel_pane_2',
     'default' => 0,
     'panel_pane_1' => 0,
+    'panel_pane_3' => 0,
     'panel_pane_4' => 0,
   ));
   $handler->override_option('sitename_title', 0);
@@ -1981,8 +2046,6 @@ function ding_event_views_default_views() {
     'panel_pane_2' => 0,
   ));
   $handler->override_option('sitename_title', 0);
-
-
 
   $views[$view->name] = $view;
   return $views;
