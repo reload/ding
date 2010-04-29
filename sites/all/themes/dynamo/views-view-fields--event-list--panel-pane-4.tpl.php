@@ -25,13 +25,12 @@
   <div class="info">
     <span><?php print $fields['field_library_ref_nid']->content; ?></span>
     <h4><?php print $fields['title']->content; ?></h4>
-    <?php if (format_date($date, 'custom', 'Hi') != '0000') : ?>
+    <?php if (format_date($date, 'custom', 'Hi') != '0000') { ?>
     <span class="time">
 			<?php print format_date($date, 'custom', 'H:i'); ?> -      
     </span>
-    <?php endif; ?>
+    <?php } ?>
     <?php print $price; ?>
   </div>
 
 </div>
-

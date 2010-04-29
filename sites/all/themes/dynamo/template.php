@@ -23,8 +23,8 @@ function dynamo_theme($existing, $type, $theme, $path) {
 	'comment_form' => array(
 		'arguments' => array ('form' => NULL),
 		),
-   'event_date_time' => array(
-     'arguments' => array ('start' => NULL, 'end' => NULL),
+   'event_information' => array(
+     'arguments' => array ('start' => NULL, 'end' => NULL, 'price' => NULL),
    )
  );
 }
@@ -81,20 +81,13 @@ function dynamo_preprocess_node(&$variables) {
       $variables['alertbox'] = '<div class="alert">' . t('NB! This event occurred in the past.') . '</div>';
     }
 
-    $date = theme('event_date_time', $start, $end);
-    $variables['event_date'] = $date['date'];
-
-    if ($date['time'] != NULL) {
-      $variables['event_time'] = $date['time'];
+    // Style date and price
+    $info = theme('event_information', $start, $end);
+    $variables['event_date'] = $info['date'];
+    if ($info['time'] != NULL) {
+      $variables['event_time'] = $info['time'];
     }
-
-    // Display free if the price is zero.
-    if ($node->field_entry_price[0]['value'] == "0") {
-      $variables['event_price'] = t('free');
-    }
-    else{
-      $variables['event_price'] = filter_xss($node->field_entry_price[0]['view']);
-    }
+    $variables['event_price'] = $info['price'];
   }
 }
 
@@ -613,7 +606,7 @@ function dynamo_table($header, $rows, $attributes = array(), $caption = NULL) {
   return $output;
 }
 
-function dynamo_event_date_time($start, $end) {
+function dynamo_event_information($start, $end, $price) {
   $output = array();
 
   // Maybe swap end and start (problem with views event_list)
@@ -640,6 +633,14 @@ function dynamo_event_date_time($start, $end) {
   if (format_date($start, 'custom', "Hi") == '0000') {
     $output['time'] = NULL;
   }
+
+  /* Price */
+	if ($price > 0){
+    $output['price'] = check_plain($price) ." ". t('Kr');
+	} 
+  else {
+    $output['price'] = t('Free');
+	}
 
   return $output;
 }
