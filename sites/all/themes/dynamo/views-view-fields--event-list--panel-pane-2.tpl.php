@@ -29,7 +29,7 @@
     <span class="time">
 			<?php print format_date($date, 'custom', 'H:i'); ?> -
     </span>
-    <? endif; ?>
+    <?php endif; ?>
     <?php print $price; ?>
   </div>
 
