@@ -84,7 +84,7 @@ function dynamo_preprocess_node(&$variables) {
     $date = theme('event_date_time', $start, $end);
     $variables['event_date'] = $date['date'];
 
-    if (date['time'] != NULL) {
+    if ($date['time'] != NULL) {
       $variables['event_time'] = $date['time'];
     }
 
