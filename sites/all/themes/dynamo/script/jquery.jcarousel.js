@@ -181,11 +181,16 @@
         if (this.options.initCallback != null)
             this.options.initCallback(this, 'init');
 
+        this.setup();
+        //kasperg: Remove separate handling for Safari as this causes scrolling
+        // not to work in facet browser and frontpage carousel.
+        /*
         if ($.browser.safari) {
             this.buttons(false, false);
             $(window).bind('load', function() { self.setup(); });
         } else
             this.setup();
+        */
     };
 
     // Create shortcut for internal use
@@ -217,7 +222,7 @@
 
             if (this.locked)
                 return;
-
+            
             this.list.css(this.lt, this.pos(this.options.offset) + 'px');
             var p = this.pos(this.options.start);
             this.prevFirst = this.prevLast = null;
@@ -717,6 +722,8 @@
          * @cat Plugins/jCarousel
          */
         buttons: function(n, p) {
+        	console.log(n);
+        	console.log(p);
             if (n == undefined || n == null) {
                 var n = !this.locked && this.options.size !== 0 && ((this.options.wrap && this.options.wrap != 'first') || this.options.size == null || this.last < this.options.size);
                 if (!this.locked && (!this.options.wrap || this.options.wrap == 'first') && this.options.size != null && this.last >= this.options.size)
