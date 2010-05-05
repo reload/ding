@@ -722,8 +722,6 @@
          * @cat Plugins/jCarousel
          */
         buttons: function(n, p) {
-        	console.log(n);
-        	console.log(p);
             if (n == undefined || n == null) {
                 var n = !this.locked && this.options.size !== 0 && ((this.options.wrap && this.options.wrap != 'first') || this.options.size == null || this.last < this.options.size);
                 if (!this.locked && (!this.options.wrap || this.options.wrap == 'first') && this.options.size != null && this.last >= this.options.size)
