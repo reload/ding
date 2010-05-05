@@ -32,12 +32,12 @@
 /* =====================================
  Facetbrowser jcarousel theme
 /*--------------------------------------*/
-.jcarousel-skin-ding-facet-browser { margin: 0 0 0 0; width: 653px; }
-.jcarousel-skin-ding-facet-browser .jcarousel-container {width: 653px; margin: 0 auto; }
+.jcarousel-skin-ding-facet-browser { margin: 0 0 0 0; width: 652px; }
+.jcarousel-skin-ding-facet-browser .jcarousel-container {width: 652px; margin: 0 auto; }
 .jcarousel-skin-ding-facet-browser .jcarousel-item { width: 163px; height: auto; }
 
 .jcarousel-skin-ding-facet-browser .jcarousel-container-horizontal {}
-.jcarousel-skin-ding-facet-browser .jcarousel-clip-horizontal {width: 653px; height: 100px; }
+.jcarousel-skin-ding-facet-browser .jcarousel-clip-horizontal {width: 652px; height: 100px; }
 
 .jcarousel-skin-ding-facet-browser .jcarousel-next-horizontal { position: absolute; top: 48px; right: -12px; width: 24px; height: 24px; cursor: pointer; background: transparent url(../img/buttons-small.png) no-repeat 0 -24px;}
 	.jcarousel-skin-ding-facet-browser .jcarousel-next-horizontal:hover { background-position: -24px -24px;}
