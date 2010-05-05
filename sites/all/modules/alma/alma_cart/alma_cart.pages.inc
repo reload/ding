@@ -81,6 +81,7 @@ function alma_cart_page_add_to_cart($item_id) {
  * Reserve an item immediately.
  */
 function alma_cart_page_reserve_item($item_id, $reservable = NULL) {
+  $branch_names = alma_client_get_branches(FALSE);
   if (is_null($reservable)) { $reservable = $item_id; }
   module_load_include('client.inc', 'ting');
   $is_ahah = alma_cart_detect_ahah();
@@ -106,7 +107,7 @@ function alma_cart_page_reserve_item($item_id, $reservable = NULL) {
       $reply['title'] = t('Not logged in');
       $reply['message'] = t('You have to log in to make reservations.');
     }
-    elseif (!isset($account->preferred_branch) || !$account->preferred_branch) {
+    elseif (!isset($account->preferred_branch) || !isset($branch_names[$account->preferred_branch])) {
       $reply['status'] = 'error';
       $reply['error_type'] = 'no-preferred-branch';
       $reply['title'] = t('Preferred branch not set');
@@ -128,7 +129,6 @@ function alma_cart_page_reserve_item($item_id, $reservable = NULL) {
       ));
 
       if ($reservation) {
-        $branch_names = alma_client_get_branches(FALSE);
         $reply['status'] = 'success';
         $reply['title'] = t('Success');
         $reply['message'] = t('You have reserved @item and will be notified when its ready for pickup at @branch.', array(
