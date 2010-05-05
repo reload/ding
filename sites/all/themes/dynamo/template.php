@@ -20,11 +20,12 @@ function dynamo_theme($existing, $type, $theme, $path) {
 	'user_login_block' => array(
 		'arguments' => array ('form' => NULL),
 		),
-
 	'comment_form' => array(
 		'arguments' => array ('form' => NULL),
 		),
-
+   'event_information' => array(
+     'arguments' => array ('start' => NULL, 'end' => NULL, 'price' => NULL),
+   )
  );
 }
 
@@ -80,33 +81,13 @@ function dynamo_preprocess_node(&$variables) {
       $variables['alertbox'] = '<div class="alert">' . t('NB! This event occurred in the past.') . '</div>';
     }
 
-    // More human-friendly date formatting – try only to show the stuff
-    // that’s different when displaying a date range.
-    if(date("Ymd", $start) == date("Ymd", $end)) {
-      $variables['event_date'] = format_date($start, 'custom', "j. F Y");
-      $variables['event_time'] = format_date($start, 'custom', "H:i");
+    // Style date and price
+    $info = theme('event_information', $start, $end);
+    $variables['event_date'] = $info['date'];
+    if ($info['time'] != NULL) {
+      $variables['event_time'] = $info['time'];
     }
-    elseif(date("Ym", $start) == date("Ym", $end)) {
-      $variables['event_date'] = format_date($start, 'custom', "j.") . " – " . format_date($end, 'custom', "j. F Y");
-      $variables['event_time'] = format_date($start, 'custom', "H:i") . " – " . format_date($end, 'custom', "H:i");
-    }
-    else {
-      $variables['event_date'] = format_date($start, 'custom', "j. M.") . " – " . format_date($end, 'custom', "j. M. Y");
-      $variables['event_time'] = format_date($start, 'custom', "H:i") . " – " . format_date($end, 'custom', "H:i");
-    }
-
-    // Validate event time
-    if (format_date($start, 'custom', "Hi") == '0000') {
-      unset($variables['event_time']);
-    }
-
-    // Display free if the price is zero.
-    if ($node->field_entry_price[0]['value'] == "0") {
-      $variables['event_price'] = t('free');
-    }
-    else{
-      $variables['event_price'] = filter_xss($node->field_entry_price[0]['view']);
-    }
+    $variables['event_price'] = $info['price'];
   }
 }
 
@@ -622,5 +603,44 @@ function dynamo_table($header, $rows, $attributes = array(), $caption = NULL) {
   }
 
   $output .= "</table>\n";
+  return $output;
+}
+
+function dynamo_event_information($start, $end, $price) {
+  $output = array();
+
+  // Maybe swap end and start (problem with views event_list)
+  if ($end < $start) {
+    $t = $end; $end = $start; $start = $t;
+  }
+
+  // More human-friendly date formatting – try only to show the stuff
+  // that’s different when displaying a date range.
+  if (date("Ymd", $start) == date("Ymd", $end)) {
+    $output['date'] = format_date($start, 'custom', "j. F Y");
+    $output['time'] = format_date($start, 'custom', "H:i");
+  }
+  elseif(date("Ym", $start) == date("Ym", $end)) {
+    $output['date'] = format_date($start, 'custom', "j.") . " – " . format_date($end, 'custom', "j. F Y");
+    $output['time'] = format_date($start, 'custom', "H:i") . " – " . format_date($end, 'custom', "H:i");
+  }
+  else {
+    $output['date'] = format_date($start, 'custom', "j. M.") . " – " . format_date($end, 'custom', "j. M. Y");
+    $output['time'] = format_date($start, 'custom', "H:i") . " – " . format_date($end, 'custom', "H:i");
+  }
+
+  // Validate event time
+  if (format_date($start, 'custom', "Hi") == '0000') {
+    $output['time'] = NULL;
+  }
+
+  /* Price */
+	if ($price > 0){
+    $output['price'] = check_plain($price) ." ". t('Kr');
+	} 
+  else {
+    $output['price'] = t('Free');
+	}
+
   return $output;
 }

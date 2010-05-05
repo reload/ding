@@ -2,7 +2,11 @@
 <?php 
 
   // Convert the date value to timestamp
-  $date = strtotime($fields['field_datetime_value']->raw . 'Z');
+  $date = theme('event_information',
+                strtotime($fields['field_datetime_value']->raw . 'Z'),
+                strtotime($fields['field_datetime_value2']->raw . 'Z'),
+                $fields['field_entry_price_value']->content);
+  //$date = strtotime($fields['field_datetime_value']->raw . 'Z');
 ?>
 <div class="node-teaser clearfix">
 
@@ -16,9 +20,9 @@
 		<h2><?php print $fields['title']->content; ?></h2>
 
 		<div class="meta">
-		  <?php print format_date($date, 'custom', 'l j M H:i'); ?>
+		  <?php print $date['date']; ?>
 		  <span class="libary-tag"><?php print $fields['field_library_ref_nid']->content; ?></span>, 
-		  <span class="price"><?php print $fields['field_entry_price_value']->content; ?></span>
+		  <span class="price"><?php print $date['price']; ?></span>
 		</div>    
     
 		<p> 

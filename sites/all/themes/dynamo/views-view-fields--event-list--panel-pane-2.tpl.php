@@ -2,7 +2,7 @@
 <?php 
   // Convert the date value to timestamp
   $date = strtotime($fields['field_datetime_value']->raw . 'Z');
-  if (format_date($_SERVER['REQUEST_TIME'], 'custom', 'd-m-Y') == format_date($date, 'custom', 'd-m-Y') ){
+  if (format_date($_SERVER['REQUEST_TIME'], 'custom', 'd-m-Y') == format_date($date, 'custom', 'd-m-Y') ) {
     $is_today = "today";
   }
 
@@ -25,10 +25,12 @@
   <div class="info">
     <span><?php print $fields['field_library_ref_nid']->content; ?></span>
     <h4><?php print $fields['title']->content; ?></h4>
+    <?php if (format_date($date, 'custom', 'Hi') != '0000') : ?>
     <span class="time">
-			<?php print format_date($date, 'custom', 'H:i');?> -
-      <?php print $price; ?>
+			<?php print format_date($date, 'custom', 'H:i'); ?> -
     </span>
+    <?php endif; ?>
+    <?php print $price; ?>
   </div>
 
 </div>
