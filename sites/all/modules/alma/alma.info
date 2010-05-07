@@ -1,7 +1,0 @@
-; $Id$
-name = Axiell Alma
-description = Implementation of Axiell's Alma API for their library system.
-package = Axiell
-php = 5.2
-core = 6.x
-
