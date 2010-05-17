@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @file
+ * Install file providing upgrade hooks for the entire Ding project.
+ *
+ * Here goes all the upgrades that does not pertain to a more specific 
+ * module. It is still preferable to store module-specific upgrades in 
+ * their own module.
+ */
+
+/**
+ * Implementation of hook_update_N().
+ *
+ * Upgrade from the deprecated keys_api module to the new keys module.
+ */
+function ding_base_update_6000(&$sandbox) {
+  $ret = array();
+
+  $query = db_query("SELECT * FROM keys_manage");
+
+  while ($row = db_fetch_array($query)) {
+    $ret[] = update_sql(sprintf("INSERT INTO {keys_api} (service, rule, api_key) VALUES ('%s', '%s', '%s')",
+      strtolower($row['service']),
+      $row['domain_name'],
+      $row['api_key']
+    ));
+
+    // Thanks to impedence mismatch between gmap.module and keys.module, 
+    // we have two service ids for Google Maps. Thus, we need to 
+    // duplicate the keys two both.
+    if ($row['service'] == 'Gmap') {
+      $ret[] = update_sql(sprintf("INSERT INTO {keys_api} (service, rule, api_key) VALUES ('%s', '%s', '%s')",
+        'google_maps',
+        $row['domain_name'],
+        $row['api_key']
+      ));
+    }
+  }
+
+  return $ret;
+}
+
