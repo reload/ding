@@ -285,5 +285,10 @@ function ding_content_ctools_plugin_api($module, $api) {
   if ($module == 'page_manager' && $api == 'pages_default') {
     return array('version' => 1);
   }
+
+  $args = func_get_args();
+  return call_user_func_array('_ding_content_ctools_plugin_api', $args);
 }
+
+require_once('ding_content.features.inc');
 
