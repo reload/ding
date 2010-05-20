@@ -1,11 +1,12 @@
-<?php
-// $Id$
+<?php if($display_header_image){  ?>
+<div class="picture">
+  <div class="picture-inner">
+  <?php if($node->field_image['0']['filepath']){ ?>
+    <?php print theme('imagecache', '680_200_crop', $node->field_image['0']['filepath']); ?>      
+  <?php } ?>
+  </div>
+</div>
+<?php } ?>
 
-/**
- * @file ding_panels_content_libary_title.tpl.php
- * The main library page title with navigation, etc.
- */
-?>
-  <h1><?php print $library_title; ?></h1>
-  <?php print $library_navigation; ?>
-
+<h1><?php print $library_title; ?></h1>
+<?php  print $library_navigation; ?>
