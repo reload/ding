@@ -286,6 +286,7 @@ function ding_content_ctools_plugin_api($module, $api) {
     return array('version' => 1);
   }
 
+  module_load_include('inc', 'ding_content', 'ding_content.defaults');
   $args = func_get_args();
   return call_user_func_array('_ding_content_ctools_plugin_api', $args);
 }
