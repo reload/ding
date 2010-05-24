@@ -2,8 +2,10 @@
 // $Id$
 
 /**
- * @file ding_library_map.module
- * Displays library nodes on a map with additional information shown on mouse over
+ * @file
+ * Displays library nodes on a map.
+ *
+ * Display additional information on mouse over.
  */
 
 /**
@@ -21,6 +23,21 @@ function ding_library_map_menu() {
   );
 
   return $items;
+}
+
+/**
+ * Implementation of hook_gmap().
+ */
+function ding_library_map_gmap($hook, &$map) {
+	if ($hook == 'pre_theme_map' && is_array($map['markers'])) {
+		foreach ($map['markers'] as $i => $marker) {
+			//If the marker text contain no actual content then reset it to avoid normal behavior
+			//e.g. showing an empty Google Map pop up
+			if ($marker['text'] != '<div class="gmap-popup"></div>') {
+				$map['marker'][$i]['text'] = NULL;
+			}
+		}
+	}
 }
 
 /**
@@ -61,18 +78,6 @@ function ding_library_map_display() {
   drupal_add_js('$(function() { Drupal.dingLibraryMap("' . $map['id'] . '", Drupal.settings.dingLibraryMap) });', 'inline');
 
   return '<div class="ding-library-map">' . theme('gmap', $map) . '</div>';
-}
-
-function ding_library_map_gmap($hook, &$map) {
-	if ($hook == 'pre_theme_map' && is_array($map['markers'])) {
-		foreach ($map['markers'] as $i => $marker) {
-			//If the marker text contain no actual content then reset it to avoid normal behavior
-			//e.g. showing an empty Google Map pop up
-			if ($marker['text'] != '<div class="gmap-popup"></div>') {
-				$map['marker'][$i]['text'] = NULL;
-			}
-		}
-	}
 }
 
 /**
