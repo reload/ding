@@ -189,7 +189,7 @@ function ding_library_admin_slugs_form(&$form_state) {
   // Grab all the library nodes with their weight.
   $query = db_query("
     SELECT n.nid, n.title, d.slug FROM {node} AS n
-    LEFT JOIN {ding_slug} AS d ON (d.nid = n.nid)
+    LEFT JOIN {ding_library} AS d ON (d.nid = n.nid)
     WHERE n.type = 'library'
     ORDER BY n.title;
   ");
@@ -239,7 +239,7 @@ function ding_library_admin_slugs_form_submit($form, &$form_state) {
   // to change the slugs in the database.
   if (isset($form_state['storage']['slug_changes'])) {
     foreach ($form_state['storage']['slug_changes'] as $change) {
-      db_query("UPDATE {ding_slug} SET slug = '%s' WHERE nid = %d;", $change['new_slug'], $change['nid']);
+      db_query("UPDATE {ding_library} SET slug = '%s' WHERE nid = %d;", $change['new_slug'], $change['nid']);
     }
     // Unset the storage, so we'll won't get the confirmation page again.
     unset($form_state['storage']);
@@ -261,7 +261,7 @@ function ding_library_admin_slugs_form_submit($form, &$form_state) {
       }
       else {
         // Create a new slug.
-        db_query("INSERT INTO {ding_slug} (slug, nid) VALUES ('%s', %d)", ding_slug_slugify($slug), $nid);
+        db_query("INSERT INTO {ding_library} (slug, nid) VALUES ('%s', %d)", ding_slug_slugify($slug), $nid);
       }
     }
   }

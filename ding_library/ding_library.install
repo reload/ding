@@ -43,6 +43,11 @@ function ding_library_schema() {
         'length' => 50,
         'description' => 'Branch ID in Alma/DDELibra',
       ),
+      'slug' => array(
+        'type' => 'varchar',
+        'length' => 20,
+        'description' => 'Short, URL-safe name of library, used as URL prefix',
+      ),
       'library_page_type' => array(
         'type' => 'varchar',
         'length' => 50,
@@ -110,6 +115,28 @@ function ding_library_update_6003() {
     'length' => 50,
     'description' => 'Branch ID in Alma/DDELibra',
   ), array('unique keys' => array('branch_id' => array('branch_id'))));
+
+  return $ret;
+}
+
+/**
+ * Add slug field in the library table, drop the old table.
+ */
+function ding_library_update_6004() {
+  $ret = array();
+
+  db_add_field($ret, 'ding_library', 'slug', array(
+    'type' => 'varchar',
+    'length' => 20,
+  ), array('unique keys' => array('slug' => array('slug'))));
+
+  $query = db_query('SELECT * FROM {ding_slug}');
+
+  while ($row = db_fetch_array($query)) {
+    $ret[] = update_sql("UPDATE IGNORE {ding_library} SET slug = '{$row['slug']}' WHERE nid = {$row['nid']}");
+  }
+
+  $ret[] = update_sql('DROP TABLE {ding_slug}');
 
   return $ret;
 }
