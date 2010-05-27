@@ -1,0 +1,9 @@
+; $Id: $
+name = Ding search
+description = Displays search results from the Ting database, modiified for the Ding project
+dependencies[] = page_manager
+dependencies[] = ding_panels
+dependencies[] = ting_search
+
+package = Ding!
+core = 6.x
